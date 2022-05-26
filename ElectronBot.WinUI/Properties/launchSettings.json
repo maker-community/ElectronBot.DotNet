@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ElectronBot.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ElectronBot.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
