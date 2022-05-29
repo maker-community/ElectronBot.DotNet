@@ -4,20 +4,16 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <VersionPrefix>1.0.1</VersionPrefix>
+	  <VersionPrefix>1.0.2</VersionPrefix>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>绿荫阿广</Authors>
-	<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/GreenShadeZhang/ElectronBot.DotNet</PackageProjectUrl>
     <Description>这是一个C#实现的电子SDK，封装了一些简单的数据操作。</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="LibUsbDotNet" Version="2.2.29" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
