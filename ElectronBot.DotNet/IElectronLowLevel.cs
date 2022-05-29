@@ -1,21 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ElectronBot.DotNet
+﻿namespace ElectronBot.DotNet
 {
+    /// <summary>
+    /// 电子SDK接口
+    /// </summary>
     public interface IElectronLowLevel
     {
+        /// <summary>
+        /// 连接电子
+        /// </summary>
+        /// <returns>返回是否成功</returns>
         bool Connect();
+        /// <summary>
+        /// 断开电子
+        /// </summary>
+        /// <returns>返回是否成功</returns>
         bool Disconnect();
+        /// <summary>
+        /// 同步操作数据到电子
+        /// </summary>
+        /// <returns>返回是否成功</returns>
         bool Sync();
+        /// <summary>
+        /// 设置图片数据
+        /// </summary>
+        /// <param name="data">图片的字节数据</param>
         void SetImageSrc(byte[] data);
-        void SetExtraData(ref byte[] data, int len = 32);
-
-        void SetJointAngles(int j1, int j2, int j3,int j4, int j5, int j6, bool enable = false);
+        /// <summary>
+        /// 设置额外的数据
+        /// </summary>
+        /// <param name="data">数据</param>
+        /// <param name="len">数据的长度</param>
+        void SetExtraData(byte[] data, int len = 32);
+        /// <summary>
+        /// 设置舵机角度
+        /// </summary>
+        /// <param name="j1">二号舵机角度</param>
+        /// <param name="j2">四号舵机角度</param>
+        /// <param name="j3">六号舵机角度</param>
+        /// <param name="j4">八号舵机角度</param>
+        /// <param name="j5">十号舵机角度</param>
+        /// <param name="j6">十二号舵机角度</param>
+        /// <param name="enable">是否使能舵机</param>
+        void SetJointAngles(int j1, int j2, int j3, int j4, int j5, int j6, bool enable = false);
+        /// <summary>
+        /// 返回舵机的角度列表
+        /// </summary>
+        /// <returns>角度列表结果</returns>
         List<int> GetJointAngles();
+        /// <summary>
+        /// 获取额外的数据
+        /// </summary>
+        /// <returns>额外数据的结果</returns>
         byte[] GetExtraData();
     }
 }

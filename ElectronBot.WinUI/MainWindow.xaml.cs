@@ -1,6 +1,7 @@
 ﻿using ElectronBot.DotNet;
 using Microsoft.UI.Xaml;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
 
@@ -65,6 +66,55 @@ namespace ElectronBot.WinUI
             electron.Sync();
 
             var list = electron.GetJointAngles();
+        }
+
+        private void PlayVideoButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (electron.Connect())
+            {
+                var nameList = new List<string>()
+            {
+                "惊恐_1进入姿势.mp4",
+                "惊恐_2可循环动作.mp4",
+                "惊恐_3回正.mp4"
+            };
+
+                foreach (var fileName in nameList)
+                {
+                    var capture = new OpenCvSharp.VideoCapture(
+                        Package.Current.InstalledLocation.Path + $"\\Assets\\{fileName}");
+
+                    while (true)
+                    {
+                        OpenCvSharp.Mat image = new();
+
+                        capture.Read(image);
+
+                        if (image.Empty())
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
+
+                            var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+
+                            var dataMeta = mat2.Data;
+
+                            var data = new byte[240 * 240 * 3];
+
+                            Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
+
+                            electron.SetImageSrc(data);
+
+                            electron.SetJointAngles(0, 0, 0, 0, 0, 0, true);
+
+                            electron.Sync();
+                        }
+                    }
+                }
+            }
         }
     }
 }

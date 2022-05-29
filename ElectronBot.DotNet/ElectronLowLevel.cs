@@ -6,13 +6,22 @@ namespace ElectronBot.DotNet
     public class ElectronLowLevel : IElectronLowLevel
     {
         readonly int vid = 0x1001;
+
         readonly int pid = 0x8023;
 
         bool isConnected = false;
 
-        byte[] extraDataBufferTx = new byte[32];
+        List<byte[]> extraDataBufferTx = new()
+        {
+            new byte[32],
+            new byte[32]
+        };
 
-        byte[] frameBufferTx = new byte[240 * 240 * 3];
+        List<byte[]> frameBufferTx = new()
+        {
+            new byte[240 * 240 * 3],
+            new byte[240 * 240 * 3]
+        };
 
         byte[] extraDataBufferRx = new byte[32];
 
@@ -30,17 +39,25 @@ namespace ElectronBot.DotNet
         private UsbEndpointWriter writer;
         public bool Connect()
         {
-            var usbFinder = new UsbDeviceFinder(vid, pid);
+            if (_usbDevice == null)
+            {
+                var usbFinder = new UsbDeviceFinder(vid, pid);
 
-            _usbDevice = UsbDevice.OpenUsbDevice(usbFinder);
+                _usbDevice = UsbDevice.OpenUsbDevice(usbFinder);
 
-            reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
+                reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
 
-            writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
+                writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 
-            isConnected = _usbDevice.IsOpen;
+                isConnected = _usbDevice.IsOpen;
 
-            return _usbDevice.IsOpen;
+                return _usbDevice.IsOpen;
+            }
+            else
+            {
+                return isConnected;
+            }
+
         }
 
         public bool Disconnect()
@@ -57,7 +74,11 @@ namespace ElectronBot.DotNet
 
         public byte[] GetExtraData()
         {
-            return null;
+            var data = new byte[32];
+
+            Array.Copy(extraDataBufferRx, 0, data, 0, 32);
+
+            return data;
         }
 
         public List<int> GetJointAngles()
@@ -83,20 +104,14 @@ namespace ElectronBot.DotNet
             return list;
         }
 
-        public void SetExtraData(ref byte[] data, int len = 32)
+        public void SetExtraData(byte[] data, int len = 32)
         {
-            if (len <= 32)
-            {
-                for (int i = 0; i < data.Length; i++)
-                {
-                    extraDataBufferTx[i] = data[i];
-                }
-            }
+            Array.Copy(data, 0, extraDataBufferTx[pingPongWriteIndex], 0, len);
         }
 
         public void SetImageSrc(byte[] data)
         {
-            data.CopyTo(frameBufferTx, 0);
+            data.CopyTo(frameBufferTx[pingPongWriteIndex], 0);
         }
 
         public void SetJointAngles(int j1, int j2, int j3, int j4, int j5, int j6, bool enable = false)
@@ -110,7 +125,7 @@ namespace ElectronBot.DotNet
             jointAngleSetPoints[4] = j5;
             jointAngleSetPoints[5] = j6;
 
-            extraDataBufferTx[0] = Convert.ToByte(enable ? 1 : 0);
+            extraDataBufferTx[pingPongWriteIndex][0] = Convert.ToByte(enable ? 1 : 0);
 
             for (int j = 0; j < 6; j++)
             {
@@ -118,7 +133,7 @@ namespace ElectronBot.DotNet
 
                 for (int i = 0; i < 4; i++)
                 {
-                    extraDataBufferTx[j * 4 + i + 1] = buf[i];
+                    extraDataBufferTx[pingPongWriteIndex][j * 4 + i + 1] = buf[i];
                 }
             }
 
@@ -132,7 +147,6 @@ namespace ElectronBot.DotNet
 
                 return true;
             }
-
             return false;
         }
 
@@ -196,9 +210,9 @@ namespace ElectronBot.DotNet
         {
             int frameBufferOffset = 0;
 
-            int index = pingPongWriteIndex;
+            int index = this.pingPongWriteIndex;
 
-            pingPongWriteIndex = pingPongWriteIndex == 0 ? 1 : 0;
+            this.pingPongWriteIndex = this.pingPongWriteIndex == 0 ? 1 : 0;
 
             for (int p = 0; p < 4; p++)
             {
@@ -206,13 +220,13 @@ namespace ElectronBot.DotNet
                 ReceivePacket(1, 32);
 
                 // Transmit buffer
-                TransmitPacket(frameBufferTx, frameBufferOffset, 84, 512);
+                TransmitPacket(frameBufferTx[index], frameBufferOffset, 84, 512);
 
                 frameBufferOffset += 43008;
 
-                Array.Copy(frameBufferTx, frameBufferOffset, usbBuffer200, 0, 192);
+                Array.Copy(frameBufferTx[index], frameBufferOffset, usbBuffer200, 0, 192);
 
-                Array.Copy(extraDataBufferTx, 0, usbBuffer200, 192, 32);
+                Array.Copy(extraDataBufferTx[index], 0, usbBuffer200, 192, 32);
 
                 TransmitPacket(usbBuffer200, 0, 1, 224);
 

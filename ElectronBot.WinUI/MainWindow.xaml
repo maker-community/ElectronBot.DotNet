@@ -51,6 +51,8 @@
             <Button x:Name="myButton" Click="MyButton_Click">连接设备</Button>
             <TextBlock x:Name="DriverName" />
             <TextBlock x:Name="ProductString" />
+
+            <Button x:Name="PlayVideoButton" Click="PlayVideoButton_Click">播放视频</Button>
         </StackPanel>
     </Grid>
 
