@@ -3,6 +3,9 @@ using LibUsbDotNet.Main;
 
 namespace ElectronBot.DotNet
 {
+    /// <summary>
+    /// 电子SDK接口
+    /// </summary>
     public class ElectronLowLevel : IElectronLowLevel
     {
         readonly int vid = 0x1001;
@@ -31,12 +34,15 @@ namespace ElectronBot.DotNet
 
         private UsbDevice? _usbDevice;
 
-
         // open read endpoint 1.
         private UsbEndpointReader reader;
 
         // open write endpoint 1.
         private UsbEndpointWriter writer;
+        /// <summary>
+        /// 连接电子
+        /// </summary>
+        /// <returns>返回是否成功</returns>
         public bool Connect()
         {
             if (_usbDevice == null)
@@ -59,7 +65,10 @@ namespace ElectronBot.DotNet
             }
 
         }
-
+        /// <summary>
+        /// 断开电子
+        /// </summary>
+        /// <returns>返回是否成功</returns>
         public bool Disconnect()
         {
             if (_usbDevice != null && _usbDevice.IsOpen)
@@ -71,7 +80,10 @@ namespace ElectronBot.DotNet
                 return false;
             }
         }
-
+        /// <summary>
+        /// 获取额外的数据
+        /// </summary>
+        /// <returns>额外数据的结果</returns>
         public byte[] GetExtraData()
         {
             var data = new byte[32];
@@ -80,10 +92,13 @@ namespace ElectronBot.DotNet
 
             return data;
         }
-
-        public List<int> GetJointAngles()
+        /// <summary>
+        /// 返回舵机的角度列表
+        /// </summary>
+        /// <returns>角度列表结果</returns>
+        public List<float> GetJointAngles()
         {
-            var list = new List<int>();
+            var list = new List<float>();
 
             for (int j = 0; j < 6; j++)
             {
@@ -98,23 +113,40 @@ namespace ElectronBot.DotNet
 
                 var angle = BitConverter.ToSingle(buf.ToArray(), 0);
 
-                list.Add((int)angle);
+                list.Add(angle);
             }
 
             return list;
         }
+        /// <summary>
+        /// 设置额外的数据
+        /// </summary>
+        /// <param name="data">数据</param>
+        /// <param name="len">数据的长度</param>
 
         public void SetExtraData(byte[] data, int len = 32)
         {
             Array.Copy(data, 0, extraDataBufferTx[pingPongWriteIndex], 0, len);
         }
-
+        /// <summary>
+        /// 设置图片数据
+        /// </summary>
+        /// <param name="data">图片的字节数据</param>
         public void SetImageSrc(byte[] data)
         {
             data.CopyTo(frameBufferTx[pingPongWriteIndex], 0);
         }
-
-        public void SetJointAngles(int j1, int j2, int j3, int j4, int j5, int j6, bool enable = false)
+        /// <summary>
+        /// 设置舵机角度
+        /// </summary>
+        /// <param name="j1">二号舵机角度</param>
+        /// <param name="j2">四号舵机角度</param>
+        /// <param name="j3">六号舵机角度</param>
+        /// <param name="j4">八号舵机角度</param>
+        /// <param name="j5">十号舵机角度</param>
+        /// <param name="j6">十二号舵机角度</param>
+        /// <param name="enable">是否使能舵机</param>
+        public void SetJointAngles(float j1, float j2, float j3, float j4, float j5, float j6, bool enable = false)
         {
             float[] jointAngleSetPoints = new float[6];
 
@@ -138,7 +170,10 @@ namespace ElectronBot.DotNet
             }
 
         }
-
+        /// <summary>
+        /// 同步操作数据到电子
+        /// </summary>
+        /// <returns>返回是否成功</returns>
         public bool Sync()
         {
             if (isConnected)
@@ -149,8 +184,6 @@ namespace ElectronBot.DotNet
             }
             return false;
         }
-
-
         private bool ReceivePacket(int packetCount, int packetSize)
         {
             var ec = ErrorCode.Success;

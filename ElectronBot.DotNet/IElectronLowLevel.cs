@@ -41,12 +41,12 @@
         /// <param name="j5">十号舵机角度</param>
         /// <param name="j6">十二号舵机角度</param>
         /// <param name="enable">是否使能舵机</param>
-        void SetJointAngles(int j1, int j2, int j3, int j4, int j5, int j6, bool enable = false);
+        void SetJointAngles(float j1, float j2, float j3, float j4, float j5, float j6, bool enable = false);
         /// <summary>
         /// 返回舵机的角度列表
         /// </summary>
         /// <returns>角度列表结果</returns>
-        List<int> GetJointAngles();
+        List<float> GetJointAngles();
         /// <summary>
         /// 获取额外的数据
         /// </summary>

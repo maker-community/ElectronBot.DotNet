@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -27,7 +28,7 @@ namespace ElectronBot.WinUI
 
             if (electron.Connect())
             {
-                string assetsPath = Package.Current.InstalledLocation.Path + @"\Assets\frame.jpg";
+                string assetsPath = Package.Current.InstalledLocation.Path + @"\Assets\yay.jpg";
 
                 var mat = new OpenCvSharp.Mat(assetsPath, OpenCvSharp.ImreadModes.Color);
 
@@ -61,11 +62,31 @@ namespace ElectronBot.WinUI
 
             var bottom = Bottom.Value;
 
-            electron.SetJointAngles((int)head, 0, (int)left, 0, (int)right, (int)bottom, true);
+            electron.SetJointAngles((float)head, 0, (float)left, 0, (float)right, (float)bottom, true);
+
+            string assetsPath = Package.Current.InstalledLocation.Path + @"\Assets\yay.jpg";
+
+            var mat = new OpenCvSharp.Mat(assetsPath, OpenCvSharp.ImreadModes.Color);
+
+            var mat1 = mat.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Area);
+
+            var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+
+            var dataMeta = mat2.Data;
+
+            var data = new byte[240 * 240 * 3];
+
+            Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
+
+            electron.SetImageSrc(data);
+
+            Task.Delay(500);
 
             electron.Sync();
 
-            var list = electron.GetJointAngles();
+            
+
+            //var list = electron.GetJointAngles();
         }
 
         private void PlayVideoButton_Click(object sender, RoutedEventArgs e)

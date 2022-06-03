@@ -25,14 +25,14 @@
                 x:Name="LeftArm"
                 Header="左臂旋转"
                 Maximum="180"
-                Minimum="-180"
+                Minimum="-2"
                 ValueChanged="Head_ValueChanged"
                 Value="0" />
             <Slider
                 x:Name="RightArm"
                 Header="右臂旋转"
                 Maximum="180"
-                Minimum="-180"
+                Minimum="-2"
                 ValueChanged="Head_ValueChanged"
                 Value="0" />
             <Slider

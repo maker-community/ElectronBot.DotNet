@@ -14,6 +14,7 @@
   <ItemGroup>
     <Content Remove="Assets\frame.png" />
     <Content Remove="Assets\WeChat_20220526180232.mp4" />
+    <Content Remove="Assets\yay.jpg" />
     <Content Remove="Assets\惊恐_1进入姿势.mp4" />
     <Content Remove="Assets\惊恐_2可循环动作.mp4" />
     <Content Remove="Assets\惊恐_3回正.mp4" />
@@ -55,6 +56,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\WeChat_20220526180232.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\yay.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\惊恐_1进入姿势.mp4">
