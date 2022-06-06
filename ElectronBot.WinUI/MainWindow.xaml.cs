@@ -1,6 +1,5 @@
 ﻿using ElectronBot.DotNet;
 using Microsoft.UI.Xaml;
-using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -23,7 +22,7 @@ namespace ElectronBot.WinUI
             this.InitializeComponent();
         }
 
-        private async void MyButton_Click(object sender, RoutedEventArgs e)
+        private void MyButton_Click(object sender, RoutedEventArgs e)
         {
 
             if (electron.Connect())
@@ -52,8 +51,9 @@ namespace ElectronBot.WinUI
             }
         }
 
-        private void Head_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        private async void Head_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
+
             var head = Head.Value;
 
             var left = LeftArm.Value;
@@ -61,6 +61,15 @@ namespace ElectronBot.WinUI
             var right = RightArm.Value;
 
             var bottom = Bottom.Value;
+
+            await PlayElectronBotAsync((float)head, (float)left, (float)right, (float)bottom);
+
+
+            //var list = electron.GetJointAngles();
+        }
+
+        private Task PlayElectronBotAsync(float head, float left, float right, float bottom)
+        {
 
             electron.SetJointAngles((float)head, 0, (float)left, 0, (float)right, (float)bottom, true);
 
@@ -80,13 +89,11 @@ namespace ElectronBot.WinUI
 
             electron.SetImageSrc(data);
 
-            Task.Delay(500);
+            //Task.Delay(500);
 
             electron.Sync();
 
-            
-
-            //var list = electron.GetJointAngles();
+            return Task.CompletedTask;
         }
 
         private void PlayVideoButton_Click(object sender, RoutedEventArgs e)
@@ -110,6 +117,9 @@ namespace ElectronBot.WinUI
                         OpenCvSharp.Mat image = new();
 
                         capture.Read(image);
+
+                        capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
+                            capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 2);
 
                         if (image.Empty())
                         {
