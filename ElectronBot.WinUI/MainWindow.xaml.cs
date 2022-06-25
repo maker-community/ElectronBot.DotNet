@@ -147,5 +147,13 @@ namespace ElectronBot.WinUI
                 }
             }
         }
+
+        private void ReleaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (electron.Connect())
+            {
+                electron.Disconnect();
+            }
+        }
     }
 }

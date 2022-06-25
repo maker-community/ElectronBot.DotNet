@@ -49,6 +49,8 @@
             VerticalAlignment="Center"
             Orientation="Vertical">
             <Button x:Name="myButton" Click="MyButton_Click">连接设备</Button>
+
+            <Button x:Name="ReleaseButton" Click="ReleaseButton_Click">取消连接</Button>
             <TextBlock x:Name="DriverName" />
             <TextBlock x:Name="ProductString" />
 

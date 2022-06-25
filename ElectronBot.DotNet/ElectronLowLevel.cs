@@ -51,13 +51,20 @@ namespace ElectronBot.DotNet
 
                 _usbDevice = UsbDevice.OpenUsbDevice(usbFinder);
 
-                reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
+                if (_usbDevice != null)
+                {
+                    reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
 
-                writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
+                    writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 
-                isConnected = _usbDevice.IsOpen;
+                    isConnected = _usbDevice.IsOpen;
 
-                return _usbDevice.IsOpen;
+                    return _usbDevice.IsOpen;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
