@@ -10,3 +10,10 @@
 
 
 https://user-images.githubusercontent.com/24240675/170466406-069195c6-80b2-40be-a306-cdae20dbabeb.mp4
+
+## 本人根据这个sdk开发了一个上位机，效果如下图，主打表盘显示功能，交流群（924558003）如下，有完整电子的可以windows商店搜索 电子脑壳，或者进群交流。
+
+![QQ图片20220626213848](https://user-images.githubusercontent.com/24240675/175817060-c97d9dcc-13e9-49d6-bf26-80c7a7471652.jpg)
+
+
+![QQ图片20220626213910](https://user-images.githubusercontent.com/24240675/175817135-a0c5ed42-08d2-4832-a8cf-d4b7a1f86782.jpg)
