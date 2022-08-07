@@ -55,6 +55,10 @@
             <TextBlock x:Name="ProductString" />
 
             <Button x:Name="PlayVideoButton" Click="PlayVideoButton_Click">播放视频</Button>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="AudioDeviceList" SelectionChanged="AudioDeviceList_SelectionChanged" />
+                <Button Content="获取音频设备列表" x:Name="AudioDeviceBtn" Click="AudioDeviceBtn_Click"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 

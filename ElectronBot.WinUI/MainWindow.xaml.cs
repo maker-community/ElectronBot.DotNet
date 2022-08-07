@@ -1,9 +1,15 @@
 ﻿using ElectronBot.DotNet;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Devices.Enumeration;
+using Windows.Media.Core;
+using Windows.Media.Devices;
+using Windows.Media.Playback;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -154,6 +160,41 @@ namespace ElectronBot.WinUI
             {
                 electron.Disconnect();
             }
+        }
+
+        private async void AudioDeviceBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (AudioDeviceList.Items != null && AudioDeviceList.Items.Count > 0)
+            {
+                AudioDeviceList.Items.Clear();
+            }
+
+            string audioSelector = MediaDevice.GetAudioRenderSelector();
+
+            var outputDevices = await DeviceInformation.FindAllAsync(audioSelector);
+
+            foreach (var device in outputDevices)
+            {
+                var deviceItem = new ComboBoxItem();
+                deviceItem.Content = device.Name;
+                deviceItem.Tag = device;
+                AudioDeviceList.Items.Add(deviceItem);
+            }
+        }
+
+        private void AudioDeviceList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var mediaPlayer = new MediaPlayer();
+            
+            mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/蒋蒋 袁攀 - 时空交错.mp3"));
+            
+            DeviceInformation selectedDevice = (DeviceInformation)((ComboBoxItem)AudioDeviceList.SelectedItem).Tag;
+            
+            if (selectedDevice != null)
+            {
+                mediaPlayer.AudioDevice = selectedDevice;
+            }
+            mediaPlayer.Play();
         }
     }
 }
