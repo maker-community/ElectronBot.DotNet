@@ -39,6 +39,9 @@ namespace ElectronBot.DotNet
 
         // open write endpoint 1.
         private UsbEndpointWriter writer;
+
+        public bool IsConnected { get => isConnected;}
+
         /// <summary>
         /// 连接电子
         /// </summary>
@@ -80,6 +83,8 @@ namespace ElectronBot.DotNet
         {
             if (_usbDevice != null && _usbDevice.IsOpen)
             {
+                isConnected = false;
+
                 return _usbDevice.Close();
             }
             else

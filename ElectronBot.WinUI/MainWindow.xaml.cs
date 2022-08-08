@@ -1,4 +1,6 @@
 ﻿using ElectronBot.DotNet;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -7,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
+using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Devices;
 using Windows.Media.Playback;
@@ -23,6 +26,8 @@ namespace ElectronBot.WinUI
     {
 
         IElectronLowLevel electron = new ElectronLowLevel();
+
+        MediaPlayer mediaPlayer = new();
         public MainWindow()
         {
             this.InitializeComponent();
@@ -108,24 +113,24 @@ namespace ElectronBot.WinUI
             {
                 var nameList = new List<string>()
             {
-                "惊恐_1进入姿势.mp4",
-                "惊恐_2可循环动作.mp4",
-                "惊恐_3回正.mp4"
+                "4011.mp4",
+                "4012.mp4",
+                "4013.mp4"
             };
 
                 foreach (var fileName in nameList)
                 {
+                    OpenCvSharp.Mat image = new();
+
                     var capture = new OpenCvSharp.VideoCapture(
                         Package.Current.InstalledLocation.Path + $"\\Assets\\{fileName}");
 
                     while (true)
                     {
-                        OpenCvSharp.Mat image = new();
-
                         capture.Read(image);
 
-                        capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
-                            capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 2);
+                        //capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
+                        //    capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 2);
 
                         if (image.Empty())
                         {
@@ -133,11 +138,11 @@ namespace ElectronBot.WinUI
                         }
                         else
                         {
-                            var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
+                            //var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
 
-                            var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+                            //var mat2 = image.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
 
-                            var dataMeta = mat2.Data;
+                            var dataMeta = image.Data;
 
                             var data = new byte[240 * 240 * 3];
 
@@ -184,17 +189,59 @@ namespace ElectronBot.WinUI
 
         private void AudioDeviceList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var mediaPlayer = new MediaPlayer();
-            
-            mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/蒋蒋 袁攀 - 时空交错.mp3"));
-            
+
+            mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/测试视频.mp4"));
+
+            mediaPlayer.VideoFrameAvailable += mediaPlayer_VideoFrameAvailable;
+            mediaPlayer.IsVideoFrameServerEnabled = true;
+
             DeviceInformation selectedDevice = (DeviceInformation)((ComboBoxItem)AudioDeviceList.SelectedItem).Tag;
-            
+
             if (selectedDevice != null)
             {
                 mediaPlayer.AudioDevice = selectedDevice;
             }
             mediaPlayer.Play();
+        }
+
+        private void mediaPlayer_VideoFrameAvailable(MediaPlayer sender, object args)
+        {
+            CanvasDevice canvasDevice = CanvasDevice.GetSharedDevice();
+
+            SoftwareBitmap frameServerDest = null;
+
+            CanvasImageSource canvasImageSource = null;
+
+            this.DispatcherQueue.TryEnqueue(() =>
+           {
+               if (frameServerDest == null)
+               {
+                   // FrameServerImage in this example is a XAML image control
+                   frameServerDest = new SoftwareBitmap(BitmapPixelFormat.Rgba8, (int)400, (int)300, BitmapAlphaMode.Ignore);
+               }
+               if (canvasImageSource == null)
+               {
+                   canvasImageSource = new CanvasImageSource(canvasDevice, (int)400, (int)300, 96);//96); 
+                   FrameServerImage.Source = canvasImageSource;
+               }
+
+               using (CanvasBitmap inputBitmap = CanvasBitmap.CreateFromSoftwareBitmap(canvasDevice, frameServerDest))
+
+               using (CanvasDrawingSession ds = canvasImageSource.CreateDrawingSession(Microsoft.UI.Colors.Black))
+               {
+
+                   mediaPlayer.CopyFrameToVideoSurface(inputBitmap);
+
+                   var gaussianBlurEffect = new Microsoft.Graphics.Canvas.Effects.GaussianBlurEffect
+                   {
+                       Source = inputBitmap,
+                       BlurAmount = 5f,
+                       Optimization = Microsoft.Graphics.Canvas.Effects.EffectOptimization.Speed
+                   };
+
+                   ds.DrawImage(gaussianBlurEffect);
+               }
+           });
         }
     }
 }
