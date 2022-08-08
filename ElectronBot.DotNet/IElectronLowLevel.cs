@@ -6,6 +6,10 @@
     public interface IElectronLowLevel
     {
         /// <summary>
+        /// 是否连接
+        /// </summary>
+        public bool IsConnected { get; }
+        /// <summary>
         /// 连接电子
         /// </summary>
         /// <returns>返回是否成功</returns>
