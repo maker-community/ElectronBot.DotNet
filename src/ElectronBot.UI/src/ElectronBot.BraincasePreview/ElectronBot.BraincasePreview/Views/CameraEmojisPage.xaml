@@ -36,8 +36,8 @@
                     CornerRadius="8">
                     <Image
                         x:Name="FaceBox"
-                        MaxWidth="200"
-                        MaxHeight="200"
+                        Width="200"
+                        Height="200"
                         VerticalAlignment="Top"
                         Source="{x:Bind ViewModel.FaceBoxSource, Mode=OneWay}" />
 
@@ -48,7 +48,8 @@
         </Grid>
         <Border
             Grid.Row="1"
-            MaxWidth="400"
+            Width="300"
+            Height="200"
             Margin="8"
             VerticalAlignment="Top"
             BorderBrush="{ThemeResource SystemAccentColor}"

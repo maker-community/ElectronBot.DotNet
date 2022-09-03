@@ -36,12 +36,13 @@ public sealed partial class ShellPage : Page
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
     }
 
-    private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         TitleBarHelper.UpdateTitleBar(RequestedTheme);
 
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
+        await ElectronBotHelper.Instance.InitAsync();
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)

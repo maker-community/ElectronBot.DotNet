@@ -3,6 +3,8 @@
 
 using System.Diagnostics;
 using CommunityToolkit.WinUI.Helpers;
+using ElectronBot.BraincasePreview.Contracts.Services;
+using ElectronBot.BraincasePreview.Core.Models;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -167,9 +169,9 @@ class CameraService
     {
         // This sample reads three kinds of frames: Color, Depth, and Infrared.
         _frameRenderers = new Dictionary<MediaFrameSourceKind, FrameRenderer>()
-            {
-                { MediaFrameSourceKind.Color, new FrameRenderer(image) }
-            };
+        {
+            { MediaFrameSourceKind.Color, new FrameRenderer(image) }
+        };
 
         await CleanupMediaCaptureAsync();
 
@@ -180,7 +182,11 @@ class CameraService
             return;
         }
 
-        var selectedGroup = allGroups.Where(a => a.DisplayName == "Surface Camera Front").FirstOrDefault();
+        var setting = App.GetService<ILocalSettingsService>();
+
+        var saveCamera = await setting.ReadSettingAsync<ComboxItemModel>(Constants.DefaultCameraNameKey);
+
+        var selectedGroup = saveCamera != null ? allGroups.Where(c => c.DisplayName == saveCamera.DataValue).FirstOrDefault() : allGroups.FirstOrDefault();
 
         try
         {
@@ -326,7 +332,7 @@ class CameraService
         {
             if (frame != null)
             {
-                var renderer = _frameRenderers[frame.SourceKind];       
+                var renderer = _frameRenderers[frame.SourceKind];
 
                 var softwareBitmap = FrameRenderer.ConvertToDisplayableImage(frame.VideoMediaFrame);
 
