@@ -1,0 +1,19 @@
+﻿using ElectronBot.BraincasePreview.ViewModels;
+
+using Microsoft.UI.Xaml.Controls;
+
+namespace ElectronBot.BraincasePreview.Views;
+
+public sealed partial class BlankPage : Page
+{
+    public BlankViewModel ViewModel
+    {
+        get;
+    }
+
+    public BlankPage()
+    {
+        ViewModel = App.GetService<BlankViewModel>();
+        InitializeComponent();
+    }
+}
