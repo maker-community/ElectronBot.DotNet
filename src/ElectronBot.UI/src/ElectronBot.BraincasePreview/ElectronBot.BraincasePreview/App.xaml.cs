@@ -1,17 +1,23 @@
 ﻿using ElectronBot.BraincasePreview.Activation;
+using ElectronBot.BraincasePreview.ClockViews;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Core.Contracts.Services;
 using ElectronBot.BraincasePreview.Core.Services;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Notifications;
+using ElectronBot.BraincasePreview.Picker;
 using ElectronBot.BraincasePreview.Services;
 using ElectronBot.BraincasePreview.ViewModels;
 using ElectronBot.BraincasePreview.Views;
-
+using ElectronBot.DotNet;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Media.Playback;
 
 namespace ElectronBot.BraincasePreview;
 
@@ -26,6 +32,11 @@ public partial class App : Application
     public IHost Host
     {
         get;
+    }
+
+    public static Frame RootFrame
+    {
+        get; set;
     }
 
     public static T GetService<T>()
@@ -50,6 +61,9 @@ public partial class App : Application
         UseContentRoot(AppContext.BaseDirectory).
         ConfigureServices((context, services) =>
         {
+            var canvasDevice = CanvasDevice.GetSharedDevice();
+
+            services.AddSingleton(canvasDevice);
             // Default Activation Handler
             services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
 
@@ -65,9 +79,18 @@ public partial class App : Application
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
-
             // Core Services
             services.AddSingleton<IFileService, FileService>();
+
+
+
+            services.AddSingleton<MediaPlayer>();
+
+            services.AddTransient<ObjectPicker<WriteableBitmap>>();
+
+            services.AddSingleton<ObjectPickerService>();
+
+            services.AddSingleton<ClockDiagnosticService>();
 
             // Views and ViewModels
             services.AddTransient<CameraEmojisViewModel>();
@@ -80,6 +103,32 @@ public partial class App : Application
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
+
+
+            services.AddTransient<LongShadow>();
+
+            services.AddTransient<HiddenTextView>();
+            services.AddTransient<ClockViewModel>();
+
+            services.AddSingleton<ComboxDataService>();
+
+            services.AddTransient<DispatcherTimer>();
+
+            services.AddTransient<ImageCropperPickerViewModel>();
+
+            services.AddTransient<ImageCropperPage>();
+            services.AddTransient<IClockCanvasProviderFactory, ClockCanvasProviderFactory>();
+
+            services.AddTransient<IClockCanvasProvider, DefaultClockCanvasProvider>();
+            services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
+
+            services.AddSingleton<IClockViewProvider, DefaultClockViewProvider>();
+
+            services.AddTransient<IClockViewProvider, LongShadowClockViewProvider>();
+
+            services.AddSingleton<IActionExpressionProvider, DefaultActionExpressionProvider>();
+
+            services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
@@ -95,6 +144,8 @@ public partial class App : Application
     {
 
         e.Handled = true;
+
+        ElectronBotHelper.Instance.ElectronBot.Disconnect();
         // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }

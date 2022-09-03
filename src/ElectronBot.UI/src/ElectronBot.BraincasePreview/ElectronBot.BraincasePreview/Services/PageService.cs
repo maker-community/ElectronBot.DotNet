@@ -18,6 +18,7 @@ public class PageService : IPageService
         Configure<CameraEmojisViewModel, CameraEmojisPage>();
         Configure<BlankViewModel, BlankPage>();
         Configure<SettingsViewModel, SettingsPage>();
+        Configure<ImageCropperPickerViewModel, ImageCropperPage>();
     }
 
     public Type GetPageType(string key)
