@@ -15,6 +15,7 @@ public class PageService : IPageService
     public PageService()
     {
         Configure<MainViewModel, MainPage>();
+        Configure<CameraEmojisViewModel, CameraEmojisPage>();
         Configure<BlankViewModel, BlankPage>();
         Configure<SettingsViewModel, SettingsPage>();
     }

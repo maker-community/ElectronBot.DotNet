@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>电子脑壳</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>这是一个windows app sdk 开发的上位机软件，主要是为开源项目ElectronBot机器人开发的上位机，主要提供动作编排和动作播放和和显示。</value>
+  </data>
+  <data name="Shell_Main.Content" xml:space="preserve">
+    <value>电子控制</value>
+  </data>
+  <data name="WebView_Loading.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="WebView_FailedMessage.Text" xml:space="preserve">
+    <value>Page failed to load. Check connection and reload.</value>
+  </data>
+  <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Browser back</value>
+  </data>
+  <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Browser back</value>
+  </data>
+  <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Browser forward</value>
+  </data>
+  <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Browser forward</value>
+  </data>
+  <data name="WebView_Reload.Content" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="ReloadButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="ReloadButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="Shell_WebView.Content" xml:space="preserve">
+    <value>WebView</value>
+  </data>
+  <data name="Settings_Personalization.Text" xml:space="preserve">
+    <value>个性化</value>
+  </data>
+  <data name="Settings_Theme.Text" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="Settings_Theme_Light.Content" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="Settings_Theme_Default.Content" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>关于此软件</value>
+  </data>
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
+    <value>这是一个windows app sdk 开发的上位机软件，主要是为开源项目ElectronBot机器人开发的上位机，主要提供动作编排和动作播放和和显示。</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>隐私策略</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://blog.csdn.net/weixin_43500426/article/details/83315983</value>
+  </data>
+  <data name="ElectronBotAddTip" xml:space="preserve">
+    <value>电子已连接</value>
+  </data>
+  <data name="ElectronBotRemoveTip" xml:space="preserve">
+    <value>电子已移除</value>
+  </data>
+  <data name="ExportToastText" xml:space="preserve">
+    <value>动作导出成功</value>
+  </data>
+  <data name="PlayEmptyToastText" xml:space="preserve">
+    <value>请添加或者导入动作</value>
+  </data>
+  <data name="PlayErrorToastText" xml:space="preserve">
+    <value>请切换到控制模式</value>
+  </data>
+  <data name="PlayClearToastText" xml:space="preserve">
+    <value>列表已清空</value>
+  </data>
+  <data name="PlayResetToastText" xml:space="preserve">
+    <value>动作已重置</value>
+  </data>
+  <data name="ChangeClockViewCB.PlaceholderText" xml:space="preserve">
+    <value>切换表盘</value>
+  </data>
+  <data name="ClearBtn.Content" xml:space="preserve">
+    <value>清除列表</value>
+  </data>
+  <data name="ControlMode.Content" xml:space="preserve">
+    <value>控制模式</value>
+  </data>
+  <data name="DefautView" xml:space="preserve">
+    <value>默认效果</value>
+  </data>
+  <data name="DisableModeRb.Content" xml:space="preserve">
+    <value>禁用模式</value>
+  </data>
+  <data name="EntitySchemaRb.Content" xml:space="preserve">
+    <value>实体模式</value>
+  </data>
+  <data name="ExportBtn.Content" xml:space="preserve">
+    <value>导出动作</value>
+  </data>
+  <data name="ImportBtn.Content" xml:space="preserve">
+    <value>导入动作</value>
+  </data>
+  <data name="LongShadowView" xml:space="preserve">
+    <value>长阴影</value>
+  </data>
+  <data name="ModeRadioBtn.Header" xml:space="preserve">
+    <value>选择模式</value>
+  </data>
+  <data name="PlayBtn.Content" xml:space="preserve">
+    <value>播放动作</value>
+  </data>
+  <data name="PleaseConnectToastText" xml:space="preserve">
+    <value>请连接电子</value>
+  </data>
+  <data name="ResetBtn.Content" xml:space="preserve">
+    <value>重置动作</value>
+  </data>
+  <data name="Sd_Bottom.Header" xml:space="preserve">
+    <value>底盘转动(J6)</value>
+  </data>
+  <data name="Sd_Head.Header" xml:space="preserve">
+    <value>头部(J1)</value>
+  </data>
+  <data name="Sd_LeftArm.Header" xml:space="preserve">
+    <value>左臂旋转(J3)</value>
+  </data>
+  <data name="Sd_LeftArmExpansion.Header" xml:space="preserve">
+    <value>左臂展开(J2)</value>
+  </data>
+  <data name="Sd_RightArm.Header" xml:space="preserve">
+    <value>右臂旋转(J5)</value>
+  </data>
+  <data name="Sd_RightArmExpansion.Header" xml:space="preserve">
+    <value>右臂展开(J4)</value>
+  </data>
+  <data name="StopBtn.Content" xml:space="preserve">
+    <value>停止动作</value>
+  </data>
+  <data name="AddPic.Text" xml:space="preserve">
+    <value>添加图片</value>
+  </data>
+  <data name="ImageCropperAcceptBtn.Label" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="ImageCropperCancelBtn.Label" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CameraHelperResultFailed" xml:space="preserve">
+    <value>🤷 Unable to continue...</value>
+  </data>
+  <data name="EmotionAnger" xml:space="preserve">
+    <value>愤怒</value>
+  </data>
+  <data name="EmotionContempt" xml:space="preserve">
+    <value>蔑视</value>
+  </data>
+  <data name="EmotionDisgust" xml:space="preserve">
+    <value>厌恶</value>
+  </data>
+  <data name="EmotionFear" xml:space="preserve">
+    <value>恐惧</value>
+  </data>
+  <data name="EmotionHappiness" xml:space="preserve">
+    <value>快乐</value>
+  </data>
+  <data name="EmotionNeutral" xml:space="preserve">
+    <value>中性</value>
+  </data>
+  <data name="EmotionSadness" xml:space="preserve">
+    <value>悲伤</value>
+  </data>
+  <data name="EmotionSurprise" xml:space="preserve">
+    <value>惊讶</value>
+  </data>
+  <data name="ModelLoadedFailed" xml:space="preserve">
+    <value>The machine learning model did not load successfully. 🤔 Unable to continue...</value>
+  </data>
+  <data name="Shell_CameraEmojis.Content" xml:space="preserve">
+    <value>表情识别</value>
+  </data>
+  <data name="RemoveAction.Text" xml:space="preserve">
+    <value>移除动作</value>
+  </data>
+  <data name="CameraErrorText" xml:space="preserve">
+    <value>摄像头打开失败</value>
+  </data>
+</root>

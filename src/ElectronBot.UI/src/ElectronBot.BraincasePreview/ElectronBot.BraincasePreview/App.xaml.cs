@@ -70,6 +70,8 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
+            services.AddTransient<CameraEmojisViewModel>();
+            services.AddTransient<CameraEmojisPage>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<BlankViewModel>();

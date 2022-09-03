@@ -9,7 +9,10 @@
                 <ResourceDictionary Source="/Styles/FontSizes.xaml" />
                 <ResourceDictionary Source="/Styles/Thickness.xaml" />
                 <ResourceDictionary Source="/Styles/TextBlock.xaml" />
+                <ResourceDictionary Source="/Styles/Toast.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="TimeFont">/Assets/Font/DINPro-Regular.otf#DINPro</FontFamily>
+            <FontFamily x:Key="TimeFontBold">/Assets/Font/DINPro-Bold.otf#DINPro</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
