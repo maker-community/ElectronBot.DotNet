@@ -103,7 +103,34 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
     private async void TestVoice()
     {
-        await _speechAndTTSService.StartAsync();
+        var textList = new List<string>()
+        {
+            "哥哥你好啊",
+            "哥哥在干嘛",
+            "哥哥想我没",
+            "哥哥最好啦",
+            "最喜欢哥哥啦",
+            "人家好想哥哥",
+            "哥哥喜欢妹妹不"
+        };
+
+        var r = new Random().Next(textList.Count);
+
+        var text = textList[r];
+
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
+        });
+
+
+        var stream = await _speechAndTTSService.TextToSpeechAsync(text);
+
+        _mediaPlayer.SetStreamSource(stream);
+
+        _mediaPlayer.Play();
+
+        // await _speechAndTTSService.StartAsync();
     }
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);

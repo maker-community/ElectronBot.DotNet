@@ -3,6 +3,8 @@ using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Helpers;
 using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
+using Windows.Media.SpeechSynthesis;
+using Windows.Storage.Streams;
 using Windows.System;
 
 namespace ElectronBot.BraincasePreview.Services;
@@ -11,6 +13,8 @@ public class SpeechAndTTSService : ISpeechAndTTSService
 
     // The speech recognizer used throughout this sample.
     private SpeechRecognizer? speechRecognizer;
+
+    private readonly SpeechSynthesizer synthesizer = new();
 
     /// <summary>
     /// the HResult 0x8004503a typically represents the case where a recognizer for a particular language cannot
@@ -24,6 +28,30 @@ public class SpeechAndTTSService : ISpeechAndTTSService
 
     public SpeechAndTTSService()
     {
+    }
+
+    public async Task<IRandomAccessStream> TextToSpeechAsync(string text)
+    {
+        if (!string.IsNullOrEmpty(text))
+        {
+            try
+            {
+                // Create a stream from the text. This will be played using a media element.
+                SpeechSynthesisStream synthesisStream = await synthesizer.SynthesizeTextToStreamAsync(text);
+
+                return synthesisStream;
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                return null;
+                // If media player components are unavailable, (eg, using a N SKU of windows), we won't
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        return null;
     }
 
     public async Task StartAsync()

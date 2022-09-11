@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.Globalization;
-using Windows.Media.SpeechRecognition;
+﻿using Windows.Globalization;
+using Windows.Storage.Streams;
 
 namespace ElectronBot.BraincasePreview.Contracts.Services;
 public interface ISpeechAndTTSService
@@ -11,4 +8,5 @@ public interface ISpeechAndTTSService
     Task CancelAsync();
     Task InitializeRecognizerAsync(Language recognizerLanguage);
     Task ReleaseRecognizerAsync();
+    Task<IRandomAccessStream> TextToSpeechAsync(string text);
 }
