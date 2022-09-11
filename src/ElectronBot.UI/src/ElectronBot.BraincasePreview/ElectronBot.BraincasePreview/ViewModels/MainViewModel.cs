@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -25,6 +21,7 @@ using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.Media.SpeechRecognition;
 using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
@@ -38,6 +35,8 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     private readonly IActionExpressionProvider _actionExpressionProvider;
 
     private readonly IActionExpressionProviderFactory _expressionProviderFactory;
+
+    private readonly ISpeechAndTTSService _speechAndTTSService;
 
     private ObservableCollection<ElectronBotAction> actions = new();
 
@@ -96,7 +95,16 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     public ICommand AudioCommand => _audioCommand ??= new RelayCommand(AudioChanged);
 
     private ICommand _testPlayEmojiCommand;
+
+    private ICommand _testVoiceCommand;
     public ICommand TestPlayEmojiCommand => _testPlayEmojiCommand ??= new RelayCommand(TestPlayEmoji);
+
+    public ICommand TestVoiceCommand => _testVoiceCommand ??= new RelayCommand(TestVoice);
+
+    private async void TestVoice()
+    {
+        await _speechAndTTSService.StartAsync();
+    }
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public MainViewModel(
@@ -106,11 +114,14 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         DispatcherTimer dispatcherTimer,
         ObjectPickerService objectPickerService,
         MediaPlayer mediaPlayer,
-        IActionExpressionProviderFactory actionExpressionProviderFactory)
+        IActionExpressionProviderFactory actionExpressionProviderFactory,
+        ISpeechAndTTSService speechAndTTSService)
     {
         _localSettingsService = localSettingsService;
 
         _dispatcherTimer = dispatcherTimer;
+
+        _speechAndTTSService = speechAndTTSService;
 
         _dispatcherTimer.Tick += DispatcherTimer_Tick;
 
@@ -848,6 +859,8 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
     public async void OnNavigatedTo(object parameter)
     {
+        await _speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
+
         var camera = await EbHelper.FindCameraDeviceListAsync();
 
         Cameras = new ObservableCollection<ComboxItemModel>(camera);
@@ -882,9 +895,10 @@ public class MainViewModel : ObservableRecipient, INavigationAware
             AudioSelect = AudioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
         }
     }
-    public void OnNavigatedFrom()
+    public async void OnNavigatedFrom()
     {
         EmojiPlayHelper.Current.Interval = 0;
         _dispatcherTimer.Stop();
+        await _speechAndTTSService.ReleaseRecognizerAsync();
     }
 }

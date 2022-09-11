@@ -386,11 +386,18 @@
                         ProfilePicture="{x:Bind ViewModel.EmojiImageSource, Mode=OneWay}" />
 
                 </Border>
-                <Button
-                    x:Name="TestEmoji"
-                    Margin="0,12,0,0"
-                    Command="{x:Bind ViewModel.TestPlayEmojiCommand}"
-                    Content="测试表情" />
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        x:Name="TestEmoji"
+                        Margin="0,12,0,0"
+                        Command="{x:Bind ViewModel.TestPlayEmojiCommand}"
+                        Content="测试表情" />
+                    <Button
+                        x:Name="TestVoice"
+                        Margin="0,12,0,0"
+                        Command="{x:Bind ViewModel.TestVoiceCommand}"
+                        Content="测试语音" />
+                </StackPanel>
             </StackPanel>
         </StackPanel>
         <VisualStateManager.VisualStateGroups>
