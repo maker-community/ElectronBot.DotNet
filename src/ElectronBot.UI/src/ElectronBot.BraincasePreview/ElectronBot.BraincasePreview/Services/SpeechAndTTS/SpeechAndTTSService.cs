@@ -70,7 +70,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
                 }
                 catch (Exception ex)
                 {
-
+                    await speechRecognizer.ContinuousRecognitionSession.CancelAsync();
                 }
             }
         }
@@ -235,6 +235,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
         if (args.Status != SpeechRecognitionResultStatus.Success)
         {
             isListening = false;
+
         }
     }
 

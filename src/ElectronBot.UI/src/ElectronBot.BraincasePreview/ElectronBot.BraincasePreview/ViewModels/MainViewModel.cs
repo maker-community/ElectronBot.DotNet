@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO.Ports;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
 using System.Windows.Input;
@@ -174,7 +176,29 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
         _actionExpressionProvider = defaultProvider;
 
+        ElectronBotHelper.Instance.SerialPort.DataReceived += SerialPort_DataReceived;
+
         EmojiPlayHelper.Current.Start();
+    }
+
+
+    private async void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+    {
+        SerialPort sp = (SerialPort)sender;
+        var indata = sp.ReadExisting();
+        Debug.WriteLine("Data Received:");
+        Debug.Write(indata);
+
+        if (indata.Contains("Clockwise"))
+        {
+            var r = new Random().Next(Constants.POTENTIAL_EMOJI_LIST.Count);
+
+            _mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
+
+            _mediaPlayer.Play();
+
+            await _speechAndTTSService.StartAsync();
+        }
     }
 
     public int SelectIndex
@@ -431,7 +455,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void DispatcherTimer_Tick(object sender, object e)
+    private async void DispatcherTimer_Tick(object? sender, object e)
     {
         if (modeNo == 3)
         {
