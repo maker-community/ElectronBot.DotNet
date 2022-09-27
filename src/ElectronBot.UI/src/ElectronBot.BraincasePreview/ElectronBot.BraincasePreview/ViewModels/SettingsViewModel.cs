@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -7,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
+using ElectronBot.BraincasePreview.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml;
@@ -21,7 +21,34 @@ public class SettingsViewModel : ObservableRecipient, INavigationAware
     private readonly ILocalSettingsService _localSettingsService;
     private ElementTheme _elementTheme;
 
+    private ObservableCollection<ComboxItemModel> _cameras;
+
+    private ObservableCollection<ComboxItemModel> _audioDevs;
+
+
+    private ComboxItemModel _cameraSelect;
+
+    private ComboxItemModel _audioSelect;
+
+
     private string _customClockTitle;
+
+    public SettingsViewModel(
+    IThemeSelectorService themeSelectorService,
+    ILocalSettingsService localSettingsService)
+    {
+        _themeSelectorService = themeSelectorService;
+        _elementTheme = _themeSelectorService.Theme;
+        _localSettingsService = localSettingsService;
+        VersionDescription = GetVersionDescription();
+    }
+
+
+    private ICommand _cameraCommand;
+    public ICommand CameraCommand => _cameraCommand ??= new RelayCommand(CameraChanged);
+
+    private ICommand _audioCommand;
+    public ICommand AudioCommand => _audioCommand ??= new RelayCommand(AudioChanged);
     public ElementTheme ElementTheme
     {
         get => _elementTheme;
@@ -41,6 +68,46 @@ public class SettingsViewModel : ObservableRecipient, INavigationAware
     {
         get => _clockTitleConfig;
         set => SetProperty(ref _clockTitleConfig, value);
+    }
+
+
+
+    /// <summary>
+    /// 选中的相机
+    /// </summary>
+    public ComboxItemModel CameraSelect
+    {
+        get => _cameraSelect;
+        set => SetProperty(ref _cameraSelect, value);
+    }
+
+    /// <summary>
+    /// 选中的音频设备
+    /// </summary>
+    public ComboxItemModel AudioSelect
+    {
+        get => _audioSelect;
+        set => SetProperty(ref _audioSelect, value);
+    }
+
+
+
+    /// <summary>
+    /// 相机列表
+    /// </summary>
+    public ObservableCollection<ComboxItemModel> Cameras
+    {
+        get => _cameras;
+        set => SetProperty(ref _cameras, value);
+    }
+
+    /// <summary>
+    /// 音频设备列表
+    /// </summary>
+    public ObservableCollection<ComboxItemModel> AudioDevs
+    {
+        get => _audioDevs;
+        set => SetProperty(ref _audioDevs, value);
     }
 
 
@@ -97,28 +164,64 @@ public class SettingsViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public SettingsViewModel(
-        IThemeSelectorService themeSelectorService,
-        ILocalSettingsService localSettingsService)
+    /// <summary>
+    /// 音频切换方法
+    /// </summary>
+    private async void AudioChanged()
     {
-        _themeSelectorService = themeSelectorService;
-        _elementTheme = _themeSelectorService.Theme;
-        _localSettingsService = localSettingsService;
-        VersionDescription = GetVersionDescription();
+        var audioName = _audioSelect?.DataKey;
+
+        if (!string.IsNullOrWhiteSpace(audioName))
+        {
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultAudioNameKey, _audioSelect);
+        }
+    }
+    /// <summary>
+    /// 相机选择方法
+    /// </summary>
+    private async void CameraChanged()
+    {
+        var cameraName = _cameraSelect?.DataKey;
+
+        if (!string.IsNullOrWhiteSpace(cameraName))
+        {
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultCameraNameKey, _cameraSelect);
+        }
     }
 
     private async Task InitAsync()
     {
-        //var ret = await _localSettingsService
-        //    .ReadSettingAsync<string>(Constants.CustomClockTitleKey);
-
-        //CustomClockTitle = ret ?? "";
         try
         {
             var ret2 = await _localSettingsService
                 .ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
-
             ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
+
+            var camera = await EbHelper.FindCameraDeviceListAsync();
+
+            Cameras = new ObservableCollection<ComboxItemModel>(camera);
+
+
+            var audioDevs = await EbHelper.FindAudioDeviceListAsync();
+
+            AudioDevs = new ObservableCollection<ComboxItemModel>(audioDevs);
+
+            var cameraModel = await _localSettingsService
+                .ReadSettingAsync<ComboxItemModel>(Constants.DefaultCameraNameKey);
+
+            if (cameraModel != null)
+            {
+                CameraSelect = Cameras.FirstOrDefault(c => c.DataValue == cameraModel.DataValue);
+
+            }
+
+            var audioModel = await _localSettingsService
+                .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
+
+            if (audioModel != null)
+            {
+                AudioSelect = AudioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
+            }
         }
         catch (Exception ex)
         {

@@ -226,7 +226,7 @@
     <value>禁用模式</value>
   </data>
   <data name="EntitySchemaRb.Content" xml:space="preserve">
-    <value>实体模式</value>
+    <value>录制模式</value>
   </data>
   <data name="ExportBtn.Content" xml:space="preserve">
     <value>导出动作</value>

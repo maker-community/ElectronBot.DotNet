@@ -7,6 +7,8 @@ using ElectronBot.BraincasePreview.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
+using System.IO.Ports;
+using System.Text.RegularExpressions;
 
 namespace ElectronBot.BraincasePreview.Helpers
 {
@@ -20,19 +22,21 @@ namespace ElectronBot.BraincasePreview.Helpers
         {
             ElectronBot = App.GetService<IElectronLowLevel>();
         }
-        private static ElectronBotHelper _instance;
+        private static ElectronBotHelper? _instance;
         public static ElectronBotHelper Instance => _instance ??= new ElectronBotHelper();
 
-        private readonly SynchronizationContext _context = SynchronizationContext.Current;
+        private readonly SynchronizationContext? _context = SynchronizationContext.Current;
 
         private readonly Dictionary<string, string> _electronDic = new();
+
+        private DeviceWatcher deviceWatcher;
 
         public bool EbConnected
         {
             get; set;
         }
 
-        private DeviceWatcher deviceWatcher;
+        public SerialPort SerialPort { get; set; } = new SerialPort();
 
         public async Task InitAsync()
         {
@@ -104,6 +108,12 @@ namespace ElectronBot.BraincasePreview.Helpers
 
                     EbConnected = false;
 
+                    if (SerialPort.IsOpen)
+                    {
+                        SerialPort.Close();
+                    }
+
+
                     await DisconnectDeviceAsync();
                 }
             };
@@ -113,6 +123,14 @@ namespace ElectronBot.BraincasePreview.Helpers
         {
             if (args.Name.Contains("CP210"))
             {
+                var comName = Regex.Replace(args.Name, @"(.*\()(.*)(\).*)", "$2"); //小括号()
+
+                SerialPort.PortName = comName;
+
+                SerialPort.BaudRate = 115200;
+
+                SerialPort.Open();
+
                 _electronDic.Add(args.Id, args.Name);
 
                 ElectronBot = App.GetService<IElectronLowLevel>();

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO.Ports;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -25,6 +23,7 @@ using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.Media.SpeechRecognition;
 using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
@@ -38,6 +37,8 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     private readonly IActionExpressionProvider _actionExpressionProvider;
 
     private readonly IActionExpressionProviderFactory _expressionProviderFactory;
+
+    private readonly ISpeechAndTTSService _speechAndTTSService;
 
     private ObservableCollection<ElectronBotAction> actions = new();
 
@@ -96,7 +97,41 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     public ICommand AudioCommand => _audioCommand ??= new RelayCommand(AudioChanged);
 
     private ICommand _testPlayEmojiCommand;
+
+    private ICommand _testVoiceCommand;
     public ICommand TestPlayEmojiCommand => _testPlayEmojiCommand ??= new RelayCommand(TestPlayEmoji);
+
+    public ICommand TestVoiceCommand => _testVoiceCommand ??= new RelayCommand(TestVoice);
+
+    private async void TestVoice()
+    {
+        var textList = new List<string>()
+        {
+            "哥哥你好啊",
+            "哥哥在干嘛",
+            "哥哥想我没",
+            "哥哥最好啦",
+            "最喜欢哥哥啦",
+            "人家好想哥哥",
+            "哥哥喜欢妹妹不"
+        };
+
+        var r = new Random().Next(textList.Count);
+
+        var text = textList[r];
+
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
+        });
+
+
+        var stream = await _speechAndTTSService.TextToSpeechAsync(text);
+
+        _mediaPlayer.SetStreamSource(stream);
+
+        _mediaPlayer.Play();
+    }
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public MainViewModel(
@@ -106,11 +141,14 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         DispatcherTimer dispatcherTimer,
         ObjectPickerService objectPickerService,
         MediaPlayer mediaPlayer,
-        IActionExpressionProviderFactory actionExpressionProviderFactory)
+        IActionExpressionProviderFactory actionExpressionProviderFactory,
+        ISpeechAndTTSService speechAndTTSService)
     {
         _localSettingsService = localSettingsService;
 
         _dispatcherTimer = dispatcherTimer;
+
+        _speechAndTTSService = speechAndTTSService;
 
         _dispatcherTimer.Tick += DispatcherTimer_Tick;
 
@@ -130,13 +168,46 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         _mediaPlayer = mediaPlayer;
 
         _mediaPlayer.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
+
         _mediaPlayer.IsVideoFrameServerEnabled = true;
 
         var defaultProvider = _expressionProviderFactory.CreateActionExpressionProvider("Default");
 
         _actionExpressionProvider = defaultProvider;
 
+        ElectronBotHelper.Instance.SerialPort.DataReceived += SerialPort_DataReceived;
+
         EmojiPlayHelper.Current.Start();
+    }
+
+
+    private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+    {
+        SerialPort sp = (SerialPort)sender;
+        var indata = sp.ReadExisting();
+        Debug.WriteLine("Data Received:");
+        Debug.Write(indata);
+
+        if (indata.Contains("Clockwise"))
+        {
+            var r = new Random().Next(Constants.POTENTIAL_EMOJI_LIST.Count);
+
+            var mediaPlayer = App.GetService<MediaPlayer>();
+
+            mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+
+            mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
+
+
+            mediaPlayer.Play();
+        }
+    }
+
+    private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
+    {
+        await _speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
+
+        await _speechAndTTSService.StartAsync();
     }
 
     public int SelectIndex
@@ -393,13 +464,39 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void DispatcherTimer_Tick(object sender, object e)
+    private async void DispatcherTimer_Tick(object? sender, object e)
     {
-        if (modeNo == 3)
+        if (modeNo == 2)
         {
             if (ElectronBotHelper.Instance.EbConnected)
             {
                 await EbHelper.ShowClockCanvasToDeviceAsync(Element);
+            }
+        }
+        else if (modeNo == 3)
+        {
+            if (ElectronBotHelper.Instance.EbConnected)
+            {
+                var data = new byte[240 * 240 * 3];
+
+                var frame = new EmoticonActionFrame(data);
+
+                ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
+
+                var jointAngles = ElectronBotHelper.Instance.ElectronBot.GetJointAngles();
+
+                var actionData = new ElectronBotAction()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    J1 = (int)jointAngles[0],
+                    J2 = (int)jointAngles[1],
+                    J3 = (int)jointAngles[2],
+                    J4 = (int)jointAngles[3],
+                    J5 = (int)jointAngles[4],
+                    J6 = (int)jointAngles[5]
+                };
+
+                Actions.Add(actionData);
             }
         }
     }
@@ -445,7 +542,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
             modeNo = index;
         }
 
-        if (index == 3)
+        if (index == 2)
         {
             if (!ElectronBotHelper.Instance.EbConnected)
             {
@@ -457,6 +554,24 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
                 EmojiPlayHelper.Current.Interval = 0;
 
+                _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+
+                _dispatcherTimer.Start();
+            }
+        }
+        else if (index == 3)
+        {
+            if (!ElectronBotHelper.Instance.EbConnected)
+            {
+                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+            else
+            {
+                await ResetActionAsync();
+
+                EmojiPlayHelper.Current.Interval = 0;
+
+                _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
                 _dispatcherTimer.Start();
             }
         }
@@ -886,5 +1001,6 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     {
         EmojiPlayHelper.Current.Interval = 0;
         _dispatcherTimer.Stop();
+        // await _speechAndTTSService.ReleaseRecognizerAsync();
     }
 }
