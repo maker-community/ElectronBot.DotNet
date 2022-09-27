@@ -213,6 +213,8 @@ public class EbHelper
                 {
                     var base64Text = action.ImageData;
 
+                    var data = new byte[240 * 240 * 3];
+
                     if (base64Text != null)
                     {
                         base64Text = base64Text
@@ -235,15 +237,12 @@ public class EbHelper
 
                         var dataMeta = mat2.Data;
 
-                        var data = new byte[240 * 240 * 3];
-
-                        Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
-
-                        var frame = new EmoticonActionFrame(
-                                   data, true, action.J1, action.J2, action.J3, action.J4, action.J5, action.J6);
-
-                        EmojiPlayHelper.Current.Enqueue(frame);
+                        Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);      
                     }
+                    var frame = new EmoticonActionFrame(
+                             data, true, action.J1, action.J2, action.J3, action.J4, action.J5, action.J6);
+
+                    EmojiPlayHelper.Current.Enqueue(frame);
                 }
             }
 

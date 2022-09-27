@@ -14,8 +14,6 @@ public class SpeechAndTTSService : ISpeechAndTTSService
     // The speech recognizer used throughout this sample.
     private SpeechRecognizer? speechRecognizer;
 
-    private readonly SpeechSynthesizer synthesizer = new();
-
     /// <summary>
     /// the HResult 0x8004503a typically represents the case where a recognizer for a particular language cannot
     /// be found. This may occur if the language is installed, but the speech pack for that language is not.
@@ -30,14 +28,15 @@ public class SpeechAndTTSService : ISpeechAndTTSService
     {
     }
 
-    public async Task<IRandomAccessStream> TextToSpeechAsync(string text)
+    public async Task<IRandomAccessStream?> TextToSpeechAsync(string text)
     {
         if (!string.IsNullOrEmpty(text))
         {
             try
             {
+                using SpeechSynthesizer synthesizer = new();
                 // Create a stream from the text. This will be played using a media element.
-                SpeechSynthesisStream synthesisStream = await synthesizer.SynthesizeTextToStreamAsync(text);
+                var synthesisStream = await synthesizer.SynthesizeTextToStreamAsync(text);
 
                 return synthesisStream;
             }
@@ -70,7 +69,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
                 }
                 catch (Exception ex)
                 {
-                    await speechRecognizer.ContinuousRecognitionSession.CancelAsync();
+
                 }
             }
         }

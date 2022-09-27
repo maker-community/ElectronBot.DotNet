@@ -21,6 +21,7 @@
   <ItemGroup>
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\model.onnx" />
+    <None Remove="Controls\ActionTimeline.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
@@ -59,6 +60,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\ActionTimeline.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\ImageCropperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

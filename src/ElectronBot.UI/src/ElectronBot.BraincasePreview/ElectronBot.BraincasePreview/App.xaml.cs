@@ -84,7 +84,7 @@ public partial class App : Application
 
             services.AddTransient<IElectronLowLevel, ElectronLowLevel>();
 
-            services.AddSingleton<MediaPlayer>();
+            services.AddTransient<MediaPlayer>();
 
             services.AddTransient<ObjectPicker<WriteableBitmap>>();
 
@@ -99,7 +99,7 @@ public partial class App : Application
             services.AddTransient<SettingsPage>();
             services.AddTransient<BlankViewModel>();
             services.AddTransient<BlankPage>();
-            services.AddTransient<MainViewModel>();
+            services.AddSingleton<MainViewModel>();
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();

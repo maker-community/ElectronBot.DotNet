@@ -131,8 +131,6 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         _mediaPlayer.SetStreamSource(stream);
 
         _mediaPlayer.Play();
-
-        // await _speechAndTTSService.StartAsync();
     }
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
@@ -170,6 +168,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         _mediaPlayer = mediaPlayer;
 
         _mediaPlayer.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
+
         _mediaPlayer.IsVideoFrameServerEnabled = true;
 
         var defaultProvider = _expressionProviderFactory.CreateActionExpressionProvider("Default");
@@ -182,7 +181,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     }
 
 
-    private async void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+    private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
         SerialPort sp = (SerialPort)sender;
         var indata = sp.ReadExisting();
@@ -193,12 +192,22 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         {
             var r = new Random().Next(Constants.POTENTIAL_EMOJI_LIST.Count);
 
-            _mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
+            var mediaPlayer = App.GetService<MediaPlayer>();
 
-            _mediaPlayer.Play();
+            mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
 
-            await _speechAndTTSService.StartAsync();
+            mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
+
+
+            mediaPlayer.Play();
         }
+    }
+
+    private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
+    {
+        await _speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
+
+        await _speechAndTTSService.StartAsync();
     }
 
     public int SelectIndex
@@ -457,11 +466,37 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     /// <param name="e"></param>
     private async void DispatcherTimer_Tick(object? sender, object e)
     {
-        if (modeNo == 3)
+        if (modeNo == 2)
         {
             if (ElectronBotHelper.Instance.EbConnected)
             {
                 await EbHelper.ShowClockCanvasToDeviceAsync(Element);
+            }
+        }
+        else if (modeNo == 3)
+        {
+            if (ElectronBotHelper.Instance.EbConnected)
+            {
+                var data = new byte[240 * 240 * 3];
+
+                var frame = new EmoticonActionFrame(data);
+
+                ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
+
+                var jointAngles = ElectronBotHelper.Instance.ElectronBot.GetJointAngles();
+
+                var actionData = new ElectronBotAction()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    J1 = (int)jointAngles[0],
+                    J2 = (int)jointAngles[1],
+                    J3 = (int)jointAngles[2],
+                    J4 = (int)jointAngles[3],
+                    J5 = (int)jointAngles[4],
+                    J6 = (int)jointAngles[5]
+                };
+
+                Actions.Add(actionData);
             }
         }
     }
@@ -507,7 +542,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
             modeNo = index;
         }
 
-        if (index == 3)
+        if (index == 2)
         {
             if (!ElectronBotHelper.Instance.EbConnected)
             {
@@ -519,6 +554,24 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
                 EmojiPlayHelper.Current.Interval = 0;
 
+                _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+
+                _dispatcherTimer.Start();
+            }
+        }
+        else if (index == 3)
+        {
+            if (!ElectronBotHelper.Instance.EbConnected)
+            {
+                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+            else
+            {
+                await ResetActionAsync();
+
+                EmojiPlayHelper.Current.Interval = 0;
+
+                _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
                 _dispatcherTimer.Start();
             }
         }
@@ -910,8 +963,6 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
     public async void OnNavigatedTo(object parameter)
     {
-        await _speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
-
         var camera = await EbHelper.FindCameraDeviceListAsync();
 
         Cameras = new ObservableCollection<ComboxItemModel>(camera);
@@ -946,10 +997,10 @@ public class MainViewModel : ObservableRecipient, INavigationAware
             AudioSelect = AudioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
         }
     }
-    public async void OnNavigatedFrom()
+    public void OnNavigatedFrom()
     {
         EmojiPlayHelper.Current.Interval = 0;
         _dispatcherTimer.Stop();
-        await _speechAndTTSService.ReleaseRecognizerAsync();
+        // await _speechAndTTSService.ReleaseRecognizerAsync();
     }
 }

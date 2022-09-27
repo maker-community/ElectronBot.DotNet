@@ -8,5 +8,5 @@ public interface ISpeechAndTTSService
     Task CancelAsync();
     Task InitializeRecognizerAsync(Language recognizerLanguage);
     Task ReleaseRecognizerAsync();
-    Task<IRandomAccessStream> TextToSpeechAsync(string text);
+    Task<IRandomAccessStream?> TextToSpeechAsync(string text);
 }
