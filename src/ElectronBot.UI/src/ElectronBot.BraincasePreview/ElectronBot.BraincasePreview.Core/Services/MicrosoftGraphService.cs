@@ -1,88 +1,62 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-
+﻿using System.Net.Http.Headers;
+using ElectronBot.BraincasePreview.Core.Contracts.Services;
 using ElectronBot.BraincasePreview.Core.Helpers;
-using ElectronBot.BraincasePreview.Core.Models;
+using Microsoft.Graph;
 
-namespace ElectronBot.BraincasePreview.Core.Services
+namespace ElectronBot.BraincasePreview.Core.Services;
+
+public class MicrosoftGraphService : IMicrosoftGraphService
 {
-    public class MicrosoftGraphService
+    //// For more information about Get-User Service, refer to the following documentation
+    //// https://docs.microsoft.com/graph/api/user-get?view=graph-rest-1.0
+    //// You can test calls to the Microsoft Graph with the Microsoft Graph Explorer
+    //// https://developer.microsoft.com/graph/graph-explorer
+
+    private const string _graphAPIEndpoint = "https://graph.microsoft.com/v1.0/";
+
+    private readonly IdentityService _identityService;
+
+    private GraphServiceClient _graphServiceClient;
+
+    public MicrosoftGraphService(IdentityService identityService)
     {
-        //// For more information about Get-User Service, refer to the following documentation
-        //// https://docs.microsoft.com/graph/api/user-get?view=graph-rest-1.0
-        //// You can test calls to the Microsoft Graph with the Microsoft Graph Explorer
-        //// https://developer.microsoft.com/graph/graph-explorer
+        _identityService = identityService;
+    }
 
-        private const string _graphAPIEndpoint = "https://graph.microsoft.com/v1.0/";
-        private const string _apiServiceMe = "me/";
-        private const string _apiServiceMePhoto = "me/photo/$value";
-
-        public MicrosoftGraphService()
-        {
-        }
-
-        public async Task<User> GetUserInfoAsync(string accessToken)
-        {
-            User user = null;
-            var httpContent = await GetDataAsync($"{_graphAPIEndpoint}{_apiServiceMe}", accessToken);
-            if (httpContent != null)
+    public Task PrepareGraphAsync()
+    {
+        _graphServiceClient = new GraphServiceClient(_graphAPIEndpoint,
+            new DelegateAuthenticationProvider(async (requestMessage) =>
             {
-                var userData = await httpContent.ReadAsStringAsync();
-                if (!string.IsNullOrEmpty(userData))
-                {
-                    user = await Json.ToObjectAsync<User>(userData);
-                }
-            }
+                var accessToken = await _identityService.GetAccessTokenForGraphAsync();
 
-            return user;
-        }
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+            }));
 
-        public async Task<string> GetUserPhoto(string accessToken)
-        {
-            var httpContent = await GetDataAsync($"{_graphAPIEndpoint}{_apiServiceMePhoto}", accessToken);
+        return Task.CompletedTask;
+    }
 
-            if (httpContent == null)
-            {
-                return string.Empty;
-            }
+    public async Task<User> GetUserInfoAsync()
+    {
+        var graphUser = await _graphServiceClient.Me.Request().GetAsync();
 
-            var stream = await httpContent.ReadAsStreamAsync();
-            return stream.ToBase64String();
-        }
+        return graphUser;
+    }
 
-        private async Task<HttpContent> GetDataAsync(string url, string accessToken)
-        {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    var request = new HttpRequestMessage(HttpMethod.Get, url);
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-                    var response = await httpClient.SendAsync(request);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return response.Content;
-                    }
-                    else
-                    {
-                        // TODO: Please handle other status codes as appropriate to your scenario
-                    }
-                }
-            }
-            catch (HttpRequestException)
-            {
-                // TODO: The request failed due to an underlying issue such as
-                // network connectivity, DNS failure, server certificate validation or timeout.
-                // Please handle this exception as appropriate to your scenario
-            }
-            catch (Exception)
-            {
-                // TODO: This call can fail please handle exceptions as appropriate to your scenario
-            }
+    public async Task<string> GetUserPhotoAsync()
+    {
+        var stream = await _graphServiceClient.Me.Photo.Content
+            .Request()
+            .GetAsync();
+        return stream.ToBase64String();
+    }
 
-            return null;
-        }
+    public async Task<IList<TodoTaskList>> GetTodoTaskListAsync()
+    {
+        return await _graphServiceClient.Me.Todo.Lists.Request().GetAsync();
+    }
+    public async Task<IList<TodoTask>> GetTodoTaskListByTaskIdAsync(string id)
+    {
+        return await _graphServiceClient.Me.Todo.Lists[id].Tasks.Request().GetAsync();
     }
 }

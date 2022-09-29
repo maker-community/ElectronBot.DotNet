@@ -19,6 +19,7 @@
     <Content Remove="Assets\model.onnx" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\DefaultIcon.png" />
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\model.onnx" />
     <None Remove="Controls\ActionTimeline.xaml" />

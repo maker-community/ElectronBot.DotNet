@@ -1,5 +1,6 @@
 ﻿using ElectronBot.BraincasePreview.Activation;
 using ElectronBot.BraincasePreview.Contracts.Services;
+using ElectronBot.BraincasePreview.Core.Services;
 using ElectronBot.BraincasePreview.Views;
 
 using Microsoft.UI.Xaml;
@@ -14,17 +15,32 @@ public class ActivationService : IActivationService
     private readonly IThemeSelectorService _themeSelectorService;
     private UIElement? _shell = null;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService)
+    private readonly UserDataService _userDataService;
+
+    private readonly IdentityService _identityService;
+
+
+    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, 
+        IEnumerable<IActivationHandler> activationHandlers, 
+        IThemeSelectorService themeSelectorService, 
+        UserDataService userDataService, 
+        IdentityService identityService)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
         _themeSelectorService = themeSelectorService;
+        _userDataService = userDataService;
+        _identityService = identityService;
     }
 
     public async Task ActivateAsync(object activationArgs)
     {
         // Execute tasks before activation.
         await InitializeAsync();
+
+        _userDataService.Initialize();
+        _identityService.InitializeWithAadAndPersonalMsAccounts();
+        await _identityService.AcquireTokenSilentAsync();
 
         // Set the MainWindow Content.
         if (App.MainWindow.Content == null)
