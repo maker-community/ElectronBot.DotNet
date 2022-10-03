@@ -130,6 +130,8 @@ public partial class App : Application
 
             services.AddTransient<IClockViewProvider, LongShadowClockViewProvider>();
 
+            services.AddTransient<IClockViewProvider, GooeyFooterClockViewProvider>();
+
             services.AddSingleton<IActionExpressionProvider, DefaultActionExpressionProvider>();
 
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();

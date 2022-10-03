@@ -25,6 +25,8 @@ public class ClockViewModel : ObservableRecipient
 
     private string _day = DateTimeOffset.Now.Day.ToString();
 
+    private readonly ClockDiagnosticService _diagnosticService;
+
     public string TodayWeek
     {
         get => _todayWeek;
@@ -90,6 +92,8 @@ public class ClockViewModel : ObservableRecipient
         TodayTime = DateTimeOffset.Now.ToString("T");
         TodayWeek = DateTimeOffset.Now.ToString("ddd");
         Day = DateTimeOffset.Now.Day.ToString();
+
+        ClockDiagnosticInfo = _diagnosticService.GetClockDiagnosticInfoAsync();
     }
 
     public ClockViewModel(DispatcherTimer dispatcherTimer,
@@ -98,10 +102,8 @@ public class ClockViewModel : ObservableRecipient
         )
     {
         _dispatcherTimer = dispatcherTimer;
-
+        _diagnosticService = clockDiagnosticService;
         _localSettingsService = localSettingsService;
-
-        ClockDiagnosticInfo = clockDiagnosticService.GetClockDiagnosticInfoAsync();
     }
 
 }
