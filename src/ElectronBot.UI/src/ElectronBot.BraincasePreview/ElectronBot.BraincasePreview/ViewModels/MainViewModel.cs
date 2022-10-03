@@ -160,9 +160,6 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
         ClockComboxModels = comboxDataService.GetClockViewComboxList();
 
-        var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
-
-        Element = viewProvider.CreateClockView("DefautView");
         _objectPickerService = objectPickerService;
 
         _mediaPlayer = mediaPlayer;
@@ -961,16 +958,11 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         });
     }
 
-    public async void OnNavigatedTo(object parameter)
+    public void OnNavigatedTo(object parameter)
     {
-        var camera = await EbHelper.FindCameraDeviceListAsync();
+        var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
 
-        Cameras = new ObservableCollection<ComboxItemModel>(camera);
-
-
-        var audioDevs = await EbHelper.FindAudioDeviceListAsync();
-
-        AudioDevs = new ObservableCollection<ComboxItemModel>(audioDevs);
+        Element = viewProvider.CreateClockView("DefautView");
 
         if (modeNo == 3)
         {
@@ -978,23 +970,6 @@ public class MainViewModel : ObservableRecipient, INavigationAware
             {
                 _dispatcherTimer.Start();
             }
-        }
-
-        var cameraModel = await _localSettingsService
-            .ReadSettingAsync<ComboxItemModel>(Constants.DefaultCameraNameKey);
-
-        if (cameraModel != null)
-        {
-            CameraSelect = Cameras.FirstOrDefault(c => c.DataValue == cameraModel.DataValue);
-
-        }
-
-        var audioModel = await _localSettingsService
-            .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
-
-        if (audioModel != null)
-        {
-            AudioSelect = AudioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
         }
     }
     public void OnNavigatedFrom()

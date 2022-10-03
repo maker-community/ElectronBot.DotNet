@@ -79,6 +79,12 @@ public partial class App : Application
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
+
+            services.AddSingleton<IdentityService>();
+            services.AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>();
+
+            services.AddSingleton<UserDataService>();
+
             // Core Services
             services.AddSingleton<IFileService, FileService>();
 
@@ -97,9 +103,11 @@ public partial class App : Application
             services.AddTransient<CameraEmojisPage>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
+            services.AddTransient<TodoViewModel>();
+            services.AddTransient<TodoPage>();
             services.AddTransient<BlankViewModel>();
             services.AddTransient<BlankPage>();
-            services.AddSingleton<MainViewModel>();
+            services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
@@ -108,7 +116,7 @@ public partial class App : Application
             services.AddTransient<LongShadow>();
 
             services.AddTransient<HiddenTextView>();
-            services.AddTransient<ClockViewModel>();
+            services.AddSingleton<ClockViewModel>();
 
             services.AddSingleton<ComboxDataService>();
 
@@ -117,14 +125,14 @@ public partial class App : Application
             services.AddTransient<ImageCropperPickerViewModel>();
 
             services.AddTransient<ImageCropperPage>();
-            services.AddTransient<IClockCanvasProviderFactory, ClockCanvasProviderFactory>();
 
-            services.AddTransient<IClockCanvasProvider, DefaultClockCanvasProvider>();
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 
-            services.AddSingleton<IClockViewProvider, DefaultClockViewProvider>();
+            services.AddTransient<IClockViewProvider, DefaultClockViewProvider>();
 
             services.AddTransient<IClockViewProvider, LongShadowClockViewProvider>();
+
+            services.AddTransient<IClockViewProvider, GooeyFooterClockViewProvider>();
 
             services.AddSingleton<IActionExpressionProvider, DefaultActionExpressionProvider>();
 
@@ -154,7 +162,7 @@ public partial class App : Application
     {
         base.OnLaunched(args);
 
-        App.GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
+        //App.GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
         await App.GetService<IActivationService>().ActivateAsync(args);
     }

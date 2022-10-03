@@ -11,11 +11,35 @@ public class ClockDiagnosticInfo
     {
         get; set;
     }
-    public string DiskUsage
+    public string TotalMemory
     {
         get; set;
     }
-    public string MemoryUsage
+    public string CpuThreadCount
+    {
+        get; set;
+    }
+    public string UsedMemory
+    {
+        get; set;
+    }
+    public string FreeMemory
+    {
+        get; set;
+    }
+    public string SystemArch
+    {
+        get; set;
+    }
+    public string TotalStorage
+    {
+        get; set;
+    }
+    public string UsedStorage
+    {
+        get; set;
+    }
+    public string FreeStorage
     {
         get; set;
     }

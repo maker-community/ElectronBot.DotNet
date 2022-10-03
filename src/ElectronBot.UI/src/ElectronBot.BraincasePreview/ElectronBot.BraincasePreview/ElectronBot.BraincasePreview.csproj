@@ -19,12 +19,15 @@
     <Content Remove="Assets\model.onnx" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\DefaultIcon.png" />
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\model.onnx" />
+    <None Remove="ClockViews\GooeyFooter.xaml" />
     <None Remove="Controls\ActionTimeline.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
+    <None Remove="Views\TodoPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\model.onnx">
@@ -44,7 +47,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.3.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.8" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.6.0.20220608" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.6.0.20220608" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
@@ -60,6 +63,12 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\TodoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ClockViews\GooeyFooter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\ActionTimeline.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

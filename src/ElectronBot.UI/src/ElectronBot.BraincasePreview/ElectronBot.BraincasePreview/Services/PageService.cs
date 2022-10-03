@@ -17,6 +17,7 @@ public class PageService : IPageService
         Configure<MainViewModel, MainPage>();
         Configure<CameraEmojisViewModel, CameraEmojisPage>();
         Configure<BlankViewModel, BlankPage>();
+        Configure<TodoViewModel, TodoPage>();
         Configure<SettingsViewModel, SettingsPage>();
         Configure<ImageCropperPickerViewModel, ImageCropperPage>();
     }

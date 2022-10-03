@@ -71,14 +71,8 @@ public sealed class FlipSide : Control
 
     public bool IsFlipped
     {
-        get
-        {
-            return (bool)GetValue(IsFlippedProperty);
-        }
-        set
-        {
-            SetValue(IsFlippedProperty, value);
-        }
+        get => (bool)GetValue(IsFlippedProperty);
+        set => SetValue(IsFlippedProperty, value);
     }
 
     public object Side1

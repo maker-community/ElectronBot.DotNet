@@ -17,13 +17,15 @@ public class ClockViewModel : ObservableRecipient
     private readonly ILocalSettingsService _localSettingsService;
 
     private ICommand _loadedCommand;
-    public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
+    public ICommand LoadedCommand => _loadedCommand ??= new RelayCommand(OnLoaded);
 
     private string _todayWeek = DateTimeOffset.Now.ToString("ddd");
 
     private ClockDiagnosticInfo _clockDiagnosticInfo = new();
 
     private string _day = DateTimeOffset.Now.Day.ToString();
+
+    private readonly ClockDiagnosticService _diagnosticService;
 
     public string TodayWeek
     {
@@ -85,11 +87,13 @@ public class ClockViewModel : ObservableRecipient
         await Task.CompletedTask;
     }
 
-    private void DispatcherTimer_Tick(object sender, object e)
+    private void DispatcherTimer_Tick(object? sender, object e)
     {
         TodayTime = DateTimeOffset.Now.ToString("T");
         TodayWeek = DateTimeOffset.Now.ToString("ddd");
         Day = DateTimeOffset.Now.Day.ToString();
+
+        ClockDiagnosticInfo = _diagnosticService.GetClockDiagnosticInfoAsync();
     }
 
     public ClockViewModel(DispatcherTimer dispatcherTimer,
@@ -98,10 +102,8 @@ public class ClockViewModel : ObservableRecipient
         )
     {
         _dispatcherTimer = dispatcherTimer;
-
+        _diagnosticService = clockDiagnosticService;
         _localSettingsService = localSettingsService;
-
-        ClockDiagnosticInfo = clockDiagnosticService.GetClockDiagnosticInfoAsync();
     }
 
 }

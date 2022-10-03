@@ -11,7 +11,8 @@ public class ComboxDataService
             {
 
                 new ComboxItemModel { DataKey = "DefautView", DataValue = "DefautView".GetLocalized() },
-                new ComboxItemModel { DataKey = "LongShadowView", DataValue ="LongShadowView".GetLocalized() }
+                new ComboxItemModel { DataKey = "LongShadowView", DataValue ="LongShadowView".GetLocalized() },
+                new ComboxItemModel { DataKey = "GooeyFooter", DataValue ="GooeyFooter".GetLocalized() }
             };
     }
 

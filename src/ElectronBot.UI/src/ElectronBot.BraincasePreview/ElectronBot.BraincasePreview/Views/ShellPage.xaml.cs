@@ -42,6 +42,7 @@ public sealed partial class ShellPage : Page
 
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
+        ViewModel.Initialize();
         await ElectronBotHelper.Instance.InitAsync();
     }
 

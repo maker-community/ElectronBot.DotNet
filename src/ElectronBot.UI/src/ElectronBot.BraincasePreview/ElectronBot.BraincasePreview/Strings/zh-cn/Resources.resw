@@ -318,4 +318,22 @@
   <data name="CameraErrorText" xml:space="preserve">
     <value>摄像头打开失败</value>
   </data>
+  <data name="DialogAuthenticationTitle" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="DialogNoNetworkAvailableContent" xml:space="preserve">
+    <value>ApplicatioThere is no internet connection, please connect to the internet and try again.</value>
+  </data>
+  <data name="DialogStatusUnknownErrorContent" xml:space="preserve">
+    <value>Something went wrong during the login, please try again.</value>
+  </data>
+  <data name="GooeyFooter" xml:space="preserve">
+    <value>融合效果</value>
+  </data>
+  <data name="Shell_LogIn.Text" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Shell_Todo.Content" xml:space="preserve">
+    <value>微软待办</value>
+  </data>
 </root>
