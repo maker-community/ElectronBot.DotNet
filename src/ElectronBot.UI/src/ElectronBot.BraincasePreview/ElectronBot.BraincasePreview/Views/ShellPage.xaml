@@ -65,6 +65,11 @@
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE11D;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_Todo" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.TodoViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF78C;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
@@ -97,7 +102,7 @@
                         Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay}">
                         <Grid Height="40">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="38" />
+                                <ColumnDefinition Width="48" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Ellipse
@@ -127,7 +132,7 @@
                         Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay, Converter={StaticResource ReverseBoolToVisibility}}">
                         <Grid Height="40">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="38" />
+                                <ColumnDefinition Width="48" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Ellipse

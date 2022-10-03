@@ -103,6 +103,8 @@ public partial class App : Application
             services.AddTransient<CameraEmojisPage>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
+            services.AddTransient<TodoViewModel>();
+            services.AddTransient<TodoPage>();
             services.AddTransient<BlankViewModel>();
             services.AddTransient<BlankPage>();
             services.AddTransient<MainViewModel>();

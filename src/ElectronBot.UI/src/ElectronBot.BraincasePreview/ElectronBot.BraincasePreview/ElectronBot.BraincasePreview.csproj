@@ -27,6 +27,7 @@
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
+    <None Remove="Views\TodoPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\model.onnx">
@@ -62,6 +63,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\TodoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="ClockViews\GooeyFooter.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

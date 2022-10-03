@@ -17,7 +17,7 @@ public class ClockViewModel : ObservableRecipient
     private readonly ILocalSettingsService _localSettingsService;
 
     private ICommand _loadedCommand;
-    public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
+    public ICommand LoadedCommand => _loadedCommand ??= new RelayCommand(OnLoaded);
 
     private string _todayWeek = DateTimeOffset.Now.ToString("ddd");
 

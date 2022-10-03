@@ -960,9 +960,9 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
     public void OnNavigatedTo(object parameter)
     {
-        var viewProvider = _viewProviderFactory.CreateClockViewProvider("GooeyFooter");
+        var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
 
-        Element = viewProvider.CreateClockView("GooeyFooter");
+        Element = viewProvider.CreateClockView("DefautView");
 
         if (modeNo == 3)
         {
