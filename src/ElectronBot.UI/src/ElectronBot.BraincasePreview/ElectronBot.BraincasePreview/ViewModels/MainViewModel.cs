@@ -160,9 +160,6 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
         ClockComboxModels = comboxDataService.GetClockViewComboxList();
 
-        var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
-
-        Element = viewProvider.CreateClockView("DefautView");
         _objectPickerService = objectPickerService;
 
         _mediaPlayer = mediaPlayer;
@@ -963,6 +960,10 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
     public void OnNavigatedTo(object parameter)
     {
+        var viewProvider = _viewProviderFactory.CreateClockViewProvider("LongShadowView");
+
+        Element = viewProvider.CreateClockView("LongShadowView");
+
         if (modeNo == 3)
         {
             if (ElectronBotHelper.Instance.EbConnected)

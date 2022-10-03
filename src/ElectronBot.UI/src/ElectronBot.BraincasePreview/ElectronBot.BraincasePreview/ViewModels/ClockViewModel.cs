@@ -85,7 +85,7 @@ public class ClockViewModel : ObservableRecipient
         await Task.CompletedTask;
     }
 
-    private void DispatcherTimer_Tick(object sender, object e)
+    private void DispatcherTimer_Tick(object? sender, object e)
     {
         TodayTime = DateTimeOffset.Now.ToString("T");
         TodayWeek = DateTimeOffset.Now.ToString("ddd");

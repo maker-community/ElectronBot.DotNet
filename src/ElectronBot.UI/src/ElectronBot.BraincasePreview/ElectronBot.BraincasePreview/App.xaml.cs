@@ -105,7 +105,7 @@ public partial class App : Application
             services.AddTransient<SettingsPage>();
             services.AddTransient<BlankViewModel>();
             services.AddTransient<BlankPage>();
-            services.AddSingleton<MainViewModel>();
+            services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
@@ -114,7 +114,7 @@ public partial class App : Application
             services.AddTransient<LongShadow>();
 
             services.AddTransient<HiddenTextView>();
-            services.AddTransient<ClockViewModel>();
+            services.AddSingleton<ClockViewModel>();
 
             services.AddSingleton<ComboxDataService>();
 
@@ -123,12 +123,10 @@ public partial class App : Application
             services.AddTransient<ImageCropperPickerViewModel>();
 
             services.AddTransient<ImageCropperPage>();
-            services.AddTransient<IClockCanvasProviderFactory, ClockCanvasProviderFactory>();
 
-            services.AddTransient<IClockCanvasProvider, DefaultClockCanvasProvider>();
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 
-            services.AddSingleton<IClockViewProvider, DefaultClockViewProvider>();
+            services.AddTransient<IClockViewProvider, DefaultClockViewProvider>();
 
             services.AddTransient<IClockViewProvider, LongShadowClockViewProvider>();
 
