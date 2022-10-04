@@ -234,6 +234,17 @@
                 </Border>
                 <StackPanel>
                     <Button
+                        x:Name="Import"
+                        Height="28"
+                        Margin="4"
+                        BorderBrush="{ThemeResource SystemAccentColor}"
+                        BorderThickness="2"
+                        Command="{x:Bind ViewModel.ImportCommand}"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        ToolTipService.ToolTip="导入动作">
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE150;" />
+                    </Button>
+                    <Button
                         x:Name="Export"
                         Height="28"
                         Margin="4"
@@ -254,17 +265,6 @@
                         Foreground="{ThemeResource SystemAccentColor}"
                         ToolTipService.ToolTip="添加动作帧">
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE710;" />
-                    </Button>
-                    <Button
-                        x:Name="Import"
-                        Height="28"
-                        Margin="4"
-                        BorderBrush="{ThemeResource SystemAccentColor}"
-                        BorderThickness="2"
-                        Command="{x:Bind ViewModel.ImportCommand}"
-                        Foreground="{ThemeResource SystemAccentColor}"
-                        ToolTipService.ToolTip="导入动作">
-                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE150;" />
                     </Button>
                 </StackPanel>
 

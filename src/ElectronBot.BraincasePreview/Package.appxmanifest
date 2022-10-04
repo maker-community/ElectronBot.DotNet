@@ -7,16 +7,17 @@
   xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/templatestudio"
   xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
-  IgnorableNamespaces="uap rescap genTemplate">
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  IgnorableNamespaces="uap rescap genTemplate mp">
 
   <Identity
-    Name="71557C4A-75D4-4DB4-9C8D-357A3EED48A3"
-    Publisher="CN=gil"
-    Version="1.0.0.0" />
+    Name="37619DC86D31F.44602C779CD56"
+    Publisher="CN=829B8DD1-2BF4-465F-8663-BB54D1109ED6"
+    Version="1.2.0.0" />
 
   <Properties>
-    <DisplayName>ElectronBot.BraincasePreview</DisplayName>
-    <PublisherDisplayName>gil</PublisherDisplayName>
+    <DisplayName>电子脑壳</DisplayName>
+    <PublisherDisplayName>绿荫阿广</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

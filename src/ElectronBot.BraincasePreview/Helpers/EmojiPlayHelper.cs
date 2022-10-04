@@ -26,6 +26,11 @@ public class EmojiPlayHelper
         thread.Start();
     }
 
+    public void Clear()
+    {
+        _actonFrame.Clear();
+    }
+
     private void RunPlayAsync()
     {
         while (true)

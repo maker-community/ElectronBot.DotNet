@@ -339,4 +339,7 @@
   <data name="CameraLoadedFailed" xml:space="preserve">
     <value>暂未发现摄像头</value>
   </data>
+  <data name="Settings_Thank.Text" xml:space="preserve">
+    <value>感谢列表</value>
+  </data>
 </root>

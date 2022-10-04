@@ -130,6 +130,13 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
         _mediaPlayer.SetStreamSource(stream);
 
+        var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+
+        if (selectedDevice != null)
+        {
+            _mediaPlayer.AudioDevice = selectedDevice;
+        }
+
         _mediaPlayer.Play();
     }
 
@@ -150,9 +157,9 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
         _speechAndTTSService = speechAndTTSService;
 
-        _dispatcherTimer.Tick += DispatcherTimer_Tick;
-
         _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+
+        _dispatcherTimer.Tick += DispatcherTimer_Tick;
 
         _viewProviderFactory = viewProviderFactory;
 
@@ -195,6 +202,12 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
             mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
 
+            var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+
+            if (selectedDevice != null)
+            {
+                mediaPlayer.AudioDevice = selectedDevice;
+            }
 
             mediaPlayer.Play();
         }
@@ -303,9 +316,15 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
             _mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
 
+            var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+
+            if (selectedDevice != null)
+            {
+                _mediaPlayer.AudioDevice = selectedDevice;
+            }
             _mediaPlayer.Play();
 
-            _actionExpressionProvider.PlayActionExpressionAsync($"{Constants.POTENTIAL_EMOJI_LIST[r]}");
+            _actionExpressionProvider.PlayActionExpressionAsync($"{Constants.POTENTIAL_EMOJI_LIST[r]}", actions.ToList());
         }
         catch (Exception ex)
         {
@@ -386,6 +405,19 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         if (!string.IsNullOrWhiteSpace(clockName))
         {
             var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockName);
+
+            if (clockName == "GooeyFooter")
+            {
+                EmojiPlayHelper.Current.Clear();
+
+                _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 40);
+            }
+            else
+            {
+                EmojiPlayHelper.Current.Clear();
+
+                _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            }
 
             Element = viewProvider.CreateClockView(clockName);
         }
@@ -551,7 +583,12 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
                 EmojiPlayHelper.Current.Interval = 0;
 
-                _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                var clockName = _clockComboxSelect?.DataKey;
+
+                if (clockName != "GooeyFooter")
+                {
+                    _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                }
 
                 _dispatcherTimer.Start();
             }
@@ -958,7 +995,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         });
     }
 
-    public void OnNavigatedTo(object parameter)
+    public async void OnNavigatedTo(object parameter)
     {
         var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
 
@@ -970,6 +1007,16 @@ public class MainViewModel : ObservableRecipient, INavigationAware
             {
                 _dispatcherTimer.Start();
             }
+        }
+
+        var audioDevs = await EbHelper.FindAudioDeviceListAsync();
+
+        var audioModel = await _localSettingsService
+            .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
+
+        if (audioModel != null)
+        {
+            AudioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
         }
     }
     public void OnNavigatedFrom()

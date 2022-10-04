@@ -257,6 +257,25 @@
                         Style="{ThemeResource BodyTextBlockStyle}" />
                     <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
                 </StackPanel>
+
+                <TextBlock x:Uid="Settings_Thank" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+                <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="参考的项目和一些资源的链接" />
+
+                    <HyperlinkButton
+                        Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
+                        Content="应用LOGO作者(oooooohmygosh)B站地址"
+                        NavigateUri="https://space.bilibili.com/38053181" />
+                    <HyperlinkButton
+                        Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
+                        Content="表盘项目参考作者(DinoChan)Github地址"
+                        NavigateUri="https://github.com/DinoChan" />
+                    <HyperlinkButton
+                        Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
+                        Content="电子脑壳介绍地址"
+                        NavigateUri="https://github.com/maker-community/ElectronBot.Braincase" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

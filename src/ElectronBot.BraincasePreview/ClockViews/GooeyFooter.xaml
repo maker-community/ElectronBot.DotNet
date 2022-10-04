@@ -8,7 +8,7 @@
     xmlns:local="using:ElectronBot.BraincasePreview.ClockViews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    Background="#F5F7FA"
+    Background="Black"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
@@ -21,13 +21,13 @@
                 x:Name="Root"
                 Width="200"
                 Height="200"
-                Background="White">
+                Background="Black">
                 <xaml:CanvasControl
                     x:Name="Canvas"
                     CreateResources="OnCreateResource"
                     Draw="OnDraw"
                     SizeChanged="OnCanvasSizeChanged" />
-                <StackPanel VerticalAlignment="Center">
+                <!--<StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             HorizontalAlignment="Center"
@@ -110,6 +110,46 @@
                             FontSize="16"
                             Foreground="Black"
                             Text="{x:Bind ViewModel.ClockDiagnosticInfo.UsedStorage, Mode=OneWay}" />
+                    </StackPanel>
+                </StackPanel>-->
+                <StackPanel
+                    x:Name="PomodoroPanel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <StackPanel x:Name="FocusPanel" VerticalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="2"
+                                HorizontalAlignment="Center"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="{x:Bind ViewModel.Day, Mode=OneWay}" />
+                            <TextBlock
+                                Margin="2"
+                                HorizontalAlignment="Center"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="{x:Bind ViewModel.TodayWeek, Mode=OneWay}" />
+                        </StackPanel>
+                        <TextBlock
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            FontSize="32"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="{x:Bind ViewModel.TodayTime, Mode=OneWay}" />
+
+                        <TextBlock
+                            MaxWidth="120"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}"
+                            TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
             </Grid>

@@ -14,6 +14,12 @@
 	<UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\model.onnx" />
@@ -56,8 +62,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ElectronBot.DotNet\ElectronBot.DotNet.csproj" />
     <ProjectReference Include="..\ElectronBot.BraincasePreview.Core\ElectronBot.BraincasePreview.Core.csproj" />
+    <ProjectReference Include="..\ElectronBot.DotNet\ElectronBot.DotNet.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
