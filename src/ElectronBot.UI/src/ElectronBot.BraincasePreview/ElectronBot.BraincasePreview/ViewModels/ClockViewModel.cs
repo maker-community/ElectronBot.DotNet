@@ -93,7 +93,7 @@ public class ClockViewModel : ObservableRecipient
         TodayWeek = DateTimeOffset.Now.ToString("ddd");
         Day = DateTimeOffset.Now.Day.ToString();
 
-        ClockDiagnosticInfo = _diagnosticService.GetClockDiagnosticInfoAsync();
+        //ClockDiagnosticInfo = _diagnosticService.GetClockDiagnosticInfoAsync();
     }
 
     public ClockViewModel(DispatcherTimer dispatcherTimer,

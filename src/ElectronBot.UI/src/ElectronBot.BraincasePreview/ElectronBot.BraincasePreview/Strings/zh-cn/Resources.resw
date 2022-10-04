@@ -244,7 +244,7 @@
     <value>播放动作</value>
   </data>
   <data name="PleaseConnectToastText" xml:space="preserve">
-    <value>请连接电子</value>
+    <value>请连接电子（初次使用请检测驱动）</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
     <value>重置动作</value>
@@ -335,5 +335,8 @@
   </data>
   <data name="Shell_Todo.Content" xml:space="preserve">
     <value>微软待办</value>
+  </data>
+  <data name="CameraLoadedFailed" xml:space="preserve">
+    <value>暂未发现摄像头</value>
   </data>
 </root>

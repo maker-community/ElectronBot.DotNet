@@ -162,8 +162,28 @@ public partial class App : Application
     {
         base.OnLaunched(args);
 
+        MainWindow.Closed += MainWindow_Closed;
+
         //App.GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
         await App.GetService<IActivationService>().ActivateAsync(args);
+    }
+
+
+    private async void MainWindow_Closed(object sender, WindowEventArgs args)
+    {
+        try
+        {
+            ElectronBotHelper.Instance.ElectronBot.Disconnect();
+
+            IntelligenceService.Current.CleanUp();
+
+            await CameraService.Current.CleanupMediaCaptureAsync();
+        }
+        catch (Exception)
+        {
+
+        }
+        System.Environment.Exit(0);
     }
 }

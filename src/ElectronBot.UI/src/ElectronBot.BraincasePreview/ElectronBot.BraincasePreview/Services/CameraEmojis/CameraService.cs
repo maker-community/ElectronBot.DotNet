@@ -5,11 +5,13 @@ using System.Diagnostics;
 using CommunityToolkit.WinUI.Helpers;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Core.Models;
+using ElectronBot.BraincasePreview.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
+using Windows.Storage.Streams;
 
 namespace ElectronBot.BraincasePreview.Services;
 
@@ -34,88 +36,92 @@ class CameraService
     private bool _isInitialized = false;
     private bool _isProcessing = false;
 
+    private string _cameraName = string.Empty;
+
+    private void RotationHelper_OrientationChanged(object? sender, bool e) => throw new NotImplementedException();
+
     private void Current_IntelligenceServiceProcessingCompleted(object sender, EventArgs e)
     {
         _isProcessing = false;
     }
 
-    public async Task<CameraHelperResult> InitializeAsync()
-    {
-        if (!_isInitialized)
-        {
-            var group = await GetFrameSourceGroupAsync();
-            if (group != null)
-            {
-                _cameraHelper = new CameraHelper() { FrameSourceGroup = group };
-                var result = await _cameraHelper.InitializeAndStartCaptureAsync();
-                if (result == CameraHelperResult.Success)
-                {
-                    _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
-                    IntelligenceService.Current.IntelligenceServiceProcessingCompleted += Current_IntelligenceServiceProcessingCompleted;
-                    _isInitialized = true;
-                }
-                return result;
-            }
-            else
-            {
-                return CameraHelperResult.NoFrameSourceGroupAvailable;
-            }
-        }
-        else
-        {
-            return CameraHelperResult.Success;
-        }
-    }
+    //public async Task<CameraHelperResult> InitializeAsync()
+    //{
+    //    if (!_isInitialized)
+    //    {
+    //        var group = await GetFrameSourceGroupAsync();
+    //        if (group != null)
+    //        {
+    //            _cameraHelper = new CameraHelper() { FrameSourceGroup = group };
+    //            var result = await _cameraHelper.InitializeAndStartCaptureAsync();
+    //            if (result == CameraHelperResult.Success)
+    //            {
+    //                _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+    //                IntelligenceService.Current.IntelligenceServiceProcessingCompleted += Current_IntelligenceServiceProcessingCompleted;
+    //                _isInitialized = true;
+    //            }
+    //            return result;
+    //        }
+    //        else
+    //        {
+    //            return CameraHelperResult.NoFrameSourceGroupAvailable;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        return CameraHelperResult.Success;
+    //    }
+    //}
 
-    private async Task<MediaFrameSourceGroup> GetFrameSourceGroupAsync()
-    {
-        var availableFrameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
-        if (availableFrameSourceGroups != null)
-        {
-            //get a front-facing camera if one is available
-            var selectedGroup = availableFrameSourceGroups.Select(group =>
-               new
-               {
-                   sourceGroup = group,
+    //private async Task<MediaFrameSourceGroup> GetFrameSourceGroupAsync()
+    //{
+    //    var availableFrameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
+    //    if (availableFrameSourceGroups != null)
+    //    {
+    //        //get a front-facing camera if one is available
+    //        var selectedGroup = availableFrameSourceGroups.Select(group =>
+    //           new
+    //           {
+    //               sourceGroup = group,
 
-                   colorSourceInfo = group.SourceInfos.FirstOrDefault((sourceInfo) =>
-                   {
-                       return
-                           (sourceInfo.MediaStreamType == MediaStreamType.VideoPreview ||
-                           sourceInfo.MediaStreamType == MediaStreamType.VideoRecord)
-                       && sourceInfo.SourceKind == MediaFrameSourceKind.Color
-                       && (sourceInfo.DeviceInformation.EnclosureLocation != null
-                       && sourceInfo.DeviceInformation.EnclosureLocation.Panel == Windows.Devices.Enumeration.Panel.Front);
-                   })
-               })
-                .Where(t => t.colorSourceInfo != null)
-                .FirstOrDefault();
+    //               colorSourceInfo = group.SourceInfos.FirstOrDefault((sourceInfo) =>
+    //               {
+    //                   return
+    //                       (sourceInfo.MediaStreamType == MediaStreamType.VideoPreview ||
+    //                       sourceInfo.MediaStreamType == MediaStreamType.VideoRecord)
+    //                   && sourceInfo.SourceKind == MediaFrameSourceKind.Color
+    //                   && (sourceInfo.DeviceInformation.EnclosureLocation != null
+    //                   && sourceInfo.DeviceInformation.EnclosureLocation.Panel == Windows.Devices.Enumeration.Panel.Front);
+    //               })
+    //           })
+    //            .Where(t => t.colorSourceInfo != null)
+    //            .FirstOrDefault();
 
-            // if we have no front facing camera, take any camera that is available
-            if (selectedGroup == null)
-            {
-                selectedGroup = availableFrameSourceGroups.Select(group =>
-                new
-                {
-                    sourceGroup = group,
-                    colorSourceInfo = group.SourceInfos.FirstOrDefault((sourceInfo) =>
-                    {
-                        return
-                            (sourceInfo.MediaStreamType == MediaStreamType.VideoPreview ||
-                            sourceInfo.MediaStreamType == MediaStreamType.VideoRecord)
-                        && sourceInfo.SourceKind == MediaFrameSourceKind.Color;
-                    })
-                })
-                .Where(t => t.colorSourceInfo != null)
-                .FirstOrDefault();
-            }
-            if (selectedGroup != null)
-            {
-                return selectedGroup.sourceGroup;
-            }
-        }
-        return null;
-    }
+    //        // if we have no front facing camera, take any camera that is available
+    //        if (selectedGroup == null)
+    //        {
+    //            selectedGroup = availableFrameSourceGroups.Select(group =>
+    //            new
+    //            {
+    //                sourceGroup = group,
+    //                colorSourceInfo = group.SourceInfos.FirstOrDefault((sourceInfo) =>
+    //                {
+    //                    return
+    //                        (sourceInfo.MediaStreamType == MediaStreamType.VideoPreview ||
+    //                        sourceInfo.MediaStreamType == MediaStreamType.VideoRecord)
+    //                    && sourceInfo.SourceKind == MediaFrameSourceKind.Color;
+    //                })
+    //            })
+    //            .Where(t => t.colorSourceInfo != null)
+    //            .FirstOrDefault();
+    //        }
+    //        if (selectedGroup != null)
+    //        {
+    //            return selectedGroup.sourceGroup;
+    //        }
+    //    }
+    //    return null;
+    //}
 
     private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
     {
@@ -179,6 +185,11 @@ class CameraService
 
         if (allGroups.Count == 0)
         {
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                ToastHelper.SendToast("CameraLoadedFailed".GetLocalized(),
+                             TimeSpan.FromSeconds(5));
+            });
             return;
         }
 
@@ -186,7 +197,51 @@ class CameraService
 
         var saveCamera = await setting.ReadSettingAsync<ComboxItemModel>(Constants.DefaultCameraNameKey);
 
-        var selectedGroup = saveCamera != null ? allGroups.Where(c => c.DisplayName == saveCamera.DataValue).FirstOrDefault() : allGroups.FirstOrDefault();
+        MediaFrameSourceGroup selectedGroup = null;
+
+        if (saveCamera != null)
+        {
+            if (allGroups.Count == 1)
+            {
+                selectedGroup = allGroups[0];
+            }
+            else
+            {
+                var data = allGroups.Where(c => c.DisplayName == saveCamera.DataValue).FirstOrDefault();
+
+                if(data == null)
+                {
+                    selectedGroup = allGroups[0];
+                }
+                else
+                {
+                    selectedGroup = data;
+                }
+            }        
+        }
+        else
+        {
+            var selectedGroup1 = allGroups.Select(group =>
+               new
+               {
+                   sourceGroup = group,
+                   colorSourceInfo = group.SourceInfos.FirstOrDefault((sourceInfo) =>
+                   {
+                       return
+                           (sourceInfo.MediaStreamType == MediaStreamType.VideoPreview ||
+                           sourceInfo.MediaStreamType == MediaStreamType.VideoRecord)
+                       && sourceInfo.SourceKind == MediaFrameSourceKind.Color;
+                   })
+               })
+               .Where(t => t.colorSourceInfo != null)
+               .FirstOrDefault();
+
+            if (selectedGroup1 != null)
+            {
+                selectedGroup = selectedGroup1.sourceGroup;
+            }
+        }
+
 
         try
         {
@@ -259,6 +314,10 @@ class CameraService
     /// <param name="sourceGroup">SourceGroup with which to initialize.</param>
     private async Task InitializeMediaCaptureAsync(MediaFrameSourceGroup sourceGroup)
     {
+        if (sourceGroup != null)
+        {
+            _cameraName = sourceGroup.DisplayName;
+        }
         if (_mediaCapture != null)
         {
             return;
@@ -278,7 +337,7 @@ class CameraService
 
             // Set to CPU to ensure frames always contain CPU SoftwareBitmap images
             // instead of preferring GPU D3DSurface images.
-            MemoryPreference = MediaCaptureMemoryPreference.Cpu
+            MemoryPreference = MediaCaptureMemoryPreference.Cpu,
         };
 
         await _mediaCapture.InitializeAsync(settings);
@@ -315,7 +374,7 @@ class CameraService
     /// <summary>
     /// Handles a frame arrived event and renders the frame to the screen.
     /// </summary>
-    private void FrameReader_FrameArrived(MediaFrameReader sender, MediaFrameArrivedEventArgs args)
+    private async void FrameReader_FrameArrived(MediaFrameReader sender, MediaFrameArrivedEventArgs args)
     {
         // TryAcquireLatestFrame will return the latest frame that has not yet been acquired.
         // This can return null if there is no such frame, or if the reader is not in the
@@ -332,23 +391,55 @@ class CameraService
         {
             if (frame != null)
             {
-                var renderer = _frameRenderers[frame.SourceKind];
-
-                var softwareBitmap = FrameRenderer.ConvertToDisplayableImage(frame.VideoMediaFrame);
-
-                var copySoftwareBitmap = SoftwareBitmap.Copy(softwareBitmap);
-
-                renderer.RenderFrame(copySoftwareBitmap);
-
-                if (softwareBitmap != null && !_isProcessing && SoftwareBitmapFrameCaptured != null)
+                if (frame.SourceKind == MediaFrameSourceKind.Color)
                 {
-                    _isProcessing = true;
-                    SoftwareBitmapFrameCaptured.Invoke(this, new SoftwareBitmapEventArgs(softwareBitmap));
-                    Debug.WriteLine("The frame should have been sent to the Intelligence Service");
-                }
-                else if (softwareBitmap != null)
-                {
-                    softwareBitmap.Dispose();
+                    try
+                    {
+                        var renderer = _frameRenderers[frame.SourceKind];
+
+                        var softwareBitmap1 = FrameRenderer.ConvertToDisplayableImage(frame.VideoMediaFrame);
+
+                        using IRandomAccessStream stream = new InMemoryRandomAccessStream();
+
+                        var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+
+                        encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+
+                        if (_cameraName != null && _cameraName.EndsWith("Cam"))
+                        {
+                            encoder.BitmapTransform.Rotation = BitmapRotation.Clockwise270Degrees;
+                        }
+
+                        // Set the software bitmap
+                        encoder.SetSoftwareBitmap(softwareBitmap1);
+
+                        await encoder.FlushAsync();
+
+                        BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+
+                        var softwareBitmap = await decoder.GetSoftwareBitmapAsync(softwareBitmap1.BitmapPixelFormat, softwareBitmap1.BitmapAlphaMode);
+
+                        var copySoftwareBitmap = SoftwareBitmap.Copy(softwareBitmap);
+
+                        renderer.RenderFrame(copySoftwareBitmap);
+
+                        if (softwareBitmap != null && !_isProcessing && SoftwareBitmapFrameCaptured != null)
+                        {
+                            _isProcessing = true;
+                            SoftwareBitmapFrameCaptured.Invoke(this, new SoftwareBitmapEventArgs(softwareBitmap));
+                            Debug.WriteLine("The frame should have been sent to the Intelligence Service");
+                        }
+                        else if (softwareBitmap != null)
+                        {
+                            softwareBitmap.Dispose();
+                        }
+                        softwareBitmap1.Dispose();
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
                 }
             }
         }

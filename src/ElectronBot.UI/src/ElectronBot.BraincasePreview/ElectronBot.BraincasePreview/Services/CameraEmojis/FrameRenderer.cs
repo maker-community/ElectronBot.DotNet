@@ -127,6 +127,7 @@ class FrameRenderer
     public static unsafe SoftwareBitmap ConvertToDisplayableImage(VideoMediaFrame inputFrame)
     {
         SoftwareBitmap result = null;
+
         using (var inputBitmap = inputFrame?.SoftwareBitmap)
         {
             if (inputBitmap != null)
