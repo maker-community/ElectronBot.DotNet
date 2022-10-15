@@ -3,6 +3,7 @@ using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
+using ElectronBot.BraincasePreview.Services.EbotGrpcService;
 using OpenCvSharp;
 using Windows.ApplicationModel;
 
@@ -49,7 +50,7 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
         return Task.CompletedTask;
     }
 
-    public Task PlayActionExpressionAsync(string actionName, List<ElectronBotAction> actions)
+    public async Task PlayActionExpressionAsync(string actionName, List<ElectronBotAction> actions)
     {
         Mat image = new();
 
@@ -108,9 +109,12 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                     currentAction.J6);
 
                 EmojiPlayHelper.Current.Enqueue(frameData);
+
+                //通过grpc通讯和树莓派传输数据 
+                var grpcClient = App.GetService<EbGrpcService>();
+
+                await grpcClient.PlayEmoticonActionFrameAsync(frameData);
             }
         }
-
-        return Task.CompletedTask;
     }
 }

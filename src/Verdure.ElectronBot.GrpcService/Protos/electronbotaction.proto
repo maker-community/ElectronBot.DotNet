@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "Verdure.ElectronBot.GrpcService";
+
+package electronbotactiongrpc;
+
+// The electronbotaction service definition.
+service ElectronBotActionGrpc {
+  // Sends a greeting
+  rpc PlayEmoticonAction (EmoticonActionFrameRequest) returns (EbHelloReply);
+}
+
+// The request message containing the user's name.
+message EmoticonActionFrameRequest {
+ float J1 = 1;
+ float J2 = 2;
+ float J3 = 3;
+ float J4 = 4;
+ float J5 = 5;
+ float J6 = 6;
+ bool Enable = 7;
+ bytes FrameBuffer = 8;
+}
+
+// The response message containing the greetings.
+message EbHelloReply {
+  string message = 9;
+}

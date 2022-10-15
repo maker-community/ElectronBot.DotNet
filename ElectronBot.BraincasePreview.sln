@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronBot.BraincasePrevie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronBot.BraincasePreview.Tests.MSTest", "src\ElectronBot.BraincasePreview.Tests.MSTest\ElectronBot.BraincasePreview.Tests.MSTest.csproj", "{BE221B1D-5216-4592-90CE-C5B854BF4A33}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebService", "WebService", "{713E0140-982E-4FBF-8F3B-F22093A865CD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.ElectronBot.GrpcService", "src\Verdure.ElectronBot.GrpcService\Verdure.ElectronBot.GrpcService.csproj", "{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,9 +99,28 @@ Global
 		{BE221B1D-5216-4592-90CE-C5B854BF4A33}.Release|x64.Build.0 = Release|x64
 		{BE221B1D-5216-4592-90CE-C5B854BF4A33}.Release|x86.ActiveCfg = Release|x86
 		{BE221B1D-5216-4592-90CE-C5B854BF4A33}.Release|x86.Build.0 = Release|x86
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Debug|arm64.Build.0 = Debug|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Debug|x64.Build.0 = Debug|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Debug|x86.Build.0 = Debug|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Release|arm64.ActiveCfg = Release|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Release|arm64.Build.0 = Release|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Release|x64.ActiveCfg = Release|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Release|x64.Build.0 = Release|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Release|x86.ActiveCfg = Release|Any CPU
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FF25CC1E-90B8-449A-AE9C-20F1504DDAC2} = {713E0140-982E-4FBF-8F3B-F22093A865CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0EBF82F3-30A6-4BCC-950A-360C126FC118}
