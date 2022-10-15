@@ -1,5 +1,6 @@
 ﻿using LibUsbDotNet;
 using LibUsbDotNet.Main;
+using Microsoft.Extensions.Logging;
 
 namespace ElectronBot.DotNet
 {
@@ -40,13 +41,26 @@ namespace ElectronBot.DotNet
         // open write endpoint 1.
         private UsbEndpointWriter writer;
 
-        public bool IsConnected { get => isConnected;}
+        IUsbDevice wholeUsbDevice;
+
+        private readonly ILogger<ElectronLowLevel> _logger;
+
+        public ElectronLowLevel(ILogger<ElectronLowLevel> logger)
+        {
+            _logger = logger;
+        }
+
+        public bool IsConnected
+        {
+            get => isConnected;
+        }
 
         /// <summary>
         /// 连接电子
         /// </summary>
+        /// <param name="interfaceID">接口id 默认为0可不传</param>
         /// <returns>返回是否成功</returns>
-        public bool Connect()
+        public bool Connect(int interfaceID = 0)
         {
             if (_usbDevice == null)
             {
@@ -56,6 +70,54 @@ namespace ElectronBot.DotNet
 
                 if (_usbDevice != null)
                 {
+                    _logger.LogInformation("usb device");
+
+                    if (_usbDevice.Info != null)
+                    {
+                        _logger.LogInformation(_usbDevice.Info.SerialString);
+                        _logger.LogInformation(_usbDevice.Info.ProductString);
+                        _logger.LogInformation(_usbDevice.Info.ManufacturerString);
+                    }
+                    else
+                    {
+                        _logger.LogInformation("usb device info is null");
+                    }
+
+                    wholeUsbDevice = _usbDevice as IUsbDevice;
+
+                    _logger.LogInformation("whole usb device");
+
+                    if (!ReferenceEquals(wholeUsbDevice, null))
+                    {
+
+
+                        if (wholeUsbDevice.DriverMode == UsbDevice.DriverModeType.MonoLibUsb)
+                        {
+                            _logger.LogInformation("MonoLibUsb DetachKernelDriver");
+
+                            var retDetach = wholeUsbDevice.SetAutoDetachKernelDriver(true);
+
+                            _logger.LogInformation(retDetach.ToString());
+                        }
+
+                        // This is a "whole" USB device. Before it can be used, 
+                        // the desired configuration and interface must be selected.
+
+                        // Select config #1
+                        wholeUsbDevice.SetConfiguration(1);
+
+                        _logger.LogInformation("DriverMode");
+
+                        _logger.LogInformation(wholeUsbDevice.DriverMode.ToString());
+                        // Claim interface #0.
+                        var ret = wholeUsbDevice.ClaimInterface(interfaceID);
+
+                        _logger.LogInformation("ClaimInterface status");
+
+                        _logger.LogInformation(ret.ToString());
+                    }
+
+
                     reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
 
                     writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
@@ -66,6 +128,7 @@ namespace ElectronBot.DotNet
                 }
                 else
                 {
+                    _logger.LogInformation("usb device is null");
                     return false;
                 }
             }
@@ -83,6 +146,12 @@ namespace ElectronBot.DotNet
         {
             if (_usbDevice != null && _usbDevice.IsOpen)
             {
+                if (!ReferenceEquals(wholeUsbDevice, null))
+                {
+                    // Release interface #0.
+                    wholeUsbDevice.ReleaseInterface(1);
+                }
+
                 isConnected = false;
 
                 return _usbDevice.Close();
