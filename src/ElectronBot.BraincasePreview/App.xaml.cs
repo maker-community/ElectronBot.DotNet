@@ -17,6 +17,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Verdure.ElectronBot.GrpcService;
 using Windows.Media.Playback;
 
 namespace ElectronBot.BraincasePreview;
@@ -138,6 +139,13 @@ public partial class App : Application
 
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
 
+
+            services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
+            {
+                o.Address = new Uri("http://192.168.3.236:5241");
+            });
+
+            services.AddSingleton<Services.EbotGrpcService.EbGrpcService>();
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).

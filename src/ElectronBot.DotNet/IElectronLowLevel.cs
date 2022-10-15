@@ -12,8 +12,9 @@
         /// <summary>
         /// 连接电子
         /// </summary>
+        /// <param name="interfaceID">接口id 默认为0可不传</param>
         /// <returns>返回是否成功</returns>
-        bool Connect();
+        bool Connect(int interfaceID = 0);
         /// <summary>
         /// 断开电子
         /// </summary>
