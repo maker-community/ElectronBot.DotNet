@@ -342,4 +342,7 @@
   <data name="Settings_Thank.Text" xml:space="preserve">
     <value>感谢列表</value>
   </data>
+  <data name="Shell_EmojisEdit.Content" xml:space="preserve">
+    <value>表情动作</value>
+  </data>
 </root>

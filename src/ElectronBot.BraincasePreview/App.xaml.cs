@@ -112,7 +112,8 @@ public partial class App : Application
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
-
+            services.AddTransient<EmojisEditPage>();
+            services.AddTransient<EmojisEditViewModel>();
 
             services.AddTransient<LongShadow>();
 

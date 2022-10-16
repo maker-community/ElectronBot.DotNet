@@ -22,6 +22,7 @@
     <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\cat_with_wry_smile_3d.png" />
     <Content Remove="Assets\model.onnx" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +69,13 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\cat_with_wry_smile_3d.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Views\EmojisEditPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\TodoPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

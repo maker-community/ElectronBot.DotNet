@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="ElectronBot.BraincasePreview.Views.EmojisEditPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:ElectronBot.BraincasePreview.Core.Models"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Page.Resources>
+        <DataTemplate x:Key="PhotosTemplate" x:DataType="models:EmoticonAction">
+            <Grid
+                Background="White"
+                BorderBrush="{ThemeResource SystemAccentColor}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Orientation="Vertical">
+                    <Image
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{x:Bind Avatar}"
+                        Stretch="UniformToFill" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="32"
+                        Text="{x:Bind Name}" />
+                </StackPanel>
+
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid x:Name="ContentArea">
+        <controls:AdaptiveGridView
+            Name="AdaptiveGridViewControl"
+            CornerRadius="8"
+            DesiredWidth="240"
+            IsItemClickEnabled="True"
+            ItemTemplate="{StaticResource PhotosTemplate}"
+            ItemsSource="{x:Bind ViewModel.Actions, Mode=OneWay}"
+            OneRowModeEnabled="False"
+            SelectionMode="Single"
+            StretchContentForSingleRow="False" />
+    </Grid>
+</Page>
