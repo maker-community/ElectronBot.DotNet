@@ -1,3 +1,6 @@
+# [树莓派Zero 2 W（ubuntu-22.04）通过.NET6和libusb操作USB读写](https://www.cnblogs.com/GreenShade/p/16795988.html)
+
+
 # ElectronBot.DotNet
 
 # 此项目为[雉晖君的ElectronBot](https://github.com/peng-zhihui/ElectronBot)提供了.Net版本上位机传输数据的SDK。
