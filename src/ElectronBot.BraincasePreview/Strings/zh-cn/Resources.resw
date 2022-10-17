@@ -345,4 +345,13 @@
   <data name="Shell_EmojisEdit.Content" xml:space="preserve">
     <value>表情动作</value>
   </data>
+  <data name="AddEmojisCancelBtnContent" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="AddEmojisOkBtnContent" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="AddEmojisTitle" xml:space="preserve">
+    <value>添加表情</value>
+  </data>
 </root>

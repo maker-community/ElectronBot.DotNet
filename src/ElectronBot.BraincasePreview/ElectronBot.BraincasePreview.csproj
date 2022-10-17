@@ -31,6 +31,7 @@
     <None Remove="Assets\model.onnx" />
     <None Remove="ClockViews\GooeyFooter.xaml" />
     <None Remove="Controls\ActionTimeline.xaml" />
+    <None Remove="Controls\AddEmojisContentDialog.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
@@ -72,6 +73,9 @@
     <None Update="Assets\cat_with_wry_smile_3d.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\AddEmojisContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\EmojisEditPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <Generator>MSBuild:Compile</Generator>
