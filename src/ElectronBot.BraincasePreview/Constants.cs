@@ -54,35 +54,40 @@ public class Constants
             Name ="AngerName".GetLocalized(),
             NameId="anger",
             Avatar = "ms-appx:///Assets/Emoji/anger.png",
-            Desc ="AngerName".GetLocalized()
+            Desc ="AngerName".GetLocalized(),
+            EmojisType = EmojisType.Default
         },
         new EmoticonAction()
         {
             Name ="DisdainName".GetLocalized(),
             NameId="disdain",
             Avatar = "ms-appx:///Assets/Emoji/disdain.png",
-            Desc ="DisdainName".GetLocalized()
+            Desc ="DisdainName".GetLocalized(),
+            EmojisType = EmojisType.Default
         },
         new EmoticonAction()
         {
             Name ="ExcitedName".GetLocalized(),
             NameId="excited",
             Avatar = "ms-appx:///Assets/Emoji/excited.png",
-            Desc ="ExcitedName".GetLocalized()
+            Desc ="ExcitedName".GetLocalized(),
+            EmojisType = EmojisType.Default
         },
         new EmoticonAction()
         {
             Name ="FearName".GetLocalized(),
             NameId="fear",
             Avatar = "ms-appx:///Assets/Emoji/fear.png",
-            Desc ="FearName".GetLocalized()
+            Desc ="FearName".GetLocalized(),
+            EmojisType = EmojisType.Default
         },
         new EmoticonAction()
         {
             Name ="SadName".GetLocalized(),
             NameId="sad",
             Avatar = "ms-appx:///Assets/Emoji/sad.png",
-            Desc ="SadName".GetLocalized()
+            Desc ="SadName".GetLocalized(),
+            EmojisType = EmojisType.Default
         }
     };
     public static readonly string TwitterConsumerKey = "";

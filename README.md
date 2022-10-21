@@ -10,6 +10,10 @@
 
 ![首页](/Images/HomePage.png)
 
+表情编辑页包含表情视频的上传，表情的播放。
+
+![表情编辑页](/Images/EmojisEdit.png)
+
 ![量子纠缠页](/Images/EmojiPage.png)
 
 目前的一些表盘如下图：

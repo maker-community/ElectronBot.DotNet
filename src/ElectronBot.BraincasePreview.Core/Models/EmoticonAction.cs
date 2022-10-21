@@ -20,4 +20,19 @@ public class EmoticonAction
     {
         get; set;
     } = "";
+
+    public string EmojisVideoPath
+    {
+        get; set;
+    } = "";
+    public EmojisType EmojisType
+    {
+        get; set;
+    }
+}
+
+public enum EmojisType
+{
+    Default = 1,
+    Custom = 2
 }

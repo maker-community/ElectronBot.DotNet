@@ -20,6 +20,9 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     private ICommand _addEmojisVideoCommand;
     public ICommand AddEmojisVideoCommand => _addEmojisVideoCommand ??= new RelayCommand(AddEmojisVideo);
 
+    private ICommand _addEmojisAvatarCommand;
+    public ICommand AddEmojisAvatarCommand => _addEmojisAvatarCommand ??= new RelayCommand(AddEmojisAvatar);
+
 
     private ICommand _openEmojisEditDialogCommand;
     public ICommand OpenEmojisEditDialogCommand => _openEmojisEditDialogCommand ??= new RelayCommand(EmojisEditDialogEmojis);
@@ -27,15 +30,25 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     private ICommand _saveEmojisCommand;
     public ICommand SaveEmojisCommand => _saveEmojisCommand ??= new RelayCommand(SaveEmojis);
 
+    public AddEmojisDialogViewModel()
+    {
+    }
+
+    public EmoticonAction EmoticonAction
+    {
+        get; set;
+    }
     private void SaveEmojis()
     {
-        Actions.Add(new EmoticonAction()
+        EmoticonAction = new EmoticonAction()
         {
             Avatar = EmojisAvatar,
             Desc = EmojisDesc,
             Name = EmojisName,
-            NameId = EmojisNameId
-        });
+            NameId = EmojisNameId,
+            EmojisVideoPath = EmojisVideoUrl,
+            EmojisType = EmojisType.Custom
+        };
     }
 
     private async void EmojisEditDialogEmojis()
@@ -52,7 +65,7 @@ public class AddEmojisDialogViewModel : ObservableRecipient
             };
 
             addEmojisContentDialog.DataContextChanged += AddEmojisContentDialog_DataContextChanged;
-            
+
             await addEmojisContentDialog.ShowAsync();
         }
         catch (Exception)
@@ -71,10 +84,6 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     private string _emojisDesc;
     private string _mojisAvatar;
     private string _emojisVideoUrl;
-    public AddEmojisDialogViewModel()
-    {
-    }
-
 
     private async void AddEmojisVideo()
     {
@@ -108,6 +117,42 @@ public class AddEmojisDialogViewModel : ObservableRecipient
         await FileIO.WriteBytesAsync(storageFile, await file.ReadBytesAsync());
 
         EmojisVideoUrl = storageFile.Path;
+    }
+
+    private async void AddEmojisAvatar()
+    {
+        if (string.IsNullOrWhiteSpace(EmojisNameId))
+        {
+            ToastHelper.SendToast("请设置表情id", TimeSpan.FromSeconds(3));
+            return;
+        }
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+
+        var picker = new Windows.Storage.Pickers.FileOpenPicker
+        {
+            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+
+            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
+        };
+
+        picker.FileTypeFilter.Add(".png");
+        picker.FileTypeFilter.Add(".jpg");
+        picker.FileTypeFilter.Add(".jpeg");
+
+        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+        var file = await picker.PickSingleFileAsync();
+
+        var folder = ApplicationData.Current.LocalFolder;
+
+        var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+        var storageFile = await storageFolder
+            .CreateFileAsync($"{EmojisNameId}.{file.FileType}", CreationCollisionOption.ReplaceExisting);
+
+        await FileIO.WriteBytesAsync(storageFile, await file.ReadBytesAsync());
+
+        EmojisAvatar = storageFile.Path;
     }
 
     /// <summary>

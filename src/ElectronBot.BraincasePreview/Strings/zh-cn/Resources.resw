@@ -381,6 +381,9 @@
   <data name="FearName" xml:space="preserve">
     <value>惊恐</value>
   </data>
+  <data name="PlayEmojis.Text" xml:space="preserve">
+    <value>播放表情</value>
+  </data>
   <data name="SadName" xml:space="preserve">
     <value>难过</value>
   </data>

@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
 using Microsoft.UI.Xaml.Controls;
@@ -13,6 +14,8 @@ namespace ElectronBot.BraincasePreview.ViewModels;
 public class EmojisEditViewModel : ObservableRecipient
 {
     private ObservableCollection<EmoticonAction> _actions = new();
+
+    private readonly IActionExpressionProvider _actionExpressionProvider;
 
     private ICommand _loadedCommand;
     public ICommand LoadedCommand => _loadedCommand ??= new RelayCommand(OnLoaded);
@@ -27,6 +30,48 @@ public class EmojisEditViewModel : ObservableRecipient
     private ICommand _saveEmojisCommand;
     public ICommand SaveEmojisCommand => _saveEmojisCommand ??= new RelayCommand(SaveEmojis);
 
+    private ICommand _playEmojisCommand;
+    public ICommand PlayEmojisCommand => _playEmojisCommand ??= new RelayCommand<object>(PlayEmojis);
+
+    private string _mojisName;
+    private string _mojisNameId;
+    private string _emojisDesc;
+    private string _mojisAvatar;
+    private string _emojisVideoUrl;
+
+
+    public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider)
+    {
+        _actionExpressionProvider = actionExpressionProvider;
+    }
+
+    private void PlayEmojis(object? obj)
+    {
+        if (obj == null)
+        {
+            ToastHelper.SendToast("请选中一个表情播放", TimeSpan.FromSeconds(3));
+            return;
+        }
+        if (obj is EmoticonAction emojis)
+        {
+            try
+            {
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    _actionExpressionProvider.PlayActionExpressionAsync(emojis.NameId);
+                }
+                else
+                {
+                    _actionExpressionProvider.PlayActionExpressionAsync(emojis);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+    }
+
     private void SaveEmojis()
     {
         Actions.Add(new EmoticonAction()
@@ -34,7 +79,8 @@ public class EmojisEditViewModel : ObservableRecipient
             Avatar = EmojisAvatar,
             Desc = EmojisDesc,
             Name = EmojisName,
-            NameId = EmojisNameId
+            NameId = EmojisNameId,
+            EmojisType = EmojisType.Custom
         });
     }
 
@@ -51,8 +97,8 @@ public class EmojisEditViewModel : ObservableRecipient
                 XamlRoot = App.MainWindow.Content.XamlRoot
             };
 
-            addEmojisContentDialog.DataContextChanged += AddEmojisContentDialog_DataContextChanged;
-            
+            addEmojisContentDialog.Closed += AddEmojisContentDialog_Closed;
+
             await addEmojisContentDialog.ShowAsync();
         }
         catch (Exception)
@@ -61,18 +107,20 @@ public class EmojisEditViewModel : ObservableRecipient
         }
     }
 
-    private void AddEmojisContentDialog_DataContextChanged(Microsoft.UI.Xaml.FrameworkElement sender, Microsoft.UI.Xaml.DataContextChangedEventArgs args)
+    private void AddEmojisContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        var value = args.NewValue;
-    }
+        if (sender.DataContext is AddEmojisDialogViewModel viewModel)
+        {
+            if (viewModel is not null)
+            {
+                var emotion = viewModel.EmoticonAction;
 
-    private string _mojisName;
-    private string _mojisNameId;
-    private string _emojisDesc;
-    private string _mojisAvatar;
-    private string _emojisVideoUrl;
-    public EmojisEditViewModel()
-    {
+                if (emotion is not null)
+                {
+                    Actions.Add(emotion);
+                }
+            }
+        }
     }
 
 

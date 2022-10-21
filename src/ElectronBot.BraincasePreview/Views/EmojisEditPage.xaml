@@ -60,11 +60,24 @@
             Grid.Row="1"
             CornerRadius="8"
             DesiredWidth="200"
+            IsEnabled="True"
             IsItemClickEnabled="True"
             ItemTemplate="{StaticResource PhotosTemplate}"
             ItemsSource="{x:Bind ViewModel.Actions, Mode=OneWay}"
             OneRowModeEnabled="False"
             SelectionMode="Single"
-            StretchContentForSingleRow="False" />
+            StretchContentForSingleRow="False">
+            <controls:AdaptiveGridView.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem x:Name="AddPic" x:Uid="PlayEmojis">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Click">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.PlayEmojisCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </MenuFlyoutItem>
+                </MenuFlyout>
+            </controls:AdaptiveGridView.ContextFlyout>
+        </controls:AdaptiveGridView>
     </Grid>
 </Page>
