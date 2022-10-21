@@ -1,6 +1,6 @@
 using ElectronBot.DotNet;
 using Grpc.Core;
-using Verdure.ElectronBot.GrpcService.Models;
+using Verdure.ElectronBot.Core.Models;
 
 namespace Verdure.ElectronBot.GrpcService.Services;
 public class ElectronBotActionService : ElectronBotActionGrpc.ElectronBotActionGrpcBase

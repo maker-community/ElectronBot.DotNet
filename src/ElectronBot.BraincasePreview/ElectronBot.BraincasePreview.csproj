@@ -63,8 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ElectronBot.BraincasePreview.Core\ElectronBot.BraincasePreview.Core.csproj" />
-    <ProjectReference Include="..\ElectronBot.DotNet\ElectronBot.DotNet.csproj" />
+    <ProjectReference Include="..\ElectronBot.BraincasePreview.Core\Verdure.ElectronBot.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">

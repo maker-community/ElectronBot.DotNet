@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ElectronBot.BraincasePreview.Core.Helpers
+namespace Verdure.ElectronBot.Core.Helpers
 {
     public static class StreamExtensions
     {

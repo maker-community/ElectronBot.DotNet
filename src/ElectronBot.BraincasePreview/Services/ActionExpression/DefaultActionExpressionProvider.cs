@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Core.Models;
+using Verdure.ElectronBot.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Services.EbotGrpcService;
@@ -65,7 +65,7 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
             capture.Read(image);
 
             capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
-                capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 1);
+                capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 4);
 
             if (image.Empty())
             {
@@ -108,7 +108,7 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                     currentAction.J5,
                     currentAction.J6);
 
-                EmojiPlayHelper.Current.Enqueue(frameData);
+                //EmojiPlayHelper.Current.Enqueue(frameData);
 
                 //通过grpc通讯和树莓派传输数据 
                 var grpcClient = App.GetService<EbGrpcService>();

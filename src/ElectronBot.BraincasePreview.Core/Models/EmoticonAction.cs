@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.BraincasePreview.Core.Models;
+﻿namespace Verdure.ElectronBot.Core.Models;
 public class EmoticonAction
 {
     public string NameKey

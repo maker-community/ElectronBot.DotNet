@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.BraincasePreview.Core.Helpers
+﻿namespace Verdure.ElectronBot.Core.Helpers
 {
     public enum LoginResultType
     {

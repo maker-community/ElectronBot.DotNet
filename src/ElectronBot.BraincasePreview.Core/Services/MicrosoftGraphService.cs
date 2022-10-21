@@ -1,9 +1,9 @@
 ﻿using System.Net.Http.Headers;
-using ElectronBot.BraincasePreview.Core.Contracts.Services;
-using ElectronBot.BraincasePreview.Core.Helpers;
+using Verdure.ElectronBot.Core.Contracts.Services;
+using Verdure.ElectronBot.Core.Helpers;
 using Microsoft.Graph;
 
-namespace ElectronBot.BraincasePreview.Core.Services;
+namespace Verdure.ElectronBot.Core.Services;
 
 public class MicrosoftGraphService : IMicrosoftGraphService
 {

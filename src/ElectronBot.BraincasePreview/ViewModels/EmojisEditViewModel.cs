@@ -5,12 +5,9 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using ElectronBot.BraincasePreview.Controls;
-using ElectronBot.BraincasePreview.Core.Models;
-using Microsoft.Graph;
 using Microsoft.UI.Xaml.Controls;
-using OpenCvSharp;
+using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 

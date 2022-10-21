@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ElectronBot.BraincasePreview.Core.Models;
+namespace Verdure.ElectronBot.Core.Models;
 public class ComboxItemModel
 {
     public object? Tag

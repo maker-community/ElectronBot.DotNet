@@ -1,4 +1,4 @@
-﻿using ElectronBot.BraincasePreview.Core.Helpers;
+﻿using Verdure.ElectronBot.Core.Helpers;
 using Microsoft.UI.Xaml.Controls;
 
 namespace ElectronBot.BraincasePreview.Helpers;

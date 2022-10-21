@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option csharp_namespace = "Verdure.ElectronBot.GrpcService";
 
-package electronbotactionGrpc;
+package electronbotactiongrpc;
 
 // The electronbotaction service definition.
 service ElectronBotActionGrpc {

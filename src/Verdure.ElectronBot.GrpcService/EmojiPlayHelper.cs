@@ -1,5 +1,6 @@
-﻿using ElectronBot.DotNet;
-using Verdure.ElectronBot.GrpcService.Models;
+﻿using System.Diagnostics;
+using ElectronBot.DotNet;
+using Verdure.ElectronBot.Core.Models;
 
 namespace Verdure.ElectronBot.GrpcService;
 public class EmojiPlayHelper
@@ -17,6 +18,11 @@ public class EmojiPlayHelper
     }
 
     public int Interval
+    {
+        get; set;
+    }
+
+    public bool CanPlay
     {
         get; set;
     }
@@ -45,6 +51,15 @@ public class EmojiPlayHelper
                 {
                     if (_actonFrame.Count > 10)
                     {
+                        CanPlay = true;
+                    }
+
+                    if (CanPlay)
+                    {
+                        Stopwatch stopwatch = Stopwatch.StartNew();
+
+                        stopwatch.Start();
+
                         var frame = _actonFrame.Dequeue();
 
 
@@ -54,11 +69,17 @@ public class EmojiPlayHelper
                             ElectronLowLevel.SetJointAngles(frame.J1, frame.J2, frame.J3, frame.J4, frame.J5, frame.J6, frame.Enable);
                             ElectronLowLevel.Sync();
                         }
+                        stopwatch.Stop();
 
-                        Thread.Sleep(Interval);
+                        Console.WriteLine($"time- send time{stopwatch.ElapsedMilliseconds}");
                     }
-                }
 
+                    if (_actonFrame.Count == 0)
+                    {
+                        CanPlay = false;
+                    }
+                    Thread.Sleep(Interval);
+                }
             }
             catch (Exception ex)
             {
