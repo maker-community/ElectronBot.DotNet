@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using ElectronBot.BraincasePreview.Helpers;
+using Verdure.ElectronBot.Core.Models;
 
 namespace ElectronBot.BraincasePreview;
 public class Constants
 {
     public const string CustomClockTitleKey = "CustomClockTitleKey";
+
+    public const string EmojisFolder = "EmojisAction";
 
     public const string CustomClockTitleConfigKey = "CustomClockTitleConfigKey";
 
@@ -43,8 +44,52 @@ public class Constants
         (new List<string> { "😐", "😄", "😮", "😭", "😠", "🤢", "😨", "🙄" });
 
     public static readonly IList<String> POTENTIAL_EMOJI_LIST = new ReadOnlyCollection<string>
-    (new List<string> { "anger", "disdain", "excited", "fear", "sad"});
+    (new List<string> { "anger", "disdain", "excited", "fear", "sad" });
 
+
+    public static readonly IList<EmoticonAction> EMOJI_ACTION_LIST = new List<EmoticonAction>()
+    {
+        new EmoticonAction()
+        {
+            Name ="AngerName".GetLocalized(),
+            NameId="anger",
+            Avatar = "ms-appx:///Assets/Emoji/anger.png",
+            Desc ="AngerName".GetLocalized(),
+            EmojisType = EmojisType.Default
+        },
+        new EmoticonAction()
+        {
+            Name ="DisdainName".GetLocalized(),
+            NameId="disdain",
+            Avatar = "ms-appx:///Assets/Emoji/disdain.png",
+            Desc ="DisdainName".GetLocalized(),
+            EmojisType = EmojisType.Default
+        },
+        new EmoticonAction()
+        {
+            Name ="ExcitedName".GetLocalized(),
+            NameId="excited",
+            Avatar = "ms-appx:///Assets/Emoji/excited.png",
+            Desc ="ExcitedName".GetLocalized(),
+            EmojisType = EmojisType.Default
+        },
+        new EmoticonAction()
+        {
+            Name ="FearName".GetLocalized(),
+            NameId="fear",
+            Avatar = "ms-appx:///Assets/Emoji/fear.png",
+            Desc ="FearName".GetLocalized(),
+            EmojisType = EmojisType.Default
+        },
+        new EmoticonAction()
+        {
+            Name ="SadName".GetLocalized(),
+            NameId="sad",
+            Avatar = "ms-appx:///Assets/Emoji/sad.png",
+            Desc ="SadName".GetLocalized(),
+            EmojisType = EmojisType.Default
+        }
+    };
     public static readonly string TwitterConsumerKey = "";
     public static readonly string TwitterConsumerSecret = "";
     public static readonly string TwitterCallbackURI = "";

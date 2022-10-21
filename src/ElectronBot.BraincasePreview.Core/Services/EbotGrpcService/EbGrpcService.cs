@@ -1,4 +1,4 @@
-﻿using ElectronBot.BraincasePreview.Core.Models;
+﻿using Verdure.ElectronBot.Core.Models;
 using Google.Protobuf;
 using Verdure.ElectronBot.GrpcService;
 

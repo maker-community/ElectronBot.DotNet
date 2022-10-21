@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.BraincasePreview.Core.Contracts.Services;
+﻿namespace Verdure.ElectronBot.Core.Contracts.Services;
 
 public interface IFileService
 {

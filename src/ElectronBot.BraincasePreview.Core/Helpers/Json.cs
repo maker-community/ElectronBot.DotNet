@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace ElectronBot.BraincasePreview.Core.Helpers;
+namespace Verdure.ElectronBot.Core.Helpers;
 
 public static class Json
 {

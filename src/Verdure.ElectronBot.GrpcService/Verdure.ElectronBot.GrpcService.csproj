@@ -7,16 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\electronbotaction.proto" GrpcServices="Server" />
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ElectronBot.DotNet\ElectronBot.DotNet.csproj" />
+    <ProjectReference Include="..\ElectronBot.BraincasePreview.Core\Verdure.ElectronBot.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

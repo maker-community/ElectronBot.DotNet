@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using ElectronBot.BraincasePreview.Core.Models;
+using Verdure.ElectronBot.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml;

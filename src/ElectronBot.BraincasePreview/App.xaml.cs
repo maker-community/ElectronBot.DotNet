@@ -1,8 +1,8 @@
 ﻿using ElectronBot.BraincasePreview.Activation;
 using ElectronBot.BraincasePreview.ClockViews;
 using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Core.Contracts.Services;
-using ElectronBot.BraincasePreview.Core.Services;
+using Verdure.ElectronBot.Core.Contracts.Services;
+using Verdure.ElectronBot.Core.Services;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Notifications;
@@ -112,7 +112,9 @@ public partial class App : Application
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
-
+            services.AddTransient<EmojisEditPage>();
+            services.AddSingleton<EmojisEditViewModel>();
+            services.AddTransient<AddEmojisDialogViewModel>();
 
             services.AddTransient<LongShadow>();
 
@@ -142,7 +144,8 @@ public partial class App : Application
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
             {
-                o.Address = new Uri("http://192.168.3.236:5241");
+                o.Address = new Uri("http://192.168.3.234:5241");
+                //o.Address = new Uri("http://localhost:5241");
             });
 
             services.AddSingleton<Services.EbotGrpcService.EbGrpcService>();

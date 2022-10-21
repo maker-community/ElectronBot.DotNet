@@ -1,144 +1,165 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.IO.Ports;
+using System.Text.RegularExpressions;
 using ElectronBot.DotNet;
-using ElectronBot.BraincasePreview.Core.Models;
+using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
-using System.IO.Ports;
-using System.Text.RegularExpressions;
 
-namespace ElectronBot.BraincasePreview.Helpers
+namespace ElectronBot.BraincasePreview.Helpers;
+
+public class ElectronBotHelper
 {
-    public class ElectronBotHelper
+    public IElectronLowLevel? ElectronBot
     {
-        public IElectronLowLevel ElectronBot
+        get; set;
+    }
+    private ElectronBotHelper()
+    {
+        ElectronBot = App.GetService<IElectronLowLevel>();
+    }
+    private static ElectronBotHelper? _instance;
+    public static ElectronBotHelper Instance => _instance ??= new ElectronBotHelper();
+
+    private readonly SynchronizationContext? _context = SynchronizationContext.Current;
+
+    private readonly Dictionary<string, string> _electronDic = new();
+
+    private DeviceWatcher? deviceWatcher;
+
+    public bool EbConnected
+    {
+        get; set;
+    }
+
+    public SerialPort SerialPort { get; set; } = new SerialPort();
+
+    public async Task InitAsync()
+    {
+        // Target all Serial Devices present on the system
+        var deviceSelector = SerialDevice.GetDeviceSelector();
+
+        var myDevices = await DeviceInformation.FindAllAsync(deviceSelector);
+
+        deviceWatcher = DeviceInformation.CreateWatcher(deviceSelector);
+
+        deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(OnDeviceAdded);
+        deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
+
+        deviceWatcher.Start();
+    }
+
+    public void PlayEmoticonActionFrame(EmoticonActionFrame frame)
+    {
+        if (EbConnected)
         {
-            get; set;
-        }
-        private ElectronBotHelper()
-        {
-            ElectronBot = App.GetService<IElectronLowLevel>();
-        }
-        private static ElectronBotHelper? _instance;
-        public static ElectronBotHelper Instance => _instance ??= new ElectronBotHelper();
-
-        private readonly SynchronizationContext? _context = SynchronizationContext.Current;
-
-        private readonly Dictionary<string, string> _electronDic = new();
-
-        private DeviceWatcher deviceWatcher;
-
-        public bool EbConnected
-        {
-            get; set;
-        }
-
-        public SerialPort SerialPort { get; set; } = new SerialPort();
-
-        public async Task InitAsync()
-        {
-            // Target all Serial Devices present on the system
-            var deviceSelector = SerialDevice.GetDeviceSelector();
-
-            var myDevices = await DeviceInformation.FindAllAsync(deviceSelector);
-
-            deviceWatcher = DeviceInformation.CreateWatcher(deviceSelector);
-
-            deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(OnDeviceAdded);
-            deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
-
-            deviceWatcher.Start();
-        }
-
-        public void PlayEmoticonActionFrame(EmoticonActionFrame frame)
-        {
-            if (EbConnected)
+            try
             {
-                try
+                if (frame != null)
                 {
-                    if (frame != null)
+                    if (ElectronBot is not null)
                     {
                         ElectronBot.SetImageSrc(frame.FrameBuffer);
                         ElectronBot.SetJointAngles(frame.J1, frame.J2, frame.J3, frame.J4, frame.J5, frame.J6, frame.Enable);
                         ElectronBot.Sync();
-                    }   
+                    }
                 }
-                catch(Exception ex)
-                {
-                    return;
-                }
-               
             }
-        }
-        private Task ConnectDeviceAsync()
-        {
-            _context?.Post(async _ =>
+            catch (Exception)
             {
-                ToastHelper.SendToast("ElectronBotAddTip".GetLocalized(), TimeSpan.FromSeconds(3));
+                return;
+            }
 
-                await Task.Delay(500);
-            }, null);
-
-            return Task.CompletedTask;
         }
-
-        private Task DisconnectDeviceAsync()
+    }
+    private Task ConnectDeviceAsync()
+    {
+        _context?.Post(async _ =>
         {
-            _context?.Post(async _ =>
-            {
-                ToastHelper.SendToast("ElectronBotRemoveTip".GetLocalized(), TimeSpan.FromSeconds(3));
-                await Task.Delay(500);
-            }, null);
+            ToastHelper.SendToast("ElectronBotAddTip".GetLocalized(), TimeSpan.FromSeconds(3));
 
-            return Task.CompletedTask;
-        }
+            await Task.Delay(500);
+        }, null);
 
-        private async void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
+        return Task.CompletedTask;
+    }
+
+    private Task DisconnectDeviceAsync()
+    {
+        _context?.Post(async _ =>
         {
-            if (_electronDic.TryGetValue(args.Id, out var value))
+            ToastHelper.SendToast("ElectronBotRemoveTip".GetLocalized(), TimeSpan.FromSeconds(3));
+            await Task.Delay(500);
+        }, null);
+
+        return Task.CompletedTask;
+    }
+
+    private async void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
+    {
+        if (_electronDic.TryGetValue(args.Id, out var value))
+        {
+            if (value != null)
             {
-                if (value != null)
+                _electronDic.Remove(args.Id);
+
+                if (ElectronBot is not null)
                 {
-                    _electronDic.Remove(args.Id);
-
                     ElectronBot.Disconnect();
 
+                    ElectronBot = null;
+
                     EbConnected = false;
-
-                    if (SerialPort.IsOpen)
-                    {
-                        SerialPort.Close();
-                    }
-
-
-                    await DisconnectDeviceAsync();
                 }
-            };
-        }
 
-        private async void OnDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+                if (SerialPort.IsOpen)
+                {
+                    SerialPort.Close();
+                }
+                await DisconnectDeviceAsync();
+            }
+        };
+    }
+
+    private async void OnDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+    {
+        if (args.Name.Contains("CP210"))
         {
-            if (args.Name.Contains("CP210"))
+            var comName = Regex.Replace(args.Name, @"(.*\()(.*)(\).*)", "$2"); //小括号()
+
+            SerialPort.PortName = comName;
+
+            SerialPort.BaudRate = 115200;
+            try
             {
-                var comName = Regex.Replace(args.Name, @"(.*\()(.*)(\).*)", "$2"); //小括号()
+                if (ElectronBot is not null)
+                {
+                    ElectronBot.Disconnect();
 
-                SerialPort.PortName = comName;
-
-                SerialPort.BaudRate = 115200;
+                    ElectronBot = null;
+                }
 
                 SerialPort.Open();
-
-                _electronDic.Add(args.Id, args.Name);
-
-                ElectronBot = App.GetService<IElectronLowLevel>();
-
-                EbConnected = ElectronBot.Connect();
-
-                await ConnectDeviceAsync();
             }
+            catch (Exception ex)
+            {
+                _context?.Post(async _ =>
+                {
+                    ToastHelper.SendToast($"串口打开异常：{ex.Message}", TimeSpan.FromSeconds(3));
+                    await Task.Delay(500);
+                }, null);
+
+                return;
+            }
+
+
+            _electronDic.Add(args.Id, args.Name);
+
+            ElectronBot = App.GetService<IElectronLowLevel>();
+
+            EbConnected = ElectronBot.Connect();
+
+            await ConnectDeviceAsync();
         }
     }
 }

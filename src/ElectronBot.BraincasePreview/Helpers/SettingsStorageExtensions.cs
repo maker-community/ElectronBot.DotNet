@@ -1,4 +1,4 @@
-﻿using ElectronBot.BraincasePreview.Core.Helpers;
+﻿using Verdure.ElectronBot.Core.Helpers;
 
 using Windows.Storage;
 using Windows.Storage.Streams;

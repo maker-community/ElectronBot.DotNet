@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Core.Helpers;
-using ElectronBot.BraincasePreview.Core.Services;
+using Verdure.ElectronBot.Core.Helpers;
+using Verdure.ElectronBot.Core.Services;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Services;
 using ElectronBot.BraincasePreview.Views;

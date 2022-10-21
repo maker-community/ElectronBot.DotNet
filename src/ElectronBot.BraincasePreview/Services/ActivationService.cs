@@ -1,6 +1,6 @@
 ﻿using ElectronBot.BraincasePreview.Activation;
 using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Core.Services;
+using Verdure.ElectronBot.Core.Services;
 using ElectronBot.BraincasePreview.Views;
 
 using Microsoft.UI.Xaml;

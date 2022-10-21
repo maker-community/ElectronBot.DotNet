@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
-using ElectronBot.BraincasePreview.Core.Helpers;
+using Verdure.ElectronBot.Core.Helpers;
 
 using Microsoft.Identity.Client;
 
-namespace ElectronBot.BraincasePreview.Core.Services;
+namespace Verdure.ElectronBot.Core.Services;
 
 public class IdentityService
 {

@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using ElectronBot.BraincasePreview.Core.Models;
+using Verdure.ElectronBot.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Picker;

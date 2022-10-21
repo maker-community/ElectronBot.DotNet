@@ -2,8 +2,8 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.BraincasePreview.Core.Contracts.Services;
-using ElectronBot.BraincasePreview.Core.Services;
+using Verdure.ElectronBot.Core.Contracts.Services;
+using Verdure.ElectronBot.Core.Services;
 using Microsoft.Graph;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
