@@ -165,7 +165,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
         if (_usbDevice != null && _usbDevice.IsOpen)
         {
-            if (!ReferenceEquals(wholeUsbDevice, null))
+            if (wholeUsbDevice is not null)
             {
                 ret = wholeUsbDevice.ResetDevice();
             }

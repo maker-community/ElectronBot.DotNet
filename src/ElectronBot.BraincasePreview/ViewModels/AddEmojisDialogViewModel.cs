@@ -10,7 +10,7 @@ using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public class EmojisEditViewModel : ObservableRecipient
+public class AddEmojisDialogViewModel : ObservableRecipient
 {
     private ObservableCollection<EmoticonAction> _actions = new();
 
@@ -71,7 +71,7 @@ public class EmojisEditViewModel : ObservableRecipient
     private string _emojisDesc;
     private string _mojisAvatar;
     private string _emojisVideoUrl;
-    public EmojisEditViewModel()
+    public AddEmojisDialogViewModel()
     {
     }
 

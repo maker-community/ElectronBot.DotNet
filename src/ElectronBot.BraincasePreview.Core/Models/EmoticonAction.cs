@@ -1,7 +1,7 @@
 ﻿namespace Verdure.ElectronBot.Core.Models;
 public class EmoticonAction
 {
-    public string NameKey
+    public string NameId
     {
         get; set;
     } = "";

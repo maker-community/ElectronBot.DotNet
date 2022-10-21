@@ -354,4 +354,34 @@
   <data name="AddEmojisTitle" xml:space="preserve">
     <value>添加表情</value>
   </data>
+  <data name="AngerName" xml:space="preserve">
+    <value>愤怒</value>
+  </data>
+  <data name="DisdainName" xml:space="preserve">
+    <value>不屑</value>
+  </data>
+  <data name="EmojisAvatar.Text" xml:space="preserve">
+    <value>图片地址：</value>
+  </data>
+  <data name="EmojisDesc.Text" xml:space="preserve">
+    <value>描述：</value>
+  </data>
+  <data name="EmojisNameId.Text" xml:space="preserve">
+    <value>标识ID：</value>
+  </data>
+  <data name="EmojisNameTitle.Text" xml:space="preserve">
+    <value>名称：</value>
+  </data>
+  <data name="EmojisVideoUrl.Text" xml:space="preserve">
+    <value>视频地址：</value>
+  </data>
+  <data name="ExcitedName" xml:space="preserve">
+    <value>兴奋</value>
+  </data>
+  <data name="FearName" xml:space="preserve">
+    <value>惊恐</value>
+  </data>
+  <data name="SadName" xml:space="preserve">
+    <value>难过</value>
+  </data>
 </root>

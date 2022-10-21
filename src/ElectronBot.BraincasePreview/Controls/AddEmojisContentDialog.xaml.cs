@@ -21,14 +21,14 @@ namespace ElectronBot.BraincasePreview.Controls;
 
 public sealed partial class AddEmojisContentDialog : ContentDialog
 {
-    public EmojisEditViewModel ViewModel
+    public AddEmojisDialogViewModel ViewModel
     {
         get;
     
     }
     public AddEmojisContentDialog()
     {
-        ViewModel = App.GetService<EmojisEditViewModel>();
+        ViewModel = App.GetService<AddEmojisDialogViewModel>();
         InitializeComponent();
     }
 
