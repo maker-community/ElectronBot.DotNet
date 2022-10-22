@@ -21,6 +21,7 @@ public class PageService : IPageService
         Configure<TodoViewModel, TodoPage>();
         Configure<SettingsViewModel, SettingsPage>();
         Configure<ImageCropperPickerViewModel, ImageCropperPage>();
+        Configure<GamepadViewModel, GamepadPage>();
     }
 
     public Type GetPageType(string key)

@@ -33,4 +33,11 @@ public class ElectronBotActionService : ElectronBotActionGrpc.ElectronBotActionG
 
         return Task.FromResult(result);
     }
+
+    public override Task<EbHelloReply> SendMotorControl(MotorControlRequest request, ServerCallContext context)
+    {
+        var result = new EbHelloReply() { Message = "ok" };
+
+        return Task.FromResult(result);
+    }
 }
