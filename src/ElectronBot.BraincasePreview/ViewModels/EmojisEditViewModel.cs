@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
+using ElectronBot.BraincasePreview.Services;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
@@ -39,10 +40,13 @@ public class EmojisEditViewModel : ObservableRecipient
     private string _mojisAvatar;
     private string _emojisVideoUrl;
 
+    private readonly ILocalSettingsService _localSettingsService;
 
-    public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider)
+
+    public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider, ILocalSettingsService localSettingsService)
     {
         _actionExpressionProvider = actionExpressionProvider;
+        _localSettingsService = localSettingsService;
     }
 
     private void PlayEmojis(object? obj)
@@ -209,9 +213,18 @@ public class EmojisEditViewModel : ObservableRecipient
         set => SetProperty(ref _actions, value);
     }
 
-    private void OnLoaded()
+    private async void OnLoaded()
     {
         var emoticonActions = Constants.EMOJI_ACTION_LIST;
         Actions = new ObservableCollection<EmoticonAction>(emoticonActions);
+
+
+        var list = (await _localSettingsService
+            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        foreach (var item in list)
+        {
+            Actions.Add(item);
+        }
     }
 }

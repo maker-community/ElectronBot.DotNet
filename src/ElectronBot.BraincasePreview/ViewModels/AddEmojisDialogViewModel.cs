@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
 using Microsoft.UI.Xaml.Controls;
@@ -30,15 +31,17 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     private ICommand _saveEmojisCommand;
     public ICommand SaveEmojisCommand => _saveEmojisCommand ??= new RelayCommand(SaveEmojis);
 
-    public AddEmojisDialogViewModel()
+    private readonly ILocalSettingsService _localSettingsService;
+    public AddEmojisDialogViewModel(ILocalSettingsService localSettingsService)
     {
+        _localSettingsService = localSettingsService;
     }
 
     public EmoticonAction EmoticonAction
     {
         get; set;
     }
-    private void SaveEmojis()
+    private async void SaveEmojis()
     {
         EmoticonAction = new EmoticonAction()
         {
@@ -49,6 +52,18 @@ public class AddEmojisDialogViewModel : ObservableRecipient
             EmojisVideoPath = EmojisVideoUrl,
             EmojisType = EmojisType.Custom
         };
+
+        var list = (await _localSettingsService
+            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        var actions = new List<EmoticonAction>()
+        {
+            EmoticonAction
+        };
+
+        list.AddRange(actions);
+
+        await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
     }
 
     private async void EmojisEditDialogEmojis()
