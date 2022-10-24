@@ -107,15 +107,16 @@ public class ElectronBotHelper
                 {
                     ElectronBot.Disconnect();
 
-                    ElectronBot = null;
-
-                    EbConnected = false;
+                    ElectronBot = null;                   
                 }
 
                 if (SerialPort.IsOpen)
                 {
                     SerialPort.Close();
                 }
+
+                EbConnected = false;
+
                 await DisconnectDeviceAsync();
             }
         };

@@ -29,6 +29,7 @@
     <Content Remove="Assets\Emoji\fear.png" />
     <Content Remove="Assets\Emoji\sad.png" />
     <Content Remove="Assets\model.onnx" />
+    <Content Remove="Assets\xbox-one-controller.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\DefaultIcon.png" />
@@ -90,6 +91,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Emoji\sad.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Page Update="Views\GamepadPage.xaml">
