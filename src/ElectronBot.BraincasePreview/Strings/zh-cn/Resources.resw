@@ -390,4 +390,10 @@
   <data name="Shell_Gamepad.Content" xml:space="preserve">
     <value>手柄控制器</value>
   </data>
+  <data name="EmojisInfoTitle" xml:space="preserve">
+    <value>表情详情</value>
+  </data>
+  <data name="ViewEmojisInfo.Text" xml:space="preserve">
+    <value>查看详情</value>
+  </data>
 </root>

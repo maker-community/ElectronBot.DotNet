@@ -5,24 +5,25 @@ using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Services;
+using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public class EmojisEditViewModel : ObservableRecipient
+public class EmojisInfoDialogViewModel : ObservableRecipient
 {
     private ObservableCollection<EmoticonAction> _actions = new();
-
-    private readonly IActionExpressionProvider _actionExpressionProvider;
 
     private ICommand _loadedCommand;
     public ICommand LoadedCommand => _loadedCommand ??= new RelayCommand(OnLoaded);
 
     private ICommand _addEmojisVideoCommand;
     public ICommand AddEmojisVideoCommand => _addEmojisVideoCommand ??= new RelayCommand(AddEmojisVideo);
+
+    private ICommand _addEmojisAvatarCommand;
+    public ICommand AddEmojisAvatarCommand => _addEmojisAvatarCommand ??= new RelayCommand(AddEmojisAvatar);
 
 
     private ICommand _openEmojisEditDialogCommand;
@@ -31,91 +32,47 @@ public class EmojisEditViewModel : ObservableRecipient
     private ICommand _saveEmojisCommand;
     public ICommand SaveEmojisCommand => _saveEmojisCommand ??= new RelayCommand(SaveEmojis);
 
-    private ICommand _playEmojisCommand;
-    public ICommand PlayEmojisCommand => _playEmojisCommand ??= new RelayCommand<object>(PlayEmojis);
-
-    private ICommand _emojisInfoCommand;
-    public ICommand EmojisInfoCommand => _emojisInfoCommand ??= new RelayCommand<object>(EmojisInfo);
-
-    private string _mojisName;
-    private string _mojisNameId;
-    private string _emojisDesc;
-    private string _mojisAvatar;
-    private string _emojisVideoUrl;
-
     private readonly ILocalSettingsService _localSettingsService;
 
-
-    public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider, ILocalSettingsService localSettingsService)
+    private ObservableCollection<ElectronBotAction> actions = new();
+    public EmojisInfoDialogViewModel(ILocalSettingsService localSettingsService)
     {
-        _actionExpressionProvider = actionExpressionProvider;
         _localSettingsService = localSettingsService;
     }
 
-    private void PlayEmojis(object? obj)
+    public ObservableCollection<ElectronBotAction> ActionList
     {
-        if (obj == null)
-        {
-            ToastHelper.SendToast("请选中一个表情播放", TimeSpan.FromSeconds(3));
-            return;
-        }
-        if (obj is EmoticonAction emojis)
-        {
-            try
-            {
-                if (emojis.EmojisType == EmojisType.Default)
-                {
-                    _actionExpressionProvider.PlayActionExpressionAsync(emojis.NameId);
-                }
-                else
-                {
-                    _actionExpressionProvider.PlayActionExpressionAsync(emojis);
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-        }
+        get => actions;
+        set => SetProperty(ref actions, value);
     }
 
-    private async void EmojisInfo(object? obj)
+    public EmoticonAction EmoticonAction
     {
-        try
-        {
-            var emojisInfoContentDialog = new EmojisInfoContentDialog
-            {
-                Title = "EmojisInfoTitle".GetLocalized(),
-                PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
-                CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
-                DefaultButton = ContentDialogButton.Primary,
-                XamlRoot = App.MainWindow.Content.XamlRoot
-            };
-
-            emojisInfoContentDialog.Closed += EmojisInfoContentDialog_Closed;
-
-            await emojisInfoContentDialog.ShowAsync();
-        }
-        catch (Exception)
-        {
-
-        }
+        get; set;
     }
-
-    private void EmojisInfoContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    private async void SaveEmojis()
     {
-    }
-
-    private void SaveEmojis()
-    {
-        Actions.Add(new EmoticonAction()
+        EmoticonAction = new EmoticonAction()
         {
             Avatar = EmojisAvatar,
             Desc = EmojisDesc,
             Name = EmojisName,
             NameId = EmojisNameId,
+            EmojisVideoPath = EmojisVideoUrl,
             EmojisType = EmojisType.Custom
-        });
+        };
+
+        var list = (await _localSettingsService
+            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        var actions = new List<EmoticonAction>()
+        {
+            EmoticonAction
+        };
+
+        list.AddRange(actions);
+
+        await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
     }
 
     private async void EmojisEditDialogEmojis()
@@ -131,7 +88,7 @@ public class EmojisEditViewModel : ObservableRecipient
                 XamlRoot = App.MainWindow.Content.XamlRoot
             };
 
-            addEmojisContentDialog.Closed += AddEmojisContentDialog_Closed;
+            addEmojisContentDialog.DataContextChanged += AddEmojisContentDialog_DataContextChanged;
 
             await addEmojisContentDialog.ShowAsync();
         }
@@ -141,22 +98,16 @@ public class EmojisEditViewModel : ObservableRecipient
         }
     }
 
-    private void AddEmojisContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    private void AddEmojisContentDialog_DataContextChanged(Microsoft.UI.Xaml.FrameworkElement sender, Microsoft.UI.Xaml.DataContextChangedEventArgs args)
     {
-        if (sender.DataContext is AddEmojisDialogViewModel viewModel)
-        {
-            if (viewModel is not null)
-            {
-                var emotion = viewModel.EmoticonAction;
-
-                if (emotion is not null)
-                {
-                    Actions.Add(emotion);
-                }
-            }
-        }
+        var value = args.NewValue;
     }
 
+    private string _mojisName;
+    private string _mojisNameId;
+    private string _emojisDesc;
+    private string _mojisAvatar;
+    private string _emojisVideoUrl;
 
     private async void AddEmojisVideo()
     {
@@ -190,6 +141,42 @@ public class EmojisEditViewModel : ObservableRecipient
         await FileIO.WriteBytesAsync(storageFile, await file.ReadBytesAsync());
 
         EmojisVideoUrl = storageFile.Path;
+    }
+
+    private async void AddEmojisAvatar()
+    {
+        if (string.IsNullOrWhiteSpace(EmojisNameId))
+        {
+            ToastHelper.SendToast("请设置表情id", TimeSpan.FromSeconds(3));
+            return;
+        }
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+
+        var picker = new Windows.Storage.Pickers.FileOpenPicker
+        {
+            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+
+            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
+        };
+
+        picker.FileTypeFilter.Add(".png");
+        picker.FileTypeFilter.Add(".jpg");
+        picker.FileTypeFilter.Add(".jpeg");
+
+        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+        var file = await picker.PickSingleFileAsync();
+
+        var folder = ApplicationData.Current.LocalFolder;
+
+        var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+        var storageFile = await storageFolder
+            .CreateFileAsync($"{EmojisNameId}.{file.FileType}", CreationCollisionOption.ReplaceExisting);
+
+        await FileIO.WriteBytesAsync(storageFile, await file.ReadBytesAsync());
+
+        EmojisAvatar = storageFile.Path;
     }
 
     /// <summary>
@@ -243,18 +230,9 @@ public class EmojisEditViewModel : ObservableRecipient
         set => SetProperty(ref _actions, value);
     }
 
-    private async void OnLoaded()
+    private void OnLoaded()
     {
         var emoticonActions = Constants.EMOJI_ACTION_LIST;
         Actions = new ObservableCollection<EmoticonAction>(emoticonActions);
-
-
-        var list = (await _localSettingsService
-            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
-
-        foreach (var item in list)
-        {
-            Actions.Add(item);
-        }
     }
 }

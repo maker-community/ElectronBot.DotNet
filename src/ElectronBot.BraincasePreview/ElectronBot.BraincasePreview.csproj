@@ -38,6 +38,7 @@
     <None Remove="ClockViews\GooeyFooter.xaml" />
     <None Remove="Controls\ActionTimeline.xaml" />
     <None Remove="Controls\AddEmojisContentDialog.xaml" />
+    <None Remove="Controls\EmojisInfoContentDialog.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\GamepadPage.xaml" />
@@ -96,6 +97,10 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\EmojisInfoContentDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\GamepadPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

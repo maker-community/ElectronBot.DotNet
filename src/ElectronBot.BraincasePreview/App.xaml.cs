@@ -116,6 +116,8 @@ public partial class App : Application
             services.AddTransient<EmojisEditViewModel>();
             services.AddTransient<AddEmojisDialogViewModel>();
 
+            services.AddTransient<EmojisInfoDialogViewModel>();
+
             services.AddTransient<GamepadViewModel>();
             services.AddTransient<GamepadPage>();
 
