@@ -6,6 +6,7 @@ using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
@@ -19,8 +20,9 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
     private ICommand _loadedCommand;
     public ICommand LoadedCommand => _loadedCommand ??= new RelayCommand(OnLoaded);
 
-    private ICommand _addEmojisVideoCommand;
-    public ICommand AddEmojisVideoCommand => _addEmojisVideoCommand ??= new RelayCommand(AddEmojisVideo);
+    private ICommand _recordCommand;
+    public ICommand RecordCommand => _recordCommand ??= new RelayCommand<bool>(RecordEmojisAction);
+
 
     private ICommand _addEmojisAvatarCommand;
     public ICommand AddEmojisAvatarCommand => _addEmojisAvatarCommand ??= new RelayCommand(AddEmojisAvatar);
@@ -35,9 +37,43 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
     private readonly ILocalSettingsService _localSettingsService;
 
     private ObservableCollection<ElectronBotAction> actions = new();
-    public EmojisInfoDialogViewModel(ILocalSettingsService localSettingsService)
+
+    private readonly DispatcherTimer _dispatcherTimer;
+
+    private int _interval = 500;
+    public EmojisInfoDialogViewModel(ILocalSettingsService localSettingsService, DispatcherTimer dispatcherTimer)
     {
         _localSettingsService = localSettingsService;
+        _dispatcherTimer = dispatcherTimer;
+
+        _dispatcherTimer.Tick += DispatcherTimer_Tick;
+    }
+
+    private void DispatcherTimer_Tick(object? sender, object e)
+    {
+        if (ElectronBotHelper.Instance.EbConnected)
+        {
+            var data = new byte[240 * 240 * 3];
+
+            var frame = new EmoticonActionFrame(data);
+
+            ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
+
+            var jointAngles = ElectronBotHelper.Instance.ElectronBot.GetJointAngles();
+
+            var actionData = new ElectronBotAction()
+            {
+                Id = Guid.NewGuid().ToString(),
+                J1 = (int)jointAngles[0],
+                J2 = (int)jointAngles[1],
+                J3 = (int)jointAngles[2],
+                J4 = (int)jointAngles[3],
+                J5 = (int)jointAngles[4],
+                J6 = (int)jointAngles[5]
+            };
+
+            ActionList.Add(actionData);
+        }
     }
 
     public ObservableCollection<ElectronBotAction> ActionList
@@ -46,33 +82,63 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
         set => SetProperty(ref actions, value);
     }
 
+    public int Interval
+    {
+        get => _interval;
+        set => SetProperty(ref _interval, value);
+    }
     public EmoticonAction EmoticonAction
     {
         get; set;
     }
+
+    private void RecordEmojisAction(bool obj)
+    {
+        if (!obj)
+        {
+            if (!ElectronBotHelper.Instance.EbConnected)
+            {
+                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+            else
+            {
+                // await ResetActionAsync();
+
+                EmojiPlayHelper.Current.Interval = 0;
+
+                _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
+                _dispatcherTimer.Start();
+            }
+        }
+        else
+        {
+            _dispatcherTimer.Stop();
+        }
+    }
+
     private async void SaveEmojis()
     {
-        EmoticonAction = new EmoticonAction()
-        {
-            Avatar = EmojisAvatar,
-            Desc = EmojisDesc,
-            Name = EmojisName,
-            NameId = EmojisNameId,
-            EmojisVideoPath = EmojisVideoUrl,
-            EmojisType = EmojisType.Custom
-        };
+        //EmoticonAction = new EmoticonAction()
+        //{
+        //    Avatar = EmojisAvatar,
+        //    Desc = EmojisDesc,
+        //    Name = EmojisName,
+        //    NameId = EmojisNameId,
+        //    EmojisVideoPath = EmojisVideoUrl,
+        //    EmojisType = EmojisType.Custom
+        //};
 
-        var list = (await _localSettingsService
-            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+        //var list = (await _localSettingsService
+        //    .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
 
-        var actions = new List<EmoticonAction>()
-        {
-            EmoticonAction
-        };
+        //var actions = new List<EmoticonAction>()
+        //{
+        //    EmoticonAction
+        //};
 
-        list.AddRange(actions);
+        //list.AddRange(actions);
 
-        await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
+        //await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
     }
 
     private async void EmojisEditDialogEmojis()

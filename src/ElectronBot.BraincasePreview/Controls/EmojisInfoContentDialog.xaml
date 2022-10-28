@@ -30,9 +30,14 @@
             <StackPanel Orientation="Horizontal">
                 <ToggleSwitch
                     x:Name="RecordSwitch"
-                    IsOn="False"
                     OffContent="录制动作"
-                    OnContent="录制中" />
+                    OnContent="录制中">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Toggled">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.RecordCommand}" CommandParameter="{x:Bind RecordSwitch.IsOn, Mode=OneWay}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ToggleSwitch>
                 <ProgressRing Width="32" IsActive="{x:Bind RecordSwitch.IsOn, Mode=OneWay}" />
             </StackPanel>
         </StackPanel>
@@ -43,7 +48,8 @@
                 Maximum="5000"
                 Minimum="0"
                 TickFrequency="500"
-                TickPlacement="Outside" />
+                TickPlacement="Outside"
+                Value="{x:Bind ViewModel.Interval, Mode=TwoWay}" />
         </StackPanel>
         <Border
             Grid.Row="2"
