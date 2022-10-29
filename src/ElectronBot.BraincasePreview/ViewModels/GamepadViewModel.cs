@@ -1,8 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
+using ElectronBot.BraincasePreview.Core.Models;
+using ElectronBot.BraincasePreview.Services.EbotGrpcService;
 using Microsoft.UI.Xaml;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Gaming.Input;
@@ -41,6 +44,10 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
     private double _rightThumbstickX;
 
     private double _rightThumbstickY;
+
+    private bool isHoldRightThumbstick = false;
+
+    private bool isReleaseRightThumbstick = false;
 
 
     public GamepadViewModel()
@@ -143,7 +150,7 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
         _dispatcherTimer.Tick += DispatcherTimer_Tick;
     }
 
-    private void DispatcherTimer_Tick(object? sender, object e)
+    private async void DispatcherTimer_Tick(object? sender, object e)
     {
 
         if (_controller != null)
@@ -163,6 +170,128 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
 
             RightThumbstickX = reading.RightThumbstickX;
             RightThumbstickY = reading.RightThumbstickY;
+
+
+            if (reading.Buttons.HasFlag(GamepadButtons.RightThumbstick))
+            {
+                isHoldRightThumbstick = true;
+            }
+
+
+            if(isHoldRightThumbstick == true && !reading.Buttons.HasFlag(GamepadButtons.RightThumbstick))
+            {
+                isReleaseRightThumbstick = true;
+
+                isHoldRightThumbstick = false;
+            }
+
+            //发送表情
+            if (isHoldRightThumbstick == false && isReleaseRightThumbstick == true)
+            {
+                Debug.Write($"send emojis---{DateTime.Now.ToString()}");
+
+                isReleaseRightThumbstick = false;
+
+                isHoldRightThumbstick = false;
+            }
+
+            var init1 = 0;
+
+            var init2 = 0;
+
+            var init3 = 0;
+
+            var init4 = 0;
+
+            var enableA = 0;
+
+            var enableB = 0;
+
+            //左转
+            if (reading.LeftThumbstickX < 0)
+            {
+                init1 = 1;
+
+                init2 = 0;
+
+                init3 = 1;
+
+                init4 = 0;
+            }
+
+            //右转
+
+            if (reading.LeftThumbstickX > 0)
+            {
+                init1 = 0;
+
+                init2 = 1;
+
+                init3 = 0;
+
+                init4 = 1;
+            }
+
+            //后退
+
+            if (reading.LeftTrigger > 0)
+            {
+                init1 = 1;
+
+                init2 = 0;
+
+                init3 = 0;
+
+                init4 = 1;
+            }
+
+            //前进
+
+            if (reading.RightTrigger > 0)
+            {
+                init1 = 0;
+
+                init2 = 1;
+
+                init3 = 1;
+
+                init4 = 0;
+            }
+
+
+            if ((int)reading.LeftThumbstickX == 0 && (int)reading.RightTrigger == 0 && (int)reading.LeftTrigger == 0)
+            {
+                init1 = 0;
+
+                init2 = 0;
+
+                init3 = 0;
+
+                init4 = 0;
+            }
+
+            var data = new MotorControlRequestModel
+            {
+                Init1 = init1,
+                Init2 = init2,
+                Init3 = init3,
+                Init4 = init4,
+                EnableA = enableA,
+                EnableB = enableB
+            };
+
+            try
+            {
+
+                //通过grpc通讯和树莓派传输数据 
+                var grpcClient = App.GetService<EbGrpcService>();
+
+                _ = await grpcClient.MotorControlAsync(data);
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 
