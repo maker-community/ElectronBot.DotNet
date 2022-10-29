@@ -29,6 +29,7 @@
     <Content Remove="Assets\Emoji\fear.png" />
     <Content Remove="Assets\Emoji\sad.png" />
     <Content Remove="Assets\model.onnx" />
+    <Content Remove="Assets\xbox-one-controller.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\DefaultIcon.png" />
@@ -37,8 +38,10 @@
     <None Remove="ClockViews\GooeyFooter.xaml" />
     <None Remove="Controls\ActionTimeline.xaml" />
     <None Remove="Controls\AddEmojisContentDialog.xaml" />
+    <None Remove="Controls\EmojisInfoContentDialog.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Views\CameraEmojisPage.xaml" />
+    <None Remove="Views\GamepadPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
     <None Remove="Views\TodoPage.xaml" />
   </ItemGroup>
@@ -63,7 +66,6 @@
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.6.0.20220608" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.6.0.20220608" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
     <PackageReference Include="WinUIEx" Version="1.8.0" />
   </ItemGroup>
 
@@ -92,6 +94,16 @@
     <None Update="Assets\Emoji\sad.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\xbox-one-controller.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Controls\EmojisInfoContentDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\GamepadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AddEmojisContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -113,8 +113,13 @@ public partial class App : Application
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
             services.AddTransient<EmojisEditPage>();
-            services.AddSingleton<EmojisEditViewModel>();
+            services.AddTransient<EmojisEditViewModel>();
             services.AddTransient<AddEmojisDialogViewModel>();
+
+            services.AddTransient<EmojisInfoDialogViewModel>();
+
+            services.AddTransient<GamepadViewModel>();
+            services.AddTransient<GamepadPage>();
 
             services.AddTransient<LongShadow>();
 
@@ -164,7 +169,7 @@ public partial class App : Application
 
         e.Handled = true;
 
-        ElectronBotHelper.Instance.ElectronBot.Disconnect();
+        ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
         // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
@@ -185,7 +190,7 @@ public partial class App : Application
     {
         try
         {
-            ElectronBotHelper.Instance.ElectronBot.Disconnect();
+            ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
 
             IntelligenceService.Current.CleanUp();
 

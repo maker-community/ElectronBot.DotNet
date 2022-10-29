@@ -1,5 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -59,56 +118,360 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>ElectronBot.BraincasePreview</value>
+    <value>电子脑壳</value>
   </data>
-	<data name="AppDescription" xml:space="preserve">
-		<value>ElectronBot.BraincasePreview</value>
-  	</data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>这是一个windows app sdk 开发的上位机软件，主要是为开源项目ElectronBot机器人开发的上位机，主要提供动作编排和动作播放和和显示。</value>
+  </data>
   <data name="Shell_Main.Content" xml:space="preserve">
-    <value>Main</value>
+    <value>电子控制</value>
   </data>
-  <data name="Shell_Blank.Content" xml:space="preserve">
-    <value>Blank</value>
+  <data name="WebView_Loading.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="WebView_FailedMessage.Text" xml:space="preserve">
+    <value>Page failed to load. Check connection and reload.</value>
+  </data>
+  <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Browser back</value>
+  </data>
+  <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Browser back</value>
+  </data>
+  <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Browser forward</value>
+  </data>
+  <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Browser forward</value>
+  </data>
+  <data name="WebView_Reload.Content" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="ReloadButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="ReloadButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="Shell_WebView.Content" xml:space="preserve">
+    <value>WebView</value>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
-    <value>Personalization</value>
+    <value>个性化</value>
   </data>
   <data name="Settings_Theme.Text" xml:space="preserve">
-    <value>Theme</value>
+    <value>主题</value>
   </data>
   <data name="Settings_Theme_Light.Content" xml:space="preserve">
-    <value>Light</value>
+    <value>浅色</value>
   </data>
   <data name="Settings_Theme_Dark.Content" xml:space="preserve">
-    <value>Dark</value>
+    <value>深色</value>
   </data>
   <data name="Settings_Theme_Default.Content" xml:space="preserve">
-    <value>Default</value>
+    <value>默认</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
-    <value>About this application</value>
+    <value>关于此软件</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>TODO: Replace with your app description.</value>
+    <value>这是一个windows app sdk 开发的上位机软件，主要是为开源项目ElectronBot机器人开发的上位机，主要提供动作编排和动作播放和和显示。</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
-    <value>Privacy Statement</value>
+    <value>隐私策略</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
-    <value>https://YourPrivacyUrlGoesHere/</value>
+    <value>https://blog.csdn.net/weixin_43500426/article/details/83315983</value>
   </data>
-  <data name="AppNotificationSamplePayload" xml:space="preserve">
-    <value>&lt;toast launch="action=ToastClick"&gt;
-  &lt;visual&gt;
-    &lt;binding template="ToastGeneric"&gt;
-      &lt;text&gt;App Notification&lt;/text&gt;
-      &lt;text&gt;&lt;/text&gt;
-      &lt;image placement="appLogoOverride" hint-crop="circle" src="{0}Assets/WindowIcon.ico"/&gt;
-    &lt;/binding&gt;
-  &lt;/visual&gt;
-  &lt;actions&gt;
-    &lt;action content="Settings" arguments="action=Settings"/&gt;
-  &lt;/actions&gt;
-&lt;/toast&gt;</value>
+  <data name="ElectronBotAddTip" xml:space="preserve">
+    <value>电子已连接</value>
+  </data>
+  <data name="ElectronBotRemoveTip" xml:space="preserve">
+    <value>电子已移除</value>
+  </data>
+  <data name="ExportToastText" xml:space="preserve">
+    <value>动作导出成功</value>
+  </data>
+  <data name="PlayEmptyToastText" xml:space="preserve">
+    <value>请添加或者导入动作</value>
+  </data>
+  <data name="PlayErrorToastText" xml:space="preserve">
+    <value>请切换到控制模式</value>
+  </data>
+  <data name="PlayClearToastText" xml:space="preserve">
+    <value>列表已清空</value>
+  </data>
+  <data name="PlayResetToastText" xml:space="preserve">
+    <value>动作已重置</value>
+  </data>
+  <data name="ChangeClockViewCB.PlaceholderText" xml:space="preserve">
+    <value>切换表盘</value>
+  </data>
+  <data name="ClearBtn.Content" xml:space="preserve">
+    <value>清除列表</value>
+  </data>
+  <data name="ControlMode.Content" xml:space="preserve">
+    <value>控制模式</value>
+  </data>
+  <data name="DefautView" xml:space="preserve">
+    <value>默认效果</value>
+  </data>
+  <data name="DisableModeRb.Content" xml:space="preserve">
+    <value>禁用模式</value>
+  </data>
+  <data name="EntitySchemaRb.Content" xml:space="preserve">
+    <value>录制模式</value>
+  </data>
+  <data name="ExportBtn.Content" xml:space="preserve">
+    <value>导出动作</value>
+  </data>
+  <data name="ImportBtn.Content" xml:space="preserve">
+    <value>导入动作</value>
+  </data>
+  <data name="LongShadowView" xml:space="preserve">
+    <value>长阴影</value>
+  </data>
+  <data name="ModeRadioBtn.Header" xml:space="preserve">
+    <value>选择模式</value>
+  </data>
+  <data name="PlayBtn.Content" xml:space="preserve">
+    <value>播放动作</value>
+  </data>
+  <data name="PleaseConnectToastText" xml:space="preserve">
+    <value>请连接电子（初次使用请检测驱动）</value>
+  </data>
+  <data name="ResetBtn.Content" xml:space="preserve">
+    <value>重置动作</value>
+  </data>
+  <data name="Sd_Bottom.Header" xml:space="preserve">
+    <value>底盘转动(J6)</value>
+  </data>
+  <data name="Sd_Head.Header" xml:space="preserve">
+    <value>头部(J1)</value>
+  </data>
+  <data name="Sd_LeftArm.Header" xml:space="preserve">
+    <value>左臂旋转(J3)</value>
+  </data>
+  <data name="Sd_LeftArmExpansion.Header" xml:space="preserve">
+    <value>左臂展开(J2)</value>
+  </data>
+  <data name="Sd_RightArm.Header" xml:space="preserve">
+    <value>右臂旋转(J5)</value>
+  </data>
+  <data name="Sd_RightArmExpansion.Header" xml:space="preserve">
+    <value>右臂展开(J4)</value>
+  </data>
+  <data name="StopBtn.Content" xml:space="preserve">
+    <value>停止动作</value>
+  </data>
+  <data name="AddPic.Text" xml:space="preserve">
+    <value>添加图片</value>
+  </data>
+  <data name="ImageCropperAcceptBtn.Label" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="ImageCropperCancelBtn.Label" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CameraHelperResultFailed" xml:space="preserve">
+    <value>🤷 Unable to continue...</value>
+  </data>
+  <data name="EmotionAnger" xml:space="preserve">
+    <value>愤怒</value>
+  </data>
+  <data name="EmotionContempt" xml:space="preserve">
+    <value>蔑视</value>
+  </data>
+  <data name="EmotionDisgust" xml:space="preserve">
+    <value>厌恶</value>
+  </data>
+  <data name="EmotionFear" xml:space="preserve">
+    <value>恐惧</value>
+  </data>
+  <data name="EmotionHappiness" xml:space="preserve">
+    <value>快乐</value>
+  </data>
+  <data name="EmotionNeutral" xml:space="preserve">
+    <value>中性</value>
+  </data>
+  <data name="EmotionSadness" xml:space="preserve">
+    <value>悲伤</value>
+  </data>
+  <data name="EmotionSurprise" xml:space="preserve">
+    <value>惊讶</value>
+  </data>
+  <data name="ModelLoadedFailed" xml:space="preserve">
+    <value>The machine learning model did not load successfully. 🤔 Unable to continue...</value>
+  </data>
+  <data name="Shell_CameraEmojis.Content" xml:space="preserve">
+    <value>表情识别</value>
+  </data>
+  <data name="RemoveAction.Text" xml:space="preserve">
+    <value>移除动作</value>
+  </data>
+  <data name="CameraErrorText" xml:space="preserve">
+    <value>摄像头打开失败</value>
+  </data>
+  <data name="DialogAuthenticationTitle" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="DialogNoNetworkAvailableContent" xml:space="preserve">
+    <value>ApplicatioThere is no internet connection, please connect to the internet and try again.</value>
+  </data>
+  <data name="DialogStatusUnknownErrorContent" xml:space="preserve">
+    <value>Something went wrong during the login, please try again.</value>
+  </data>
+  <data name="GooeyFooter" xml:space="preserve">
+    <value>融合效果</value>
+  </data>
+  <data name="Shell_LogIn.Text" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Shell_Todo.Content" xml:space="preserve">
+    <value>微软待办</value>
+  </data>
+  <data name="CameraLoadedFailed" xml:space="preserve">
+    <value>暂未发现摄像头</value>
+  </data>
+  <data name="Settings_Thank.Text" xml:space="preserve">
+    <value>感谢列表</value>
+  </data>
+  <data name="Shell_EmojisEdit.Content" xml:space="preserve">
+    <value>表情动作</value>
+  </data>
+  <data name="AddEmojisCancelBtnContent" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="AddEmojisOkBtnContent" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="AddEmojisTitle" xml:space="preserve">
+    <value>添加表情</value>
+  </data>
+  <data name="AngerName" xml:space="preserve">
+    <value>愤怒</value>
+  </data>
+  <data name="DisdainName" xml:space="preserve">
+    <value>不屑</value>
+  </data>
+  <data name="EmojisAvatar.Text" xml:space="preserve">
+    <value>图片地址：</value>
+  </data>
+  <data name="EmojisDesc.Text" xml:space="preserve">
+    <value>描述：</value>
+  </data>
+  <data name="EmojisNameId.Text" xml:space="preserve">
+    <value>标识ID：</value>
+  </data>
+  <data name="EmojisNameTitle.Text" xml:space="preserve">
+    <value>名称：</value>
+  </data>
+  <data name="EmojisVideoUrl.Text" xml:space="preserve">
+    <value>视频地址：</value>
+  </data>
+  <data name="ExcitedName" xml:space="preserve">
+    <value>兴奋</value>
+  </data>
+  <data name="FearName" xml:space="preserve">
+    <value>惊恐</value>
+  </data>
+  <data name="PlayEmojis.Text" xml:space="preserve">
+    <value>播放表情</value>
+  </data>
+  <data name="SadName" xml:space="preserve">
+    <value>难过</value>
+  </data>
+  <data name="Shell_Gamepad.Content" xml:space="preserve">
+    <value>手柄控制器</value>
+  </data>
+  <data name="Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>添加动作帧</value>
+  </data>
+  <data name="AddEmojisBtn.Label" xml:space="preserve">
+    <value>添加新表情</value>
+  </data>
+  <data name="AppLogoAuthor.Content" xml:space="preserve">
+    <value>应用LOGO作者(oooooohmygosh)B站地址</value>
+  </data>
+  <data name="AppTheme.Text" xml:space="preserve">
+    <value>应用主题</value>
+  </data>
+  <data name="AudioCB.Header" xml:space="preserve">
+    <value>默认音频设备</value>
+  </data>
+  <data name="AudioCB.PlaceholderText" xml:space="preserve">
+    <value>默认音频设备</value>
+  </data>
+  <data name="CameraCB.Header" xml:space="preserve">
+    <value>默认相机</value>
+  </data>
+  <data name="CameraCB.PlaceholderText" xml:space="preserve">
+    <value>默认相机</value>
+  </data>
+  <data name="ClockAuthor.Content" xml:space="preserve">
+    <value>表盘项目参考作者(DinoChan)Github地址</value>
+  </data>
+  <data name="ClockConfig.Text" xml:space="preserve">
+    <value>表盘配置</value>
+  </data>
+  <data name="ClockCumstomWords.Text" xml:space="preserve">
+    <value>表盘自定义文字：</value>
+  </data>
+  <data name="ClockCustomFontSize.Text" xml:space="preserve">
+    <value>表盘自定义文字字体大小：</value>
+  </data>
+  <data name="ClockParameter.Text" xml:space="preserve">
+    <value>设置表盘参数</value>
+  </data>
+  <data name="DefaultDeviceConfig.Text" xml:space="preserve">
+    <value>默认设备设置</value>
+  </data>
+  <data name="ElectronBotInfo.Content" xml:space="preserve">
+    <value>电子脑壳介绍地址</value>
+  </data>
+  <data name="EmojisInfoTitle" xml:space="preserve">
+    <value>表情详情</value>
+  </data>
+  <data name="Export.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>导出动作</value>
+  </data>
+  <data name="GamepadViewCB.PlaceholderText" xml:space="preserve">
+    <value>选择手柄</value>
+  </data>
+  <data name="Import.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>导入动作</value>
+  </data>
+  <data name="Reference.Text" xml:space="preserve">
+    <value>参考的项目和一些资源的链接</value>
+  </data>
+  <data name="SelectAppTheme.Text" xml:space="preserve">
+    <value>选择要显示的应用主题</value>
+  </data>
+  <data name="SettingDefaultDevice.Text" xml:space="preserve">
+    <value>设置相关默认设备</value>
+  </data>
+  <data name="TestEmoji.Content" xml:space="preserve">
+    <value>测试表情</value>
+  </data>
+  <data name="TestVoice.Content" xml:space="preserve">
+    <value>测试语音</value>
+  </data>
+  <data name="ViewEmojisInfo.Text" xml:space="preserve">
+    <value>查看详情</value>
+  </data>
+  <data name="ClockModeRb.Content" xml:space="preserve">
+    <value>时钟模式</value>
+  </data>
+  <data name="EmojisEmpty" xml:space="preserve">
+    <value>表情表示不能为空</value>
+  </data>
+  <data name="EmojisListEmpty" xml:space="preserve">
+    <value>动作列表不能为空</value>
   </data>
 </root>

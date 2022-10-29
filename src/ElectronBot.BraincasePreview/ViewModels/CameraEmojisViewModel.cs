@@ -149,16 +149,23 @@ public class CameraEmojisViewModel : ObservableRecipient, INavigationAware
 
     private async Task CleanUpAsync()
     {
-        _isInitialized = false;
+        try
+        {
+            _isInitialized = false;
 
-        await CameraService.Current.CleanupMediaCaptureAsync();
+            await CameraService.Current.CleanupMediaCaptureAsync();
 
-        IntelligenceService.Current.CleanUp();
+            IntelligenceService.Current.CleanUp();
 
-        IntelligenceService.Current.IntelligenceServiceEmotionClassified -= Current_IntelligenceServiceEmotionClassified;
+            IntelligenceService.Current.IntelligenceServiceEmotionClassified -= Current_IntelligenceServiceEmotionClassified;
 
-        IntelligenceService.Current.FaceBoxFrameCaptured -= Current_FaceBoxFrameCaptured;
+            IntelligenceService.Current.FaceBoxFrameCaptured -= Current_FaceBoxFrameCaptured;
 
-        CurrentEmojis._currentEmoji = null;
+            CurrentEmojis._currentEmoji = null;
+        }
+        catch (Exception)
+        {
+
+        }
     }
 }

@@ -57,7 +57,7 @@
                 -->
                 <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.MainViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE7FC;" />
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE10F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_CameraEmojis" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.CameraEmojisViewModel">
@@ -73,6 +73,11 @@
                 <NavigationViewItem x:Uid="Shell_EmojisEdit" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.EmojisEditViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEA86;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_Gamepad" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.GamepadViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE7FC;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

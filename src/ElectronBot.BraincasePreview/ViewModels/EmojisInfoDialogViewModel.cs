@@ -1,25 +1,29 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
+using ElectronBot.BraincasePreview.Models;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public class AddEmojisDialogViewModel : ObservableRecipient
+public class EmojisInfoDialogViewModel : ObservableRecipient
 {
     private ObservableCollection<EmoticonAction> _actions = new();
 
     private ICommand _loadedCommand;
     public ICommand LoadedCommand => _loadedCommand ??= new RelayCommand(OnLoaded);
 
-    private ICommand _addEmojisVideoCommand;
-    public ICommand AddEmojisVideoCommand => _addEmojisVideoCommand ??= new RelayCommand(AddEmojisVideo);
+    private ICommand _recordCommand;
+    public ICommand RecordCommand => _recordCommand ??= new RelayCommand<bool>(RecordEmojisAction);
+
 
     private ICommand _addEmojisAvatarCommand;
     public ICommand AddEmojisAvatarCommand => _addEmojisAvatarCommand ??= new RelayCommand(AddEmojisAvatar);
@@ -29,41 +33,123 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     public ICommand OpenEmojisEditDialogCommand => _openEmojisEditDialogCommand ??= new RelayCommand(EmojisEditDialogEmojis);
 
     private ICommand _saveEmojisCommand;
-    public ICommand SaveEmojisCommand => _saveEmojisCommand ??= new RelayCommand(SaveEmojis);
+    public ICommand SaveEmojisCommand => _saveEmojisCommand ??= new RelayCommand<string>(SaveEmojis);
 
     private readonly ILocalSettingsService _localSettingsService;
-    public AddEmojisDialogViewModel(ILocalSettingsService localSettingsService)
+
+    private ObservableCollection<ElectronBotAction> actions = new();
+
+    private readonly DispatcherTimer _dispatcherTimer;
+
+    private int _interval = 500;
+    public EmojisInfoDialogViewModel(ILocalSettingsService localSettingsService, DispatcherTimer dispatcherTimer)
     {
         _localSettingsService = localSettingsService;
+        _dispatcherTimer = dispatcherTimer;
+
+        _dispatcherTimer.Tick += DispatcherTimer_Tick;
     }
 
+    private void DispatcherTimer_Tick(object? sender, object e)
+    {
+        if (ElectronBotHelper.Instance.EbConnected)
+        {
+            var data = new byte[240 * 240 * 3];
+
+            var frame = new EmoticonActionFrame(data);
+
+            ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
+
+            var jointAngles = ElectronBotHelper.Instance?.ElectronBot?.GetJointAngles();
+
+            if(jointAngles != null)
+            {
+                var actionData = new ElectronBotAction()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    J1 = (int)jointAngles[0],
+                    J2 = (int)jointAngles[1],
+                    J3 = (int)jointAngles[2],
+                    J4 = (int)jointAngles[3],
+                    J5 = (int)jointAngles[4],
+                    J6 = (int)jointAngles[5]
+                };
+
+                ActionList.Add(actionData);
+            }         
+        }
+    }
+
+    public ObservableCollection<ElectronBotAction> ActionList
+    {
+        get => actions;
+        set => SetProperty(ref actions, value);
+    }
+
+    public int Interval
+    {
+        get => _interval;
+        set => SetProperty(ref _interval, value);
+    }
     public EmoticonAction EmoticonAction
     {
         get; set;
-    }
-    private async void SaveEmojis()
+    } = new();
+
+    private void RecordEmojisAction(bool obj)
     {
-        EmoticonAction = new EmoticonAction()
+        if (!obj)
         {
-            Avatar = EmojisAvatar,
-            Desc = EmojisDesc,
-            Name = EmojisName,
-            NameId = EmojisNameId,
-            EmojisVideoPath = EmojisVideoUrl,
-            EmojisType = EmojisType.Custom
-        };
+            if (!ElectronBotHelper.Instance.EbConnected)
+            {
+                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+            else
+            {
+                // await ResetActionAsync();
 
-        var list = (await _localSettingsService
-            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+                EmojiPlayHelper.Current.Interval = 0;
 
-        var actions = new List<EmoticonAction>()
+                _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
+                _dispatcherTimer.Start();
+            }
+        }
+        else
         {
-            EmoticonAction
-        };
+            _dispatcherTimer.Stop();
+        }
+    }
 
-        list.AddRange(actions);
+    private async void SaveEmojis(string? obj)
+    {
+        if (string.IsNullOrWhiteSpace(obj))
+        {
+            ToastHelper.SendToast("EmojisEmpty".GetLocalized(), TimeSpan.FromSeconds(3));
 
-        await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
+            return;
+        }
+
+        if (ActionList.Count <= 0)
+        {
+            ToastHelper.SendToast("EmojisListEmpty".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+        var folder = ApplicationData.Current.LocalFolder;
+
+        var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+        var storageFile = await storageFolder
+            .CreateFileAsync($"{obj}.json", CreationCollisionOption.ReplaceExisting);
+
+
+        var content = JsonSerializer
+            .Serialize(Actions, options: new JsonSerializerOptions { WriteIndented = true });
+
+        await FileIO.WriteTextAsync(storageFile, content);
+
+        EmoticonAction.NameId = obj;
+        EmoticonAction.HasAction = true;
     }
 
     private async void EmojisEditDialogEmojis()
