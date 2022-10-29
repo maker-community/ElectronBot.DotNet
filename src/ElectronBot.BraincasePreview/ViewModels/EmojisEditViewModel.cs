@@ -33,16 +33,22 @@ public class EmojisEditViewModel : ObservableRecipient
     private ICommand _playEmojisCommand;
     public ICommand PlayEmojisCommand => _playEmojisCommand ??= new RelayCommand<object>(PlayEmojis);
 
+    private ICommand _emojisInfoCommand;
+    public ICommand EmojisInfoCommand => _emojisInfoCommand ??= new RelayCommand<object>(EmojisInfo);
+
     private string _mojisName;
     private string _mojisNameId;
     private string _emojisDesc;
     private string _mojisAvatar;
     private string _emojisVideoUrl;
 
+    private readonly ILocalSettingsService _localSettingsService;
 
-    public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider)
+
+    public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider, ILocalSettingsService localSettingsService)
     {
         _actionExpressionProvider = actionExpressionProvider;
+        _localSettingsService = localSettingsService;
     }
 
     private void PlayEmojis(object? obj)
@@ -68,6 +74,54 @@ public class EmojisEditViewModel : ObservableRecipient
             catch (Exception)
             {
 
+            }
+        }
+    }
+
+    private async void EmojisInfo(object? obj)
+    {
+        try
+        {
+            if (obj is EmoticonAction emojis)
+            {
+                var emojisInfoContentDialog = new EmojisInfoContentDialog
+                {
+                    Title = "EmojisInfoTitle".GetLocalized(),
+                    PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
+                    CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = App.MainWindow.Content.XamlRoot,
+                    EmoticonAction = emojis
+                };
+
+                emojisInfoContentDialog.Closed += EmojisInfoContentDialog_Closed;
+
+                await emojisInfoContentDialog.ShowAsync();
+            }
+
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+
+    private void EmojisInfoContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+        if (sender.DataContext is EmojisInfoDialogViewModel viewModel)
+        {
+            if (viewModel is not null)
+            {
+                var emotion = viewModel.EmoticonAction;
+
+                if (emotion is not null)
+                {
+                    var act = Actions.Where(a => a.NameId == emotion.NameId).FirstOrDefault();
+                    if (act is not null)
+                    {
+                        act.HasAction = emotion.HasAction;
+                    }
+                }
             }
         }
     }
@@ -128,7 +182,7 @@ public class EmojisEditViewModel : ObservableRecipient
     {
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {
-            ToastHelper.SendToast("请设置表情id", TimeSpan.FromSeconds(3));
+            ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
         }
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
@@ -209,9 +263,18 @@ public class EmojisEditViewModel : ObservableRecipient
         set => SetProperty(ref _actions, value);
     }
 
-    private void OnLoaded()
+    private async void OnLoaded()
     {
         var emoticonActions = Constants.EMOJI_ACTION_LIST;
         Actions = new ObservableCollection<EmoticonAction>(emoticonActions);
+
+
+        var list = (await _localSettingsService
+            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        foreach (var item in list)
+        {
+            Actions.Add(item);
+        }
     }
 }

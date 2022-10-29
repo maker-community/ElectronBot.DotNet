@@ -278,7 +278,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     }
 
     /// <summary>
-    /// 因为设备列表
+    /// 音频设备列表
     /// </summary>
     public ObservableCollection<ComboxItemModel> AudioDevs
     {

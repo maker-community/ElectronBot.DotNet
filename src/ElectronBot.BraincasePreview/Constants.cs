@@ -7,6 +7,8 @@ public class Constants
 {
     public const string CustomClockTitleKey = "CustomClockTitleKey";
 
+    public const string EmojisActionListKey = "EmojisActionListKey";
+
     public const string EmojisFolder = "EmojisAction";
 
     public const string CustomClockTitleConfigKey = "CustomClockTitleConfigKey";

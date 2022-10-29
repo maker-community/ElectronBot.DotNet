@@ -29,6 +29,14 @@ public class EmoticonAction
     {
         get; set;
     }
+    public string EmojisActionPath
+    {
+        get; set;
+    } = "";
+    public bool HasAction
+    {
+        get; set;
+    } = false;
 }
 
 public enum EmojisType

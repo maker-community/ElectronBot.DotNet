@@ -8,6 +8,8 @@ package electronbotactiongrpc;
 service ElectronBotActionGrpc {
   // Sends a greeting
   rpc PlayEmoticonAction (EmoticonActionFrameRequest) returns (EbHelloReply);
+
+  rpc SendMotorControl (MotorControlRequest) returns (EbHelloReply);
 }
 
 // The request message containing the user's name.
@@ -25,4 +27,15 @@ message EmoticonActionFrameRequest {
 // The response message containing the greetings.
 message EbHelloReply {
   string message = 9;
+}
+
+
+// The request message containing the user's name.
+message MotorControlRequest {
+ int32 Init1 = 10;
+ int32 Init2 = 11;
+ int32 Init3 = 12;
+ int32 Init4 = 13;
+ int32 EnableA = 14;
+ int32 EnableB = 15;
 }

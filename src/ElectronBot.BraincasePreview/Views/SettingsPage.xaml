@@ -35,10 +35,14 @@
                                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE790;" />
                                     </Border>
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Margin="0,4,0,4" FontSize="16">应用主题</TextBlock>
-                                        <TextBlock Margin="0,0,0,4" FontSize="12">
-                                            选择要显示的应用主题
-                                        </TextBlock>
+                                        <TextBlock
+                                            x:Uid="AppTheme"
+                                            Margin="0,4,0,4"
+                                            FontSize="16" />
+                                        <TextBlock
+                                            x:Uid="SelectAppTheme"
+                                            Margin="0,0,0,4"
+                                            FontSize="12" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -101,10 +105,14 @@
                                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE121;" />
                                     </Border>
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Margin="0,4,0,4" FontSize="16">表盘配置</TextBlock>
-                                        <TextBlock Margin="0,0,0,4" FontSize="12">
-                                            设置表盘参数
-                                        </TextBlock>
+                                        <TextBlock
+                                            x:Uid="ClockConfig"
+                                            Margin="0,4,0,4"
+                                            FontSize="16" />
+                                        <TextBlock
+                                            x:Uid="ClockParameter"
+                                            Margin="0,0,0,4"
+                                            FontSize="12" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -118,9 +126,9 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
+                                            x:Uid="ClockCumstomWords"
                                             HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            Text="表盘自定义文字：" />
+                                            VerticalAlignment="Center" />
                                         <Grid Grid.Column="1">
                                             <TextBox
                                                 Width="240"
@@ -143,9 +151,9 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
+                                            x:Uid="ClockCustomFontSize"
                                             HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            Text="表盘自定义文字字体大小：" />
+                                            VerticalAlignment="Center" />
                                         <Grid Grid.Column="1">
                                             <NumberBox
                                                 x:Name="ClockCustomTitleFontSize"
@@ -162,13 +170,8 @@
                                                 </i:Interaction.Behaviors>
                                             </NumberBox>
                                         </Grid>
-
                                     </Grid>
-
-
                                 </StackPanel>
-
-
                             </StackPanel>
                         </Grid>
                     </Expander>
@@ -191,10 +194,14 @@
                                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE772;" />
                                     </Border>
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Margin="0,4,0,4" FontSize="16">默认设备设置</TextBlock>
-                                        <TextBlock Margin="0,0,0,4" FontSize="12">
-                                            设置相关默认设备
-                                        </TextBlock>
+                                        <TextBlock
+                                            x:Uid="DefaultDeviceConfig"
+                                            Margin="0,4,0,4"
+                                            FontSize="16" />
+                                        <TextBlock
+                                            x:Uid="SettingDefaultDevice"
+                                            Margin="0,0,0,4"
+                                            FontSize="12" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -209,9 +216,7 @@
                                         Width="240"
                                         Margin="0,0,0,8"
                                         DisplayMemberPath="DataValue"
-                                        Header="默认相机"
                                         ItemsSource="{x:Bind ViewModel.Cameras, Mode=OneWay}"
-                                        PlaceholderText="默认相机"
                                         SelectedItem="{x:Bind ViewModel.CameraSelect, Mode=TwoWay}">
                                         <i:Interaction.Behaviors>
                                             <ic:EventTriggerBehavior EventName="SelectionChanged">
@@ -223,9 +228,7 @@
                                         x:Uid="AudioCB"
                                         Width="240"
                                         DisplayMemberPath="DataValue"
-                                        Header="默认音频设备"
                                         ItemsSource="{x:Bind ViewModel.AudioDevs, Mode=OneWay}"
-                                        PlaceholderText="默认音频设备"
                                         SelectedItem="{x:Bind ViewModel.AudioSelect, Mode=TwoWay}">
                                         <i:Interaction.Behaviors>
                                             <ic:EventTriggerBehavior EventName="SelectionChanged">
@@ -261,19 +264,19 @@
                 <TextBlock x:Uid="Settings_Thank" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="参考的项目和一些资源的链接" />
+                    <TextBlock x:Uid="Reference" Style="{ThemeResource BodyTextBlockStyle}" />
 
                     <HyperlinkButton
+                        x:Uid="AppLogoAuthor"
                         Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
-                        Content="应用LOGO作者(oooooohmygosh)B站地址"
                         NavigateUri="https://space.bilibili.com/38053181" />
                     <HyperlinkButton
+                        x:Uid="ClockAuthor"
                         Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
-                        Content="表盘项目参考作者(DinoChan)Github地址"
                         NavigateUri="https://github.com/DinoChan" />
                     <HyperlinkButton
+                        x:Uid="ElectronBotInfo"
                         Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
-                        Content="电子脑壳介绍地址"
                         NavigateUri="https://github.com/maker-community/ElectronBot.Braincase" />
                 </StackPanel>
             </StackPanel>

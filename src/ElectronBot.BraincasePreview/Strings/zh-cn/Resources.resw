@@ -387,4 +387,94 @@
   <data name="SadName" xml:space="preserve">
     <value>难过</value>
   </data>
+  <data name="Shell_Gamepad.Content" xml:space="preserve">
+    <value>手柄控制器</value>
+  </data>
+  <data name="Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>添加动作帧</value>
+  </data>
+  <data name="AddEmojisBtn.Label" xml:space="preserve">
+    <value>添加新表情</value>
+  </data>
+  <data name="AppLogoAuthor.Content" xml:space="preserve">
+    <value>应用LOGO作者(oooooohmygosh)B站地址</value>
+  </data>
+  <data name="AppTheme.Text" xml:space="preserve">
+    <value>应用主题</value>
+  </data>
+  <data name="AudioCB.Header" xml:space="preserve">
+    <value>默认音频设备</value>
+  </data>
+  <data name="AudioCB.PlaceholderText" xml:space="preserve">
+    <value>默认音频设备</value>
+  </data>
+  <data name="CameraCB.Header" xml:space="preserve">
+    <value>默认相机</value>
+  </data>
+  <data name="CameraCB.PlaceholderText" xml:space="preserve">
+    <value>默认相机</value>
+  </data>
+  <data name="ClockAuthor.Content" xml:space="preserve">
+    <value>表盘项目参考作者(DinoChan)Github地址</value>
+  </data>
+  <data name="ClockConfig.Text" xml:space="preserve">
+    <value>表盘配置</value>
+  </data>
+  <data name="ClockCumstomWords.Text" xml:space="preserve">
+    <value>表盘自定义文字：</value>
+  </data>
+  <data name="ClockCustomFontSize.Text" xml:space="preserve">
+    <value>表盘自定义文字字体大小：</value>
+  </data>
+  <data name="ClockParameter.Text" xml:space="preserve">
+    <value>设置表盘参数</value>
+  </data>
+  <data name="DefaultDeviceConfig.Text" xml:space="preserve">
+    <value>默认设备设置</value>
+  </data>
+  <data name="ElectronBotInfo.Content" xml:space="preserve">
+    <value>电子脑壳介绍地址</value>
+  </data>
+  <data name="EmojisInfoTitle" xml:space="preserve">
+    <value>表情详情</value>
+  </data>
+  <data name="Export.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>导出动作</value>
+  </data>
+  <data name="GamepadViewCB.PlaceholderText" xml:space="preserve">
+    <value>选择手柄</value>
+  </data>
+  <data name="Import.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>导入动作</value>
+  </data>
+  <data name="Reference.Text" xml:space="preserve">
+    <value>参考的项目和一些资源的链接</value>
+  </data>
+  <data name="SelectAppTheme.Text" xml:space="preserve">
+    <value>选择要显示的应用主题</value>
+  </data>
+  <data name="SettingDefaultDevice.Text" xml:space="preserve">
+    <value>设置相关默认设备</value>
+  </data>
+  <data name="TestEmoji.Content" xml:space="preserve">
+    <value>测试表情</value>
+  </data>
+  <data name="TestVoice.Content" xml:space="preserve">
+    <value>测试语音</value>
+  </data>
+  <data name="ViewEmojisInfo.Text" xml:space="preserve">
+    <value>查看详情</value>
+  </data>
+  <data name="ClockModeRb.Content" xml:space="preserve">
+    <value>时钟模式</value>
+  </data>
+  <data name="EmojisEmpty" xml:space="preserve">
+    <value>表情表示不能为空</value>
+  </data>
+  <data name="EmojisListEmpty" xml:space="preserve">
+    <value>动作列表不能为空</value>
+  </data>
+  <data name="SetEmojisNameId" xml:space="preserve">
+    <value>请设置表情id</value>
+  </data>
 </root>
