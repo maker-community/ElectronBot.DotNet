@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Services;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
@@ -83,18 +82,23 @@ public class EmojisEditViewModel : ObservableRecipient
     {
         try
         {
-            var emojisInfoContentDialog = new EmojisInfoContentDialog
+            if (obj is EmoticonAction emojis)
             {
-                Title = "EmojisInfoTitle".GetLocalized(),
-                PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
-                CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
-                DefaultButton = ContentDialogButton.Primary,
-                XamlRoot = App.MainWindow.Content.XamlRoot
-            };
+                var emojisInfoContentDialog = new EmojisInfoContentDialog
+                {
+                    Title = "EmojisInfoTitle".GetLocalized(),
+                    PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
+                    CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = App.MainWindow.Content.XamlRoot,
+                    EmoticonAction = emojis
+                };
 
-            emojisInfoContentDialog.Closed += EmojisInfoContentDialog_Closed;
+                emojisInfoContentDialog.Closed += EmojisInfoContentDialog_Closed;
 
-            await emojisInfoContentDialog.ShowAsync();
+                await emojisInfoContentDialog.ShowAsync();
+            }
+
         }
         catch (Exception)
         {
@@ -104,6 +108,22 @@ public class EmojisEditViewModel : ObservableRecipient
 
     private void EmojisInfoContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
+        if (sender.DataContext is EmojisInfoDialogViewModel viewModel)
+        {
+            if (viewModel is not null)
+            {
+                var emotion = viewModel.EmoticonAction;
+
+                if (emotion is not null)
+                {
+                    var act = Actions.Where(a => a.NameId == emotion.NameId).FirstOrDefault();
+                    if (act is not null)
+                    {
+                        act.HasAction = emotion.HasAction;
+                    }
+                }
+            }
+        }
     }
 
     private void SaveEmojis()
@@ -162,7 +182,7 @@ public class EmojisEditViewModel : ObservableRecipient
     {
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {
-            ToastHelper.SendToast("请设置表情id", TimeSpan.FromSeconds(3));
+            ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
         }
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);

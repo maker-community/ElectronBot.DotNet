@@ -61,8 +61,7 @@
                 Margin="8"
                 HorizontalAlignment="Center"
                 DisplayMemberPath="DataValue"
-                ItemsSource="{x:Bind ViewModel.GamePads}"
-                PlaceholderText="选择手柄">
+                ItemsSource="{x:Bind ViewModel.GamePads}">
                 <i:Interaction.Behaviors>
                     <ic:EventTriggerBehavior EventName="SelectionChanged">
                         <ic:InvokeCommandAction Command="{x:Bind ViewModel.GamePadSelectCommand}" CommandParameter="{x:Bind GamepadViewCB.SelectedItem, Mode=TwoWay}" />

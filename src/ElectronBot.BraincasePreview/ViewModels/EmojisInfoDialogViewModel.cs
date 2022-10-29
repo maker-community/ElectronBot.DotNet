@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -32,7 +33,7 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
     public ICommand OpenEmojisEditDialogCommand => _openEmojisEditDialogCommand ??= new RelayCommand(EmojisEditDialogEmojis);
 
     private ICommand _saveEmojisCommand;
-    public ICommand SaveEmojisCommand => _saveEmojisCommand ??= new RelayCommand(SaveEmojis);
+    public ICommand SaveEmojisCommand => _saveEmojisCommand ??= new RelayCommand<string>(SaveEmojis);
 
     private readonly ILocalSettingsService _localSettingsService;
 
@@ -59,20 +60,23 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
 
             ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
 
-            var jointAngles = ElectronBotHelper.Instance.ElectronBot.GetJointAngles();
+            var jointAngles = ElectronBotHelper.Instance?.ElectronBot?.GetJointAngles();
 
-            var actionData = new ElectronBotAction()
+            if(jointAngles != null)
             {
-                Id = Guid.NewGuid().ToString(),
-                J1 = (int)jointAngles[0],
-                J2 = (int)jointAngles[1],
-                J3 = (int)jointAngles[2],
-                J4 = (int)jointAngles[3],
-                J5 = (int)jointAngles[4],
-                J6 = (int)jointAngles[5]
-            };
+                var actionData = new ElectronBotAction()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    J1 = (int)jointAngles[0],
+                    J2 = (int)jointAngles[1],
+                    J3 = (int)jointAngles[2],
+                    J4 = (int)jointAngles[3],
+                    J5 = (int)jointAngles[4],
+                    J6 = (int)jointAngles[5]
+                };
 
-            ActionList.Add(actionData);
+                ActionList.Add(actionData);
+            }         
         }
     }
 
@@ -90,7 +94,7 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
     public EmoticonAction EmoticonAction
     {
         get; set;
-    }
+    } = new();
 
     private void RecordEmojisAction(bool obj)
     {
@@ -116,29 +120,36 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
         }
     }
 
-    private async void SaveEmojis()
+    private async void SaveEmojis(string? obj)
     {
-        //EmoticonAction = new EmoticonAction()
-        //{
-        //    Avatar = EmojisAvatar,
-        //    Desc = EmojisDesc,
-        //    Name = EmojisName,
-        //    NameId = EmojisNameId,
-        //    EmojisVideoPath = EmojisVideoUrl,
-        //    EmojisType = EmojisType.Custom
-        //};
+        if (string.IsNullOrWhiteSpace(obj))
+        {
+            ToastHelper.SendToast("EmojisEmpty".GetLocalized(), TimeSpan.FromSeconds(3));
 
-        //var list = (await _localSettingsService
-        //    .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+            return;
+        }
 
-        //var actions = new List<EmoticonAction>()
-        //{
-        //    EmoticonAction
-        //};
+        if (ActionList.Count <= 0)
+        {
+            ToastHelper.SendToast("EmojisListEmpty".GetLocalized(), TimeSpan.FromSeconds(3));
 
-        //list.AddRange(actions);
+            return;
+        }
+        var folder = ApplicationData.Current.LocalFolder;
 
-        //await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
+        var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+        var storageFile = await storageFolder
+            .CreateFileAsync($"{obj}.json", CreationCollisionOption.ReplaceExisting);
+
+
+        var content = JsonSerializer
+            .Serialize(Actions, options: new JsonSerializerOptions { WriteIndented = true });
+
+        await FileIO.WriteTextAsync(storageFile, content);
+
+        EmoticonAction.NameId = obj;
+        EmoticonAction.HasAction = true;
     }
 
     private async void EmojisEditDialogEmojis()
@@ -179,7 +190,7 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
     {
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {
-            ToastHelper.SendToast("请设置表情id", TimeSpan.FromSeconds(3));
+            ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
         }
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
@@ -213,7 +224,7 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
     {
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {
-            ToastHelper.SendToast("请设置表情id", TimeSpan.FromSeconds(3));
+            ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
         }
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);

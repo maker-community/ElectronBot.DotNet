@@ -8,13 +8,13 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ElectronBot.BraincasePreview.Models"
-    Width="800"
-    Height="600"
+    Width="1200"
+    Height="800"
     CornerRadius="8"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="PrimaryButtonClick">
-            <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveEmojisCommand}" />
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveEmojisCommand}" CommandParameter="{x:Bind EmojisNameId.Text, Mode=TwoWay}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Grid>
@@ -22,8 +22,19 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
+            <TextBlock
+                x:Name="EmojisName"
+                Margin="4"
+                Text="{x:Bind EmoticonAction.Name, Mode=OneWay}" />
+            <TextBlock
+                x:Name="EmojisNameId"
+                Margin="4"
+                Text="{x:Bind EmoticonAction.NameId, Mode=OneWay}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
             <StackPanel>
                 <Button Margin="8" Content="清除动作" />
             </StackPanel>
@@ -41,7 +52,7 @@
                 <ProgressRing Width="32" IsActive="{x:Bind RecordSwitch.IsOn, Mode=OneWay}" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="2">
             <Slider
                 Margin="8"
                 Header="时间间隔"
@@ -52,7 +63,7 @@
                 Value="{x:Bind ViewModel.Interval, Mode=TwoWay}" />
         </StackPanel>
         <Border
-            Grid.Row="2"
+            Grid.Row="3"
             Height="120"
             BorderBrush="{ThemeResource SystemAccentColor}"
             BorderThickness="2"

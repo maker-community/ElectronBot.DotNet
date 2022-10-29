@@ -43,10 +43,10 @@
         </Grid.RowDefinitions>
         <StackPanel>
             <AppBarButton
+                x:Uid="AddEmojisBtn"
                 HorizontalAlignment="Right"
                 Command="{x:Bind ViewModel.OpenEmojisEditDialogCommand}"
-                Foreground="{ThemeResource SystemAccentColor}"
-                Label="添加新表情">
+                Foreground="{ThemeResource SystemAccentColor}">
                 <AppBarButton.Icon>
                     <FontIcon
                         FontFamily="Segoe Fluent Icons"

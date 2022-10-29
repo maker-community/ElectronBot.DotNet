@@ -29,7 +29,6 @@
             <Slider
                 x:Name="Head"
                 x:Uid="Sd_Head"
-                Header="头部(J1)"
                 Maximum="15"
                 Minimum="-15"
                 ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
@@ -37,7 +36,6 @@
             <Slider
                 x:Name="LeftArmExpansion"
                 x:Uid="Sd_LeftArmExpansion"
-                Header="左臂展开(J2)"
                 Maximum="30"
                 Minimum="0"
                 ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
@@ -45,7 +43,6 @@
             <Slider
                 x:Name="LeftArm"
                 x:Uid="Sd_LeftArm"
-                Header="左臂旋转(J3)"
                 Maximum="180"
                 Minimum="0"
                 ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
@@ -53,7 +50,6 @@
             <Slider
                 x:Name="RightArmExpansion"
                 x:Uid="Sd_RightArmExpansion"
-                Header="右臂展开(J4)"
                 Maximum="30"
                 Minimum="0"
                 ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
@@ -61,7 +57,6 @@
             <Slider
                 x:Name="RightArm"
                 x:Uid="Sd_RightArm"
-                Header="右臂旋转(J5)"
                 Maximum="180"
                 Minimum="0"
                 ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
@@ -69,7 +64,6 @@
             <Slider
                 x:Name="Bottom"
                 x:Uid="Sd_Bottom"
-                Header="底盘转动(J6)"
                 Maximum="90"
                 Minimum="-90"
                 ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
@@ -235,35 +229,35 @@
                 <StackPanel>
                     <Button
                         x:Name="Import"
+                        x:Uid="Import"
                         Height="28"
                         Margin="4"
                         BorderBrush="{ThemeResource SystemAccentColor}"
                         BorderThickness="2"
                         Command="{x:Bind ViewModel.ImportCommand}"
-                        Foreground="{ThemeResource SystemAccentColor}"
-                        ToolTipService.ToolTip="导入动作">
+                        Foreground="{ThemeResource SystemAccentColor}">
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE150;" />
                     </Button>
                     <Button
                         x:Name="Export"
+                        x:Uid="Export"
                         Height="28"
                         Margin="4"
                         BorderBrush="{ThemeResource SystemAccentColor}"
                         BorderThickness="2"
                         Command="{x:Bind ViewModel.ExportCommand}"
-                        Foreground="{ThemeResource SystemAccentColor}"
-                        ToolTipService.ToolTip="导出动作">
+                        Foreground="{ThemeResource SystemAccentColor}">
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEDE1;" />
                     </Button>
                     <Button
                         x:Name="Add"
+                        x:Uid="Add"
                         Height="32"
                         Margin="4"
                         BorderBrush="{ThemeResource SystemAccentColor}"
                         BorderThickness="2"
                         Command="{x:Bind ViewModel.AddCommand}"
-                        Foreground="{ThemeResource SystemAccentColor}"
-                        ToolTipService.ToolTip="添加动作帧">
+                        Foreground="{ThemeResource SystemAccentColor}">
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE710;" />
                     </Button>
                 </StackPanel>
@@ -283,10 +277,10 @@
                     MaxColumns="4"
                     SelectedIndex="0"
                     SelectionChanged="{x:Bind ViewModel.RadioButtons_SelectionChanged}">
-                    <RadioButton x:Uid="DisableModeRb" Content="禁用模式" />
-                    <RadioButton x:Uid="ControlMode" Content="控制模式" />
-                    <RadioButton x:Uid="ClockModeRb" Content="时钟模式" />
-                    <RadioButton x:Uid="EntitySchemaRb" Content="录制模式" />
+                    <RadioButton x:Uid="DisableModeRb" />
+                    <RadioButton x:Uid="ControlMode" />
+                    <RadioButton x:Uid="ClockModeRb" />
+                    <RadioButton x:Uid="EntitySchemaRb" />
                 </RadioButtons>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -325,14 +319,14 @@
                     <StackPanel Orientation="Horizontal">
                         <Button
                             x:Name="TestEmoji"
+                            x:Uid="TestEmoji"
                             Margin="0,12,0,0"
-                            Command="{x:Bind ViewModel.TestPlayEmojiCommand}"
-                            Content="测试表情" />
+                            Command="{x:Bind ViewModel.TestPlayEmojiCommand}" />
                         <Button
                             x:Name="TestVoice"
+                            x:Uid="TestVoice"
                             Margin="0,12,0,0"
-                            Command="{x:Bind ViewModel.TestVoiceCommand}"
-                            Content="测试语音" />
+                            Command="{x:Bind ViewModel.TestVoiceCommand}" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -353,33 +347,28 @@
                     x:Name="Play"
                     x:Uid="PlayBtn"
                     Margin="8"
-                    Command="{x:Bind ViewModel.PlayCommand}"
-                    Content="播放动作" />
+                    Command="{x:Bind ViewModel.PlayCommand}" />
                 <Button
                     x:Name="Stop"
                     x:Uid="StopBtn"
                     Margin="8"
-                    Command="{x:Bind ViewModel.StopCommand}"
-                    Content="停止动作" />
+                    Command="{x:Bind ViewModel.StopCommand}" />
                 <Button
                     x:Name="Clear"
                     x:Uid="ClearBtn"
                     Margin="8"
-                    Command="{x:Bind ViewModel.ClearCommand}"
-                    Content="清除列表" />
+                    Command="{x:Bind ViewModel.ClearCommand}" />
                 <Button
                     x:Name="Reset"
                     x:Uid="ResetBtn"
                     Margin="8"
-                    Command="{x:Bind ViewModel.ResetCommand}"
-                    Content="重置动作" />
+                    Command="{x:Bind ViewModel.ResetCommand}" />
                 <ComboBox
                     x:Uid="ChangeClockViewCB"
                     Width="120"
                     Margin="8"
                     DisplayMemberPath="DataValue"
                     ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
-                    PlaceholderText="切换表盘"
                     SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
                     <i:Interaction.Behaviors>
                         <ic:EventTriggerBehavior EventName="SelectionChanged">

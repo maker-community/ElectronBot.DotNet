@@ -104,7 +104,7 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     {
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {
-            ToastHelper.SendToast("请设置表情id", TimeSpan.FromSeconds(3));
+            ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
         }
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
@@ -138,7 +138,7 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     {
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {
-            ToastHelper.SendToast("请设置表情id", TimeSpan.FromSeconds(3));
+            ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
         }
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);

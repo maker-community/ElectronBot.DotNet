@@ -1,12 +1,7 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
+﻿using System.Configuration;
 using System.Net.NetworkInformation;
-using System.Threading.Tasks;
-
-using Verdure.ElectronBot.Core.Helpers;
-
 using Microsoft.Identity.Client;
+using Verdure.ElectronBot.Core.Helpers;
 
 namespace Verdure.ElectronBot.Core.Services;
 
@@ -25,7 +20,7 @@ public class IdentityService
 
     private readonly string _redirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
 
-    private readonly string[] _graphScopes = new string[] { "user.read","Tasks.ReadWrite" };
+    private readonly string[] _graphScopes = new string[] { "user.read", "Tasks.ReadWrite" };
 
     private bool _integratedAuthAvailable;
     private IPublicClientApplication _client;
@@ -181,9 +176,13 @@ public class IdentityService
         try
         {
             var accounts = await _client.GetAccountsAsync();
-            _authenticationResult = await _client.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
-                                                 .ExecuteAsync();
-            return true;
+            if (accounts.Any())
+            {
+                _authenticationResult = await _client.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
+                                               .ExecuteAsync();
+                return true;
+            }
+            return false;
         }
         catch (MsalUiRequiredException)
         {

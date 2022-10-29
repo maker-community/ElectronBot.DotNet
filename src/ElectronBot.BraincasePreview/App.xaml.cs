@@ -169,7 +169,7 @@ public partial class App : Application
 
         e.Handled = true;
 
-        ElectronBotHelper.Instance.ElectronBot.Disconnect();
+        ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
         // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
@@ -190,7 +190,7 @@ public partial class App : Application
     {
         try
         {
-            ElectronBotHelper.Instance.ElectronBot.Disconnect();
+            ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
 
             IntelligenceService.Current.CleanUp();
 
