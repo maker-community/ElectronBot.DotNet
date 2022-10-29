@@ -339,7 +339,7 @@ public class EbHelper
 
             EmojiPlayHelper.Current.Enqueue(new EmoticonActionFrame(data));
         }
-        catch (Exception ex)
+        catch (Exception)
         {
 
         }

@@ -1,11 +1,14 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
+using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
 
@@ -32,6 +35,8 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     public ICommand SaveEmojisCommand => _saveEmojisCommand ??= new RelayCommand(SaveEmojis);
 
     private readonly ILocalSettingsService _localSettingsService;
+
+    private WriteableBitmap _emojisAvatarBitMap;
     public AddEmojisDialogViewModel(ILocalSettingsService localSettingsService)
     {
         _localSettingsService = localSettingsService;
@@ -41,8 +46,39 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     {
         get; set;
     }
+
+    public WriteableBitmap EmojisAvatarBitMap
+    {
+        get => _emojisAvatarBitMap;
+        set => SetProperty(ref _emojisAvatarBitMap, value);
+    }
     private async void SaveEmojis()
     {
+        if (string.IsNullOrWhiteSpace(EmojisNameId))
+        {
+            ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(EmojisName))
+        {
+            ToastHelper.SendToast("SetEmojisName".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
+
+        var list = (await _localSettingsService
+            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (list.Where(e => e.NameId == EmojisNameId).Any() || Constants.EMOJI_ACTION_LIST.Where(e => e.NameId == EmojisNameId).Any())
+        {
+            ToastHelper.SendToast("EmojisNameIdAlreadyExists".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
         EmoticonAction = new EmoticonAction()
         {
             Avatar = EmojisAvatar,
@@ -52,9 +88,6 @@ public class AddEmojisDialogViewModel : ObservableRecipient
             EmojisVideoPath = EmojisVideoUrl,
             EmojisType = EmojisType.Custom
         };
-
-        var list = (await _localSettingsService
-            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
 
         var actions = new List<EmoticonAction>()
         {
@@ -79,7 +112,6 @@ public class AddEmojisDialogViewModel : ObservableRecipient
                 XamlRoot = App.MainWindow.Content.XamlRoot
             };
 
-            addEmojisContentDialog.DataContextChanged += AddEmojisContentDialog_DataContextChanged;
 
             await addEmojisContentDialog.ShowAsync();
         }
@@ -87,11 +119,6 @@ public class AddEmojisDialogViewModel : ObservableRecipient
         {
 
         }
-    }
-
-    private void AddEmojisContentDialog_DataContextChanged(Microsoft.UI.Xaml.FrameworkElement sender, Microsoft.UI.Xaml.DataContextChangedEventArgs args)
-    {
-        var value = args.NewValue;
     }
 
     private string _mojisName;
@@ -107,6 +134,30 @@ public class AddEmojisDialogViewModel : ObservableRecipient
             ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
         }
+
+        if (string.IsNullOrWhiteSpace(EmojisName))
+        {
+            ToastHelper.SendToast("SetEmojisName".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
+        if (!Regex.IsMatch(EmojisNameId, "^[A-Za-z]+$"))
+        {
+            ToastHelper.SendToast("EmojisNameIdOnlyEn".GetLocalized(), TimeSpan.FromSeconds(3));
+            return;
+        }
+
+        var list = (await _localSettingsService
+         .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (list.Where(e => e.NameId == EmojisNameId).Any() || Constants.EMOJI_ACTION_LIST.Where(e => e.NameId == EmojisNameId).Any())
+        {
+            ToastHelper.SendToast("EmojisNameIdAlreadyExists".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
 
         var picker = new Windows.Storage.Pickers.FileOpenPicker
@@ -121,6 +172,22 @@ public class AddEmojisDialogViewModel : ObservableRecipient
         WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
 
         var file = await picker.PickSingleFileAsync();
+
+        if (file is null)
+        {
+            return;
+        }
+
+        var propList = await file.GetBasicPropertiesAsync();
+
+        var size = propList.Size;
+
+        if (size > 1 * 1000 * 1000)
+        {
+            ToastHelper.SendToast("EmojisFileSize".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
 
         var folder = ApplicationData.Current.LocalFolder;
 
@@ -141,6 +208,31 @@ public class AddEmojisDialogViewModel : ObservableRecipient
             ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
         }
+
+        if (string.IsNullOrWhiteSpace(EmojisName))
+        {
+            ToastHelper.SendToast("SetEmojisName".GetLocalized(), TimeSpan.FromSeconds(3));
+            return;
+        }
+
+
+        if (!Regex.IsMatch(EmojisNameId, "^[A-Za-z]+$"))
+        {
+            ToastHelper.SendToast("EmojisNameIdOnlyEn".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
+        var list = (await _localSettingsService
+     .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (list.Where(e => e.NameId == EmojisNameId).Any() || Constants.EMOJI_ACTION_LIST.Where(e => e.NameId == EmojisNameId).Any())
+        {
+            ToastHelper.SendToast("EmojisNameIdAlreadyExists".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
 
         var picker = new Windows.Storage.Pickers.FileOpenPicker
@@ -158,16 +250,49 @@ public class AddEmojisDialogViewModel : ObservableRecipient
 
         var file = await picker.PickSingleFileAsync();
 
+        if (file is null)
+        {
+            return;
+        }
+
+
+        var propList = await file.GetBasicPropertiesAsync();
+
+        var size = propList.Size;
+
+        if (size > 1 * 1000 * 1000)
+        {
+            ToastHelper.SendToast("EmojisFileSize".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
+        var config = new ImageCropperConfig
+        {
+            ImageFile = file,
+            AspectRatio = 1
+        };
+
+        var croppedImage = await ImageHelper.CropImage(config);
+
+        if (croppedImage is null)
+        {
+            return;
+        }
+
+        EmojisAvatarBitMap = croppedImage;
+
         var folder = ApplicationData.Current.LocalFolder;
 
         var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
 
         var storageFile = await storageFolder
-            .CreateFileAsync($"{EmojisNameId}.{file.FileType}", CreationCollisionOption.ReplaceExisting);
+            .CreateFileAsync($"{EmojisNameId}{file.FileType}", CreationCollisionOption.ReplaceExisting);
 
-        await FileIO.WriteBytesAsync(storageFile, await file.ReadBytesAsync());
-
-        EmojisAvatar = storageFile.Path;
+        if (await ImageHelper.SaveWriteableBitmapImageFileAsync(croppedImage, storageFile))
+        {
+            EmojisAvatar = storageFile.Path;
+        }
     }
 
     /// <summary>

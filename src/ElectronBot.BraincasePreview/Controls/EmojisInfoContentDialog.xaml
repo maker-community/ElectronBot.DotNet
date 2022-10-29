@@ -49,7 +49,7 @@
                         </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </ToggleSwitch>
-                <ProgressRing Width="32" IsActive="{x:Bind RecordSwitch.IsOn, Mode=OneWay}" />
+                <ProgressRing Width="32" IsActive="{x:Bind RecordSwitch.IsOn, Mode=TwoWay}" />
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="2">

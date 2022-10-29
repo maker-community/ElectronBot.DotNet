@@ -41,6 +41,8 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
 
     private readonly DispatcherTimer _dispatcherTimer;
 
+    private bool _toggleIsOn = false;
+
     private int _interval = 500;
     public EmojisInfoDialogViewModel(ILocalSettingsService localSettingsService, DispatcherTimer dispatcherTimer)
     {
@@ -49,6 +51,13 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
 
         _dispatcherTimer.Tick += DispatcherTimer_Tick;
     }
+
+    public bool ToggleIsOn
+    {
+        get => _toggleIsOn; 
+        set => SetProperty(ref _toggleIsOn, value);
+    }
+
 
     private void DispatcherTimer_Tick(object? sender, object e)
     {
@@ -62,7 +71,7 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
 
             var jointAngles = ElectronBotHelper.Instance?.ElectronBot?.GetJointAngles();
 
-            if(jointAngles != null)
+            if (jointAngles != null)
             {
                 var actionData = new ElectronBotAction()
                 {
@@ -76,7 +85,7 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
                 };
 
                 ActionList.Add(actionData);
-            }         
+            }
         }
     }
 

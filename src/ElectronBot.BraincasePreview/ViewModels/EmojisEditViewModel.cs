@@ -183,6 +183,7 @@ public class EmojisEditViewModel : ObservableRecipient
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {
             ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
+
             return;
         }
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);

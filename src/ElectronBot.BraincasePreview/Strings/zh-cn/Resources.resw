@@ -477,4 +477,22 @@
   <data name="SetEmojisNameId" xml:space="preserve">
     <value>请设置表情id</value>
   </data>
+  <data name="EmojisAvatarBtn.Text" xml:space="preserve">
+    <value>添加图片按钮：</value>
+  </data>
+  <data name="EmojisFileSize" xml:space="preserve">
+    <value>文件请小于1兆</value>
+  </data>
+  <data name="EmojisNameIdAlreadyExists" xml:space="preserve">
+    <value>此表情Id已存在</value>
+  </data>
+  <data name="EmojisNameIdOnlyEn" xml:space="preserve">
+    <value>表情标识只支持英文字母</value>
+  </data>
+  <data name="EmojisVideoAddTB.Text" xml:space="preserve">
+    <value>添加视频按钮：</value>
+  </data>
+  <data name="SetEmojisName" xml:space="preserve">
+    <value>请设置表情名称</value>
+  </data>
 </root>
