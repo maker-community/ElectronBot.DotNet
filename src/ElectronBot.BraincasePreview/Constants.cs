@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using ElectronBot.BraincasePreview.Helpers;
-using Verdure.ElectronBot.Core.Models;
+using ElectronBot.BraincasePreview.Models;
 
 namespace ElectronBot.BraincasePreview;
 public class Constants

@@ -1,5 +1,6 @@
-﻿using Verdure.ElectronBot.Core.Models;
+﻿using ElectronBot.BraincasePreview.Core.Models;
 using Google.Protobuf;
+using Verdure.ElectronBot.Core.Models;
 using Verdure.ElectronBot.GrpcService;
 
 namespace ElectronBot.BraincasePreview.Services.EbotGrpcService;
@@ -26,6 +27,24 @@ public class EbGrpcService
             J6 = frame.J6
         };
         var result = await _client.PlayEmoticonActionAsync(data);
+
+        return result.Message;
+    }
+
+
+    public async Task<string> MotorControlAsync(MotorControlRequestModel requestModel)
+    {
+        var data = new MotorControlRequest
+        {
+            Init1 = requestModel.Init1,
+            Init2 = requestModel.Init2,
+            Init3 = requestModel.Init3,
+            Init4 = requestModel.Init4,
+            EnableA = requestModel.EnableA,
+            EnableB = requestModel.EnableB
+        };
+
+        var result = await _client.SendMotorControlAsync(data);
 
         return result.Message;
     }

@@ -16,6 +16,9 @@
         <ic:EventTriggerBehavior EventName="PrimaryButtonClick">
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveEmojisCommand}" CommandParameter="{x:Bind EmojisNameId.Text, Mode=TwoWay}" />
         </ic:EventTriggerBehavior>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" CommandParameter="{x:Bind EmojisActionPath.Text, Mode=TwoWay}" />
+        </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Grid>
         <Grid.RowDefinitions>
@@ -24,19 +27,38 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock
-                x:Name="EmojisName"
-                Margin="4"
-                Text="{x:Bind EmoticonAction.Name, Mode=OneWay}" />
-            <TextBlock
-                x:Name="EmojisNameId"
-                Margin="4"
-                Text="{x:Bind EmoticonAction.NameId, Mode=OneWay}" />
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    x:Name="EmojisName"
+                    Margin="4"
+                    Text="{x:Bind EmoticonAction.Name, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="EmojisNameId"
+                    Margin="4"
+                    Text="{x:Bind EmoticonAction.NameId, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    x:Uid="EmojisActionPath"
+                    Width="100"
+                    VerticalAlignment="Center" />
+                <TextBox
+                    x:Name="EmojisActionPath"
+                    Width="280"
+                    Margin="4"
+                    IsReadOnly="True"
+                    Text="{x:Bind EmoticonAction.EmojisActionPath, Mode=OneWay}"
+                    TextWrapping="NoWrap" />
+            </StackPanel>
         </StackPanel>
+
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <StackPanel>
-                <Button Margin="8" Content="清除动作" />
+                <Button
+                    Margin="8"
+                    Command="{x:Bind ViewModel.ClearCommand}"
+                    Content="清除动作" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <ToggleSwitch
@@ -49,7 +71,7 @@
                         </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </ToggleSwitch>
-                <ProgressRing Width="32" IsActive="{x:Bind RecordSwitch.IsOn, Mode=OneWay}" />
+                <ProgressRing Width="32" IsActive="{x:Bind RecordSwitch.IsOn, Mode=TwoWay}" />
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="2">

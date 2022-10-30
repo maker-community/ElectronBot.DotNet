@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
+using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml.Controls;
-using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
@@ -45,7 +46,8 @@ public class EmojisEditViewModel : ObservableRecipient
     private readonly ILocalSettingsService _localSettingsService;
 
 
-    public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider, ILocalSettingsService localSettingsService)
+    public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider,
+        ILocalSettingsService localSettingsService)
     {
         _actionExpressionProvider = actionExpressionProvider;
         _localSettingsService = localSettingsService;
@@ -62,14 +64,30 @@ public class EmojisEditViewModel : ObservableRecipient
         {
             try
             {
-                if (emojis.EmojisType == EmojisType.Default)
+                List<ElectronBotAction> actions = new();
+
+                if (emojis.HasAction)
                 {
-                    _actionExpressionProvider.PlayActionExpressionAsync(emojis.NameId);
+                    if (!string.IsNullOrWhiteSpace(emojis.EmojisActionPath))
+                    {
+                        var json = File.ReadAllText(emojis.EmojisActionPath);
+
+                        try
+                        {
+                            var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
+
+                            if (actionList != null && actionList.Count > 0)
+                            {
+                                actions = actionList;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
                 }
-                else
-                {
-                    _actionExpressionProvider.PlayActionExpressionAsync(emojis);
-                }
+                _actionExpressionProvider.PlayActionExpressionAsync(emojis, actions);
             }
             catch (Exception)
             {
@@ -183,6 +201,7 @@ public class EmojisEditViewModel : ObservableRecipient
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {
             ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
+
             return;
         }
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
@@ -265,12 +284,17 @@ public class EmojisEditViewModel : ObservableRecipient
 
     private async void OnLoaded()
     {
-        var emoticonActions = Constants.EMOJI_ACTION_LIST;
-        Actions = new ObservableCollection<EmoticonAction>(emoticonActions);
-
-
         var list = (await _localSettingsService
             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (!list.Any(a => a.EmojisType == EmojisType.Default))
+        {
+            var emoticonActions = Constants.EMOJI_ACTION_LIST;
+            Actions = new ObservableCollection<EmoticonAction>(emoticonActions);
+
+
+            await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, emoticonActions.ToList());
+        }
 
         foreach (var item in list)
         {
