@@ -149,7 +149,7 @@ public partial class App : Application
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
             {
-                o.Address = new Uri("http://192.168.3.234:5241");
+                o.Address = new Uri("http://192.168.3.239:5241");
                 //o.Address = new Uri("http://localhost:5241");
             });
 

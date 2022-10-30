@@ -103,6 +103,34 @@
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
+                            x:Uid="EmojisActionAddTB"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <Button
+                            x:Uid="EmojisActionAddBtn"
+                            Margin="4"
+                            Command="{x:Bind ViewModel.AddEmojisActionCommand}">
+                            <FontIcon
+                                FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                FontSize="48"
+                                Glyph="&#xE776;" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisActionPath"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Width="280"
+                            Margin="4"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.EmojisActionPath, Mode=OneWay}" />
+                    </StackPanel>
+
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
                             x:Uid="EmojisDesc"
                             Width="100"
                             VerticalAlignment="Center" />

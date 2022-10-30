@@ -3,8 +3,10 @@ using System.Diagnostics;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
 using ElectronBot.BraincasePreview.Core.Models;
+using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Services.EbotGrpcService;
 using Microsoft.UI.Xaml;
 using Verdure.ElectronBot.Core.Models;
@@ -50,6 +52,7 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
     private bool isReleaseRightThumbstick = false;
 
 
+    private int btnCount = 0;
     public GamepadViewModel()
     {
         Gamepad.GamepadAdded += Gamepad_GamepadAdded;
@@ -172,29 +175,6 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
             RightThumbstickY = reading.RightThumbstickY;
 
 
-            if (reading.Buttons.HasFlag(GamepadButtons.RightThumbstick))
-            {
-                isHoldRightThumbstick = true;
-            }
-
-
-            if(isHoldRightThumbstick == true && !reading.Buttons.HasFlag(GamepadButtons.RightThumbstick))
-            {
-                isReleaseRightThumbstick = true;
-
-                isHoldRightThumbstick = false;
-            }
-
-            //发送表情
-            if (isHoldRightThumbstick == false && isReleaseRightThumbstick == true)
-            {
-                Debug.Write($"send emojis---{DateTime.Now.ToString()}");
-
-                isReleaseRightThumbstick = false;
-
-                isHoldRightThumbstick = false;
-            }
-
             var init1 = 0;
 
             var init2 = 0;
@@ -280,17 +260,44 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
                 EnableB = enableB
             };
 
-            try
+
+            //发送表情
+            if (reading.Buttons.HasFlag(GamepadButtons.A) && isHoldRightThumbstick == false)
             {
+                isHoldRightThumbstick = true;
+                Debug.Write($"send emojis---{DateTime.Now.ToString()}");
 
-                //通过grpc通讯和树莓派传输数据 
-                var grpcClient = App.GetService<EbGrpcService>();
+                var list = (await App.GetService<ILocalSettingsService>()
+                  .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
 
-                _ = await grpcClient.MotorControlAsync(data);
+                if (list != null && list.Count > 0)
+                {
+                    var r = new Random().Next(list.Count);
+
+                    var action = list[r];
+
+                    await App.GetService<IActionExpressionProvider>().PlayActionExpressionAsync(action);
+                }
             }
-            catch (Exception)
+            else if(reading.Buttons.HasFlag(GamepadButtons.A) && isHoldRightThumbstick == true)
             {
+                //摁下不做处理
+            }
+            else
+            {
+                try
+                {
 
+                    //通过grpc通讯和树莓派传输数据 
+                    var grpcClient = App.GetService<EbGrpcService>();
+
+                    _ = await grpcClient.MotorControlAsync(data);
+                }
+                catch (Exception)
+                {
+
+                }
+                isHoldRightThumbstick = false;
             }
         }
     }

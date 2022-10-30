@@ -477,6 +477,15 @@
   <data name="SetEmojisNameId" xml:space="preserve">
     <value>请设置表情id</value>
   </data>
+  <data name="EmojisActionAddTB.Text" xml:space="preserve">
+    <value>导入动作按钮：</value>
+  </data>
+  <data name="EmojisActionFileSize" xml:space="preserve">
+    <value>文件请小于5兆</value>
+  </data>
+  <data name="EmojisActionPath.Text" xml:space="preserve">
+    <value>动作地址：</value>
+  </data>
   <data name="EmojisAvatarBtn.Text" xml:space="preserve">
     <value>添加图片按钮：</value>
   </data>

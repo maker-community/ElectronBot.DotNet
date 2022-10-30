@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Text.Json;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
@@ -49,7 +50,7 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
         return Task.CompletedTask;
     }
 
-    public async Task PlayActionExpressionAsync(string actionName, List<ElectronBotAction> actions)
+    public Task PlayActionExpressionAsync(string actionName, List<ElectronBotAction> actions)
     {
         Mat image = new();
 
@@ -64,7 +65,7 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
             capture.Read(image);
 
             capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
-                capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 4);
+                capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 1);
 
             if (image.Empty())
             {
@@ -80,9 +81,9 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
                     var actionCount = (int)(actions.Count * bili);
 
-                    if (actionCount > actions.Count)
+                    if (actionCount >= actions.Count)
                     {
-                        actionCount = actions.Count;
+                        actionCount = actions.Count - 1;
                     }
 
 
@@ -107,21 +108,35 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                     currentAction.J5,
                     currentAction.J6);
 
-                //EmojiPlayHelper.Current.Enqueue(frameData);
+                EmojiPlayHelper.Current.Enqueue(frameData);
 
                 //通过grpc通讯和树莓派传输数据 
-                var grpcClient = App.GetService<EbGrpcService>();
+                //var grpcClient = App.GetService<EbGrpcService>();
 
-                await grpcClient.PlayEmoticonActionFrameAsync(frameData);
+                //await grpcClient.PlayEmoticonActionFrameAsync(frameData);
             }
         }
+        return Task.CompletedTask;
     }
 
-    public Task PlayActionExpressionAsync(EmoticonAction emoticonAction)
+    public Task PlayActionExpressionAsync(EmoticonAction emoticonAction, List<ElectronBotAction> actions)
     {
         Mat image = new();
 
-        var capture = new VideoCapture(emoticonAction.EmojisVideoPath);
+        VideoCapture? capture;
+
+        if (emoticonAction.EmojisType == EmojisType.Default)
+        {
+            capture = new VideoCapture(Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emoticonAction.NameId}.mp4");
+        }
+        else
+        {
+            capture = new VideoCapture(emoticonAction.EmojisVideoPath);
+        }
+
+        var frameCount = capture.FrameCount;
+
+        var currentAction = new ElectronBotAction();
 
         while (true)
         {
@@ -136,6 +151,22 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
             }
             else
             {
+                if (actions != null && actions.Count > 0)
+                {
+                    var pos = capture.PosFrames;
+
+                    var bili = ((double)pos / frameCount);
+
+                    var actionCount = (int)(actions.Count * bili);
+
+                    if (actionCount >= actions.Count)
+                    {
+                        actionCount = actions.Count - 1;
+                    }
+
+
+                    currentAction = actions[actionCount];
+                }
 
                 //var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
 
@@ -147,9 +178,133 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
                 Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
 
-                EmojiPlayHelper.Current.Enqueue(new EmoticonActionFrame(data));
+                var frameData = new EmoticonActionFrame(data, true,
+                    currentAction.J1,
+                    currentAction.J2,
+                    currentAction.J3,
+                    currentAction.J4,
+                    currentAction.J5,
+                    currentAction.J6);
+
+                EmojiPlayHelper.Current.Enqueue(frameData);
+
+                //通过grpc通讯和树莓派传输数据 
+                //var grpcClient = App.GetService<EbGrpcService>();
+
+                //await grpcClient.PlayEmoticonActionFrameAsync(frameData);
             }
         }
         return Task.CompletedTask;
+    }
+
+    public async Task PlayActionExpressionAsync(EmoticonAction emoticonAction)
+    {
+        Mat image = new();
+
+        VideoCapture? capture;
+
+        if (emoticonAction.EmojisType == EmojisType.Default)
+        {
+            capture = new VideoCapture(Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emoticonAction.NameId}.mp4");
+        }
+        else
+        {
+            capture = new VideoCapture(emoticonAction.EmojisVideoPath);
+        }
+
+        var frameCount = capture.FrameCount;
+
+        var currentAction = new ElectronBotAction();
+
+        List<ElectronBotAction> actions = new();
+
+        if (emoticonAction.HasAction)
+        {
+            if (!string.IsNullOrWhiteSpace(emoticonAction.EmojisActionPath))
+            {
+                var json = File.ReadAllText(emoticonAction.EmojisActionPath);
+
+                try
+                {
+                    var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
+
+                    if (actionList != null && actionList.Count > 0)
+                    {
+                        actions = actionList;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
+        while (true)
+        {
+            if (capture != null)
+            {
+                try
+                {
+                    capture.Read(image);
+
+                    capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
+                        capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 4);
+
+                    if (image.Empty())
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if (actions != null && actions.Count > 0)
+                        {
+                            var pos = capture.PosFrames;
+
+                            var bili = ((double)pos / frameCount);
+
+                            var actionCount = (int)(actions.Count * bili);
+
+                            if (actionCount >= actions.Count)
+                            {
+                                actionCount = actions.Count - 1;
+                            }
+
+
+                            currentAction = actions[actionCount];
+                        }
+
+                        //var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
+
+                        //var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+
+                        var dataMeta = image.Data;
+
+                        var data = new byte[240 * 240 * 3];
+
+                        Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
+
+                        var frameData = new EmoticonActionFrame(data, true,
+                            currentAction.J1,
+                            currentAction.J2,
+                            currentAction.J3,
+                            currentAction.J4,
+                            currentAction.J5,
+                            currentAction.J6);
+
+                        //EmojiPlayHelper.Current.Enqueue(frameData);
+
+                        //通过grpc通讯和树莓派传输数据 
+                        var grpcClient = App.GetService<EbGrpcService>();
+
+                        await grpcClient.PlayEmoticonActionFrameAsync(frameData);
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
     }
 }
