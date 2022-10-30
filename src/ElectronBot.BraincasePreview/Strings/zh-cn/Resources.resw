@@ -504,4 +504,10 @@
   <data name="SetEmojisName" xml:space="preserve">
     <value>请设置表情名称</value>
   </data>
+  <data name="ReconnectBtn.Content" xml:space="preserve">
+    <value>重连电子</value>
+  </data>
+  <data name="ReconnectText" xml:space="preserve">
+    <value>重连电子</value>
+  </data>
 </root>

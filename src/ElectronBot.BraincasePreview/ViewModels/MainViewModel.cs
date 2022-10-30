@@ -722,6 +722,35 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         }
     }
 
+    private ICommand _reconnectCommand;
+
+    public ICommand ReconnectCommand
+    {
+        get
+        {
+            _reconnectCommand ??= new RelayCommand(
+                    () =>
+                    {
+                        try
+                        {
+                            _dispatcherTimer.Stop();
+                            //ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+                            ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                       
+
+                        ToastHelper.SendToast("ReconnectText".GetLocalized(), TimeSpan.FromSeconds(3));
+                    });
+
+            return _reconnectCommand;
+        }
+    }
+
+
     private ICommand _resetCommand;
     public ICommand ResetCommand
     {
