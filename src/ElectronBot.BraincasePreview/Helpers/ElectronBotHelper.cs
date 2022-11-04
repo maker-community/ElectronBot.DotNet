@@ -1,6 +1,7 @@
 ﻿using System.IO.Ports;
 using System.Text.RegularExpressions;
 using ElectronBot.DotNet;
+using Microsoft.Extensions.Logging;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
@@ -16,7 +17,6 @@ public class ElectronBotHelper
     }
     private ElectronBotHelper()
     {
-        ElectronBot = App.GetService<IElectronLowLevel>();
     }
     private static ElectronBotHelper? _instance;
     public static ElectronBotHelper Instance => _instance ??= new ElectronBotHelper();
@@ -97,29 +97,52 @@ public class ElectronBotHelper
 
     private async void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
     {
-        if (_electronDic.TryGetValue(args.Id, out var value))
+        try
         {
-            if (value != null)
+            if (ElectronBot is not null)
             {
-                _electronDic.Remove(args.Id);
+                ElectronBot.Disconnect();
 
-                if (ElectronBot is not null)
-                {
-                    ElectronBot.Disconnect();
-
-                    ElectronBot = null;                   
-                }
-
-                if (SerialPort.IsOpen)
-                {
-                    SerialPort.Close();
-                }
-
-                EbConnected = false;
-
-                await DisconnectDeviceAsync();
+                ElectronBot = null;
             }
-        };
+
+            if (SerialPort.IsOpen)
+            {
+                SerialPort.Close();
+            }
+
+        }
+        catch (Exception)
+        {
+
+        }
+
+        EbConnected = false;
+
+        await DisconnectDeviceAsync();
+        //if (_electronDic.TryGetValue(args.Id, out var value))
+        //{
+        //    if (value != null)
+        //    {
+        //        _electronDic.Remove(args.Id);
+
+        //        if (ElectronBot is not null)
+        //        {
+        //            ElectronBot.Disconnect();
+
+        //            ElectronBot = null;                   
+        //        }
+
+        //        if (SerialPort.IsOpen)
+        //        {
+        //            SerialPort.Close();
+        //        }
+
+        //        EbConnected = false;
+
+        //        await DisconnectDeviceAsync();
+        //    }
+        //};
     }
 
     private async void OnDeviceAdded(DeviceWatcher sender, DeviceInformation args)
@@ -131,6 +154,7 @@ public class ElectronBotHelper
             SerialPort.PortName = comName;
 
             SerialPort.BaudRate = 115200;
+
             try
             {
                 if (ElectronBot is not null)
@@ -141,6 +165,15 @@ public class ElectronBotHelper
                 }
 
                 SerialPort.Open();
+
+
+                //_electronDic.Add(args.Id, args.Name);
+
+                ElectronBot = new ElectronLowLevel(App.GetService<ILogger<ElectronLowLevel>>());
+
+                EbConnected = ElectronBot.Connect();
+
+                await ConnectDeviceAsync();
             }
             catch (Exception ex)
             {
@@ -152,15 +185,6 @@ public class ElectronBotHelper
 
                 return;
             }
-
-
-            _electronDic.Add(args.Id, args.Name);
-
-            ElectronBot = App.GetService<IElectronLowLevel>();
-
-            EbConnected = ElectronBot.Connect();
-
-            await ConnectDeviceAsync();
         }
     }
 }

@@ -17,4 +17,6 @@ public interface IActionExpressionProvider
     Task PlayActionExpressionAsync(EmoticonAction emoticonAction);
 
     Task PlayActionExpressionAsync(string actionName, List<ElectronBotAction> actions);
+
+    Task PlayActionExpressionAsync(EmoticonAction emoticonAction, List<ElectronBotAction> actions);
 }

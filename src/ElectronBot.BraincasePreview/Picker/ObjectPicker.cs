@@ -55,7 +55,7 @@ public class ObjectPicker<T> : ContentControl
 
         _rootGrid.Children.Add(this);
 
-        _navigationService.NavigateTo(sourcePageType?.FullName, parameter);
+        _navigationService.NavigateTo(sourcePageType.FullName!, parameter);
 
         ViewModel = (_navigationService?.Frame?.Content as Page)?.DataContext as IObjectPicker<T>;
 
@@ -65,7 +65,7 @@ public class ObjectPicker<T> : ContentControl
         var result = await _taskSource.Task;
         Close();
 
-        _navigationService.Frame = App.RootFrame;
+        _navigationService!.Frame = App.RootFrame;
 
         return result;
     }

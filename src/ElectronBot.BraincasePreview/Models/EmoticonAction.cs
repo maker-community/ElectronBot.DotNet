@@ -1,6 +1,9 @@
-﻿namespace Verdure.ElectronBot.Core.Models;
-public class EmoticonAction
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace ElectronBot.BraincasePreview.Models;
+public class EmoticonAction : ObservableRecipient
 {
+    private bool _hasAction;
     public string NameId
     {
         get; set;
@@ -35,8 +38,9 @@ public class EmoticonAction
     } = "";
     public bool HasAction
     {
-        get; set;
-    } = false;
+        get => _hasAction;
+        set => SetProperty(ref _hasAction, value);
+    }
 }
 
 public enum EmojisType

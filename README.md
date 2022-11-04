@@ -1,5 +1,9 @@
 # [树莓派Zero 2 W（ubuntu-22.04）通过.NET6和libusb操作USB读写](https://www.cnblogs.com/GreenShade/p/16795988.html)
 
+# [树莓派Zero 2 W 通过GPIO，USB和接收手柄数据操作的小车成品演示视频地址](https://www.bilibili.com/video/BV1j8411Y7Di/?share_source=copy_web&vd_source=dbfa7a452a337f924e60d4da2715b6eb)
+
+![封面](/Images/videoCar.jpg)
+
 
 # ElectronBot.DotNet
 

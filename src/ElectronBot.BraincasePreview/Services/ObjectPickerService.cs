@@ -16,7 +16,7 @@ public class ObjectPickerService
 
         if (startOption != null) picker.PickerOpenOption = startOption;
 
-        var result = await picker.PickSingleObjectAsync(page, parameter);
+        var result = await picker.PickSingleObjectAsync(page!, parameter);
         return result;
     }
 }

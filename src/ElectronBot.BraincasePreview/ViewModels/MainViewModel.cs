@@ -512,20 +512,23 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
                 ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
 
-                var jointAngles = ElectronBotHelper.Instance.ElectronBot.GetJointAngles();
+                var jointAngles = ElectronBotHelper.Instance?.ElectronBot?.GetJointAngles();
 
-                var actionData = new ElectronBotAction()
+                if(jointAngles != null)
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    J1 = (int)jointAngles[0],
-                    J2 = (int)jointAngles[1],
-                    J3 = (int)jointAngles[2],
-                    J4 = (int)jointAngles[3],
-                    J5 = (int)jointAngles[4],
-                    J6 = (int)jointAngles[5]
-                };
+                    var actionData = new ElectronBotAction()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        J1 = (int)jointAngles[0],
+                        J2 = (int)jointAngles[1],
+                        J3 = (int)jointAngles[2],
+                        J4 = (int)jointAngles[3],
+                        J5 = (int)jointAngles[4],
+                        J6 = (int)jointAngles[5]
+                    };
 
-                Actions.Add(actionData);
+                    Actions.Add(actionData);
+                }       
             }
         }
     }
@@ -718,6 +721,35 @@ public class MainViewModel : ObservableRecipient, INavigationAware
             return _clearCommand;
         }
     }
+
+    private ICommand _reconnectCommand;
+
+    public ICommand ReconnectCommand
+    {
+        get
+        {
+            _reconnectCommand ??= new RelayCommand(
+                    () =>
+                    {
+                        try
+                        {
+                            _dispatcherTimer.Stop();
+                            //ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+                            ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                       
+
+                        ToastHelper.SendToast("ReconnectText".GetLocalized(), TimeSpan.FromSeconds(3));
+                    });
+
+            return _reconnectCommand;
+        }
+    }
+
 
     private ICommand _resetCommand;
     public ICommand ResetCommand
@@ -924,7 +956,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
                                 AspectRatio = 1
                             };
 
-                            var croppedImage = await CropImage(config);
+                            var croppedImage = await ImageHelper.CropImage(config);
 
                             if (croppedImage != null)
                             {
@@ -949,25 +981,6 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
             return _addPictureCommand;
         }
-    }
-
-    private async Task<WriteableBitmap> CropImage(ImageCropperConfig config)
-    {
-        var startOption = new PickerOpenOption
-        {
-            VerticalAlignment = VerticalAlignment.Stretch,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-        };
-
-        var ret = await _objectPickerService
-            .PickSingleObjectAsync<WriteableBitmap>
-            (typeof(ImageCropperPickerViewModel).FullName, config, startOption);
-
-        if (!ret.Canceled)
-        {
-            return ret.Result;
-        }
-        return null;
     }
 
     private async Task ResetActionAsync()

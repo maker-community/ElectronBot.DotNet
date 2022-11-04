@@ -3,18 +3,22 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:Verdure.ElectronBot.Core.Models"
+    xmlns:models="using:ElectronBot.BraincasePreview.Models"
     mc:Ignorable="d">
+
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
         <DataTemplate x:Key="PhotosTemplate" x:DataType="models:EmoticonAction">
             <Grid
                 Background="White"
@@ -22,11 +26,25 @@
                 BorderThickness="1"
                 CornerRadius="8">
                 <StackPanel Orientation="Vertical">
-                    <Image
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Source="{x:Bind Avatar}"
-                        Stretch="UniformToFill" />
+                    <Grid>
+                        <Image
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Source="{x:Bind Avatar}"
+                            Stretch="UniformToFill" />
+                        <Border
+                            Width="24"
+                            Height="24"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Visibility="{x:Bind HasAction, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <FontIcon
+                                FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                Foreground="Red"
+                                Glyph="&#xE776;" />
+                        </Border>
+                    </Grid>
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontSize="32"

@@ -17,75 +17,132 @@
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Grid>
-        <Grid>
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        x:Uid="EmojisNameTitle"
-                        Width="100"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Width="280"
-                        Margin="4"
-                        Text="{x:Bind ViewModel.EmojisName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        TextWrapping="NoWrap" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        x:Uid="EmojisNameId"
-                        Width="100"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Width="280"
-                        Margin="4"
-                        Text="{x:Bind ViewModel.EmojisNameId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        TextWrapping="NoWrap" />
-                </StackPanel>
+        <ScrollViewer>
+            <Grid>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisNameTitle"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Width="280"
+                            Margin="4"
+                            Text="{x:Bind ViewModel.EmojisName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="NoWrap" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisNameId"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Width="280"
+                            Margin="4"
+                            Text="{x:Bind ViewModel.EmojisNameId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="NoWrap" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisAvatarBtn"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <Button
+                            x:Uid="EmojisAvatarAddBtn"
+                            Margin="4"
+                            Command="{x:Bind ViewModel.AddEmojisAvatarCommand}">
+                            <FontIcon
+                                FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                FontSize="48"
+                                Glyph="&#xE158;" />
+                        </Button>
+                        <Image
+                            Width="40"
+                            Height="40"
+                            Margin="4"
+                            Source="{x:Bind ViewModel.EmojisAvatarBitMap, Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisAvatar"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Width="280"
+                            Margin="4"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.EmojisAvatar, Mode=OneWay}"
+                            TextWrapping="NoWrap" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisVideoAddTB"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <Button
+                            x:Uid="EmojisVideoAddBtn"
+                            Margin="4"
+                            Command="{x:Bind ViewModel.AddEmojisVideoCommand}">
+                            <FontIcon
+                                FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                FontSize="48"
+                                Glyph="&#xE116;" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisVideoUrl"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Width="280"
+                            Margin="4"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.EmojisVideoUrl, Mode=OneWay}" />
+                    </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        x:Uid="EmojisAvatar"
-                        Width="100"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Width="280"
-                        Margin="4"
-                        IsReadOnly="True"
-                        Text="{x:Bind ViewModel.EmojisAvatar, Mode=OneWay}"
-                        TextWrapping="NoWrap" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisActionAddTB"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <Button
+                            x:Uid="EmojisActionAddBtn"
+                            Margin="4"
+                            Command="{x:Bind ViewModel.AddEmojisActionCommand}">
+                            <FontIcon
+                                FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                FontSize="48"
+                                Glyph="&#xE776;" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisActionPath"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Width="280"
+                            Margin="4"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.EmojisActionPath, Mode=OneWay}" />
+                    </StackPanel>
+
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="EmojisDesc"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Width="280"
+                            Margin="4"
+                            Text="{x:Bind ViewModel.EmojisDesc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Uid="EmojisAvatarAddBtn" Command="{x:Bind ViewModel.AddEmojisAvatarCommand}">
-                        <FontIcon FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE710;" />
-                    </Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        x:Uid="EmojisDesc"
-                        Width="100"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Width="280"
-                        Margin="4"
-                        Text="{x:Bind ViewModel.EmojisDesc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        x:Uid="EmojisVideoUrl"
-                        Width="100"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Width="280"
-                        Margin="4"
-                        IsReadOnly="True"
-                        Text="{x:Bind ViewModel.EmojisVideoUrl, Mode=OneWay}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Uid="EmojisVideoAddBtn" Command="{x:Bind ViewModel.AddEmojisVideoCommand}">
-                        <FontIcon FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE710;" />
-                    </Button>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
+            </Grid>
+        </ScrollViewer>
+
     </Grid>
 </ContentDialog>

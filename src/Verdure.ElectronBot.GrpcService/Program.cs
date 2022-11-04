@@ -1,3 +1,4 @@
+using System.Device.Gpio;
 using ElectronBot.DotNet;
 using Verdure.ElectronBot.GrpcService;
 using Verdure.ElectronBot.GrpcService.Services;
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 
 builder.Services.AddSingleton<IElectronLowLevel, ElectronLowLevel>();
+
 
 var app = builder.Build();
 
