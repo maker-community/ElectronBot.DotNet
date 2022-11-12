@@ -1,4 +1,5 @@
-﻿using LibUsbDotNet;
+﻿using System.Diagnostics;
+using LibUsbDotNet;
 using LibUsbDotNet.Main;
 using Microsoft.Extensions.Logging;
 
@@ -278,6 +279,10 @@ public class ElectronLowLevel : IElectronLowLevel
     }
     private bool ReceivePacket(int packetCount, int packetSize)
     {
+        var stopwatch = Stopwatch.StartNew();
+
+        stopwatch.Start();
+
         var _packetCount = packetCount;
 
         do
@@ -297,11 +302,18 @@ public class ElectronLowLevel : IElectronLowLevel
 
         } while (_packetCount > 0);
 
-        return _packetCount == 0;
+        stopwatch.Stop();
 
+        Console.WriteLine($"time- ReceivePacket time{stopwatch.ElapsedMilliseconds}");
+
+        return _packetCount == 0;
     }
     private bool TransmitPacket(byte[] buffer, int frameBufferOffset, int packetCount, int packetSize)
     {
+        var stopwatch = Stopwatch.StartNew();
+
+        stopwatch.Start();
+
         var _packetCount = packetCount;
 
         var dataOffset = 0;
@@ -325,6 +337,10 @@ public class ElectronLowLevel : IElectronLowLevel
             _packetCount--;
 
         } while (_packetCount > 0);
+
+        stopwatch.Stop();
+
+        Console.WriteLine($"time- TransmitPacket time{stopwatch.ElapsedMilliseconds}");
 
         return _packetCount == 0;
     }

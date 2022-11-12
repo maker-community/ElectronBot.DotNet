@@ -14,15 +14,15 @@ public class ElectronBotActionService : ElectronBotActionGrpc.ElectronBotActionG
     private readonly int pin6 = 6;
     private readonly int pin13 = 13;
     private readonly int pin19 = 19;
-    public ElectronBotActionService(ILogger<ElectronBotActionService> logger, 
+    public ElectronBotActionService(ILogger<ElectronBotActionService> logger,
         IElectronLowLevel electronLowLevel)
     {
         _logger = logger;
         _electronLowLevel = electronLowLevel;
     }
 
-    public override Task<EbHelloReply> PlayEmoticonAction(
-        EmoticonActionFrameRequest request, ServerCallContext context)
+    public override Task<EbHelloReply> PlayEmotionAction(
+        EmotionActionFrameRequest request, ServerCallContext context)
     {
         var frameAction = request.FrameBuffer.ToByteArray();
 
@@ -36,6 +36,38 @@ public class ElectronBotActionService : ElectronBotActionGrpc.ElectronBotActionG
 
         EmojiPlayHelper.Current.Enqueue(actionData);
 
+        var result = new EbHelloReply() { Message = "ok" };
+
+        return Task.FromResult(result);
+    }
+
+    public override Task<EbHelloReply> PlayEmoitonActions(EmotionActionFramesRequest request, ServerCallContext context)
+    {
+        if (request.ActionsRequest != null && request.ActionsRequest.Count > 0)
+        {
+            foreach (var frameItem in request.ActionsRequest)
+            {
+                var frameAction = frameItem.FrameBuffer.ToByteArray();
+
+                var actionData = new EmoticonActionFrame(frameAction, frameItem.Enable,
+                    frameItem.J1,
+                    frameItem.J2,
+                    frameItem.J3,
+                    frameItem.J4,
+                    frameItem.J5,
+                    frameItem.J6);
+                Task.Run(() =>
+                {
+                    if (EmojiPlayHelper.Current.ElectronLowLevel.IsConnected)
+                    {
+                        EmojiPlayHelper.Current.ElectronLowLevel.SetImageSrc(actionData.FrameBuffer);
+                        EmojiPlayHelper.Current.ElectronLowLevel.SetJointAngles(actionData.J1, actionData.J2, actionData.J3, actionData.J4, actionData.J5, actionData.J6, actionData.Enable);
+                        EmojiPlayHelper.Current.ElectronLowLevel.Sync();
+                    }
+                });
+
+            }
+        }
         var result = new EbHelloReply() { Message = "ok" };
 
         return Task.FromResult(result);

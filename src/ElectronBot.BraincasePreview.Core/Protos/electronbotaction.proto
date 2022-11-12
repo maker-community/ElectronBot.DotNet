@@ -7,13 +7,16 @@ package electronbotactiongrpc;
 // The electronbotaction service definition.
 service ElectronBotActionGrpc {
   // Sends a greeting
-  rpc PlayEmoticonAction (EmoticonActionFrameRequest) returns (EbHelloReply);
+  rpc PlayEmotionAction (EmotionActionFrameRequest) returns (EbHelloReply);
+
+  rpc PlayEmoitonActions (EmotionActionFramesRequest) returns (EbHelloReply);
 
   rpc SendMotorControl (MotorControlRequest) returns (EbHelloReply);
+
 }
 
 // The request message containing the user's name.
-message EmoticonActionFrameRequest {
+message EmotionActionFrameRequest {
  float J1 = 1;
  float J2 = 2;
  float J3 = 3;
@@ -26,16 +29,21 @@ message EmoticonActionFrameRequest {
 
 // The response message containing the greetings.
 message EbHelloReply {
-  string message = 9;
+  string message = 1;
 }
 
 
 // The request message containing the user's name.
 message MotorControlRequest {
- int32 Init1 = 10;
- int32 Init2 = 11;
- int32 Init3 = 12;
- int32 Init4 = 13;
- int32 EnableA = 14;
- int32 EnableB = 15;
+ int32 Init1 = 1;
+ int32 Init2 = 2;
+ int32 Init3 = 3;
+ int32 Init4 = 4;
+ int32 EnableA = 5;
+ int32 EnableB = 6;
+}
+
+
+message EmotionActionFramesRequest {
+	repeated EmotionActionFrameRequest ActionsRequest = 1;
 }

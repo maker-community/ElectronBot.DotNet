@@ -240,6 +240,8 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
             }
         }
 
+        var actionsList = new List<EmoticonActionFrame>();
+
         while (true)
         {
             if (capture != null)
@@ -294,10 +296,12 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
                         //EmojiPlayHelper.Current.Enqueue(frameData);
 
-                        //通过grpc通讯和树莓派传输数据 
-                        var grpcClient = App.GetService<EbGrpcService>();
+                        actionsList.Add(frameData);
 
-                        await grpcClient.PlayEmoticonActionFrameAsync(frameData);
+                        //通过grpc通讯和树莓派传输数据 
+                        //var grpcClient = App.GetService<EbGrpcService>();
+
+                        //await grpcClient.PlayEmotionActionFrameAsync(frameData);
                     }
                 }
                 catch (Exception)
@@ -306,5 +310,9 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                 }
             }
         }
+
+        var grpcClient = App.GetService<EbGrpcService>();
+
+        await grpcClient.PlayEmotionActionFramesAsync(actionsList);
     }
 }
