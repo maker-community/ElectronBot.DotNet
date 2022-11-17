@@ -8,17 +8,15 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using Verdure.ElectronBot.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Picker;
 using ElectronBot.BraincasePreview.Services;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
+using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
@@ -99,9 +97,37 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     private ICommand _testPlayEmojiCommand;
 
     private ICommand _testVoiceCommand;
+
+    private ICommand _rebootElectronCommand;
     public ICommand TestPlayEmojiCommand => _testPlayEmojiCommand ??= new RelayCommand(TestPlayEmoji);
 
     public ICommand TestVoiceCommand => _testVoiceCommand ??= new RelayCommand(TestVoice);
+
+    public ICommand RebootElectronCommand => _rebootElectronCommand ??= new RelayCommand(RebootRebot);
+
+    private void RebootRebot()
+    {
+        try
+        {
+            if (!ElectronBotHelper.Instance.SerialPort.IsOpen)
+            {
+                ElectronBotHelper.Instance.SerialPort.Open();
+            }
+
+            var byteData = new byte[]
+            {
+                0xea, 0x00, 0x00, 0x00, 0x00 ,0x0d, 0x02, 0x00 , 0x00, 0x0f, 0xea
+            };
+
+            ElectronBotHelper.Instance.SerialPort.Write(byteData, 0, byteData.Length);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
 
     private async void TestVoice()
     {
@@ -514,7 +540,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
                 var jointAngles = ElectronBotHelper.Instance?.ElectronBot?.GetJointAngles();
 
-                if(jointAngles != null)
+                if (jointAngles != null)
                 {
                     var actionData = new ElectronBotAction()
                     {
@@ -528,7 +554,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
                     };
 
                     Actions.Add(actionData);
-                }       
+                }
             }
         }
     }
@@ -741,7 +767,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
                         {
 
                         }
-                       
+
 
                         ToastHelper.SendToast("ReconnectText".GetLocalized(), TimeSpan.FromSeconds(3));
                     });

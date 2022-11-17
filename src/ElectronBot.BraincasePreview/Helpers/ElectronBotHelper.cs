@@ -164,7 +164,7 @@ public class ElectronBotHelper
                     ElectronBot = null;
                 }
 
-                SerialPort.Open();
+                //SerialPort.Open();
 
 
                 //_electronDic.Add(args.Id, args.Name);

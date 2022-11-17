@@ -327,6 +327,11 @@
                             x:Uid="TestVoice"
                             Margin="0,12,0,0"
                             Command="{x:Bind ViewModel.TestVoiceCommand}" />
+                        <Button
+                            x:Name="RebootElectron"
+                            x:Uid="RebootElectron"
+                            Margin="0,12,0,0"
+                            Command="{x:Bind ViewModel.RebootElectronCommand}" />
                         <!--<Button
                             x:Name="Reconnect"
                             x:Uid="ReconnectBtn"
