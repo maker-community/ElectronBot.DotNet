@@ -195,11 +195,12 @@ public partial class App : Application
             IntelligenceService.Current.CleanUp();
 
             await CameraService.Current.CleanupMediaCaptureAsync();
+
+            EmojiPlayHelper.Current.CancellationToken.Cancel();
         }
         catch (Exception)
         {
 
         }
-        System.Environment.Exit(0);
     }
 }

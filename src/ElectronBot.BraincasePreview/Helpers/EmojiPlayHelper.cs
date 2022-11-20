@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using Verdure.ElectronBot.Core.Models;
+﻿using Verdure.ElectronBot.Core.Models;
 
 namespace ElectronBot.BraincasePreview.Helpers;
 public class EmojiPlayHelper
 {
-    private static EmojiPlayHelper _current;
+    private static EmojiPlayHelper? _current;
     public static EmojiPlayHelper Current => _current ??= new EmojiPlayHelper();
 
     private readonly Queue<EmoticonActionFrame> _actonFrame = new();
 
     private readonly object _actonFrameLock = new();
+
+    public CancellationTokenSource CancellationToken
+    {
+        get; set;
+    } = new();
 
     public int Interval
     {
@@ -20,10 +22,14 @@ public class EmojiPlayHelper
 
     public void Start()
     {
-        var thread = new Thread(RunPlayAsync);
+        // var thread = new Thread(RunPlayAsync, CancellationToken.Token);
+
+        var task = new Task(RunPlayAsync, CancellationToken.Token);
+
+        task.Start();
 
         //thread.IsBackground = true;
-        thread.Start();
+        //thread.Start();
     }
 
     public void Clear()
@@ -62,6 +68,10 @@ public class EmojiPlayHelper
                         }
 
                         Thread.Sleep(Interval);
+                    }
+                    else
+                    {
+                        Thread.Sleep(3000);
                     }
                 }
 

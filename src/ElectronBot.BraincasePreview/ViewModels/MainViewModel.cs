@@ -183,6 +183,12 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
         }
 
+        Thread.Sleep(1000);
+
+        if (ElectronBotHelper.Instance.SerialPort.IsOpen)
+        {
+            ElectronBotHelper.Instance.SerialPort.Close();
+        }
     }
 
     [RelayCommand]
