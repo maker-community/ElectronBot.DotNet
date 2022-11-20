@@ -26,7 +26,7 @@ using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public class MainViewModel : ObservableRecipient, INavigationAware
+public partial class MainViewModel : ObservableRecipient, INavigationAware
 {
     private readonly DispatcherTimer _dispatcherTimer;
 
@@ -37,10 +37,6 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     private readonly IActionExpressionProviderFactory _expressionProviderFactory;
 
     private readonly ISpeechAndTTSService _speechAndTTSService;
-
-    private ObservableCollection<ElectronBotAction> actions = new();
-
-    private ElectronBotAction selectdAction = new();
 
     private readonly ILocalSettingsService _localSettingsService;
 
@@ -56,115 +52,12 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
     private int _interval = 500;
 
-    private UIElement _element;
-
-    private ImageSource _emojiImageSource;
-
-    private ObservableCollection<ComboxItemModel> _clockComboxModels;
-
-    private ObservableCollection<ComboxItemModel> _cameras;
-
-    private ObservableCollection<ComboxItemModel> _audioDevs;
-
-    private ComboxItemModel _clockComboxSelect;
-
-    private ComboxItemModel _cameraSelect;
-
-    private ComboxItemModel _audioSelect;
 
     private readonly MediaPlayer _mediaPlayer;
 
     SoftwareBitmap frameServerDest = null;
 
     CanvasImageSource canvasImageSource = null;
-
-    private float j1 = 0;
-    private float j2 = 0;
-    private float j3 = 0;
-    private float j4 = 0;
-    private float j5 = 0;
-    private float j6 = 0;
-
-    private ICommand _clockChangedCommand;
-    public ICommand ClockChangedCommand => _clockChangedCommand ??= new RelayCommand(ClockChanged);
-
-    private ICommand _cameraCommand;
-    public ICommand CameraCommand => _cameraCommand ??= new RelayCommand(CameraChanged);
-
-    private ICommand _audioCommand;
-    public ICommand AudioCommand => _audioCommand ??= new RelayCommand(AudioChanged);
-
-    private ICommand _testPlayEmojiCommand;
-
-    private ICommand _testVoiceCommand;
-
-    private ICommand _rebootElectronCommand;
-    public ICommand TestPlayEmojiCommand => _testPlayEmojiCommand ??= new RelayCommand(TestPlayEmoji);
-
-    public ICommand TestVoiceCommand => _testVoiceCommand ??= new RelayCommand(TestVoice);
-
-    public ICommand RebootElectronCommand => _rebootElectronCommand ??= new RelayCommand(RebootRebot);
-
-    private void RebootRebot()
-    {
-        try
-        {
-            if (!ElectronBotHelper.Instance.SerialPort.IsOpen)
-            {
-                ElectronBotHelper.Instance.SerialPort.Open();
-            }
-
-            var byteData = new byte[]
-            {
-                0xea, 0x00, 0x00, 0x00, 0x00 ,0x0d, 0x02, 0x00 , 0x00, 0x0f, 0xea
-            };
-
-            ElectronBotHelper.Instance.SerialPort.Write(byteData, 0, byteData.Length);
-
-        }
-        catch (Exception ex)
-        {
-
-        }
-
-    }
-
-    private async void TestVoice()
-    {
-        var textList = new List<string>()
-        {
-            "哥哥你好啊",
-            "哥哥在干嘛",
-            "哥哥想我没",
-            "哥哥最好啦",
-            "最喜欢哥哥啦",
-            "人家好想哥哥",
-            "哥哥喜欢妹妹不"
-        };
-
-        var r = new Random().Next(textList.Count);
-
-        var text = textList[r];
-
-        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-        {
-            ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
-        });
-
-
-        var stream = await _speechAndTTSService.TextToSpeechAsync(text);
-
-        _mediaPlayer.SetStreamSource(stream);
-
-        var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
-
-        if (selectedDevice != null)
-        {
-            _mediaPlayer.AudioDevice = selectedDevice;
-        }
-
-        _mediaPlayer.Play();
-    }
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public MainViewModel(
@@ -211,6 +104,126 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     }
 
 
+    [ObservableProperty]
+    int selectIndex;
+
+    [ObservableProperty]
+    int interval;
+
+    /// <summary>
+    /// 时钟选中数据
+    /// </summary>
+    [ObservableProperty]
+    ComboxItemModel clockComBoxSelect;
+
+    /// <summary>
+    /// 选中的相机
+    /// </summary>
+    [ObservableProperty]
+    ComboxItemModel cameraSelect;
+
+    /// <summary>
+    /// 选中的音频设备
+    /// </summary>
+    [ObservableProperty]
+    public ComboxItemModel audioSelect;
+
+    /// <summary>
+    /// 表盘列表
+    /// </summary>
+    [ObservableProperty]
+    public ObservableCollection<ComboxItemModel> clockComboxModels;
+
+    /// <summary>
+    /// 相机列表
+    /// </summary>
+    [ObservableProperty]
+    public ObservableCollection<ComboxItemModel> cameras;
+
+    /// <summary>
+    /// 音频设备列表
+    /// </summary>
+    [ObservableProperty]
+    public ObservableCollection<ComboxItemModel> audioDevs;
+
+    /// <summary>
+    /// 当前播放表情
+    /// </summary>
+    [ObservableProperty]
+    ImageSource emojiImageSource;
+
+    /// <summary>
+    /// 表盘内容
+    /// </summary>
+    [ObservableProperty]
+    UIElement element;
+
+
+
+    [RelayCommand]
+    private void RebootElectron()
+    {
+        try
+        {
+            if (!ElectronBotHelper.Instance.SerialPort.IsOpen)
+            {
+                ElectronBotHelper.Instance.SerialPort.Open();
+            }
+
+            var byteData = new byte[]
+            {
+                0xea, 0x00, 0x00, 0x00, 0x00 ,0x0d, 0x02, 0x00 , 0x00, 0x0f, 0xea
+            };
+
+            ElectronBotHelper.Instance.SerialPort.Write(byteData, 0, byteData.Length);
+
+        }
+        catch (Exception)
+        {
+
+        }
+
+    }
+
+    [RelayCommand]
+    private async void TestVoice()
+    {
+        var textList = new List<string>()
+        {
+            "哥哥你好啊",
+            "哥哥在干嘛",
+            "哥哥想我没",
+            "哥哥最好啦",
+            "最喜欢哥哥啦",
+            "人家好想哥哥",
+            "哥哥喜欢妹妹不"
+        };
+
+        var r = new Random().Next(textList.Count);
+
+        var text = textList[r];
+
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
+        });
+
+
+        var stream = await _speechAndTTSService.TextToSpeechAsync(text);
+
+        _mediaPlayer.SetStreamSource(stream);
+
+        var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+
+        if (selectedDevice != null)
+        {
+            _mediaPlayer.AudioDevice = selectedDevice;
+        }
+
+        _mediaPlayer.Play();
+    }
+
+
     private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
         SerialPort sp = (SerialPort)sender;
@@ -246,90 +259,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         await _speechAndTTSService.StartAsync();
     }
 
-    public int SelectIndex
-    {
-        get => _selectIndex;
-        set => SetProperty(ref _selectIndex, value);
-    }
-
-    public int Interval
-    {
-        get => _interval;
-        set => SetProperty(ref _interval, value);
-    }
-
-    /// <summary>
-    /// 时钟选中数据
-    /// </summary>
-    public ComboxItemModel ClockComBoxSelect
-    {
-        get => _clockComboxSelect;
-        set => SetProperty(ref _clockComboxSelect, value);
-    }
-
-    /// <summary>
-    /// 选中的相机
-    /// </summary>
-    public ComboxItemModel CameraSelect
-    {
-        get => _cameraSelect;
-        set => SetProperty(ref _cameraSelect, value);
-    }
-
-    /// <summary>
-    /// 选中的音频设备
-    /// </summary>
-    public ComboxItemModel AudioSelect
-    {
-        get => _audioSelect;
-        set => SetProperty(ref _audioSelect, value);
-    }
-
-    /// <summary>
-    /// 表盘列表
-    /// </summary>
-    public ObservableCollection<ComboxItemModel> ClockComboxModels
-    {
-        get => _clockComboxModels;
-        set => SetProperty(ref _clockComboxModels, value);
-    }
-
-    /// <summary>
-    /// 相机列表
-    /// </summary>
-    public ObservableCollection<ComboxItemModel> Cameras
-    {
-        get => _cameras;
-        set => SetProperty(ref _cameras, value);
-    }
-
-    /// <summary>
-    /// 音频设备列表
-    /// </summary>
-    public ObservableCollection<ComboxItemModel> AudioDevs
-    {
-        get => _audioDevs;
-        set => SetProperty(ref _audioDevs, value);
-    }
-
-    /// <summary>
-    /// 当前播放表情
-    /// </summary>
-    public ImageSource EmojiImageSource
-    {
-        get => _emojiImageSource;
-        set => SetProperty(ref _emojiImageSource, value);
-    }
-
-    /// <summary>
-    /// 表盘内容
-    /// </summary>
-    public UIElement Element
-    {
-        get => _element;
-        set => SetProperty(ref _element, value);
-    }
-
+    [RelayCommand]
     private void TestPlayEmoji()
     {
         try
@@ -404,16 +334,17 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     /// <summary>
     /// 音频切换方法
     /// </summary>
+    [RelayCommand]
     private async void AudioChanged()
     {
-        var audioName = _audioSelect?.DataKey;
+        var audioName = audioSelect?.DataKey;
 
         if (!string.IsNullOrWhiteSpace(audioName))
         {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultAudioNameKey, _audioSelect);
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultAudioNameKey, audioSelect);
         }
 
-        var selectedDevice = (DeviceInformation)_audioSelect?.Tag ?? (DeviceInformation)(AudioDevs.FirstOrDefault()).Tag;
+        var selectedDevice = (DeviceInformation)audioSelect?.Tag ?? (DeviceInformation)(AudioDevs.FirstOrDefault()).Tag;
 
         if (selectedDevice != null)
         {
@@ -424,9 +355,10 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     /// <summary>
     /// 表盘切换方法
     /// </summary>
+    [RelayCommand]
     private void ClockChanged()
     {
-        var clockName = _clockComboxSelect?.DataKey;
+        var clockName = clockComBoxSelect?.DataKey;
 
         if (!string.IsNullOrWhiteSpace(clockName))
         {
@@ -452,13 +384,14 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     /// <summary>
     /// 相机选择方法
     /// </summary>
+    [RelayCommand]
     private async void CameraChanged()
     {
-        var cameraName = _cameraSelect?.DataKey;
+        var cameraName = cameraSelect?.DataKey;
 
         if (!string.IsNullOrWhiteSpace(cameraName))
         {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultCameraNameKey, _cameraSelect);
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultCameraNameKey, cameraSelect);
         }
     }
 
@@ -466,52 +399,34 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     /// <summary>
     /// 头部舵机
     /// </summary>
-    public float J1
-    {
-        get => j1;
-        set => SetProperty(ref j1, value);
-    }
+    [ObservableProperty]
+    float j1;
 
     /// <summary>
     /// 左臂展开
     /// </summary>
-    public float J2
-    {
-        get => j2;
-        set => SetProperty(ref j2, value);
-    }
+    [ObservableProperty]
+    float j2;
     /// <summary>
     /// 左臂旋转
     /// </summary>
-    public float J3
-    {
-        get => j3;
-        set => SetProperty(ref j3, value);
-    }
+    [ObservableProperty]
+    float j3;
     /// <summary>
     /// 右臂展开
     /// </summary>
-    public float J4
-    {
-        get => j4;
-        set => SetProperty(ref j4, value);
-    }
+    [ObservableProperty]
+    float j4;
     /// <summary>
     /// 右臂旋转
     /// </summary>
-    public float J5
-    {
-        get => j5;
-        set => SetProperty(ref j5, value);
-    }
+    [ObservableProperty]
+    float j5;
     /// <summary>
     /// 底盘转动
     /// </summary>
-    public float J6
-    {
-        get => j6;
-        set => SetProperty(ref j6, value);
-    }
+    [ObservableProperty]
+    float j6;
 
 
     /// <summary>
@@ -612,7 +527,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
                 EmojiPlayHelper.Current.Interval = 0;
 
-                var clockName = _clockComboxSelect?.DataKey;
+                var clockName = clockComBoxSelect?.DataKey;
 
                 if (clockName != "GooeyFooter")
                 {
@@ -644,17 +559,11 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public ElectronBotAction SelectdAction
-    {
-        get => selectdAction;
-        set => SetProperty(ref selectdAction, value);
-    }
+    [ObservableProperty]
+    ElectronBotAction selectdAction;
 
-    public ObservableCollection<ElectronBotAction> Actions
-    {
-        get => actions;
-        set => SetProperty(ref actions, value);
-    }
+    [ObservableProperty]
+    ObservableCollection<ElectronBotAction> actions;
 
     private ICommand _importCommand;
 
