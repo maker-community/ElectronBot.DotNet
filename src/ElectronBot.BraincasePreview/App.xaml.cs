@@ -19,6 +19,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Verdure.ElectronBot.GrpcService;
 using Windows.Media.Playback;
+using Windows.ApplicationModel.Background;
 
 namespace ElectronBot.BraincasePreview;
 
@@ -56,7 +57,7 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
-
+        RegisterTask();
         Host = Microsoft.Extensions.Hosting.Host.
         CreateDefaultBuilder().
         UseContentRoot(AppContext.BaseDirectory).
@@ -202,5 +203,18 @@ public partial class App : Application
         {
 
         }
+    }
+
+    void RegisterTask()
+    {
+        var builder = new BackgroundTaskBuilder
+        {
+            Name = "EbToastBgTask",
+            TaskEntryPoint = "ElectronBot.BraincasePreview.BgTaskComponent.ToastBgTask"
+        };
+        builder.SetTrigger(new TimeTrigger(15, false));
+
+        var task = builder.Register();
+
     }
 }

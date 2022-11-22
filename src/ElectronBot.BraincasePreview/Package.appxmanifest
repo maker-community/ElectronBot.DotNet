@@ -55,11 +55,27 @@
                   </com:ExeServer>
               </com:ComServer>
           </com:Extension>
+          <Extension Category="windows.backgroundTasks" EntryPoint="ElectronBot.BraincasePreview.BgTaskComponent.ToastBgTask">
+              <BackgroundTasks>
+                  <Task Type="timer"/>
+              </BackgroundTasks>
+          </Extension>
       </Extensions>
     </Application>
   </Applications>
 
-  <Capabilities>
+	<!-- To host the BgTaskComponent, you must add this activatable class entry -->
+	<Extensions>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>WinRT.Host.dll</Path>
+				<ActivatableClass ActivatableClassId="ElectronBot.BraincasePreview.BgTaskComponent.ToastBgTask" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+	</Extensions>
+
+
+	<Capabilities>
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
 
