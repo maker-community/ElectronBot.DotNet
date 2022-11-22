@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Verdure.ElectronBot.Core.Models;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Services;
+using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
 using Windows.Media.Devices;
@@ -237,7 +233,7 @@ public class EbHelper
 
                         var dataMeta = mat2.Data;
 
-                        Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);      
+                        Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
                     }
                     var frame = new EmoticonActionFrame(
                              data, true, action.J1, action.J2, action.J3, action.J4, action.J5, action.J6);
@@ -338,6 +334,9 @@ public class EbHelper
             Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
 
             EmojiPlayHelper.Current.Enqueue(new EmoticonActionFrame(data));
+
+            var service = App.GetService<EmoticonActionFrameService>();
+            _ = await service.SendToUsbDeviceAsync(new EmoticonActionFrame(data));
         }
         catch (Exception)
         {

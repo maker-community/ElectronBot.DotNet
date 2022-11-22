@@ -20,6 +20,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Verdure.ElectronBot.GrpcService;
 using Windows.Media.Playback;
 using Windows.ApplicationModel.Background;
+using Services;
 
 namespace ElectronBot.BraincasePreview;
 
@@ -146,6 +147,8 @@ public partial class App : Application
             services.AddSingleton<IActionExpressionProvider, DefaultActionExpressionProvider>();
 
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
+
+            services.AddSingleton<EmoticonActionFrameService>();
 
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
