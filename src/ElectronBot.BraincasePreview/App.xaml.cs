@@ -1,8 +1,7 @@
-﻿using ElectronBot.BraincasePreview.Activation;
+﻿using Controls;
+using ElectronBot.BraincasePreview.Activation;
 using ElectronBot.BraincasePreview.ClockViews;
 using ElectronBot.BraincasePreview.Contracts.Services;
-using Verdure.ElectronBot.Core.Contracts.Services;
-using Verdure.ElectronBot.Core.Services;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Notifications;
@@ -14,13 +13,16 @@ using ElectronBot.DotNet;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Graphics.Canvas;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Verdure.ElectronBot.GrpcService;
-using Windows.Media.Playback;
-using Windows.ApplicationModel.Background;
 using Services;
+using Verdure.ElectronBot.Core.Contracts.Services;
+using Verdure.ElectronBot.Core.Services;
+using Verdure.ElectronBot.GrpcService;
+using Windows.ApplicationModel.Background;
+using Windows.Media.Playback;
 
 namespace ElectronBot.BraincasePreview;
 
@@ -184,11 +186,35 @@ public partial class App : Application
 
         MainWindow.Closed += MainWindow_Closed;
 
+        MainWindow.AppWindow.Closing += AppWindow_Closing;
         //App.GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
         await App.GetService<IActivationService>().ActivateAsync(args);
     }
 
+    private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+    {
+        args.Cancel = true;
+
+        ContentDialog dialog = new ContentDialog();
+
+        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+        dialog.XamlRoot = MainWindow.Content.XamlRoot;
+        dialog.Title = "Save your work?";
+        dialog.PrimaryButtonText = "Save";
+        dialog.SecondaryButtonText = "Don't Save";
+        dialog.CloseButtonText = "Cancel";
+        dialog.DefaultButton = ContentDialogButton.Primary;
+        dialog.Content = new AppQuitPage();
+
+        var result = await dialog.ShowAsync();
+
+
+        if (result == ContentDialogResult.Primary)
+        {
+            MainWindow.Close();
+        }
+    }
 
     private async void MainWindow_Closed(object sender, WindowEventArgs args)
     {
