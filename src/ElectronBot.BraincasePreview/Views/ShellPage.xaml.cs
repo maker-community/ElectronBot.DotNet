@@ -6,8 +6,9 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-
+using Windows.ApplicationModel.Background;
 using Windows.System;
+using Windows.UI.Popups;
 
 namespace ElectronBot.BraincasePreview.Views;
 
@@ -46,6 +47,8 @@ public sealed partial class ShellPage : Page
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
         ViewModel.Initialize();
         await ElectronBotHelper.Instance.InitAsync();
+
+        await RegisterTaskAysnc();
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
@@ -87,5 +90,41 @@ public sealed partial class ShellPage : Page
         var result = navigationService.GoBack();
 
         args.Handled = result;
+    }
+
+    async Task RegisterTaskAysnc()
+    {
+
+        var taskRegistered = false;
+        var exampleTaskName = "EbToastBgTask";
+        taskRegistered = BackgroundTaskRegistration.AllTasks.Any(x => x.Value.Name == exampleTaskName);
+
+
+        if (!taskRegistered)
+        {
+            var access = await BackgroundExecutionManager.RequestAccessAsync();
+            if (access == BackgroundAccessStatus.DeniedBySystemPolicy)
+            {
+                await new MessageDialog("后台任务已经被禁止了").ShowAsync();
+            }
+            else
+            {
+                var builder = new BackgroundTaskBuilder
+                {
+                    Name = "EbToastBgTask",
+                    TaskEntryPoint = "ElectronBot.BraincasePreview.BgTaskComponent.ToastBgTask"
+                };
+                builder.SetTrigger(new TimeTrigger(15, false));
+
+                var task = builder.Register();
+            }
+
+        }
+        else
+        {
+            var cur = BackgroundTaskRegistration.AllTasks.FirstOrDefault(x => x.Value.Name == exampleTaskName);
+            BackgroundTaskRegistration task = (BackgroundTaskRegistration)(cur.Value);
+            //    task.Completed += task_Completed;
+        }
     }
 }

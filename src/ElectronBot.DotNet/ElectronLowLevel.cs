@@ -149,6 +149,10 @@ public class ElectronLowLevel : IElectronLowLevel
 
             isConnected = false;
 
+            writer?.Dispose();
+
+            reader?.Dispose();
+
             return _usbDevice.Close();
         }
         else
@@ -311,6 +315,7 @@ public class ElectronLowLevel : IElectronLowLevel
         }
         catch (Exception)
         {
+            reader?.Dispose();
             // todo:异常处理
         }
 
@@ -354,6 +359,7 @@ public class ElectronLowLevel : IElectronLowLevel
         }
         catch (Exception)
         {
+            writer?.Dispose();
             // todo:异常处理
         }
 

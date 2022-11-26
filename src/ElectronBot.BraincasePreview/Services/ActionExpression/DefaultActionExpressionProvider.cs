@@ -5,6 +5,7 @@ using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Services.EbotGrpcService;
 using OpenCvSharp;
+using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
 
@@ -13,11 +14,15 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 {
     public string Name => "Default";
 
-    public Task PlayActionExpressionAsync(string actionName)
+    public async Task PlayActionExpressionAsync(string actionName)
     {
         Mat image = new();
 
         var capture = new VideoCapture(Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{actionName}.mp4");
+
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
 
         while (true)
         {
@@ -43,14 +48,14 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
                 Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
 
-                EmojiPlayHelper.Current.Enqueue(new EmoticonActionFrame(data));
+                //EmojiPlayHelper.Current.Enqueue(new EmoticonActionFrame(data));
+
+                await service.SendToUsbDeviceAsync(new EmoticonActionFrame(data));
             }
         }
-
-        return Task.CompletedTask;
     }
 
-    public Task PlayActionExpressionAsync(string actionName, List<ElectronBotAction> actions)
+    public async Task PlayActionExpressionAsync(string actionName, List<ElectronBotAction> actions)
     {
         Mat image = new();
 
@@ -59,6 +64,10 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
         var frameCount = capture.FrameCount;
 
         var currentAction = new ElectronBotAction();
+
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
 
         while (true)
         {
@@ -108,7 +117,10 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                     currentAction.J5,
                     currentAction.J6);
 
-                EmojiPlayHelper.Current.Enqueue(frameData);
+                //EmojiPlayHelper.Current.Enqueue(frameData);
+
+        
+                _ = await service.SendToUsbDeviceAsync(frameData);
 
                 //通过grpc通讯和树莓派传输数据 
                 //var grpcClient = App.GetService<EbGrpcService>();
@@ -116,10 +128,9 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                 //await grpcClient.PlayEmoticonActionFrameAsync(frameData);
             }
         }
-        return Task.CompletedTask;
     }
 
-    public Task PlayActionExpressionAsync(EmoticonAction emoticonAction, List<ElectronBotAction> actions)
+    public async Task PlayActionExpressionAsync(EmoticonAction emoticonAction, List<ElectronBotAction> actions)
     {
         Mat image = new();
 
@@ -138,6 +149,10 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
         var currentAction = new ElectronBotAction();
 
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
+
         while (true)
         {
             capture.Read(image);
@@ -186,7 +201,10 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                     currentAction.J5,
                     currentAction.J6);
 
-                EmojiPlayHelper.Current.Enqueue(frameData);
+                //EmojiPlayHelper.Current.Enqueue(frameData);
+
+                
+                _ = await service.SendToUsbDeviceAsync(frameData);
 
                 //通过grpc通讯和树莓派传输数据 
                 //var grpcClient = App.GetService<EbGrpcService>();
@@ -194,7 +212,6 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                 //await grpcClient.PlayEmoticonActionFrameAsync(frameData);
             }
         }
-        return Task.CompletedTask;
     }
 
     public async Task PlayActionExpressionAsync(EmoticonAction emoticonAction)

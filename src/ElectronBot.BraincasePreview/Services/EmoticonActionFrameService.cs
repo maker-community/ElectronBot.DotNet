@@ -25,7 +25,12 @@ public class EmoticonActionFrameService
         return await tcs.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task SendDataAsync()
+    public void ClearQueue()
+    {
+        _queue.Clear();
+    }
+
+    private Task SendDataAsync()
     {
         while (_queue.TryDequeue(out var item))
         {
@@ -36,8 +41,6 @@ public class EmoticonActionFrameService
                 tcs.TrySetCanceled(cancellationToken);
                 continue;
             }
-
-            await Task.Delay(100).ConfigureAwait(false);
 
             try
             {
@@ -55,5 +58,7 @@ public class EmoticonActionFrameService
         }
 
         Interlocked.Exchange(ref _isSending, 0);
+
+        return Task.CompletedTask;
     }
 }

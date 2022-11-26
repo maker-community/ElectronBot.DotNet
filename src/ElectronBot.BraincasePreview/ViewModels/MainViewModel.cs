@@ -16,6 +16,7 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
@@ -59,6 +60,8 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     CanvasImageSource canvasImageSource = null;
 
+    private readonly EmoticonActionFrameService _emoticonActionFrameService;
+
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public MainViewModel(
         ILocalSettingsService localSettingsService,
@@ -68,8 +71,11 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         ObjectPickerService objectPickerService,
         MediaPlayer mediaPlayer,
         IActionExpressionProviderFactory actionExpressionProviderFactory,
-        ISpeechAndTTSService speechAndTTSService)
+        ISpeechAndTTSService speechAndTTSService,
+        EmoticonActionFrameService emoticonActionFrameService)
     {
+        _emoticonActionFrameService = emoticonActionFrameService;
+
         _localSettingsService = localSettingsService;
 
         _dispatcherTimer = dispatcherTimer;
@@ -100,7 +106,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
         ElectronBotHelper.Instance.SerialPort.DataReceived += SerialPort_DataReceived;
 
-        EmojiPlayHelper.Current.Start();
+        //EmojiPlayHelper.Current.Start();
     }
 
 
@@ -180,7 +186,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         }
         catch (Exception)
         {
-
+            ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
         }
 
         Thread.Sleep(1000);
@@ -189,6 +195,8 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
             ElectronBotHelper.Instance.SerialPort.Close();
         }
+
+        ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
     }
 
     [RelayCommand]
@@ -366,19 +374,24 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     {
         var clockName = clockComBoxSelect?.DataKey;
 
+
         if (!string.IsNullOrWhiteSpace(clockName))
         {
+            var service = App.GetService<EmoticonActionFrameService>();
+
+            service.ClearQueue();
+
             var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockName);
 
             if (clockName == "GooeyFooter")
             {
-                EmojiPlayHelper.Current.Clear();
+                //EmojiPlayHelper.Current.Clear();
 
                 _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 40);
             }
             else
             {
-                EmojiPlayHelper.Current.Clear();
+                //EmojiPlayHelper.Current.Clear();
 
                 _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             }
@@ -502,6 +515,10 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     {
         var radioButtons = (RadioButtons)sender;
 
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
+
         var list = radioButtons.Items;
 
         List<RadioButton> rbList = new();
@@ -566,10 +583,10 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     }
 
     [ObservableProperty]
-    ElectronBotAction selectdAction;
+    ElectronBotAction selectdAction = new();
 
     [ObservableProperty]
-    ObservableCollection<ElectronBotAction> actions;
+    ObservableCollection<ElectronBotAction> actions = new();
 
     private ICommand _importCommand;
 
@@ -942,6 +959,10 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                     var data = new byte[240 * 240 * 3];
 
                     var frame = new EmoticonActionFrame(data, true);
+
+                    var service = App.GetService<EmoticonActionFrameService>();
+
+                    service.ClearQueue();
 
                     ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
                 }
