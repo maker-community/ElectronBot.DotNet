@@ -280,8 +280,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
             _dispatcherTimer.Stop();
 
-            EmojiPlayHelper.Current.Interval = 0;
-
             var r = new Random().Next(Constants.POTENTIAL_EMOJI_LIST.Count);
 
             _mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
@@ -385,14 +383,10 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
             if (clockName == "GooeyFooter")
             {
-                //EmojiPlayHelper.Current.Clear();
-
                 _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 40);
             }
             else
             {
-                //EmojiPlayHelper.Current.Clear();
-
                 _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             }
 
@@ -548,8 +542,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             {
                 await ResetActionAsync();
 
-                EmojiPlayHelper.Current.Interval = 0;
-
                 var clockName = clockComBoxSelect?.DataKey;
 
                 if (clockName != "GooeyFooter")
@@ -569,9 +561,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             else
             {
                 await ResetActionAsync();
-
-                EmojiPlayHelper.Current.Interval = 0;
-
                 _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
                 _dispatcherTimer.Start();
             }
@@ -709,35 +698,26 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     }
 
 
-    private ICommand _resetCommand;
-    public ICommand ResetCommand
+    [RelayCommand]
+    public async Task ResetAsync()
     {
-        get
+        if (modeNo == 1)
         {
-            _resetCommand ??= new RelayCommand(
-                    async () =>
-                    {
-                        if (modeNo == 1)
-                        {
-                            if (ElectronBotHelper.Instance.EbConnected)
-                            {
-                                await ResetActionAsync();
+            if (ElectronBotHelper.Instance.EbConnected)
+            {
+                await ResetActionAsync();
 
-                                ToastHelper.SendToast("PlayResetToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                            }
-                            else
-                            {
-                                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                            }
+                ToastHelper.SendToast("PlayResetToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+            else
+            {
+                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
 
-                        }
-                        else
-                        {
-                            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                        }
-                    });
-
-            return _resetCommand;
+        }
+        else
+        {
+            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
         }
     }
 
@@ -757,187 +737,144 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-
-    private ICommand _exportCommand;
-
-    public ICommand ExportCommand
+    [RelayCommand]
+    public async Task ExportAsync()
     {
-        get
+        StorageFolder destinationFolder = null;
+
+        try
         {
-            _exportCommand ??= new RelayCommand(
-                    async () =>
-                    {
-                        StorageFolder destinationFolder = null;
+            destinationFolder = await KnownFolders.PicturesLibrary
+            .CreateFolderAsync("ElectronBot", CreationCollisionOption.OpenIfExists);
+        }
+        catch (Exception ex)
+        {
+            return;
+        }
 
-                        try
-                        {
-                            destinationFolder = await KnownFolders.PicturesLibrary
-                            .CreateFolderAsync("ElectronBot", CreationCollisionOption.OpenIfExists);
-                        }
-                        catch (Exception ex)
-                        {
-                            return;
-                        }
+        if (Actions != null && Actions.Count > 0)
+        {
+            var fileName = $"electronbot-action-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.json";
 
-                        if (Actions != null && Actions.Count > 0)
-                        {
-                            var fileName = $"electronbot-action-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.json";
+            var destinationFile = await destinationFolder
+                .CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
 
-                            var destinationFile = await destinationFolder
-                                .CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+            var content = JsonSerializer
+                .Serialize(Actions, options: new JsonSerializerOptions { WriteIndented = true });
 
-                            var content = JsonSerializer
-                                .Serialize(Actions, options: new JsonSerializerOptions { WriteIndented = true });
+            await FileIO.WriteTextAsync(destinationFile, content);
 
-                            await FileIO.WriteTextAsync(destinationFile, content);
+            var text = "ExportToastText".GetLocalized();
 
-                            var text = "ExportToastText".GetLocalized();
-
-                            ToastHelper.SendToast($"{text}-{destinationFile.Path}", TimeSpan.FromSeconds(5));
-                        }
-                        else
-                        {
-                            ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                        }
-                    });
-
-            return _exportCommand;
+            ToastHelper.SendToast($"{text}-{destinationFile.Path}", TimeSpan.FromSeconds(5));
+        }
+        else
+        {
+            ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
         }
     }
 
-    private ICommand _addCommand;
-
-    public ICommand AddCommand
+    [RelayCommand]
+    public void Add()
     {
-        get
+        if (SelectIndex < 0)
         {
-            _addCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        if (SelectIndex < 0)
-                        {
-                            SelectIndex = 0;
-                        }
-                        else if (SelectIndex > Actions.Count)
-                        {
-                            SelectIndex = Actions.Count;
-                        }
+            SelectIndex = 0;
+        }
+        else if (SelectIndex > Actions.Count)
+        {
+            SelectIndex = Actions.Count;
+        }
 
-                        if (Actions.Count > 0)
-                        {
-                            Actions.Insert(SelectIndex + 1, new ElectronBotAction
-                            {
-                                J1 = J1,
-                                J2 = J2,
-                                J3 = J3,
-                                J4 = J4,
-                                J5 = J5,
-                                J6 = J6
-                            });
-                        }
-                        else
-                        {
-                            Actions.Add(new ElectronBotAction
-                            {
-                                J1 = J1,
-                                J2 = J2,
-                                J3 = J3,
-                                J4 = J4,
-                                J5 = J5,
-                                J6 = J6
-                            });
-                        }
-                    });
-
-            return _addCommand;
+        if (Actions.Count > 0)
+        {
+            Actions.Insert(SelectIndex + 1, new ElectronBotAction
+            {
+                J1 = J1,
+                J2 = J2,
+                J3 = J3,
+                J4 = J4,
+                J5 = J5,
+                J6 = J6
+            });
+        }
+        else
+        {
+            Actions.Add(new ElectronBotAction
+            {
+                J1 = J1,
+                J2 = J2,
+                J3 = J3,
+                J4 = J4,
+                J5 = J5,
+                J6 = J6
+            });
         }
     }
 
-
-    private ICommand _removeActionCommand;
-
-    public ICommand RemoveActionCommand
+    [RelayCommand]
+    public void RemoveAction()
     {
-        get
+        if (SelectIndex < 0)
         {
-            _removeActionCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        if (SelectIndex < 0)
-                        {
-                            SelectIndex = 0;
-                        }
-                        else if (SelectIndex > Actions.Count)
-                        {
-                            SelectIndex = Actions.Count;
-                        }
-
-                        Actions.RemoveAt(SelectIndex);
-                    });
-
-            return _removeActionCommand;
+            SelectIndex = 0;
         }
+        else if (SelectIndex > Actions.Count)
+        {
+            SelectIndex = Actions.Count;
+        }
+
+        Actions.RemoveAt(SelectIndex);
     }
 
-
-    private ICommand _addPictureCommand;
-
-    public ICommand AddPictureCommand
+    [RelayCommand]
+    public async Task AddPictureAsync()
     {
-        get
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+
+        var picker = new Windows.Storage.Pickers.FileOpenPicker
         {
-            _addPictureCommand ??= new RelayCommand(
-                    async () =>
-                    {
-                        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
 
-                        var picker = new Windows.Storage.Pickers.FileOpenPicker
-                        {
-                            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
+        };
 
-                            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
-                        };
+        picker.FileTypeFilter.Add(".png");
+        picker.FileTypeFilter.Add(".jpg");
+        picker.FileTypeFilter.Add(".jpeg");
 
-                        picker.FileTypeFilter.Add(".png");
-                        picker.FileTypeFilter.Add(".jpg");
-                        picker.FileTypeFilter.Add(".jpeg");
+        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
 
-                        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+        var file = await picker.PickSingleFileAsync();
 
-                        var file = await picker.PickSingleFileAsync();
+        if (file != null)
+        {
+            var config = new ImageCropperConfig
+            {
+                ImageFile = file,
+                AspectRatio = 1
+            };
 
-                        if (file != null)
-                        {
-                            var config = new ImageCropperConfig
-                            {
-                                ImageFile = file,
-                                AspectRatio = 1
-                            };
+            var croppedImage = await ImageHelper.CropImage(config);
 
-                            var croppedImage = await ImageHelper.CropImage(config);
+            if (croppedImage != null)
+            {
+                SelectdAction.BitmapImageData = croppedImage;
 
-                            if (croppedImage != null)
-                            {
-                                SelectdAction.BitmapImageData = croppedImage;
+                var act = Actions.Where(i => i.Id == selectdAction.Id).FirstOrDefault();
 
-                                var act = Actions.Where(i => i.Id == selectdAction.Id).FirstOrDefault();
+                if (act != null)
+                {
+                    var bytes = croppedImage.PixelBuffer.ToArray();
 
-                                if (act != null)
-                                {
-                                    var bytes = croppedImage.PixelBuffer.ToArray();
+                    var imageData = await EbHelper.ToBase64Async(
+                        bytes, (uint)croppedImage.PixelWidth, (uint)croppedImage.PixelWidth);
 
-                                    var imageData = await EbHelper.ToBase64Async(
-                                        bytes, (uint)croppedImage.PixelWidth, (uint)croppedImage.PixelWidth);
+                    act.ImageData = $"data:image/png;base64,{imageData}";
 
-                                    act.ImageData = $"data:image/png;base64,{imageData}";
-
-                                    act.BitmapImageData = croppedImage;
-                                }
-                            }
-                        }
-                    });
-
-            return _addPictureCommand;
+                    act.BitmapImageData = croppedImage;
+                }
+            }
         }
     }
 
@@ -996,7 +933,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     }
     public void OnNavigatedFrom()
     {
-        EmojiPlayHelper.Current.Interval = 0;
         _dispatcherTimer.Stop();
         // await _speechAndTTSService.ReleaseRecognizerAsync();
     }

@@ -84,7 +84,10 @@
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{Binding}" />
+                        <TextBlock
+                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                            Style="{ThemeResource TitleTextBlockStyle}"
+                            Text="{Binding}" />
                     </Grid>
                 </DataTemplate>
             </NavigationView.HeaderTemplate>
@@ -93,7 +96,10 @@
                     <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{Binding}" />
+                                <TextBlock
+                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                    Style="{ThemeResource TitleTextBlockStyle}"
+                                    Text="{Binding}" />
                             </Grid>
                         </DataTemplate>
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>

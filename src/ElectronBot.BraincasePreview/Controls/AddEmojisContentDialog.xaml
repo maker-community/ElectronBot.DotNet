@@ -52,7 +52,7 @@
                             Margin="4"
                             Command="{x:Bind ViewModel.AddEmojisAvatarCommand}">
                             <FontIcon
-                                FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                FontFamily="/Assets/FontsSegoe Fluent Icons.ttf#Segoe Fluent Icons"
                                 FontSize="48"
                                 Glyph="&#xE158;" />
                         </Button>
@@ -84,7 +84,7 @@
                             Margin="4"
                             Command="{x:Bind ViewModel.AddEmojisVideoCommand}">
                             <FontIcon
-                                FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
                                 FontSize="48"
                                 Glyph="&#xE116;" />
                         </Button>
@@ -111,7 +111,7 @@
                             Margin="4"
                             Command="{x:Bind ViewModel.AddEmojisActionCommand}">
                             <FontIcon
-                                FontFamily="/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
                                 FontSize="48"
                                 Glyph="&#xE776;" />
                         </Button>

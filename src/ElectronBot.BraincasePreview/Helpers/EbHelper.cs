@@ -207,8 +207,6 @@ public class EbHelper
         {
             if (actions != null && actions.Count > 0)
             {
-                EmojiPlayHelper.Current.Interval = interval;
-
                 foreach (var action in actions)
                 {
                     var base64Text = action.ImageData;
@@ -243,15 +241,10 @@ public class EbHelper
                              data, true, action.J1, action.J2, action.J3, action.J4, action.J5, action.J6);
 
                     _ = await service.SendToUsbDeviceAsync(frame);
-
-                   // EmojiPlayHelper.Current.Enqueue(frame);
                 }
             }
-
-            ///EmojiPlayHelper.Current.Interval = 0;
-
         }
-        catch (Exception ex)
+        catch (Exception)
         {
 
         }

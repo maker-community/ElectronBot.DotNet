@@ -196,16 +196,16 @@ public partial class App : Application
     {
         args.Cancel = true;
 
-        ContentDialog dialog = new ContentDialog();
-
-        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-        dialog.XamlRoot = MainWindow.Content.XamlRoot;
-        dialog.Title = "Save your work?";
-        dialog.PrimaryButtonText = "Save";
-        dialog.SecondaryButtonText = "Don't Save";
-        dialog.CloseButtonText = "Cancel";
-        dialog.DefaultButton = ContentDialogButton.Primary;
-        dialog.Content = new AppQuitPage();
+        var dialog = new ContentDialog
+        {
+            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+            XamlRoot = MainWindow.Content.XamlRoot,
+            Title = "是否关闭应用?",
+            PrimaryButtonText = "确定",
+            CloseButtonText = "取消",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = new AppQuitPage()
+        };
 
         var result = await dialog.ShowAsync();
 
@@ -225,8 +225,6 @@ public partial class App : Application
             IntelligenceService.Current.CleanUp();
 
             await CameraService.Current.CleanupMediaCaptureAsync();
-
-            EmojiPlayHelper.Current.CancellationToken.Cancel();
         }
         catch (Exception)
         {

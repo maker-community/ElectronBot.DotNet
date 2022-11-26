@@ -67,7 +67,7 @@
                 Foreground="{ThemeResource SystemAccentColor}">
                 <AppBarButton.Icon>
                     <FontIcon
-                        FontFamily="Segoe Fluent Icons"
+                        FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
                         FontWeight="Bold"
                         Glyph="&#xECC8;" />
                 </AppBarButton.Icon>
