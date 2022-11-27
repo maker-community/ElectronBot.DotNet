@@ -48,7 +48,7 @@ public sealed partial class ShellPage : Page
         ViewModel.Initialize();
         await ElectronBotHelper.Instance.InitAsync();
 
-        await RegisterTaskAysnc();
+        //await RegisterTaskAysnc();
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)

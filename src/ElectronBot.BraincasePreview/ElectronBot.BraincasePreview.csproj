@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\DefaultIcon.png" />
+    <None Remove="Assets\Emoji\defaultaction.json" />
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\model.onnx" />
@@ -76,6 +77,12 @@
   <ItemGroup>
     <ProjectReference Include="..\ElectronBot.BraincasePreview.BgTaskComponent\ElectronBot.BraincasePreview.BgTaskComponent.csproj" />
     <ProjectReference Include="..\ElectronBot.BraincasePreview.Core\Verdure.ElectronBot.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Assets\Emoji\defaultaction.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">

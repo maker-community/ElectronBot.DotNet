@@ -18,7 +18,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Services;
 using Verdure.ElectronBot.Core.Models;
-using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -41,24 +40,17 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     private readonly ILocalSettingsService _localSettingsService;
 
-    private readonly ObjectPickerService _objectPickerService;
-
-    private int actionCount = 0;
+    private int modeNo = 0;
 
     private int count = 0;
 
-    private int modeNo = 0;
-
-    private int _selectIndex = 0;
-
-    private int _interval = 500;
-
+    private int actionCount = 0;
 
     private readonly MediaPlayer _mediaPlayer;
 
-    SoftwareBitmap frameServerDest = null;
+    SoftwareBitmap? frameServerDest = null;
 
-    CanvasImageSource canvasImageSource = null;
+    CanvasImageSource? canvasImageSource = null;
 
     private readonly EmoticonActionFrameService _emoticonActionFrameService;
 
@@ -92,8 +84,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
         ClockComboxModels = comboxDataService.GetClockViewComboxList();
 
-        _objectPickerService = objectPickerService;
-
         _mediaPlayer = mediaPlayer;
 
         _mediaPlayer.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
@@ -105,8 +95,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         _actionExpressionProvider = defaultProvider;
 
         ElectronBotHelper.Instance.SerialPort.DataReceived += SerialPort_DataReceived;
-
-        //EmojiPlayHelper.Current.Start();
     }
 
 
@@ -123,34 +111,10 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     ComboxItemModel clockComBoxSelect;
 
     /// <summary>
-    /// 选中的相机
-    /// </summary>
-    [ObservableProperty]
-    ComboxItemModel cameraSelect;
-
-    /// <summary>
-    /// 选中的音频设备
-    /// </summary>
-    [ObservableProperty]
-    public ComboxItemModel audioSelect;
-
-    /// <summary>
     /// 表盘列表
     /// </summary>
     [ObservableProperty]
     public ObservableCollection<ComboxItemModel> clockComboxModels;
-
-    /// <summary>
-    /// 相机列表
-    /// </summary>
-    [ObservableProperty]
-    public ObservableCollection<ComboxItemModel> cameras;
-
-    /// <summary>
-    /// 音频设备列表
-    /// </summary>
-    [ObservableProperty]
-    public ObservableCollection<ComboxItemModel> audioDevs;
 
     /// <summary>
     /// 当前播放表情
@@ -183,20 +147,17 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
             ElectronBotHelper.Instance.SerialPort.Write(byteData, 0, byteData.Length);
 
+            Thread.Sleep(1000);
+
+            if (ElectronBotHelper.Instance.SerialPort.IsOpen)
+            {
+                ElectronBotHelper.Instance.SerialPort.Close();
+            }
+
         }
         catch (Exception)
         {
-            ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
         }
-
-        Thread.Sleep(1000);
-
-        if (ElectronBotHelper.Instance.SerialPort.IsOpen)
-        {
-            ElectronBotHelper.Instance.SerialPort.Close();
-        }
-
-        ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
     }
 
     [RelayCommand]
@@ -227,12 +188,12 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
         _mediaPlayer.SetStreamSource(stream);
 
-        var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+        //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
 
-        if (selectedDevice != null)
-        {
-            _mediaPlayer.AudioDevice = selectedDevice;
-        }
+        //if (selectedDevice != null)
+        //{
+        //    _mediaPlayer.AudioDevice = selectedDevice;
+        //}
 
         _mediaPlayer.Play();
     }
@@ -255,12 +216,12 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
             mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
 
-            var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+            //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
 
-            if (selectedDevice != null)
-            {
-                mediaPlayer.AudioDevice = selectedDevice;
-            }
+            //if (selectedDevice != null)
+            //{
+            //    mediaPlayer.AudioDevice = selectedDevice;
+            //}
 
             mediaPlayer.Play();
         }
@@ -284,17 +245,17 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
             _mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
 
-            var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+            //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
 
-            if (selectedDevice != null)
-            {
-                _mediaPlayer.AudioDevice = selectedDevice;
-            }
+            //if (selectedDevice != null)
+            //{
+            //    _mediaPlayer.AudioDevice = selectedDevice;
+            //}
             _mediaPlayer.Play();
 
             _actionExpressionProvider.PlayActionExpressionAsync($"{Constants.POTENTIAL_EMOJI_LIST[r]}", actions.ToList());
         }
-        catch (Exception ex)
+        catch (Exception)
         {
 
         }
@@ -344,27 +305,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     }
 
     /// <summary>
-    /// 音频切换方法
-    /// </summary>
-    [RelayCommand]
-    private async void AudioChanged()
-    {
-        var audioName = audioSelect?.DataKey;
-
-        if (!string.IsNullOrWhiteSpace(audioName))
-        {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultAudioNameKey, audioSelect);
-        }
-
-        var selectedDevice = (DeviceInformation)audioSelect?.Tag ?? (DeviceInformation)(AudioDevs.FirstOrDefault()).Tag;
-
-        if (selectedDevice != null)
-        {
-            _mediaPlayer.AudioDevice = selectedDevice;
-        }
-    }
-
-    /// <summary>
     /// 表盘切换方法
     /// </summary>
     [RelayCommand]
@@ -391,20 +331,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             }
 
             Element = viewProvider.CreateClockView(clockName);
-        }
-    }
-
-    /// <summary>
-    /// 相机选择方法
-    /// </summary>
-    [RelayCommand]
-    private async void CameraChanged()
-    {
-        var cameraName = cameraSelect?.DataKey;
-
-        if (!string.IsNullOrWhiteSpace(cameraName))
-        {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultCameraNameKey, cameraSelect);
         }
     }
 
@@ -577,126 +503,76 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     ObservableCollection<ElectronBotAction> actions = new();
 
-    private ICommand _importCommand;
-
     /// <summary>
     /// 导入动作列表
     /// </summary>
-    public ICommand ImportCommand
+    [RelayCommand]
+    public async Task ImportAsync()
     {
-        get
+        var list = await EbHelper.ImportActionListAsync(_hwnd);
+
+        Actions = new ObservableCollection<ElectronBotAction>(list);
+    }
+
+    [RelayCommand]
+    public async Task PlayAsync()
+    {
+        if (modeNo == 1)
         {
-            _importCommand ??= new RelayCommand(
-                    async () =>
-                    {
-                        var list = await EbHelper.ImportActionListAsync(_hwnd);
+            if (actions.Count > 0)
+            {
+                await ResetActionAsync();
 
-                        Actions = new ObservableCollection<ElectronBotAction>(list);
-                    });
+                await EbHelper.PlayActionListAsync(Actions.ToList(), Interval);
 
-            return _importCommand;
+            }
+            else
+            {
+                ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+
+        }
+        else
+        {
+            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
         }
     }
 
-    private ICommand _playCommand;
-
-    public ICommand PlayCommand
+    [RelayCommand]
+    public void Stop()
     {
-        get
-        {
-            _playCommand ??= new RelayCommand(
-                   async () =>
-                    {
-                        if (modeNo == 1)
-                        {
-                            if (actions.Count > 0)
-                            {
-                                await ResetActionAsync();
-
-                                await EbHelper.PlayActionListAsync(Actions.ToList(), Interval);
-
-                            }
-                            else
-                            {
-                                ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                            }
-
-                        }
-                        else
-                        {
-                            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                        }
-                    });
-
-            return _playCommand;
-        }
+        _dispatcherTimer.Stop();
     }
 
-    private ICommand _stopCommand;
-
-    public ICommand StopCommand
+    [RelayCommand]
+    public void Clear()
     {
-        get
-        {
-            _stopCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        _dispatcherTimer.Stop();
-                    });
+        actions.Clear();
 
-            return _stopCommand;
-        }
-    }
-    private ICommand _clearCommand;
+        count = 0;
 
-    public ICommand ClearCommand
-    {
-        get
-        {
-            _clearCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        actions.Clear();
+        actionCount = 0;
 
-                        count = 0;
-
-                        actionCount = 0;
-
-                        ToastHelper.SendToast("PlayClearToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                    });
-
-            return _clearCommand;
-        }
+        ToastHelper.SendToast("PlayClearToastText".GetLocalized(), TimeSpan.FromSeconds(3));
     }
 
-    private ICommand _reconnectCommand;
-
-    public ICommand ReconnectCommand
+    [RelayCommand]
+    public void Reconnect()
     {
-        get
+        try
         {
-            _reconnectCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        try
-                        {
-                            _dispatcherTimer.Stop();
-                            //ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
-                            ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-
-
-                        ToastHelper.SendToast("ReconnectText".GetLocalized(), TimeSpan.FromSeconds(3));
-                    });
-
-            return _reconnectCommand;
+            _dispatcherTimer.Stop();
+            //ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+            ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
         }
-    }
+        catch (Exception)
+        {
 
+        }
+
+
+        ToastHelper.SendToast("ReconnectText".GetLocalized(), TimeSpan.FromSeconds(3));
+    }
 
     [RelayCommand]
     public async Task ResetAsync()
@@ -920,17 +796,8 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                 _dispatcherTimer.Start();
             }
         }
-
-        var audioDevs = await EbHelper.FindAudioDeviceListAsync();
-
-        var audioModel = await _localSettingsService
-            .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
-
-        if (audioModel != null)
-        {
-            AudioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
-        }
     }
+
     public void OnNavigatedFrom()
     {
         _dispatcherTimer.Stop();

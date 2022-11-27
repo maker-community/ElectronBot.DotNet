@@ -61,6 +61,7 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+
         Host = Microsoft.Extensions.Hosting.Host.
         CreateDefaultBuilder().
         UseContentRoot(AppContext.BaseDirectory).
@@ -184,8 +185,6 @@ public partial class App : Application
     {
         base.OnLaunched(args);
 
-        MainWindow.Closed += MainWindow_Closed;
-
         MainWindow.AppWindow.Closing += AppWindow_Closing;
         //App.GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
@@ -212,23 +211,20 @@ public partial class App : Application
 
         if (result == ContentDialogResult.Primary)
         {
+            try
+            {
+                ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+
+                IntelligenceService.Current.CleanUp();
+
+                await CameraService.Current.CleanupMediaCaptureAsync();
+            }
+            catch (Exception)
+            {
+
+            }
+
             MainWindow.Close();
-        }
-    }
-
-    private async void MainWindow_Closed(object sender, WindowEventArgs args)
-    {
-        try
-        {
-            ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
-
-            IntelligenceService.Current.CleanUp();
-
-            await CameraService.Current.CleanupMediaCaptureAsync();
-        }
-        catch (Exception)
-        {
-
         }
     }
 }
