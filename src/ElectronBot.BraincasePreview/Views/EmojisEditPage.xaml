@@ -74,7 +74,7 @@
             </AppBarButton>
         </StackPanel>
         <controls:AdaptiveGridView
-            Name="AdaptiveGridViewControl"
+            x:Name="AdaptiveGridViewControl"
             Grid.Row="1"
             CornerRadius="8"
             DesiredWidth="200"
