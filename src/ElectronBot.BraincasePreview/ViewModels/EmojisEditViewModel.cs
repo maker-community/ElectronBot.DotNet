@@ -8,6 +8,7 @@ using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml.Controls;
+using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
@@ -67,10 +68,12 @@ public class EmojisEditViewModel : ObservableRecipient
                 List<ElectronBotAction> actions = new();
 
                 if (emojis.HasAction)
-                {
+                {   
                     if (!string.IsNullOrWhiteSpace(emojis.EmojisActionPath))
                     {
-                        var json = File.ReadAllText(emojis.EmojisActionPath);
+                        var path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
+
+                        var json = File.ReadAllText(path);
 
                         try
                         {

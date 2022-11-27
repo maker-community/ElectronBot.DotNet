@@ -1,8 +1,7 @@
-﻿using ElectronBot.BraincasePreview.Activation;
+﻿using Controls;
+using ElectronBot.BraincasePreview.Activation;
 using ElectronBot.BraincasePreview.ClockViews;
 using ElectronBot.BraincasePreview.Contracts.Services;
-using Verdure.ElectronBot.Core.Contracts.Services;
-using Verdure.ElectronBot.Core.Services;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Notifications;
@@ -14,11 +13,17 @@ using ElectronBot.DotNet;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Graphics.Canvas;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Services;
+using Verdure.ElectronBot.Core.Contracts.Services;
+using Verdure.ElectronBot.Core.Services;
 using Verdure.ElectronBot.GrpcService;
+using Windows.ApplicationModel.Background;
 using Windows.Media.Playback;
+using Windows.UI.Popups;
 
 namespace ElectronBot.BraincasePreview;
 
@@ -146,6 +151,8 @@ public partial class App : Application
 
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
 
+            services.AddSingleton<EmoticonActionFrameService>();
+
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
             {
@@ -178,28 +185,46 @@ public partial class App : Application
     {
         base.OnLaunched(args);
 
-        MainWindow.Closed += MainWindow_Closed;
-
+        MainWindow.AppWindow.Closing += AppWindow_Closing;
         //App.GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
         await App.GetService<IActivationService>().ActivateAsync(args);
     }
 
-
-    private async void MainWindow_Closed(object sender, WindowEventArgs args)
+    private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
-        try
+        args.Cancel = true;
+
+        var dialog = new ContentDialog
         {
-            ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+            XamlRoot = MainWindow.Content.XamlRoot,
+            Title = "是否关闭应用?",
+            PrimaryButtonText = "确定",
+            CloseButtonText = "取消",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = new AppQuitPage()
+        };
 
-            IntelligenceService.Current.CleanUp();
+        var result = await dialog.ShowAsync();
 
-            await CameraService.Current.CleanupMediaCaptureAsync();
-        }
-        catch (Exception)
+
+        if (result == ContentDialogResult.Primary)
         {
+            try
+            {
+                ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
 
+                IntelligenceService.Current.CleanUp();
+
+                await CameraService.Current.CleanupMediaCaptureAsync();
+            }
+            catch (Exception)
+            {
+
+            }
+
+            MainWindow.Close();
         }
-        System.Environment.Exit(0);
     }
 }

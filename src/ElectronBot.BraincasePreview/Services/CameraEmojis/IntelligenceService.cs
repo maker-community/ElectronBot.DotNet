@@ -1,19 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. 
 // Licensed under the MIT license. 
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using ElectronBot.BraincasePreview.Models;
 using Microsoft.AI.MachineLearning;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.FaceAnalysis;
 using Windows.Storage;
-using Windows.UI.Core;
 
 namespace ElectronBot.BraincasePreview.Services;
 public class IntelligenceService
@@ -107,7 +100,8 @@ public class IntelligenceService
     {
         if (!_isInitialized)
         {
-            throw new InvalidOperationException("Service not initialized.");
+            return;
+            //throw new InvalidOperationException("Service not initialized.");
         }
 
         CameraService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;

@@ -131,8 +131,6 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
             {
                 // await ResetActionAsync();
 
-                EmojiPlayHelper.Current.Interval = 0;
-
                 _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
                 _dispatcherTimer.Start();
             }

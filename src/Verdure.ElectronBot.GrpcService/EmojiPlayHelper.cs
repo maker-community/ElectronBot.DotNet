@@ -56,7 +56,7 @@ public class EmojiPlayHelper
 
                     if (CanPlay)
                     {
-                        Stopwatch stopwatch = Stopwatch.StartNew();
+                        var stopwatch = Stopwatch.StartNew();
 
                         stopwatch.Start();
 

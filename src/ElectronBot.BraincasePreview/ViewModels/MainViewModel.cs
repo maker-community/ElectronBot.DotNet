@@ -8,18 +8,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using Verdure.ElectronBot.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Picker;
 using ElectronBot.BraincasePreview.Services;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Devices.Enumeration;
+using Services;
+using Verdure.ElectronBot.Core.Models;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -28,7 +26,7 @@ using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public class MainViewModel : ObservableRecipient, INavigationAware
+public partial class MainViewModel : ObservableRecipient, INavigationAware
 {
     private readonly DispatcherTimer _dispatcherTimer;
 
@@ -40,69 +38,129 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
     private readonly ISpeechAndTTSService _speechAndTTSService;
 
-    private ObservableCollection<ElectronBotAction> actions = new();
-
-    private ElectronBotAction selectdAction = new();
-
     private readonly ILocalSettingsService _localSettingsService;
-
-    private readonly ObjectPickerService _objectPickerService;
-
-    private int actionCount = 0;
-
-    private int count = 0;
 
     private int modeNo = 0;
 
-    private int _selectIndex = 0;
+    private int count = 0;
 
-    private int _interval = 500;
-
-    private UIElement _element;
-
-    private ImageSource _emojiImageSource;
-
-    private ObservableCollection<ComboxItemModel> _clockComboxModels;
-
-    private ObservableCollection<ComboxItemModel> _cameras;
-
-    private ObservableCollection<ComboxItemModel> _audioDevs;
-
-    private ComboxItemModel _clockComboxSelect;
-
-    private ComboxItemModel _cameraSelect;
-
-    private ComboxItemModel _audioSelect;
+    private int actionCount = 0;
 
     private readonly MediaPlayer _mediaPlayer;
 
-    SoftwareBitmap frameServerDest = null;
+    SoftwareBitmap? frameServerDest = null;
 
-    CanvasImageSource canvasImageSource = null;
+    CanvasImageSource? canvasImageSource = null;
 
-    private float j1 = 0;
-    private float j2 = 0;
-    private float j3 = 0;
-    private float j4 = 0;
-    private float j5 = 0;
-    private float j6 = 0;
+    private readonly EmoticonActionFrameService _emoticonActionFrameService;
 
-    private ICommand _clockChangedCommand;
-    public ICommand ClockChangedCommand => _clockChangedCommand ??= new RelayCommand(ClockChanged);
+    private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+    public MainViewModel(
+        ILocalSettingsService localSettingsService,
+        IClockViewProviderFactory viewProviderFactory,
+        ComboxDataService comboxDataService,
+        DispatcherTimer dispatcherTimer,
+        ObjectPickerService objectPickerService,
+        MediaPlayer mediaPlayer,
+        IActionExpressionProviderFactory actionExpressionProviderFactory,
+        ISpeechAndTTSService speechAndTTSService,
+        EmoticonActionFrameService emoticonActionFrameService)
+    {
+        _emoticonActionFrameService = emoticonActionFrameService;
 
-    private ICommand _cameraCommand;
-    public ICommand CameraCommand => _cameraCommand ??= new RelayCommand(CameraChanged);
+        _localSettingsService = localSettingsService;
 
-    private ICommand _audioCommand;
-    public ICommand AudioCommand => _audioCommand ??= new RelayCommand(AudioChanged);
+        _dispatcherTimer = dispatcherTimer;
 
-    private ICommand _testPlayEmojiCommand;
+        _speechAndTTSService = speechAndTTSService;
 
-    private ICommand _testVoiceCommand;
-    public ICommand TestPlayEmojiCommand => _testPlayEmojiCommand ??= new RelayCommand(TestPlayEmoji);
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
 
-    public ICommand TestVoiceCommand => _testVoiceCommand ??= new RelayCommand(TestVoice);
+        _dispatcherTimer.Tick += DispatcherTimer_Tick;
 
+        _viewProviderFactory = viewProviderFactory;
+
+        _expressionProviderFactory = actionExpressionProviderFactory;
+
+        ClockComboxModels = comboxDataService.GetClockViewComboxList();
+
+        _mediaPlayer = mediaPlayer;
+
+        _mediaPlayer.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
+
+        _mediaPlayer.IsVideoFrameServerEnabled = true;
+
+        var defaultProvider = _expressionProviderFactory.CreateActionExpressionProvider("Default");
+
+        _actionExpressionProvider = defaultProvider;
+
+        ElectronBotHelper.Instance.SerialPort.DataReceived += SerialPort_DataReceived;
+    }
+
+
+    [ObservableProperty]
+    int selectIndex;
+
+    [ObservableProperty]
+    int interval;
+
+    /// <summary>
+    /// 时钟选中数据
+    /// </summary>
+    [ObservableProperty]
+    ComboxItemModel clockComBoxSelect;
+
+    /// <summary>
+    /// 表盘列表
+    /// </summary>
+    [ObservableProperty]
+    public ObservableCollection<ComboxItemModel> clockComboxModels;
+
+    /// <summary>
+    /// 当前播放表情
+    /// </summary>
+    [ObservableProperty]
+    ImageSource emojiImageSource;
+
+    /// <summary>
+    /// 表盘内容
+    /// </summary>
+    [ObservableProperty]
+    UIElement element;
+
+
+
+    [RelayCommand]
+    private void RebootElectron()
+    {
+        try
+        {
+            if (!ElectronBotHelper.Instance.SerialPort.IsOpen)
+            {
+                ElectronBotHelper.Instance.SerialPort.Open();
+            }
+
+            var byteData = new byte[]
+            {
+                0xea, 0x00, 0x00, 0x00, 0x00 ,0x0d, 0x02, 0x00 , 0x00, 0x0f, 0xea
+            };
+
+            ElectronBotHelper.Instance.SerialPort.Write(byteData, 0, byteData.Length);
+
+            Thread.Sleep(1000);
+
+            if (ElectronBotHelper.Instance.SerialPort.IsOpen)
+            {
+                ElectronBotHelper.Instance.SerialPort.Close();
+            }
+
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    [RelayCommand]
     private async void TestVoice()
     {
         var textList = new List<string>()
@@ -130,58 +188,14 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
         _mediaPlayer.SetStreamSource(stream);
 
-        var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+        //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
 
-        if (selectedDevice != null)
-        {
-            _mediaPlayer.AudioDevice = selectedDevice;
-        }
+        //if (selectedDevice != null)
+        //{
+        //    _mediaPlayer.AudioDevice = selectedDevice;
+        //}
 
         _mediaPlayer.Play();
-    }
-
-    private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
-    public MainViewModel(
-        ILocalSettingsService localSettingsService,
-        IClockViewProviderFactory viewProviderFactory,
-        ComboxDataService comboxDataService,
-        DispatcherTimer dispatcherTimer,
-        ObjectPickerService objectPickerService,
-        MediaPlayer mediaPlayer,
-        IActionExpressionProviderFactory actionExpressionProviderFactory,
-        ISpeechAndTTSService speechAndTTSService)
-    {
-        _localSettingsService = localSettingsService;
-
-        _dispatcherTimer = dispatcherTimer;
-
-        _speechAndTTSService = speechAndTTSService;
-
-        _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-
-        _dispatcherTimer.Tick += DispatcherTimer_Tick;
-
-        _viewProviderFactory = viewProviderFactory;
-
-        _expressionProviderFactory = actionExpressionProviderFactory;
-
-        ClockComboxModels = comboxDataService.GetClockViewComboxList();
-
-        _objectPickerService = objectPickerService;
-
-        _mediaPlayer = mediaPlayer;
-
-        _mediaPlayer.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
-
-        _mediaPlayer.IsVideoFrameServerEnabled = true;
-
-        var defaultProvider = _expressionProviderFactory.CreateActionExpressionProvider("Default");
-
-        _actionExpressionProvider = defaultProvider;
-
-        ElectronBotHelper.Instance.SerialPort.DataReceived += SerialPort_DataReceived;
-
-        EmojiPlayHelper.Current.Start();
     }
 
 
@@ -202,12 +216,12 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
             mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
 
-            var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+            //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
 
-            if (selectedDevice != null)
-            {
-                mediaPlayer.AudioDevice = selectedDevice;
-            }
+            //if (selectedDevice != null)
+            //{
+            //    mediaPlayer.AudioDevice = selectedDevice;
+            //}
 
             mediaPlayer.Play();
         }
@@ -220,113 +234,28 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         await _speechAndTTSService.StartAsync();
     }
 
-    public int SelectIndex
-    {
-        get => _selectIndex;
-        set => SetProperty(ref _selectIndex, value);
-    }
-
-    public int Interval
-    {
-        get => _interval;
-        set => SetProperty(ref _interval, value);
-    }
-
-    /// <summary>
-    /// 时钟选中数据
-    /// </summary>
-    public ComboxItemModel ClockComBoxSelect
-    {
-        get => _clockComboxSelect;
-        set => SetProperty(ref _clockComboxSelect, value);
-    }
-
-    /// <summary>
-    /// 选中的相机
-    /// </summary>
-    public ComboxItemModel CameraSelect
-    {
-        get => _cameraSelect;
-        set => SetProperty(ref _cameraSelect, value);
-    }
-
-    /// <summary>
-    /// 选中的音频设备
-    /// </summary>
-    public ComboxItemModel AudioSelect
-    {
-        get => _audioSelect;
-        set => SetProperty(ref _audioSelect, value);
-    }
-
-    /// <summary>
-    /// 表盘列表
-    /// </summary>
-    public ObservableCollection<ComboxItemModel> ClockComboxModels
-    {
-        get => _clockComboxModels;
-        set => SetProperty(ref _clockComboxModels, value);
-    }
-
-    /// <summary>
-    /// 相机列表
-    /// </summary>
-    public ObservableCollection<ComboxItemModel> Cameras
-    {
-        get => _cameras;
-        set => SetProperty(ref _cameras, value);
-    }
-
-    /// <summary>
-    /// 音频设备列表
-    /// </summary>
-    public ObservableCollection<ComboxItemModel> AudioDevs
-    {
-        get => _audioDevs;
-        set => SetProperty(ref _audioDevs, value);
-    }
-
-    /// <summary>
-    /// 当前播放表情
-    /// </summary>
-    public ImageSource EmojiImageSource
-    {
-        get => _emojiImageSource;
-        set => SetProperty(ref _emojiImageSource, value);
-    }
-
-    /// <summary>
-    /// 表盘内容
-    /// </summary>
-    public UIElement Element
-    {
-        get => _element;
-        set => SetProperty(ref _element, value);
-    }
-
+    [RelayCommand]
     private void TestPlayEmoji()
     {
         try
         {
             _dispatcherTimer.Stop();
 
-            EmojiPlayHelper.Current.Interval = 0;
-
             var r = new Random().Next(Constants.POTENTIAL_EMOJI_LIST.Count);
 
             _mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
 
-            var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
+            //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
 
-            if (selectedDevice != null)
-            {
-                _mediaPlayer.AudioDevice = selectedDevice;
-            }
+            //if (selectedDevice != null)
+            //{
+            //    _mediaPlayer.AudioDevice = selectedDevice;
+            //}
             _mediaPlayer.Play();
 
             _actionExpressionProvider.PlayActionExpressionAsync($"{Constants.POTENTIAL_EMOJI_LIST[r]}", actions.ToList());
         }
-        catch (Exception ex)
+        catch (Exception)
         {
 
         }
@@ -376,46 +305,28 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     }
 
     /// <summary>
-    /// 音频切换方法
-    /// </summary>
-    private async void AudioChanged()
-    {
-        var audioName = _audioSelect?.DataKey;
-
-        if (!string.IsNullOrWhiteSpace(audioName))
-        {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultAudioNameKey, _audioSelect);
-        }
-
-        var selectedDevice = (DeviceInformation)_audioSelect?.Tag ?? (DeviceInformation)(AudioDevs.FirstOrDefault()).Tag;
-
-        if (selectedDevice != null)
-        {
-            _mediaPlayer.AudioDevice = selectedDevice;
-        }
-    }
-
-    /// <summary>
     /// 表盘切换方法
     /// </summary>
+    [RelayCommand]
     private void ClockChanged()
     {
-        var clockName = _clockComboxSelect?.DataKey;
+        var clockName = clockComBoxSelect?.DataKey;
+
 
         if (!string.IsNullOrWhiteSpace(clockName))
         {
+            var service = App.GetService<EmoticonActionFrameService>();
+
+            service.ClearQueue();
+
             var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockName);
 
             if (clockName == "GooeyFooter")
             {
-                EmojiPlayHelper.Current.Clear();
-
                 _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 40);
             }
             else
             {
-                EmojiPlayHelper.Current.Clear();
-
                 _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             }
 
@@ -423,69 +334,38 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    /// <summary>
-    /// 相机选择方法
-    /// </summary>
-    private async void CameraChanged()
-    {
-        var cameraName = _cameraSelect?.DataKey;
-
-        if (!string.IsNullOrWhiteSpace(cameraName))
-        {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultCameraNameKey, _cameraSelect);
-        }
-    }
-
 
     /// <summary>
     /// 头部舵机
     /// </summary>
-    public float J1
-    {
-        get => j1;
-        set => SetProperty(ref j1, value);
-    }
+    [ObservableProperty]
+    float j1;
 
     /// <summary>
     /// 左臂展开
     /// </summary>
-    public float J2
-    {
-        get => j2;
-        set => SetProperty(ref j2, value);
-    }
+    [ObservableProperty]
+    float j2;
     /// <summary>
     /// 左臂旋转
     /// </summary>
-    public float J3
-    {
-        get => j3;
-        set => SetProperty(ref j3, value);
-    }
+    [ObservableProperty]
+    float j3;
     /// <summary>
     /// 右臂展开
     /// </summary>
-    public float J4
-    {
-        get => j4;
-        set => SetProperty(ref j4, value);
-    }
+    [ObservableProperty]
+    float j4;
     /// <summary>
     /// 右臂旋转
     /// </summary>
-    public float J5
-    {
-        get => j5;
-        set => SetProperty(ref j5, value);
-    }
+    [ObservableProperty]
+    float j5;
     /// <summary>
     /// 底盘转动
     /// </summary>
-    public float J6
-    {
-        get => j6;
-        set => SetProperty(ref j6, value);
-    }
+    [ObservableProperty]
+    float j6;
 
 
     /// <summary>
@@ -514,7 +394,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
                 var jointAngles = ElectronBotHelper.Instance?.ElectronBot?.GetJointAngles();
 
-                if(jointAngles != null)
+                if (jointAngles != null)
                 {
                     var actionData = new ElectronBotAction()
                     {
@@ -528,7 +408,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
                     };
 
                     Actions.Add(actionData);
-                }       
+                }
             }
         }
     }
@@ -554,6 +434,10 @@ public class MainViewModel : ObservableRecipient, INavigationAware
     public async void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var radioButtons = (RadioButtons)sender;
+
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
 
         var list = radioButtons.Items;
 
@@ -584,9 +468,7 @@ public class MainViewModel : ObservableRecipient, INavigationAware
             {
                 await ResetActionAsync();
 
-                EmojiPlayHelper.Current.Interval = 0;
-
-                var clockName = _clockComboxSelect?.DataKey;
+                var clockName = clockComBoxSelect?.DataKey;
 
                 if (clockName != "GooeyFooter")
                 {
@@ -605,9 +487,6 @@ public class MainViewModel : ObservableRecipient, INavigationAware
             else
             {
                 await ResetActionAsync();
-
-                EmojiPlayHelper.Current.Interval = 0;
-
                 _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
                 _dispatcherTimer.Start();
             }
@@ -618,168 +497,103 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public ElectronBotAction SelectdAction
-    {
-        get => selectdAction;
-        set => SetProperty(ref selectdAction, value);
-    }
+    [ObservableProperty]
+    ElectronBotAction selectdAction = new();
 
-    public ObservableCollection<ElectronBotAction> Actions
-    {
-        get => actions;
-        set => SetProperty(ref actions, value);
-    }
-
-    private ICommand _importCommand;
+    [ObservableProperty]
+    ObservableCollection<ElectronBotAction> actions = new();
 
     /// <summary>
     /// 导入动作列表
     /// </summary>
-    public ICommand ImportCommand
+    [RelayCommand]
+    public async Task ImportAsync()
     {
-        get
+        var list = await EbHelper.ImportActionListAsync(_hwnd);
+
+        Actions = new ObservableCollection<ElectronBotAction>(list);
+    }
+
+    [RelayCommand]
+    public async Task PlayAsync()
+    {
+        if (modeNo == 1)
         {
-            _importCommand ??= new RelayCommand(
-                    async () =>
-                    {
-                        var list = await EbHelper.ImportActionListAsync(_hwnd);
+            if (actions.Count > 0)
+            {
+                await ResetActionAsync();
 
-                        Actions = new ObservableCollection<ElectronBotAction>(list);
-                    });
+                await EbHelper.PlayActionListAsync(Actions.ToList(), Interval);
 
-            return _importCommand;
+            }
+            else
+            {
+                ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+
+        }
+        else
+        {
+            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
         }
     }
 
-    private ICommand _playCommand;
-
-    public ICommand PlayCommand
+    [RelayCommand]
+    public void Stop()
     {
-        get
-        {
-            _playCommand ??= new RelayCommand(
-                   async () =>
-                    {
-                        if (modeNo == 1)
-                        {
-                            if (actions.Count > 0)
-                            {
-                                await ResetActionAsync();
-
-                                await EbHelper.PlayActionListAsync(Actions.ToList(), Interval);
-
-                            }
-                            else
-                            {
-                                ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                            }
-
-                        }
-                        else
-                        {
-                            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                        }
-                    });
-
-            return _playCommand;
-        }
+        _dispatcherTimer.Stop();
     }
 
-    private ICommand _stopCommand;
-
-    public ICommand StopCommand
+    [RelayCommand]
+    public void Clear()
     {
-        get
-        {
-            _stopCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        _dispatcherTimer.Stop();
-                    });
+        actions.Clear();
 
-            return _stopCommand;
-        }
-    }
-    private ICommand _clearCommand;
+        count = 0;
 
-    public ICommand ClearCommand
-    {
-        get
-        {
-            _clearCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        actions.Clear();
+        actionCount = 0;
 
-                        count = 0;
-
-                        actionCount = 0;
-
-                        ToastHelper.SendToast("PlayClearToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                    });
-
-            return _clearCommand;
-        }
+        ToastHelper.SendToast("PlayClearToastText".GetLocalized(), TimeSpan.FromSeconds(3));
     }
 
-    private ICommand _reconnectCommand;
-
-    public ICommand ReconnectCommand
+    [RelayCommand]
+    public void Reconnect()
     {
-        get
+        try
         {
-            _reconnectCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        try
-                        {
-                            _dispatcherTimer.Stop();
-                            //ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
-                            ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                       
-
-                        ToastHelper.SendToast("ReconnectText".GetLocalized(), TimeSpan.FromSeconds(3));
-                    });
-
-            return _reconnectCommand;
+            _dispatcherTimer.Stop();
+            //ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+            ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
         }
+        catch (Exception)
+        {
+
+        }
+
+
+        ToastHelper.SendToast("ReconnectText".GetLocalized(), TimeSpan.FromSeconds(3));
     }
 
-
-    private ICommand _resetCommand;
-    public ICommand ResetCommand
+    [RelayCommand]
+    public async Task ResetAsync()
     {
-        get
+        if (modeNo == 1)
         {
-            _resetCommand ??= new RelayCommand(
-                    async () =>
-                    {
-                        if (modeNo == 1)
-                        {
-                            if (ElectronBotHelper.Instance.EbConnected)
-                            {
-                                await ResetActionAsync();
+            if (ElectronBotHelper.Instance.EbConnected)
+            {
+                await ResetActionAsync();
 
-                                ToastHelper.SendToast("PlayResetToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                            }
-                            else
-                            {
-                                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                            }
+                ToastHelper.SendToast("PlayResetToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+            else
+            {
+                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
 
-                        }
-                        else
-                        {
-                            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                        }
-                    });
-
-            return _resetCommand;
+        }
+        else
+        {
+            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
         }
     }
 
@@ -799,187 +613,144 @@ public class MainViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-
-    private ICommand _exportCommand;
-
-    public ICommand ExportCommand
+    [RelayCommand]
+    public async Task ExportAsync()
     {
-        get
+        StorageFolder destinationFolder = null;
+
+        try
         {
-            _exportCommand ??= new RelayCommand(
-                    async () =>
-                    {
-                        StorageFolder destinationFolder = null;
+            destinationFolder = await KnownFolders.PicturesLibrary
+            .CreateFolderAsync("ElectronBot", CreationCollisionOption.OpenIfExists);
+        }
+        catch (Exception ex)
+        {
+            return;
+        }
 
-                        try
-                        {
-                            destinationFolder = await KnownFolders.PicturesLibrary
-                            .CreateFolderAsync("ElectronBot", CreationCollisionOption.OpenIfExists);
-                        }
-                        catch (Exception ex)
-                        {
-                            return;
-                        }
+        if (Actions != null && Actions.Count > 0)
+        {
+            var fileName = $"electronbot-action-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.json";
 
-                        if (Actions != null && Actions.Count > 0)
-                        {
-                            var fileName = $"electronbot-action-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.json";
+            var destinationFile = await destinationFolder
+                .CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
 
-                            var destinationFile = await destinationFolder
-                                .CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+            var content = JsonSerializer
+                .Serialize(Actions, options: new JsonSerializerOptions { WriteIndented = true });
 
-                            var content = JsonSerializer
-                                .Serialize(Actions, options: new JsonSerializerOptions { WriteIndented = true });
+            await FileIO.WriteTextAsync(destinationFile, content);
 
-                            await FileIO.WriteTextAsync(destinationFile, content);
+            var text = "ExportToastText".GetLocalized();
 
-                            var text = "ExportToastText".GetLocalized();
-
-                            ToastHelper.SendToast($"{text}-{destinationFile.Path}", TimeSpan.FromSeconds(5));
-                        }
-                        else
-                        {
-                            ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-                        }
-                    });
-
-            return _exportCommand;
+            ToastHelper.SendToast($"{text}-{destinationFile.Path}", TimeSpan.FromSeconds(5));
+        }
+        else
+        {
+            ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
         }
     }
 
-    private ICommand _addCommand;
-
-    public ICommand AddCommand
+    [RelayCommand]
+    public void Add()
     {
-        get
+        if (SelectIndex < 0)
         {
-            _addCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        if (SelectIndex < 0)
-                        {
-                            SelectIndex = 0;
-                        }
-                        else if (SelectIndex > Actions.Count)
-                        {
-                            SelectIndex = Actions.Count;
-                        }
+            SelectIndex = 0;
+        }
+        else if (SelectIndex > Actions.Count)
+        {
+            SelectIndex = Actions.Count;
+        }
 
-                        if (Actions.Count > 0)
-                        {
-                            Actions.Insert(SelectIndex + 1, new ElectronBotAction
-                            {
-                                J1 = J1,
-                                J2 = J2,
-                                J3 = J3,
-                                J4 = J4,
-                                J5 = J5,
-                                J6 = J6
-                            });
-                        }
-                        else
-                        {
-                            Actions.Add(new ElectronBotAction
-                            {
-                                J1 = J1,
-                                J2 = J2,
-                                J3 = J3,
-                                J4 = J4,
-                                J5 = J5,
-                                J6 = J6
-                            });
-                        }
-                    });
-
-            return _addCommand;
+        if (Actions.Count > 0)
+        {
+            Actions.Insert(SelectIndex + 1, new ElectronBotAction
+            {
+                J1 = J1,
+                J2 = J2,
+                J3 = J3,
+                J4 = J4,
+                J5 = J5,
+                J6 = J6
+            });
+        }
+        else
+        {
+            Actions.Add(new ElectronBotAction
+            {
+                J1 = J1,
+                J2 = J2,
+                J3 = J3,
+                J4 = J4,
+                J5 = J5,
+                J6 = J6
+            });
         }
     }
 
-
-    private ICommand _removeActionCommand;
-
-    public ICommand RemoveActionCommand
+    [RelayCommand]
+    public void RemoveAction()
     {
-        get
+        if (SelectIndex < 0)
         {
-            _removeActionCommand ??= new RelayCommand(
-                    () =>
-                    {
-                        if (SelectIndex < 0)
-                        {
-                            SelectIndex = 0;
-                        }
-                        else if (SelectIndex > Actions.Count)
-                        {
-                            SelectIndex = Actions.Count;
-                        }
-
-                        Actions.RemoveAt(SelectIndex);
-                    });
-
-            return _removeActionCommand;
+            SelectIndex = 0;
         }
+        else if (SelectIndex > Actions.Count)
+        {
+            SelectIndex = Actions.Count;
+        }
+
+        Actions.RemoveAt(SelectIndex);
     }
 
-
-    private ICommand _addPictureCommand;
-
-    public ICommand AddPictureCommand
+    [RelayCommand]
+    public async Task AddPictureAsync()
     {
-        get
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+
+        var picker = new Windows.Storage.Pickers.FileOpenPicker
         {
-            _addPictureCommand ??= new RelayCommand(
-                    async () =>
-                    {
-                        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
 
-                        var picker = new Windows.Storage.Pickers.FileOpenPicker
-                        {
-                            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
+        };
 
-                            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
-                        };
+        picker.FileTypeFilter.Add(".png");
+        picker.FileTypeFilter.Add(".jpg");
+        picker.FileTypeFilter.Add(".jpeg");
 
-                        picker.FileTypeFilter.Add(".png");
-                        picker.FileTypeFilter.Add(".jpg");
-                        picker.FileTypeFilter.Add(".jpeg");
+        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
 
-                        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+        var file = await picker.PickSingleFileAsync();
 
-                        var file = await picker.PickSingleFileAsync();
+        if (file != null)
+        {
+            var config = new ImageCropperConfig
+            {
+                ImageFile = file,
+                AspectRatio = 1
+            };
 
-                        if (file != null)
-                        {
-                            var config = new ImageCropperConfig
-                            {
-                                ImageFile = file,
-                                AspectRatio = 1
-                            };
+            var croppedImage = await ImageHelper.CropImage(config);
 
-                            var croppedImage = await ImageHelper.CropImage(config);
+            if (croppedImage != null)
+            {
+                SelectdAction.BitmapImageData = croppedImage;
 
-                            if (croppedImage != null)
-                            {
-                                SelectdAction.BitmapImageData = croppedImage;
+                var act = Actions.Where(i => i.Id == selectdAction.Id).FirstOrDefault();
 
-                                var act = Actions.Where(i => i.Id == selectdAction.Id).FirstOrDefault();
+                if (act != null)
+                {
+                    var bytes = croppedImage.PixelBuffer.ToArray();
 
-                                if (act != null)
-                                {
-                                    var bytes = croppedImage.PixelBuffer.ToArray();
+                    var imageData = await EbHelper.ToBase64Async(
+                        bytes, (uint)croppedImage.PixelWidth, (uint)croppedImage.PixelWidth);
 
-                                    var imageData = await EbHelper.ToBase64Async(
-                                        bytes, (uint)croppedImage.PixelWidth, (uint)croppedImage.PixelWidth);
+                    act.ImageData = $"data:image/png;base64,{imageData}";
 
-                                    act.ImageData = $"data:image/png;base64,{imageData}";
-
-                                    act.BitmapImageData = croppedImage;
-                                }
-                            }
-                        }
-                    });
-
-            return _addPictureCommand;
+                    act.BitmapImageData = croppedImage;
+                }
+            }
         }
     }
 
@@ -1002,6 +773,10 @@ public class MainViewModel : ObservableRecipient, INavigationAware
 
                     var frame = new EmoticonActionFrame(data, true);
 
+                    var service = App.GetService<EmoticonActionFrameService>();
+
+                    service.ClearQueue();
+
                     ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
                 }
             }
@@ -1021,20 +796,10 @@ public class MainViewModel : ObservableRecipient, INavigationAware
                 _dispatcherTimer.Start();
             }
         }
-
-        var audioDevs = await EbHelper.FindAudioDeviceListAsync();
-
-        var audioModel = await _localSettingsService
-            .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
-
-        if (audioModel != null)
-        {
-            AudioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
-        }
     }
+
     public void OnNavigatedFrom()
     {
-        EmojiPlayHelper.Current.Interval = 0;
         _dispatcherTimer.Stop();
         // await _speechAndTTSService.ReleaseRecognizerAsync();
     }
