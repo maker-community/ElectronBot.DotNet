@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Verdure.ElectronBot.Core.Models;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Services;
+using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
 using Windows.Media.Devices;
@@ -201,14 +197,16 @@ public class EbHelper
     /// <param name="actions">动作列表</param>
     /// <param name="interval">动作时间间隔默认500毫秒</param>
     /// <returns></returns>
-    public static Task PlayActionListAsync(List<ElectronBotAction> actions, int interval = 500)
+    public static async Task PlayActionListAsync(List<ElectronBotAction> actions, int interval = 500)
     {
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
+
         try
         {
             if (actions != null && actions.Count > 0)
             {
-                EmojiPlayHelper.Current.Interval = interval;
-
                 foreach (var action in actions)
                 {
                     var base64Text = action.ImageData;
@@ -237,24 +235,19 @@ public class EbHelper
 
                         var dataMeta = mat2.Data;
 
-                        Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);      
+                        Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
                     }
                     var frame = new EmoticonActionFrame(
                              data, true, action.J1, action.J2, action.J3, action.J4, action.J5, action.J6);
 
-                    EmojiPlayHelper.Current.Enqueue(frame);
+                    _ = await service.SendToUsbDeviceAsync(frame);
                 }
             }
-
-            ///EmojiPlayHelper.Current.Interval = 0;
-
         }
-        catch (Exception ex)
+        catch (Exception)
         {
 
         }
-
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -291,7 +284,10 @@ public class EbHelper
 
             var frame = new EmoticonActionFrame(data);
 
-            EmojiPlayHelper.Current.Enqueue(frame);
+            var service = App.GetService<EmoticonActionFrameService>();
+
+            await service.SendToUsbDeviceAsync(frame);
+            ///EmojiPlayHelper.Current.Enqueue(frame);
         }
     }
 
@@ -337,7 +333,10 @@ public class EbHelper
 
             Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
 
-            EmojiPlayHelper.Current.Enqueue(new EmoticonActionFrame(data));
+            //EmojiPlayHelper.Current.Enqueue(new EmoticonActionFrame(data));
+
+            var service = App.GetService<EmoticonActionFrameService>();
+            _ = await service.SendToUsbDeviceAsync(new EmoticonActionFrame(data));
         }
         catch (Exception)
         {

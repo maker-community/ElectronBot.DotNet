@@ -57,7 +57,9 @@ public class Constants
             NameId="anger",
             Avatar = "ms-appx:///Assets/Emoji/anger.png",
             Desc ="AngerName".GetLocalized(),
-            EmojisType = EmojisType.Default
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "defaultaction.json",
+            HasAction = true
         },
         new EmoticonAction()
         {
@@ -65,7 +67,9 @@ public class Constants
             NameId="disdain",
             Avatar = "ms-appx:///Assets/Emoji/disdain.png",
             Desc ="DisdainName".GetLocalized(),
-            EmojisType = EmojisType.Default
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "defaultaction.json",
+            HasAction = true
         },
         new EmoticonAction()
         {
@@ -73,7 +77,9 @@ public class Constants
             NameId="excited",
             Avatar = "ms-appx:///Assets/Emoji/excited.png",
             Desc ="ExcitedName".GetLocalized(),
-            EmojisType = EmojisType.Default
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "defaultaction.json",
+            HasAction = true
         },
         new EmoticonAction()
         {
@@ -81,7 +87,9 @@ public class Constants
             NameId="fear",
             Avatar = "ms-appx:///Assets/Emoji/fear.png",
             Desc ="FearName".GetLocalized(),
-            EmojisType = EmojisType.Default
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "defaultaction.json",
+            HasAction = true
         },
         new EmoticonAction()
         {
@@ -89,7 +97,9 @@ public class Constants
             NameId="sad",
             Avatar = "ms-appx:///Assets/Emoji/sad.png",
             Desc ="SadName".GetLocalized(),
-            EmojisType = EmojisType.Default
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "defaultaction.json",
+            HasAction = true
         }
     };
     public static readonly string TwitterConsumerKey = "";

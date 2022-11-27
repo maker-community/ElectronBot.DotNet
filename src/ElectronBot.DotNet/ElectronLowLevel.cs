@@ -1,4 +1,5 @@
-﻿using LibUsbDotNet;
+﻿using System.Diagnostics;
+using LibUsbDotNet;
 using LibUsbDotNet.Main;
 using Microsoft.Extensions.Logging;
 
@@ -148,6 +149,10 @@ public class ElectronLowLevel : IElectronLowLevel
 
             isConnected = false;
 
+            writer?.Dispose();
+
+            reader?.Dispose();
+
             return _usbDevice.Close();
         }
         else
@@ -278,53 +283,85 @@ public class ElectronLowLevel : IElectronLowLevel
     }
     private bool ReceivePacket(int packetCount, int packetSize)
     {
+        var stopwatch = Stopwatch.StartNew();
+
+        stopwatch.Start();
+
         var _packetCount = packetCount;
 
-        do
+        try
         {
-            ErrorCode ec;
             do
             {
-                var readBuffer = new byte[packetSize];
+                ErrorCode ec;
+                do
+                {
+                    var readBuffer = new byte[packetSize];
 
-                ec = reader!.Read(readBuffer, 5000, out _);
+                    ec = reader!.Read(readBuffer, 5000, out _);
 
-                extraDataBufferRx = readBuffer;
+                    extraDataBufferRx = readBuffer;
 
-            } while (ec != ErrorCode.Success);
+                } while (ec != ErrorCode.Success);
 
-            _packetCount--;
+                _packetCount--;
 
-        } while (_packetCount > 0);
+            } while (_packetCount > 0);
+
+            stopwatch.Stop();
+
+            Console.WriteLine($"time- ReceivePacket time{stopwatch.ElapsedMilliseconds}");
+
+        }
+        catch (Exception)
+        {
+            reader?.Dispose();
+            // todo:异常处理
+        }
 
         return _packetCount == 0;
-
     }
     private bool TransmitPacket(byte[] buffer, int frameBufferOffset, int packetCount, int packetSize)
     {
+        var stopwatch = Stopwatch.StartNew();
+
+        stopwatch.Start();
+
         var _packetCount = packetCount;
 
         var dataOffset = 0;
 
-        do
+        try
         {
-            ErrorCode ec;
             do
             {
-                ec = writer!.Write(buffer, frameBufferOffset + dataOffset, packetSize, 2000, out _);
-
-                if (packetSize % 512 == 0)
+                ErrorCode ec;
+                do
                 {
-                    ec = writer.Write(buffer, frameBufferOffset + dataOffset, 0, 2000, out _);
-                }
+                    ec = writer!.Write(buffer, frameBufferOffset + dataOffset, packetSize, 2000, out _);
 
-            } while (ec != ErrorCode.None);
+                    if (packetSize % 512 == 0)
+                    {
+                        ec = writer.Write(buffer, frameBufferOffset + dataOffset, 0, 2000, out _);
+                    }
 
-            dataOffset += packetSize;
+                } while (ec != ErrorCode.None);
 
-            _packetCount--;
+                dataOffset += packetSize;
 
-        } while (_packetCount > 0);
+                _packetCount--;
+
+            } while (_packetCount > 0);
+
+            stopwatch.Stop();
+
+            Console.WriteLine($"time- TransmitPacket time{stopwatch.ElapsedMilliseconds}");
+        }
+        catch (Exception)
+        {
+            writer?.Dispose();
+            // todo:异常处理
+        }
 
         return _packetCount == 0;
     }

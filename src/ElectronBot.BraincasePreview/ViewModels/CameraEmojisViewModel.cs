@@ -5,6 +5,7 @@ using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Services;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Services;
 using Windows.Graphics.Imaging;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
@@ -138,11 +139,15 @@ public class CameraEmojisViewModel : ObservableRecipient, INavigationAware
 
     public async void OnNavigatedTo(object parameter)
     {
+        var service = App.GetService<EmoticonActionFrameService>();
+        service.ClearQueue();
         await InitAsync();
     }
     public async void OnNavigatedFrom()
     {
 
+        var service = App.GetService<EmoticonActionFrameService>();
+        service.ClearQueue();
         await CleanUpAsync();
     }
 

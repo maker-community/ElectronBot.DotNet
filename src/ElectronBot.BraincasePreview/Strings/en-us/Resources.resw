@@ -507,4 +507,7 @@
   <data name="ReconnectText" xml:space="preserve">
     <value>重连电子</value>
   </data>
+  <data name="RebootElectron.Content" xml:space="preserve">
+    <value>复位电子</value>
+  </data>
 </root>
