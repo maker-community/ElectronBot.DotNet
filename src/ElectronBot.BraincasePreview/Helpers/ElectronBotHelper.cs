@@ -27,9 +27,16 @@ public class ElectronBotHelper
 
     private DeviceWatcher? deviceWatcher;
 
+    public event EventHandler? ClockCanvasStop;
+
     public bool EbConnected
     {
         get; set;
+    }
+
+    public void InvokeClockCanvasStop()
+    {
+        ClockCanvasStop?.Invoke(this, new EventArgs());
     }
 
     public SerialPort SerialPort { get; set; } = new SerialPort();

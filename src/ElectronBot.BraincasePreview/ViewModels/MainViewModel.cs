@@ -95,8 +95,14 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         _actionExpressionProvider = defaultProvider;
 
         ElectronBotHelper.Instance.SerialPort.DataReceived += SerialPort_DataReceived;
+
+        ElectronBotHelper.Instance.ClockCanvasStop += Instance_ClockCanvasStop;
     }
 
+    private void Instance_ClockCanvasStop(object? sender, EventArgs e)
+    {
+        _dispatcherTimer.Stop();
+    }
 
     [ObservableProperty]
     int selectIndex;
