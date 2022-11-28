@@ -8,6 +8,7 @@
     xmlns:local="using:ElectronBot.BraincasePreview.ClockViews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    Unloaded="UserControl_Unloaded"
     Background="Black"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>

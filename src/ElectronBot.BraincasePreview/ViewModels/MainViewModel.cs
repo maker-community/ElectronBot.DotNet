@@ -312,7 +312,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     {
         var clockName = clockComBoxSelect?.DataKey;
 
-
         if (!string.IsNullOrWhiteSpace(clockName))
         {
             var service = App.GetService<EmoticonActionFrameService>();

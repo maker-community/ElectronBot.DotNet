@@ -24,7 +24,6 @@ public sealed partial class GooeyFooter : UserControl
     private ICanvasImage _image;
     private DateTime _startTime;
 
-
     public ClockViewModel ViewModel
     {
         get;
@@ -59,7 +58,9 @@ public sealed partial class GooeyFooter : UserControl
     private void OnCreateResource(CanvasControl sender, CanvasCreateResourcesEventArgs args)
     {
         _startTime = DateTime.Now;
+
         _brush = new CanvasSolidColorBrush(sender, Color.FromArgb(255, 169, 77, 193));
+
         _blurEffect = new GaussianBlurEffect
         {
             BlurAmount = 10f
@@ -97,23 +98,30 @@ public sealed partial class GooeyFooter : UserControl
 
     private void OnDraw(CanvasControl sender, CanvasDrawEventArgs args)
     {
-        var source = new CanvasCommandList(sender);
+        using var source = new CanvasCommandList(sender);
+
         var totalTime = DateTime.Now - _startTime;
-        using (var darwingSession = source.CreateDrawingSession())
+
+        using var darwingSession = source.CreateDrawingSession();
+
+        darwingSession.FillRectangle(-100, _centerPoint.Y, _centerPoint.X * 2 + 200, _centerPoint.Y + 100, _brush);
+
+        foreach (var bubble in _bubbles)
         {
-            darwingSession.FillRectangle(-100, _centerPoint.Y, _centerPoint.X * 2 + 200, _centerPoint.Y + 100, _brush);
-
-            foreach (var bubble in _bubbles)
-            {
-                var x = bubble.X * _centerPoint.X * 2;
-                var y = _centerPoint.Y - bubble.OffsetTimeline.GetCurrentProgress(totalTime);
-                var size = bubble.SizeTimeline.GetCurrentProgress(totalTime) / 4;
-                darwingSession.FillCircle(new Vector2((float)x, (float)y), (float)size, _brush);
-            }
+            var x = bubble.X * _centerPoint.X * 2;
+            var y = _centerPoint.Y - bubble.OffsetTimeline.GetCurrentProgress(totalTime);
+            var size = bubble.SizeTimeline.GetCurrentProgress(totalTime) / 4;
+            darwingSession.FillCircle(new Vector2((float)x, (float)y), (float)size, _brush);
         }
-
         _blurEffect.Source = source;
+
         args.DrawingSession.DrawImage(_image);
         Canvas.Invalidate();
+    }
+
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+    {
+        _brush.Dispose();
+        _blurEffect.Dispose();
     }
 }

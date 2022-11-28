@@ -307,9 +307,9 @@ public class EbHelper
 
             var pixels = await bitmap.GetPixelsAsync();
 
-            var canvasDevice = App.GetService<CanvasDevice>();
+            //var canvasDevice = App.GetService<CanvasDevice>();
             // Transfer the pixel data from XAML to Win2D for further processing.
-            //using var canvasDevice = CanvasDevice.GetSharedDevice();
+            using var canvasDevice = new CanvasDevice();
 
             using var canvasBitmap = CanvasBitmap.CreateFromBytes(
                 canvasDevice, pixels.ToArray(), bitmap.PixelWidth, bitmap.PixelHeight,

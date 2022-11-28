@@ -27,6 +27,7 @@ public class ClockViewModel : ObservableRecipient
 
     private readonly ClockDiagnosticService _diagnosticService;
 
+
     public string TodayWeek
     {
         get => _todayWeek;
@@ -70,10 +71,6 @@ public class ClockViewModel : ObservableRecipient
     }
     private async void OnLoaded()
     {
-        _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-
-        _dispatcherTimer.Tick += DispatcherTimer_Tick;
-
         _dispatcherTimer.Start();
 
         //var ret = await _localSettingsService.ReadSettingAsync<string>(Constants.CustomClockTitleKey);
@@ -104,6 +101,10 @@ public class ClockViewModel : ObservableRecipient
         _dispatcherTimer = dispatcherTimer;
         _diagnosticService = clockDiagnosticService;
         _localSettingsService = localSettingsService;
+
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+
+        _dispatcherTimer.Tick += DispatcherTimer_Tick;
     }
 
 }
