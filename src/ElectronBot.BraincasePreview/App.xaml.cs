@@ -178,6 +178,10 @@ public partial class App : Application
 
         ElectronBotHelper.Instance.InvokeClockCanvasStop();
 
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
+
         Thread.Sleep(1000);
 
         ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
@@ -218,6 +222,10 @@ public partial class App : Application
             try
             {
                 ElectronBotHelper.Instance.InvokeClockCanvasStop();
+
+                var service = App.GetService<EmoticonActionFrameService>();
+
+                service.ClearQueue();
 
                 Thread.Sleep(1000);
 
