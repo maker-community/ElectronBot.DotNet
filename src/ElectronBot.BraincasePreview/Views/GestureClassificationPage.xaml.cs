@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using ElectronBot.BraincasePreview;
+using ElectronBot.BraincasePreview.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -25,8 +27,14 @@ namespace Views;
 /// </summary>
 public sealed partial class GestureClassificationPage : Page
 {
+    public GestureClassificationViewModel ViewModel
+    {
+        get;
+    }
+
     public GestureClassificationPage()
     {
+        ViewModel = App.GetService<GestureClassificationViewModel>();
         this.InitializeComponent();
     }
 }

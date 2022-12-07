@@ -29,6 +29,8 @@
     <Content Remove="Assets\Emoji\excited.png" />
     <Content Remove="Assets\Emoji\fear.png" />
     <Content Remove="Assets\Emoji\sad.png" />
+    <Content Remove="Assets\hand.png" />
+    <Content Remove="Assets\MLModel1.zip" />
     <Content Remove="Assets\model.onnx" />
     <Content Remove="Assets\xbox-one-controller.png" />
   </ItemGroup>
@@ -138,6 +140,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ElectronBot.BraincasePreview.Core\Verdure.ElectronBot.Core.csproj" />
+    <ProjectReference Include="..\GestureClassification\GestureClassification.csproj" />
+    <ProjectReference Include="..\Mediapipe.Net\Mediapipe.Net.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -167,7 +171,16 @@
     <None Update="Assets\Emoji\sad.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\hand.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MLModel1.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\xbox-one-controller.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="VFS\SystemX64\mediapipe_c.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Page Update="Views\GestureClassificationPage.xaml">

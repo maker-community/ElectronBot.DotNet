@@ -1,4 +1,4 @@
-<!--  Copyright (c) Microsoft Corporation. All rights reserved.  -->
+﻿<!--  Copyright (c) Microsoft Corporation. All rights reserved.  -->
 <!--  Licensed under the MIT License. See LICENSE in the project root for license information.  -->
 
 <Page
@@ -11,5 +11,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid />
+    <Grid>
+        <StackPanel>
+            <Button
+                x:Name="TestButton"
+                Command="{x:Bind ViewModel.TestGestureClassficationCommand, Mode=OneWay}"
+                Content="测试按钮" />
+            <Image
+                x:Name="SourceImage"
+                Width="240"
+                Source="{x:Bind ViewModel.ImgFileSource, Mode=OneWay}" />
+            <TextBlock
+                x:Name="Result"
+                FontSize="48"
+                Text="{x:Bind ViewModel.ResultLabel, Mode=OneWay}" />
+        </StackPanel>
+    </Grid>
 </Page>
