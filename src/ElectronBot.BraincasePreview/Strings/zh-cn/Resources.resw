@@ -513,4 +513,7 @@
   <data name="RebootElectron.Content" xml:space="preserve">
     <value>复位电子</value>
   </data>
+  <data name="Shell_GestureClassification.Content" xml:space="preserve">
+    <value>手势识别</value>
+  </data>
 </root>

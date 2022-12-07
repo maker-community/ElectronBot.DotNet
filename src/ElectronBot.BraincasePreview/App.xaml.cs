@@ -21,6 +21,7 @@ using Services;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
 using Verdure.ElectronBot.GrpcService;
+using Views;
 using Windows.ApplicationModel.Background;
 using Windows.Media.Playback;
 using Windows.UI.Popups;
@@ -120,6 +121,9 @@ public partial class App : Application
             services.AddTransient<EmojisEditPage>();
             services.AddTransient<EmojisEditViewModel>();
             services.AddTransient<AddEmojisDialogViewModel>();
+
+            services.AddTransient<GestureClassificationPage>();
+            services.AddTransient<GestureClassificationViewModel>();
 
             services.AddTransient<EmojisInfoDialogViewModel>();
 

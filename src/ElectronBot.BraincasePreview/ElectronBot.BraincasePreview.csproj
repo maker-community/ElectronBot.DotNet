@@ -44,10 +44,73 @@
     <None Remove="Controls\AppQuitPage.xaml" />
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
     <None Remove="Styles\Toast.xaml" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\handedness.txt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_cpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_full.tflite" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_gpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_landmarks_to_roi.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_model_loader.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_cpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_cpu_image.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_gpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_gpu_image.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\palm_detection_detection_to_roi.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_cpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_full.tflite" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_gpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_model_loader.pbtxt" />
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\GamepadPage.xaml" />
+    <None Remove="Views\GestureClassificationPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
     <None Remove="Views\TodoPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\handedness.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_cpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_full.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_gpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_landmarks_to_roi.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_model_loader.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_cpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_cpu_image.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_gpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_gpu_image.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\palm_detection_detection_to_roi.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_cpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_full.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_gpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_model_loader.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\model.onnx">
@@ -107,6 +170,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\GestureClassificationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AppQuitPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -75,6 +75,11 @@
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEA86;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_GestureClassification" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.GestureClassificationViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE19D;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <!--<NavigationViewItem x:Uid="Shell_Gamepad" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.GamepadViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE7FC;" />
