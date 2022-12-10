@@ -202,6 +202,13 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         //}
 
         _mediaPlayer.Play();
+
+        var ret = RuntimeHelper.IsAdminRun();
+
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            ToastHelper.SendToast($"是否在管理权权限运行：{ret}", TimeSpan.FromSeconds(2));
+        });
     }
 
 

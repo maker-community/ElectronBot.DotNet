@@ -245,7 +245,12 @@
 
 
 
-
+                <HyperlinkButton
+                    Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
+                    FontSize="24"
+                    NavigateUri="https://www.microsoft.com/store/productId/9P9XF62G5R9S">
+                    电子调试助手下载链接
+                </HyperlinkButton>
 
                 <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
