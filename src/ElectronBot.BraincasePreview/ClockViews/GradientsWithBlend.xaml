@@ -1,0 +1,162 @@
+﻿<!--  Copyright (c) Microsoft Corporation. All rights reserved.  -->
+<!--  Licensed under the MIT License. See LICENSE in the project root for license information.  -->
+
+<UserControl
+    x:Class="ClockViews.GradientsWithBlend"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ClockViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:BoolToObjectConverter
+            x:Key="BoolToVerticalAlignmentConverter"
+            FalseValue="Bottom"
+            TrueValue="Top" />
+        <converters:BoolToObjectConverter
+            x:Key="BoolToVerticalHorizontalAlignment"
+            FalseValue="Right"
+            TrueValue="Left" />
+        <Style TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiLight" />
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="ContentArea">
+        <Rectangle x:Name="Gradient" />
+        <Grid Width="200" Height="200">
+            <Grid
+                x:Name="CompactView"
+                IsHitTestVisible="True"
+                Opacity="1">
+                <Viewbox>
+                    <Grid
+                        Width="200"
+                        Height="200"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                        <Grid Margin="4,-7,4,0">
+                            <StackPanel x:Name="FocusTextCompact">
+                                <animations:Implicit.HideAnimations>
+                                    <animations:TranslationAnimation
+                                        DelayBehavior="SetInitialValueBeforeDelay"
+                                        From="0,0,0"
+                                        To="0,-20,0"
+                                        Duration="0:0:0.6" />
+                                    <animations:OpacityAnimation
+                                        DelayBehavior="SetInitialValueBeforeDelay"
+                                        From="1"
+                                        To="0"
+                                        Duration="0:0:0.6" />
+                                </animations:Implicit.HideAnimations>
+                                <animations:Implicit.ShowAnimations>
+                                    <animations:TranslationAnimation
+                                        DelayBehavior="SetInitialValueBeforeDelay"
+                                        From="0,-20,0"
+                                        To="0,0,0"
+                                        Duration="0:0:0.6" />
+                                    <animations:OpacityAnimation
+                                        DelayBehavior="SetInitialValueBeforeDelay"
+                                        From="0"
+                                        To="1"
+                                        Duration="0:0:0.6" />
+                                </animations:Implicit.ShowAnimations>
+                                <controls:DropShadowPanel
+                                    Margin="0,36,0,0"
+                                    HorizontalAlignment="Center"
+                                    BlurRadius="8"
+                                    OffsetY="2"
+                                    ShadowOpacity="0.3">
+                                    <TextBlock
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                        FontSize="18"
+                                        Foreground="White"
+                                        Text="资源占用" />
+                                </controls:DropShadowPanel>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <controls:RadialGauge
+                                        x:Name="RadialGaugeCPU"
+                                        Width="60"
+                                        Height="60"
+                                        Margin="8"
+                                        IsInteractive="False"
+                                        MaxAngle="360"
+                                        Maximum="100"
+                                        MinAngle="0"
+                                        Minimum="0"
+                                        NeedleLength="100"
+                                        NeedleWidth="5"
+                                        ScalePadding="0"
+                                        ScaleTickWidth="6"
+                                        ScaleWidth="23"
+                                        StepSize="5"
+                                        TickLength="0"
+                                        TickSpacing="10"
+                                        TickWidth="0"
+                                        Unit="CPU"
+                                        ValueStringFormat="N0"
+                                        Value="100" />
+                                    <controls:RadialGauge
+                                        x:Name="RadialGaugeROM"
+                                        Width="60"
+                                        Height="60"
+                                        Margin="8"
+                                        IsInteractive="False"
+                                        MaxAngle="360"
+                                        Maximum="100"
+                                        MinAngle="0"
+                                        Minimum="0"
+                                        NeedleLength="100"
+                                        NeedleWidth="5"
+                                        ScalePadding="0"
+                                        ScaleTickWidth="6"
+                                        ScaleWidth="23"
+                                        StepSize="5"
+                                        TickLength="0"
+                                        TickSpacing="10"
+                                        TickWidth="0"
+                                        Unit="ROM"
+                                        ValueStringFormat="N0"
+                                        Value="100" />
+                                </StackPanel>
+                                <controls:DropShadowPanel
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    BlurRadius="8"
+                                    OffsetY="2"
+                                    ShadowOpacity="0.3">
+                                    <TextBlock
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                        FontSize="16"
+                                        Foreground="White"
+                                        Text="温度" />
+                                </controls:DropShadowPanel>
+                            </StackPanel>
+                        </Grid>
+                        <Grid
+                            Margin="3,9"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom">
+                            <animations:Implicit.ShowAnimations>
+                                <animations:TranslationAnimation
+                                    DelayBehavior="SetInitialValueBeforeDelay"
+                                    From="0,-20,0"
+                                    To="0,0,0"
+                                    Duration="0:0:0.6" />
+                                <animations:OpacityAnimation
+                                    DelayBehavior="SetInitialValueBeforeDelay"
+                                    From="0"
+                                    To="1"
+                                    Duration="0:0:0.6" />
+                            </animations:Implicit.ShowAnimations>
+                        </Grid>
+                    </Grid>
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -151,6 +151,8 @@ public partial class App : Application
 
             services.AddTransient<IClockViewProvider, GooeyFooterClockViewProvider>();
 
+            services.AddTransient<IClockViewProvider, GradientsWithBlendClockViewProvider>();
+
             services.AddSingleton<IActionExpressionProvider, DefaultActionExpressionProvider>();
 
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
