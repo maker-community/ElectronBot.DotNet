@@ -2,15 +2,30 @@
 using System.Management;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.Win32;
 using Windows.Storage;
-using static ElectronBot.BraincasePreview.Services.PerformanceInfo;
 
 namespace ElectronBot.BraincasePreview.Services;
 public class ClockDiagnosticService
 {
+    public ClockDiagnosticInfo GetClockDiagnosticInfo()
+    {
+        ClockDiagnosticInfo info = new ClockDiagnosticInfo();
+        var temp = RefreshTempInfos();
+        var cpuUsage = RefreshCpuInfos();
+        var memoryUsageText = RefreshRamInfos();
 
+
+        info.Temperature = temp;
+        info.CpuUsage = cpuUsage;
+        info.MemoryUsage = Math.Round(memoryUsageText.Item2, 2);
+        info.MemoryUsageText = memoryUsageText.Item1;
+
+
+        return info;
+    }
 
     public ClockDiagnosticInfo GetClockDiagnosticInfoAsync()
     {
@@ -23,16 +38,16 @@ public class ClockDiagnosticService
         info.SystemArch = ((PerformanceInfo.Arch)sysInfo.CpuInfo.ProcessorArchitecture).ToString();
 
 
-       
+
         info.TotalMemory = Math.Round(currentStats.memoryTotal / 1024.0).ToString() + " GB";
 
         info.UsedMemory = (currentStats.memoryInUse / 1024).ToString() + " GB used";
         info.FreeMemory = ((currentStats.memoryTotal - currentStats.memoryInUse) / 1024).ToString() + " GB free";
 
         info.CpuThreadCount = CpuUtil.ProcessorCount + " threads";
- 
 
-        info.CpuUsage = Convert.ToInt32(CpuUtil.GetPercentage()) + "%";
+
+        //info.CpuUsage = Convert.ToInt32(CpuUtil.GetPercentage()) + "%";
 
         ulong freeBytesAvailable;
         ulong totalNumberOfBytes;
@@ -102,54 +117,64 @@ public class ClockDiagnosticService
             if (ni.GetIPv4Statistics().BytesSent > 0)
             {
             }
-                //netMont.Text = ni.GetIPv4Statistics().BytesSent / 1000 + " KB";
+            //netMont.Text = ni.GetIPv4Statistics().BytesSent / 1000 + " KB";
             // Reçu
             if (ni.GetIPv4Statistics().BytesReceived > 0)
             {
 
             }
-                //netDes.Text = ni.GetIPv4Statistics().BytesReceived / 1000 + " KB";
+            //netDes.Text = ni.GetIPv4Statistics().BytesReceived / 1000 + " KB";
         }
     }
 
 
-    public void RefreshTempInfos()
+    public string RefreshTempInfos()
     {
 
         Double temperature = 0;
-        String instanceName = "";
-
+        var instanceName = "";
+        var tempRet = "";
         try
         {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(@"root\WMI", "SELECT * FROM MSAcpi_ThermalZoneTemperature");
-            foreach (ManagementObject obj in searcher.Get())
+            if (RuntimeHelper.IsAdminRun())
             {
-                temperature = Convert.ToDouble(obj["CurrentTemperature"].ToString());
-                // Convertir °F en °C
-                temperature = (temperature - 2732) / 10.0;
-                instanceName = obj["InstanceName"].ToString();
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher(@"root\WMI", "SELECT * FROM MSAcpi_ThermalZoneTemperature");
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    temperature = Convert.ToDouble(obj["CurrentTemperature"].ToString());
+                    // Convertir °F en °C
+                    temperature = (temperature - 2732) / 10.0;
+                    instanceName = obj["InstanceName"].ToString();
+                }
+                tempRet = "温度" + temperature + "°C";
             }
-            //temp.Text = temperature + "°C";
         }
         catch (Exception ex)
         {
 
         }
+        return tempRet;
     }
 
-    //public void RefreshRamInfos()
-    //{
-    //    ramTotal.Text = "Total : " + FormatSize(GetTotalPhys());
-    //    ramUsed.Text = "Used : " + FormatSize(GetUsedPhys());
-    //    ramFree.Text = "Free : " + FormatSize(GetAvailPhys());
+    public (string, double) RefreshRamInfos()
+    {
+        var totalValue = GetTotalPhys();
+        var total = FormatSize(totalValue);
+        var usedValue = GetUsedPhys();
+        var used = FormatSize(usedValue);
+        //var free = FormatSize(GetAvailPhys());
 
-    //    string[] maxVal = FormatSize(GetTotalPhys()).Split(' ');
-    //    barRam.Maximum = float.Parse(maxVal[0]);
-    //    string[] memVal = FormatSize(GetUsedPhys()).Split(' ');
-    //    barRam.Value = float.Parse(memVal[0]);
-    //}
+        var totalUsed = usedValue * 1.0 / totalValue;
+        var ret = $"ROM:{used}/{total}";
 
-    public string RefreshCpuInfos()
+        return (ret, totalUsed * 100);
+        //string[] maxVal = FormatSize(GetTotalPhys()).Split(' ');
+        //barRam.Maximum = float.Parse(maxVal[0]);
+        //string[] memVal = FormatSize(GetUsedPhys()).Split(' ');
+        //barRam.Value = float.Parse(memVal[0]);
+    }
+
+    public double RefreshCpuInfos()
     {
         PerformanceCounter cpuCounter = new PerformanceCounter();
         cpuCounter.CategoryName = "Processor";
@@ -166,13 +191,13 @@ public class ClockDiagnosticService
 
         decimal roundVal = Convert.ToDecimal(val);
         roundVal = Math.Round(roundVal, 2);
-
-        return roundVal + " %";
+        return (double)roundVal;
+        //return roundVal + " %";
     }
 
     // Exemple de fonction pour la RAM
     // ! Pas utilisée dans le cadre de ce cours
-    public object getRAMCounter()
+    public double GetRAMCounter()
     {
         PerformanceCounter ramCounter = new PerformanceCounter();
         ramCounter.CategoryName = "Memory";
@@ -185,7 +210,7 @@ public class ClockDiagnosticService
         decimal roundVar = Convert.ToDecimal(val);
         roundVar = Math.Round(roundVar, 2);
 
-        return roundVar;
+        return (double)roundVar;
     }
 
     /* Travailler avec la mémoire (RAM) */

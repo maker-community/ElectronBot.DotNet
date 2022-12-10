@@ -7,7 +7,17 @@ using System.Threading.Tasks;
 namespace ElectronBot.BraincasePreview.Models;
 public class ClockDiagnosticInfo
 {
-    public string CpuUsage
+    public double CpuUsage
+    {
+        get; set;
+    }
+
+    public double MemoryUsage
+    {
+        get; set;
+    }
+
+    public string MemoryUsageText
     {
         get; set;
     }
@@ -40,6 +50,11 @@ public class ClockDiagnosticInfo
         get; set;
     }
     public string FreeStorage
+    {
+        get; set;
+    }
+
+    public string Temperature
     {
         get; set;
     }

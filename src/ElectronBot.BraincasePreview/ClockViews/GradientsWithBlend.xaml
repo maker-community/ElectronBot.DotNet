@@ -93,13 +93,13 @@
                                         ScalePadding="0"
                                         ScaleTickWidth="6"
                                         ScaleWidth="23"
-                                        StepSize="5"
+                                        StepSize="2"
                                         TickLength="0"
                                         TickSpacing="10"
                                         TickWidth="0"
                                         Unit="CPU"
-                                        ValueStringFormat="N0"
-                                        Value="100" />
+                                        ValueStringFormat="N2"
+                                        Value="{x:Bind ViewModel.ClockDiagnosticInfo.CpuUsage, Mode=OneWay}" />
                                     <controls:RadialGauge
                                         x:Name="RadialGaugeROM"
                                         Width="60"
@@ -115,14 +115,27 @@
                                         ScalePadding="0"
                                         ScaleTickWidth="6"
                                         ScaleWidth="23"
-                                        StepSize="5"
+                                        StepSize="2"
                                         TickLength="0"
                                         TickSpacing="10"
                                         TickWidth="0"
                                         Unit="ROM"
-                                        ValueStringFormat="N0"
-                                        Value="100" />
+                                        ValueStringFormat="N2"
+                                        Value="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsage, Mode=OneWay}" />
                                 </StackPanel>
+                                <controls:DropShadowPanel
+                                    Margin="0,0,0,4"
+                                    HorizontalAlignment="Center"
+                                    BlurRadius="8"
+                                    OffsetY="2"
+                                    ShadowOpacity="0.3">
+                                    <TextBlock
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                        FontSize="16"
+                                        Foreground="White"
+                                        Text="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsageText, Mode=OneWay}"
+                                        TextWrapping="WrapWholeWords" />
+                                </controls:DropShadowPanel>
                                 <controls:DropShadowPanel
                                     Margin="0,0,0,0"
                                     HorizontalAlignment="Center"
@@ -133,7 +146,7 @@
                                         FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                                         FontSize="16"
                                         Foreground="White"
-                                        Text="温度" />
+                                        Text="{x:Bind ViewModel.ClockDiagnosticInfo.Temperature, Mode=OneWay}" />
                                 </controls:DropShadowPanel>
                             </StackPanel>
                         </Grid>

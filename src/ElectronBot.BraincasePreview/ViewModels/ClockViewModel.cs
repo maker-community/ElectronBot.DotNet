@@ -27,6 +27,8 @@ public class ClockViewModel : ObservableRecipient
 
     private readonly ClockDiagnosticService _diagnosticService;
 
+    private bool isProcessing = false;
+
 
     public string TodayWeek
     {
@@ -90,7 +92,13 @@ public class ClockViewModel : ObservableRecipient
         TodayWeek = DateTimeOffset.Now.ToString("ddd");
         Day = DateTimeOffset.Now.Day.ToString();
 
-        //ClockDiagnosticInfo = _diagnosticService.GetClockDiagnosticInfoAsync();
+        if (isProcessing)
+        {
+            return;
+        }
+        isProcessing = true;
+        ClockDiagnosticInfo = _diagnosticService.GetClockDiagnosticInfo();
+        isProcessing = false;
     }
 
     public ClockViewModel(DispatcherTimer dispatcherTimer,
