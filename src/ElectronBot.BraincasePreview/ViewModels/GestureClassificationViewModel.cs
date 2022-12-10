@@ -1,23 +1,25 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.Helpers;
+using ElectronBot.BraincasePreview.Contracts.ViewModels;
 using ElectronBot.BraincasePreview.Helpers;
+using ElectronBot.BraincasePreview.Services;
 using Mediapipe.Net.Framework.Format;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
 using Microsoft.UI.Xaml.Media.Imaging;
 using OpenCvSharp.Extensions;
+using Services;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
+using Image = Microsoft.UI.Xaml.Controls.Image;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public partial class GestureClassificationViewModel : ObservableRecipient
+public partial class GestureClassificationViewModel : ObservableRecipient, INavigationAware
 {
-
+    private bool _isInitialized = false;
     private static HandsCpuSolution? calculator;
 
     private readonly string modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\MLModel1.zip";
@@ -45,7 +47,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient
 
         var widthStep = (int)mat2.Step();
 
-        Bitmap bitmap = BitmapConverter.ToBitmap(matData);
+        System.Drawing.Bitmap bitmap = BitmapConverter.ToBitmap(matData);
 
         var ret = await BitmapToBitmapImage(bitmap);
 
@@ -86,6 +88,12 @@ public partial class GestureClassificationViewModel : ObservableRecipient
     }
 
     [ObservableProperty]
+    public Image faceImage = new();
+
+    [ObservableProperty]
+    public SoftwareBitmapSource faceImageSource;
+
+    [ObservableProperty]
     string resultLabel;
 
     [ObservableProperty]
@@ -105,5 +113,78 @@ public partial class GestureClassificationViewModel : ObservableRecipient
         var softwareBitmap = await decoder.GetSoftwareBitmapAsync();
 
         return softwareBitmap;
+    }
+
+    public async void OnNavigatedTo(object parameter)
+    {
+        await InitAsync();
+    }
+
+
+    private async Task InitAsync()
+    {
+        if (_isInitialized)
+        {
+            await CameraFrameService.Current.CleanupMediaCaptureAsync();
+        }
+        else
+        {
+            await InitializeScreenAsync();
+        }
+    }
+
+    private async Task InitializeScreenAsync()
+    {
+        await CameraFrameService.Current.PickNextMediaSourceWorkerAsync(FaceImage);
+
+        CameraFrameService.Current.SoftwareBitmapFrameCaptured += Current_SoftwareBitmapFrameCaptured;
+
+        CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult += Current_SoftwareBitmapFrameHandPredictResult;
+
+        _isInitialized = true;
+    }
+
+    private void Current_SoftwareBitmapFrameHandPredictResult(object? sender, string e)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            ResultLabel = e;
+        });
+    }
+
+    private async void Current_SoftwareBitmapFrameCaptured(object? sender, SoftwareBitmapEventArgs e)
+    {
+        if (e.SoftwareBitmap is not null)
+        {
+
+            if (e.SoftwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 ||
+                  e.SoftwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight)
+            {
+                e.SoftwareBitmap = SoftwareBitmap.Convert(
+                    e.SoftwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+            }
+
+            var service = App.GetService<GestureClassificationService>();
+
+            _ = await service.HandPredictResultUnUseQueueAsync(calculator, modelPath, e.SoftwareBitmap);
+        }
+    }
+    public async void OnNavigatedFrom()
+    {
+        await CleanUpAsync();
+    }
+
+    private async Task CleanUpAsync()
+    {
+        try
+        {
+            _isInitialized = false;
+
+            await CameraFrameService.Current.CleanupMediaCaptureAsync();
+        }
+        catch (Exception)
+        {
+
+        }
     }
 }

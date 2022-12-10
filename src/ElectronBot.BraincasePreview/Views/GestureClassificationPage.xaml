@@ -17,6 +17,17 @@
                 x:Name="TestButton"
                 Command="{x:Bind ViewModel.TestGestureClassficationCommand, Mode=OneWay}"
                 Content="测试按钮" />
+            <Border
+                Grid.Row="1"
+                Width="300"
+                Height="200"
+                Margin="8"
+                VerticalAlignment="Top"
+                BorderBrush="{ThemeResource SystemAccentColor}"
+                BorderThickness="4"
+                CornerRadius="8">
+                <Image x:Name="FaceImage" Source="{x:Bind ViewModel.FaceImage.Source, Mode=OneWay}" />
+            </Border>
             <Image
                 x:Name="SourceImage"
                 Width="240"

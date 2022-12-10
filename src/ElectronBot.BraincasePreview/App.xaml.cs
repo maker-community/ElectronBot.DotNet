@@ -157,6 +157,8 @@ public partial class App : Application
 
             services.AddSingleton<EmoticonActionFrameService>();
 
+            services.AddSingleton<GestureClassificationService>();
+
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
             {
@@ -236,6 +238,8 @@ public partial class App : Application
                 IntelligenceService.Current.CleanUp();
 
                 await CameraService.Current.CleanupMediaCaptureAsync();
+
+                await CameraFrameService.Current.CleanupMediaCaptureAsync();
 
                 ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
             }
