@@ -516,4 +516,16 @@
   <data name="GradientsWithBlend" xml:space="preserve">
     <value>资源监控</value>
   </data>
+  <data name="CpuTitle.Text" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="RadialGaugeCPU.Unit" xml:space="preserve">
+    <value>百分比</value>
+  </data>
+  <data name="RadialGaugeROM.Unit" xml:space="preserve">
+    <value>百分比</value>
+  </data>
+  <data name="RomTitle.Text" xml:space="preserve">
+    <value>ROM</value>
+  </data>
 </root>

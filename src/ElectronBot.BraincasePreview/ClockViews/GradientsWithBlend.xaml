@@ -66,62 +66,92 @@
                                         Duration="0:0:0.6" />
                                 </animations:Implicit.ShowAnimations>
                                 <controls:DropShadowPanel
-                                    Margin="0,36,0,0"
+                                    Margin="0,32,0,0"
                                     HorizontalAlignment="Center"
                                     BlurRadius="8"
                                     OffsetY="2"
                                     ShadowOpacity="0.3">
                                     <TextBlock
                                         FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                        FontSize="18"
+                                        FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
                                         Foreground="White"
-                                        Text="资源占用" />
+                                        Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}" />
                                 </controls:DropShadowPanel>
                                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <controls:RadialGauge
-                                        x:Name="RadialGaugeCPU"
-                                        Width="60"
-                                        Height="60"
-                                        Margin="8"
-                                        IsInteractive="False"
-                                        MaxAngle="360"
-                                        Maximum="100"
-                                        MinAngle="0"
-                                        Minimum="0"
-                                        NeedleLength="100"
-                                        NeedleWidth="5"
-                                        ScalePadding="0"
-                                        ScaleTickWidth="6"
-                                        ScaleWidth="23"
-                                        StepSize="2"
-                                        TickLength="0"
-                                        TickSpacing="10"
-                                        TickWidth="0"
-                                        Unit="CPU"
-                                        ValueStringFormat="N2"
-                                        Value="{x:Bind ViewModel.ClockDiagnosticInfo.CpuUsage, Mode=OneWay}" />
-                                    <controls:RadialGauge
-                                        x:Name="RadialGaugeROM"
-                                        Width="60"
-                                        Height="60"
-                                        Margin="8"
-                                        IsInteractive="False"
-                                        MaxAngle="360"
-                                        Maximum="100"
-                                        MinAngle="0"
-                                        Minimum="0"
-                                        NeedleLength="100"
-                                        NeedleWidth="5"
-                                        ScalePadding="0"
-                                        ScaleTickWidth="6"
-                                        ScaleWidth="23"
-                                        StepSize="2"
-                                        TickLength="0"
-                                        TickSpacing="10"
-                                        TickWidth="0"
-                                        Unit="ROM"
-                                        ValueStringFormat="N2"
-                                        Value="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsage, Mode=OneWay}" />
+                                    <Grid VerticalAlignment="Center">
+
+                                        <controls:RadialGauge
+                                            x:Name="RadialGaugeCPU"
+                                            x:Uid="RadialGaugeCPU"
+                                            Width="72"
+                                            Height="72"
+                                            Margin="8"
+                                            IsInteractive="False"
+                                            MaxAngle="360"
+                                            Maximum="100"
+                                            MinAngle="0"
+                                            Minimum="0"
+                                            NeedleBrush="Red"
+                                            NeedleLength="100"
+                                            NeedleWidth="5"
+                                            ScalePadding="0"
+                                            ScaleTickBrush="AliceBlue"
+                                            ScaleTickWidth="2"
+                                            ScaleWidth="20"
+                                            StepSize="2"
+                                            TickLength="2"
+                                            TickSpacing="10"
+                                            TickWidth="2"
+                                            TrailBrush="Pink"
+                                            ValueStringFormat="N2"
+                                            Value="{x:Bind ViewModel.ClockDiagnosticInfo.CpuUsage, Mode=OneWay}" />
+                                        <TextBlock
+                                            x:Name="CpuTtile"
+                                            x:Uid="CpuTitle"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                            FontSize="14"
+                                            Foreground="White" />
+                                    </Grid>
+                                    <Grid VerticalAlignment="Center">
+
+                                        <controls:RadialGauge
+                                            x:Name="RadialGaugeROM"
+                                            x:Uid="RadialGaugeROM"
+                                            Width="60"
+                                            Height="60"
+                                            Margin="8"
+                                            IsInteractive="False"
+                                            MaxAngle="360"
+                                            Maximum="100"
+                                            MinAngle="0"
+                                            Minimum="0"
+                                            NeedleBrush="Red"
+                                            NeedleLength="100"
+                                            NeedleWidth="5"
+                                            ScalePadding="0"
+                                            ScaleTickBrush="AliceBlue"
+                                            ScaleTickWidth="2"
+                                            ScaleWidth="23"
+                                            StepSize="2"
+                                            TickLength="0"
+                                            TickSpacing="10"
+                                            TickWidth="0"
+                                            TrailBrush="Pink"
+                                            ValueStringFormat="N2"
+                                            Value="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsage, Mode=OneWay}" />
+                                        <TextBlock
+                                            x:Name="RomTtile"
+                                            x:Uid="RomTitle"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                            FontSize="14"
+                                            Foreground="White" />
+                                    </Grid>
+
+
                                 </StackPanel>
                                 <controls:DropShadowPanel
                                     Margin="0,0,0,4"
@@ -131,7 +161,7 @@
                                     ShadowOpacity="0.3">
                                     <TextBlock
                                         FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                        FontSize="16"
+                                        FontSize="14"
                                         Foreground="White"
                                         Text="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsageText, Mode=OneWay}"
                                         TextWrapping="WrapWholeWords" />
@@ -144,7 +174,7 @@
                                     ShadowOpacity="0.3">
                                     <TextBlock
                                         FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                        FontSize="16"
+                                        FontSize="14"
                                         Foreground="White"
                                         Text="{x:Bind ViewModel.ClockDiagnosticInfo.Temperature, Mode=OneWay}" />
                                 </controls:DropShadowPanel>

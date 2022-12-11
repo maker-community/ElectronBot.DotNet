@@ -165,7 +165,7 @@ public class ClockDiagnosticService
         //var free = FormatSize(GetAvailPhys());
 
         var totalUsed = usedValue * 1.0 / totalValue;
-        var ret = $"ROM:{used}/{total}";
+        var ret = $"ROM：{used}/{total}";
 
         return (ret, totalUsed * 100);
         //string[] maxVal = FormatSize(GetTotalPhys()).Split(' ');
