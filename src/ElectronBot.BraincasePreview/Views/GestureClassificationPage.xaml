@@ -8,15 +8,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
     <Grid>
         <StackPanel>
-            <Button
+            <!--<Button
                 x:Name="TestButton"
                 Command="{x:Bind ViewModel.TestGestureClassficationCommand, Mode=OneWay}"
-                Content="测试按钮" />
+                Content="测试按钮" />-->
             <Border
                 Grid.Row="1"
                 Width="300"
