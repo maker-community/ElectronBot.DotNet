@@ -513,4 +513,22 @@
   <data name="RebootElectron.Content" xml:space="preserve">
     <value>复位电子</value>
   </data>
+  <data name="Shell_GestureClassification.Content" xml:space="preserve">
+    <value>手势识别</value>
+  </data>
+  <data name="GradientsWithBlend" xml:space="preserve">
+    <value>资源监控</value>
+  </data>
+  <data name="CpuTitle.Text" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="RadialGaugeCPU.Unit" xml:space="preserve">
+    <value>百分比</value>
+  </data>
+  <data name="RadialGaugeROM.Unit" xml:space="preserve">
+    <value>百分比</value>
+  </data>
+  <data name="RomTitle.Text" xml:space="preserve">
+    <value>ROM</value>
+  </data>
 </root>

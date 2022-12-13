@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Nuget">
+    <IsPackable>true</IsPackable>
+    <PackageId>Mediapipe.Net</PackageId>
+    <Version>1.0.0-alpha2</Version>
+    <Authors>homuler;Vignette</Authors>
+    <PackageTags>Google;Mediapipe;Tracking;Media Analysis</PackageTags>
+    <Title>Mediapipe.Net</Title>
+    <Description>Pure .NET bindings for MediaPipe</Description>
+    <Copyright>2022 homuler and Vignette</Copyright>
+    <PackageProjectUrl>https://github.com/vignetteapp/MediaPipe.NET</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup Label="Package References">
+    <PackageReference Include="Google.Protobuf" Version="3.21.3" />
+    <PackageReference Include="Mediapipe.Net.Framework.Protobuf" Version="1.0.0-alpha2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

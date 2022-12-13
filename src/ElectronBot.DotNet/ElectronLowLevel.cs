@@ -141,17 +141,17 @@ public class ElectronLowLevel : IElectronLowLevel
     {
         if (_usbDevice != null && _usbDevice.IsOpen)
         {
-            if (wholeUsbDevice is not null)
-            {
-                // Release interface #0.
-                wholeUsbDevice.ReleaseInterface(1);
-            }
-
             isConnected = false;
 
             writer?.Dispose();
 
             reader?.Dispose();
+
+            if (wholeUsbDevice is not null)
+            {
+                // Release interface #0.
+                wholeUsbDevice.ReleaseInterface(1);
+            }
 
             return _usbDevice.Close();
         }

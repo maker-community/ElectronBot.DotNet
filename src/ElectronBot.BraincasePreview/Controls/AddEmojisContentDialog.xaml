@@ -52,7 +52,7 @@
                             Margin="4"
                             Command="{x:Bind ViewModel.AddEmojisAvatarCommand}">
                             <FontIcon
-                                FontFamily="/Assets/FontsSegoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
                                 FontSize="48"
                                 Glyph="&#xE158;" />
                         </Button>

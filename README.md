@@ -1,17 +1,28 @@
-# [树莓派Zero 2 W（ubuntu-22.04）通过.NET6和libusb操作USB读写](https://www.cnblogs.com/GreenShade/p/16795988.html)
 
-# [树莓派Zero 2 W 通过GPIO，USB和接收手柄数据操作的小车成品演示视频地址](https://www.bilibili.com/video/BV1j8411Y7Di/?share_source=copy_web&vd_source=dbfa7a452a337f924e60d4da2715b6eb)
+## 新添加的功能
+
+### 1. 新的表盘，主要包含资源占用和温度情况，温度显示需要管理员运行电子脑壳。
+
+![cpu](/Images/cpu.png)
+
+## 2. 手势识别页，主要包含一些手势的结果的识别，对于的功能还在构思。
+
+![hand](/Images/hand.png)
+
+## [树莓派Zero 2 W（ubuntu-22.04）通过.NET6和libusb操作USB读写](https://www.cnblogs.com/GreenShade/p/16795988.html)
+
+## [树莓派Zero 2 W 通过GPIO，USB和接收手柄数据操作的小车成品演示视频地址](https://www.bilibili.com/video/BV1j8411Y7Di/?share_source=copy_web&vd_source=dbfa7a452a337f924e60d4da2715b6eb)
 
 ![封面](/Images/videoCar.jpg)
 
 
-# ElectronBot.DotNet
+## ElectronBot.DotNet
+ 
+ 此项目为[雉晖君的ElectronBot](https://github.com/peng-zhihui/ElectronBot)提供了.Net版本上位机传输数据的SDK。
 
-# 此项目为[雉晖君的ElectronBot](https://github.com/peng-zhihui/ElectronBot)提供了.Net版本上位机传输数据的SDK。
 
-
-# ElectronBot.BraincasePreview
-# 电子脑壳项目为WinUI项目 最好使用VS2022最新版本 并安装Windows App SDK 插件运行
+## ElectronBot.BraincasePreview
+## 电子脑壳项目为WinUI项目 最好使用VS2022最新版本 并安装Windows App SDK 插件运行
 
  电子脑壳全部代码已经开源，有兴趣的可以拿来进行学习。
 

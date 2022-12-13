@@ -21,6 +21,7 @@ using Services;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
 using Verdure.ElectronBot.GrpcService;
+using Views;
 using Windows.ApplicationModel.Background;
 using Windows.Media.Playback;
 using Windows.UI.Popups;
@@ -121,6 +122,9 @@ public partial class App : Application
             services.AddTransient<EmojisEditViewModel>();
             services.AddTransient<AddEmojisDialogViewModel>();
 
+            services.AddTransient<GestureClassificationPage>();
+            services.AddTransient<GestureClassificationViewModel>();
+
             services.AddTransient<EmojisInfoDialogViewModel>();
 
             services.AddTransient<GamepadViewModel>();
@@ -147,11 +151,15 @@ public partial class App : Application
 
             services.AddTransient<IClockViewProvider, GooeyFooterClockViewProvider>();
 
+            services.AddTransient<IClockViewProvider, GradientsWithBlendClockViewProvider>();
+
             services.AddSingleton<IActionExpressionProvider, DefaultActionExpressionProvider>();
 
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
 
             services.AddSingleton<EmoticonActionFrameService>();
+
+            services.AddSingleton<GestureClassificationService>();
 
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
@@ -175,6 +183,14 @@ public partial class App : Application
     {
 
         e.Handled = true;
+
+        ElectronBotHelper.Instance.InvokeClockCanvasStop();
+
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
+
+        Thread.Sleep(1000);
 
         ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
         // TODO: Log and handle exceptions as appropriate.
@@ -213,11 +229,21 @@ public partial class App : Application
         {
             try
             {
-                ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+                ElectronBotHelper.Instance.InvokeClockCanvasStop();
+
+                var service = App.GetService<EmoticonActionFrameService>();
+
+                service.ClearQueue();
+
+                Thread.Sleep(1000);
 
                 IntelligenceService.Current.CleanUp();
 
                 await CameraService.Current.CleanupMediaCaptureAsync();
+
+                await CameraFrameService.Current.CleanupMediaCaptureAsync();
+
+                ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
             }
             catch (Exception)
             {
