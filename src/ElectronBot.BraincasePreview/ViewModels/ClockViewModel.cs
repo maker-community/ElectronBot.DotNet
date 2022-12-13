@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
@@ -75,30 +73,28 @@ public class ClockViewModel : ObservableRecipient
     {
         _dispatcherTimer.Start();
 
-        //var ret = await _localSettingsService.ReadSettingAsync<string>(Constants.CustomClockTitleKey);
-
         var ret2 = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
-
-        //CustomClockTitle = ret ?? "";
 
         ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
 
-        await Task.CompletedTask;
+        _diagnosticService.ClockDiagnosticInfoResult += DiagnosticService_ClockDiagnosticInfoResult;
     }
 
-    private void DispatcherTimer_Tick(object? sender, object e)
+    private void DiagnosticService_ClockDiagnosticInfoResult(object? sender, ClockDiagnosticInfo e)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            ClockDiagnosticInfo = e ?? new ClockDiagnosticInfo();
+        });    
+    }
+
+    private async void DispatcherTimer_Tick(object? sender, object e)
     {
         TodayTime = DateTimeOffset.Now.ToString("T");
         TodayWeek = DateTimeOffset.Now.ToString("ddd");
         Day = DateTimeOffset.Now.Day.ToString();
 
-        if (isProcessing)
-        {
-            return;
-        }
-        isProcessing = true;
-        ClockDiagnosticInfo = _diagnosticService.GetClockDiagnosticInfo();
-        isProcessing = false;
+        _ = await _diagnosticService.InvokeClockViewAsync(sender!);
     }
 
     public ClockViewModel(DispatcherTimer dispatcherTimer,

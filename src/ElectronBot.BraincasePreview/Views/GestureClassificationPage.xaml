@@ -33,8 +33,13 @@
                 Source="{x:Bind ViewModel.ImgFileSource, Mode=OneWay}" />
             <TextBlock
                 x:Name="Result"
+                HorizontalAlignment="Center"
                 FontSize="48"
                 Text="{x:Bind ViewModel.ResultLabel, Mode=OneWay}" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="48"
+                Text="功能开发中" />
         </StackPanel>
     </Grid>
 </Page>

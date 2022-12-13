@@ -1,15 +1,67 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Management;
-using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.Win32;
-using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.Services;
 public class ClockDiagnosticService
 {
+    public event EventHandler<ClockDiagnosticInfo>? ClockDiagnosticInfoResult;
+
+    private readonly ConcurrentQueue<(object Data, TaskCompletionSource<bool> Tcs, CancellationToken Ct)> _queue = new();
+
+    private int _isSending;
+
+    public async Task<bool> InvokeClockViewAsync(object data, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var tcs = new TaskCompletionSource<bool>();
+
+        _queue.Enqueue((data, tcs, cancellationToken));
+
+        if (Interlocked.CompareExchange(ref _isSending, 1, 0) == 0)
+        {
+            _ = Task.Run(InvokeClockViewDataAsync, CancellationToken.None);
+        }
+
+        return await tcs.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    private Task InvokeClockViewDataAsync()
+    {
+        while (_queue.TryDequeue(out var item))
+        {
+            var (data, tcs, cancellationToken) = item;
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                tcs.TrySetCanceled(cancellationToken);
+                continue;
+            }
+
+            try
+            {
+                if (data != null)
+                {
+                    var result = GetClockDiagnosticInfo();
+                    ClockDiagnosticInfoResult?.Invoke(this, result);
+                    tcs.TrySetResult(true);
+                }
+            }
+            catch (Exception e)
+            {
+                tcs.TrySetException(e);
+            }
+        }
+
+        Interlocked.Exchange(ref _isSending, 0);
+
+        return Task.CompletedTask;
+    }
     public ClockDiagnosticInfo GetClockDiagnosticInfo()
     {
         ClockDiagnosticInfo info = new ClockDiagnosticInfo();
@@ -26,50 +78,6 @@ public class ClockDiagnosticService
 
         return info;
     }
-
-    public ClockDiagnosticInfo GetClockDiagnosticInfoAsync()
-    {
-        ClockDiagnosticInfo info = new ClockDiagnosticInfo();
-
-        GeneralStatistics currentStats = PerformanceInfo.GetGeneralStatistics();
-
-        PerformanceInfo.GetNativeSystemInfo(out PerformanceInfo.SYSTEM_INFO sysInfo);
-
-        info.SystemArch = ((PerformanceInfo.Arch)sysInfo.CpuInfo.ProcessorArchitecture).ToString();
-
-
-
-        info.TotalMemory = Math.Round(currentStats.memoryTotal / 1024.0).ToString() + " GB";
-
-        info.UsedMemory = (currentStats.memoryInUse / 1024).ToString() + " GB used";
-        info.FreeMemory = ((currentStats.memoryTotal - currentStats.memoryInUse) / 1024).ToString() + " GB free";
-
-        info.CpuThreadCount = CpuUtil.ProcessorCount + " threads";
-
-
-        //info.CpuUsage = Convert.ToInt32(CpuUtil.GetPercentage()) + "%";
-
-        ulong freeBytesAvailable;
-        ulong totalNumberOfBytes;
-        ulong totalNumberOfFreeBytes;
-
-        // You can only specify a folder path that this app can access, but you can
-        // get full disk information from any folder path.
-        IStorageFolder appFolder = ApplicationData.Current.LocalFolder;
-        GetDiskFreeSpaceEx(appFolder.Path, out freeBytesAvailable, out totalNumberOfBytes, out totalNumberOfFreeBytes);
-        info.TotalStorage = $"{totalNumberOfBytes / 1073741824} GB";
-        info.UsedStorage = $"{(totalNumberOfBytes - freeBytesAvailable) / 1073741824} GB used";
-        info.FreeStorage = $"{freeBytesAvailable / 1073741824} GB free";
-        return info;
-    }
-    [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    static extern bool GetDiskFreeSpaceEx(string lpDirectoryName, out ulong lpFreeBytesAvailable, out ulong lpTotalNumberOfBytes, out ulong lpTotalNumberOfFreeBytes);
-
-
-
-
-
 
 
 
@@ -103,35 +111,10 @@ public class ClockDiagnosticService
         return String.Format("{0:0.##} {1}", dblSByte, Suffix[i]);
     }
 
-
-    public void RefreshNetworkInfos()
-    {
-        if (!NetworkInterface.GetIsNetworkAvailable())
-            return;
-
-        NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
-
-        foreach (NetworkInterface ni in interfaces)
-        {
-            // Envoyé
-            if (ni.GetIPv4Statistics().BytesSent > 0)
-            {
-            }
-            //netMont.Text = ni.GetIPv4Statistics().BytesSent / 1000 + " KB";
-            // Reçu
-            if (ni.GetIPv4Statistics().BytesReceived > 0)
-            {
-
-            }
-            //netDes.Text = ni.GetIPv4Statistics().BytesReceived / 1000 + " KB";
-        }
-    }
-
-
     public string RefreshTempInfos()
     {
 
-        Double temperature = 0;
+        double temperature = 0;
         var instanceName = "";
         var tempRet = "";
         try
@@ -162,16 +145,10 @@ public class ClockDiagnosticService
         var total = FormatSize(totalValue);
         var usedValue = GetUsedPhys();
         var used = FormatSize(usedValue);
-        //var free = FormatSize(GetAvailPhys());
-
         var totalUsed = usedValue * 1.0 / totalValue;
         var ret = $"ROM：{used}/{total}";
 
         return (ret, totalUsed * 100);
-        //string[] maxVal = FormatSize(GetTotalPhys()).Split(' ');
-        //barRam.Maximum = float.Parse(maxVal[0]);
-        //string[] memVal = FormatSize(GetUsedPhys()).Split(' ');
-        //barRam.Value = float.Parse(memVal[0]);
     }
 
     public double RefreshCpuInfos()
