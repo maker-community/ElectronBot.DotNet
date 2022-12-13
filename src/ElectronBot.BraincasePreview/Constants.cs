@@ -106,5 +106,14 @@ public class Constants
     public static readonly string TwitterConsumerSecret = "";
     public static readonly string TwitterCallbackURI = "";
 
+    public const string Up = "up";
+    public const string Down = "down";
+    public const string Back = "back";
+    public const string Forward = "forward";
+    public const string Land = "land";
+    public const string Stop = "stop";
+    public const string Left = "left";
+    public const string Right = "right";
+
     //public static StoreServicesCustomEventLogger LOGGER = StoreServicesCustomEventLogger.GetDefault();
 }

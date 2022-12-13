@@ -21,7 +21,7 @@
 
         <DataTemplate x:Key="PhotosTemplate" x:DataType="models:EmoticonAction">
             <Grid
-                Background="White"
+                Margin="8"
                 BorderBrush="{ThemeResource SystemAccentColor}"
                 BorderThickness="1"
                 CornerRadius="8">
@@ -103,6 +103,12 @@
                     </MenuFlyoutItem>
                 </MenuFlyout>
             </controls:AdaptiveGridView.ContextFlyout>
+            <!--<controls:AdaptiveGridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="8" />
+                </Style>
+            </controls:AdaptiveGridView.ItemContainerStyle>-->
+
         </controls:AdaptiveGridView>
     </Grid>
 </Page>

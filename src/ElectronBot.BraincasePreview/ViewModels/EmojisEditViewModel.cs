@@ -68,15 +68,26 @@ public class EmojisEditViewModel : ObservableRecipient
                 List<ElectronBotAction> actions = new();
 
                 if (emojis.HasAction)
-                {   
+                {
                     if (!string.IsNullOrWhiteSpace(emojis.EmojisActionPath))
                     {
-                        var path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
-
-                        var json = File.ReadAllText(path);
-
                         try
                         {
+                            var path = string.Empty;
+
+                            if(emojis.EmojisType == EmojisType.Default)
+                            {
+                                path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
+                            }
+                            else
+                            {
+                                path = emojis.EmojisActionPath;
+                            }
+                            
+
+                            var json = File.ReadAllText(path);
+
+
                             var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
 
                             if (actionList != null && actionList.Count > 0)
