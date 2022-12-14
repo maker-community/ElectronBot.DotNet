@@ -218,6 +218,7 @@ public partial class App : Application
             Title = "是否关闭应用?",
             PrimaryButtonText = "确定",
             CloseButtonText = "取消",
+            SecondaryButtonText = "托盘化",
             DefaultButton = ContentDialogButton.Primary,
             Content = new AppQuitPage()
         };
@@ -251,6 +252,10 @@ public partial class App : Application
             }
 
             MainWindow.Close();
+        }
+        else if(result == ContentDialogResult.Secondary)
+        {
+            MainWindow.Hide();
         }
     }
 }

@@ -8,10 +8,11 @@ using ElectronBot.BraincasePreview.Services;
 using ElectronBot.BraincasePreview.Views;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Services;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public class ShellViewModel : ObservableRecipient
+public partial class ShellViewModel : ObservableRecipient
 {
     private bool _isBackEnabled;
     private object? _selected;
@@ -62,6 +63,51 @@ public class ShellViewModel : ObservableRecipient
 
     public RelayCommand UserProfileCommand => _userProfileCommand ?? (_userProfileCommand = new RelayCommand(OnUserProfile, () => !IsBusy));
 
+    [RelayCommand]
+    private void ShowOrHideWindow()
+    {
+        if (App.MainWindow.Visible)
+        {
+            App.MainWindow.Hide();
+        }
+        else
+        {
+            App.MainWindow.Show();
+        }
+    }
+    [RelayCommand]
+    private void Settings()
+    {
+
+    }
+    [RelayCommand]
+    private async void Exit()
+    {
+        try
+        {
+            ElectronBotHelper.Instance.InvokeClockCanvasStop();
+
+            var service = App.GetService<EmoticonActionFrameService>();
+
+            service.ClearQueue();
+
+            Thread.Sleep(1000);
+
+            IntelligenceService.Current.CleanUp();
+
+            await CameraService.Current.CleanupMediaCaptureAsync();
+
+            await CameraFrameService.Current.CleanupMediaCaptureAsync();
+
+            ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+        }
+        catch (Exception)
+        {
+
+        }
+
+        App.MainWindow.Close();
+    }
     public UserViewModel User
     {
         get => _user;
