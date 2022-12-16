@@ -151,8 +151,8 @@ public class NotificationAreaIcon : IDisposable
                 return;
             }
 
-            // 设置为最新版本
-            SetVersion();
+            // 设置为最新版本 注释掉 能够让win10正常显示tooltips
+            //SetVersion();
 
             IsTaskbarIconCreated = true;
         }
