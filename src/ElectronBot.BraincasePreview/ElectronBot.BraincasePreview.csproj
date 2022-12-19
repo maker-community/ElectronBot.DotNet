@@ -47,6 +47,7 @@
     <None Remove="Controls\AddEmojisContentDialog.xaml" />
     <None Remove="Controls\AppQuitPage.xaml" />
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
+    <None Remove="Controls\RandomContentPage.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\handedness.txt" />
     <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_cpu.pbtxt" />
@@ -185,6 +186,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\RandomContentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="ClockViews\GradientsWithBlend.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

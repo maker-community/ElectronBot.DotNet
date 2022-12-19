@@ -2,12 +2,15 @@
 using System.Runtime.InteropServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Controls;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
+using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Services;
 using Mediapipe.Net.Framework.Format;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using OpenCvSharp.Extensions;
 using Services;
@@ -118,6 +121,30 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     public async void OnNavigatedTo(object parameter)
     {
         await InitAsync();
+    }
+
+
+    [RelayCommand]
+    public async void RandomContentEdit()
+    {
+        try
+        {
+            var randomContentEditDialog = new ContentDialog()
+            {
+                Title = "AddRandomContentTitle".GetLocalized(),
+                PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
+                CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = App.MainWindow.Content.XamlRoot,
+                Content = new RandomContentPage()
+            };
+
+            await randomContentEditDialog.ShowAsync();
+        }
+        catch (Exception)
+        {
+
+        }
     }
 
 

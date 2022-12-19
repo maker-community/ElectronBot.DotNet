@@ -125,6 +125,9 @@ public partial class App : Application
             services.AddTransient<GestureClassificationPage>();
             services.AddTransient<GestureClassificationViewModel>();
 
+            services.AddTransient<RandomContentPage>();
+            services.AddTransient<RandomContentViewModel>();
+
             services.AddTransient<EmojisInfoDialogViewModel>();
 
             services.AddTransient<GamepadViewModel>();

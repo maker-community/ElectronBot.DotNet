@@ -10,8 +10,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid x:Name="ContentArea">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <StackPanel>
+            <AppBarButton
+                x:Uid="AddRandomContentBtn"
+                HorizontalAlignment="Right"
+                Command="{x:Bind ViewModel.RandomContentEditCommand}"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                        FontWeight="Bold"
+                        Glyph="&#xECC8;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
             <!--<Button
                 x:Name="TestButton"
                 Command="{x:Bind ViewModel.TestGestureClassficationCommand, Mode=OneWay}"
