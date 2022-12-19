@@ -37,4 +37,9 @@ public sealed partial class GestureClassificationPage : Page
         ViewModel = App.GetService<GestureClassificationViewModel>();
         this.InitializeComponent();
     }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

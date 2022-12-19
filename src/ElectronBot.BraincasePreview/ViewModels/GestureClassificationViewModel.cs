@@ -3,14 +3,18 @@ using System.Runtime.InteropServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Controls;
+using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
 using ElectronBot.BraincasePreview.Controls;
+using ElectronBot.BraincasePreview.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Services;
 using Mediapipe.Net.Framework.Format;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using OpenCvSharp.Extensions;
 using Services;
@@ -25,11 +29,48 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     private bool _isInitialized = false;
     private static HandsCpuSolution? calculator;
 
+    DispatcherTimer dispatcherTimer = new DispatcherTimer();
+
     private readonly string modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\MLModel1.zip";
     public GestureClassificationViewModel()
     {
         calculator = new HandsCpuSolution();
+        dispatcherTimer.Interval = TimeSpan.FromMilliseconds(400);
+        dispatcherTimer.Tick += DispatcherTimer_Tick;
     }
+
+    private readonly string[] _texts =
+ {
+        "油条豆浆",
+        "番茄炒蛋",
+        "冰棒",
+        "烤肉",
+        "肉夹馍",
+        "烧鸟",
+        "拉面"
+    };
+
+    private Storyboard storyboard = new();
+    [RelayCommand]
+    public void Loaded(object obj)
+    {
+        if(obj is Storyboard sb)
+        {
+            storyboard = sb;
+        }
+    }
+    private void DispatcherTimer_Tick(object sender, object e)
+    {
+        var index = new Random().Next(0, _texts.Length);
+        var text = _texts[index];
+        RandomContentText = $"{text}";
+        storyboard.Children[0].SetValue(DoubleAnimation.FromProperty, 0);
+        storyboard.Children[0].SetValue(DoubleAnimation.ToProperty, 180);
+        storyboard.Begin();
+    }
+
+    [ObservableProperty]
+    private string randomContentText;
 
 
     [RelayCommand]
@@ -121,6 +162,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     public async void OnNavigatedTo(object parameter)
     {
         await InitAsync();
+        dispatcherTimer.Start();
     }
 
 
@@ -199,6 +241,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     public async void OnNavigatedFrom()
     {
         await CleanUpAsync();
+        dispatcherTimer.Stop();
     }
 
     private async Task CleanUpAsync()
