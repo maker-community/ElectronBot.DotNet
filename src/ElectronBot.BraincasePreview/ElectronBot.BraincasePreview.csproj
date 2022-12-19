@@ -40,6 +40,7 @@
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\model.onnx" />
+    <None Remove="Assets\pig.ico" />
     <None Remove="ClockViews\GooeyFooter.xaml" />
     <None Remove="ClockViews\GradientsWithBlend.xaml" />
     <None Remove="Controls\ActionTimeline.xaml" />
@@ -145,6 +146,7 @@
     <ProjectReference Include="..\ElectronBot.BraincasePreview.Core\Verdure.ElectronBot.Core.csproj" />
     <ProjectReference Include="..\GestureClassification\GestureClassification.csproj" />
     <ProjectReference Include="..\Mediapipe.Net\Mediapipe.Net.csproj" />
+    <ProjectReference Include="..\Verdure.NotificationArea\Verdure.NotificationArea.csproj" />
   </ItemGroup>
 
   <ItemGroup>
