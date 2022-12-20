@@ -43,7 +43,7 @@
             </Button>
         </Grid>
         <StackPanel Grid.Row="1" Margin="8">
-            <ListView ItemsSource="{x:Bind ViewModel.RandomContentList, Mode=OneWay}">
+            <ListView x:Name="DelRandomContentLV" ItemsSource="{x:Bind ViewModel.RandomContentList, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:RandomContent">
                         <Grid>
@@ -51,6 +51,20 @@
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Name="DelRandomContent"
+                            x:Uid="DelRandomContent"
+                            Foreground="Red">
+                            <i:Interaction.Behaviors>
+                                <ic:EventTriggerBehavior EventName="Click">
+                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.DelRandomContentCommand}" CommandParameter="{x:Bind DelRandomContentLV.SelectedItem, Mode=TwoWay}" />
+                                </ic:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </ListView.ContextFlyout>
             </ListView>
         </StackPanel>
     </Grid>

@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Contracts.ViewModels;
 using ElectronBot.BraincasePreview.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 
@@ -23,6 +22,29 @@ public partial class RandomContentViewModel : ObservableRecipient
     [ObservableProperty]
     private ObservableCollection<RandomContent> randomContentList = new();
 
+    [RelayCommand]
+    public async void DelRandomContent(object? obj)
+    {
+        if (obj == null)
+        {
+            ToastHelper.SendToast("请选中一个内容", TimeSpan.FromSeconds(3));
+            return;
+        }
+        if (obj is RandomContent randomContent)
+        {
+            try
+            {
+
+                RandomContentList.Remove(randomContent);
+
+                await _localSettingsService.SaveSettingAsync(Constants.RandomContentListKey, RandomContentList.ToList());
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+    }
     [RelayCommand]
     public async void SaveContent()
     {

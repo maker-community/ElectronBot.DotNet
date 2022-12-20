@@ -136,18 +136,24 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
         VideoCapture? capture;
 
+        string? path;
+
         if (emoticonAction.EmojisType == EmojisType.Default)
         {
-            capture = new VideoCapture(Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emoticonAction.NameId}.mp4");
+            path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emoticonAction.NameId}.mp4";
         }
         else
         {
-            capture = new VideoCapture(emoticonAction.EmojisVideoPath);
+            path = emoticonAction.EmojisVideoPath;   
         }
+        capture = new VideoCapture(path);
 
         var frameCount = capture.FrameCount;
 
         var currentAction = new ElectronBotAction();
+
+
+        await EbHelper.MediaPlayerPlaySoundAsync(path);
 
         var service = App.GetService<EmoticonActionFrameService>();
 

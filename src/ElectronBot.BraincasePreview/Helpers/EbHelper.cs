@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
+using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
@@ -10,7 +11,9 @@ using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
+using Windows.Media.Core;
 using Windows.Media.Devices;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -341,6 +344,47 @@ public class EbHelper
         catch (Exception)
         {
 
+        }
+    }
+
+    /// <summary>
+    /// 播放表情声音
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public static async Task MediaPlayerPlaySoundAsync(string path)
+    {
+        if (!string.IsNullOrWhiteSpace(path))
+        {
+            var mediaPlayer = App.GetService<MediaPlayer>();
+            try
+            {
+                mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(path));
+
+                var localSettingsService = App.GetService<ILocalSettingsService>();
+
+                var audioModel = await localSettingsService
+                    .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
+
+                var audioDevs = await EbHelper.FindAudioDeviceListAsync();
+
+                if (audioModel != null)
+                {
+                    var audioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue) ?? new ComboxItemModel();
+
+                    var selectedDevice = (DeviceInformation)audioSelect.Tag!;
+
+                    if (selectedDevice != null)
+                    {
+                        mediaPlayer.AudioDevice = selectedDevice;
+                    }
+                }
+
+                mediaPlayer.Play();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

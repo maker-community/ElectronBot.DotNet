@@ -540,4 +540,10 @@
   <data name="ContentAlreadyExists" xml:space="preserve">
     <value>内容已存在</value>
   </data>
+  <data name="DelEmojis.Text" xml:space="preserve">
+    <value>删除表情</value>
+  </data>
+  <data name="DelRandomContent.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
 </root>
