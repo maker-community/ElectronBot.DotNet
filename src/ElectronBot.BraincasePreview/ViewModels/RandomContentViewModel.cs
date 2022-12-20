@@ -51,6 +51,8 @@ public partial class RandomContentViewModel : ObservableRecipient
     {
         var list = (await _localSettingsService.ReadSettingAsync<List<RandomContent>>(Constants.RandomContentListKey)) ?? new List<RandomContent>();
 
+        await Task.Delay(TimeSpan.FromSeconds(1));
+
         RandomContentList = new(list);
     }
 }

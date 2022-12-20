@@ -304,6 +304,8 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     }
     public async void OnNavigatedFrom()
     {
+        var service = App.GetService<EmoticonActionFrameService>();
+        service.ClearQueue();
         await CleanUpAsync();
         dispatcherTimer.Stop();
         _dispatcherTimer.Stop();

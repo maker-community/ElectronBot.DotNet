@@ -75,7 +75,7 @@ public class EmojisEditViewModel : ObservableRecipient
                         {
                             var path = string.Empty;
 
-                            if(emojis.EmojisType == EmojisType.Default)
+                            if (emojis.EmojisType == EmojisType.Default)
                             {
                                 path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
                             }
@@ -83,7 +83,7 @@ public class EmojisEditViewModel : ObservableRecipient
                             {
                                 path = emojis.EmojisActionPath;
                             }
-                            
+
 
                             var json = File.ReadAllText(path);
 
@@ -308,6 +308,7 @@ public class EmojisEditViewModel : ObservableRecipient
 
 
             await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, emoticonActions.ToList());
+            await Task.Delay(TimeSpan.FromMilliseconds(500));
         }
 
         foreach (var item in list)
