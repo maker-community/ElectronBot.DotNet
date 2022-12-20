@@ -1,11 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Controls;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Services;
@@ -29,40 +29,37 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     private bool _isInitialized = false;
     private static HandsCpuSolution? calculator;
 
+    private bool _isBeginning = false;
+
     DispatcherTimer dispatcherTimer = new DispatcherTimer();
 
     private readonly string modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\MLModel1.zip";
-    public GestureClassificationViewModel()
+    private readonly ILocalSettingsService _localSettingsService;
+    public GestureClassificationViewModel(ILocalSettingsService localSettingsService)
     {
         calculator = new HandsCpuSolution();
         dispatcherTimer.Interval = TimeSpan.FromMilliseconds(400);
         dispatcherTimer.Tick += DispatcherTimer_Tick;
+        _localSettingsService = localSettingsService;
     }
-
-    private readonly string[] _texts =
- {
-        "油条豆浆",
-        "番茄炒蛋",
-        "冰棒",
-        "烤肉",
-        "肉夹馍",
-        "烧鸟",
-        "拉面"
-    };
 
     private Storyboard storyboard = new();
     [RelayCommand]
-    public void Loaded(object obj)
+    public async void Loaded(object obj)
     {
-        if(obj is Storyboard sb)
+        if (obj is Storyboard sb)
         {
             storyboard = sb;
         }
+
+        var list = (await _localSettingsService.ReadSettingAsync<List<RandomContent>>(Constants.RandomContentListKey)) ?? new List<RandomContent>();
+
+        RandomContentList = new(list);
     }
     private void DispatcherTimer_Tick(object sender, object e)
     {
-        var index = new Random().Next(0, _texts.Length);
-        var text = _texts[index];
+        var index = new Random().Next(0, RandomContentList.Count);
+        var text = RandomContentList[index].Content;
         RandomContentText = $"{text}";
         storyboard.Children[0].SetValue(DoubleAnimation.FromProperty, 0);
         storyboard.Children[0].SetValue(DoubleAnimation.ToProperty, 180);
@@ -72,6 +69,8 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     [ObservableProperty]
     private string randomContentText;
 
+    [ObservableProperty]
+    private string randomContentResultText;
 
     [RelayCommand]
     private async Task TestGestureClassficationAsync()
@@ -162,9 +161,11 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     public async void OnNavigatedTo(object parameter)
     {
         await InitAsync();
-        dispatcherTimer.Start();
+        //dispatcherTimer.Start();
     }
 
+    [ObservableProperty]
+    private ObservableCollection<RandomContent> randomContentList = new();
 
     [RelayCommand]
     public async void RandomContentEdit()
@@ -181,6 +182,8 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
                 Content = new RandomContentPage()
             };
 
+            randomContentEditDialog.Closed += RandomContentEditDialog_Closed;
+
             await randomContentEditDialog.ShowAsync();
         }
         catch (Exception)
@@ -189,6 +192,12 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
         }
     }
 
+    private async void RandomContentEditDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+        var list = (await _localSettingsService.ReadSettingAsync<List<RandomContent>>(Constants.RandomContentListKey)) ?? new List<RandomContent>();
+
+        RandomContentList = new(list);
+    }
 
     private async Task InitAsync()
     {
@@ -218,6 +227,30 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
             ResultLabel = e;
+
+            if (e == "back" && _isBeginning == false)
+            {
+                //todo：启动动画 并播放 
+                _isBeginning = true;
+                RandomContentResultText = "";
+                dispatcherTimer.Start();
+                Debug.WriteLine("启动动画");
+            }
+            else if (e == "back" && _isBeginning == true)
+            {
+                //当前处于启动状态
+                //不做处理
+            }
+            else if (e == "land" && _isBeginning == true)
+            {
+                var index = new Random().Next(0, RandomContentList.Count);
+                var text = RandomContentList[index].Content;
+                RandomContentResultText = $"{text}";
+                _isBeginning = false;
+                Debug.WriteLine("停止动画");
+                RandomContentText = "";
+                dispatcherTimer.Stop();              
+            }
         });
     }
 
