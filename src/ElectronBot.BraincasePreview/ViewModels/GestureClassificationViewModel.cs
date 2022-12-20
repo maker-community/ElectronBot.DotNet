@@ -42,11 +42,11 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
         ILocalSettingsService localSettingsService)
     {
         calculator = new HandsCpuSolution();
-        dispatcherTimer.Interval = TimeSpan.FromMilliseconds(400);
+        dispatcherTimer.Interval = TimeSpan.FromMilliseconds(600);
         dispatcherTimer.Tick += DispatcherTimer_Tick;
         _localSettingsService = localSettingsService;
         _dispatcherTimer = dispatcherTimer1;
-        _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 40);
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 80);
 
         _dispatcherTimer.Tick += DispatcherTimer_ClockTick;
         Element = new RandomContentView(this);
@@ -259,6 +259,8 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
             {
                 if (e == "back" && _isBeginning == false)
                 {
+                    var service = App.GetService<EmoticonActionFrameService>();
+                    service.ClearQueue();
                     //todo：启动动画 并播放 
                     _isBeginning = true;
                     RandomContentResultText = "";

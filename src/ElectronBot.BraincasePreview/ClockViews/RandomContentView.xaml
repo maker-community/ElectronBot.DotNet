@@ -1,4 +1,4 @@
-<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+ï»¿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
 <!--  Licensed under the MIT License.  -->
 
 <UserControl
@@ -10,6 +10,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:ClockViews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    RequestedTheme="Dark"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
@@ -36,24 +37,24 @@
             Height="200">
             <TextBlock
                 x:Name="RandomContentTb"
-                Margin="0,0,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#µÃÒâºÚ"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#å¾—æ„é»‘"
                 FontSize="32"
-                Text="{x:Bind ViewModel.RandomContentText, Mode=OneWay}">
+                Text="{x:Bind ViewModel.RandomContentText, Mode=OneWay}"
+                TextWrapping="WrapWholeWords">
                 <TextBlock.RenderTransform>
                     <TranslateTransform x:Name="RandomContentTranslation" />
                 </TextBlock.RenderTransform>
             </TextBlock>
             <TextBlock
                 x:Name="RandomContentResultTb"
-                Margin="0,0,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#µÃÒâºÚ"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#å¾—æ„é»‘"
                 FontSize="32"
-                Text="{x:Bind ViewModel.RandomContentResultText, Mode=OneWay}" />
+                Text="{x:Bind ViewModel.RandomContentResultText, Mode=OneWay}"
+                TextWrapping="WrapWholeWords" />
         </Grid>
     </Viewbox>
 </UserControl>
