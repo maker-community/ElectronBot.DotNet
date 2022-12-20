@@ -43,6 +43,7 @@
     <None Remove="Assets\pig.ico" />
     <None Remove="ClockViews\GooeyFooter.xaml" />
     <None Remove="ClockViews\GradientsWithBlend.xaml" />
+    <None Remove="ClockViews\RandomContentView.xaml" />
     <None Remove="Controls\ActionTimeline.xaml" />
     <None Remove="Controls\AddEmojisContentDialog.xaml" />
     <None Remove="Controls\AppQuitPage.xaml" />
@@ -186,6 +187,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="ClockViews\RandomContentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\RandomContentPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using ClockViews;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Controls;
@@ -33,14 +34,30 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
 
     DispatcherTimer dispatcherTimer = new DispatcherTimer();
 
+    private readonly DispatcherTimer _dispatcherTimer;
+
     private readonly string modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\MLModel1.zip";
     private readonly ILocalSettingsService _localSettingsService;
-    public GestureClassificationViewModel(ILocalSettingsService localSettingsService)
+    public GestureClassificationViewModel(DispatcherTimer dispatcherTimer1, 
+        ILocalSettingsService localSettingsService)
     {
         calculator = new HandsCpuSolution();
         dispatcherTimer.Interval = TimeSpan.FromMilliseconds(400);
         dispatcherTimer.Tick += DispatcherTimer_Tick;
         _localSettingsService = localSettingsService;
+        _dispatcherTimer = dispatcherTimer1;
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 40);
+
+        _dispatcherTimer.Tick += DispatcherTimer_ClockTick;
+        Element = new RandomContentView(this);
+    }
+
+    private async void DispatcherTimer_ClockTick(object? sender, object e)
+    {
+        if (ElectronBotHelper.Instance.EbConnected)
+        {
+            await EbHelper.ShowClockCanvasToDeviceAsync(Element);
+        }
     }
 
     private Storyboard storyboard = new();
@@ -58,12 +75,16 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     }
     private void DispatcherTimer_Tick(object sender, object e)
     {
-        var index = new Random().Next(0, RandomContentList.Count);
-        var text = RandomContentList[index].Content;
-        RandomContentText = $"{text}";
-        storyboard.Children[0].SetValue(DoubleAnimation.FromProperty, 0);
-        storyboard.Children[0].SetValue(DoubleAnimation.ToProperty, 180);
-        storyboard.Begin();
+        if (RandomContentList.Count > 0)
+        {
+            var index = new Random().Next(0, RandomContentList.Count);
+
+            var text = RandomContentList[index].Content;
+            RandomContentText = $"{text}";
+            storyboard.Children[0].SetValue(DoubleAnimation.FromProperty, 0);
+            storyboard.Children[0].SetValue(DoubleAnimation.ToProperty, 180);
+            storyboard.Begin();
+        }
     }
 
     [ObservableProperty]
@@ -72,6 +93,12 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     [ObservableProperty]
     private string randomContentResultText;
 
+
+    /// <summary>
+    /// 随机内容
+    /// </summary>
+    [ObservableProperty]
+    UIElement element;
     [RelayCommand]
     private async Task TestGestureClassficationAsync()
     {
@@ -161,7 +188,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     public async void OnNavigatedTo(object parameter)
     {
         await InitAsync();
-        //dispatcherTimer.Start();
+        _dispatcherTimer.Start();
     }
 
     [ObservableProperty]
@@ -228,28 +255,31 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
         {
             ResultLabel = e;
 
-            if (e == "back" && _isBeginning == false)
+            if(RandomContentList.Count > 0)
             {
-                //todo：启动动画 并播放 
-                _isBeginning = true;
-                RandomContentResultText = "";
-                dispatcherTimer.Start();
-                Debug.WriteLine("启动动画");
-            }
-            else if (e == "back" && _isBeginning == true)
-            {
-                //当前处于启动状态
-                //不做处理
-            }
-            else if (e == "land" && _isBeginning == true)
-            {
-                var index = new Random().Next(0, RandomContentList.Count);
-                var text = RandomContentList[index].Content;
-                RandomContentResultText = $"{text}";
-                _isBeginning = false;
-                Debug.WriteLine("停止动画");
-                RandomContentText = "";
-                dispatcherTimer.Stop();              
+                if (e == "back" && _isBeginning == false)
+                {
+                    //todo：启动动画 并播放 
+                    _isBeginning = true;
+                    RandomContentResultText = "";
+                    dispatcherTimer.Start();
+                    Debug.WriteLine("启动动画");
+                }
+                else if (e == "back" && _isBeginning == true)
+                {
+                    //当前处于启动状态
+                    //不做处理
+                }
+                else if (e == "land" && _isBeginning == true)
+                {
+                    var index = new Random().Next(0, RandomContentList.Count);
+                    var text = RandomContentList[index].Content;
+                    RandomContentResultText = $"{text}";
+                    _isBeginning = false;
+                    Debug.WriteLine("停止动画");
+                    RandomContentText = "";
+                    dispatcherTimer.Stop();
+                }
             }
         });
     }
@@ -265,7 +295,6 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
                 e.SoftwareBitmap = SoftwareBitmap.Convert(
                     e.SoftwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
             }
-
             var service = App.GetService<GestureClassificationService>();
 
             _ = await service.HandPredictResultUnUseQueueAsync(calculator, modelPath, e.SoftwareBitmap);
@@ -275,6 +304,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     {
         await CleanUpAsync();
         dispatcherTimer.Stop();
+        _dispatcherTimer.Stop();
     }
 
     private async Task CleanUpAsync()
