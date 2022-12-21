@@ -34,7 +34,8 @@
         <Grid
             x:Name="Root"
             Width="200"
-            Height="200">
+            Height="200"
+            Background="Black">
             <TextBlock
                 x:Name="RandomContentTb"
                 HorizontalAlignment="Center"

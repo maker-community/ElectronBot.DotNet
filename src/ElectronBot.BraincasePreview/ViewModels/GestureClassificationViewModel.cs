@@ -286,7 +286,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
         });
     }
 
-    private async void Current_SoftwareBitmapFrameCaptured(object? sender, SoftwareBitmapEventArgs e)
+    private void Current_SoftwareBitmapFrameCaptured(object? sender, SoftwareBitmapEventArgs e)
     {
         if (e.SoftwareBitmap is not null)
         {
@@ -299,7 +299,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
             }
             var service = App.GetService<GestureClassificationService>();
 
-            _ = await service.HandPredictResultUnUseQueueAsync(calculator, modelPath, e.SoftwareBitmap);
+            _ = service.HandPredictResultUnUseQueueAsync(calculator, modelPath, e.SoftwareBitmap);
         }
     }
     public async void OnNavigatedFrom()

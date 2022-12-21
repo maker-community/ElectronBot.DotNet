@@ -1,6 +1,7 @@
 ﻿using System.IO.Ports;
 using System.Text.RegularExpressions;
 using ElectronBot.BraincasePreview.Contracts.Services;
+using ElectronBot.BraincasePreview.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
 using Verdure.ElectronBot.Core.Models;
@@ -9,6 +10,7 @@ using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.Media.SpeechRecognition;
 
 namespace ElectronBot.BraincasePreview.Helpers;
 
@@ -59,6 +61,8 @@ public class ElectronBotHelper
         deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
 
         deviceWatcher.Start();
+
+        mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
     }
 
     public void PlayEmoticonActionFrame(EmoticonActionFrame frame)
@@ -236,5 +240,56 @@ public class ElectronBotHelper
             {
             }
         }
+    }
+
+    /// <summary>
+    /// 播放声音
+    /// </summary>
+    /// <param name="content"></param>
+    /// <returns></returns>
+    public async Task MediaPlayerPlaySoundByTTSAsync(string content)
+    {
+        if (!string.IsNullOrWhiteSpace(content))
+        {
+            try
+            {
+                var localSettingsService = App.GetService<ILocalSettingsService>();
+
+                var audioModel = await localSettingsService
+                    .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
+
+                var audioDevs = await EbHelper.FindAudioDeviceListAsync();
+
+                if (audioModel != null)
+                {
+                    var audioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue) ?? new ComboxItemModel();
+
+                    var selectedDevice = (DeviceInformation)audioSelect.Tag!;
+
+                    if (selectedDevice != null)
+                    {
+                        mediaPlayer.AudioDevice = selectedDevice;
+                    }
+                }
+
+                var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
+
+                var stream = await speechAndTTSService.TextToSpeechAsync(content);
+
+                mediaPlayer.SetStreamSource(stream);
+                mediaPlayer.Play();
+            }
+            catch (Exception)
+            {
+            }
+        }
+    }
+
+    private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
+    {
+        var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
+        await speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
+
+        await speechAndTTSService.StartAsync();
     }
 }

@@ -189,10 +189,12 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
         });
 
+        await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text);
 
-        var stream = await _speechAndTTSService.TextToSpeechAsync(text);
 
-        _mediaPlayer.SetStreamSource(stream);
+        //var stream = await _speechAndTTSService.TextToSpeechAsync(text);
+
+        //_mediaPlayer.SetStreamSource(stream);
 
         //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
 
@@ -201,14 +203,14 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         //    _mediaPlayer.AudioDevice = selectedDevice;
         //}
 
-        _mediaPlayer.Play();
+        //_mediaPlayer.Play();
 
-        var ret = RuntimeHelper.IsAdminRun();
+        //var ret = RuntimeHelper.IsAdminRun();
 
-        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-        {
-            ToastHelper.SendToast($"是否在管理权权限运行：{ret}", TimeSpan.FromSeconds(2));
-        });
+        //App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        //{
+        //    ToastHelper.SendToast($"是否在管理权权限运行：{ret}", TimeSpan.FromSeconds(2));
+        //});
     }
 
 
