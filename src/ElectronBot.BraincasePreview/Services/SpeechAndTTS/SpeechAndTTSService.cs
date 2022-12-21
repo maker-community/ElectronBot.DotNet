@@ -144,7 +144,6 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             // Provide feedback to the user about the state of the recognizer. This can be used to provide visual feedback in the form
             // of an audio indicator to help the user understand whether they're being heard.
             speechRecognizer.StateChanged += SpeechRecognizer_StateChanged;
-
             // Build a command-list grammar. Commands should ideally be drawn from a resource file for localization, and 
             // be grouped into tags for alternate forms of the same command.
             speechRecognizer.Constraints.Add(
@@ -234,7 +233,6 @@ public class SpeechAndTTSService : ISpeechAndTTSService
         if (args.Status != SpeechRecognitionResultStatus.Success)
         {
             isListening = false;
-
         }
     }
 
@@ -281,28 +279,10 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             if (tag == "Bili")
             {
                 await Launcher.LaunchUriAsync(new Uri(@"https://www.bilibili.com/"));
-                //proc.StartInfo.FileName = "https://www.bilibili.com/";
-
-                //proc.Start();
             }
-
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    heardYouSayTextBlock.Visibility = Visibility.Visible;
-            //    resultTextBlock.Visibility = Visibility.Visible;
-            //    resultTextBlock.Text = string.Format("Heard: '{0}', (Tag: '{1}', Confidence: {2})", args.Result.Text, tag, args.Result.Confidence.ToString());
-            //});
         }
         else
         {
-            // In some scenarios, a developer may choose to ignore giving the user feedback in this case, if speech
-            // is not the primary input mechanism for the application.
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    heardYouSayTextBlock.Visibility = Visibility.Collapsed;
-            //    resultTextBlock.Visibility = Visibility.Visible;
-            //    resultTextBlock.Text = string.Format("Sorry, I didn't catch that. (Heard: '{0}', Tag: {1}, Confidence: {2})", args.Result.Text, tag, args.Result.Confidence.ToString());
-            //});
         }
     }
 
@@ -318,8 +298,9 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             ToastHelper.SendToast(args.State.ToString(), TimeSpan.FromSeconds(3));
         });
 
-        //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-        //    rootPage.NotifyUser(args.State.ToString(), NotifyType.StatusMessage);
-        //});
+        if (args.State == SpeechRecognizerState.SoundEnded || args.State == SpeechRecognizerState.Capturing)
+        {
+            isListening = false;
+        }
     }
 }
