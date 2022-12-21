@@ -129,7 +129,19 @@ public partial class EmojisEditViewModel : ObservableRecipient
                         }
                     }
                 }
+
+                string? videoPath;
+
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
+                }
+                else
+                {
+                    videoPath = emojis.EmojisVideoPath;
+                }
                 _actionExpressionProvider.PlayActionExpressionAsync(emojis, actions);
+                _ = ElectronBotHelper.Instance.MediaPlayerPlaySoundAsync(videoPath);
             }
             catch (Exception)
             {

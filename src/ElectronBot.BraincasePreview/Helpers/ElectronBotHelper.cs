@@ -1,11 +1,14 @@
 ﻿using System.IO.Ports;
 using System.Text.RegularExpressions;
+using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 
 namespace ElectronBot.BraincasePreview.Helpers;
 
@@ -28,6 +31,8 @@ public class ElectronBotHelper
     private DeviceWatcher? deviceWatcher;
 
     public event EventHandler? ClockCanvasStop;
+
+    private MediaPlayer mediaPlayer = new ();
 
     public bool EbConnected
     {
@@ -191,6 +196,44 @@ public class ElectronBotHelper
                 }, null);
 
                 return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 播放表情声音
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public async Task MediaPlayerPlaySoundAsync(string path)
+    {
+        if (!string.IsNullOrWhiteSpace(path))
+        {
+            try
+            {
+                var localSettingsService = App.GetService<ILocalSettingsService>();
+
+                var audioModel = await localSettingsService
+                    .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
+
+                var audioDevs = await EbHelper.FindAudioDeviceListAsync();
+
+                if (audioModel != null)
+                {
+                    var audioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue) ?? new ComboxItemModel();
+
+                    var selectedDevice = (DeviceInformation)audioSelect.Tag!;
+
+                    if (selectedDevice != null)
+                    {
+                        mediaPlayer.AudioDevice = selectedDevice;
+                    }
+                }
+                mediaPlayer.SetUriSource(new Uri(path));
+                mediaPlayer.Play();
+            }
+            catch (Exception)
+            {
             }
         }
     }

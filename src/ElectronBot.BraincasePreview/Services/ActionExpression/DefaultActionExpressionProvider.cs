@@ -152,9 +152,6 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
         var currentAction = new ElectronBotAction();
 
-
-        await EbHelper.MediaPlayerPlaySoundAsync(path);
-
         var service = App.GetService<EmoticonActionFrameService>();
 
         service.ClearQueue();

@@ -346,45 +346,4 @@ public class EbHelper
 
         }
     }
-
-    /// <summary>
-    /// 播放表情声音
-    /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
-    public static async Task MediaPlayerPlaySoundAsync(string path)
-    {
-        if (!string.IsNullOrWhiteSpace(path))
-        {
-            var mediaPlayer = App.GetService<MediaPlayer>();
-            try
-            {
-                mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(path));
-
-                var localSettingsService = App.GetService<ILocalSettingsService>();
-
-                var audioModel = await localSettingsService
-                    .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
-
-                var audioDevs = await EbHelper.FindAudioDeviceListAsync();
-
-                if (audioModel != null)
-                {
-                    var audioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue) ?? new ComboxItemModel();
-
-                    var selectedDevice = (DeviceInformation)audioSelect.Tag!;
-
-                    if (selectedDevice != null)
-                    {
-                        mediaPlayer.AudioDevice = selectedDevice;
-                    }
-                }
-
-                mediaPlayer.Play();
-            }
-            catch (Exception)
-            {
-            }
-        }
-    }
 }
