@@ -248,7 +248,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             }
             else if(args.Result.Text.ToUpper() == "撒个娇")
             {
-
+                ElectronBotHelper.Instance.ToPlayEmojisRandom();
             }
         }
         else

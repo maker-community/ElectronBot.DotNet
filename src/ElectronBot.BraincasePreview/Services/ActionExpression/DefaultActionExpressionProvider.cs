@@ -186,11 +186,11 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                     currentAction = actions[actionCount];
                 }
 
-                //var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
+                var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
 
-                //var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+                var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
 
-                var dataMeta = image.Data;
+                var dataMeta = mat2.Data;
 
                 var data = new byte[240 * 240 * 3];
 
@@ -296,11 +296,11 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                             currentAction = actions[actionCount];
                         }
 
-                        //var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
+                        var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
 
-                        //var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+                        var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
 
-                        var dataMeta = image.Data;
+                        var dataMeta = mat2.Data;
 
                         var data = new byte[240 * 240 * 3];
 

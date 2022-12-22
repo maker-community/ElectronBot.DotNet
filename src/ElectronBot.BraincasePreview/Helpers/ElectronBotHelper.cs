@@ -1,9 +1,12 @@
 ﻿using System.IO.Ports;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using ElectronBot.BraincasePreview.Contracts.Services;
+using ElectronBot.BraincasePreview.Models;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
 using Verdure.ElectronBot.Core.Models;
+using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
@@ -31,6 +34,8 @@ public class ElectronBotHelper
     private DeviceWatcher? deviceWatcher;
 
     public event EventHandler? ClockCanvasStop;
+
+    public event EventHandler? PlayEmojisRandom;
 
     private MediaPlayer mediaPlayer = new();
 
@@ -63,6 +68,82 @@ public class ElectronBotHelper
         deviceWatcher.Start();
 
         mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+
+        PlayEmojisRandom += ElectronBotHelper_PlayEmojisRandom;
+    }
+
+    private async void ElectronBotHelper_PlayEmojisRandom(object? sender, EventArgs e)
+    {
+        var localSettingsService = App.GetService<ILocalSettingsService>();
+        var list = (await localSettingsService
+             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (list != null && list.Count > 0)
+        {
+
+            var r = new Random().Next(list.Count);
+
+            try
+            {
+                var emojis = list[r];
+
+                List<ElectronBotAction> actions = new();
+
+                if (emojis.HasAction)
+                {
+                    if (!string.IsNullOrWhiteSpace(emojis.EmojisActionPath))
+                    {
+                        try
+                        {
+                            var path = string.Empty;
+
+                            if (emojis.EmojisType == EmojisType.Default)
+                            {
+                                path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
+                            }
+                            else
+                            {
+                                path = emojis.EmojisActionPath;
+                            }
+
+
+                            var json = File.ReadAllText(path);
+
+
+                            var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
+
+                            if (actionList != null && actionList.Count > 0)
+                            {
+                                actions = actionList;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+
+                string? videoPath;
+
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
+                }
+                else
+                {
+                    videoPath = emojis.EmojisVideoPath;
+                }
+                _ = ElectronBotHelper.Instance.MediaPlayerPlaySoundAsync(videoPath);
+                await App.GetService<IActionExpressionProvider>().PlayActionExpressionAsync(emojis, actions);    
+            }
+            catch (Exception)
+            {
+
+            }
+
+
+        }
     }
 
     public void PlayEmoticonActionFrame(EmoticonActionFrame frame)
@@ -296,5 +377,10 @@ public class ElectronBotHelper
             await speechAndTTSService.StartAsync();
             isTTS = false;
         }
+    }
+
+    public void ToPlayEmojisRandom()
+    {
+        PlayEmojisRandom?.Invoke(this, new EventArgs());
     }
 }
