@@ -948,12 +948,21 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public void OnNavigatedFrom()
+    public async void OnNavigatedFrom()
     {
+        try
+        {
+            _isInitialized = false;
+            CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
+
+            CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
+
+            await CameraFrameService.Current.CleanupMediaCaptureAsync();
+        }
+        catch (Exception)
+        {
+
+        }
         _dispatcherTimer.Stop();
-
-        CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
-
-        CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
     }
 }
