@@ -13,7 +13,7 @@ using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public class EmojisEditViewModel : ObservableRecipient
+public partial class EmojisEditViewModel : ObservableRecipient
 {
     private ObservableCollection<EmoticonAction> _actions = new();
 
@@ -54,6 +54,34 @@ public class EmojisEditViewModel : ObservableRecipient
         _localSettingsService = localSettingsService;
     }
 
+    [RelayCommand]
+    public async void DelEmojis(object? obj)
+    {
+        if (obj == null)
+        {
+            ToastHelper.SendToast("请选中一个表情", TimeSpan.FromSeconds(3));
+            return;
+        }
+        if (obj is EmoticonAction emojis)
+        {
+            try
+            {
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    ToastHelper.SendToast("默认表情禁止删除", TimeSpan.FromSeconds(3));
+                    return;
+                }
+                Actions.Remove(emojis);
+
+                await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, Actions.ToList());
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+    }
+
     private void PlayEmojis(object? obj)
     {
         if (obj == null)
@@ -75,7 +103,7 @@ public class EmojisEditViewModel : ObservableRecipient
                         {
                             var path = string.Empty;
 
-                            if(emojis.EmojisType == EmojisType.Default)
+                            if (emojis.EmojisType == EmojisType.Default)
                             {
                                 path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
                             }
@@ -83,7 +111,7 @@ public class EmojisEditViewModel : ObservableRecipient
                             {
                                 path = emojis.EmojisActionPath;
                             }
-                            
+
 
                             var json = File.ReadAllText(path);
 
@@ -101,7 +129,19 @@ public class EmojisEditViewModel : ObservableRecipient
                         }
                     }
                 }
+
+                string? videoPath;
+
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
+                }
+                else
+                {
+                    videoPath = emojis.EmojisVideoPath;
+                }
                 _actionExpressionProvider.PlayActionExpressionAsync(emojis, actions);
+                _ = ElectronBotHelper.Instance.MediaPlayerPlaySoundAsync(videoPath);
             }
             catch (Exception)
             {
@@ -307,8 +347,10 @@ public class EmojisEditViewModel : ObservableRecipient
             Actions = new ObservableCollection<EmoticonAction>(emoticonActions);
 
 
-            await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, emoticonActions.ToList());
+            await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, emoticonActions.ToList());
         }
+
+        await Task.Delay(TimeSpan.FromMilliseconds(500));
 
         foreach (var item in list)
         {

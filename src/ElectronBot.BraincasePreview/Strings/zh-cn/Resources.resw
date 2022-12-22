@@ -531,4 +531,19 @@
   <data name="RomTitle.Text" xml:space="preserve">
     <value>ROM</value>
   </data>
+  <data name="AddRandomContentBtn.Label" xml:space="preserve">
+    <value>添加随机内容</value>
+  </data>
+  <data name="AddRandomContentTitle" xml:space="preserve">
+    <value>添加随机内容</value>
+  </data>
+  <data name="ContentAlreadyExists" xml:space="preserve">
+    <value>内容已存在</value>
+  </data>
+  <data name="DelEmojis.Text" xml:space="preserve">
+    <value>删除表情</value>
+  </data>
+  <data name="DelRandomContent.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
 </root>

@@ -8,29 +8,56 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     mc:Ignorable="d">
-
-    <Grid>
+    <Grid x:Name="ContentArea">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <StackPanel>
+            <AppBarButton
+                x:Uid="AddRandomContentBtn"
+                HorizontalAlignment="Right"
+                Command="{x:Bind ViewModel.RandomContentEditCommand}"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                        FontWeight="Bold"
+                        Glyph="&#xECC8;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </StackPanel>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
             <!--<Button
                 x:Name="TestButton"
                 Command="{x:Bind ViewModel.TestGestureClassficationCommand, Mode=OneWay}"
                 Content="测试按钮" />-->
-            <Border
-                Grid.Row="1"
-                Width="300"
-                Height="200"
-                Margin="8"
-                VerticalAlignment="Top"
-                BorderBrush="{ThemeResource SystemAccentColor}"
-                BorderThickness="4"
-                CornerRadius="8">
-                <Image x:Name="FaceImage" Source="{x:Bind ViewModel.FaceImage.Source, Mode=OneWay}" />
-            </Border>
-            <Image
-                x:Name="SourceImage"
-                Width="240"
-                Source="{x:Bind ViewModel.ImgFileSource, Mode=OneWay}" />
+            <StackPanel Orientation="Horizontal">
+                <Border
+                    Grid.Row="1"
+                    Width="300"
+                    Height="200"
+                    Margin="8"
+                    VerticalAlignment="Top"
+                    BorderBrush="{ThemeResource SystemAccentColor}"
+                    BorderThickness="4"
+                    CornerRadius="8">
+                    <Image x:Name="FaceImage" Source="{x:Bind ViewModel.FaceImage.Source, Mode=OneWay}" />
+                </Border>
+                <Border
+                    Width="200"
+                    Height="200"
+                    Margin="8"
+                    VerticalAlignment="Top"
+                    ui:UIElementExtensions.ClipToBounds="True"
+                    BorderBrush="{ThemeResource SystemAccentColor}"
+                    BorderThickness="4"
+                    Child="{x:Bind ViewModel.Element, Mode=OneWay}"
+                    CornerRadius="8" />
+            </StackPanel>
+
             <TextBlock
                 x:Name="Result"
                 HorizontalAlignment="Center"

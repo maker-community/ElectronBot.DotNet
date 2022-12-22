@@ -65,6 +65,9 @@ public class SpeechAndTTSService : ISpeechAndTTSService
                 {
                     await speechRecognizer.ContinuousRecognitionSession.StartAsync();
 
+                    //var recognitionOperation = speechRecognizer.RecognizeAsync();
+                    //SpeechRecognitionResult speechRecognitionResult = await recognitionOperation;
+
                     isListening = true;
                 }
                 catch (Exception ex)
@@ -144,57 +147,19 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             // Provide feedback to the user about the state of the recognizer. This can be used to provide visual feedback in the form
             // of an audio indicator to help the user understand whether they're being heard.
             speechRecognizer.StateChanged += SpeechRecognizer_StateChanged;
-
             // Build a command-list grammar. Commands should ideally be drawn from a resource file for localization, and 
             // be grouped into tags for alternate forms of the same command.
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "主页"
-                    }, "Home"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "打开B站"
-                    }, "Bili"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                       "去到Contoso Studio"
-                    }, "GoToContosoStudio"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "打开的电子邮件",
-                        "显示消息"
-                    }, "Message"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "发送电子邮件",
-                        "写电子邮件"
-                    }, "Email"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "呼叫爱丽丝·史密斯",
-                        "艾丽斯打电话"
-                    }, "CallNita"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "呼叫约翰·史密斯",
-                        "约翰打电话"
-                    }, "CallWayne"));
+            //var bili = new SpeechRecognitionListConstraint(
+            //        new List<string>()
+            //        {
+            //            "打开B站"
+            //        }, "Bili");
+            //bili.Probability = SpeechRecognitionConstraintProbability.Max;
+            //speechRecognizer.Constraints.Add(bili);
 
-
+            var webSearchGrammar = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.WebSearch, "webSearch","sound");
+            //webSearchGrammar.Probability = SpeechRecognitionConstraintProbability.Min;
+            speechRecognizer.Constraints.Add(webSearchGrammar);
             SpeechRecognitionCompilationResult result = await speechRecognizer.CompileConstraintsAsync();
 
             if (result.Status != SpeechRecognitionResultStatus.Success)
@@ -234,7 +199,6 @@ public class SpeechAndTTSService : ISpeechAndTTSService
         if (args.Status != SpeechRecognitionResultStatus.Success)
         {
             isListening = false;
-
         }
     }
 
@@ -278,31 +242,17 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             });
 
 
-            if (tag == "Bili")
+            if (args.Result.Text.ToUpper() == "打开B站")
             {
                 await Launcher.LaunchUriAsync(new Uri(@"https://www.bilibili.com/"));
-                //proc.StartInfo.FileName = "https://www.bilibili.com/";
-
-                //proc.Start();
             }
-
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    heardYouSayTextBlock.Visibility = Visibility.Visible;
-            //    resultTextBlock.Visibility = Visibility.Visible;
-            //    resultTextBlock.Text = string.Format("Heard: '{0}', (Tag: '{1}', Confidence: {2})", args.Result.Text, tag, args.Result.Confidence.ToString());
-            //});
+            else if(args.Result.Text.ToUpper() == "撒个娇")
+            {
+                ElectronBotHelper.Instance.ToPlayEmojisRandom();
+            }
         }
         else
         {
-            // In some scenarios, a developer may choose to ignore giving the user feedback in this case, if speech
-            // is not the primary input mechanism for the application.
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    heardYouSayTextBlock.Visibility = Visibility.Collapsed;
-            //    resultTextBlock.Visibility = Visibility.Visible;
-            //    resultTextBlock.Text = string.Format("Sorry, I didn't catch that. (Heard: '{0}', Tag: {1}, Confidence: {2})", args.Result.Text, tag, args.Result.Confidence.ToString());
-            //});
         }
     }
 
@@ -318,8 +268,9 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             ToastHelper.SendToast(args.State.ToString(), TimeSpan.FromSeconds(3));
         });
 
-        //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-        //    rootPage.NotifyUser(args.State.ToString(), NotifyType.StatusMessage);
-        //});
+        if (args.State == SpeechRecognizerState.SoundEnded || args.State == SpeechRecognizerState.Capturing)
+        {
+            isListening = false;
+        }
     }
 }

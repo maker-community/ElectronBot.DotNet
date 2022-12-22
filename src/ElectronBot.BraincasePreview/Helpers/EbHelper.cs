@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
+using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
@@ -10,7 +11,9 @@ using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
+using Windows.Media.Core;
 using Windows.Media.Devices;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
