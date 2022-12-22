@@ -196,9 +196,41 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     private void Current_SoftwareBitmapFrameHandPredictResult(object? sender, string e)
     {
-        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
         {
             ResultLabel = e;
+
+            if (e == Constants.FingerHeart && _isBeginning == false)
+            {
+                _isBeginning = true;
+                var textList = new List<string>()
+        {
+            "哥哥你好啊",
+            "哥哥在干嘛",
+            "哥哥想我没",
+            "哥哥最好啦",
+            "最喜欢哥哥啦",
+            "人家好想哥哥",
+            "哥哥喜欢妹妹不"
+        };
+
+                var r = new Random().Next(textList.Count);
+
+                var text = textList[r];
+
+                ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
+
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text);
+            }
+            else if (e == Constants.FingerHeart && _isBeginning == true)
+            {
+                //当前处于启动状态
+                //不做处理
+            }
+            else if (e == Constants.Land && _isBeginning == true)
+            {
+                _isBeginning = false;
+            }
         });
     }
 
