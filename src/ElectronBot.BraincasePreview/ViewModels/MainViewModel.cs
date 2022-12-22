@@ -175,6 +175,11 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     {
         if (_isInitialized)
         {
+
+            CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
+
+            CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
+
             await CameraFrameService.Current.CleanupMediaCaptureAsync();
         }
         else
@@ -205,13 +210,13 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                 _isBeginning = true;
                 var textList = new List<string>()
         {
-            "哥哥你好啊",
-            "哥哥在干嘛",
-            "哥哥想我没",
-            "哥哥最好啦",
-            "最喜欢哥哥啦",
-            "人家好想哥哥",
-            "哥哥喜欢妹妹不"
+            "哥哥想做什么",
+            "哥哥看剧嘛",
+            "哥哥看节目不",
+            "哥哥喝茶不",
+            "哥哥累了没",
+            "哥哥我是娜娜",
+            "哥哥我是七七"
         };
 
                 var r = new Random().Next(textList.Count);
@@ -928,7 +933,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         });
     }
 
-    public async void OnNavigatedTo(object parameter)
+    public void OnNavigatedTo(object parameter)
     {
         var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
 
@@ -946,6 +951,9 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     public void OnNavigatedFrom()
     {
         _dispatcherTimer.Stop();
-        // await _speechAndTTSService.ReleaseRecognizerAsync();
+
+        CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
+
+        CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
     }
 }

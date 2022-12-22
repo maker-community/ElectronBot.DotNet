@@ -38,7 +38,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
 
     private readonly string modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\MLModel1.zip";
     private readonly ILocalSettingsService _localSettingsService;
-    public GestureClassificationViewModel(DispatcherTimer dispatcherTimer1, 
+    public GestureClassificationViewModel(DispatcherTimer dispatcherTimer1,
         ILocalSettingsService localSettingsService)
     {
         calculator = new HandsCpuSolution();
@@ -230,6 +230,9 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     {
         if (_isInitialized)
         {
+            CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
+
+            CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
             await CameraFrameService.Current.CleanupMediaCaptureAsync();
         }
         else
@@ -255,7 +258,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
         {
             ResultLabel = e;
 
-            if(RandomContentList.Count > 0)
+            if (RandomContentList.Count > 0)
             {
                 if (e == "back" && _isBeginning == false)
                 {
@@ -304,6 +307,9 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     }
     public async void OnNavigatedFrom()
     {
+        CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
+
+        CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
         var service = App.GetService<EmoticonActionFrameService>();
         service.ClearQueue();
         await CleanUpAsync();

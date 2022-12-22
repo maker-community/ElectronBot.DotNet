@@ -1,14 +1,12 @@
 ﻿using System.IO.Ports;
 using System.Text.RegularExpressions;
 using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
-using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 
@@ -34,7 +32,9 @@ public class ElectronBotHelper
 
     public event EventHandler? ClockCanvasStop;
 
-    private MediaPlayer mediaPlayer = new ();
+    private MediaPlayer mediaPlayer = new();
+
+    private bool isTTS = false;
 
     public bool EbConnected
     {
@@ -278,6 +278,7 @@ public class ElectronBotHelper
 
                 mediaPlayer.SetStreamSource(stream);
                 mediaPlayer.Play();
+                isTTS = true;
             }
             catch (Exception)
             {
@@ -287,9 +288,13 @@ public class ElectronBotHelper
 
     private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
     {
-        var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
-        await speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
+        if (isTTS)
+        {
+            var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
+            await speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
 
-        await speechAndTTSService.StartAsync();
+            await speechAndTTSService.StartAsync();
+            isTTS = false;
+        }
     }
 }
