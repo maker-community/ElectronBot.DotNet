@@ -284,6 +284,18 @@
                         Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
                         NavigateUri="https://github.com/maker-community/ElectronBot.Braincase" />
                 </StackPanel>
+
+                <TextBlock x:Uid="Settings_Update" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+                <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                    <TextBlock
+                        x:Uid="Settings_AboutUpdate"
+                        MaxWidth="500"
+                        Margin="{StaticResource XSmallTopMargin}"
+                        HorizontalAlignment="Left"
+                        Style="{ThemeResource BodyTextBlockStyle}" />
+                </StackPanel>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>
