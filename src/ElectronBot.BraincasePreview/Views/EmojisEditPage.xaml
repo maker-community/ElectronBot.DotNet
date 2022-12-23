@@ -101,6 +101,16 @@
                             </ic:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="DelPic"
+                        x:Uid="DelEmojis"
+                        Foreground="Red">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Click">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.DelEmojisCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </MenuFlyoutItem>
                 </MenuFlyout>
             </controls:AdaptiveGridView.ContextFlyout>
             <!--<controls:AdaptiveGridView.ItemContainerStyle>

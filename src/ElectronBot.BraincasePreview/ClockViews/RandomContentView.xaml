@@ -1,0 +1,61 @@
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<UserControl
+    x:Class="ClockViews.RandomContentView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:ClockViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    RequestedTheme="Dark"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" CommandParameter="{x:Bind RandomContentSB}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <UserControl.Resources>
+        <Storyboard x:Name="RandomContentSB">
+            <DoubleAnimation
+                Storyboard.TargetName="RandomContentTranslation"
+                Storyboard.TargetProperty="Y"
+                From="0"
+                To="200">
+                <DoubleAnimation.EasingFunction>
+                    <BackEase />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+    <Viewbox>
+        <Grid
+            x:Name="Root"
+            Width="200"
+            Height="200"
+            Background="Black">
+            <TextBlock
+                x:Name="RandomContentTb"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                FontSize="32"
+                Text="{x:Bind ViewModel.RandomContentText, Mode=OneWay}"
+                TextWrapping="WrapWholeWords">
+                <TextBlock.RenderTransform>
+                    <TranslateTransform x:Name="RandomContentTranslation" />
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <TextBlock
+                x:Name="RandomContentResultTb"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                FontSize="32"
+                Text="{x:Bind ViewModel.RandomContentResultText, Mode=OneWay}"
+                TextWrapping="WrapWholeWords" />
+        </Grid>
+    </Viewbox>
+</UserControl>

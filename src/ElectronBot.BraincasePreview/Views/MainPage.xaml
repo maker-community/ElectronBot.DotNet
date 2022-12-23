@@ -24,7 +24,7 @@
         <StackPanel
             Grid.Row="0"
             Grid.Column="1"
-            Margin="8"
+            Margin="8,0,8,0"
             VerticalAlignment="Top">
             <Slider
                 x:Name="Head"
@@ -80,7 +80,71 @@
             Margin="8"
             VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
-                <Grid Margin="0,8,0,8">
+                <!--<Button
+                    x:Name="Import"
+                    x:Uid="ImportBtn"
+                    Margin="8"
+                    Command="{x:Bind ViewModel.ImportCommand}"
+                    Content="导入动作" />
+                <Button
+                    x:Name="Export"
+                    x:Uid="ExportBtn"
+                    Margin="8"
+                    Command="{x:Bind ViewModel.ExportCommand}"
+                    Content="导出动作" />-->
+                <Button
+                    x:Name="Play"
+                    x:Uid="PlayBtn"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.PlayCommand}" />
+                <Button
+                    x:Name="Stop"
+                    x:Uid="StopBtn"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.StopCommand}" />
+                <Button
+                    x:Name="Clear"
+                    x:Uid="ClearBtn"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.ClearCommand}" />
+                <Button
+                    x:Name="Reset"
+                    x:Uid="ResetBtn"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.ResetCommand}" />
+                <Button
+                    x:Name="RebootElectron"
+                    x:Uid="RebootElectron"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.RebootElectronCommand}" />
+                <ComboBox
+                    x:Uid="ChangeClockViewCB"
+                    Width="120"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    DisplayMemberPath="DataValue"
+                    ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
+                    SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="SelectionChanged">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClockChangedCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ComboBox>
+                <ToggleSwitch
+                    x:Name="OpenGestureSwitch"
+                    Margin="0,0,8,0"
+                    OffContent="打开手势识别"
+                    OnContent="关闭手势识别">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Toggled">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.OpenGestureCommand}" CommandParameter="{x:Bind OpenGestureSwitch.IsOn, Mode=TwoWay}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ToggleSwitch>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Grid Margin="0,0,0,8">
                     <Slider
                         Width="40"
                         AutomationProperties.Name="vertical slider"
@@ -288,8 +352,9 @@
                     x:Name="BorderGrid"
                     Width="200"
                     Height="200"
-                    Margin="16"
+                    Margin="8"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
                     BorderBrush="{ThemeResource SystemAccentColor}"
                     BorderThickness="2"
                     Child="{x:Bind ViewModel.Element, Mode=OneWay}"
@@ -298,8 +363,24 @@
                     Margin="8"
                     VerticalAlignment="Top"
                     Orientation="Vertical">
-                    <!--<Button Click="Button_Click" Content="重启应用" />-->
                     <Border
+                        Width="300"
+                        Height="200"
+                        VerticalAlignment="Top"
+                        BorderBrush="{ThemeResource SystemAccentColor}"
+                        BorderThickness="4"
+                        CornerRadius="8">
+                        <Image x:Name="FaceImage" Source="{x:Bind ViewModel.FaceImage.Source, Mode=OneWay}" />
+                    </Border>
+                    <TextBlock
+                        x:Name="GestureResult"
+                        Margin="8"
+                        HorizontalAlignment="Center"
+                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                        FontSize="18"
+                        Text="{x:Bind ViewModel.ResultLabel, Mode=OneWay}" />
+                    <!--<Button Click="Button_Click" Content="重启应用" />-->
+                    <!--<Border
                         Width="160"
                         Height="160"
                         Margin="0,24,0,0"
@@ -332,60 +413,15 @@
                             x:Uid="RebootElectron"
                             Margin="0,12,0,0"
                             Command="{x:Bind ViewModel.RebootElectronCommand}" />
-                        <!--<Button
+                    -->
+                    <!--<Button
                             x:Name="Reconnect"
                             x:Uid="ReconnectBtn"
                             Margin="0,12,0,0"
                             Command="{x:Bind ViewModel.ReconnectCommand}" />-->
-                    </StackPanel>
+                    <!--
+                    </StackPanel>-->
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <!--<Button
-                    x:Name="Import"
-                    x:Uid="ImportBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ImportCommand}"
-                    Content="导入动作" />
-                <Button
-                    x:Name="Export"
-                    x:Uid="ExportBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ExportCommand}"
-                    Content="导出动作" />-->
-                <Button
-                    x:Name="Play"
-                    x:Uid="PlayBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.PlayCommand}" />
-                <Button
-                    x:Name="Stop"
-                    x:Uid="StopBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.StopCommand}" />
-                <Button
-                    x:Name="Clear"
-                    x:Uid="ClearBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ClearCommand}" />
-                <Button
-                    x:Name="Reset"
-                    x:Uid="ResetBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ResetCommand}" />
-                <ComboBox
-                    x:Uid="ChangeClockViewCB"
-                    Width="120"
-                    Margin="8"
-                    DisplayMemberPath="DataValue"
-                    ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
-                    SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="SelectionChanged">
-                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClockChangedCommand}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </ComboBox>
             </StackPanel>
         </StackPanel>
         <VisualStateManager.VisualStateGroups>

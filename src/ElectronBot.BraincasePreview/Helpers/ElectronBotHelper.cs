@@ -1,11 +1,17 @@
 ﻿using System.IO.Ports;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using ElectronBot.BraincasePreview.Contracts.Services;
+using ElectronBot.BraincasePreview.Models;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
 using Verdure.ElectronBot.Core.Models;
+using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
+using Windows.Media.Playback;
+using Windows.Media.SpeechRecognition;
 
 namespace ElectronBot.BraincasePreview.Helpers;
 
@@ -28,6 +34,12 @@ public class ElectronBotHelper
     private DeviceWatcher? deviceWatcher;
 
     public event EventHandler? ClockCanvasStop;
+
+    public event EventHandler? PlayEmojisRandom;
+
+    private MediaPlayer mediaPlayer = new();
+
+    private bool isTTS = false;
 
     public bool EbConnected
     {
@@ -54,6 +66,84 @@ public class ElectronBotHelper
         deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
 
         deviceWatcher.Start();
+
+        mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+
+        PlayEmojisRandom += ElectronBotHelper_PlayEmojisRandom;
+    }
+
+    private async void ElectronBotHelper_PlayEmojisRandom(object? sender, EventArgs e)
+    {
+        var localSettingsService = App.GetService<ILocalSettingsService>();
+        var list = (await localSettingsService
+             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (list != null && list.Count > 0)
+        {
+
+            var r = new Random().Next(list.Count);
+
+            try
+            {
+                var emojis = list[r];
+
+                List<ElectronBotAction> actions = new();
+
+                if (emojis.HasAction)
+                {
+                    if (!string.IsNullOrWhiteSpace(emojis.EmojisActionPath))
+                    {
+                        try
+                        {
+                            var path = string.Empty;
+
+                            if (emojis.EmojisType == EmojisType.Default)
+                            {
+                                path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
+                            }
+                            else
+                            {
+                                path = emojis.EmojisActionPath;
+                            }
+
+
+                            var json = File.ReadAllText(path);
+
+
+                            var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
+
+                            if (actionList != null && actionList.Count > 0)
+                            {
+                                actions = actionList;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+
+                string? videoPath;
+
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
+                }
+                else
+                {
+                    videoPath = emojis.EmojisVideoPath;
+                }
+                _ = ElectronBotHelper.Instance.MediaPlayerPlaySoundAsync(videoPath);
+                await App.GetService<IActionExpressionProvider>().PlayActionExpressionAsync(emojis, actions);    
+            }
+            catch (Exception)
+            {
+
+            }
+
+
+        }
     }
 
     public void PlayEmoticonActionFrame(EmoticonActionFrame frame)
@@ -193,5 +283,104 @@ public class ElectronBotHelper
                 return;
             }
         }
+    }
+
+    /// <summary>
+    /// 播放表情声音
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public async Task MediaPlayerPlaySoundAsync(string path)
+    {
+        if (!string.IsNullOrWhiteSpace(path))
+        {
+            try
+            {
+                var localSettingsService = App.GetService<ILocalSettingsService>();
+
+                var audioModel = await localSettingsService
+                    .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
+
+                var audioDevs = await EbHelper.FindAudioDeviceListAsync();
+
+                if (audioModel != null)
+                {
+                    var audioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue) ?? new ComboxItemModel();
+
+                    var selectedDevice = (DeviceInformation)audioSelect.Tag!;
+
+                    if (selectedDevice != null)
+                    {
+                        mediaPlayer.AudioDevice = selectedDevice;
+                    }
+                }
+                mediaPlayer.SetUriSource(new Uri(path));
+                mediaPlayer.Play();
+            }
+            catch (Exception)
+            {
+            }
+        }
+    }
+
+    /// <summary>
+    /// 播放声音
+    /// </summary>
+    /// <param name="content"></param>
+    /// <returns></returns>
+    public async Task MediaPlayerPlaySoundByTTSAsync(string content)
+    {
+        if (!string.IsNullOrWhiteSpace(content))
+        {
+            try
+            {
+                var localSettingsService = App.GetService<ILocalSettingsService>();
+
+                var audioModel = await localSettingsService
+                    .ReadSettingAsync<ComboxItemModel>(Constants.DefaultAudioNameKey);
+
+                var audioDevs = await EbHelper.FindAudioDeviceListAsync();
+
+                if (audioModel != null)
+                {
+                    var audioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue) ?? new ComboxItemModel();
+
+                    var selectedDevice = (DeviceInformation)audioSelect.Tag!;
+
+                    if (selectedDevice != null)
+                    {
+                        mediaPlayer.AudioDevice = selectedDevice;
+                    }
+                }
+
+                var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
+
+                var stream = await speechAndTTSService.TextToSpeechAsync(content);
+
+                mediaPlayer.SetStreamSource(stream);
+                mediaPlayer.Play();
+                isTTS = true;
+            }
+            catch (Exception)
+            {
+            }
+        }
+    }
+
+    private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
+    {
+        if (isTTS)
+        {
+            var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
+            await speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
+
+            await speechAndTTSService.StartAsync();
+            isTTS = false;
+        }
+    }
+
+    public void ToPlayEmojisRandom()
+    {
+        PlayEmojisRandom?.Invoke(this, new EventArgs());
     }
 }

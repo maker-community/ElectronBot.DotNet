@@ -11,6 +11,7 @@ using ElectronBot.BraincasePreview.Contracts.ViewModels;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using ElectronBot.BraincasePreview.Services;
+using Mediapipe.Net.Solutions;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
@@ -18,6 +19,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Services;
 using Verdure.ElectronBot.Core.Models;
+using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -39,6 +41,14 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     private readonly ISpeechAndTTSService _speechAndTTSService;
 
     private readonly ILocalSettingsService _localSettingsService;
+
+    private static HandsCpuSolution calculator = new();
+
+    private bool _isBeginning = false;
+
+    private readonly string modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\MLModel1.zip";
+
+    private bool _isInitialized = false;
 
     private int modeNo = 0;
 
@@ -134,7 +144,131 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     UIElement element;
 
+    [ObservableProperty]
+    string resultLabel;
 
+    [RelayCommand]
+    private async void OpenGesture(bool isOn)
+    {
+        try
+        {
+            //按钮开启
+            if (!isOn)
+            {
+                await InitAsync();
+            }
+            else
+            {
+                var service = App.GetService<EmoticonActionFrameService>();
+                service.ClearQueue();
+                await CleanUpAsync();
+            }
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+
+
+    private async Task InitAsync()
+    {
+        if (_isInitialized)
+        {
+
+            CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
+
+            CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
+
+            await CameraFrameService.Current.CleanupMediaCaptureAsync();
+        }
+        else
+        {
+            await InitializeScreenAsync();
+        }
+    }
+
+    private async Task InitializeScreenAsync()
+    {
+        await CameraFrameService.Current.PickNextMediaSourceWorkerAsync(FaceImage);
+
+        CameraFrameService.Current.SoftwareBitmapFrameCaptured += Current_SoftwareBitmapFrameCaptured;
+
+        CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult += Current_SoftwareBitmapFrameHandPredictResult;
+
+        _isInitialized = true;
+    }
+
+    private void Current_SoftwareBitmapFrameHandPredictResult(object? sender, string e)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
+        {
+            ResultLabel = e;
+
+            if (e == Constants.FingerHeart && _isBeginning == false)
+            {
+                _isBeginning = true;
+                var textList = new List<string>()
+        {
+            "哥哥想做什么",
+            "哥哥看剧嘛",
+            "哥哥看节目不",
+            "哥哥喝茶不",
+            "哥哥累了没",
+            "哥哥我是娜娜",
+            "哥哥我是七七"
+        };
+
+                var r = new Random().Next(textList.Count);
+
+                var text = textList[r];
+
+                ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
+
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text);
+            }
+            else if (e == Constants.FingerHeart && _isBeginning == true)
+            {
+                //当前处于启动状态
+                //不做处理
+            }
+            else if (e == Constants.Land && _isBeginning == true)
+            {
+                _isBeginning = false;
+            }
+        });
+    }
+
+    private void Current_SoftwareBitmapFrameCaptured(object? sender, SoftwareBitmapEventArgs e)
+    {
+        if (e.SoftwareBitmap is not null)
+        {
+
+            if (e.SoftwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 ||
+                  e.SoftwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight)
+            {
+                e.SoftwareBitmap = SoftwareBitmap.Convert(
+                    e.SoftwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+            }
+            var service = App.GetService<GestureClassificationService>();
+
+            _ = service.HandPredictResultUnUseQueueAsync(calculator, modelPath, e.SoftwareBitmap);
+        }
+    }
+
+    private async Task CleanUpAsync()
+    {
+        try
+        {
+            _isInitialized = false;
+
+            await CameraFrameService.Current.CleanupMediaCaptureAsync();
+        }
+        catch (Exception)
+        {
+
+        }
+    }
 
     [RelayCommand]
     private void RebootElectron()
@@ -189,10 +323,12 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
         });
 
+        await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text);
 
-        var stream = await _speechAndTTSService.TextToSpeechAsync(text);
 
-        _mediaPlayer.SetStreamSource(stream);
+        //var stream = await _speechAndTTSService.TextToSpeechAsync(text);
+
+        //_mediaPlayer.SetStreamSource(stream);
 
         //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
 
@@ -201,14 +337,14 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         //    _mediaPlayer.AudioDevice = selectedDevice;
         //}
 
-        _mediaPlayer.Play();
+        //_mediaPlayer.Play();
 
-        var ret = RuntimeHelper.IsAdminRun();
+        //var ret = RuntimeHelper.IsAdminRun();
 
-        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-        {
-            ToastHelper.SendToast($"是否在管理权权限运行：{ret}", TimeSpan.FromSeconds(2));
-        });
+        //App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        //{
+        //    ToastHelper.SendToast($"是否在管理权权限运行：{ret}", TimeSpan.FromSeconds(2));
+        //});
     }
 
 
@@ -379,6 +515,8 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     float j6;
 
+    [ObservableProperty]
+    public Image faceImage = new();
 
     /// <summary>
     /// 定时器处理
@@ -795,7 +933,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         });
     }
 
-    public async void OnNavigatedTo(object parameter)
+    public void OnNavigatedTo(object parameter)
     {
         var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
 
@@ -810,9 +948,21 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public void OnNavigatedFrom()
+    public async void OnNavigatedFrom()
     {
+        try
+        {
+            _isInitialized = false;
+            CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
+
+            CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
+
+            await CameraFrameService.Current.CleanupMediaCaptureAsync();
+        }
+        catch (Exception)
+        {
+
+        }
         _dispatcherTimer.Stop();
-        // await _speechAndTTSService.ReleaseRecognizerAsync();
     }
 }
