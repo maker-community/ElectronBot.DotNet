@@ -543,4 +543,13 @@
   <data name="DelRandomContent.Text" xml:space="preserve">
     <value>删除</value>
   </data>
+  <data name="Settings_AboutUpdate.Text" xml:space="preserve">
+    <value>1.4版本更新说明
+1. 首页加入手势识别，包含打开B站测试，和撒个娇随机播放表情，目前采用比心触发语音识别，ok结束，再次比心触发。
+2. 选择困难页的手势触发为握紧拳头碰拳头的动作为触发，ok为停止。
+3. 表情创建页面添加了表情的删除，修复视频播放色差问题，以及视频不能播放声音问题。</value>
+  </data>
+  <data name="Settings_Update.Text" xml:space="preserve">
+    <value>更新说明</value>
+  </data>
 </root>
