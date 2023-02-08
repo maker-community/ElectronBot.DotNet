@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Helpers;
 using Windows.Globalization;
@@ -157,7 +158,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             //bili.Probability = SpeechRecognitionConstraintProbability.Max;
             //speechRecognizer.Constraints.Add(bili);
 
-            var webSearchGrammar = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.WebSearch, "webSearch","sound");
+            var webSearchGrammar = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.WebSearch, "webSearch", "sound");
             //webSearchGrammar.Probability = SpeechRecognitionConstraintProbability.Min;
             speechRecognizer.Constraints.Add(webSearchGrammar);
             SpeechRecognitionCompilationResult result = await speechRecognizer.CompileConstraintsAsync();
@@ -246,9 +247,28 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                 await Launcher.LaunchUriAsync(new Uri(@"https://www.bilibili.com/"));
             }
-            else if(args.Result.Text.ToUpper() == "撒个娇")
+            else if (args.Result.Text.ToUpper() == "撒个娇")
             {
                 ElectronBotHelper.Instance.ToPlayEmojisRandom();
+            }
+            else
+            {
+                try
+                {
+                    var chatGPTClient = App.GetService<IChatGPTService>();
+
+                    var resultText = await chatGPTClient.AskQuestionResultAsync(args.Result.Text);
+
+                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText);
+                }
+                catch(Exception ex)
+                {
+                    App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(3));
+                    });
+
+                }
             }
         }
         else

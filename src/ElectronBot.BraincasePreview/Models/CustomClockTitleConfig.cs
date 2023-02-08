@@ -9,4 +9,10 @@ public class CustomClockTitleConfig
     {
         get; set;
     } = 16;
+
+    public string ChatGPTSessionKey
+    {
+        get; set;
+    } = "";
+
 }

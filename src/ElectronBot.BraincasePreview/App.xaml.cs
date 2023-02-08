@@ -1,4 +1,5 @@
-﻿using Controls;
+﻿using Contracts.Services;
+using Controls;
 using ElectronBot.BraincasePreview.Activation;
 using ElectronBot.BraincasePreview.ClockViews;
 using ElectronBot.BraincasePreview.Contracts.Services;
@@ -145,6 +146,8 @@ public partial class App : Application
             services.AddTransient<ImageCropperPickerViewModel>();
 
             services.AddTransient<ImageCropperPage>();
+
+            services.AddTransient<IChatGPTService, ChatGPTService>();
 
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 

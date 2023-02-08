@@ -555,4 +555,7 @@
   <data name="Settings_Update.Text" xml:space="preserve">
     <value>更新说明</value>
   </data>
+  <data name="ChatGPT-SessionKey.Text" xml:space="preserve">
+    <value>会话ID</value>
+  </data>
 </root>
