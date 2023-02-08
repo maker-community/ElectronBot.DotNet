@@ -253,7 +253,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="VFS\Config\" />
+    <Folder Include="VFS\Configs\" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
