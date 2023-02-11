@@ -40,6 +40,12 @@ public sealed partial class ShellPage : Page
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
         InitializeNotificationAreaIcon();
         App.RootFrame = NavigationFrame;
+        App.MainWindow.Closed += MainWindow_Closed;
+    }
+
+    private void MainWindow_Closed(object sender, WindowEventArgs args)
+    {
+        NotificationAreaIcon.Dispose();
     }
 
     private async void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
