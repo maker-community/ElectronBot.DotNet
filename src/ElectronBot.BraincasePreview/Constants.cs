@@ -17,6 +17,8 @@ public class Constants
 
     public const string DefaultCameraNameKey = "DefaultCameraNameKey";
 
+    public const string DefaultChatBotNameKey = "DefaultChatBotNameKey";
+
     public const string DefaultAudioNameKey = "DefaultAudioNameKey";
 
     public const string DefaultCameraName = "USB";

@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
+using ElectronBot.BraincasePreview.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
 using Verdure.ElectronBot.Core.Models;
@@ -47,7 +48,6 @@ public class ElectronBotHelper
         get; set;
     }
 
-    private ISpeechAndTTSService _speechAndTTSService;
     public void InvokeClockCanvasStop()
     {
         ClockCanvasStop?.Invoke(this, new EventArgs());
@@ -68,10 +68,6 @@ public class ElectronBotHelper
         deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
 
         deviceWatcher.Start();
-
-        _speechAndTTSService = App.GetService<ISpeechAndTTSService>();
-
-        await _speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
 
 
         mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
@@ -378,15 +374,21 @@ public class ElectronBotHelper
     private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
     {
 
+        var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
 
         if (isTTS && _isOpenMediaEnded)
         {
-            await _speechAndTTSService.StartAsync();
+     
+            await speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
+
+
+            await speechAndTTSService.StartAsync();
             isTTS = false;
         }
         else
         {
-            await _speechAndTTSService.CancelAsync();
+
+            await speechAndTTSService.CancelAsync();
         }
     }
 

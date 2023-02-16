@@ -18,11 +18,19 @@ public class CustomClockTitleConfig
     public string TuringAppkey
     {
         get; set;
-    } = "";
+    } = string.Empty;
 
     public string TuringUserId
     {
         get; set;
-    } = "gilzhang";
+    } = string.Empty;
+
+    /// <summary>
+    /// 手势识别回复文本
+    /// </summary>
+    public string AnswerText
+    {
+        get; set;
+    } = string.Empty;
 
 }

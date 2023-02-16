@@ -225,7 +225,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
                 ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
 
-                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text);
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text,true);
             }
             else if (e == Constants.FingerHeart && _isBeginning == true)
             {

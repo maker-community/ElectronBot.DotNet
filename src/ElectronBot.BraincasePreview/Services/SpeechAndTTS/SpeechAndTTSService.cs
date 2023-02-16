@@ -2,6 +2,7 @@
 using Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Helpers;
+using Verdure.ElectronBot.Core.Models;
 using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
 using Windows.Media.SpeechSynthesis;
@@ -98,18 +99,15 @@ public class SpeechAndTTSService : ISpeechAndTTSService
     }
     public async Task CancelAsync()
     {
-        if (speechRecognizer!.State != SpeechRecognizerState.Idle)
+        try
         {
-            try
-            {
-                // Cancelling recognition prevents any currently recognized speech from
-                // generating a ResultGenerated event. StopAsync() will allow the final session to 
-                // complete.
-                await speechRecognizer.ContinuousRecognitionSession.CancelAsync();
-            }
-            catch (Exception ex)
-            {
-            }
+            // Cancelling recognition prevents any currently recognized speech from
+            // generating a ResultGenerated event. StopAsync() will allow the final session to 
+            // complete.
+            await speechRecognizer?.ContinuousRecognitionSession.CancelAsync();
+        }
+        catch (Exception ex)
+        {
         }
     }
 
@@ -279,7 +277,15 @@ public class SpeechAndTTSService : ISpeechAndTTSService
 
                     var chatBotClientFactory = App.GetService<IChatbotClientFactory>();
 
-                    var chatBotClient = chatBotClientFactory.CreateChatbotClient("Turing");
+                    var chatBotClientName = (await App.GetService<ILocalSettingsService>()
+                         .ReadSettingAsync<ComboxItemModel>(Constants.DefaultChatBotNameKey))?.DataKey;
+
+                    if (string.IsNullOrEmpty(chatBotClientName))
+                    {
+                        throw new Exception("未配置语音提供程序机密数据");
+                    }
+
+                    var chatBotClient = chatBotClientFactory.CreateChatbotClient(chatBotClientName);
 
                     var resultText = await chatBotClient.AskQuestionResultAsync(args.Result.Text);
 
