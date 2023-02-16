@@ -78,6 +78,8 @@ public partial class App : Application
             // Other Activation Handlers
             services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
 
+
+            services.AddHttpClient();
             // Services
             services.AddSingleton<IAppNotificationService, AppNotificationService>();
             services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
@@ -166,6 +168,13 @@ public partial class App : Application
             services.AddSingleton<EmoticonActionFrameService>();
 
             services.AddSingleton<GestureClassificationService>();
+
+
+            services.AddTransient<IChatbotClient, ChatGPTChatbotClient>();
+
+            services.AddTransient<IChatbotClient, TuringChatbotClient>();
+
+            services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
 
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>

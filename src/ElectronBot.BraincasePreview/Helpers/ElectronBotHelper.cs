@@ -41,11 +41,13 @@ public class ElectronBotHelper
 
     private bool isTTS = false;
 
+    private bool _isOpenMediaEnded = false;
     public bool EbConnected
     {
         get; set;
     }
 
+    private ISpeechAndTTSService _speechAndTTSService;
     public void InvokeClockCanvasStop()
     {
         ClockCanvasStop?.Invoke(this, new EventArgs());
@@ -66,6 +68,11 @@ public class ElectronBotHelper
         deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
 
         deviceWatcher.Start();
+
+        _speechAndTTSService = App.GetService<ISpeechAndTTSService>();
+
+        await _speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
+
 
         mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
 
@@ -135,7 +142,7 @@ public class ElectronBotHelper
                     videoPath = emojis.EmojisVideoPath;
                 }
                 _ = ElectronBotHelper.Instance.MediaPlayerPlaySoundAsync(videoPath);
-                await App.GetService<IActionExpressionProvider>().PlayActionExpressionAsync(emojis, actions);    
+                await App.GetService<IActionExpressionProvider>().PlayActionExpressionAsync(emojis, actions);
             }
             catch (Exception)
             {
@@ -328,8 +335,9 @@ public class ElectronBotHelper
     /// </summary>
     /// <param name="content"></param>
     /// <returns></returns>
-    public async Task MediaPlayerPlaySoundByTTSAsync(string content)
+    public async Task MediaPlayerPlaySoundByTTSAsync(string content, bool isOpenMediaEnded = true)
     {
+        _isOpenMediaEnded = isOpenMediaEnded;
         if (!string.IsNullOrWhiteSpace(content))
         {
             try
@@ -369,13 +377,16 @@ public class ElectronBotHelper
 
     private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
     {
-        if (isTTS)
-        {
-            var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
-            await speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
 
-            await speechAndTTSService.StartAsync();
+
+        if (isTTS && _isOpenMediaEnded)
+        {
+            await _speechAndTTSService.StartAsync();
             isTTS = false;
+        }
+        else
+        {
+            await _speechAndTTSService.CancelAsync();
         }
     }
 

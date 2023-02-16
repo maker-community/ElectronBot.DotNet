@@ -96,7 +96,23 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             }
         }
     }
-    public Task CancelAsync() => throw new NotImplementedException();
+    public async Task CancelAsync()
+    {
+        if (speechRecognizer!.State != SpeechRecognizerState.Idle)
+        {
+            try
+            {
+                // Cancelling recognition prevents any currently recognized speech from
+                // generating a ResultGenerated event. StopAsync() will allow the final session to 
+                // complete.
+                await speechRecognizer.ContinuousRecognitionSession.CancelAsync();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+    }
+
     public async Task InitializeRecognizerAsync(Language recognizerLanguage)
     {
         await InitializeRecognizer(recognizerLanguage);
@@ -255,13 +271,21 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                 try
                 {
-                    var chatGPTClient = App.GetService<IChatGPTService>();
+                    //var chatGPTClient = App.GetService<IChatGPTService>();
 
-                    var resultText = await chatGPTClient.AskQuestionResultAsync(args.Result.Text);
+                    //var resultText = await chatGPTClient.AskQuestionResultAsync(args.Result.Text);
 
-                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText);
+                    //await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText);
+
+                    var chatBotClientFactory = App.GetService<IChatbotClientFactory>();
+
+                    var chatBotClient = chatBotClientFactory.CreateChatbotClient("Turing");
+
+                    var resultText = await chatBotClient.AskQuestionResultAsync(args.Result.Text);
+
+                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText, false);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     App.MainWindow.DispatcherQueue.TryEnqueue(() =>
                     {

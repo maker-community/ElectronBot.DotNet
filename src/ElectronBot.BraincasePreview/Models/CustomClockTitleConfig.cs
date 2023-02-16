@@ -15,4 +15,14 @@ public class CustomClockTitleConfig
         get; set;
     } = "";
 
+    public string TuringAppkey
+    {
+        get; set;
+    } = "";
+
+    public string TuringUserId
+    {
+        get; set;
+    } = "gilzhang";
+
 }
