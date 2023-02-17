@@ -582,4 +582,10 @@
   <data name="TuringTitle" xml:space="preserve">
     <value>图灵机器人</value>
   </data>
+  <data name="CameraPreviewImage.Text" xml:space="preserve">
+    <value>相机画面预览</value>
+  </data>
+  <data name="ActionEditTitle.Text" xml:space="preserve">
+    <value>电子动作时间轴</value>
+  </data>
 </root>

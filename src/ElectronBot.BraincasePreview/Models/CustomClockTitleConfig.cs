@@ -31,6 +31,5 @@ public class CustomClockTitleConfig
     public string AnswerText
     {
         get; set;
-    } = string.Empty;
-
+    } = "你想做什么,你需要帮忙吗,我能帮你做些什么,你需要帮助吗";
 }

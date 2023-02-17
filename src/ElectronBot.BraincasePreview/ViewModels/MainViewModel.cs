@@ -17,6 +17,7 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
@@ -208,16 +209,21 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             if (e == Constants.FingerHeart && _isBeginning == false)
             {
                 _isBeginning = true;
-                var textList = new List<string>()
-        {
-            "哥哥想做什么",
-            "哥哥看剧嘛",
-            "哥哥看节目不",
-            "哥哥喝茶不",
-            "哥哥累了没",
-            "哥哥我是娜娜",
-            "哥哥我是七七"
-        };
+
+                var config = (await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>
+                (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
+
+                var textList = config.AnswerText.Split(",").ToList();
+                //        var textList = new List<string>()
+                //{
+                //    "哥哥想做什么",
+                //    "哥哥看剧嘛",
+                //    "哥哥看节目不",
+                //    "哥哥喝茶不",
+                //    "哥哥累了没",
+                //    "哥哥我是娜娜",
+                //    "哥哥我是七七"
+                //};
 
                 var r = new Random().Next(textList.Count);
 
@@ -225,7 +231,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
                 ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
 
-                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text,true);
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text, true);
             }
             else if (e == Constants.FingerHeart && _isBeginning == true)
             {
@@ -516,7 +522,10 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     float j6;
 
     [ObservableProperty]
-    public Image faceImage = new();
+    public Image faceImage = new()
+    {
+        Source = new BitmapImage(new Uri("ms-appx:///Assets/LargeTile.scale-200.png"))
+    };
 
     /// <summary>
     /// 定时器处理

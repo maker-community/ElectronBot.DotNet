@@ -387,8 +387,8 @@ public class ElectronBotHelper
         }
         else
         {
-
-            await speechAndTTSService.CancelAsync();
+            await speechAndTTSService.ReleaseRecognizerAsync();
+            //await speechAndTTSService.CancelAsync();
         }
     }
 

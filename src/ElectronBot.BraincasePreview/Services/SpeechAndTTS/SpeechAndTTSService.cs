@@ -65,6 +65,10 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                 try
                 {
+                    // Set timeout settings.
+                    speechRecognizer.Timeouts.InitialSilenceTimeout = TimeSpan.FromSeconds(3.0);
+                    speechRecognizer.Timeouts.BabbleTimeout = TimeSpan.FromSeconds(2.0);
+                    speechRecognizer.Timeouts.EndSilenceTimeout = TimeSpan.FromSeconds(1.2);
                     await speechRecognizer.ContinuousRecognitionSession.StartAsync();
 
                     //var recognitionOperation = speechRecognizer.RecognizeAsync();
@@ -211,7 +215,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
     /// <param name="args">The state of the recognizer</param>
     private void ContinuousRecognitionSession_Completed(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionCompletedEventArgs args)
     {
-        if (args.Status != SpeechRecognitionResultStatus.Success)
+        if (args.Status == SpeechRecognitionResultStatus.Success)
         {
             isListening = false;
         }
@@ -230,7 +234,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
         // when generating the grammar.
         var tag = "unknown";
 
-        if (args.Result.Constraint != null)
+        if (args.Result.Constraint != null && isListening)
         {
             tag = args.Result.Constraint.Tag;
 
@@ -289,7 +293,10 @@ public class SpeechAndTTSService : ISpeechAndTTSService
 
                     var resultText = await chatBotClient.AskQuestionResultAsync(args.Result.Text);
 
-                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText, false);
+                    //isListening = false;
+                    await ReleaseRecognizerAsync();
+
+                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText, false);      
                 }
                 catch (Exception ex)
                 {
@@ -318,7 +325,12 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             ToastHelper.SendToast(args.State.ToString(), TimeSpan.FromSeconds(3));
         });
 
-        if (args.State == SpeechRecognizerState.SoundEnded || args.State == SpeechRecognizerState.Capturing)
+        if (args.State == SpeechRecognizerState.Capturing)
+        {
+            isListening = true;
+        }
+
+        if (args.State == SpeechRecognizerState.SoundEnded)
         {
             isListening = false;
         }
