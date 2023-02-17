@@ -1,21 +1,19 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using Verdure.ElectronBot.Core.Models;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
+using ElectronBot.BraincasePreview.Services;
 using Microsoft.UI.Xaml;
-
+using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public class SettingsViewModel : ObservableRecipient, INavigationAware
+public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 {
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly ILocalSettingsService _localSettingsService;
@@ -35,12 +33,15 @@ public class SettingsViewModel : ObservableRecipient, INavigationAware
 
     public SettingsViewModel(
     IThemeSelectorService themeSelectorService,
-    ILocalSettingsService localSettingsService)
+    ILocalSettingsService localSettingsService,
+    ComboxDataService comboxDataService)
     {
         _themeSelectorService = themeSelectorService;
         _elementTheme = _themeSelectorService.Theme;
         _localSettingsService = localSettingsService;
         VersionDescription = GetVersionDescription();
+
+        chatBotComboxModels = comboxDataService.GetChatBotClientComboxList();
     }
 
 
@@ -91,6 +92,18 @@ public class SettingsViewModel : ObservableRecipient, INavigationAware
     }
 
 
+    /// <summary>
+    /// 聊天机器人选中数据
+    /// </summary>
+    [ObservableProperty]
+    ComboxItemModel chatBotSelect;
+
+    /// <summary>
+    /// 聊天机器人列表
+    /// </summary>
+    [ObservableProperty]
+    public ObservableCollection<ComboxItemModel> chatBotComboxModels;
+
 
     /// <summary>
     /// 相机列表
@@ -117,6 +130,17 @@ public class SettingsViewModel : ObservableRecipient, INavigationAware
     {
         get => _versionDescription;
         set => SetProperty(ref _versionDescription, value);
+    }
+
+    [RelayCommand]
+    public async Task ChatBotChangedAsync()
+    {
+        var chatBotName = ChatBotSelect?.DataKey;
+
+        if (!string.IsNullOrWhiteSpace(chatBotName))
+        {
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, chatBotSelect);
+        }
     }
 
     private ICommand _switchThemeCommand;
@@ -221,6 +245,14 @@ public class SettingsViewModel : ObservableRecipient, INavigationAware
             if (audioModel != null)
             {
                 AudioSelect = AudioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
+            }
+
+            var chatBotModel = await _localSettingsService
+                .ReadSettingAsync<ComboxItemModel>(Constants.DefaultChatBotNameKey);
+
+            if (chatBotModel != null)
+            {
+                ChatBotSelect = chatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
             }
         }
         catch (Exception ex)

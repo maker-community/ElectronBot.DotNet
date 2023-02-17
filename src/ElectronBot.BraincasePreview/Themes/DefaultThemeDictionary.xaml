@@ -29,7 +29,7 @@
         TintColor="#1A1B41"
         TintOpacity="0.8" />-->
     <media:AcrylicBrush
-        x:Key="CustomAcrylicBrush"
+        x:Key="MainCustomAcrylicBrush"
         FallbackColor="#121212"
         TintColor="#121212"
         TintOpacity="0.8" />

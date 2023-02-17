@@ -18,7 +18,7 @@
         TintColor="#96e6a1"
         TintOpacity="0.8" />
     <media:AcrylicBrush
-        x:Key="CustomAcrylicBrush"
+        x:Key="MainCustomAcrylicBrush"
         FallbackColor="#696AAD"
         TintColor="#696AAD"
         TintOpacity="0.8" />
