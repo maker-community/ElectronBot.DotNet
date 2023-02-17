@@ -24,7 +24,7 @@
         <StackPanel
             Grid.Row="0"
             Grid.Column="1"
-            Margin="8"
+            Margin="8,0,8,0"
             VerticalAlignment="Top">
             <Slider
                 x:Name="Head"
@@ -80,7 +80,71 @@
             Margin="8"
             VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
-                <Grid Margin="0,8,0,8">
+                <!--<Button
+                    x:Name="Import"
+                    x:Uid="ImportBtn"
+                    Margin="8"
+                    Command="{x:Bind ViewModel.ImportCommand}"
+                    Content="导入动作" />
+                <Button
+                    x:Name="Export"
+                    x:Uid="ExportBtn"
+                    Margin="8"
+                    Command="{x:Bind ViewModel.ExportCommand}"
+                    Content="导出动作" />-->
+                <Button
+                    x:Name="Play"
+                    x:Uid="PlayBtn"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.PlayCommand}" />
+                <Button
+                    x:Name="Stop"
+                    x:Uid="StopBtn"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.StopCommand}" />
+                <Button
+                    x:Name="Clear"
+                    x:Uid="ClearBtn"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.ClearCommand}" />
+                <Button
+                    x:Name="Reset"
+                    x:Uid="ResetBtn"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.ResetCommand}" />
+                <Button
+                    x:Name="RebootElectron"
+                    x:Uid="RebootElectron"
+                    Margin="0,0,8,0"
+                    Command="{x:Bind ViewModel.RebootElectronCommand}" />
+                <ComboBox
+                    x:Uid="ChangeClockViewCB"
+                    Width="120"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    DisplayMemberPath="DataValue"
+                    ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
+                    SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="SelectionChanged">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClockChangedCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ComboBox>
+                <ToggleSwitch
+                    x:Name="OpenGestureSwitch"
+                    Margin="0,0,8,0"
+                    OffContent="打开手势识别"
+                    OnContent="关闭手势识别">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Toggled">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.OpenGestureCommand}" CommandParameter="{x:Bind OpenGestureSwitch.IsOn, Mode=TwoWay}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ToggleSwitch>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Grid Margin="0,0,0,8">
                     <Slider
                         Width="40"
                         AutomationProperties.Name="vertical slider"
@@ -96,135 +160,152 @@
                     BorderBrush="{ThemeResource SystemAccentColor}"
                     BorderThickness="2"
                     CornerRadius="8">
-                    <StackPanel>
-                        <ScrollViewer
-                            x:Name="ActionSV"
-                            Width="780"
-                            HorizontalScrollBarVisibility="Visible"
-                            HorizontalScrollMode="Enabled">
-                            <StackPanel Margin="8">
-                                <ListView
-                                    x:Name="ActonList"
-                                    ItemsSource="{x:Bind ViewModel.Actions, Mode=OneWay}"
-                                    SelectedIndex="{x:Bind ViewModel.SelectIndex, Mode=TwoWay}"
-                                    SelectedItem="{x:Bind ViewModel.SelectdAction, Mode=TwoWay}">
-                                    <ListView.ContextFlyout>
-                                        <MenuFlyout>
-                                            <MenuFlyoutItem x:Name="AddPic" x:Uid="AddPic">
-                                                <i:Interaction.Behaviors>
-                                                    <ic:EventTriggerBehavior EventName="Click">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.AddPictureCommand}" />
-                                                    </ic:EventTriggerBehavior>
-                                                </i:Interaction.Behaviors>
-                                            </MenuFlyoutItem>
-                                            <MenuFlyoutItem x:Name="RemoveAction" x:Uid="RemoveAction">
-                                                <i:Interaction.Behaviors>
-                                                    <ic:EventTriggerBehavior EventName="Click">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.RemoveActionCommand}" />
-                                                    </ic:EventTriggerBehavior>
-                                                </i:Interaction.Behaviors>
-                                            </MenuFlyoutItem>
-                                        </MenuFlyout>
-                                    </ListView.ContextFlyout>
-                                    <i:Interaction.Behaviors>
-                                        <ic:EventTriggerBehavior EventName="DoubleTapped">
-                                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.AddPictureCommand}" />
-                                        </ic:EventTriggerBehavior>
-                                    </i:Interaction.Behaviors>
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate x:DataType="model:ElectronBotAction">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition />
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition />
-                                                </Grid.ColumnDefinitions>
-                                                <Grid
-                                                    Grid.RowSpan="2"
-                                                    Grid.ColumnSpan="2"
-                                                    Margin="8"
-                                                    Padding="4"
-                                                    BorderBrush="{ThemeResource SystemAccentColor}"
-                                                    BorderThickness="1"
-                                                    CornerRadius="4">
+                    <Grid>
+                        <StackPanel>
+                            <Image
+                                Width="60"
+                                Height="60"
+                                Margin="8"
+                                Source="/Assets/StoreLogo.scale-200.png" />
+                            <TextBlock
+                                x:Uid="ActionEditTitle"
+                                Margin="8"
+                                HorizontalAlignment="Center"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                FontSize="14" />
+                        </StackPanel>
+                        <StackPanel>
+                            <ScrollViewer
+                                x:Name="ActionSV"
+                                Width="780"
+                                HorizontalScrollBarVisibility="Visible"
+                                HorizontalScrollMode="Enabled">
+                                <StackPanel Margin="8">
+                                    <ListView
+                                        x:Name="ActonList"
+                                        ItemsSource="{x:Bind ViewModel.Actions, Mode=OneWay}"
+                                        SelectedIndex="{x:Bind ViewModel.SelectIndex, Mode=TwoWay}"
+                                        SelectedItem="{x:Bind ViewModel.SelectdAction, Mode=TwoWay}">
+                                        <ListView.ContextFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem x:Name="AddPic" x:Uid="AddPic">
+                                                    <i:Interaction.Behaviors>
+                                                        <ic:EventTriggerBehavior EventName="Click">
+                                                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.AddPictureCommand}" />
+                                                        </ic:EventTriggerBehavior>
+                                                    </i:Interaction.Behaviors>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutItem x:Name="RemoveAction" x:Uid="RemoveAction">
+                                                    <i:Interaction.Behaviors>
+                                                        <ic:EventTriggerBehavior EventName="Click">
+                                                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.RemoveActionCommand}" />
+                                                        </ic:EventTriggerBehavior>
+                                                    </i:Interaction.Behaviors>
+                                                </MenuFlyoutItem>
+                                            </MenuFlyout>
+                                        </ListView.ContextFlyout>
+                                        <i:Interaction.Behaviors>
+                                            <ic:EventTriggerBehavior EventName="DoubleTapped">
+                                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.AddPictureCommand}" />
+                                            </ic:EventTriggerBehavior>
+                                        </i:Interaction.Behaviors>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="model:ElectronBotAction">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition />
                                                         <ColumnDefinition />
-                                                        <ColumnDefinition />
                                                     </Grid.ColumnDefinitions>
-                                                    <StackPanel Grid.Column="0">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Margin="2" Text="J1:" />
-                                                            <TextBlock
-                                                                Margin="2"
-                                                                HorizontalAlignment="Right"
-                                                                Text="{x:Bind J1, Mode=OneWay}" />
+                                                    <Grid
+                                                        Grid.RowSpan="2"
+                                                        Grid.ColumnSpan="2"
+                                                        Margin="8"
+                                                        Padding="4"
+                                                        Background="{ThemeResource MainCustomAcrylicBrush}"
+                                                        BorderBrush="{ThemeResource SystemAccentColor}"
+                                                        BorderThickness="1"
+                                                        CornerRadius="4">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Grid.Column="0">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Margin="2" Text="J1:" />
+                                                                <TextBlock
+                                                                    Margin="2"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{x:Bind J1, Mode=OneWay}" />
+                                                            </StackPanel>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Margin="2" Text="J2:" />
+                                                                <TextBlock
+                                                                    Margin="2"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{x:Bind J2, Mode=OneWay}" />
+                                                            </StackPanel>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Margin="2" Text="J3:" />
+                                                                <TextBlock
+                                                                    Margin="2"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{x:Bind J3, Mode=OneWay}" />
+                                                            </StackPanel>
                                                         </StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Margin="2" Text="J2:" />
-                                                            <TextBlock
-                                                                Margin="2"
-                                                                HorizontalAlignment="Right"
-                                                                Text="{x:Bind J2, Mode=OneWay}" />
+                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                            <Grid>
+                                                                <Image
+                                                                    Width="40"
+                                                                    Height="40"
+                                                                    Margin="4"
+                                                                    HorizontalAlignment="Left"
+                                                                    Source="{x:Bind BitmapImageData, Mode=OneWay}" />
+                                                            </Grid>
                                                         </StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Margin="2" Text="J3:" />
-                                                            <TextBlock
-                                                                Margin="2"
-                                                                HorizontalAlignment="Right"
-                                                                Text="{x:Bind J3, Mode=OneWay}" />
+                                                        <StackPanel Grid.Column="2">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Margin="2" Text="J4:" />
+                                                                <TextBlock
+                                                                    Margin="2"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{x:Bind J4, Mode=OneWay}" />
+                                                            </StackPanel>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Margin="2" Text="J5:" />
+                                                                <TextBlock
+                                                                    Margin="2"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{x:Bind J5, Mode=OneWay}" />
+                                                            </StackPanel>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Margin="2" Text="J6:" />
+                                                                <TextBlock
+                                                                    Margin="2"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{x:Bind J6, Mode=OneWay}" />
+                                                            </StackPanel>
                                                         </StackPanel>
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                        <Grid>
-                                                            <Image
-                                                                Width="40"
-                                                                Height="40"
-                                                                Margin="4"
-                                                                HorizontalAlignment="Left"
-                                                                Source="{x:Bind BitmapImageData, Mode=OneWay}" />
-                                                        </Grid>
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Column="2">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Margin="2" Text="J4:" />
-                                                            <TextBlock
-                                                                Margin="2"
-                                                                HorizontalAlignment="Right"
-                                                                Text="{x:Bind J4, Mode=OneWay}" />
-                                                        </StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Margin="2" Text="J5:" />
-                                                            <TextBlock
-                                                                Margin="2"
-                                                                HorizontalAlignment="Right"
-                                                                Text="{x:Bind J5, Mode=OneWay}" />
-                                                        </StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Margin="2" Text="J6:" />
-                                                            <TextBlock
-                                                                Margin="2"
-                                                                HorizontalAlignment="Right"
-                                                                Text="{x:Bind J6, Mode=OneWay}" />
-                                                        </StackPanel>
-                                                    </StackPanel>
+                                                    </Grid>
                                                 </Grid>
-                                            </Grid>
 
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                    <ListView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" />
-                                        </ItemsPanelTemplate>
-                                    </ListView.ItemsPanel>
-                                </ListView>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </StackPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+                                    </ListView>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Grid>
+
                 </Border>
                 <StackPanel>
                     <Button
@@ -288,8 +369,9 @@
                     x:Name="BorderGrid"
                     Width="200"
                     Height="200"
-                    Margin="16"
+                    Margin="8"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
                     BorderBrush="{ThemeResource SystemAccentColor}"
                     BorderThickness="2"
                     Child="{x:Bind ViewModel.Element, Mode=OneWay}"
@@ -298,8 +380,34 @@
                     Margin="8"
                     VerticalAlignment="Top"
                     Orientation="Vertical">
-                    <!--<Button Click="Button_Click" Content="重启应用" />-->
                     <Border
+                        Width="300"
+                        Height="200"
+                        VerticalAlignment="Top"
+                        BorderBrush="{ThemeResource SystemAccentColor}"
+                        BorderThickness="4"
+                        CornerRadius="8">
+                        <Grid>
+                            <Image x:Name="FaceImage" Source="{x:Bind ViewModel.FaceImage.Source, Mode=OneWay}" />
+                            <TextBlock
+                                x:Uid="CameraPreviewImage"
+                                Margin="8"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                FontSize="18" />
+                        </Grid>
+
+                    </Border>
+                    <TextBlock
+                        x:Name="GestureResult"
+                        Margin="8"
+                        HorizontalAlignment="Center"
+                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                        FontSize="18"
+                        Text="{x:Bind ViewModel.ResultLabel, Mode=OneWay}" />
+                    <!--<Button Click="Button_Click" Content="重启应用" />-->
+                    <!--<Border
                         Width="160"
                         Height="160"
                         Margin="0,24,0,0"
@@ -332,60 +440,15 @@
                             x:Uid="RebootElectron"
                             Margin="0,12,0,0"
                             Command="{x:Bind ViewModel.RebootElectronCommand}" />
-                        <!--<Button
+                    -->
+                    <!--<Button
                             x:Name="Reconnect"
                             x:Uid="ReconnectBtn"
                             Margin="0,12,0,0"
                             Command="{x:Bind ViewModel.ReconnectCommand}" />-->
-                    </StackPanel>
+                    <!--
+                    </StackPanel>-->
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <!--<Button
-                    x:Name="Import"
-                    x:Uid="ImportBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ImportCommand}"
-                    Content="导入动作" />
-                <Button
-                    x:Name="Export"
-                    x:Uid="ExportBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ExportCommand}"
-                    Content="导出动作" />-->
-                <Button
-                    x:Name="Play"
-                    x:Uid="PlayBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.PlayCommand}" />
-                <Button
-                    x:Name="Stop"
-                    x:Uid="StopBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.StopCommand}" />
-                <Button
-                    x:Name="Clear"
-                    x:Uid="ClearBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ClearCommand}" />
-                <Button
-                    x:Name="Reset"
-                    x:Uid="ResetBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ResetCommand}" />
-                <ComboBox
-                    x:Uid="ChangeClockViewCB"
-                    Width="120"
-                    Margin="8"
-                    DisplayMemberPath="DataValue"
-                    ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
-                    SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="SelectionChanged">
-                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClockChangedCommand}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </ComboBox>
             </StackPanel>
         </StackPanel>
         <VisualStateManager.VisualStateGroups>

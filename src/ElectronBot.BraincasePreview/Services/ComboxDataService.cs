@@ -12,8 +12,18 @@ public class ComboxDataService
 
                 new ComboxItemModel { DataKey = "DefautView", DataValue = "DefautView".GetLocalized() },
                 new ComboxItemModel { DataKey = "LongShadowView", DataValue ="LongShadowView".GetLocalized() },
-                new ComboxItemModel { DataKey = "GooeyFooter", DataValue ="GooeyFooter".GetLocalized() }
+                new ComboxItemModel { DataKey = "GooeyFooter", DataValue ="GooeyFooter".GetLocalized() },
+                new ComboxItemModel { DataKey = "GradientsWithBlend", DataValue ="GradientsWithBlend".GetLocalized() }
             };
     }
 
+    public ObservableCollection<ComboxItemModel> GetChatBotClientComboxList()
+    {
+        return new ObservableCollection<ComboxItemModel>
+            {
+
+                new ComboxItemModel { DataKey = "Turing", DataValue = "TuringTitle".GetLocalized() },
+                new ComboxItemModel { DataKey = "ChatGPT", DataValue ="ChatGPTTitle".GetLocalized() }
+            };
+    }
 }

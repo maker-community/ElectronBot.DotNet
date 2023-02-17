@@ -9,11 +9,15 @@ public class Constants
 
     public const string EmojisActionListKey = "EmojisActionListKey";
 
+    public const string RandomContentListKey = "RandomContentListKey";
+
     public const string EmojisFolder = "EmojisAction";
 
     public const string CustomClockTitleConfigKey = "CustomClockTitleConfigKey";
 
     public const string DefaultCameraNameKey = "DefaultCameraNameKey";
+
+    public const string DefaultChatBotNameKey = "DefaultChatBotNameKey";
 
     public const string DefaultAudioNameKey = "DefaultAudioNameKey";
 
@@ -105,6 +109,17 @@ public class Constants
     public static readonly string TwitterConsumerKey = "";
     public static readonly string TwitterConsumerSecret = "";
     public static readonly string TwitterCallbackURI = "";
+
+    public const string Up = "up";
+    public const string Down = "down";
+    public const string Back = "back";
+    public const string Forward = "forward";
+    public const string Land = "land";
+    public const string Stop = "stop";
+    public const string Left = "left";
+    public const string Right = "right";
+    public const string FingerHeart = "finger-heart";
+    public const string ThirdFinger = "third-finger";
 
     //public static StoreServicesCustomEventLogger LOGGER = StoreServicesCustomEventLogger.GetDefault();
 }

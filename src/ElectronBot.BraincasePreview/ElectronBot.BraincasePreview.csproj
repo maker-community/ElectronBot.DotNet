@@ -29,6 +29,8 @@
     <Content Remove="Assets\Emoji\excited.png" />
     <Content Remove="Assets\Emoji\fear.png" />
     <Content Remove="Assets\Emoji\sad.png" />
+    <Content Remove="Assets\hand.png" />
+    <Content Remove="Assets\MLModel1.zip" />
     <Content Remove="Assets\model.onnx" />
     <Content Remove="Assets\xbox-one-controller.png" />
   </ItemGroup>
@@ -38,16 +40,85 @@
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\model.onnx" />
+    <None Remove="Assets\pig.ico" />
     <None Remove="ClockViews\GooeyFooter.xaml" />
+    <None Remove="ClockViews\GradientsWithBlend.xaml" />
+    <None Remove="ClockViews\RandomContentView.xaml" />
     <None Remove="Controls\ActionTimeline.xaml" />
     <None Remove="Controls\AddEmojisContentDialog.xaml" />
     <None Remove="Controls\AppQuitPage.xaml" />
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
+    <None Remove="Controls\RandomContentPage.xaml" />
     <None Remove="Styles\Toast.xaml" />
+    <None Remove="Themes\DefaultThemeDictionary.xaml" />
+    <None Remove="Themes\LightThemeDictionary.xaml" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\handedness.txt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_cpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_full.tflite" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_gpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_landmarks_to_roi.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_model_loader.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_cpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_cpu_image.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_gpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_gpu_image.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\hand_landmark\palm_detection_detection_to_roi.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_cpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_full.tflite" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_gpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_model_loader.pbtxt" />
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\GamepadPage.xaml" />
+    <None Remove="Views\GestureClassificationPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
     <None Remove="Views\TodoPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\handedness.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_cpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_full.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_gpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_landmarks_to_roi.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_model_loader.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_cpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_cpu_image.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_gpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\hand_landmark_tracking_gpu_image.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\palm_detection_detection_to_roi.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_cpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_full.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_gpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_model_loader.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\model.onnx">
@@ -59,22 +130,28 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.13.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221116.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230118.102" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
-    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.6.0.20220608" />
-    <PackageReference Include="OpenCvSharp4.Windows" Version="4.6.0.20220608" />
+    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.7.0.20230115" />
+    <PackageReference Include="OpenCvSharp4.Windows" Version="4.7.0.20230115" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-    <PackageReference Include="WinUIEx" Version="1.8.0" />
+    <PackageReference Include="System.Management" Version="7.0.0" />
+    <PackageReference Include="WinUIEx" Version="2.1.0" />
+	<PackageReference Include="ChatGPT.Net" Version="1.1.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ElectronBot.BraincasePreview.Core\Verdure.ElectronBot.Core.csproj" />
+    <ProjectReference Include="..\GestureClassification\GestureClassification.csproj" />
+    <ProjectReference Include="..\Mediapipe.Net\Mediapipe.Net.csproj" />
+    <ProjectReference Include="..\Verdure.NotificationArea\Verdure.NotificationArea.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -104,9 +181,36 @@
     <None Update="Assets\Emoji\sad.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\hand.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MLModel1.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Themes\DefaultThemeDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Themes\LightThemeDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ClockViews\RandomContentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\RandomContentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ClockViews\GradientsWithBlend.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Update="VFS\SystemX64\mediapipe_c.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Views\GestureClassificationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AppQuitPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,6 +250,10 @@
 
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="VFS\Configs\" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

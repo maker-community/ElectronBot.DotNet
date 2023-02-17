@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
+using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
@@ -10,7 +11,9 @@ using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
+using Windows.Media.Core;
 using Windows.Media.Devices;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -307,9 +310,9 @@ public class EbHelper
 
             var pixels = await bitmap.GetPixelsAsync();
 
-            var canvasDevice = App.GetService<CanvasDevice>();
+            //var canvasDevice = App.GetService<CanvasDevice>();
             // Transfer the pixel data from XAML to Win2D for further processing.
-            //using var canvasDevice = CanvasDevice.GetSharedDevice();
+            using var canvasDevice = new CanvasDevice();
 
             using var canvasBitmap = CanvasBitmap.CreateFromBytes(
                 canvasDevice, pixels.ToArray(), bitmap.PixelWidth, bitmap.PixelHeight,

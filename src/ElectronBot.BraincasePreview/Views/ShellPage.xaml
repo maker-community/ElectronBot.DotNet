@@ -8,6 +8,7 @@
     xmlns:helpers="using:ElectronBot.BraincasePreview.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource MainCustomAcrylicBrush}"
     Loaded="OnLoaded">
 
 
@@ -73,6 +74,11 @@
                 <NavigationViewItem x:Uid="Shell_EmojisEdit" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.EmojisEditViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEA86;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_GestureClassification" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.GestureClassificationViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE19D;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--<NavigationViewItem x:Uid="Shell_Gamepad" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.GamepadViewModel">

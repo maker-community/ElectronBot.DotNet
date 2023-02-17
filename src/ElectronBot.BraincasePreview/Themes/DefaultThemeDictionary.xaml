@@ -1,0 +1,43 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:media="using:Microsoft.UI.Xaml.Media">
+    <media:AcrylicBrush
+        x:Key="CustomAcrylicBackgroundBrush"
+        FallbackColor="#1A1B41"
+        TintColor="#1A1B41"
+        TintOpacity="0.8" />
+    <media:AcrylicBrush
+        x:Key="CustomAcrylicGridViewBrush"
+        FallbackColor="#FFFFFF00"
+        TintColor="{ThemeResource SystemAccentColor}"
+        TintOpacity="0.2" />
+    <media:AcrylicBrush
+        x:Key="CustomAcrylicOKBtnBrush"
+        FallbackColor="#96e6a1"
+        TintColor="#96e6a1"
+        TintOpacity="0.8" />
+    <AcrylicBrush
+        x:Key="CustomAcrylicBrush11"
+        FallbackColor="#6290C3"
+        TintColor="#6290C3"
+        TintOpacity="0.8" />
+    <!--<media:AcrylicBrush
+        x:Key="CustomAcrylicBrush"
+        BackgroundSource="HostBackdrop"
+        FallbackColor="#1A1B41"
+        TintColor="#1A1B41"
+        TintOpacity="0.8" />-->
+    <media:AcrylicBrush
+        x:Key="MainCustomAcrylicBrush"
+        FallbackColor="#121212"
+        TintColor="#121212"
+        TintOpacity="0.8" />
+    <SolidColorBrush x:Key="HomePageBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="PageHeaderForegroundBrush" Color="White" />
+    <StaticResource x:Key="ControlExampleDisplayBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
+    <SolidColorBrush x:Key="SearchBoxBorderBrush" Color="Transparent" />
+    <Thickness x:Key="SearchBoxBorderThickness">0</Thickness>
+    <Thickness x:Key="ControlExampleDisplayBorderThickness">0</Thickness>
+    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+</ResourceDictionary>

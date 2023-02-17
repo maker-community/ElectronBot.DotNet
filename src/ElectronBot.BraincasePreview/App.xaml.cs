@@ -1,4 +1,5 @@
-﻿using Controls;
+﻿using Contracts.Services;
+using Controls;
 using ElectronBot.BraincasePreview.Activation;
 using ElectronBot.BraincasePreview.ClockViews;
 using ElectronBot.BraincasePreview.Contracts.Services;
@@ -21,6 +22,7 @@ using Services;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
 using Verdure.ElectronBot.GrpcService;
+using Views;
 using Windows.ApplicationModel.Background;
 using Windows.Media.Playback;
 using Windows.UI.Popups;
@@ -76,6 +78,8 @@ public partial class App : Application
             // Other Activation Handlers
             services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
 
+
+            services.AddHttpClient();
             // Services
             services.AddSingleton<IAppNotificationService, AppNotificationService>();
             services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
@@ -121,6 +125,12 @@ public partial class App : Application
             services.AddTransient<EmojisEditViewModel>();
             services.AddTransient<AddEmojisDialogViewModel>();
 
+            services.AddTransient<GestureClassificationPage>();
+            services.AddTransient<GestureClassificationViewModel>();
+
+            services.AddTransient<RandomContentPage>();
+            services.AddTransient<RandomContentViewModel>();
+
             services.AddTransient<EmojisInfoDialogViewModel>();
 
             services.AddTransient<GamepadViewModel>();
@@ -139,6 +149,8 @@ public partial class App : Application
 
             services.AddTransient<ImageCropperPage>();
 
+            services.AddTransient<IChatGPTService, ChatGPTService>();
+
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 
             services.AddTransient<IClockViewProvider, DefaultClockViewProvider>();
@@ -147,11 +159,22 @@ public partial class App : Application
 
             services.AddTransient<IClockViewProvider, GooeyFooterClockViewProvider>();
 
+            services.AddTransient<IClockViewProvider, GradientsWithBlendClockViewProvider>();
+
             services.AddSingleton<IActionExpressionProvider, DefaultActionExpressionProvider>();
 
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
 
             services.AddSingleton<EmoticonActionFrameService>();
+
+            services.AddSingleton<GestureClassificationService>();
+
+
+            services.AddTransient<IChatbotClient, ChatGPTChatbotClient>();
+
+            services.AddTransient<IChatbotClient, TuringChatbotClient>();
+
+            services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
 
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
@@ -175,6 +198,14 @@ public partial class App : Application
     {
 
         e.Handled = true;
+
+        ElectronBotHelper.Instance.InvokeClockCanvasStop();
+
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
+
+        Thread.Sleep(1000);
 
         ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
         // TODO: Log and handle exceptions as appropriate.
@@ -202,6 +233,7 @@ public partial class App : Application
             Title = "是否关闭应用?",
             PrimaryButtonText = "确定",
             CloseButtonText = "取消",
+            SecondaryButtonText = "托盘化",
             DefaultButton = ContentDialogButton.Primary,
             Content = new AppQuitPage()
         };
@@ -213,11 +245,21 @@ public partial class App : Application
         {
             try
             {
-                ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+                ElectronBotHelper.Instance.InvokeClockCanvasStop();
+
+                var service = App.GetService<EmoticonActionFrameService>();
+
+                service.ClearQueue();
+
+                Thread.Sleep(1000);
 
                 IntelligenceService.Current.CleanUp();
 
                 await CameraService.Current.CleanupMediaCaptureAsync();
+
+                await CameraFrameService.Current.CleanupMediaCaptureAsync();
+
+                ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
             }
             catch (Exception)
             {
@@ -225,6 +267,10 @@ public partial class App : Application
             }
 
             MainWindow.Close();
+        }
+        else if(result == ContentDialogResult.Secondary)
+        {
+            MainWindow.Hide();
         }
     }
 }

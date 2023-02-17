@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Verdure.NotificationArea;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.System;
 using Windows.UI.Popups;
@@ -15,6 +17,7 @@ namespace ElectronBot.BraincasePreview.Views;
 // TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
 public sealed partial class ShellPage : Page
 {
+    public NotificationAreaIcon NotificationAreaIcon { get; set; } = new NotificationAreaIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/pig.ico"), "AppDisplayName".GetLocalized());
     public ShellViewModel ViewModel
     {
         get;
@@ -35,8 +38,14 @@ public sealed partial class ShellPage : Page
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
-
+        InitializeNotificationAreaIcon();
         App.RootFrame = NavigationFrame;
+        App.MainWindow.Closed += MainWindow_Closed;
+    }
+
+    private void MainWindow_Closed(object sender, WindowEventArgs args)
+    {
+        NotificationAreaIcon.Dispose();
     }
 
     private async void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -49,6 +58,50 @@ public sealed partial class ShellPage : Page
         await ElectronBotHelper.Instance.InitAsync();
 
         //await RegisterTaskAysnc();
+    }
+
+
+    private void InitializeNotificationAreaIcon()
+    {
+        NotificationAreaIcon.InitializeNotificationAreaMenu();
+        NotificationAreaIcon.AddMenuItemText(1, "显示或者隐藏");
+        //NotificationAreaIcon.AddMenuItemText(2, "设置");
+        NotificationAreaIcon.AddMenuItemSeperator();
+        NotificationAreaIcon.AddMenuItemText(3, "退出");
+
+        NotificationAreaIcon.DoubleClick = () =>
+        {
+            DispatcherQueue.TryEnqueue(() => { ViewModel.ShowOrHideWindowCommand.Execute(null); });
+        };
+        NotificationAreaIcon.RightClick = () =>
+        {
+            DispatcherQueue.TryEnqueue(() => { NotificationAreaIcon.ShowContextMenu(); });
+        };
+        NotificationAreaIcon.MenuCommand = (menuid) =>
+        {
+            switch (menuid)
+            {
+                case 1:
+                    {
+                        DispatcherQueue.TryEnqueue(() => { ViewModel.ShowOrHideWindowCommand.Execute(null); });
+                        break;
+                    }
+                case 2:
+                    {
+                        DispatcherQueue.TryEnqueue(() => { ViewModel.SettingsCommand.Execute(null); });
+                        break;
+                    }
+                case 3:
+                    {
+                        DispatcherQueue.TryEnqueue(() => { ViewModel.ExitCommand.Execute(null); });
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        };
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)

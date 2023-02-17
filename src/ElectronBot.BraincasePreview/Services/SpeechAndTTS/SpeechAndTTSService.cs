@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
+using Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Helpers;
+using Verdure.ElectronBot.Core.Models;
 using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
 using Windows.Media.SpeechSynthesis;
@@ -63,7 +65,14 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                 try
                 {
+                    // Set timeout settings.
+                    speechRecognizer.Timeouts.InitialSilenceTimeout = TimeSpan.FromSeconds(3.0);
+                    speechRecognizer.Timeouts.BabbleTimeout = TimeSpan.FromSeconds(2.0);
+                    speechRecognizer.Timeouts.EndSilenceTimeout = TimeSpan.FromSeconds(1.2);
                     await speechRecognizer.ContinuousRecognitionSession.StartAsync();
+
+                    //var recognitionOperation = speechRecognizer.RecognizeAsync();
+                    //SpeechRecognitionResult speechRecognitionResult = await recognitionOperation;
 
                     isListening = true;
                 }
@@ -92,7 +101,20 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             }
         }
     }
-    public Task CancelAsync() => throw new NotImplementedException();
+    public async Task CancelAsync()
+    {
+        try
+        {
+            // Cancelling recognition prevents any currently recognized speech from
+            // generating a ResultGenerated event. StopAsync() will allow the final session to 
+            // complete.
+            await speechRecognizer?.ContinuousRecognitionSession.CancelAsync();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
     public async Task InitializeRecognizerAsync(Language recognizerLanguage)
     {
         await InitializeRecognizer(recognizerLanguage);
@@ -144,57 +166,19 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             // Provide feedback to the user about the state of the recognizer. This can be used to provide visual feedback in the form
             // of an audio indicator to help the user understand whether they're being heard.
             speechRecognizer.StateChanged += SpeechRecognizer_StateChanged;
-
             // Build a command-list grammar. Commands should ideally be drawn from a resource file for localization, and 
             // be grouped into tags for alternate forms of the same command.
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "主页"
-                    }, "Home"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "打开B站"
-                    }, "Bili"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                       "去到Contoso Studio"
-                    }, "GoToContosoStudio"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "打开的电子邮件",
-                        "显示消息"
-                    }, "Message"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "发送电子邮件",
-                        "写电子邮件"
-                    }, "Email"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "呼叫爱丽丝·史密斯",
-                        "艾丽斯打电话"
-                    }, "CallNita"));
-            speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(
-                    new List<string>()
-                    {
-                        "呼叫约翰·史密斯",
-                        "约翰打电话"
-                    }, "CallWayne"));
+            //var bili = new SpeechRecognitionListConstraint(
+            //        new List<string>()
+            //        {
+            //            "打开B站"
+            //        }, "Bili");
+            //bili.Probability = SpeechRecognitionConstraintProbability.Max;
+            //speechRecognizer.Constraints.Add(bili);
 
-
+            var webSearchGrammar = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.WebSearch, "webSearch", "sound");
+            //webSearchGrammar.Probability = SpeechRecognitionConstraintProbability.Min;
+            speechRecognizer.Constraints.Add(webSearchGrammar);
             SpeechRecognitionCompilationResult result = await speechRecognizer.CompileConstraintsAsync();
 
             if (result.Status != SpeechRecognitionResultStatus.Success)
@@ -231,10 +215,9 @@ public class SpeechAndTTSService : ISpeechAndTTSService
     /// <param name="args">The state of the recognizer</param>
     private void ContinuousRecognitionSession_Completed(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionCompletedEventArgs args)
     {
-        if (args.Status != SpeechRecognitionResultStatus.Success)
+        if (args.Status == SpeechRecognitionResultStatus.Success)
         {
             isListening = false;
-
         }
     }
 
@@ -251,7 +234,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
         // when generating the grammar.
         var tag = "unknown";
 
-        if (args.Result.Constraint != null)
+        if (args.Result.Constraint != null && isListening)
         {
             tag = args.Result.Constraint.Tag;
 
@@ -278,31 +261,55 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             });
 
 
-            if (tag == "Bili")
+            if (args.Result.Text.ToUpper() == "打开B站")
             {
                 await Launcher.LaunchUriAsync(new Uri(@"https://www.bilibili.com/"));
-                //proc.StartInfo.FileName = "https://www.bilibili.com/";
-
-                //proc.Start();
             }
+            else if (args.Result.Text.ToUpper() == "撒个娇")
+            {
+                ElectronBotHelper.Instance.ToPlayEmojisRandom();
+            }
+            else
+            {
+                try
+                {
+                    //var chatGPTClient = App.GetService<IChatGPTService>();
 
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    heardYouSayTextBlock.Visibility = Visibility.Visible;
-            //    resultTextBlock.Visibility = Visibility.Visible;
-            //    resultTextBlock.Text = string.Format("Heard: '{0}', (Tag: '{1}', Confidence: {2})", args.Result.Text, tag, args.Result.Confidence.ToString());
-            //});
+                    //var resultText = await chatGPTClient.AskQuestionResultAsync(args.Result.Text);
+
+                    //await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText);
+
+                    var chatBotClientFactory = App.GetService<IChatbotClientFactory>();
+
+                    var chatBotClientName = (await App.GetService<ILocalSettingsService>()
+                         .ReadSettingAsync<ComboxItemModel>(Constants.DefaultChatBotNameKey))?.DataKey;
+
+                    if (string.IsNullOrEmpty(chatBotClientName))
+                    {
+                        throw new Exception("未配置语音提供程序机密数据");
+                    }
+
+                    var chatBotClient = chatBotClientFactory.CreateChatbotClient(chatBotClientName);
+
+                    var resultText = await chatBotClient.AskQuestionResultAsync(args.Result.Text);
+
+                    //isListening = false;
+                    await ReleaseRecognizerAsync();
+
+                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText, false);      
+                }
+                catch (Exception ex)
+                {
+                    App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(3));
+                    });
+
+                }
+            }
         }
         else
         {
-            // In some scenarios, a developer may choose to ignore giving the user feedback in this case, if speech
-            // is not the primary input mechanism for the application.
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    heardYouSayTextBlock.Visibility = Visibility.Collapsed;
-            //    resultTextBlock.Visibility = Visibility.Visible;
-            //    resultTextBlock.Text = string.Format("Sorry, I didn't catch that. (Heard: '{0}', Tag: {1}, Confidence: {2})", args.Result.Text, tag, args.Result.Confidence.ToString());
-            //});
         }
     }
 
@@ -318,8 +325,14 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             ToastHelper.SendToast(args.State.ToString(), TimeSpan.FromSeconds(3));
         });
 
-        //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-        //    rootPage.NotifyUser(args.State.ToString(), NotifyType.StatusMessage);
-        //});
+        if (args.State == SpeechRecognizerState.Capturing)
+        {
+            isListening = true;
+        }
+
+        if (args.State == SpeechRecognizerState.SoundEnded)
+        {
+            isListening = false;
+        }
     }
 }

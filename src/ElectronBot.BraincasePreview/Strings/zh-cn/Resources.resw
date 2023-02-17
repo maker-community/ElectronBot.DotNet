@@ -513,4 +513,79 @@
   <data name="RebootElectron.Content" xml:space="preserve">
     <value>复位电子</value>
   </data>
+  <data name="Shell_GestureClassification.Content" xml:space="preserve">
+    <value>手势识别</value>
+  </data>
+  <data name="GradientsWithBlend" xml:space="preserve">
+    <value>资源监控</value>
+  </data>
+  <data name="CpuTitle.Text" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="RadialGaugeCPU.Unit" xml:space="preserve">
+    <value>百分比</value>
+  </data>
+  <data name="RadialGaugeROM.Unit" xml:space="preserve">
+    <value>百分比</value>
+  </data>
+  <data name="RomTitle.Text" xml:space="preserve">
+    <value>ROM</value>
+  </data>
+  <data name="AddRandomContentBtn.Label" xml:space="preserve">
+    <value>添加随机内容</value>
+  </data>
+  <data name="AddRandomContentTitle" xml:space="preserve">
+    <value>添加随机内容</value>
+  </data>
+  <data name="ContentAlreadyExists" xml:space="preserve">
+    <value>内容已存在</value>
+  </data>
+  <data name="DelEmojis.Text" xml:space="preserve">
+    <value>删除表情</value>
+  </data>
+  <data name="DelRandomContent.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Settings_AboutUpdate.Text" xml:space="preserve">
+    <value>1.4版本更新说明
+1. 首页加入手势识别，包含打开B站测试，和撒个娇随机播放表情，目前采用比心触发语音识别，ok结束，再次比心触发。
+2. 选择困难页的手势触发为握紧拳头碰拳头的动作为触发，ok为停止。
+3. 表情创建页面添加了表情的删除，修复视频播放色差问题，以及视频不能播放声音问题。</value>
+  </data>
+  <data name="Settings_Update.Text" xml:space="preserve">
+    <value>更新说明</value>
+  </data>
+  <data name="ChatGPT-SessionKey.Text" xml:space="preserve">
+    <value>ChatGPT会话ID：</value>
+  </data>
+  <data name="AnswerText.Text" xml:space="preserve">
+    <value>手势识别语音回复文本：</value>
+  </data>
+  <data name="ChatBotSecurityData.Text" xml:space="preserve">
+    <value>语音对话提供程序配置</value>
+  </data>
+  <data name="ChatBotSecurityDataDesc.Text" xml:space="preserve">
+    <value>提供密钥配置和程序切换</value>
+  </data>
+  <data name="ChatBotType.Text" xml:space="preserve">
+    <value>默认语音提供程序：</value>
+  </data>
+  <data name="ChatGPTTitle" xml:space="preserve">
+    <value>ChatGPT</value>
+  </data>
+  <data name="Turing-AppKey.Text" xml:space="preserve">
+    <value>图灵机器人AppKey：</value>
+  </data>
+  <data name="Turing-UserId.Text" xml:space="preserve">
+    <value>图灵机器人UserId：</value>
+  </data>
+  <data name="TuringTitle" xml:space="preserve">
+    <value>图灵机器人</value>
+  </data>
+  <data name="CameraPreviewImage.Text" xml:space="preserve">
+    <value>相机画面预览</value>
+  </data>
+  <data name="ActionEditTitle.Text" xml:space="preserve">
+    <value>电子动作时间轴</value>
+  </data>
 </root>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
@@ -26,6 +24,9 @@ public class ClockViewModel : ObservableRecipient
     private string _day = DateTimeOffset.Now.Day.ToString();
 
     private readonly ClockDiagnosticService _diagnosticService;
+
+    private bool isProcessing = false;
+
 
     public string TodayWeek
     {
@@ -70,30 +71,30 @@ public class ClockViewModel : ObservableRecipient
     }
     private async void OnLoaded()
     {
-        _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-
-        _dispatcherTimer.Tick += DispatcherTimer_Tick;
-
         _dispatcherTimer.Start();
-
-        //var ret = await _localSettingsService.ReadSettingAsync<string>(Constants.CustomClockTitleKey);
 
         var ret2 = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
 
-        //CustomClockTitle = ret ?? "";
-
         ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
 
-        await Task.CompletedTask;
+        _diagnosticService.ClockDiagnosticInfoResult += DiagnosticService_ClockDiagnosticInfoResult;
     }
 
-    private void DispatcherTimer_Tick(object? sender, object e)
+    private void DiagnosticService_ClockDiagnosticInfoResult(object? sender, ClockDiagnosticInfo e)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            ClockDiagnosticInfo = e ?? new ClockDiagnosticInfo();
+        });    
+    }
+
+    private async void DispatcherTimer_Tick(object? sender, object e)
     {
         TodayTime = DateTimeOffset.Now.ToString("T");
         TodayWeek = DateTimeOffset.Now.ToString("ddd");
         Day = DateTimeOffset.Now.Day.ToString();
 
-        //ClockDiagnosticInfo = _diagnosticService.GetClockDiagnosticInfoAsync();
+        _ = await _diagnosticService.InvokeClockViewAsync(sender!);
     }
 
     public ClockViewModel(DispatcherTimer dispatcherTimer,
@@ -104,6 +105,10 @@ public class ClockViewModel : ObservableRecipient
         _dispatcherTimer = dispatcherTimer;
         _diagnosticService = clockDiagnosticService;
         _localSettingsService = localSettingsService;
+
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+
+        _dispatcherTimer.Tick += DispatcherTimer_Tick;
     }
 
 }

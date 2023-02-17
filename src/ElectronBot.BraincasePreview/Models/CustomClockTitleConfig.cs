@@ -9,4 +9,27 @@ public class CustomClockTitleConfig
     {
         get; set;
     } = 16;
+
+    public string ChatGPTSessionKey
+    {
+        get; set;
+    } = "";
+
+    public string TuringAppkey
+    {
+        get; set;
+    } = string.Empty;
+
+    public string TuringUserId
+    {
+        get; set;
+    } = string.Empty;
+
+    /// <summary>
+    /// 手势识别回复文本
+    /// </summary>
+    public string AnswerText
+    {
+        get; set;
+    } = "你想做什么,你需要帮忙吗,我能帮你做些什么,你需要帮助吗";
 }
