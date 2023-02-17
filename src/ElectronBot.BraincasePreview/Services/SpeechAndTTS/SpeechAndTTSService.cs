@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
+using Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Helpers;
+using Verdure.ElectronBot.Core.Models;
 using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
 using Windows.Media.SpeechSynthesis;
@@ -63,6 +65,10 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                 try
                 {
+                    // Set timeout settings.
+                    speechRecognizer.Timeouts.InitialSilenceTimeout = TimeSpan.FromSeconds(3.0);
+                    speechRecognizer.Timeouts.BabbleTimeout = TimeSpan.FromSeconds(2.0);
+                    speechRecognizer.Timeouts.EndSilenceTimeout = TimeSpan.FromSeconds(1.2);
                     await speechRecognizer.ContinuousRecognitionSession.StartAsync();
 
                     //var recognitionOperation = speechRecognizer.RecognizeAsync();
@@ -95,7 +101,20 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             }
         }
     }
-    public Task CancelAsync() => throw new NotImplementedException();
+    public async Task CancelAsync()
+    {
+        try
+        {
+            // Cancelling recognition prevents any currently recognized speech from
+            // generating a ResultGenerated event. StopAsync() will allow the final session to 
+            // complete.
+            await speechRecognizer?.ContinuousRecognitionSession.CancelAsync();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
     public async Task InitializeRecognizerAsync(Language recognizerLanguage)
     {
         await InitializeRecognizer(recognizerLanguage);
@@ -157,7 +176,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             //bili.Probability = SpeechRecognitionConstraintProbability.Max;
             //speechRecognizer.Constraints.Add(bili);
 
-            var webSearchGrammar = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.WebSearch, "webSearch","sound");
+            var webSearchGrammar = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.WebSearch, "webSearch", "sound");
             //webSearchGrammar.Probability = SpeechRecognitionConstraintProbability.Min;
             speechRecognizer.Constraints.Add(webSearchGrammar);
             SpeechRecognitionCompilationResult result = await speechRecognizer.CompileConstraintsAsync();
@@ -196,7 +215,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
     /// <param name="args">The state of the recognizer</param>
     private void ContinuousRecognitionSession_Completed(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionCompletedEventArgs args)
     {
-        if (args.Status != SpeechRecognitionResultStatus.Success)
+        if (args.Status == SpeechRecognitionResultStatus.Success)
         {
             isListening = false;
         }
@@ -215,7 +234,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
         // when generating the grammar.
         var tag = "unknown";
 
-        if (args.Result.Constraint != null)
+        if (args.Result.Constraint != null && isListening)
         {
             tag = args.Result.Constraint.Tag;
 
@@ -246,9 +265,47 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                 await Launcher.LaunchUriAsync(new Uri(@"https://www.bilibili.com/"));
             }
-            else if(args.Result.Text.ToUpper() == "撒个娇")
+            else if (args.Result.Text.ToUpper() == "撒个娇")
             {
                 ElectronBotHelper.Instance.ToPlayEmojisRandom();
+            }
+            else
+            {
+                try
+                {
+                    //var chatGPTClient = App.GetService<IChatGPTService>();
+
+                    //var resultText = await chatGPTClient.AskQuestionResultAsync(args.Result.Text);
+
+                    //await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText);
+
+                    var chatBotClientFactory = App.GetService<IChatbotClientFactory>();
+
+                    var chatBotClientName = (await App.GetService<ILocalSettingsService>()
+                         .ReadSettingAsync<ComboxItemModel>(Constants.DefaultChatBotNameKey))?.DataKey;
+
+                    if (string.IsNullOrEmpty(chatBotClientName))
+                    {
+                        throw new Exception("未配置语音提供程序机密数据");
+                    }
+
+                    var chatBotClient = chatBotClientFactory.CreateChatbotClient(chatBotClientName);
+
+                    var resultText = await chatBotClient.AskQuestionResultAsync(args.Result.Text);
+
+                    //isListening = false;
+                    await ReleaseRecognizerAsync();
+
+                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText, false);      
+                }
+                catch (Exception ex)
+                {
+                    App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(3));
+                    });
+
+                }
             }
         }
         else
@@ -268,7 +325,12 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             ToastHelper.SendToast(args.State.ToString(), TimeSpan.FromSeconds(3));
         });
 
-        if (args.State == SpeechRecognizerState.SoundEnded || args.State == SpeechRecognizerState.Capturing)
+        if (args.State == SpeechRecognizerState.Capturing)
+        {
+            isListening = true;
+        }
+
+        if (args.State == SpeechRecognizerState.SoundEnded)
         {
             isListening = false;
         }

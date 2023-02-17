@@ -8,6 +8,7 @@
     xmlns:helpers="using:ElectronBot.BraincasePreview.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource MainCustomAcrylicBrush}"
     Loaded="OnLoaded">
 
 

@@ -555,4 +555,37 @@
   <data name="Settings_Update.Text" xml:space="preserve">
     <value>更新说明</value>
   </data>
+  <data name="ChatGPT-SessionKey.Text" xml:space="preserve">
+    <value>ChatGPT会话ID：</value>
+  </data>
+  <data name="AnswerText.Text" xml:space="preserve">
+    <value>手势识别语音回复文本：</value>
+  </data>
+  <data name="ChatBotSecurityData.Text" xml:space="preserve">
+    <value>语音对话提供程序配置</value>
+  </data>
+  <data name="ChatBotSecurityDataDesc.Text" xml:space="preserve">
+    <value>提供密钥配置和程序切换</value>
+  </data>
+  <data name="ChatBotType.Text" xml:space="preserve">
+    <value>默认语音提供程序：</value>
+  </data>
+  <data name="ChatGPTTitle" xml:space="preserve">
+    <value>ChatGPT</value>
+  </data>
+  <data name="Turing-AppKey.Text" xml:space="preserve">
+    <value>图灵机器人AppKey：</value>
+  </data>
+  <data name="Turing-UserId.Text" xml:space="preserve">
+    <value>图灵机器人UserId：</value>
+  </data>
+  <data name="TuringTitle" xml:space="preserve">
+    <value>图灵机器人</value>
+  </data>
+  <data name="CameraPreviewImage.Text" xml:space="preserve">
+    <value>相机画面预览</value>
+  </data>
+  <data name="ActionEditTitle.Text" xml:space="preserve">
+    <value>电子动作时间轴</value>
+  </data>
 </root>
