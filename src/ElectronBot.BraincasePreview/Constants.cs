@@ -13,6 +13,8 @@ public class Constants
 
     public const string EmojisFolder = "EmojisAction";
 
+    public const string EmojisTempFileFolder = "EmojisFileTemp";
+
     public const string CustomClockTitleConfigKey = "CustomClockTitleConfigKey";
 
     public const string DefaultCameraNameKey = "DefaultCameraNameKey";

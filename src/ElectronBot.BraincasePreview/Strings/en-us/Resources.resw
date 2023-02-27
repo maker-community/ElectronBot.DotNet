@@ -593,4 +593,7 @@
   <data name="ExportEmojis.Text" xml:space="preserve">
     <value>导出表情文件</value>
   </data>
+  <data name="ImportEmojisFileBtn.Label" xml:space="preserve">
+    <value>导入表情</value>
+  </data>
 </root>

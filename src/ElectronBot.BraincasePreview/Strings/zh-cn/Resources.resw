@@ -594,6 +594,9 @@
     <value>电子动作时间轴</value>
   </data>
   <data name="ExportEmojis.Text" xml:space="preserve">
-    <value>导出表情文件</value>
+    <value>导出表情</value>
+  </data>
+  <data name="ImportEmojisFileBtn.Label" xml:space="preserve">
+    <value>导入表情</value>
   </data>
 </root>

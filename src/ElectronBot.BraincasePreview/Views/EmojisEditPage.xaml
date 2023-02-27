@@ -59,8 +59,22 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
             <AppBarButton
+                x:Uid="ImportEmojisFileBtn"
+                Margin="8"
+                HorizontalAlignment="Right"
+                Command="{x:Bind ViewModel.ImportEmojisFileCommand}"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                        FontWeight="Bold"
+                        Glyph="&#xECC8;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton
+                Margin="8"
                 x:Uid="AddEmojisBtn"
                 HorizontalAlignment="Right"
                 Command="{x:Bind ViewModel.OpenEmojisEditDialogCommand}"
@@ -69,7 +83,7 @@
                     <FontIcon
                         FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
                         FontWeight="Bold"
-                        Glyph="&#xECC8;" />
+                        Glyph="&#xE104;" />
                 </AppBarButton.Icon>
             </AppBarButton>
         </StackPanel>
