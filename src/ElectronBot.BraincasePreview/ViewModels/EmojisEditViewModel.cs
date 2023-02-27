@@ -3,11 +3,13 @@ using System.Text.Json;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml.Controls;
+using Services;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -46,12 +48,42 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
     private readonly ILocalSettingsService _localSettingsService;
 
-
+    private readonly IEmojisFileService _emojisFileService;
     public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider,
-        ILocalSettingsService localSettingsService)
+        ILocalSettingsService localSettingsService,
+        IEmojisFileService emojisFileService)
     {
         _actionExpressionProvider = actionExpressionProvider;
         _localSettingsService = localSettingsService;
+        _emojisFileService = emojisFileService;
+    }
+
+
+    [RelayCommand]
+    public async void ExportEmojis(object? obj)
+    {
+        if (obj == null)
+        {
+            ToastHelper.SendToast("请选中一个表情", TimeSpan.FromSeconds(3));
+            return;
+        }
+        if (obj is EmoticonAction emojis)
+        {
+            try
+            {
+                //if (emojis.EmojisType == EmojisType.Default)
+                //{
+                //    ToastHelper.SendToast("默认表情禁止导出", TimeSpan.FromSeconds(3));
+                //    return;
+                //}
+                await _emojisFileService.ExportEmojisFileToLocalAsync(emojis);
+            }
+            catch (Exception ex)
+            {
+                ToastHelper.SendToast($"导出错误-{ex.Message}", TimeSpan.FromSeconds(3));
+            }
+            //ToastHelper.SendToast("导出成功", TimeSpan.FromSeconds(3));
+        }
     }
 
     [RelayCommand]

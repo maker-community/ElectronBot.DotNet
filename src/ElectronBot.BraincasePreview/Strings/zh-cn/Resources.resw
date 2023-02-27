@@ -593,4 +593,7 @@
   <data name="ActionEditTitle.Text" xml:space="preserve">
     <value>电子动作时间轴</value>
   </data>
+  <data name="ExportEmojis.Text" xml:space="preserve">
+    <value>导出表情文件</value>
+  </data>
 </root>

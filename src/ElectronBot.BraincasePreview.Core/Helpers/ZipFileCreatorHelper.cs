@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ICSharpCode.SharpZipLib.Zip;
 
 namespace Verdure.ElectronBot.Core.Helpers;
 public static class ZipFileCreatorHelper
@@ -15,23 +8,29 @@ public static class ZipFileCreatorHelper
     /// </summary>
     /// <param name="files">The files to add to the ZIP file.</param>
     /// <param name="zipPath">The path of the ZIP file to create.</param>
-    public static void CreateZipFile(IEnumerable<string> files, string zipPath)
+    public static void CreateZipFile(IEnumerable<string> files, string zipPath, string password = null)
     {
-        //Create a ZIP archive at the specified path
-        using (var zipArchive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
+        // Create a zip output stream
+        using (var zipStream = new ZipOutputStream(File.Create(zipPath)))
         {
-            //Add each file to the archive
-            foreach (var filePath in files)
+            // Set password
+            if (!string.IsNullOrWhiteSpace(password))
             {
-                //Get the file name from the full path
-                var fileName = Path.GetFileName(filePath);
+                zipStream.Password = password;
+            }
 
-                //Create an entry for this file and copy its contents to it
-                var zipEntry = zipArchive.CreateEntry(fileName);
-                using (var zipEntryStream = zipEntry.Open())
-                using (var fileStream = File.OpenRead(filePath))
+            // Loop through files to compress
+            foreach (var file in files)
+            {
+                // Create a zip entry for each file
+                var entry = new ZipEntry(Path.GetFileName(file));
+                entry.DateTime = DateTime.Now;
+                zipStream.PutNextEntry(entry);
+
+                // Copy file content to zip stream
+                using (var fs = File.OpenRead(file))
                 {
-                    fileStream.CopyTo(zipEntryStream);
+                    fs.CopyTo(zipStream);
                 }
             }
         }
@@ -44,8 +43,44 @@ public static class ZipFileCreatorHelper
     /// <param name="extractPath">The directory to extract the files to.</param>
     public static void ExtractZipFile(string zipPath, string extractPath)
     {
-        //Extract all entries from the ZIP archive to the specified directory
-        ZipFile.ExtractToDirectory(zipPath, extractPath);
+        // 创建一个ZipInputStream对象，并打开要解压的文件
+        using (var zipStream = new ZipInputStream(File.OpenRead(zipPath)))
+        {
+            ZipEntry entry;
+
+            // 循环读取每个条目
+            while ((entry = zipStream.GetNextEntry()) != null)
+            {
+                // 获取条目的完整路径
+                string entryPath = Path.Combine(extractPath, entry.Name);
+
+                // 如果条目是一个目录，则创建该目录
+                if (entry.IsDirectory)
+                {
+                    Directory.CreateDirectory(entryPath);
+                }
+                else // 如果条目是一个文件，则创建该文件并写入数据
+                {
+                    // 创建父级目录，如果不存在的话
+                    Directory.CreateDirectory(Path.GetDirectoryName(entryPath));
+
+                    // 创建一个FileStream对象，并打开要写入的文件
+                    using (var fileStream = File.Create(entryPath))
+                    {
+                        // 创建一个缓冲区，用于存储从ZipInputStream中读取的数据
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+
+                        // 循环读取数据，直到达到文件末尾
+                        while ((bytesRead = zipStream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            // 将数据写入FileStream中
+                            fileStream.Write(buffer, 0, bytesRead);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -102,6 +102,16 @@
                         </i:Interaction.Behaviors>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
+                        x:Name="ExportEmojis"
+                        x:Uid="ExportEmojis"
+                        Foreground="Green">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Click">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ExportEmojisCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
                         x:Name="DelPic"
                         x:Uid="DelEmojis"
                         Foreground="Red">
