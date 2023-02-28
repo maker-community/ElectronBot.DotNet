@@ -62,7 +62,10 @@ public partial class EmojisEditViewModel : ObservableRecipient
         _emojisFileService = emojisFileService;
     }
 
-
+    /// <summary>
+    /// 导出表情
+    /// </summary>
+    /// <param name="obj"></param>
     [RelayCommand]
     public async void ExportEmojis(object? obj)
     {
@@ -75,11 +78,11 @@ public partial class EmojisEditViewModel : ObservableRecipient
         {
             try
             {
-                //if (emojis.EmojisType == EmojisType.Default)
-                //{
-                //    ToastHelper.SendToast("默认表情禁止导出", TimeSpan.FromSeconds(3));
-                //    return;
-                //}
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    ToastHelper.SendToast("默认表情禁止导出", TimeSpan.FromSeconds(3));
+                    return;
+                }
                 await _emojisFileService.ExportEmojisFileToLocalAsync(emojis);
             }
             catch (Exception ex)
@@ -121,7 +124,8 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
                 var fileNames = await storageFolder.GetFilesAsync();
 
-                var nameId = string.Empty;
+                var list = (await _localSettingsService
+                    .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
 
                 var action = new EmoticonAction();
 
@@ -142,41 +146,37 @@ public partial class EmojisEditViewModel : ObservableRecipient
                         }
                         else
                         {
-                            if (fileItem.FileType == ".mp4")
+                            if (list.Where(e => e.NameId == fileItem.DisplayName).Any() || Constants.EMOJI_ACTION_LIST.Where(e => e.NameId == fileItem.DisplayName).Any())
                             {
-                                action.EmojisVideoPath = fileItem.Path;
-                            }
-                            else if (fileItem.FileType == ".png" ||
-                                fileItem.FileType == ".jpg" ||
-                                fileItem.FileType == ".jpeg")
-                            {
-                                action.Avatar = fileItem.Path;
-                            }
-                            else if (fileItem.FileType == ".json")
-                            {
-                                action.EmojisActionPath = fileItem.Path;
+                                ToastHelper.SendToast("EmojisNameIdAlreadyExists".GetLocalized(), TimeSpan.FromSeconds(3));
+
+                                return;
                             }
 
-                            //var actionFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+                            var actionFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
 
-                            //var storageFile = await actionFolder
-                            //    .CreateFileAsync(fileItem.Name, CreationCollisionOption.FailIfExists);
+                            var storageFile = await actionFolder
+                                .CreateFileAsync(fileItem.Name, CreationCollisionOption.OpenIfExists);
 
-                            //await FileIO.WriteBytesAsync(storageFile, await fileItem.ReadBytesAsync());
+                            await FileIO.WriteBytesAsync(storageFile, await fileItem.ReadBytesAsync());
+
+                            if (storageFile.FileType == ".mp4")
+                            {
+                                action.EmojisVideoPath = storageFile.Path;
+                            }
+                            else if (storageFile.FileType == ".png" ||
+                                storageFile.FileType == ".jpg" ||
+                                storageFile.FileType == ".jpeg")
+                            {
+                                action.Avatar = storageFile.Path;
+                            }
+                            else if (storageFile.FileType == ".json")
+                            {
+                                action.EmojisActionPath = storageFile.Path;
+                            }
                         }
                     }
 
-
-
-                    var list = (await _localSettingsService
-                        .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
-
-                    if (list.Where(e => e.NameId == nameId).Any() || Constants.EMOJI_ACTION_LIST.Where(e => e.NameId == nameId).Any())
-                    {
-                        ToastHelper.SendToast("EmojisNameIdAlreadyExists".GetLocalized(), TimeSpan.FromSeconds(3));
-
-                        return;
-                    }
                     var actions = new List<EmoticonAction>()
                     {
                         action
@@ -185,8 +185,13 @@ public partial class EmojisEditViewModel : ObservableRecipient
                     list.AddRange(actions);
 
                     await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
+
+                    Actions.Add(action);
+
+                    await storageFolder.DeleteAsync();
                 }
             }
+            ToastHelper.SendToast("导入成功", TimeSpan.FromSeconds(3));
         }
         catch (Exception ex)
         {
@@ -214,10 +219,35 @@ public partial class EmojisEditViewModel : ObservableRecipient
                 Actions.Remove(emojis);
 
                 await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, Actions.ToList());
-            }
-            catch (Exception)
-            {
 
+                var folder = ApplicationData.Current.LocalFolder;
+
+                var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+                var avatarName = Path.GetFileName(emojis.Avatar);
+
+                var avatarFile = await storageFolder.GetFileAsync(avatarName);
+
+                await avatarFile.DeleteAsync();
+
+                var videoName = Path.GetFileName(emojis.EmojisVideoPath);
+
+                var videoFile = await storageFolder.GetFileAsync(videoName);
+
+                await videoFile.DeleteAsync();
+
+                if (emojis.HasAction)
+                {
+                    var actionName = Path.GetFileName(emojis.EmojisActionPath);
+
+                    var actionFile = await storageFolder.GetFileAsync(actionName);
+
+                    await actionFile.DeleteAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                ToastHelper.SendToast($"删除失败-{ex.Message}", TimeSpan.FromSeconds(3));
             }
         }
     }

@@ -420,6 +420,29 @@
                     电子调试助手下载链接
                 </HyperlinkButton>
 
+                <StackPanel Margin="8">
+                    <Button
+                        x:Name="call"
+                        Background="{ThemeResource MainCustomAcrylicBrush}"
+                        Command="{x:Bind ViewModel.FeedbackBtnCommand}">
+                        <Button.Content>
+                            <StackPanel>
+                                <FontIcon
+                                    FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                    FontSize="80"
+                                    Glyph="&#xE1A8;" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                    FontSize="24"
+                                    Text="反馈点我" />
+                            </StackPanel>
+
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+
+
                 <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">

@@ -8,6 +8,7 @@ using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml;
 using Verdure.ElectronBot.Core.Models;
+using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
@@ -288,7 +289,12 @@ public class EmojisInfoDialogViewModel : ObservableRecipient
     {
         if (!string.IsNullOrWhiteSpace(obj))
         {
-            var json = File.ReadAllText(obj);
+            var actionJson = obj;
+            if (obj == "defaultaction.json")
+            {
+                actionJson = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\defaultaction.json";
+            }
+            var json = File.ReadAllText(actionJson);
 
             try
             {

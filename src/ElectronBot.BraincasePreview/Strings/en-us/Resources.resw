@@ -493,7 +493,7 @@
     <value>此表情Id已存在</value>
   </data>
   <data name="EmojisNameIdOnlyEn" xml:space="preserve">
-    <value>表情标识只支持英文字母</value>
+    <value>表情标识只支持英文字母和数字</value>
   </data>
   <data name="EmojisVideoAddTB.Text" xml:space="preserve">
     <value>添加视频按钮：</value>
@@ -544,7 +544,11 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.4.1 版本更新说明
+    <value>1.4.2 版本更新说明
+1. 添加表情的导入导出功能
+2. 添加邮件反馈链接，可以直接点击进行功能建议和BUG反馈。
+
+1.4.1 版本更新说明
 1. 调整电子脑壳主题色，恢复到重构之前的颜色。
 2. 加入ChatGPT和图灵机器人配置，图灵机器人请在图灵机器人官网申请然后将AppKey放入到电子脑壳配置里。
 3. 优化UI样式。

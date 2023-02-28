@@ -73,11 +73,14 @@ public class EmojisFileService : IEmojisFileService
         else if (emoticonAction != null && emoticonAction.EmojisType == EmojisType.Custom)
         {
             filePaths.Add(emoticonAction.Avatar);
-            filePaths.Add(emoticonAction.EmojisActionPath);
-            if (!string.IsNullOrEmpty(emoticonAction.EmojisVideoPath))
+            filePaths.Add(emoticonAction.EmojisVideoPath);
+            if (emoticonAction.HasAction)
             {
-                filePaths.Add(emoticonAction.EmojisVideoPath);
-            }
+                if (!string.IsNullOrWhiteSpace(emoticonAction.EmojisActionPath))
+                {
+                    filePaths.Add(emoticonAction.EmojisActionPath);
+                }
+            }     
         }
 
         ZipFileCreatorHelper.CreateZipFile(filePaths, destinationFile.Path);
