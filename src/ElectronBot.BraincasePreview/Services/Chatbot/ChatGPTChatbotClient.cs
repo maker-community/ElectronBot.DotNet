@@ -1,11 +1,12 @@
 ﻿using ChatGPT.Net;
 using ChatGPT.Net.DTO;
-using ChatGPT.Net.Enums;
 using ChatGPT.Net.Session;
 using Contracts.Services;
 using ElectronBot.BraincasePreview;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
+using OpenAI.Net;
+using OpenAI.Net.Completions;
 
 namespace Services;
 public class ChatGPTChatbotClient : IChatbotClient
@@ -18,10 +19,14 @@ public class ChatGPTChatbotClient : IChatbotClient
 
     private ChatGptClient? chatGptClient;
 
-    public ChatGPTChatbotClient(ILocalSettingsService localSettingsService)
+    private VerdureOpenAIClient? openAIClient;
+
+    private IHttpClientFactory _httpClientFactory;
+    public ChatGPTChatbotClient(ILocalSettingsService localSettingsService,
+        IHttpClientFactory httpClientFactory)
     {
         _localSettingsService = localSettingsService;
-
+        _httpClientFactory = httpClientFactory;
         chatGpt = new ChatGpt(new ChatGptConfig
         {
             UseCache = true
@@ -37,12 +42,18 @@ public class ChatGPTChatbotClient : IChatbotClient
             throw new Exception("配置为空");
         }
 
-        chatGptClient ??= await chatGpt.CreateClient(new ChatGptClientConfig
+        openAIClient ??= new VerdureOpenAIClient(_httpClientFactory, result.ChatGPTSessionKey);
+
+        var completion = await openAIClient.CreateCompletionAsync(new CompletionRequest()
         {
-            SessionToken = result.ChatGPTSessionKey,
-            AccountType = AccountType.Free
+            Prompt = new string[] { message },
+            Model = "text-davinci-003",
+            MaxTokens = 50,
+            Temperature = 0,
+            TopP = 1,
+            N = 1
         });
-        var conversationId = "a-unique-string-id";
-        return await chatGptClient.Ask(message, conversationId);
+
+        return completion.Choices.FirstOrDefault()?.Text ?? "";
     }
 }

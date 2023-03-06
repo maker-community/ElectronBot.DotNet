@@ -134,6 +134,7 @@
     <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+    <PackageReference Include="Hobo.OpenAI" Version="1.0.1" />
     <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.13.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />

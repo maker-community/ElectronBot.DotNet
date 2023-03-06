@@ -562,7 +562,7 @@
     <value>更新说明</value>
   </data>
   <data name="ChatGPT-SessionKey.Text" xml:space="preserve">
-    <value>ChatGPT会话ID：</value>
+    <value>ChatGPT AppKey：</value>
   </data>
   <data name="AnswerText.Text" xml:space="preserve">
     <value>手势识别语音回复文本：</value>
