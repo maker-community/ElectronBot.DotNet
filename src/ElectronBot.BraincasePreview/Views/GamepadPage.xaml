@@ -54,7 +54,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="top"
             Orientation="Vertical">
-            <ComboBox
+            <!--<ComboBox
                 x:Name="GamepadViewCB"
                 x:Uid="GamepadViewCB"
                 Width="120"
@@ -67,7 +67,7 @@
                         <ic:InvokeCommandAction Command="{x:Bind ViewModel.GamePadSelectCommand}" CommandParameter="{x:Bind GamepadViewCB.SelectedItem, Mode=TwoWay}" />
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
-            </ComboBox>
+            </ComboBox>-->
             <Canvas Width="400" Height="400">
                 <Image
                     Width="400"
