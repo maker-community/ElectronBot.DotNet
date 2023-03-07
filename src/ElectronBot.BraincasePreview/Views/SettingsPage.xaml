@@ -499,7 +499,7 @@
                     <TextBlock
                         x:Uid="Settings_AboutUpdate"
                         MaxWidth="500"
-                        Margin="{StaticResource XSmallTopMargin}"
+                        Margin="0,8,0,24"
                         HorizontalAlignment="Left"
                         Style="{ThemeResource BodyTextBlockStyle}" />
                 </StackPanel>

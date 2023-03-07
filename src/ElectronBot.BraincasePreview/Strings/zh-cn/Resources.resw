@@ -547,7 +547,11 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.4.2 版本更新说明
+    <value>1.4.3 版本更新说明
+1. 调整ChatGPT对接改成ApiKey对接，更加人性化。
+2. 开放手柄控制页面，目前支持Xbox手柄控制电子。
+
+1.4.2 版本更新说明
 1. 添加表情的导入导出功能
 2. 添加邮件反馈链接，可以直接点击进行功能建议和BUG反馈。
 
