@@ -487,6 +487,10 @@
                         x:Uid="ElectronBotInfo"
                         Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
                         NavigateUri="https://github.com/maker-community/ElectronBot.Braincase" />
+                    <HyperlinkButton
+                        x:Uid="ElectronBotCode"
+                        Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
+                        NavigateUri="https://github.com/maker-community/ElectronBot.DotNet" />
                 </StackPanel>
 
                 <TextBlock x:Uid="Settings_Update" Style="{ThemeResource SubtitleTextBlockStyle}" />

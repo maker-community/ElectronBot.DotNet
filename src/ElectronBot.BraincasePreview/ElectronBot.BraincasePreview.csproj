@@ -130,11 +130,11 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ChatGPTSharp" Version="1.0.8" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <PackageReference Include="Hobo.OpenAI" Version="1.0.1" />
     <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.13.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
@@ -145,7 +145,6 @@
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="System.Management" Version="7.0.0" />
     <PackageReference Include="WinUIEx" Version="2.1.0" />
-	<PackageReference Include="ChatGPT.Net" Version="1.1.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -251,10 +250,6 @@
 
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="VFS\Configs\" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

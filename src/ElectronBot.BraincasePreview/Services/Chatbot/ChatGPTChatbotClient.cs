@@ -1,12 +1,9 @@
-﻿using ChatGPT.Net;
-using ChatGPT.Net.DTO;
-using ChatGPT.Net.Session;
+﻿
+using ChatGPTSharp;
 using Contracts.Services;
 using ElectronBot.BraincasePreview;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
-using OpenAI.Net;
-using OpenAI.Net.Completions;
 
 namespace Services;
 public class ChatGPTChatbotClient : IChatbotClient
@@ -15,22 +12,10 @@ public class ChatGPTChatbotClient : IChatbotClient
 
     private readonly ILocalSettingsService _localSettingsService;
 
-    private readonly ChatGpt chatGpt;
-
-    private ChatGptClient? chatGptClient;
-
-    private VerdureOpenAIClient? openAIClient;
-
-    private IHttpClientFactory _httpClientFactory;
-    public ChatGPTChatbotClient(ILocalSettingsService localSettingsService,
-        IHttpClientFactory httpClientFactory)
+    private ChatGPTClient? _chatGptClient;
+    public ChatGPTChatbotClient(ILocalSettingsService localSettingsService)
     {
         _localSettingsService = localSettingsService;
-        _httpClientFactory = httpClientFactory;
-        chatGpt = new ChatGpt(new ChatGptConfig
-        {
-            UseCache = true
-        });
     }
     public async Task<string> AskQuestionResultAsync(string message)
     {
@@ -42,18 +27,10 @@ public class ChatGPTChatbotClient : IChatbotClient
             throw new Exception("配置为空");
         }
 
-        openAIClient ??= new VerdureOpenAIClient(_httpClientFactory, result.ChatGPTSessionKey);
+        _chatGptClient ??= new ChatGPTClient(result.ChatGPTSessionKey, "gpt-3.5-turbo");
 
-        var completion = await openAIClient.CreateCompletionAsync(new CompletionRequest()
-        {
-            Prompt = new string[] { message },
-            Model = "text-davinci-003",
-            MaxTokens = 50,
-            Temperature = 0,
-            TopP = 1,
-            N = 1
-        });
+        var msg = await _chatGptClient.SendMessage(message);
 
-        return completion.Choices.FirstOrDefault()?.Text ?? "";
+        return msg.Response ?? "";
     }
 }

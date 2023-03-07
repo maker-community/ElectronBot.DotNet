@@ -600,4 +600,7 @@
   <data name="ImportEmojisFileBtn.Label" xml:space="preserve">
     <value>导入表情</value>
   </data>
+  <data name="ElectronBotCode.Content" xml:space="preserve">
+    <value>电子脑壳源码地址</value>
+  </data>
 </root>

@@ -151,8 +151,6 @@ public partial class App : Application
 
             services.AddTransient<ImageCropperPage>();
 
-            services.AddTransient<IChatGPTService, ChatGPTService>();
-
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 
             services.AddTransient<IClockViewProvider, DefaultClockViewProvider>();
