@@ -1,4 +1,5 @@
-﻿using Controls;
+﻿using Contracts.Services;
+using Controls;
 using ElectronBot.BraincasePreview.Activation;
 using ElectronBot.BraincasePreview.ClockViews;
 using ElectronBot.BraincasePreview.Contracts.Services;
@@ -77,6 +78,8 @@ public partial class App : Application
             // Other Activation Handlers
             services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
 
+
+            services.AddHttpClient();
             // Services
             services.AddSingleton<IAppNotificationService, AppNotificationService>();
             services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
@@ -94,6 +97,8 @@ public partial class App : Application
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();
+
+            services.AddTransient<IEmojisFileService, EmojisFileService>();
 
             services.AddTransient<IElectronLowLevel, ElectronLowLevel>();
 
@@ -163,6 +168,13 @@ public partial class App : Application
             services.AddSingleton<EmoticonActionFrameService>();
 
             services.AddSingleton<GestureClassificationService>();
+
+
+            services.AddTransient<IChatbotClient, ChatGPTChatbotClient>();
+
+            services.AddTransient<IChatbotClient, TuringChatbotClient>();
+
+            services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
 
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>

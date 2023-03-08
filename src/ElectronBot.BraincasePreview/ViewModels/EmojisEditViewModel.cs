@@ -3,11 +3,14 @@ using System.Text.Json;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml.Controls;
+using Models;
+using Verdure.ElectronBot.Core.Helpers;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -46,12 +49,154 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
     private readonly ILocalSettingsService _localSettingsService;
 
+    private readonly IEmojisFileService _emojisFileService;
 
+
+    private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider,
-        ILocalSettingsService localSettingsService)
+        ILocalSettingsService localSettingsService,
+        IEmojisFileService emojisFileService)
     {
         _actionExpressionProvider = actionExpressionProvider;
         _localSettingsService = localSettingsService;
+        _emojisFileService = emojisFileService;
+    }
+
+    /// <summary>
+    /// 导出表情
+    /// </summary>
+    /// <param name="obj"></param>
+    [RelayCommand]
+    public async void ExportEmojis(object? obj)
+    {
+        if (obj == null)
+        {
+            ToastHelper.SendToast("请选中一个表情", TimeSpan.FromSeconds(3));
+            return;
+        }
+        if (obj is EmoticonAction emojis)
+        {
+            try
+            {
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    ToastHelper.SendToast("默认表情禁止导出", TimeSpan.FromSeconds(3));
+                    return;
+                }
+                await _emojisFileService.ExportEmojisFileToLocalAsync(emojis);
+            }
+            catch (Exception ex)
+            {
+                ToastHelper.SendToast($"导出错误-{ex.Message}", TimeSpan.FromSeconds(3));
+            }
+            //ToastHelper.SendToast("导出成功", TimeSpan.FromSeconds(3));
+        }
+    }
+
+    /// <summary>
+    /// 导入表情文件
+    /// </summary>
+    [RelayCommand]
+    public async Task ImportEmojisFileAsync()
+    {
+        try
+        {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker
+            {
+                ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
+            };
+
+            picker.FileTypeFilter.Add(".zip");
+
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, _hwnd);
+
+            var file = await picker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                var folder = ApplicationData.Current.LocalFolder;
+
+                var storageFolder = await folder.CreateFolderAsync(Constants.EmojisTempFileFolder, CreationCollisionOption.OpenIfExists);
+
+                ZipFileCreatorHelper.ExtractZipFile(file.Path, storageFolder.Path);
+
+                var fileNames = await storageFolder.GetFilesAsync();
+
+                var list = (await _localSettingsService
+                    .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+                var action = new EmoticonAction();
+
+                if (fileNames != null && fileNames.Count > 0)
+                {
+                    foreach (var fileItem in fileNames)
+                    {
+                        if (fileItem.Name.Contains("manifest"))
+                        {
+                            var text = await FileIO.ReadTextAsync(fileItem);
+
+                            var emojisFileInfo = JsonSerializer.Deserialize<EmojisFileManifest>(text) ?? throw new Exception("表情不存在");
+                            action.Name = emojisFileInfo.Name;
+                            action.NameId = emojisFileInfo.NameId;
+                            action.Desc = emojisFileInfo.Description;
+                            action.EmojisType = emojisFileInfo.EmojisType;
+                            action.HasAction = emojisFileInfo.HasAction;
+                        }
+                        else
+                        {
+                            if (list.Where(e => e.NameId == fileItem.DisplayName).Any() || Constants.EMOJI_ACTION_LIST.Where(e => e.NameId == fileItem.DisplayName).Any())
+                            {
+                                ToastHelper.SendToast("EmojisNameIdAlreadyExists".GetLocalized(), TimeSpan.FromSeconds(3));
+
+                                return;
+                            }
+
+                            var actionFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+                            var storageFile = await actionFolder
+                                .CreateFileAsync(fileItem.Name, CreationCollisionOption.OpenIfExists);
+
+                            await FileIO.WriteBytesAsync(storageFile, await fileItem.ReadBytesAsync());
+
+                            if (storageFile.FileType == ".mp4")
+                            {
+                                action.EmojisVideoPath = storageFile.Path;
+                            }
+                            else if (storageFile.FileType == ".png" ||
+                                storageFile.FileType == ".jpg" ||
+                                storageFile.FileType == ".jpeg")
+                            {
+                                action.Avatar = storageFile.Path;
+                            }
+                            else if (storageFile.FileType == ".json")
+                            {
+                                action.EmojisActionPath = storageFile.Path;
+                            }
+                        }
+                    }
+
+                    var actions = new List<EmoticonAction>()
+                    {
+                        action
+                    };
+
+                    list.AddRange(actions);
+
+                    await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
+
+                    Actions.Add(action);
+
+                    await storageFolder.DeleteAsync();
+                }
+            }
+            ToastHelper.SendToast("导入成功", TimeSpan.FromSeconds(3));
+        }
+        catch (Exception ex)
+        {
+            ToastHelper.SendToast($"导入失败-{ex.Message}", TimeSpan.FromSeconds(3));
+        }
     }
 
     [RelayCommand]
@@ -74,10 +219,35 @@ public partial class EmojisEditViewModel : ObservableRecipient
                 Actions.Remove(emojis);
 
                 await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, Actions.ToList());
-            }
-            catch (Exception)
-            {
 
+                var folder = ApplicationData.Current.LocalFolder;
+
+                var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+                var avatarName = Path.GetFileName(emojis.Avatar);
+
+                var avatarFile = await storageFolder.GetFileAsync(avatarName);
+
+                await avatarFile.DeleteAsync();
+
+                var videoName = Path.GetFileName(emojis.EmojisVideoPath);
+
+                var videoFile = await storageFolder.GetFileAsync(videoName);
+
+                await videoFile.DeleteAsync();
+
+                if (emojis.HasAction)
+                {
+                    var actionName = Path.GetFileName(emojis.EmojisActionPath);
+
+                    var actionFile = await storageFolder.GetFileAsync(actionName);
+
+                    await actionFile.DeleteAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                ToastHelper.SendToast($"删除失败-{ex.Message}", TimeSpan.FromSeconds(3));
             }
         }
     }

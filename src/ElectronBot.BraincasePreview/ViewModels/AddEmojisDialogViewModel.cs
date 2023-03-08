@@ -9,7 +9,6 @@ using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
@@ -153,7 +152,7 @@ public class AddEmojisDialogViewModel : ObservableRecipient
             return;
         }
 
-        if (!Regex.IsMatch(EmojisNameId, "^[A-Za-z]+$"))
+        if (!Regex.IsMatch(EmojisNameId, "^[A-Za-z0-9]+$"))
         {
             ToastHelper.SendToast("EmojisNameIdOnlyEn".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
@@ -228,7 +227,7 @@ public class AddEmojisDialogViewModel : ObservableRecipient
             return;
         }
 
-        if (!Regex.IsMatch(EmojisNameId, "^[A-Za-z]+$"))
+        if (!Regex.IsMatch(EmojisNameId, "^[A-Za-z0-9]+$"))
         {
             ToastHelper.SendToast("EmojisNameIdOnlyEn".GetLocalized(), TimeSpan.FromSeconds(3));
             return;
@@ -302,7 +301,7 @@ public class AddEmojisDialogViewModel : ObservableRecipient
         }
 
 
-        if (!Regex.IsMatch(EmojisNameId, "^[A-Za-z]+$"))
+        if (!Regex.IsMatch(EmojisNameId, "^[A-Za-z0-9]+$"))
         {
             ToastHelper.SendToast("EmojisNameIdOnlyEn".GetLocalized(), TimeSpan.FromSeconds(3));
 
