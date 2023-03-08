@@ -5,18 +5,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using ElectronBot.BraincasePreview.Core.Models;
+using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Services.EbotGrpcService;
 using Microsoft.UI.Xaml;
 using Verdure.ElectronBot.Core.Models;
+using Windows.ApplicationModel;
 using Windows.Gaming.Input;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
 public class GamepadViewModel : ObservableRecipient, INavigationAware
 {
-    private Gamepad? _controller;
+    private static Gamepad? _controller;
 
     private ICommand _gamePadSelectCommand;
     public ICommand GamePadSelectCommand => _gamePadSelectCommand ??= new RelayCommand<object>(GamepadChanged);
@@ -51,12 +51,13 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
 
     private bool isReleaseRightThumbstick = false;
 
+    float j1 = 0, j2 = 0, j3 = 0, j4 = 0, j5 = 0, j6 = 0;
+
+
 
     private int btnCount = 0;
     public GamepadViewModel()
     {
-        Gamepad.GamepadAdded += Gamepad_GamepadAdded;
-        Gamepad.GamepadRemoved += Gamepad_GamepadRemoved;
     }
 
     public string LeftX
@@ -137,7 +138,7 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
 
     private void Gamepad_GamepadRemoved(object? sender, Gamepad e)
     {
-
+        _controller = null;
     }
     private void Gamepad_GamepadAdded(object? sender, Gamepad e)
     {
@@ -146,6 +147,9 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
 
     public void OnNavigatedTo(object parameter)
     {
+        Gamepad.GamepadAdded += Gamepad_GamepadAdded;
+        Gamepad.GamepadRemoved += Gamepad_GamepadRemoved;
+
         _dispatcherTimer.Start();
 
         _dispatcherTimer.Interval = new TimeSpan(100);
@@ -174,92 +178,17 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
             RightThumbstickX = reading.RightThumbstickX;
             RightThumbstickY = reading.RightThumbstickY;
 
-
-            var init1 = 0;
-
-            var init2 = 0;
-
-            var init3 = 0;
-
-            var init4 = 0;
-
-            var enableA = 0;
-
-            var enableB = 0;
-
-            //左转
-            if (reading.LeftThumbstickX < 0)
-            {
-                init1 = 1;
-
-                init2 = 0;
-
-                init3 = 1;
-
-                init4 = 0;
-            }
-
-            //右转
-
-            if (reading.LeftThumbstickX > 0)
-            {
-                init1 = 0;
-
-                init2 = 1;
-
-                init3 = 0;
-
-                init4 = 1;
-            }
-
-            //后退
-
-            if (reading.LeftTrigger > 0)
-            {
-                init1 = 1;
-
-                init2 = 0;
-
-                init3 = 0;
-
-                init4 = 1;
-            }
-
-            //前进
-
-            if (reading.RightTrigger > 0)
-            {
-                init1 = 0;
-
-                init2 = 1;
-
-                init3 = 1;
-
-                init4 = 0;
-            }
-
-
-            if ((int)reading.LeftThumbstickX == 0 && (int)reading.RightTrigger == 0 && (int)reading.LeftTrigger == 0)
-            {
-                init1 = 0;
-
-                init2 = 0;
-
-                init3 = 0;
-
-                init4 = 0;
-            }
-
-            var data = new MotorControlRequestModel
-            {
-                Init1 = init1,
-                Init2 = init2,
-                Init3 = init3,
-                Init4 = init4,
-                EnableA = enableA,
-                EnableB = enableB
-            };
-
+            //左边的推杆 值范围 -1 0 1 控制底部舵机 12号 -90 0 90
+            var leftX = reading.LeftThumbstickX;
+            var leftY = reading.LeftThumbstickY;
+            //右边的推杆 值范围 -1 0 1 展开 -30 0 30 小于0 4号 大于0 8号
+            var rightX = reading.RightThumbstickX;
+            //右边的推杆上下 -1 0 1 头部上下 -15 0 15 2号
+            var rightY = reading.RightThumbstickY;
+            //左边扳机 值范围 0 1 旋转 0 180 6号
+            var pbLeft = reading.LeftTrigger;
+            //右边扳机 值范围 0 1 旋转 0 180 8号
+            var pbRight = reading.RightTrigger;
 
             //发送表情
             if (reading.Buttons.HasFlag(GamepadButtons.A) && isHoldRightThumbstick == false)
@@ -276,10 +205,22 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
 
                     var action = list[r];
 
+                    string? videoPath;
+
+                    if (action.EmojisType == EmojisType.Default)
+                    {
+                        videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{action.NameId}.mp4";
+                    }
+                    else
+                    {
+                        videoPath = action.EmojisVideoPath;
+                    }
+                    _ = ElectronBotHelper.Instance.MediaPlayerPlaySoundAsync(videoPath);
+
                     await App.GetService<IActionExpressionProvider>().PlayActionExpressionAsync(action);
                 }
             }
-            else if(reading.Buttons.HasFlag(GamepadButtons.A) && isHoldRightThumbstick == true)
+            else if (reading.Buttons.HasFlag(GamepadButtons.A) && isHoldRightThumbstick == true)
             {
                 //摁下不做处理
             }
@@ -287,11 +228,38 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
             {
                 try
                 {
+                    j1 = (float)(rightY * 15.0);
 
-                    //通过grpc通讯和树莓派传输数据 
-                    var grpcClient = App.GetService<EbGrpcService>();
 
-                    _ = await grpcClient.MotorControlAsync(data);
+                    if (rightX < 0)
+                    {
+                        j4 = -(float)(rightX * 30.0);
+                    }
+                    else
+                    {
+                        j2 = (float)(rightX * 30.0);
+                    }
+
+
+
+                    j3 = (float)(pbRight * 180.0);
+
+                    j5 = (float)(pbLeft * 180.0);
+
+                    j6 = (float)(leftX * 90.0);
+
+
+                    await Task.Run(() =>
+                    {
+                        if (ElectronBotHelper.Instance.EbConnected)
+                        {
+                            var data = new byte[240 * 240 * 3];
+
+                            var frame = new EmoticonActionFrame(data, true, j1, j2, j3, j4, j5, j6);
+
+                            ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
+                        }
+                    });
                 }
                 catch (Exception)
                 {
@@ -305,5 +273,8 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
     public void OnNavigatedFrom()
     {
         _dispatcherTimer.Stop();
+
+        Gamepad.GamepadAdded -= Gamepad_GamepadAdded;
+        Gamepad.GamepadRemoved -= Gamepad_GamepadRemoved;
     }
 }

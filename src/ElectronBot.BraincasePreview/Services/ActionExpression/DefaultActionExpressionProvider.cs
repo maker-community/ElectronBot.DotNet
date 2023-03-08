@@ -242,7 +242,13 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
         {
             if (!string.IsNullOrWhiteSpace(emoticonAction.EmojisActionPath))
             {
-                var json = File.ReadAllText(emoticonAction.EmojisActionPath);
+                var actionJson = emoticonAction.EmojisActionPath;
+                if (emoticonAction.EmojisActionPath == "defaultaction.json")
+                {
+                    actionJson = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\defaultaction.json";
+                }
+                var json = File.ReadAllText(actionJson);
+                //var json = File.ReadAllText(emoticonAction.EmojisActionPath);
 
                 try
                 {
@@ -260,7 +266,11 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
             }
         }
 
-        var actionsList = new List<EmoticonActionFrame>();
+        //var actionsList = new List<EmoticonActionFrame>();
+
+        var service = App.GetService<EmoticonActionFrameService>();
+
+        service.ClearQueue();
 
         while (true)
         {
@@ -314,9 +324,8 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                             currentAction.J5,
                             currentAction.J6);
 
-                        //EmojiPlayHelper.Current.Enqueue(frameData);
-
-                        actionsList.Add(frameData);
+                        _ = await service.SendToUsbDeviceAsync(frameData);
+                        //actionsList.Add(frameData);
 
                         //通过grpc通讯和树莓派传输数据 
                         //var grpcClient = App.GetService<EbGrpcService>();
@@ -331,8 +340,8 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
             }
         }
 
-        var grpcClient = App.GetService<EbGrpcService>();
+        //var grpcClient = App.GetService<EbGrpcService>();
 
-        await grpcClient.PlayEmotionActionFramesAsync(actionsList);
+        //await grpcClient.PlayEmotionActionFramesAsync(actionsList);
     }
 }
