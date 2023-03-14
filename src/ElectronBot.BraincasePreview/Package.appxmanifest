@@ -47,7 +47,14 @@
           <desktop:Extension Category="windows.toastNotificationActivation">
               <desktop:ToastNotificationActivation ToastActivatorCLSID="5B11237D-2E06-4581-8302-E1BE4B4AD722" />
           </desktop:Extension>
-
+		  <desktop:Extension
+					   Category="windows.startupTask"
+					   EntryPoint="Windows.FullTrustApplication">
+			  <desktop:StartupTask
+			      TaskId="ElectronBotBraincaseTask"
+			      Enabled="true"
+			      DisplayName="ms-resource:AppDisplayName" />
+		  </desktop:Extension>
           <com:Extension Category="windows.comServer">
               <com:ComServer>
                   <com:ExeServer Executable="ElectronBot.BraincasePreview.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">

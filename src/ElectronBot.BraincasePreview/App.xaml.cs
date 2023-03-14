@@ -78,6 +78,7 @@ public partial class App : Application
             // Other Activation Handlers
             services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
 
+            services.AddTransient<IActivationHandler, StartupTaskActivationHandler>();
 
             services.AddHttpClient();
             // Services

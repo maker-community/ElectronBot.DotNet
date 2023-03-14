@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using Contracts.Services;
+﻿using Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
 using Models;
 
@@ -21,15 +20,15 @@ public class EmojiseShopService : IEmojiseShopService
     public async Task<bool> UploadEmojisAsync(EmoticonAction emoticon)
     {
         var httpClient = _httpClientFactory.CreateClient();
-        
-        using (var content = new MultipartFormDataContent ())
+
+        using (var content = new MultipartFormDataContent())
         {
             //replace with your own file path
-            string filePath = Path.Combine (_hostingEnvironment.WebRootPath, "video.mp4");
-            byte [] file = System.IO.File.ReadAllBytes (filePath);
-            var byteArrayContent = new ByteArrayContent (file);
-            content.Add (byteArrayContent, "file", "video.mp4");
-            var result = await client.PostAsync (ProfileImageUploadUri, content);
+            string filePath = Path.GetFullPath(emoticon.EmojisVideoPath);
+            byte[] file = System.IO.File.ReadAllBytes(filePath);
+            var byteArrayContent = new ByteArrayContent(file);
+            content.Add(byteArrayContent, "file");
+            var result = await httpClient.PostAsync(ProfileImageUploadUri, content);
         }
         return true;
     }
