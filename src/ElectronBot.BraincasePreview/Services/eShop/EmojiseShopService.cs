@@ -21,27 +21,16 @@ public class EmojiseShopService : IEmojiseShopService
     public async Task<bool> UploadEmojisAsync(EmoticonAction emoticon)
     {
         var httpClient = _httpClientFactory.CreateClient();
-
-        using (var content = new MultipartFormDataContent())
+        
+        using (var content = new MultipartFormDataContent ())
         {
-            var mixed = new MultipartContent("mixed") 
-            {
-            //CreateFileContent (imageStream, "image.jpg", "image/jpeg"),
-            //CreateFileContent (signatureStream, "image.jpg.sig", "application/octet-stream")
-            };
-            content.Add(mixed, "files");
-            var response = await httpClient.PostAsync(ProfileImageUploadUri, content);
-            response.EnsureSuccessStatusCode();
+            //replace with your own file path
+            string filePath = Path.Combine (_hostingEnvironment.WebRootPath, "video.mp4");
+            byte [] file = System.IO.File.ReadAllBytes (filePath);
+            var byteArrayContent = new ByteArrayContent (file);
+            content.Add (byteArrayContent, "file", "video.mp4");
+            var result = await client.PostAsync (ProfileImageUploadUri, content);
         }
-
         return true;
-    }
-
-    private StreamContent CreateFileContent(Stream stream, string fileName, string contentType)
-    {
-        var fileContent = new StreamContent(stream);
-        fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("file") { FileName = fileName };
-        fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-        return fileContent;
     }
 }
