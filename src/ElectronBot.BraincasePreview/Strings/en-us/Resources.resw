@@ -544,7 +544,10 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.4.3 版本更新说明
+    <value>1.4.4 版本更新说明
+1. 添加开机自启动电子脑壳注册，并选择随机播放三次表情列表的表情。如果不喜欢开机自启，请到系统设置=&gt;应用=&gt;启动 禁用。
+
+1.4.3 版本更新说明
 1. 调整ChatGPT对接改成ApiKey对接，更加人性化。
 2. 开放手柄控制页面，目前支持Xbox手柄控制电子。
 
