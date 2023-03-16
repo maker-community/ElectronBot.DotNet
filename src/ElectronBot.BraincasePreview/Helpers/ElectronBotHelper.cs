@@ -40,6 +40,8 @@ public class ElectronBotHelper
     private bool isTTS = false;
 
     private bool _isOpenMediaEnded = false;
+
+    private readonly int _playEmojisCount = 3;
     public bool EbConnected
     {
         get; set;
@@ -49,6 +51,7 @@ public class ElectronBotHelper
     {
         get; set;
     }
+
 
     public void InvokeClockCanvasStop()
     {
@@ -312,6 +315,20 @@ public class ElectronBotHelper
                 }, null);
 
                 return;
+            }
+
+            if (StartupTask == true)
+            {
+                Thread.Sleep(3000);
+
+                for (var i = 0; i < _playEmojisCount; i++)
+                {
+                    ToPlayEmojisRandom();
+
+                    Thread.Sleep(3000);
+                }
+
+
             }
         }
     }
