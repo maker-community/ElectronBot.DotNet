@@ -1,4 +1,5 @@
 ﻿using ElectronBot.BraincasePreview.Contracts.Services;
+using ElectronBot.BraincasePreview.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
@@ -27,6 +28,8 @@ public class StartupTaskActivationHandler : ActivationHandler<LaunchActivatedEve
         //{
         //    App.MainWindow.ShowMessageDialogAsync("TODO: Handle StartupTask activations.", "StartupTask Activation");
         //});
+        ElectronBotHelper.Instance.StartupTask = true;
+
         App.MainWindow.Hide();
         await Task.CompletedTask;
     }
