@@ -13,6 +13,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     MinWidth="400"
     MinHeight="300"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     CornerRadius="8"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>

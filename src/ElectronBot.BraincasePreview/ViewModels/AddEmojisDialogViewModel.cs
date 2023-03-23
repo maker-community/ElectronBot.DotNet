@@ -112,13 +112,15 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     {
         try
         {
+            var theme = App.GetService<IThemeSelectorService>();
             var addEmojisContentDialog = new AddEmojisContentDialog
             {
                 Title = "AddEmojisTitle".GetLocalized(),
                 PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
                 CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
-                XamlRoot = App.MainWindow.Content.XamlRoot
+                XamlRoot = App.MainWindow.Content.XamlRoot,
+                RequestedTheme = theme.Theme
             };
 
 

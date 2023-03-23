@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="800"
     Height="600"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     CornerRadius="8"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>

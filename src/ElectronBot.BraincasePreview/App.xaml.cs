@@ -227,6 +227,8 @@ public partial class App : Application
     {
         args.Cancel = true;
 
+        var theme = App.GetService<IThemeSelectorService>();
+
         var dialog = new ContentDialog
         {
             // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
@@ -236,6 +238,7 @@ public partial class App : Application
             CloseButtonText = "取消",
             SecondaryButtonText = "托盘化",
             DefaultButton = ContentDialogButton.Primary,
+            RequestedTheme = theme.Theme,
             Content = new AppQuitPage()
         };
 

@@ -9,6 +9,7 @@ using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Models;
 using Verdure.ElectronBot.Core.Helpers;
@@ -20,6 +21,8 @@ namespace ElectronBot.BraincasePreview.ViewModels;
 public partial class EmojisEditViewModel : ObservableRecipient
 {
     private ObservableCollection<EmoticonAction> _actions = new();
+
+    private ElementTheme _elementTheme;
 
     private readonly IActionExpressionProvider _actionExpressionProvider;
 
@@ -56,11 +59,13 @@ public partial class EmojisEditViewModel : ObservableRecipient
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider,
         ILocalSettingsService localSettingsService,
-        IEmojisFileService emojisFileService)
+        IEmojisFileService emojisFileService,
+        IThemeSelectorService themeSelectorService)
     {
         _actionExpressionProvider = actionExpressionProvider;
         _localSettingsService = localSettingsService;
         _emojisFileService = emojisFileService;
+        _elementTheme = themeSelectorService.Theme;
     }
 
     /// <summary>
@@ -106,6 +111,9 @@ public partial class EmojisEditViewModel : ObservableRecipient
                 CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
                 XamlRoot = App.MainWindow.Content.XamlRoot,
+                Width = 800,
+                Height = 600,
+                RequestedTheme = _elementTheme,
                 Content = new MarketplacePage()
             };
 
@@ -357,6 +365,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
                     CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                     DefaultButton = ContentDialogButton.Primary,
                     XamlRoot = App.MainWindow.Content.XamlRoot,
+                    RequestedTheme = _elementTheme,
                     EmoticonAction = emojis
                 };
 
@@ -414,7 +423,8 @@ public partial class EmojisEditViewModel : ObservableRecipient
                 PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
                 CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
-                XamlRoot = App.MainWindow.Content.XamlRoot
+                XamlRoot = App.MainWindow.Content.XamlRoot,
+                RequestedTheme = _elementTheme
             };
 
             addEmojisContentDialog.Closed += AddEmojisContentDialog_Closed;
