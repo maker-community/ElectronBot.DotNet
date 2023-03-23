@@ -4,6 +4,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Contracts.Services;
+using Controls;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
@@ -90,6 +91,29 @@ public partial class EmojisEditViewModel : ObservableRecipient
                 ToastHelper.SendToast($"导出错误-{ex.Message}", TimeSpan.FromSeconds(3));
             }
             //ToastHelper.SendToast("导出成功", TimeSpan.FromSeconds(3));
+        }
+    }
+
+    [RelayCommand]
+    public async void RandomContentEdit()
+    {
+        try
+        {
+            var randomContentEditDialog = new ContentDialog()
+            {
+                Title = "AddRandomContentTitle".GetLocalized(),
+                PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
+                CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = App.MainWindow.Content.XamlRoot,
+                Content = new MarketplacePage()
+            };
+
+            await randomContentEditDialog.ShowAsync();
+        }
+        catch (Exception)
+        {
+
         }
     }
 

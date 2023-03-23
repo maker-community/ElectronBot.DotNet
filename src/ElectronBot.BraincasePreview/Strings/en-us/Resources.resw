@@ -610,4 +610,7 @@
   <data name="ElectronBotCode.Content" xml:space="preserve">
     <value>电子脑壳源码地址</value>
   </data>
+  <data name="MarketplaceBtn.Label" xml:space="preserve">
+    <value>表情商城</value>
+  </data>
 </root>
