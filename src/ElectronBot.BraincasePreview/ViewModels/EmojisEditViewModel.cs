@@ -384,6 +384,44 @@ public partial class EmojisEditViewModel : ObservableRecipient
         }
     }
 
+    [RelayCommand]
+    private async void UploadEmojis(object? obj)
+    {
+        try
+        {
+            if (obj is EmoticonAction emojis)
+            {
+                var uploadEmojisContentDialog = new ContentDialog()
+                {
+                    Title = "EmojisInfoTitle".GetLocalized(),
+                    PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
+                    CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = App.MainWindow.Content.XamlRoot,
+                    RequestedTheme = _elementTheme,
+                    Content = new UploadEmojisPage
+                    {
+                        EmoticonAction = emojis
+                    }
+                };
+
+                var result = await uploadEmojisContentDialog.ShowAsync();
+
+                if(result == ContentDialogResult.Primary)
+                {
+                    var eshpService = App.GetService<IEmojiseShopService>();
+
+                   var ret = await eshpService.UploadEmojisAsync(emojis);
+                }
+            }
+
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+
     private void EmojisInfoContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
         if (sender.DataContext is EmojisInfoDialogViewModel viewModel)

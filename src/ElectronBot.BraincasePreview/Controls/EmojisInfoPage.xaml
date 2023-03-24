@@ -1,4 +1,4 @@
-<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+ï»¿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
 <!--  Licensed under the MIT License.  -->
 
 <Page
@@ -61,13 +61,13 @@
                 <Button
                     Margin="8"
                     Command="{x:Bind ViewModel.ClearCommand}"
-                    Content="Çå³ý¶¯×÷" />
+                    Content="æ¸…é™¤åŠ¨ä½œ" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <ToggleSwitch
                     x:Name="RecordSwitch"
-                    OffContent="Â¼ÖÆ¶¯×÷"
-                    OnContent="Â¼ÖÆÖÐ">
+                    OffContent="å½•åˆ¶åŠ¨ä½œ"
+                    OnContent="å½•åˆ¶ä¸­">
                     <i:Interaction.Behaviors>
                         <ic:EventTriggerBehavior EventName="Toggled">
                             <ic:InvokeCommandAction Command="{x:Bind ViewModel.RecordCommand}" CommandParameter="{x:Bind RecordSwitch.IsOn, Mode=OneWay}" />
@@ -80,7 +80,7 @@
         <StackPanel Grid.Row="2">
             <Slider
                 Margin="8"
-                Header="Ê±¼ä¼ä¸ô"
+                Header="æ—¶é—´é—´éš”"
                 Maximum="5000"
                 Minimum="0"
                 TickFrequency="500"
@@ -206,7 +206,6 @@
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
-
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                             <ListView.ItemsPanel>

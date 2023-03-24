@@ -139,6 +139,16 @@
                         </i:Interaction.Behaviors>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
+                        x:Name="UploadEmojis"
+                        x:Uid="UploadEmojis"
+                        Foreground="Pink">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Click">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.UploadEmojisCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
                         x:Name="DelPic"
                         x:Uid="DelEmojis"
                         Foreground="Red">

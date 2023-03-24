@@ -101,6 +101,8 @@ public partial class App : Application
 
             services.AddTransient<IEmojisFileService, EmojisFileService>();
 
+            services.AddTransient<IEmojiseShopService, EmojiseShopService>();
+
             services.AddTransient<IElectronLowLevel, ElectronLowLevel>();
 
             services.AddTransient<MediaPlayer>();
@@ -127,6 +129,9 @@ public partial class App : Application
             services.AddTransient<EmojisEditPage>();
             services.AddTransient<EmojisEditViewModel>();
             services.AddTransient<AddEmojisDialogViewModel>();
+            services.AddTransient<UploadEmojisDialogViewModel>();
+            services.AddTransient<UploadEmojisPage>();
+            services.AddTransient<MarketplacePage>();
 
             services.AddTransient<GestureClassificationPage>();
             services.AddTransient<GestureClassificationViewModel>();

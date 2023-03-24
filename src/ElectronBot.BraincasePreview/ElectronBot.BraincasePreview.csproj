@@ -53,6 +53,7 @@
     <None Remove="Controls\EmojisInfoPage.xaml" />
     <None Remove="Controls\MarketplacePage.xaml" />
     <None Remove="Controls\RandomContentPage.xaml" />
+    <None Remove="Controls\UploadEmojisPage.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Themes\DefaultThemeDictionary.xaml" />
     <None Remove="Themes\LightThemeDictionary.xaml" />
@@ -197,6 +198,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\UploadEmojisPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\EmojisInfoPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
