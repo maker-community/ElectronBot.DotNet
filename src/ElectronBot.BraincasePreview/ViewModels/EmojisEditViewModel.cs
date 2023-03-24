@@ -358,7 +358,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
         {
             if (obj is EmoticonAction emojis)
             {
-                var emojisInfoContentDialog = new EmojisInfoContentDialog
+                var emojisInfoContentDialog = new ContentDialog()
                 {
                     Title = "EmojisInfoTitle".GetLocalized(),
                     PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
@@ -366,7 +366,10 @@ public partial class EmojisEditViewModel : ObservableRecipient
                     DefaultButton = ContentDialogButton.Primary,
                     XamlRoot = App.MainWindow.Content.XamlRoot,
                     RequestedTheme = _elementTheme,
-                    EmoticonAction = emojis
+                    Content = new EmojisInfoPage
+                    {
+                        EmoticonAction = emojis
+                    }
                 };
 
                 emojisInfoContentDialog.Closed += EmojisInfoContentDialog_Closed;
@@ -417,13 +420,14 @@ public partial class EmojisEditViewModel : ObservableRecipient
     {
         try
         {
-            var addEmojisContentDialog = new AddEmojisContentDialog
+            var addEmojisContentDialog = new ContentDialog()
             {
                 Title = "AddEmojisTitle".GetLocalized(),
                 PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
                 CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
                 XamlRoot = App.MainWindow.Content.XamlRoot,
+                Content = new AddEmojisPage(),
                 RequestedTheme = _elementTheme
             };
 
