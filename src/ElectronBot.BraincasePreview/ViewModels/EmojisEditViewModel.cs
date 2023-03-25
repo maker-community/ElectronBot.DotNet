@@ -391,6 +391,12 @@ public partial class EmojisEditViewModel : ObservableRecipient
         {
             if (obj is EmoticonAction emojis)
             {
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    ToastHelper.SendToast("默认表情不能分享", TimeSpan.FromSeconds(3));
+                    return;
+                }
+
                 var uploadEmojisContentDialog = new ContentDialog()
                 {
                     Title = "EmojisInfoTitle".GetLocalized(),

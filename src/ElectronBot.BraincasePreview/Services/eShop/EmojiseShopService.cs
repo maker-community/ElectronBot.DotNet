@@ -1,4 +1,5 @@
-﻿using Contracts.Services;
+﻿using System.Text.Json;
+using Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
 using Models;
 
@@ -7,7 +8,7 @@ public class EmojiseShopService : IEmojiseShopService
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
-    private const string ProfileImageUploadUri = "http://api.douwp.club/api/GridFS/UploadSingle";
+    private const string ProfileImageUploadUri = "http://api.douwp.club";
 
     private readonly IEmojisFileService _emojisFileService;
     public EmojiseShopService(IHttpClientFactory httpClientFactory, IEmojisFileService emojisFileService)
@@ -23,28 +24,80 @@ public class EmojiseShopService : IEmojiseShopService
     {
         var pathName = await _emojisFileService.ExportEmojisFileToTempAsync(emoticon);
 
-        if (pathName.path == null)
+        var videoFileId = await UploadEmojisFileAsync(pathName);
+
+        var fileName = Path.GetFileName(emoticon.Avatar);
+
+        var imageFIleId = await UploadEmojisImageAsync(emoticon.Avatar, fileName);
+
+
+        return imageFIleId;
+    }
+
+    private async Task<string> UploadEmojisImageAsync(string path, string name)
+    {
+        if (path == null)
         {
             return string.Empty;
         }
+
         var httpClient = _httpClientFactory.CreateClient();
 
-        var resultData = string.Empty;
+        var imageFIleId = string.Empty;
 
-        using var content = new MultipartFormDataContent();
+        using var videoContent = new MultipartFormDataContent();
         //replace with your own file path
-        var filePath = Path.GetFullPath(pathName.path);
+        var filePath = Path.GetFullPath(path);
 
         var file = System.IO.File.ReadAllBytes(filePath);
         var byteArrayContent = new ByteArrayContent(file);
-        content.Add(byteArrayContent, "fs",pathName.name);
-        var result = await httpClient.PostAsync(ProfileImageUploadUri, content);
+        videoContent.Add(byteArrayContent, "file", name);
+
+        var result = await httpClient.PostAsync($"{ProfileImageUploadUri}/api/GridFS/UploadPicture", videoContent);
 
         if (result.IsSuccessStatusCode)
         {
-            resultData = await result.Content.ReadAsStringAsync();
+            var resultData = await result.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var imageData = JsonSerializer.Deserialize<EmojisImageDto>(resultData, options);
+
+            imageFIleId = imageData?.FileName ?? "";
         }
 
-        return resultData;
+        return imageFIleId;
+    }
+
+    private async Task<string> UploadEmojisFileAsync((string path, string name) data)
+    {
+        if (data.path == null)
+        {
+            return string.Empty;
+        }
+
+        var httpClient = _httpClientFactory.CreateClient();
+
+        var videoFIleId = string.Empty;
+
+        using var videoContent = new MultipartFormDataContent();
+        //replace with your own file path
+        var filePath = Path.GetFullPath(data.path);
+
+        var file = System.IO.File.ReadAllBytes(filePath);
+        var byteArrayContent = new ByteArrayContent(file);
+        videoContent.Add(byteArrayContent, "fs", data.name);
+
+        var result = await httpClient.PostAsync($"{ProfileImageUploadUri}/api/GridFS/UploadSingle", videoContent);
+
+        if (result.IsSuccessStatusCode)
+        {
+            videoFIleId = await result.Content.ReadAsStringAsync();
+        }
+
+        return videoFIleId;
     }
 }
