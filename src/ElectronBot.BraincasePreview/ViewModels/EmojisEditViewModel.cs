@@ -11,6 +11,7 @@ using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Models;
 using Verdure.ElectronBot.Core.Helpers;
 using Windows.ApplicationModel;
@@ -113,6 +114,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
                 XamlRoot = App.MainWindow.Content.XamlRoot,
                 Width = 800,
                 Height = 600,
+                FullSizeDesired = true,
                 RequestedTheme = _elementTheme,
                 Content = new MarketplacePage()
             };
@@ -418,6 +420,15 @@ public partial class EmojisEditViewModel : ObservableRecipient
                     var eshpService = App.GetService<IEmojiseShopService>();
 
                    var ret = await eshpService.UploadEmojisAsync(emojis);
+
+                    if (ret)
+                    {
+                        ToastHelper.SendToast("表情分享成功，审核通过即可显示。", TimeSpan.FromSeconds(3));
+                    }
+                    else
+                    {
+                        ToastHelper.SendToast("表情分享失败。", TimeSpan.FromSeconds(3));
+                    }
                 }
             }
 

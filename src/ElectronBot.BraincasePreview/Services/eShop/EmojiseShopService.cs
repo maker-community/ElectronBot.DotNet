@@ -20,7 +20,7 @@ public class EmojiseShopService : IEmojiseShopService
     public Task<EmoticonAction> DownloadEmojisAsync(string id) => throw new NotImplementedException();
     public Task<EmojisItemDto> GetEmojisItemAsync(string id) => throw new NotImplementedException();
     public Task<List<EmojisItemDto>> GetEmojisListAsync(EmojisItemQuery itemQuery) => throw new NotImplementedException();
-    public async Task<string> UploadEmojisAsync(EmoticonAction emoticon)
+    public async Task<bool> UploadEmojisAsync(EmoticonAction emoticon)
     {
         var pathName = await _emojisFileService.ExportEmojisFileToTempAsync(emoticon);
 
@@ -28,10 +28,34 @@ public class EmojiseShopService : IEmojiseShopService
 
         var fileName = Path.GetFileName(emoticon.Avatar);
 
-        var imageFIleId = await UploadEmojisImageAsync(emoticon.Avatar, fileName);
+        var pictureFileName = await UploadEmojisImageAsync(emoticon.Avatar, fileName);
 
+        var ret = await CreateEmojisInfoAsync(new EmojisItemRequest
+        {
 
-        return imageFIleId;
+            Name = emoticon.Name,
+            Desc = emoticon.Desc ?? emoticon.Name,
+            PictureFileId = pictureFileName,
+            VideoFileId = videoFileId,
+            PictureFileName = pictureFileName
+        });
+
+        return ret;
+    }
+
+    private async Task<bool> CreateEmojisInfoAsync(EmojisItemRequest request)
+    {
+        var json = JsonSerializer.Serialize(request);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+        var httpClient = _httpClientFactory.CreateClient();
+
+        var response = await httpClient.PostAsync($"{ProfileImageUploadUri}/api/v1/Catalog/CreateCatalogItem", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return true;
+        }
+        return false;
     }
 
     private async Task<string> UploadEmojisImageAsync(string path, string name)
@@ -43,7 +67,7 @@ public class EmojiseShopService : IEmojiseShopService
 
         var httpClient = _httpClientFactory.CreateClient();
 
-        var imageFIleId = string.Empty;
+        var pictureFileName = string.Empty;
 
         using var videoContent = new MultipartFormDataContent();
         //replace with your own file path
@@ -66,10 +90,10 @@ public class EmojiseShopService : IEmojiseShopService
 
             var imageData = JsonSerializer.Deserialize<EmojisImageDto>(resultData, options);
 
-            imageFIleId = imageData?.FileName ?? "";
+            pictureFileName = imageData?.FileName ?? "";
         }
 
-        return imageFIleId;
+        return pictureFileName;
     }
 
     private async Task<string> UploadEmojisFileAsync((string path, string name) data)

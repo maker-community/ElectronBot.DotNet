@@ -95,7 +95,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
+        <!--<StackPanel Orientation="Horizontal">
             <DropDownButton
                 Margin="8"
                 HorizontalAlignment="Left"
@@ -118,7 +118,7 @@
                     </MenuFlyout>
                 </DropDownButton.Flyout>
             </DropDownButton>
-        </StackPanel>
+        </StackPanel>-->
         <ListView
             x:Name="EmojisListView"
             Grid.Row="1"
