@@ -19,26 +19,32 @@ public class EmojiseShopService : IEmojiseShopService
     public Task<EmoticonAction> DownloadEmojisAsync(string id) => throw new NotImplementedException();
     public Task<EmojisItemDto> GetEmojisItemAsync(string id) => throw new NotImplementedException();
     public Task<List<EmojisItemDto>> GetEmojisListAsync(EmojisItemQuery itemQuery) => throw new NotImplementedException();
-    public async Task<bool> UploadEmojisAsync(EmoticonAction emoticon)
+    public async Task<string> UploadEmojisAsync(EmoticonAction emoticon)
     {
-        var path = await _emojisFileService.ExportEmojisFileToTempAsync(emoticon);
+        var pathName = await _emojisFileService.ExportEmojisFileToTempAsync(emoticon);
 
-        if (path == null)
+        if (pathName.path == null)
         {
-            return false;
+            return string.Empty;
         }
         var httpClient = _httpClientFactory.CreateClient();
 
+        var resultData = string.Empty;
+
         using var content = new MultipartFormDataContent();
         //replace with your own file path
-        var filePath = Path.GetFullPath(path);
+        var filePath = Path.GetFullPath(pathName.path);
+
         var file = System.IO.File.ReadAllBytes(filePath);
         var byteArrayContent = new ByteArrayContent(file);
-        content.Add(byteArrayContent, "fs","a.zip");
+        content.Add(byteArrayContent, "fs",pathName.name);
         var result = await httpClient.PostAsync(ProfileImageUploadUri, content);
 
-        var resultContent = await result.Content.ReadAsStringAsync();
+        if (result.IsSuccessStatusCode)
+        {
+            resultData = await result.Content.ReadAsStringAsync();
+        }
 
-        return true;
+        return resultData;
     }
 }

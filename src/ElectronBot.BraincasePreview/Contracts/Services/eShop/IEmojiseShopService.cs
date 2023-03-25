@@ -10,5 +10,5 @@ public interface IEmojiseShopService
 
     Task<EmoticonAction> DownloadEmojisAsync(string id);
 
-    Task<bool> UploadEmojisAsync(EmoticonAction emoticon);
+    Task<string> UploadEmojisAsync(EmoticonAction emoticon);
 }

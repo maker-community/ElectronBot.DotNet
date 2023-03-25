@@ -15,5 +15,5 @@ public interface IEmojisFileService
     /// </summary>
     /// <param name="emoticonAction">表情对象</param>
     /// <returns>临时目录路径</returns>
-    Task<string> ExportEmojisFileToTempAsync(EmoticonAction emoticonAction);
+    Task<(string path, string name)> ExportEmojisFileToTempAsync(EmoticonAction emoticonAction);
 }

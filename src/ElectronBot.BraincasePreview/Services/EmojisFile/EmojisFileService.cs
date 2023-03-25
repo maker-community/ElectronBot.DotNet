@@ -90,7 +90,7 @@ public class EmojisFileService : IEmojisFileService
         ToastHelper.SendToast($"{text}-{destinationFile.Path}", TimeSpan.FromSeconds(5));
     }
 
-    public async Task<string> ExportEmojisFileToTempAsync(EmoticonAction emoticonAction)
+    public async Task<(string path, string name)> ExportEmojisFileToTempAsync(EmoticonAction emoticonAction)
     {
         StorageFolder? destinationFolder;
 
@@ -154,11 +154,11 @@ public class EmojisFileService : IEmojisFileService
 
             ZipFileCreatorHelper.CreateZipFile(filePaths, destinationFile.Path);
 
-            return destinationFile.Path;
+            return (destinationFile.Path, destinationFile.Name);
         }
         catch (Exception)
         {
-            return string.Empty;
+            return (string.Empty, string.Empty);
         }
     }
 }
