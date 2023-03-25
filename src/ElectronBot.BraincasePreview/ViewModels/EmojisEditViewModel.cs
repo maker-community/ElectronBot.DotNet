@@ -114,7 +114,6 @@ public partial class EmojisEditViewModel : ObservableRecipient
                 XamlRoot = App.MainWindow.Content.XamlRoot,
                 Width = 800,
                 Height = 600,
-                FullSizeDesired = true,
                 RequestedTheme = _elementTheme,
                 Content = new MarketplacePage()
             };
