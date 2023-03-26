@@ -175,6 +175,8 @@ public class EmojiseShopService : IEmojiseShopService
                         PictureFileName = $"{ProfileImageUploadUri}/api/Pics/{emojisItem.PictureFileName}",
                         Price = emojisItem.Price,
                         VideoFileId = emojisItem.VideoFileId,
+                        CreateTime = emojisItem.CreateTime,
+                        Author = emojisItem.Author,
                     };
                     list.Add(item);
                 }

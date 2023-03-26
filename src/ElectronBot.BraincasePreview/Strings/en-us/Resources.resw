@@ -628,6 +628,9 @@
   <data name="UploadEmojisAuthorTitle.Text" xml:space="preserve">
     <value>作者：</value>
   </data>
+  <data name="UploadEmojisCreateTimeTitle.Text" xml:space="preserve">
+    <value>创建时间：</value>
+  </data>
   <data name="UploadEmojisDescTitle.Text" xml:space="preserve">
     <value>描述：</value>
   </data>

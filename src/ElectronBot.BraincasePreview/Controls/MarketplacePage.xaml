@@ -38,7 +38,73 @@
                     Stretch="Uniform" />
 
                 <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                    <TextBlock
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="UploadEmojisNameTitle"
+                            Width="60"
+                            Margin="0,4,0,0"
+                            HorizontalAlignment="Left"
+                            FontSize="18"
+                            LineHeight="20"
+                            Style="{ThemeResource BaseTextBlockStyle}" />
+                        <TextBlock
+                            Margin="0,4,0,0"
+                            HorizontalAlignment="Left"
+                            FontSize="18"
+                            LineHeight="20"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="{x:Bind Name, Mode=OneWay}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="UploadEmojisDescTitle"
+                            Width="60"
+                            Margin="0,4,0,0"
+                            FontWeight="Normal"
+                            MaxLines="2"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            Margin="0,4,0,0"
+                            FontWeight="Normal"
+                            MaxLines="2"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind Desc}"
+                            TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="UploadEmojisAuthorTitle"
+                            Margin="0,4,0,0"
+                            FontWeight="Normal"
+                            MaxLines="2"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            Margin="0,4,0,0"
+                            HorizontalAlignment="Left"
+                            FontSize="18"
+                            LineHeight="20"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="{x:Bind Author}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="UploadEmojisCreateTimeTitle"
+                            Margin="0,4,0,0"
+                            FontWeight="Normal"
+                            MaxLines="2"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            Margin="0,4,0,0"
+                            HorizontalAlignment="Left"
+                            FontSize="18"
+                            LineHeight="20"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="{x:Bind CreateTime}" />
+                    </StackPanel>
+                    <!--<TextBlock
                         Margin="0,4,0,6"
                         HorizontalAlignment="Left"
                         FontSize="18"
@@ -51,7 +117,7 @@
                         MaxLines="2"
                         Style="{ThemeResource BodyTextBlockStyle}"
                         Text="{x:Bind Desc}"
-                        TextTrimming="CharacterEllipsis" />
+                        TextTrimming="CharacterEllipsis" />-->
 
                     <!--<StackPanel Orientation="Horizontal">
 
