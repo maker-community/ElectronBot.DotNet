@@ -36,6 +36,12 @@ public class EmoticonAction : ObservableRecipient
     {
         get; set;
     } = "";
+
+    public string EmojisAuthor
+    {
+        get;
+        set;
+    } = "";
     public bool HasAction
     {
         get => _hasAction;

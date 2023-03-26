@@ -39,16 +39,17 @@ public partial class MarketplaceViewModel : ObservableRecipient
         if (obj is EmojisItemDto emojis)
         {
             IsActive = true;
+
             var ret = await _emojiseShopService.DownloadEmojisAsync(emojis.VideoFileId);
 
             if (ret is not null)
             {
                 ToastHelper.SendToast("下载表情成功", TimeSpan.FromSeconds(3));
             }
-            else
-            {
-                ToastHelper.SendToast("表情下载失败", TimeSpan.FromSeconds(3));
-            }
+            //else
+            //{
+            //    ToastHelper.SendToast("表情下载失败", TimeSpan.FromSeconds(3));
+            //}
 
             IsActive = false;
         }

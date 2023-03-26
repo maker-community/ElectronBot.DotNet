@@ -111,15 +111,20 @@ public partial class EmojisEditViewModel : ObservableRecipient
                 DefaultButton = ContentDialogButton.Close,
                 XamlRoot = App.MainWindow.Content.XamlRoot,
                 RequestedTheme = _elementTheme,
-                Content = new MarketplacePage()
+                Content = new MarketplacePage(),
             };
-
+            marketplaceDialog.Closed += MarketplaceDialog_Closed;
             await marketplaceDialog.ShowAsync();
         }
         catch (Exception)
         {
 
         }
+    }
+
+    private void MarketplaceDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+        OnLoaded();
     }
 
     /// <summary>
@@ -400,8 +405,8 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
                 var uploadEmojisContentDialog = new ContentDialog()
                 {
-                    Title = "EmojisInfoTitle".GetLocalized(),
-                    PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
+                    Title = "UploadEmojisTitle".GetLocalized(),
+                    PrimaryButtonText = "UploadEmojisOKBtn".GetLocalized(),
                     CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                     DefaultButton = ContentDialogButton.Primary,
                     XamlRoot = App.MainWindow.Content.XamlRoot,
@@ -660,6 +665,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
     private async void OnLoaded()
     {
+        Actions.Clear();
         var list = (await _localSettingsService
             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
 

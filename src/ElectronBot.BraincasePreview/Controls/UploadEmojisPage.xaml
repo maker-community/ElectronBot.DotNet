@@ -14,37 +14,45 @@
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="PrimaryButtonClick">
-            <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveEmojisCommand}" CommandParameter="{x:Bind EmojisNameId.Text, Mode=TwoWay}" />
-        </ic:EventTriggerBehavior>
-        <ic:EventTriggerBehavior EventName="Loaded">
-            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" CommandParameter="{x:Bind EmojisActionPath.Text, Mode=TwoWay}" />
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveEmojisCommand}" CommandParameter="{x:Bind UploadEmojisNameId.Text, Mode=TwoWay}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <Grid>
+    <Grid Margin="12">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock
-                    x:Name="EmojisName"
-                    Margin="4"
-                    Text="{x:Bind EmoticonAction.Name, Mode=OneWay}" />
-                <TextBlock
-                    x:Name="EmojisNameId"
-                    Margin="4"
-                    Text="{x:Bind EmoticonAction.NameId, Mode=OneWay}" />
+                    x:Uid="UploadEmojisNameTitle"
+                    Width="60"
+                    Margin="0,0,8,0" />
+                <TextBlock x:Name="UploadEmojisName" Text="{x:Bind EmoticonAction.Name, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock
-                    x:Uid="EmojisActionPath"
-                    Width="100"
+                    x:Uid="UploadEmojisNameIdTitle"
+                    Width="60"
+                    Margin="0,0,8,0" />
+                <TextBlock x:Name="UploadEmojisNameId" Text="{x:Bind EmoticonAction.NameId, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    x:Uid="UploadEmojisDescTitle"
+                    Width="60"
+                    Margin="0,0,8,0" />
+                <TextBlock x:Name="UploadEmojisDesc" Text="{x:Bind EmoticonAction.Desc, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    x:Uid="UploadEmojisAuthorTitle"
+                    Width="60"
+                    Margin="0,0,8,0"
                     VerticalAlignment="Center" />
                 <TextBox
-                    x:Name="EmojisActionPath"
+                    x:Name="UploadEmojisAuthor"
                     Width="280"
-                    Margin="4"
-                    IsReadOnly="True"
-                    Text="{x:Bind EmoticonAction.EmojisActionPath, Mode=OneWay}"
+                    Text="{x:Bind EmoticonAction.EmojisAuthor, Mode=TwoWay}"
                     TextWrapping="NoWrap" />
             </StackPanel>
+
         </StackPanel>
     </Grid>
 </Page>

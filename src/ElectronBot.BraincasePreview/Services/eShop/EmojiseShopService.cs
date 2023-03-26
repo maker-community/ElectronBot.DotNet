@@ -30,110 +30,116 @@ public class EmojiseShopService : IEmojiseShopService
     }
     public async Task<EmoticonAction> DownloadEmojisAsync(string id)
     {
-        var httpClient = _httpClientFactory.CreateClient();
-
-        var response = await httpClient.GetAsync($"{ProfileImageUploadUri}/api/GridFS/Download/{id}");
-
-        if (response.IsSuccessStatusCode)
+        try
         {
+            var httpClient = _httpClientFactory.CreateClient();
 
-            var contentDisposition = response?.Content?.Headers?.ContentDisposition.FileName;
+            var response = await httpClient.GetAsync($"{ProfileImageUploadUri}/api/GridFS/Download/{id}");
 
-            var fileName = contentDisposition.Replace("\"", "");
-
-            using (var stream = await response.Content.ReadAsStreamAsync())
+            if (response.IsSuccessStatusCode)
             {
-                var folder = ApplicationData.Current.LocalFolder;
 
-                var storageFolder = await folder.CreateFolderAsync(Constants.EmojisTempFileFolder, CreationCollisionOption.OpenIfExists);
+                var contentDisposition = response?.Content?.Headers?.ContentDisposition.FileName;
 
-                using (var fileStream = new FileStream($"{storageFolder.Path}/{fileName}", FileMode.Create))
+                var fileName = contentDisposition.Replace("\"", "");
+
+                using (var stream = await response.Content.ReadAsStreamAsync())
                 {
-                    await stream.CopyToAsync(fileStream);
-                }
-                ZipFileCreatorHelper.ExtractZipFile($"{storageFolder.Path}/{fileName}", storageFolder.Path);
+                    var folder = ApplicationData.Current.LocalFolder;
 
-                var file = await storageFolder.GetFileAsync(fileName);
+                    var storageFolder = await folder.CreateFolderAsync(Constants.EmojisTempFileFolder, CreationCollisionOption.OpenIfExists);
 
-                if (file != null)
-                {
-                    await file.DeleteAsync();
-                }
-
-                var fileNames = await storageFolder.GetFilesAsync();
-
-                var list = (await _localSettingsService
-                    .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
-
-                var action = new EmoticonAction();
-
-                if (fileNames != null && fileNames.Count > 0)
-                {
-                    foreach (var fileItem in fileNames)
+                    using (var fileStream = new FileStream($"{storageFolder.Path}/{fileName}", FileMode.Create))
                     {
-                        if (fileItem.Name.Contains("manifest"))
-                        {
-                            var text = await FileIO.ReadTextAsync(fileItem);
+                        await stream.CopyToAsync(fileStream);
+                    }
+                    ZipFileCreatorHelper.ExtractZipFile($"{storageFolder.Path}/{fileName}", storageFolder.Path);
 
-                            var emojisFileInfo = JsonSerializer.Deserialize<EmojisFileManifest>(text) ?? throw new Exception("表情不存在");
-                            action.Name = emojisFileInfo.Name;
-                            action.NameId = emojisFileInfo.NameId;
-                            action.Desc = emojisFileInfo.Description;
-                            action.EmojisType = emojisFileInfo.EmojisType;
-                            action.HasAction = emojisFileInfo.HasAction;
-                        }
-                        else
-                        {
-                            if (list.Where(e => e.NameId == fileItem.DisplayName).Any() || Constants.EMOJI_ACTION_LIST.Where(e => e.NameId == fileItem.DisplayName).Any())
-                            {
-                                ToastHelper.SendToast("EmojisNameIdAlreadyExists".GetLocalized(), TimeSpan.FromSeconds(3));
+                    var file = await storageFolder.GetFileAsync(fileName);
 
-                                await storageFolder.DeleteAsync();
-                                return null;
-                            }
-
-                            var actionFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
-
-                            var storageFile = await actionFolder
-                                .CreateFileAsync(fileItem.Name, CreationCollisionOption.OpenIfExists);
-
-                            await FileIO.WriteBytesAsync(storageFile, await fileItem.ReadBytesAsync());
-
-                            if (storageFile.FileType == ".mp4")
-                            {
-                                action.EmojisVideoPath = storageFile.Path;
-                            }
-                            else if (storageFile.FileType == ".png" ||
-                                storageFile.FileType == ".jpg" ||
-                                storageFile.FileType == ".jpeg")
-                            {
-                                action.Avatar = storageFile.Path;
-                            }
-                            else if (storageFile.FileType == ".json")
-                            {
-                                action.EmojisActionPath = storageFile.Path;
-                            }
-                        }
+                    if (file != null)
+                    {
+                        await file.DeleteAsync();
                     }
 
-                    var actions = new List<EmoticonAction>()
+                    var fileNames = await storageFolder.GetFilesAsync();
+
+                    var list = (await _localSettingsService
+                        .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+                    var action = new EmoticonAction();
+
+                    if (fileNames != null && fileNames.Count > 0)
                     {
-                        action
-                    };
+                        foreach (var fileItem in fileNames)
+                        {
+                            if (fileItem.Name.Contains("manifest"))
+                            {
+                                var text = await FileIO.ReadTextAsync(fileItem);
 
-                    list.AddRange(actions);
+                                var emojisFileInfo = JsonSerializer.Deserialize<EmojisFileManifest>(text) ?? throw new Exception("表情不存在");
+                                action.Name = emojisFileInfo.Name;
+                                action.NameId = emojisFileInfo.NameId;
+                                action.Desc = emojisFileInfo.Description;
+                                action.EmojisType = emojisFileInfo.EmojisType;
+                                action.HasAction = emojisFileInfo.HasAction;
+                            }
+                            else
+                            {
+                                if (list.Where(e => e.NameId == fileItem.DisplayName).Any() || Constants.EMOJI_ACTION_LIST.Where(e => e.NameId == fileItem.DisplayName).Any())
+                                {
+                                    ToastHelper.SendToast("EmojisNameIdAlreadyExists".GetLocalized(), TimeSpan.FromSeconds(3));
 
-                    await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
+                                    await storageFolder.DeleteAsync();
+                                    return null;
+                                }
 
-                    await storageFolder.DeleteAsync();
+                                var actionFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
 
-                    return new EmoticonAction();
+                                var storageFile = await actionFolder
+                                    .CreateFileAsync(fileItem.Name, CreationCollisionOption.OpenIfExists);
+
+                                await FileIO.WriteBytesAsync(storageFile, await fileItem.ReadBytesAsync());
+
+                                if (storageFile.FileType == ".mp4")
+                                {
+                                    action.EmojisVideoPath = storageFile.Path;
+                                }
+                                else if (storageFile.FileType == ".png" ||
+                                    storageFile.FileType == ".jpg" ||
+                                    storageFile.FileType == ".jpeg")
+                                {
+                                    action.Avatar = storageFile.Path;
+                                }
+                                else if (storageFile.FileType == ".json")
+                                {
+                                    action.EmojisActionPath = storageFile.Path;
+                                }
+                            }
+                        }
+
+                        var actions = new List<EmoticonAction>()
+                        {
+                            action
+                        };
+
+                        list.AddRange(actions);
+
+                        await _localSettingsService.SaveSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey, list);
+
+                        await storageFolder.DeleteAsync();
+
+                        return new EmoticonAction();
+                    }
                 }
             }
         }
+        catch (Exception ex)
+        {
+            ToastHelper.SendToast($"表情下载失败--{ex.Message}", TimeSpan.FromSeconds(3));
 
-
-
+            return null;
+        }
         return null;
     }
     public Task<EmojisItemDto> GetEmojisItemAsync(string id) => throw new NotImplementedException();
@@ -193,7 +199,8 @@ public class EmojiseShopService : IEmojiseShopService
             Desc = emoticon.Desc ?? emoticon.Name,
             PictureFileId = pictureFileName,
             VideoFileId = videoFileId,
-            PictureFileName = pictureFileName
+            PictureFileName = pictureFileName,
+            Author = emoticon.EmojisAuthor
         });
 
         return ret;

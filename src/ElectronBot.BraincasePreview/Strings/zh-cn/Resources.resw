@@ -628,4 +628,22 @@
   <data name="MarketplaceDialogTitle" xml:space="preserve">
     <value>表情商城</value>
   </data>
+  <data name="UploadEmojisAuthorTitle.Text" xml:space="preserve">
+    <value>作者：</value>
+  </data>
+  <data name="UploadEmojisDescTitle.Text" xml:space="preserve">
+    <value>描述：</value>
+  </data>
+  <data name="UploadEmojisNameIdTitle.Text" xml:space="preserve">
+    <value>标识ID：</value>
+  </data>
+  <data name="UploadEmojisNameTitle.Text" xml:space="preserve">
+    <value>名称：</value>
+  </data>
+  <data name="UploadEmojisOKBtn" xml:space="preserve">
+    <value>分享</value>
+  </data>
+  <data name="UploadEmojisTitle" xml:space="preserve">
+    <value>表情分享</value>
+  </data>
 </root>
