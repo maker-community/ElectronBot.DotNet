@@ -1,7 +1,9 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http.Headers;
+using System.Text.Json;
 using Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
 using Models;
+using Windows.Media.Protection.PlayReady;
 
 namespace Services;
 public class EmojiseShopService : IEmojiseShopService
@@ -17,7 +19,22 @@ public class EmojiseShopService : IEmojiseShopService
         _httpClientFactory = httpClientFactory;
         _emojisFileService = emojisFileService;
     }
-    public Task<EmoticonAction> DownloadEmojisAsync(string id) => throw new NotImplementedException();
+    public async Task<EmoticonAction> DownloadEmojisAsync(string id)
+    {
+        var httpClient = _httpClientFactory.CreateClient();
+
+        var response = await httpClient.GetAsync($"{ProfileImageUploadUri}/api/GridFS/Download/{id}");
+        
+        using (var stream = await response.Content.ReadAsStreamAsync())
+        {
+            using (var fileStream = new FileStream(@"C:\Users\gil\cursor-tutor\file.zip", FileMode.Create))
+            {
+                await stream.CopyToAsync(fileStream);
+            }
+        }
+
+        return null;
+    }
     public Task<EmojisItemDto> GetEmojisItemAsync(string id) => throw new NotImplementedException();
     public Task<List<EmojisItemDto>> GetEmojisListAsync(EmojisItemQuery itemQuery) => throw new NotImplementedException();
     public async Task<bool> UploadEmojisAsync(EmoticonAction emoticon)
@@ -113,6 +130,8 @@ public class EmojiseShopService : IEmojiseShopService
 
         var file = System.IO.File.ReadAllBytes(filePath);
         var byteArrayContent = new ByteArrayContent(file);
+        byteArrayContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/octet-stream");
+
         videoContent.Add(byteArrayContent, "fs", data.name);
 
         var result = await httpClient.PostAsync($"{ProfileImageUploadUri}/api/GridFS/UploadSingle", videoContent);
