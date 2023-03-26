@@ -132,6 +132,7 @@ public partial class App : Application
             services.AddTransient<UploadEmojisDialogViewModel>();
             services.AddTransient<UploadEmojisPage>();
             services.AddTransient<MarketplacePage>();
+            services.AddTransient<MarketplaceViewModel>();
 
             services.AddTransient<GestureClassificationPage>();
             services.AddTransient<GestureClassificationViewModel>();

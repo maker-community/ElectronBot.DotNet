@@ -11,6 +11,11 @@ public class EmojisItemDto
         get; set;
     } = string.Empty;
 
+    public string Desc
+    {
+        get; set;
+    } = string.Empty;
+
     public decimal Price
     {
         get; set;

@@ -13,6 +13,7 @@
     xmlns:local="using:Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:ElectronBot.BraincasePreview.Models"
+    xmlns:models1="using:Models"
     Width="800"
     Height="400"
     MinWidth="800"
@@ -20,14 +21,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
-        <ic:EventTriggerBehavior EventName="Loaded">
-            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        <ic:EventTriggerBehavior EventName="Loading">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand, Mode=OneWay}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-        <DataTemplate x:Key="EmojisItemTemplate" x:DataType="models:EmoticonAction">
+        <DataTemplate x:Key="EmojisItemTemplate" x:DataType="models1:EmojisItemDto">
             <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind Name}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
@@ -35,33 +36,30 @@
                 </Grid.ColumnDefinitions>
                 <Image
                     MaxHeight="100"
-                    Source="{x:Bind Avatar}"
+                    Source="{x:Bind PictureFileName}"
                     Stretch="Uniform" />
 
                 <StackPanel Grid.Column="1" Margin="12,0,0,0">
                     <TextBlock
                         Margin="0,4,0,6"
                         HorizontalAlignment="Left"
-                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                         FontSize="18"
                         LineHeight="20"
                         Style="{ThemeResource BaseTextBlockStyle}"
                         Text="{x:Bind Name}" />
                     <TextBlock
                         Margin="0,4,0,6"
-                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                         FontWeight="Normal"
                         MaxLines="2"
                         Style="{ThemeResource BodyTextBlockStyle}"
                         Text="{x:Bind Desc}"
                         TextTrimming="CharacterEllipsis" />
 
-                    <StackPanel Orientation="Horizontal">
+                    <!--<StackPanel Orientation="Horizontal">
 
                         <TextBlock
                             Margin="0,0,0,0"
                             HorizontalAlignment="Left"
-                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                             Style="{ThemeResource CaptionTextBlockStyle}"
                             Text="{x:Bind Name}" />
                         <TextBlock
@@ -85,18 +83,26 @@
                             Text=" Likes" />
 
 
-                    </StackPanel>
+                    </StackPanel>-->
                 </StackPanel>
             </Grid>
         </DataTemplate>
     </Page.Resources>
-    <Grid>
+    <Grid Width="800">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <!--<StackPanel Orientation="Horizontal">
-            <DropDownButton
+        <StackPanel Orientation="Horizontal">
+            <ProgressRing
+                x:Name="DownLoadRing"
+                Width="28"
+                Height="28"
+                Margin="12,4,12,4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsActive="{x:Bind ViewModel.IsActive, Mode=OneWay}" />
+            <!--<DropDownButton
                 Margin="8"
                 HorizontalAlignment="Left"
                 Content="种类">
@@ -117,30 +123,22 @@
                         <MenuFlyoutItem Text="复古" />
                     </MenuFlyout>
                 </DropDownButton.Flyout>
-            </DropDownButton>
-        </StackPanel>-->
+            </DropDownButton>-->
+        </StackPanel>
         <ListView
             x:Name="EmojisListView"
             Grid.Row="1"
-            Width="auto"
             Height="auto"
             IsItemClickEnabled="True"
             ItemTemplate="{StaticResource EmojisItemTemplate}"
-            ItemsSource="{x:Bind ViewModel.Actions, Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.EmojisList, Mode=OneWay}"
             SelectionMode="Single">
             <ListView.ContextFlyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem x:Name="ViewInfo" x:Uid="ViewEmojisInfo">
+                    <MenuFlyoutItem x:Name="DownLoadEmojis" x:Uid="DownLoadEmojis">
                         <i:Interaction.Behaviors>
                             <ic:EventTriggerBehavior EventName="Click">
-                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.EmojisInfoCommand}" CommandParameter="{x:Bind EmojisListView.SelectedItem, Mode=TwoWay}" />
-                            </ic:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Name="AddPic" x:Uid="PlayEmojis">
-                        <i:Interaction.Behaviors>
-                            <ic:EventTriggerBehavior EventName="Click">
-                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.PlayEmojisCommand}" CommandParameter="{x:Bind EmojisListView.SelectedItem, Mode=TwoWay}" />
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.DownLoadEmojisCommand}" CommandParameter="{x:Bind EmojisListView.SelectedItem, Mode=TwoWay}" />
                             </ic:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </MenuFlyoutItem>

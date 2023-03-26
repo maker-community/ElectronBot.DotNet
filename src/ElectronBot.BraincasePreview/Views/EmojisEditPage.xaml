@@ -64,7 +64,7 @@
                 x:Uid="MarketplaceBtn"
                 Margin="8"
                 HorizontalAlignment="Right"
-                Command="{x:Bind ViewModel.RandomContentEditCommand}"
+                Command="{x:Bind ViewModel.MarketplaceCommand}"
                 Foreground="{ThemeResource SystemAccentColor}">
                 <AppBarButton.Icon>
                     <FontIcon

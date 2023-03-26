@@ -27,14 +27,14 @@ namespace Controls;
 /// </summary>
 public sealed partial class MarketplacePage : Page
 {
-    public EmojisEditViewModel ViewModel
+    public MarketplaceViewModel ViewModel
     {
         get;
     }
 
     public MarketplacePage()
     {
-        ViewModel = App.GetService<EmojisEditViewModel>();
+        ViewModel = App.GetService<MarketplaceViewModel>();
         this.InitializeComponent();
     }
 }

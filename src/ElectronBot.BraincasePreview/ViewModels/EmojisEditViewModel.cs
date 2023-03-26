@@ -101,16 +101,15 @@ public partial class EmojisEditViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    public async void RandomContentEdit()
+    public async void Marketplace()
     {
         try
         {
-            var randomContentEditDialog = new ContentDialog()
+            var marketplaceDialog = new ContentDialog()
             {
-                Title = "AddRandomContentTitle".GetLocalized(),
-                PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
-                CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
-                DefaultButton = ContentDialogButton.Primary,
+                Title = "MarketplaceDialogTitle".GetLocalized(),
+                CloseButtonText = "MarketplaceDialogClose".GetLocalized(),
+                DefaultButton = ContentDialogButton.Close,
                 XamlRoot = App.MainWindow.Content.XamlRoot,
                 Width = 800,
                 Height = 600,
@@ -118,7 +117,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
                 Content = new MarketplacePage()
             };
 
-            await randomContentEditDialog.ShowAsync();
+            await marketplaceDialog.ShowAsync();
         }
         catch (Exception)
         {
