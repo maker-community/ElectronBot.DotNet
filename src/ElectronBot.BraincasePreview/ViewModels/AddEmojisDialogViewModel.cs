@@ -54,7 +54,7 @@ public class AddEmojisDialogViewModel : ObservableRecipient
         get => _emojisAvatarBitMap;
         set => SetProperty(ref _emojisAvatarBitMap, value);
     }
-    private async void SaveEmojis()
+    public async void SaveEmojis()
     {
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {

@@ -22,9 +22,15 @@ public partial class MarketplaceViewModel : ObservableRecipient
     [RelayCommand]
     public async Task Loaded()
     {
-        var list = await _emojiseShopService.GetEmojisListAsync(new EmojisItemQuery { PageIndex = 0, PageSize = 100 });
-
-        EmojisList = new ObservableCollection<EmojisItemDto>(list);
+        try
+        {
+            var list = await _emojiseShopService.GetEmojisListAsync(new EmojisItemQuery { PageIndex = 0, PageSize = 100 });
+            EmojisList = new ObservableCollection<EmojisItemDto>(list);
+        }
+        catch (Exception)
+        {
+            ToastHelper.SendToast("表情商城加载失败", TimeSpan.FromSeconds(3));
+        }
     }
 
     [RelayCommand]
@@ -50,7 +56,7 @@ public partial class MarketplaceViewModel : ObservableRecipient
     }
 
     [ObservableProperty]
-    bool isActive = false;
+    private bool isActive = false;
 
     public ObservableCollection<EmojisItemDto> EmojisList
     {

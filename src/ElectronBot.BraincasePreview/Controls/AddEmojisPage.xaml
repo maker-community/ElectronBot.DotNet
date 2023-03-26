@@ -21,7 +21,7 @@
     </i:Interaction.Behaviors>
     <Grid>
         <ScrollViewer>
-            <Grid>
+            <Grid Margin="12">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock

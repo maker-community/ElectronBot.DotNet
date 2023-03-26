@@ -11,8 +11,6 @@
     xmlns:local="using:Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ElectronBot.BraincasePreview.Models"
-    Width="1200"
-    Height="800"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
@@ -23,22 +21,23 @@
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" CommandParameter="{x:Bind EmojisActionPath.Text, Mode=TwoWay}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <Grid>
+    <Grid Margin="12">
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock
                     x:Name="EmojisName"
-                    Margin="4"
+                    VerticalAlignment="Center"
                     Text="{x:Bind EmoticonAction.Name, Mode=OneWay}" />
                 <TextBlock
                     x:Name="EmojisNameId"
                     Margin="4"
+                    VerticalAlignment="Center"
                     Text="{x:Bind EmoticonAction.NameId, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -57,25 +56,19 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <StackPanel>
-                <Button
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ClearCommand}"
-                    Content="清除动作" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <ToggleSwitch
-                    x:Name="RecordSwitch"
-                    OffContent="录制动作"
-                    OnContent="录制中">
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Toggled">
-                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.RecordCommand}" CommandParameter="{x:Bind RecordSwitch.IsOn, Mode=OneWay}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </ToggleSwitch>
-                <ProgressRing Width="32" IsActive="{x:Bind RecordSwitch.IsOn, Mode=TwoWay}" />
-            </StackPanel>
+            <Button Command="{x:Bind ViewModel.ClearCommand}" Content="清除动作" />
+            <ToggleSwitch
+                x:Name="RecordSwitch"
+                Margin="8"
+                OffContent="录制动作"
+                OnContent="录制中">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Toggled">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.RecordCommand}" CommandParameter="{x:Bind RecordSwitch.IsOn, Mode=OneWay}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </ToggleSwitch>
+            <ProgressRing Width="32" IsActive="{x:Bind RecordSwitch.IsOn, Mode=TwoWay}" />
         </StackPanel>
         <StackPanel Grid.Row="2">
             <Slider
@@ -101,29 +94,6 @@
                     HorizontalScrollMode="Enabled">
                     <StackPanel Margin="8">
                         <ListView x:Name="ActonList" ItemsSource="{x:Bind ViewModel.ActionList, Mode=OneWay}">
-                            <!--<ListView.ContextFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem x:Name="AddPic" x:Uid="AddPic">
-                                        <i:Interaction.Behaviors>
-                                            <ic:EventTriggerBehavior EventName="Click">
-                                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.AddPictureCommand}" />
-                                            </ic:EventTriggerBehavior>
-                                        </i:Interaction.Behaviors>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Name="RemoveAction" x:Uid="RemoveAction">
-                                        <i:Interaction.Behaviors>
-                                            <ic:EventTriggerBehavior EventName="Click">
-                                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.RemoveActionCommand}" />
-                                            </ic:EventTriggerBehavior>
-                                        </i:Interaction.Behaviors>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout>
-                            </ListView.ContextFlyout>-->
-                            <!--<i:Interaction.Behaviors>
-                                <ic:EventTriggerBehavior EventName="DoubleTapped">
-                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.AddPictureCommand}" />
-                                </ic:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>-->
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="model:ElectronBotAction">
                                     <Grid>

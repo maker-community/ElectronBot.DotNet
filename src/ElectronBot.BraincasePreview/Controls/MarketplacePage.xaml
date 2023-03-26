@@ -14,12 +14,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:ElectronBot.BraincasePreview.Models"
     xmlns:models1="using:Models"
-    Width="800"
-    Height="400"
-    MinWidth="800"
-    MinHeight="400"
-    Loaded="Page_Loaded"
+    MinWidth="400"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
     <!--<i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loading">
@@ -89,20 +86,20 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-    <Grid Width="800">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <ProgressRing
+            <!--<ProgressRing
                 x:Name="DownLoadRing"
                 Width="28"
                 Height="28"
                 Margin="12,4,12,4"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsActive="{x:Bind ViewModel.IsActive, Mode=OneWay}" />
+                IsActive="{x:Bind ViewModel.IsActive, Mode=OneWay}" />-->
             <!--<DropDownButton
                 Margin="8"
                 HorizontalAlignment="Left"
@@ -146,5 +143,13 @@
                 </MenuFlyout>
             </ListView.ContextFlyout>
         </ListView>
+        <ProgressRing
+            x:Name="DownLoadRing"
+            Grid.RowSpan="2"
+            Width="80"
+            Height="80"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsActive="{x:Bind ViewModel.IsActive, Mode=OneWay}" />
     </Grid>
 </Page>
