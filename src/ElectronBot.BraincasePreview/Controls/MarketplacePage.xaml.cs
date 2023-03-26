@@ -37,4 +37,9 @@ public sealed partial class MarketplacePage : Page
         ViewModel = App.GetService<MarketplaceViewModel>();
         this.InitializeComponent();
     }
+
+    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        await ViewModel.Loaded();
+    }
 }

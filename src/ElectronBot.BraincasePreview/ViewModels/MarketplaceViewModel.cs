@@ -20,7 +20,7 @@ public partial class MarketplaceViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    public async void Loaded()
+    public async Task Loaded()
     {
         var list = await _emojiseShopService.GetEmojisListAsync(new EmojisItemQuery { PageIndex = 0, PageSize = 100 });
 
