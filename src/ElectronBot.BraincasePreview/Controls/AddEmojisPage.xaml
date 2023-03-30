@@ -10,8 +10,6 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="800"
-    Height="600"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
@@ -21,7 +19,10 @@
     </i:Interaction.Behaviors>
     <Grid>
         <ScrollViewer>
-            <Grid Margin="12">
+            <Grid
+                Width="800"
+                Height="600"
+                Margin="12">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
@@ -141,6 +142,18 @@
                             Width="280"
                             Margin="4"
                             Text="{x:Bind ViewModel.EmojisDesc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Uid="UploadEmojisAuthorTitle"
+                            Width="100"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Width="280"
+                            Margin="4"
+                            Text="{x:Bind ViewModel.EmojisAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>

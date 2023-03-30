@@ -46,11 +46,7 @@
                     Width="60"
                     Margin="0,0,8,0"
                     VerticalAlignment="Center" />
-                <TextBox
-                    x:Name="UploadEmojisAuthor"
-                    Width="280"
-                    Text="{x:Bind EmoticonAction.EmojisAuthor, Mode=TwoWay}"
-                    TextWrapping="NoWrap" />
+                <TextBlock x:Name="UploadEmojisAuthor" Text="{x:Bind EmoticonAction.EmojisAuthor, Mode=TwoWay}" />
             </StackPanel>
 
         </StackPanel>

@@ -41,7 +41,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             x:Uid="UploadEmojisNameTitle"
-                            Width="60"
+                            Width="80"
                             Margin="0,4,0,0"
                             HorizontalAlignment="Left"
                             FontSize="18"
@@ -58,7 +58,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             x:Uid="UploadEmojisDescTitle"
-                            Width="60"
+                            Width="80"
                             Margin="0,4,0,0"
                             FontWeight="Normal"
                             MaxLines="2"
@@ -75,6 +75,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             x:Uid="UploadEmojisAuthorTitle"
+                            Width="80"
                             Margin="0,4,0,0"
                             FontWeight="Normal"
                             MaxLines="2"
@@ -91,6 +92,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             x:Uid="UploadEmojisCreateTimeTitle"
+                            Width="80"
                             Margin="0,4,0,0"
                             FontWeight="Normal"
                             MaxLines="2"
