@@ -46,8 +46,9 @@
                         </Border>
                     </Grid>
                     <TextBlock
+                        Margin="10"
                         HorizontalAlignment="Center"
-                        FontSize="32"
+                        FontSize="20"
                         Text="{x:Bind Name}" />
                 </StackPanel>
 

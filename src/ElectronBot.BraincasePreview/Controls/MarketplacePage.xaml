@@ -82,11 +82,11 @@
                             TextTrimming="CharacterEllipsis" />
                         <TextBlock
                             Margin="0,4,0,0"
-                            HorizontalAlignment="Left"
-                            FontSize="18"
-                            LineHeight="20"
-                            Style="{ThemeResource BaseTextBlockStyle}"
-                            Text="{x:Bind Author}" />
+                            FontWeight="Normal"
+                            MaxLines="2"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind Author}"
+                            TextTrimming="CharacterEllipsis" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
@@ -98,11 +98,11 @@
                             TextTrimming="CharacterEllipsis" />
                         <TextBlock
                             Margin="0,4,0,0"
-                            HorizontalAlignment="Left"
-                            FontSize="18"
-                            LineHeight="20"
-                            Style="{ThemeResource BaseTextBlockStyle}"
-                            Text="{x:Bind CreateTime}" />
+                            FontWeight="Normal"
+                            MaxLines="2"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind CreateTime}"
+                            TextTrimming="CharacterEllipsis" />
                     </StackPanel>
                     <!--<TextBlock
                         Margin="0,4,0,6"
