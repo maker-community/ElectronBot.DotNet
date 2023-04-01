@@ -49,11 +49,12 @@ public class ActivationService : IActivationService
             App.MainWindow.Content = _shell ?? new Frame();
         }
 
+        // Activate the MainWindow.
+        App.MainWindow.Activate();
+
         // Handle activation via ActivationHandlers.
         await HandleActivationAsync(activationArgs);
 
-        // Activate the MainWindow.
-        App.MainWindow.Activate();
 
         // Execute tasks after activation.
         await StartupAsync();

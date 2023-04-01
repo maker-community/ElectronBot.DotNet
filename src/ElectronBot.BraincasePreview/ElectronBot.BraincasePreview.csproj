@@ -28,6 +28,7 @@
     <Content Remove="Assets\Emoji\disdain.png" />
     <Content Remove="Assets\Emoji\excited.png" />
     <Content Remove="Assets\Emoji\fear.png" />
+    <Content Remove="Assets\Emoji\pic\eyes-closed.png" />
     <Content Remove="Assets\Emoji\sad.png" />
     <Content Remove="Assets\hand.png" />
     <Content Remove="Assets\MLModel1.zip" />
@@ -46,9 +47,13 @@
     <None Remove="ClockViews\RandomContentView.xaml" />
     <None Remove="Controls\ActionTimeline.xaml" />
     <None Remove="Controls\AddEmojisContentDialog.xaml" />
+    <None Remove="Controls\AddEmojisPage.xaml" />
     <None Remove="Controls\AppQuitPage.xaml" />
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
+    <None Remove="Controls\EmojisInfoPage.xaml" />
+    <None Remove="Controls\MarketplacePage.xaml" />
     <None Remove="Controls\RandomContentPage.xaml" />
+    <None Remove="Controls\UploadEmojisPage.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Themes\DefaultThemeDictionary.xaml" />
     <None Remove="Themes\LightThemeDictionary.xaml" />
@@ -130,15 +135,15 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ChatGPTSharp" Version="1.0.8" />
+    <PackageReference Include="ChatGPTSharp" Version="1.1.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.13.1" />
+    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.14.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230217.4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230313.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.7.0.20230115" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.7.0.20230115" />
@@ -178,6 +183,9 @@
     <None Update="Assets\Emoji\fear.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Emoji\pic\eyes-closed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Emoji\sad.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -190,6 +198,18 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\UploadEmojisPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\EmojisInfoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AddEmojisPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\MarketplacePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Themes\DefaultThemeDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

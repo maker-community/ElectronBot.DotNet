@@ -13,7 +13,7 @@ using Windows.Storage;
 
 namespace ElectronBot.BraincasePreview.ViewModels;
 
-public class AddEmojisDialogViewModel : ObservableRecipient
+public partial class AddEmojisDialogViewModel : ObservableRecipient
 {
     private ObservableCollection<EmoticonAction> _actions = new();
 
@@ -54,7 +54,7 @@ public class AddEmojisDialogViewModel : ObservableRecipient
         get => _emojisAvatarBitMap;
         set => SetProperty(ref _emojisAvatarBitMap, value);
     }
-    private async void SaveEmojis()
+    public async void SaveEmojis()
     {
         if (string.IsNullOrWhiteSpace(EmojisNameId))
         {
@@ -89,7 +89,8 @@ public class AddEmojisDialogViewModel : ObservableRecipient
             NameId = EmojisNameId,
             EmojisVideoPath = EmojisVideoUrl,
             EmojisType = EmojisType.Custom,
-            EmojisActionPath = EmojisActionPath
+            EmojisActionPath = EmojisActionPath,
+            EmojisAuthor = EmojisAuthor
         };
 
 
@@ -112,13 +113,15 @@ public class AddEmojisDialogViewModel : ObservableRecipient
     {
         try
         {
+            var theme = App.GetService<IThemeSelectorService>();
             var addEmojisContentDialog = new AddEmojisContentDialog
             {
                 Title = "AddEmojisTitle".GetLocalized(),
                 PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
                 CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
-                XamlRoot = App.MainWindow.Content.XamlRoot
+                XamlRoot = App.MainWindow.Content.XamlRoot,
+                RequestedTheme = theme.Theme
             };
 
 
@@ -415,6 +418,9 @@ public class AddEmojisDialogViewModel : ObservableRecipient
         get => _emojisDesc;
         set => SetProperty(ref _emojisDesc, value);
     }
+
+    [ObservableProperty]
+    string emojisAuthor;
 
     /// <summary>
     /// 表情动作存储地址

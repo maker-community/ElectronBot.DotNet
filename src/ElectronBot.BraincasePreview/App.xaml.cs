@@ -78,6 +78,7 @@ public partial class App : Application
             // Other Activation Handlers
             services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
 
+            services.AddTransient<IActivationHandler, StartupTaskActivationHandler>();
 
             services.AddHttpClient();
             // Services
@@ -99,6 +100,8 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             services.AddTransient<IEmojisFileService, EmojisFileService>();
+
+            services.AddTransient<IEmojiseShopService, EmojiseShopService>();
 
             services.AddTransient<IElectronLowLevel, ElectronLowLevel>();
 
@@ -126,6 +129,10 @@ public partial class App : Application
             services.AddTransient<EmojisEditPage>();
             services.AddTransient<EmojisEditViewModel>();
             services.AddTransient<AddEmojisDialogViewModel>();
+            services.AddTransient<UploadEmojisDialogViewModel>();
+            services.AddTransient<UploadEmojisPage>();
+            services.AddTransient<MarketplacePage>();
+            services.AddTransient<MarketplaceViewModel>();
 
             services.AddTransient<GestureClassificationPage>();
             services.AddTransient<GestureClassificationViewModel>();
@@ -226,6 +233,8 @@ public partial class App : Application
     {
         args.Cancel = true;
 
+        var theme = App.GetService<IThemeSelectorService>();
+
         var dialog = new ContentDialog
         {
             // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
@@ -235,6 +244,7 @@ public partial class App : Application
             CloseButtonText = "取消",
             SecondaryButtonText = "托盘化",
             DefaultButton = ContentDialogButton.Primary,
+            RequestedTheme = theme.Theme,
             Content = new AppQuitPage()
         };
 

@@ -26,7 +26,15 @@
             Grid.Column="1"
             Margin="8,0,8,0"
             VerticalAlignment="Top">
-            <Slider
+            <controlLocal:ActionEdit
+                J1="{x:Bind ViewModel.J1, Mode=TwoWay}"
+                J2="{x:Bind ViewModel.J2, Mode=TwoWay}"
+                J3="{x:Bind ViewModel.J3, Mode=TwoWay}"
+                J4="{x:Bind ViewModel.J4, Mode=TwoWay}"
+                J5="{x:Bind ViewModel.J5, Mode=TwoWay}"
+                J6="{x:Bind ViewModel.J6, Mode=TwoWay}"
+                ValueChanged="{x:Bind ViewModel.Head_ValueChanged}" />
+            <!--<Slider
                 x:Name="Head"
                 x:Uid="Sd_Head"
                 Maximum="15"
@@ -67,7 +75,7 @@
                 Maximum="90"
                 Minimum="-90"
                 ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-                Value="{x:Bind ViewModel.J6, Mode=TwoWay}" />
+                Value="{x:Bind ViewModel.J6, Mode=TwoWay}" />-->
         </StackPanel>
         <StackPanel
             Grid.Row="0"
