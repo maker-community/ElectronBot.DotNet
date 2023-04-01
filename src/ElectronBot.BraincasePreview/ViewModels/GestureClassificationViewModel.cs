@@ -199,6 +199,7 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
     {
         try
         {
+            var theme = App.GetService<IThemeSelectorService>();
             var randomContentEditDialog = new ContentDialog()
             {
                 Title = "AddRandomContentTitle".GetLocalized(),
@@ -206,7 +207,8 @@ public partial class GestureClassificationViewModel : ObservableRecipient, INavi
                 CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
                 XamlRoot = App.MainWindow.Content.XamlRoot,
-                Content = new RandomContentPage()
+                Content = new RandomContentPage(),
+                RequestedTheme = theme.Theme
             };
 
             randomContentEditDialog.Closed += RandomContentEditDialog_Closed;

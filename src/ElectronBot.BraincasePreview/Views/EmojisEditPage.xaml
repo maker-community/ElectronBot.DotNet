@@ -46,8 +46,9 @@
                         </Border>
                     </Grid>
                     <TextBlock
+                        Margin="10"
                         HorizontalAlignment="Center"
-                        FontSize="32"
+                        FontSize="20"
                         Text="{x:Bind Name}" />
                 </StackPanel>
 
@@ -60,6 +61,19 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <AppBarButton
+                x:Uid="MarketplaceBtn"
+                Margin="8"
+                HorizontalAlignment="Right"
+                Command="{x:Bind ViewModel.MarketplaceCommand}"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                        FontWeight="Bold"
+                        Glyph="&#xE8A9;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
             <AppBarButton
                 x:Uid="ImportEmojisFileBtn"
                 Margin="8"
@@ -74,8 +88,8 @@
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton
-                Margin="8"
                 x:Uid="AddEmojisBtn"
+                Margin="8"
                 HorizontalAlignment="Right"
                 Command="{x:Bind ViewModel.OpenEmojisEditDialogCommand}"
                 Foreground="{ThemeResource SystemAccentColor}">
@@ -115,6 +129,13 @@
                             </ic:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </MenuFlyoutItem>
+                    <MenuFlyoutItem x:Name="UploadEmojis" x:Uid="UploadEmojis">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Click">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.UploadEmojisCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </MenuFlyoutItem>
                     <MenuFlyoutItem
                         x:Name="ExportEmojis"
                         x:Uid="ExportEmojis"
@@ -125,6 +146,7 @@
                             </ic:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </MenuFlyoutItem>
+
                     <MenuFlyoutItem
                         x:Name="DelPic"
                         x:Uid="DelEmojis"

@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
 using Verdure.ElectronBot.Core.Models;
@@ -22,9 +21,7 @@ public class ElectronBotHelper
     {
         get; set;
     }
-    private ElectronBotHelper()
-    {
-    }
+
     private static ElectronBotHelper? _instance;
     public static ElectronBotHelper Instance => _instance ??= new ElectronBotHelper();
 
@@ -43,10 +40,18 @@ public class ElectronBotHelper
     private bool isTTS = false;
 
     private bool _isOpenMediaEnded = false;
+
+    private readonly int _playEmojisCount = 3;
     public bool EbConnected
     {
         get; set;
     }
+
+    public bool StartupTask
+    {
+        get; set;
+    }
+
 
     public void InvokeClockCanvasStop()
     {
@@ -255,6 +260,36 @@ public class ElectronBotHelper
 
             SerialPort.BaudRate = 115200;
 
+            if (StartupTask == true)
+            {
+                try
+                {
+                    if (!SerialPort.IsOpen)
+                    {
+                        SerialPort.Open();
+                    }
+
+                    if (SerialPort.IsOpen)
+                    {
+                        var byteData = new byte[]
+                        {
+                        0xea, 0x00, 0x00, 0x00, 0x00 ,0x0d, 0x02, 0x00 , 0x00, 0x0f, 0xea
+                        };
+
+                        SerialPort.Write(byteData, 0, byteData.Length);
+
+                        Thread.Sleep(4000);
+
+                        SerialPort.Close();
+                    }
+
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+
             try
             {
                 if (ElectronBot is not null)
@@ -264,10 +299,6 @@ public class ElectronBotHelper
                     ElectronBot = null;
                 }
 
-                //SerialPort.Open();
-
-
-                //_electronDic.Add(args.Id, args.Name);
 
                 ElectronBot = new ElectronLowLevel(App.GetService<ILogger<ElectronLowLevel>>());
 
@@ -284,6 +315,20 @@ public class ElectronBotHelper
                 }, null);
 
                 return;
+            }
+
+            if (StartupTask == true)
+            {
+                Thread.Sleep(3000);
+
+                for (var i = 0; i < _playEmojisCount; i++)
+                {
+                    ToPlayEmojisRandom();
+
+                    Thread.Sleep(3000);
+                }
+
+
             }
         }
     }
@@ -378,7 +423,7 @@ public class ElectronBotHelper
 
         if (isTTS && _isOpenMediaEnded)
         {
-     
+
             await speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
 
 

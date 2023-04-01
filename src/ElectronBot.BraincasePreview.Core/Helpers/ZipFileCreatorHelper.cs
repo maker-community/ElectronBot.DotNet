@@ -83,24 +83,3 @@ public static class ZipFileCreatorHelper
         }
     }
 }
-
-
-
-
-//using (var content = new MultipartFormDataContent()) {
-//  var mixed = new MultipartContent("mixed") {
-//    CreateFileContent (imageStream, "image.jpg", "image/jpeg"),
-//    CreateFileContent (signatureStream, "image.jpg.sig", "application/octet-stream")
-//  };
-//content.Add(mixed, "files");
-//  var response = await httpClient.PostAsync(_profileImageUploadUri, content);
-//response.EnsureSuccessStatusCode();
-//}
-
-//private StreamContent CreateFileContent(Stream stream, string fileName, string contentType)
-//{
-//    var fileContent = new StreamContent(stream);
-//    fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("file") { FileName = fileName };
-//    fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-//    return fileContent;
-//}
