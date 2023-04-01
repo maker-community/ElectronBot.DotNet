@@ -4,10 +4,12 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Contracts.Services;
+using Controls;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Controls;
 using ElectronBot.BraincasePreview.Helpers;
 using ElectronBot.BraincasePreview.Models;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Models;
 using Verdure.ElectronBot.Core.Helpers;
@@ -19,6 +21,8 @@ namespace ElectronBot.BraincasePreview.ViewModels;
 public partial class EmojisEditViewModel : ObservableRecipient
 {
     private ObservableCollection<EmoticonAction> _actions = new();
+
+    private ElementTheme _elementTheme;
 
     private readonly IActionExpressionProvider _actionExpressionProvider;
 
@@ -55,11 +59,13 @@ public partial class EmojisEditViewModel : ObservableRecipient
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public EmojisEditViewModel(IActionExpressionProvider actionExpressionProvider,
         ILocalSettingsService localSettingsService,
-        IEmojisFileService emojisFileService)
+        IEmojisFileService emojisFileService,
+        IThemeSelectorService themeSelectorService)
     {
         _actionExpressionProvider = actionExpressionProvider;
         _localSettingsService = localSettingsService;
         _emojisFileService = emojisFileService;
+        _elementTheme = themeSelectorService.Theme;
     }
 
     /// <summary>
@@ -91,6 +97,34 @@ public partial class EmojisEditViewModel : ObservableRecipient
             }
             //ToastHelper.SendToast("导出成功", TimeSpan.FromSeconds(3));
         }
+    }
+
+    [RelayCommand]
+    public async void Marketplace()
+    {
+        try
+        {
+            var marketplaceDialog = new ContentDialog()
+            {
+                Title = "MarketplaceDialogTitle".GetLocalized(),
+                CloseButtonText = "MarketplaceDialogClose".GetLocalized(),
+                DefaultButton = ContentDialogButton.Close,
+                XamlRoot = App.MainWindow.Content.XamlRoot,
+                RequestedTheme = _elementTheme,
+                Content = new MarketplacePage(),
+            };
+            marketplaceDialog.Closed += MarketplaceDialog_Closed;
+            await marketplaceDialog.ShowAsync();
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+
+    private void MarketplaceDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+        OnLoaded();
     }
 
     /// <summary>
@@ -190,8 +224,13 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
                     await storageFolder.DeleteAsync();
                 }
+                ToastHelper.SendToast("导入成功", TimeSpan.FromSeconds(3));
             }
-            ToastHelper.SendToast("导入成功", TimeSpan.FromSeconds(3));
+            else
+            {
+                ToastHelper.SendToast("取消导入", TimeSpan.FromSeconds(3));
+            }
+           
         }
         catch (Exception ex)
         {
@@ -326,14 +365,17 @@ public partial class EmojisEditViewModel : ObservableRecipient
         {
             if (obj is EmoticonAction emojis)
             {
-                var emojisInfoContentDialog = new EmojisInfoContentDialog
+                var emojisInfoContentDialog = new ContentDialog()
                 {
                     Title = "EmojisInfoTitle".GetLocalized(),
-                    PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
-                    CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
-                    DefaultButton = ContentDialogButton.Primary,
+                    CloseButtonText = "MarketplaceDialogClose".GetLocalized(),
+                    DefaultButton = ContentDialogButton.Close,
                     XamlRoot = App.MainWindow.Content.XamlRoot,
-                    EmoticonAction = emojis
+                    RequestedTheme = _elementTheme,
+                    Content = new EmojisInfoPage
+                    {
+                        EmoticonAction = emojis
+                    }
                 };
 
                 emojisInfoContentDialog.Closed += EmojisInfoContentDialog_Closed;
@@ -348,20 +390,76 @@ public partial class EmojisEditViewModel : ObservableRecipient
         }
     }
 
+    [RelayCommand]
+    private async void UploadEmojis(object? obj)
+    {
+        try
+        {
+            if (obj is EmoticonAction emojis)
+            {
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    ToastHelper.SendToast("默认表情不能分享", TimeSpan.FromSeconds(3));
+                    return;
+                }
+
+                var uploadEmojisContentDialog = new ContentDialog()
+                {
+                    Title = "UploadEmojisTitle".GetLocalized(),
+                    PrimaryButtonText = "UploadEmojisOKBtn".GetLocalized(),
+                    CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = App.MainWindow.Content.XamlRoot,
+                    RequestedTheme = _elementTheme,
+                    Content = new UploadEmojisPage
+                    {
+                        EmoticonAction = emojis
+                    }
+                };
+
+                var result = await uploadEmojisContentDialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    var eshpService = App.GetService<IEmojiseShopService>();
+
+                    var ret = await eshpService.UploadEmojisAsync(emojis);
+
+                    if (ret)
+                    {
+                        ToastHelper.SendToast("表情分享成功，审核通过即可显示。", TimeSpan.FromSeconds(3));
+                    }
+                    else
+                    {
+                        ToastHelper.SendToast("表情分享失败。", TimeSpan.FromSeconds(3));
+                    }
+                }
+            }
+
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+
     private void EmojisInfoContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        if (sender.DataContext is EmojisInfoDialogViewModel viewModel)
+        if (sender.Content is EmojisInfoPage page)
         {
-            if (viewModel is not null)
+            if (page.DataContext is EmojisInfoDialogViewModel viewModel)
             {
-                var emotion = viewModel.EmoticonAction;
-
-                if (emotion is not null)
+                if (viewModel is not null)
                 {
-                    var act = Actions.Where(a => a.NameId == emotion.NameId).FirstOrDefault();
-                    if (act is not null)
+                    var emotion = viewModel.EmoticonAction;
+
+                    if (emotion is not null)
                     {
-                        act.HasAction = emotion.HasAction;
+                        var act = Actions.Where(a => a.NameId == emotion.NameId).FirstOrDefault();
+                        if (act is not null)
+                        {
+                            act.HasAction = emotion.HasAction;
+                        }
                     }
                 }
             }
@@ -384,18 +482,22 @@ public partial class EmojisEditViewModel : ObservableRecipient
     {
         try
         {
-            var addEmojisContentDialog = new AddEmojisContentDialog
+            var addEmojisContentDialog = new ContentDialog()
             {
                 Title = "AddEmojisTitle".GetLocalized(),
                 PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
                 CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
-                XamlRoot = App.MainWindow.Content.XamlRoot
+                XamlRoot = App.MainWindow.Content.XamlRoot,
+                Content = new AddEmojisPage(),
+                RequestedTheme = _elementTheme
             };
+
+            addEmojisContentDialog.PrimaryButtonClick += AddEmojisContentDialog_PrimaryButtonClick;
 
             addEmojisContentDialog.Closed += AddEmojisContentDialog_Closed;
 
-            await addEmojisContentDialog.ShowAsync();
+            var result = await addEmojisContentDialog.ShowAsync();
         }
         catch (Exception)
         {
@@ -403,17 +505,72 @@ public partial class EmojisEditViewModel : ObservableRecipient
         }
     }
 
+    private async void AddEmojisContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    {
+        if (sender.Content is AddEmojisPage page)
+        {
+            if (page.DataContext is AddEmojisDialogViewModel viewModel)
+            {
+                if (viewModel is not null)
+                {
+                    if (string.IsNullOrWhiteSpace(viewModel.EmojisNameId))
+                    {
+                        ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
+                        args.Cancel = true;
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(viewModel.EmojisName))
+                    {
+                        ToastHelper.SendToast("SetEmojisName".GetLocalized(), TimeSpan.FromSeconds(3));
+                        args.Cancel = true;
+                        return;
+                    }
+
+
+                    var list = (await _localSettingsService
+                        .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+                    if (list.Where(e => e.NameId == viewModel.EmojisNameId).Any() || Constants.EMOJI_ACTION_LIST.Where(e => e.NameId == viewModel.EmojisNameId).Any())
+                    {
+                        ToastHelper.SendToast("EmojisNameIdAlreadyExists".GetLocalized(), TimeSpan.FromSeconds(3));
+                        args.Cancel = true;
+                        return;
+                    }
+                    viewModel.SaveEmojis();
+                }
+            }
+        }
+    }
+
+    private void AddEmojisContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+    {
+        if (sender.Content is AddEmojisPage page)
+        {
+            if (page.DataContext is AddEmojisDialogViewModel viewModel)
+            {
+                if (viewModel is not null)
+                {
+                    viewModel.SaveEmojis();
+                }
+            }
+        }
+    }
+
     private void AddEmojisContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        if (sender.DataContext is AddEmojisDialogViewModel viewModel)
+        if (sender.Content is AddEmojisPage page)
         {
-            if (viewModel is not null)
+            if (page.DataContext is AddEmojisDialogViewModel viewModel)
             {
-                var emotion = viewModel.EmoticonAction;
-
-                if (emotion is not null)
+                if (viewModel is not null)
                 {
-                    Actions.Add(emotion);
+                    var emotion = viewModel.EmoticonAction;
+
+                    if (emotion is not null)
+                    {
+                        Actions.Add(emotion);
+                    }
                 }
             }
         }
@@ -508,6 +665,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
     private async void OnLoaded()
     {
+        Actions.Clear();
         var list = (await _localSettingsService
             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
 

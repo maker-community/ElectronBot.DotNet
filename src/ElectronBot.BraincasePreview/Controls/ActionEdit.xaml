@@ -11,50 +11,44 @@
         <Slider
             x:Name="Head"
             x:Uid="Sd_Head"
-            Header="头部(J1)"
             Maximum="15"
             Minimum="-15"
-            ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-            Value="{x:Bind ViewModel.J1, Mode=TwoWay}" />
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J1, Mode=TwoWay}" />
         <Slider
             x:Name="LeftArmExpansion"
             x:Uid="Sd_LeftArmExpansion"
-            Header="左臂展开(J2)"
             Maximum="30"
             Minimum="0"
-            ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-            Value="{x:Bind ViewModel.J2, Mode=TwoWay}" />
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J2, Mode=TwoWay}" />
         <Slider
             x:Name="LeftArm"
             x:Uid="Sd_LeftArm"
-            Header="左臂旋转(J3)"
             Maximum="180"
             Minimum="0"
-            ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-            Value="{x:Bind ViewModel.J3, Mode=TwoWay}" />
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J3, Mode=TwoWay}" />
         <Slider
             x:Name="RightArmExpansion"
             x:Uid="Sd_RightArmExpansion"
-            Header="右臂展开(J4)"
             Maximum="30"
             Minimum="0"
-            ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-            Value="{x:Bind ViewModel.J4, Mode=TwoWay}" />
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J4, Mode=TwoWay}" />
         <Slider
             x:Name="RightArm"
             x:Uid="Sd_RightArm"
-            Header="右臂旋转(J5)"
             Maximum="180"
             Minimum="0"
-            ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-            Value="{x:Bind ViewModel.J5, Mode=TwoWay}" />
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J5, Mode=TwoWay}" />
         <Slider
             x:Name="Bottom"
             x:Uid="Sd_Bottom"
-            Header="底盘转动(J6)"
             Maximum="90"
             Minimum="-90"
-            ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-            Value="{x:Bind ViewModel.J6, Mode=TwoWay}" />
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J6, Mode=TwoWay}" />
     </StackPanel>
 </UserControl>

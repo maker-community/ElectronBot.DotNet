@@ -547,7 +547,14 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.4.3 版本更新说明
+    <value>1.5.0 版本更新说明
+1. 添加在线表情分享功能，类似于表情商城的功能，可以分享下载表情文件。
+2. 调整UI显示，优化弹窗的明暗主题色。
+
+1.4.4 版本更新说明
+1. 添加开机自启动电子脑壳注册，并选择随机播放三次表情列表的表情。如果不喜欢开机自启，请到系统设置=&gt;应用=&gt;启动 禁用。
+
+1.4.3 版本更新说明
 1. 调整ChatGPT对接改成ApiKey对接，更加人性化。
 2. 开放手柄控制页面，目前支持Xbox手柄控制电子。
 
@@ -609,5 +616,41 @@
   </data>
   <data name="ElectronBotCode.Content" xml:space="preserve">
     <value>电子脑壳源码地址</value>
+  </data>
+  <data name="MarketplaceBtn.Label" xml:space="preserve">
+    <value>表情商城</value>
+  </data>
+  <data name="UploadEmojis.Text" xml:space="preserve">
+    <value>分享表情</value>
+  </data>
+  <data name="DownLoadEmojis.Text" xml:space="preserve">
+    <value>下载表情</value>
+  </data>
+  <data name="MarketplaceDialogClose" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="MarketplaceDialogTitle" xml:space="preserve">
+    <value>表情商城</value>
+  </data>
+  <data name="UploadEmojisAuthorTitle.Text" xml:space="preserve">
+    <value>作者：</value>
+  </data>
+  <data name="UploadEmojisCreateTimeTitle.Text" xml:space="preserve">
+    <value>创建时间：</value>
+  </data>
+  <data name="UploadEmojisDescTitle.Text" xml:space="preserve">
+    <value>描述：</value>
+  </data>
+  <data name="UploadEmojisNameIdTitle.Text" xml:space="preserve">
+    <value>标识ID：</value>
+  </data>
+  <data name="UploadEmojisNameTitle.Text" xml:space="preserve">
+    <value>名称：</value>
+  </data>
+  <data name="UploadEmojisOKBtn" xml:space="preserve">
+    <value>分享</value>
+  </data>
+  <data name="UploadEmojisTitle" xml:space="preserve">
+    <value>表情分享</value>
   </data>
 </root>
