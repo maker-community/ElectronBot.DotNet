@@ -69,6 +69,7 @@
                             Style="{ThemeResource BodyTextBlockStyle}"
                             TextTrimming="CharacterEllipsis" />
                         <TextBlock
+                            Width="240"
                             Margin="0,4,0,0"
                             FontWeight="Normal"
                             MaxLines="2"

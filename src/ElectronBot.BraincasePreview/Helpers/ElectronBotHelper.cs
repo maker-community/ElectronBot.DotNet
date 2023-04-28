@@ -3,8 +3,10 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using ElectronBot.BraincasePreview.Contracts.Services;
 using ElectronBot.BraincasePreview.Models;
+using ElectronBot.BraincasePreview.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
+using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
@@ -32,6 +34,7 @@ public class ElectronBotHelper
     private DeviceWatcher? deviceWatcher;
 
     public event EventHandler? ClockCanvasStop;
+    public event EventHandler? ClockCanvasStart;
 
     public event EventHandler? PlayEmojisRandom;
 
@@ -57,6 +60,12 @@ public class ElectronBotHelper
     {
         ClockCanvasStop?.Invoke(this, new EventArgs());
     }
+
+    public void InvokeClockCanvasStart()
+    {
+        ClockCanvasStart?.Invoke(this, new EventArgs());
+    }
+
 
     public SerialPort SerialPort { get; set; } = new SerialPort();
 
@@ -204,13 +213,22 @@ public class ElectronBotHelper
     {
         try
         {
-            if (ElectronBot is not null)
-            {
-                ElectronBot.Disconnect();
+            //InvokeClockCanvasStop();
 
-                ElectronBot = null;
-            }
+            var service = App.GetService<EmoticonActionFrameService>();
 
+            service.ClearQueue();
+
+            Thread.Sleep(1000);
+
+            IntelligenceService.Current.CleanUp();
+
+            await CameraService.Current.CleanupMediaCaptureAsync();
+
+            await CameraFrameService.Current.CleanupMediaCaptureAsync();
+
+            ElectronBot?.Disconnect();
+            
             if (SerialPort.IsOpen)
             {
                 SerialPort.Close();
@@ -225,29 +243,6 @@ public class ElectronBotHelper
         EbConnected = false;
 
         await DisconnectDeviceAsync();
-        //if (_electronDic.TryGetValue(args.Id, out var value))
-        //{
-        //    if (value != null)
-        //    {
-        //        _electronDic.Remove(args.Id);
-
-        //        if (ElectronBot is not null)
-        //        {
-        //            ElectronBot.Disconnect();
-
-        //            ElectronBot = null;                   
-        //        }
-
-        //        if (SerialPort.IsOpen)
-        //        {
-        //            SerialPort.Close();
-        //        }
-
-        //        EbConnected = false;
-
-        //        await DisconnectDeviceAsync();
-        //    }
-        //};
     }
 
     private async void OnDeviceAdded(DeviceWatcher sender, DeviceInformation args)
@@ -299,10 +294,13 @@ public class ElectronBotHelper
                     ElectronBot = null;
                 }
 
+                Thread.Sleep(5000);
 
                 ElectronBot = new ElectronLowLevel(App.GetService<ILogger<ElectronLowLevel>>());
 
                 EbConnected = ElectronBot.Connect();
+
+                //InvokeClockCanvasStart();
 
                 await ConnectDeviceAsync();
             }
