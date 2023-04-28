@@ -27,6 +27,7 @@ public class EmoticonActionFrameService
 
     public void ClearQueue()
     {
+        Interlocked.Exchange(ref _isSending, 0);
         _queue.Clear();
     }
 
