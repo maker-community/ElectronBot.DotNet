@@ -108,11 +108,23 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         ElectronBotHelper.Instance.SerialPort.DataReceived += SerialPort_DataReceived;
 
         ElectronBotHelper.Instance.ClockCanvasStop += Instance_ClockCanvasStop;
+        ElectronBotHelper.Instance.ClockCanvasStart += Instance_ClockCanvasStart;
+    }
+
+    private void Instance_ClockCanvasStart(object? sender, EventArgs e)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            _dispatcherTimer.Start();
+        });
     }
 
     private void Instance_ClockCanvasStop(object? sender, EventArgs e)
     {
-        _dispatcherTimer.Stop();
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            _dispatcherTimer.Stop();
+        });
     }
 
     [ObservableProperty]
