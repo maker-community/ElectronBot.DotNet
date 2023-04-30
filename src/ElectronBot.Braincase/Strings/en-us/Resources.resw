@@ -654,4 +654,22 @@
   <data name="UploadEmojisTitle" xml:space="preserve">
     <value>表情分享</value>
   </data>
+  <data name="DownloadDebugger.Content" xml:space="preserve">
+    <value>点击文字下载电子调试助手</value>
+  </data>
+  <data name="FeedBackText.Text" xml:space="preserve">
+    <value>反馈点我</value>
+  </data>
+  <data name="hlOpenPrivacySettings.Text" xml:space="preserve">
+    <value>如果语音识别异常请确认是否打开语音识别策略，开启策略允许个性化。</value>
+  </data>
+  <data name="OpenGestureSwitch.OffContent" xml:space="preserve">
+    <value>打开手势识别</value>
+  </data>
+  <data name="OpenGestureSwitch.OnContent" xml:space="preserve">
+    <value>关闭手势识别</value>
+  </data>
+  <data name="PrivacyHyperLink.Content" xml:space="preserve">
+    <value>点击文字进入策略设置页</value>
+  </data>
 </root>

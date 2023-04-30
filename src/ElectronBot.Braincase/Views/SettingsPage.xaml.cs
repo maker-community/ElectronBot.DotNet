@@ -19,7 +19,7 @@ public sealed partial class SettingsPage : Page
         InitializeComponent();
     }
 
-    private async void openPrivacySettings_Click(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
+    private async void OpenPrivacySettings_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-speech"));
     }

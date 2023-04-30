@@ -85,9 +85,8 @@
                 </ComboBox>
                 <ToggleSwitch
                     x:Name="OpenGestureSwitch"
-                    Margin="0,0,8,0"
-                    OffContent="打开手势识别"
-                    OnContent="关闭手势识别">
+                    x:Uid="OpenGestureSwitch"
+                    Margin="0,0,8,0">
                     <i:Interaction.Behaviors>
                         <ic:EventTriggerBehavior EventName="Toggled">
                             <ic:InvokeCommandAction Command="{x:Bind ViewModel.OpenGestureCommand}" CommandParameter="{x:Bind OpenGestureSwitch.IsOn, Mode=TwoWay}" />

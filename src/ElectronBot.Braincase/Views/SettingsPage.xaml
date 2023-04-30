@@ -414,28 +414,27 @@
 
 
                 <HyperlinkButton
+                    x:Uid="DownloadDebugger"
                     Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
                     FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                     FontSize="24"
                     FontWeight="Bold"
-                    NavigateUri="https://www.microsoft.com/store/productId/9P9XF62G5R9S">
-                    点击文字下载电子调试助手
-                </HyperlinkButton>
+                    NavigateUri="https://www.microsoft.com/store/productId/9P9XF62G5R9S" />
 
                 <StackPanel Margin="8">
                     <TextBlock
                         x:Name="hlOpenPrivacySettings"
+                        x:Uid="hlOpenPrivacySettings"
                         FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                         FontSize="20"
-                        TextWrapping="WrapWholeWords">
-                        如果语音识别异常请确认是否打开语音识别策略，<Hyperlink Click="openPrivacySettings_Click">点击文字进入策略设置页</Hyperlink>
-                        开启策略允许个性化。</TextBlock>
+                        TextWrapping="WrapWholeWords" />
+                    <HyperlinkButton x:Uid="PrivacyHyperLink" Click="OpenPrivacySettings_Click" />
                 </StackPanel>
 
 
                 <StackPanel Margin="8">
                     <Button
-                        x:Name="call"
+                        x:Name="Call"
                         Background="{ThemeResource MainCustomAcrylicBrush}"
                         Command="{x:Bind ViewModel.FeedbackBtnCommand}">
                         <Button.Content>
@@ -445,10 +444,10 @@
                                     FontSize="80"
                                     Glyph="&#xE1A8;" />
                                 <TextBlock
+                                    x:Uid="FeedBackText"
                                     HorizontalAlignment="Center"
                                     FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                    FontSize="24"
-                                    Text="反馈点我" />
+                                    FontSize="24" />
                             </StackPanel>
 
                         </Button.Content>
