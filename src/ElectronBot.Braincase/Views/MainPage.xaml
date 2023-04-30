@@ -313,6 +313,7 @@
                     <RadioButton x:Uid="ControlMode" />
                     <RadioButton x:Uid="ClockModeRb" />
                     <RadioButton x:Uid="EntitySchemaRb" />
+                    <RadioButton x:Uid="NeedleModeRb" />
                 </RadioButtons>
             </StackPanel>
             <StackPanel Orientation="Horizontal">

@@ -672,4 +672,7 @@
   <data name="PrivacyHyperLink.Content" xml:space="preserve">
     <value>点击文字进入策略设置页</value>
   </data>
+  <data name="NeedleModeRb.Content" xml:space="preserve">
+    <value>盯针模式</value>
+  </data>
 </root>

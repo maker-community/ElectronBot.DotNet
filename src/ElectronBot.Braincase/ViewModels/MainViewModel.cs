@@ -578,6 +578,12 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                 }
             }
         }
+        else if (modeNo == 4)
+        {
+            var (x, y) = EbHelper.GetScreenCursorPos();
+            var str = $"x:{x}y:{y}";
+            Debug.WriteLine(str);
+        }
     }
 
     public void Head_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
@@ -646,6 +652,19 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             }
         }
         else if (index == 3)
+        {
+            if (!ElectronBotHelper.Instance.EbConnected)
+            {
+                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+            else
+            {
+                await ResetActionAsync();
+                _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
+                _dispatcherTimer.Start();
+            }
+        }
+        else if (index == 4)
         {
             if (!ElectronBotHelper.Instance.EbConnected)
             {

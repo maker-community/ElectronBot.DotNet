@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
@@ -344,6 +345,37 @@ public class EbHelper
         catch (Exception)
         {
 
+        }
+    }
+
+    /// <summary>
+    /// 获取屏幕鼠标坐标
+    /// </summary>
+    /// <returns></returns>
+    public static (int x,int y) GetScreenCursorPos()
+    {
+        var myPoint = new CursorPoint();
+        GetCursorPos(ref myPoint);
+        return (myPoint.X, myPoint.Y);
+    }
+
+
+    ///<summary>
+    ///返回当前光标的位置(用来更换鼠标位置）
+    ///lpPoint-POINTAPI，随同指针在屏幕像素坐标中的位置载入的一个结构
+    ///</summary>
+    [DllImport("user32.dll", EntryPoint = "GetCursorPos")]
+
+    private static extern int GetCursorPos(ref CursorPoint lpPoint);
+
+    private struct CursorPoint
+    {
+        public int X;
+        public int Y;
+        public CursorPoint(int x, int y)
+        {
+            this.X = x;
+            this.Y = y;
         }
     }
 }
