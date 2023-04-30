@@ -1,8 +1,8 @@
-﻿using ElectronBot.BraincasePreview.ClockViews;
-using ElectronBot.BraincasePreview.Contracts.Services;
+﻿using ElectronBot.Braincase.ClockViews;
+using ElectronBot.Braincase.Contracts.Services;
 using Microsoft.UI.Xaml;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 public class DefaultClockViewProvider : IClockViewProvider
 {
     private readonly string _name = "DefautView";

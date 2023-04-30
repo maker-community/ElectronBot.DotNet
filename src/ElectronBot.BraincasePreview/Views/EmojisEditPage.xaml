@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="ElectronBot.BraincasePreview.Views.EmojisEditPage"
+    x:Class="ElectronBot.Braincase.Views.EmojisEditPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
@@ -8,7 +8,7 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:ElectronBot.BraincasePreview.Models"
+    xmlns:models="using:ElectronBot.Braincase.Models"
     mc:Ignorable="d">
 
     <i:Interaction.Behaviors>

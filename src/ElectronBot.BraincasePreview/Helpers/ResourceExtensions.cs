@@ -1,6 +1,6 @@
 ﻿using Microsoft.Windows.ApplicationModel.Resources;
 
-namespace ElectronBot.BraincasePreview.Helpers;
+namespace ElectronBot.Braincase.Helpers;
 
 public static class ResourceExtensions
 {

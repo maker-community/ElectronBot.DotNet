@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronBot.BraincasePreview.Picker
+namespace ElectronBot.Braincase.Picker
 {
     public class ObjectPickedEventArgs<T> : EventArgs
     {

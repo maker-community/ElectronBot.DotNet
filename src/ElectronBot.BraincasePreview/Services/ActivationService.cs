@@ -1,12 +1,12 @@
-﻿using ElectronBot.BraincasePreview.Activation;
-using ElectronBot.BraincasePreview.Contracts.Services;
+﻿using ElectronBot.Braincase.Activation;
+using ElectronBot.Braincase.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
-using ElectronBot.BraincasePreview.Views;
+using ElectronBot.Braincase.Views;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class ActivationService : IActivationService
 {

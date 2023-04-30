@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using ElectronBot.BraincasePreview.Models;
+using ElectronBot.Braincase.Models;
 using Verdure.ElectronBot.Core.Models;
 
-namespace ElectronBot.BraincasePreview.Contracts.Services;
+namespace ElectronBot.Braincase.Contracts.Services;
 public interface IActionExpressionProvider
 {
     public string Name

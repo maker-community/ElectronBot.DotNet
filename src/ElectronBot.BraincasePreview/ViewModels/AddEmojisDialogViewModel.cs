@@ -3,15 +3,15 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Controls;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Controls;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 
-namespace ElectronBot.BraincasePreview.ViewModels;
+namespace ElectronBot.Braincase.ViewModels;
 
 public partial class AddEmojisDialogViewModel : ObservableRecipient
 {

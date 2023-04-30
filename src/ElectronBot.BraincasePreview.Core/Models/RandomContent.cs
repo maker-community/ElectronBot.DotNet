@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronBot.BraincasePreview.Core.Models;
+namespace ElectronBot.Braincase.Core.Models;
 public class RandomContent
 {
     public string Content

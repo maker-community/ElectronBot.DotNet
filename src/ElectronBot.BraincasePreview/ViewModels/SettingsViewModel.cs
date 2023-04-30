@@ -2,17 +2,17 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Services;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Contracts.ViewModels;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
+using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
 using Windows.System;
 
-namespace ElectronBot.BraincasePreview.ViewModels;
+namespace ElectronBot.Braincase.ViewModels;
 
 public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 {

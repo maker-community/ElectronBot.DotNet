@@ -1,11 +1,11 @@
-﻿using ElectronBot.BraincasePreview.ClockViews;
-using ElectronBot.BraincasePreview.ViewModels;
+﻿using ElectronBot.Braincase.ClockViews;
+using ElectronBot.Braincase.ViewModels;
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel.Core;
 
-namespace ElectronBot.BraincasePreview.Views;
+namespace ElectronBot.Braincase.Views;
 
 public sealed partial class MainPage : Page
 {

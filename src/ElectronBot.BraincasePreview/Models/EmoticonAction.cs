@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace ElectronBot.BraincasePreview.Models;
+namespace ElectronBot.Braincase.Models;
 public class EmoticonAction : ObservableRecipient
 {
     private bool _hasAction;

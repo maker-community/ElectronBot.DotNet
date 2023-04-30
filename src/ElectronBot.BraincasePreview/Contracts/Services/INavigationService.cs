@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
-namespace ElectronBot.BraincasePreview.Contracts.Services;
+namespace ElectronBot.Braincase.Contracts.Services;
 
 public interface INavigationService
 {

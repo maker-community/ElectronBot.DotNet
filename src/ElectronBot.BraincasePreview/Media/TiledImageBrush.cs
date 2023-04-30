@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace ElectronBot.BraincasePreview.Media
+namespace ElectronBot.Braincase.Media
 {
     public class TiledImageBrush : XamlCompositionBrushBase
     {

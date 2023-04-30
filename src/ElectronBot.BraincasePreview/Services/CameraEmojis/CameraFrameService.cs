@@ -3,9 +3,9 @@
 
 using System.Diagnostics;
 using CommunityToolkit.WinUI.Helpers;
-using ElectronBot.BraincasePreview.Contracts.Services;
+using ElectronBot.Braincase.Contracts.Services;
 using Verdure.ElectronBot.Core.Models;
-using ElectronBot.BraincasePreview.Helpers;
+using ElectronBot.Braincase.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -13,7 +13,7 @@ using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 using Windows.Storage.Streams;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class CameraFrameService
 {

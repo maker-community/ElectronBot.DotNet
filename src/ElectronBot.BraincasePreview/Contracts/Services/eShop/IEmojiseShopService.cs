@@ -1,4 +1,4 @@
-﻿using ElectronBot.BraincasePreview.Models;
+﻿using ElectronBot.Braincase.Models;
 using Models;
 
 namespace Contracts.Services;

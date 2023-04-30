@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Core.Models;
-using ElectronBot.BraincasePreview.Helpers;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Core.Models;
+using ElectronBot.Braincase.Helpers;
 
-namespace ElectronBot.BraincasePreview.ViewModels;
+namespace ElectronBot.Braincase.ViewModels;
 
 public partial class RandomContentViewModel : ObservableRecipient
 {

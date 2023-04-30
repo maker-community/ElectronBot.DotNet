@@ -1,6 +1,6 @@
 ﻿using System.Collections.Specialized;
 
-namespace ElectronBot.BraincasePreview.Contracts.Services;
+namespace ElectronBot.Braincase.Contracts.Services;
 
 public interface IAppNotificationService
 {

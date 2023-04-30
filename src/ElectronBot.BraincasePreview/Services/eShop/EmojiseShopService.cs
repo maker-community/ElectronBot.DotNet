@@ -1,10 +1,10 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
 using Contracts.Services;
-using ElectronBot.BraincasePreview;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
+using ElectronBot.Braincase;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
 using Models;
 using Verdure.ElectronBot.Core.Helpers;
 using Windows.Storage;

@@ -21,8 +21,8 @@ using Microsoft.UI;
 using System.Numerics;
 using Microsoft.UI.Composition;
 using Windows.UI;
-using ElectronBot.BraincasePreview.ViewModels;
-using ElectronBot.BraincasePreview;
+using ElectronBot.Braincase.ViewModels;
+using ElectronBot.Braincase;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

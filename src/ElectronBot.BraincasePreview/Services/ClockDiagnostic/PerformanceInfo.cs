@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.System.Diagnostics;
 using System.Diagnostics;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 
 public static class PerformanceInfo
 {

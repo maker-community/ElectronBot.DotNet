@@ -6,7 +6,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 
-namespace ElectronBot.BraincasePreview.BgTaskComponent
+namespace ElectronBot.Braincase.BgTaskComponent
 {
     public sealed class ToastBgTask: IBackgroundTask
     {

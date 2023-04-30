@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ElectronBot.BraincasePreview.Contracts.Services;
+using ElectronBot.Braincase.Contracts.Services;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 public class ClockViewProviderFactory : IClockViewProviderFactory
 {
     private readonly Dictionary<string, IClockViewProvider> _providers = new(StringComparer.Ordinal);

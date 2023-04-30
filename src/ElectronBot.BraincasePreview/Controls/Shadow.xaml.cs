@@ -8,7 +8,7 @@ using Windows.UI;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
-namespace ElectronBot.BraincasePreview.Controls;
+namespace ElectronBot.Braincase.Controls;
 
 public sealed partial class Shadow : UserControl
 {

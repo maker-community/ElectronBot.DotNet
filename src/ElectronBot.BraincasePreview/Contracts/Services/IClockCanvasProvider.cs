@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace ElectronBot.BraincasePreview.Contracts.Services;
+namespace ElectronBot.Braincase.Contracts.Services;
 public interface IClockCanvasProvider
 {
     public string Name

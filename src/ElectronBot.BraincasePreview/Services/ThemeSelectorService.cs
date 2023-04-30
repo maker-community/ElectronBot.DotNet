@@ -1,9 +1,9 @@
-﻿using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Helpers;
+﻿using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 
 using Microsoft.UI.Xaml;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class ThemeSelectorService : IThemeSelectorService
 {

@@ -1,6 +1,6 @@
-﻿using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.ViewModels;
+﻿using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.ViewModels;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,7 +12,7 @@ using Windows.ApplicationModel.Background;
 using Windows.System;
 using Windows.UI.Popups;
 
-namespace ElectronBot.BraincasePreview.Views;
+namespace ElectronBot.Braincase.Views;
 
 // TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
 public sealed partial class ShellPage : Page
@@ -165,7 +165,7 @@ public sealed partial class ShellPage : Page
                 var builder = new BackgroundTaskBuilder
                 {
                     Name = "EbToastBgTask",
-                    TaskEntryPoint = "ElectronBot.BraincasePreview.BgTaskComponent.ToastBgTask"
+                    TaskEntryPoint = "ElectronBot.Braincase.BgTaskComponent.ToastBgTask"
                 };
                 builder.SetTrigger(new TimeTrigger(15, false));
 

@@ -1,15 +1,15 @@
 ﻿using System.Runtime.InteropServices.WindowsRuntime;
-using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Picker;
-using ElectronBot.BraincasePreview.Services;
-using ElectronBot.BraincasePreview.ViewModels;
+using ElectronBot.Braincase.Models;
+using ElectronBot.Braincase.Picker;
+using ElectronBot.Braincase.Services;
+using ElectronBot.Braincase.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace ElectronBot.BraincasePreview.Helpers;
+namespace ElectronBot.Braincase.Helpers;
 
 public static class ImageHelper
 {

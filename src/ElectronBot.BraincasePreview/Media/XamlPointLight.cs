@@ -5,7 +5,7 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace ElectronBot.BraincasePreview.Media
+namespace ElectronBot.Braincase.Media
 {
     public class XamlPointLight : XamlLight
     {

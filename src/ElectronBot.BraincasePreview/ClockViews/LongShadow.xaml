@@ -1,12 +1,12 @@
 ﻿<UserControl
-    x:Class="ElectronBot.BraincasePreview.ClockViews.LongShadow"
+    x:Class="ElectronBot.Braincase.ClockViews.LongShadow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:ElectronBot.BraincasePreview.Controls"
+    xmlns:controls="using:ElectronBot.Braincase.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:local="using:ElectronBot.BraincasePreview.ClockViews"
+    xmlns:local="using:ElectronBot.Braincase.ClockViews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ElectronBot.BraincasePreview.AnimationTimelines;
+using ElectronBot.Braincase.AnimationTimelines;
 
-namespace ElectronBot.BraincasePreview.ClockViews;
+namespace ElectronBot.Braincase.ClockViews;
 
 public class GooeyBubble
 {

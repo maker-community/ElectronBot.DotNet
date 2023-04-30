@@ -57,7 +57,7 @@
 		  </desktop:Extension>
           <com:Extension Category="windows.comServer">
               <com:ComServer>
-                  <com:ExeServer Executable="ElectronBot.BraincasePreview.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
+                  <com:ExeServer Executable="ElectronBot.Braincase.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
                       <com:Class Id="5B11237D-2E06-4581-8302-E1BE4B4AD722" DisplayName="Toast activator"/>
                   </com:ExeServer>
               </com:ComServer>
@@ -71,7 +71,7 @@
 		<Extension Category="windows.activatableClass.inProcessServer">
 			<InProcessServer>
 				<Path>WinRT.Host.dll</Path>
-				<ActivatableClass ActivatableClassId="ElectronBot.BraincasePreview.BgTaskComponent.ToastBgTask" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="ElectronBot.Braincase.BgTaskComponent.ToastBgTask" ThreadingModel="both" />
 			</InProcessServer>
 		</Extension>
 	</Extensions>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
-namespace ElectronBot.BraincasePreview.Helpers;
+namespace ElectronBot.Braincase.Helpers;
 
 public class EnumToBooleanConverter : IValueConverter
 {

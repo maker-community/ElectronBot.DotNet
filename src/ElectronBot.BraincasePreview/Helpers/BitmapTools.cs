@@ -10,7 +10,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace ElectronBot.BraincasePreview.Helpers;
+namespace ElectronBot.Braincase.Helpers;
 public class BitmapTools
 {
     /// <summary>

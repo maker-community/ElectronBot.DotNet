@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.BraincasePreview.Models;
+﻿namespace ElectronBot.Braincase.Models;
 
 public class LocalSettingsOptions
 {

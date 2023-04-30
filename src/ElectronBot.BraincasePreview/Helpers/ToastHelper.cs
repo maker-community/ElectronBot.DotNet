@@ -1,4 +1,4 @@
-﻿using ElectronBot.BraincasePreview.Controls;
+﻿using ElectronBot.Braincase.Controls;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace ElectronBot.BraincasePreview.Helpers
+namespace ElectronBot.Braincase.Helpers
 {
     public class ToastHelper
     {

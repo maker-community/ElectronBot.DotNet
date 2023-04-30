@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.BraincasePreview.Behaviors;
+﻿namespace ElectronBot.Braincase.Behaviors;
 
 public enum NavigationViewHeaderMode
 {

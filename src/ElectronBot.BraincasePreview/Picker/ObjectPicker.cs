@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ElectronBot.BraincasePreview.Contracts.Services;
+using ElectronBot.Braincase.Contracts.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
-namespace ElectronBot.BraincasePreview.Picker;
+namespace ElectronBot.Braincase.Picker;
 
 public class ObjectPicker<T> : ContentControl
 {

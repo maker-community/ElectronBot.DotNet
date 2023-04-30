@@ -2,9 +2,9 @@
 using System.Text.Json;
 using System.Text.Unicode;
 using Contracts.Services;
-using ElectronBot.BraincasePreview;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
+using ElectronBot.Braincase;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
 using Models;
 using Verdure.ElectronBot.Core.Helpers;
 using Windows.ApplicationModel;

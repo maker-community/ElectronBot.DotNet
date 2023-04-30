@@ -22,7 +22,7 @@ using Windows.UI;
 using Windows.UI.Core;
 using Microsoft.UI.Xaml.Controls;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 
 [ComImport]
 [Guid("5B0D3235-4DBA-4D44-865E-8F1D0E4FD04D")]

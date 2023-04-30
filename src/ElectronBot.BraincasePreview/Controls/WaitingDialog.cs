@@ -6,7 +6,7 @@ using Windows.UI.Core;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace ElectronBot.BraincasePreview.Controls;
+namespace ElectronBot.Braincase.Controls;
 public class WaitingDialog : Control
 {
     // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...

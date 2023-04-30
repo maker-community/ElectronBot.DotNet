@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 
-namespace ElectronBot.BraincasePreview.Helpers;
+namespace ElectronBot.Braincase.Helpers;
 
 public static class FrameExtensions
 {

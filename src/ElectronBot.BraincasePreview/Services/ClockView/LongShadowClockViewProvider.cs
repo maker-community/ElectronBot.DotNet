@@ -1,8 +1,8 @@
-﻿using ElectronBot.BraincasePreview.ClockViews;
-using ElectronBot.BraincasePreview.Contracts.Services;
+﻿using ElectronBot.Braincase.ClockViews;
+using ElectronBot.Braincase.Contracts.Services;
 using Microsoft.UI.Xaml;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 public class LongShadowClockViewProvider : IClockViewProvider
 {
     private readonly string _name = "LongShadowView";

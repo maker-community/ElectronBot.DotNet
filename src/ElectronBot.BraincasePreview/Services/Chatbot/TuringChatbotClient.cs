@@ -1,9 +1,9 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using Contracts.Services;
-using ElectronBot.BraincasePreview;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Models;
+using ElectronBot.Braincase;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Models;
 
 namespace Services;
 public class TuringChatbotClient : IChatbotClient

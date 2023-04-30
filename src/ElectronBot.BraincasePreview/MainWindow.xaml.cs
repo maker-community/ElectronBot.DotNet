@@ -1,6 +1,6 @@
-﻿using ElectronBot.BraincasePreview.Helpers;
+﻿using ElectronBot.Braincase.Helpers;
 
-namespace ElectronBot.BraincasePreview;
+namespace ElectronBot.Braincase;
 
 public sealed partial class MainWindow : WindowEx
 {

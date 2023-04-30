@@ -1,15 +1,15 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text.Json;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Services.EbotGrpcService;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
+using ElectronBot.Braincase.Services.EbotGrpcService;
 using OpenCvSharp;
 using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 public class DefaultActionExpressionProvider : IActionExpressionProvider
 {
     public string Name => "Default";

@@ -2,7 +2,7 @@
 using System.Security.Principal;
 using System.Text;
 
-namespace ElectronBot.BraincasePreview.Helpers;
+namespace ElectronBot.Braincase.Helpers;
 
 public class RuntimeHelper
 {

@@ -2,10 +2,10 @@
 // Licensed under the MIT license. 
 
 using System;
-using ElectronBot.BraincasePreview.Models;
+using ElectronBot.Braincase.Models;
 using Windows.Graphics.Imaging;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 
 //used to update success gauge on EmotionPage
 public class EmotionPageGaugeScoreEventArgs : EventArgs

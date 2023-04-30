@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Services;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Services;
 using Mediapipe.Net.Framework.Format;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;

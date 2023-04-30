@@ -1,16 +1,16 @@
 ﻿<UserControl
-    x:Class="ElectronBot.BraincasePreview.Controls.ActionTimeline"
+    x:Class="ElectronBot.Braincase.Controls.ActionTimeline"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clockControl="using:ElectronBot.BraincasePreview.ClockViews"
+    xmlns:clockControl="using:ElectronBot.Braincase.ClockViews"
     xmlns:control="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:controlLocal="using:ElectronBot.BraincasePreview.Controls"
+    xmlns:controlLocal="using:ElectronBot.Braincase.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:local="using:ElectronBot.BraincasePreview.Controls"
+    xmlns:local="using:ElectronBot.Braincase.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="using:ElectronBot.BraincasePreview.Models"
+    xmlns:model="using:ElectronBot.Braincase.Models"
     mc:Ignorable="d">
     <StackPanel Orientation="Horizontal">
         <Grid Margin="0,8,0,8">

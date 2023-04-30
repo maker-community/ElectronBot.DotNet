@@ -1,9 +1,9 @@
-﻿using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.ViewModels;
+﻿using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.ViewModels;
 
 using Microsoft.UI.Xaml;
 
-namespace ElectronBot.BraincasePreview.Activation;
+namespace ElectronBot.Braincase.Activation;
 
 public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
 {

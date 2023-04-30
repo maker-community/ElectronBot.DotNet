@@ -10,7 +10,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="using:ElectronBot.BraincasePreview.Models"
+    xmlns:model="using:ElectronBot.Braincase.Models"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>

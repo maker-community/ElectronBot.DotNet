@@ -1,11 +1,11 @@
 ﻿using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.ViewModels;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
+using ElectronBot.Braincase.ViewModels;
 using Windows.Storage;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class UserDataService
 {

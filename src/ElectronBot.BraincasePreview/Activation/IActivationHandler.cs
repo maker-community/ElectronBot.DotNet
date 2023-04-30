@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.BraincasePreview.Activation;
+﻿namespace ElectronBot.Braincase.Activation;
 
 public interface IActivationHandler
 {

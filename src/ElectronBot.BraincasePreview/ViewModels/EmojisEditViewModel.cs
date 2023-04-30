@@ -5,10 +5,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Contracts.Services;
 using Controls;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Controls;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Controls;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Models;
@@ -16,7 +16,7 @@ using Verdure.ElectronBot.Core.Helpers;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
-namespace ElectronBot.BraincasePreview.ViewModels;
+namespace ElectronBot.Braincase.ViewModels;
 
 public partial class EmojisEditViewModel : ObservableRecipient
 {

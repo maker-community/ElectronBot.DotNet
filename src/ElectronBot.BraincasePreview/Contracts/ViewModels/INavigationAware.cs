@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.BraincasePreview.Contracts.ViewModels;
+﻿namespace ElectronBot.Braincase.Contracts.ViewModels;
 
 public interface INavigationAware
 {

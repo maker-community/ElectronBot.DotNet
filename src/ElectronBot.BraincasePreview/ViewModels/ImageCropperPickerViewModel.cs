@@ -1,11 +1,11 @@
 ﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Picker;
+using ElectronBot.Braincase.Contracts.ViewModels;
+using ElectronBot.Braincase.Models;
+using ElectronBot.Braincase.Picker;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace ElectronBot.BraincasePreview.ViewModels;
+namespace ElectronBot.Braincase.ViewModels;
 public class ImageCropperPickerViewModel : ObservableRecipient, INavigationAware, IObjectPicker<WriteableBitmap>
 {
     private WriteableBitmap _sourceImage;

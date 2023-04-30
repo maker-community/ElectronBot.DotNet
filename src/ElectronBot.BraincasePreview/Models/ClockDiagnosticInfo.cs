@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronBot.BraincasePreview.Models;
+namespace ElectronBot.Braincase.Models;
 public class ClockDiagnosticInfo
 {
     public double CpuUsage

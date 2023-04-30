@@ -1,15 +1,15 @@
 ﻿using Contracts.Services;
 using Controls;
-using ElectronBot.BraincasePreview.Activation;
-using ElectronBot.BraincasePreview.ClockViews;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Notifications;
-using ElectronBot.BraincasePreview.Picker;
-using ElectronBot.BraincasePreview.Services;
-using ElectronBot.BraincasePreview.ViewModels;
-using ElectronBot.BraincasePreview.Views;
+using ElectronBot.Braincase.Activation;
+using ElectronBot.Braincase.ClockViews;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
+using ElectronBot.Braincase.Notifications;
+using ElectronBot.Braincase.Picker;
+using ElectronBot.Braincase.Services;
+using ElectronBot.Braincase.ViewModels;
+using ElectronBot.Braincase.Views;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +27,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Media.Playback;
 using Windows.UI.Popups;
 
-namespace ElectronBot.BraincasePreview;
+namespace ElectronBot.Braincase;
 
 // To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application

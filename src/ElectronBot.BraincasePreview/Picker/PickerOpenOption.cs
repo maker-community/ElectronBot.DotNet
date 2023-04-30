@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.UI;
 
-namespace ElectronBot.BraincasePreview.Picker
+namespace ElectronBot.Braincase.Picker
 {
     public class PickerOpenOption
     {

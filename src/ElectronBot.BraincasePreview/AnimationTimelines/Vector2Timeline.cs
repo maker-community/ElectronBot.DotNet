@@ -3,7 +3,7 @@ using System.Numerics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 
-namespace ElectronBot.BraincasePreview.AnimationTimelines;
+namespace ElectronBot.Braincase.AnimationTimelines;
 
 public class Vector2Timeline
 {

@@ -8,7 +8,7 @@ using Windows.Media;
 using Windows.Media.FaceAnalysis;
 using Windows.Storage;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 public class IntelligenceService
 {
     public event EventHandler IntelligenceServiceProcessingCompleted;

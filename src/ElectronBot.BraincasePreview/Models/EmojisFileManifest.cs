@@ -1,4 +1,4 @@
-﻿using ElectronBot.BraincasePreview.Models;
+﻿using ElectronBot.Braincase.Models;
 
 namespace Models;
 public class EmojisFileManifest

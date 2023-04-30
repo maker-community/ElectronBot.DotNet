@@ -1,19 +1,19 @@
-﻿using ElectronBot.BraincasePreview.Contracts.Services;
+﻿using ElectronBot.Braincase.Contracts.Services;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Helpers;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
 
 using Microsoft.Extensions.Options;
 
 using Windows.ApplicationModel;
 using Windows.Storage;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class LocalSettingsService : ILocalSettingsService
 {
-    private const string _defaultApplicationDataFolder = "ElectronBot.BraincasePreview/ApplicationData";
+    private const string _defaultApplicationDataFolder = "ElectronBot.Braincase/ApplicationData";
     private const string _defaultLocalSettingsFile = "LocalSettings.json";
 
     private readonly IFileService _fileService;

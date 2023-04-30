@@ -1,9 +1,9 @@
 ﻿using System.IO.Ports;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Models;
-using ElectronBot.BraincasePreview.Services;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Models;
+using ElectronBot.Braincase.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
 using Services;
@@ -15,7 +15,7 @@ using Windows.Foundation;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 
-namespace ElectronBot.BraincasePreview.Helpers;
+namespace ElectronBot.Braincase.Helpers;
 
 public class ElectronBotHelper
 {

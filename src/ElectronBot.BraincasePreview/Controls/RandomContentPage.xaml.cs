@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
-using ElectronBot.BraincasePreview;
-using ElectronBot.BraincasePreview.ViewModels;
+using ElectronBot.Braincase;
+using ElectronBot.Braincase.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,

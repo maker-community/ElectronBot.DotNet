@@ -5,11 +5,11 @@ using ClockViews;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Controls;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Contracts.ViewModels;
-using ElectronBot.BraincasePreview.Core.Models;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Services;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Contracts.ViewModels;
+using ElectronBot.Braincase.Core.Models;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Services;
 using Mediapipe.Net.Framework.Format;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
@@ -23,7 +23,7 @@ using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Image = Microsoft.UI.Xaml.Controls.Image;
 
-namespace ElectronBot.BraincasePreview.ViewModels;
+namespace ElectronBot.Braincase.ViewModels;
 
 public partial class GestureClassificationViewModel : ObservableRecipient, INavigationAware
 {

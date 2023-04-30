@@ -1,13 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.ViewModels;
-using ElectronBot.BraincasePreview.Views;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.ViewModels;
+using ElectronBot.Braincase.Views;
 
 using Microsoft.UI.Xaml.Controls;
 using Views;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class PageService : IPageService
 {

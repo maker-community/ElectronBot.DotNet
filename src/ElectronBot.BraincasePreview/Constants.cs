@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using ElectronBot.BraincasePreview.Helpers;
-using ElectronBot.BraincasePreview.Models;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
 
-namespace ElectronBot.BraincasePreview;
+namespace ElectronBot.Braincase;
 public class Constants
 {
     public const string CustomClockTitleKey = "CustomClockTitleKey";

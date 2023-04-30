@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 
-namespace ElectronBot.BraincasePreview.Contracts.Services;
+namespace ElectronBot.Braincase.Contracts.Services;
 
 public interface IThemeSelectorService
 {

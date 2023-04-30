@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Contracts.Services;
-using ElectronBot.BraincasePreview.Contracts.Services;
-using ElectronBot.BraincasePreview.Helpers;
+using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
@@ -9,7 +9,7 @@ using Windows.Media.SpeechSynthesis;
 using Windows.Storage.Streams;
 using Windows.System;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 public class SpeechAndTTSService : ISpeechAndTTSService
 {
 

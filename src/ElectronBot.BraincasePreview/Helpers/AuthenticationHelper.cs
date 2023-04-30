@@ -1,7 +1,7 @@
 ﻿using Verdure.ElectronBot.Core.Helpers;
 using Microsoft.UI.Xaml.Controls;
 
-namespace ElectronBot.BraincasePreview.Helpers;
+namespace ElectronBot.Braincase.Helpers;
 
 internal static class AuthenticationHelper
 {

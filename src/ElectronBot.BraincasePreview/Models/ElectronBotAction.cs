@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace ElectronBot.BraincasePreview.Models;
+namespace ElectronBot.Braincase.Models;
 
 public class ElectronBotAction : ObservableRecipient
 {

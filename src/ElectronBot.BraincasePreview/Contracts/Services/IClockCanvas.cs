@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace ElectronBot.BraincasePreview.Contracts.Services;
+namespace ElectronBot.Braincase.Contracts.Services;
 public interface IClockCanvas
 {
     Task<BitmapImage> CreateCanvasImageAsync(CanvasDevice device, CancellationToken cancellationToken = default);

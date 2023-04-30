@@ -6,7 +6,7 @@ using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
 using Microsoft.Graph;
 
-namespace ElectronBot.BraincasePreview.ViewModels;
+namespace ElectronBot.Braincase.ViewModels;
 
 public class TodoViewModel : ObservableRecipient
 {

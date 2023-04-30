@@ -1,8 +1,8 @@
-﻿using ElectronBot.BraincasePreview.ViewModels;
+﻿using ElectronBot.Braincase.ViewModels;
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace ElectronBot.BraincasePreview.Views;
+namespace ElectronBot.Braincase.Views;
 
 public sealed partial class EmojisEditPage : Page
 {

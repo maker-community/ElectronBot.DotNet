@@ -2,10 +2,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Contracts.Services;
-using ElectronBot.BraincasePreview.Helpers;
+using ElectronBot.Braincase.Helpers;
 using Models;
 
-namespace ElectronBot.BraincasePreview.ViewModels;
+namespace ElectronBot.Braincase.ViewModels;
 
 public partial class MarketplaceViewModel : ObservableRecipient
 {

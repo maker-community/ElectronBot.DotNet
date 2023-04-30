@@ -1,6 +1,6 @@
-﻿using ElectronBot.BraincasePreview.Picker;
+﻿using ElectronBot.Braincase.Picker;
 
-namespace ElectronBot.BraincasePreview.Services;
+namespace ElectronBot.Braincase.Services;
 public class ObjectPickerService
 {
     private readonly Dictionary<string, Dictionary<string, Type>> _pages =

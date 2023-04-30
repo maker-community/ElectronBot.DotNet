@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElectronBot.BraincasePreview.Helpers;
+namespace ElectronBot.Braincase.Helpers;
 
 internal class Restricted : Attribute
 {

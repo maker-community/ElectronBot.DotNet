@@ -1,11 +1,11 @@
 ﻿<Page
-    x:Class="ElectronBot.BraincasePreview.Views.ShellPage"
+    x:Class="ElectronBot.Braincase.Views.ShellPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="using:ElectronBot.BraincasePreview.Behaviors"
+    xmlns:behaviors="using:ElectronBot.Braincase.Behaviors"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:ElectronBot.BraincasePreview.Helpers"
+    xmlns:helpers="using:ElectronBot.Braincase.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource MainCustomAcrylicBrush}"
@@ -56,32 +56,32 @@
                 TODO: Update item icons by updating FontIcon.Glyph properties.
                 https://docs.microsoft.com/windows/apps/design/style/segoe-fluent-icons-font#icon-list
                 -->
-                <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.MainViewModel">
+                <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.MainViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE10F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_CameraEmojis" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.CameraEmojisViewModel">
+                <NavigationViewItem x:Uid="Shell_CameraEmojis" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.CameraEmojisViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE11D;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_Todo" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.TodoViewModel">
+                <NavigationViewItem x:Uid="Shell_Todo" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.TodoViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF78C;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_EmojisEdit" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.EmojisEditViewModel">
+                <NavigationViewItem x:Uid="Shell_EmojisEdit" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.EmojisEditViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEA86;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_GestureClassification" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.GestureClassificationViewModel">
+                <NavigationViewItem x:Uid="Shell_GestureClassification" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.GestureClassificationViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE19D;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_Gamepad" helpers:NavigationHelper.NavigateTo="ElectronBot.BraincasePreview.ViewModels.GamepadViewModel">
+                <NavigationViewItem x:Uid="Shell_Gamepad" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.GamepadViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE7FC;" />
                     </NavigationViewItem.Icon>

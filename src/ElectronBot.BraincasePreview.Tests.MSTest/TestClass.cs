@@ -2,7 +2,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace ElectronBot.BraincasePreview.Tests.MSTest;
+namespace ElectronBot.Braincase.Tests.MSTest;
 
 // TODO: Write unit tests.
 // https://docs.microsoft.com/visualstudio/test/getting-started-with-unit-testing

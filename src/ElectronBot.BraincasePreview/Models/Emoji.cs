@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace ElectronBot.BraincasePreview.Models;
+namespace ElectronBot.Braincase.Models;
 public class Emoji
 {
     public string Name

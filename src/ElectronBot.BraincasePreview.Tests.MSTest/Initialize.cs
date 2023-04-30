@@ -1,8 +1,8 @@
 ﻿using Microsoft.Windows.ApplicationModel.DynamicDependency;
 
-[assembly: WinUITestTarget(typeof(ElectronBot.BraincasePreview.App))]
+[assembly: WinUITestTarget(typeof(ElectronBot.Braincase.App))]
 
-namespace ElectronBot.BraincasePreview.Tests.MSTest;
+namespace ElectronBot.Braincase.Tests.MSTest;
 
 [TestClass]
 public class Initialize
