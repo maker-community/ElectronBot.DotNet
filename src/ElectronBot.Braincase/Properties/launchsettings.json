@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "ElectronBot.Braincase (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "ElectronBot.Braincase (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
