@@ -63,7 +63,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     CanvasImageSource? canvasImageSource = null;
 
-    private readonly EmoticonActionFrameService _emoticonActionFrameService;
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public MainViewModel(
@@ -74,11 +73,8 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         ObjectPickerService objectPickerService,
         MediaPlayer mediaPlayer,
         IActionExpressionProviderFactory actionExpressionProviderFactory,
-        ISpeechAndTTSService speechAndTTSService,
-        EmoticonActionFrameService emoticonActionFrameService)
+        ISpeechAndTTSService speechAndTTSService)
     {
-        _emoticonActionFrameService = emoticonActionFrameService;
-
         _localSettingsService = localSettingsService;
 
         _dispatcherTimer = dispatcherTimer;

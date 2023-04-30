@@ -25,8 +25,11 @@
             Grid.Row="0"
             Grid.Column="1"
             Margin="8,0,8,0"
+            HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <controlLocal:ActionEdit
+                x:Name="ActionEdit"
+                MinWidth="340"
                 J1="{x:Bind ViewModel.J1, Mode=TwoWay}"
                 J2="{x:Bind ViewModel.J2, Mode=TwoWay}"
                 J3="{x:Bind ViewModel.J3, Mode=TwoWay}"
@@ -34,72 +37,13 @@
                 J5="{x:Bind ViewModel.J5, Mode=TwoWay}"
                 J6="{x:Bind ViewModel.J6, Mode=TwoWay}"
                 ValueChanged="{x:Bind ViewModel.Head_ValueChanged}" />
-            <!--<Slider
-                x:Name="Head"
-                x:Uid="Sd_Head"
-                Maximum="15"
-                Minimum="-15"
-                ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-                Value="{x:Bind ViewModel.J1, Mode=TwoWay}" />
-            <Slider
-                x:Name="LeftArmExpansion"
-                x:Uid="Sd_LeftArmExpansion"
-                Maximum="30"
-                Minimum="0"
-                ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-                Value="{x:Bind ViewModel.J2, Mode=TwoWay}" />
-            <Slider
-                x:Name="LeftArm"
-                x:Uid="Sd_LeftArm"
-                Maximum="180"
-                Minimum="0"
-                ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-                Value="{x:Bind ViewModel.J3, Mode=TwoWay}" />
-            <Slider
-                x:Name="RightArmExpansion"
-                x:Uid="Sd_RightArmExpansion"
-                Maximum="30"
-                Minimum="0"
-                ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-                Value="{x:Bind ViewModel.J4, Mode=TwoWay}" />
-            <Slider
-                x:Name="RightArm"
-                x:Uid="Sd_RightArm"
-                Maximum="180"
-                Minimum="0"
-                ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-                Value="{x:Bind ViewModel.J5, Mode=TwoWay}" />
-            <Slider
-                x:Name="Bottom"
-                x:Uid="Sd_Bottom"
-                Maximum="90"
-                Minimum="-90"
-                ValueChanged="{x:Bind ViewModel.Head_ValueChanged}"
-                Value="{x:Bind ViewModel.J6, Mode=TwoWay}" />-->
         </StackPanel>
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="8"
-            VerticalAlignment="Top" />
         <StackPanel
             Grid.Row="1"
             Grid.ColumnSpan="3"
             Margin="8"
             VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
-                <!--<Button
-                    x:Name="Import"
-                    x:Uid="ImportBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ImportCommand}"
-                    Content="导入动作" />
-                <Button
-                    x:Name="Export"
-                    x:Uid="ExportBtn"
-                    Margin="8"
-                    Command="{x:Bind ViewModel.ExportCommand}"
-                    Content="导出动作" />-->
                 <Button
                     x:Name="Play"
                     x:Uid="PlayBtn"
@@ -414,48 +358,6 @@
                         FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                         FontSize="18"
                         Text="{x:Bind ViewModel.ResultLabel, Mode=OneWay}" />
-                    <!--<Button Click="Button_Click" Content="重启应用" />-->
-                    <!--<Border
-                        Width="160"
-                        Height="160"
-                        Margin="0,24,0,0"
-                        HorizontalAlignment="Left"
-                        BorderBrush="{ThemeResource SystemAccentColor}"
-                        BorderThickness="4"
-                        CornerRadius="80">
-                        <PersonPicture
-                            x:Name="EbEmoji"
-                            Width="160"
-                            Height="160"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            ProfilePicture="{x:Bind ViewModel.EmojiImageSource, Mode=OneWay}" />
-
-                    </Border>
-                    <StackPanel Orientation="Horizontal">
-                        <Button
-                            x:Name="TestEmoji"
-                            x:Uid="TestEmoji"
-                            Margin="0,12,0,0"
-                            Command="{x:Bind ViewModel.TestPlayEmojiCommand}" />
-                        <Button
-                            x:Name="TestVoice"
-                            x:Uid="TestVoice"
-                            Margin="0,12,0,0"
-                            Command="{x:Bind ViewModel.TestVoiceCommand}" />
-                        <Button
-                            x:Name="RebootElectron"
-                            x:Uid="RebootElectron"
-                            Margin="0,12,0,0"
-                            Command="{x:Bind ViewModel.RebootElectronCommand}" />
-                    -->
-                    <!--<Button
-                            x:Name="Reconnect"
-                            x:Uid="ReconnectBtn"
-                            Margin="0,12,0,0"
-                            Command="{x:Bind ViewModel.ReconnectCommand}" />-->
-                    <!--
-                    </StackPanel>-->
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -467,6 +369,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ActionSV.Width" Value="880" />
+                        <Setter Target="ActionEdit.Width" Value="440" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -475,6 +378,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ActionSV.Width" Value="780" />
+                        <Setter Target="ActionEdit.Width" Value="340" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
