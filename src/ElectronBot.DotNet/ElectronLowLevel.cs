@@ -10,36 +10,38 @@ namespace ElectronBot.DotNet;
 /// </summary>
 public class ElectronLowLevel : IElectronLowLevel
 {
-    private readonly int vid = 0x1001;
+    private const int Vid = 0x1001;
 
-    private readonly int pid = 0x8023;
+    private const int Pid = 0x8023;
 
-    private bool isConnected = false;
+    private bool _isConnected = false;
 
-    private readonly List<byte[]> extraDataBufferTx = new()
+    private readonly List<byte[]> _extraDataBufferTx = new()
     {
         new byte[32],
         new byte[32]
     };
 
-    private readonly List<byte[]> frameBufferTx = new()
+    private readonly List<byte[]> _frameBufferTx = new()
     {
         new byte[240 * 240 * 3],
         new byte[240 * 240 * 3]
     };
-    private byte[] extraDataBufferRx = new byte[32];
-    private int pingPongWriteIndex = 0;
-    private readonly byte[] usbBuffer200 = new byte[224];
+    private byte[] _extraDataBufferRx = new byte[32];
+
+    private int _pingPongWriteIndex = 0;
+
+    private readonly byte[] _usbBuffer200 = new byte[224];
 
     private UsbDevice? _usbDevice;
 
     // open read endpoint 1.
-    private UsbEndpointReader? reader;
+    private UsbEndpointReader? _reader;
 
     // open write endpoint 1.
-    private UsbEndpointWriter? writer;
+    private UsbEndpointWriter? _writer;
 
-    private IUsbDevice? wholeUsbDevice;
+    private IUsbDevice? _wholeUsbDevice;
 
     private readonly ILogger<ElectronLowLevel> _logger;
 
@@ -48,18 +50,18 @@ public class ElectronLowLevel : IElectronLowLevel
         _logger = logger;
     }
 
-    public bool IsConnected => isConnected;
+    public bool IsConnected => _isConnected;
 
     /// <summary>
     /// 连接电子
     /// </summary>
-    /// <param name="interfaceID">接口id 默认为0可不传</param>
+    /// <param name="interfaceId">接口id 默认为0可不传</param>
     /// <returns>返回是否成功</returns>
-    public bool Connect(int interfaceID = 0)
+    public bool Connect(int interfaceId)
     {
         if (_usbDevice == null)
         {
-            var usbFinder = new UsbDeviceFinder(vid, pid);
+            var usbFinder = new UsbDeviceFinder(Vid, Pid);
 
             _usbDevice = UsbDevice.OpenUsbDevice(usbFinder);
 
@@ -78,19 +80,19 @@ public class ElectronLowLevel : IElectronLowLevel
                     _logger.LogInformation("usb device info is null");
                 }
 
-                wholeUsbDevice = _usbDevice as IUsbDevice;
+                _wholeUsbDevice = _usbDevice as IUsbDevice;
 
                 _logger.LogInformation("whole usb device");
 
-                if (wholeUsbDevice is not null)
+                if (_wholeUsbDevice is not null)
                 {
 
 
-                    if (wholeUsbDevice.DriverMode == UsbDevice.DriverModeType.MonoLibUsb)
+                    if (_wholeUsbDevice.DriverMode == UsbDevice.DriverModeType.MonoLibUsb)
                     {
                         _logger.LogInformation("MonoLibUsb DetachKernelDriver");
 
-                        var retDetach = wholeUsbDevice.SetAutoDetachKernelDriver(true);
+                        var retDetach = _wholeUsbDevice.SetAutoDetachKernelDriver(true);
 
                         _logger.LogInformation(retDetach.ToString());
                     }
@@ -99,13 +101,13 @@ public class ElectronLowLevel : IElectronLowLevel
                     // the desired configuration and interface must be selected.
 
                     // Select config #1
-                    wholeUsbDevice.SetConfiguration(1);
+                    _wholeUsbDevice.SetConfiguration(1);
 
                     _logger.LogInformation("DriverMode");
 
-                    _logger.LogInformation(wholeUsbDevice.DriverMode.ToString());
+                    _logger.LogInformation(_wholeUsbDevice.DriverMode.ToString());
                     // Claim interface #0.
-                    var ret = wholeUsbDevice.ClaimInterface(interfaceID);
+                    var ret = _wholeUsbDevice.ClaimInterface(interfaceId);
 
                     _logger.LogInformation("ClaimInterface status");
 
@@ -113,11 +115,11 @@ public class ElectronLowLevel : IElectronLowLevel
                 }
 
 
-                reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
+                _reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
 
-                writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
+                _writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 
-                isConnected = _usbDevice.IsOpen;
+                _isConnected = _usbDevice.IsOpen;
 
                 return _usbDevice.IsOpen;
             }
@@ -129,7 +131,7 @@ public class ElectronLowLevel : IElectronLowLevel
         }
         else
         {
-            return isConnected;
+            return _isConnected;
         }
 
     }
@@ -141,16 +143,16 @@ public class ElectronLowLevel : IElectronLowLevel
     {
         if (_usbDevice != null && _usbDevice.IsOpen)
         {
-            isConnected = false;
+            _isConnected = false;
 
-            writer?.Dispose();
+            _writer?.Dispose();
 
-            reader?.Dispose();
+            _reader?.Dispose();
 
-            if (wholeUsbDevice is not null)
+            if (_wholeUsbDevice is not null)
             {
                 // Release interface #0.
-                wholeUsbDevice.ReleaseInterface(1);
+                _wholeUsbDevice.ReleaseInterface(1);
             }
 
             return _usbDevice.Close();
@@ -170,9 +172,9 @@ public class ElectronLowLevel : IElectronLowLevel
 
         if (_usbDevice != null && _usbDevice.IsOpen)
         {
-            if (wholeUsbDevice is not null)
+            if (_wholeUsbDevice is not null)
             {
-                ret = wholeUsbDevice.ResetDevice();
+                ret = _wholeUsbDevice.ResetDevice();
             }
         }
         return ret;
@@ -185,7 +187,7 @@ public class ElectronLowLevel : IElectronLowLevel
     {
         var data = new byte[32];
 
-        Array.Copy(extraDataBufferRx, 0, data, 0, 32);
+        Array.Copy(_extraDataBufferRx, 0, data, 0, 32);
 
         return data;
     }
@@ -203,7 +205,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
             for (var i = 0; i < 4; i++)
             {
-                var temp = extraDataBufferRx[j * 4 + i + 1];
+                var temp = _extraDataBufferRx[j * 4 + i + 1];
 
                 buf.Add(temp);
             }
@@ -223,7 +225,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
     public void SetExtraData(byte[] data, int len = 32)
     {
-        Array.Copy(data, 0, extraDataBufferTx[pingPongWriteIndex], 0, len);
+        Array.Copy(data, 0, _extraDataBufferTx[_pingPongWriteIndex], 0, len);
     }
     /// <summary>
     /// 设置图片数据
@@ -231,7 +233,7 @@ public class ElectronLowLevel : IElectronLowLevel
     /// <param name="data">图片的字节数据</param>
     public void SetImageSrc(byte[] data)
     {
-        data.CopyTo(frameBufferTx[pingPongWriteIndex], 0);
+        data.CopyTo(_frameBufferTx[_pingPongWriteIndex], 0);
     }
     /// <summary>
     /// 设置舵机角度
@@ -254,7 +256,7 @@ public class ElectronLowLevel : IElectronLowLevel
         jointAngleSetPoints[4] = j5;
         jointAngleSetPoints[5] = j6;
 
-        extraDataBufferTx[pingPongWriteIndex][0] = Convert.ToByte(enable ? 1 : 0);
+        _extraDataBufferTx[_pingPongWriteIndex][0] = Convert.ToByte(enable ? 1 : 0);
 
         for (var j = 0; j < 6; j++)
         {
@@ -262,7 +264,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
             for (var i = 0; i < 4; i++)
             {
-                extraDataBufferTx[pingPongWriteIndex][j * 4 + i + 1] = buf[i];
+                _extraDataBufferTx[_pingPongWriteIndex][j * 4 + i + 1] = buf[i];
             }
         }
 
@@ -273,7 +275,7 @@ public class ElectronLowLevel : IElectronLowLevel
     /// <returns>返回是否成功</returns>
     public bool Sync()
     {
-        if (isConnected)
+        if (_isConnected)
         {
             SyncTask();
 
@@ -287,7 +289,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
         stopwatch.Start();
 
-        var _packetCount = packetCount;
+        var pCount = packetCount;
 
         try
         {
@@ -298,15 +300,15 @@ public class ElectronLowLevel : IElectronLowLevel
                 {
                     var readBuffer = new byte[packetSize];
 
-                    ec = reader!.Read(readBuffer, 5000, out _);
+                    ec = _reader!.Read(readBuffer, 5000, out _);
 
-                    extraDataBufferRx = readBuffer;
+                    _extraDataBufferRx = readBuffer;
 
                 } while (ec != ErrorCode.Success);
 
-                _packetCount--;
+                pCount--;
 
-            } while (_packetCount > 0);
+            } while (pCount > 0);
 
             stopwatch.Stop();
 
@@ -315,11 +317,11 @@ public class ElectronLowLevel : IElectronLowLevel
         }
         catch (Exception)
         {
-            reader?.Dispose();
+            _reader?.Dispose();
             // todo:异常处理
         }
 
-        return _packetCount == 0;
+        return pCount == 0;
     }
     private bool TransmitPacket(byte[] buffer, int frameBufferOffset, int packetCount, int packetSize)
     {
@@ -327,7 +329,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
         stopwatch.Start();
 
-        var _packetCount = packetCount;
+        var pCount = packetCount;
 
         var dataOffset = 0;
 
@@ -338,20 +340,20 @@ public class ElectronLowLevel : IElectronLowLevel
                 ErrorCode ec;
                 do
                 {
-                    ec = writer!.Write(buffer, frameBufferOffset + dataOffset, packetSize, 2000, out _);
+                    ec = _writer!.Write(buffer, frameBufferOffset + dataOffset, packetSize, 2000, out _);
 
                     if (packetSize % 512 == 0)
                     {
-                        ec = writer.Write(buffer, frameBufferOffset + dataOffset, 0, 2000, out _);
+                        ec = _writer.Write(buffer, frameBufferOffset + dataOffset, 0, 2000, out _);
                     }
 
                 } while (ec != ErrorCode.None);
 
                 dataOffset += packetSize;
 
-                _packetCount--;
+                pCount--;
 
-            } while (_packetCount > 0);
+            } while (pCount > 0);
 
             stopwatch.Stop();
 
@@ -359,19 +361,19 @@ public class ElectronLowLevel : IElectronLowLevel
         }
         catch (Exception)
         {
-            writer?.Dispose();
+            _writer?.Dispose();
             // todo:异常处理
         }
 
-        return _packetCount == 0;
+        return pCount == 0;
     }
     private void SyncTask()
     {
         var frameBufferOffset = 0;
 
-        var index = pingPongWriteIndex;
+        var index = _pingPongWriteIndex;
 
-        pingPongWriteIndex = pingPongWriteIndex == 0 ? 1 : 0;
+        _pingPongWriteIndex = _pingPongWriteIndex == 0 ? 1 : 0;
 
         for (var p = 0; p < 4; p++)
         {
@@ -379,15 +381,15 @@ public class ElectronLowLevel : IElectronLowLevel
             ReceivePacket(1, 32);
 
             // Transmit buffer
-            TransmitPacket(frameBufferTx[index], frameBufferOffset, 84, 512);
+            TransmitPacket(_frameBufferTx[index], frameBufferOffset, 84, 512);
 
             frameBufferOffset += 43008;
 
-            Array.Copy(frameBufferTx[index], frameBufferOffset, usbBuffer200, 0, 192);
+            Array.Copy(_frameBufferTx[index], frameBufferOffset, _usbBuffer200, 0, 192);
 
-            Array.Copy(extraDataBufferTx[index], 0, usbBuffer200, 192, 32);
+            Array.Copy(_extraDataBufferTx[index], 0, _usbBuffer200, 192, 32);
 
-            TransmitPacket(usbBuffer200, 0, 1, 224);
+            TransmitPacket(_usbBuffer200, 0, 1, 224);
 
             frameBufferOffset += 192;
         }

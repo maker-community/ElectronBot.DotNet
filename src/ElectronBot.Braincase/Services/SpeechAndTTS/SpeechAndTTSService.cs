@@ -296,7 +296,7 @@ public class SpeechAndTTSService : ISpeechAndTTSService
                     //isListening = false;
                     await ReleaseRecognizerAsync();
 
-                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText, false);      
+                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(resultText, false);      
                 }
                 catch (Exception ex)
                 {

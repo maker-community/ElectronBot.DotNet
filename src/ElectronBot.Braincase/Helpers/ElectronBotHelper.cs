@@ -124,7 +124,7 @@ public class ElectronBotHelper
                             }
 
 
-                            var json = File.ReadAllText(path);
+                            var json = await File.ReadAllTextAsync(path);
 
 
                             var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
@@ -373,8 +373,9 @@ public class ElectronBotHelper
     /// 播放声音
     /// </summary>
     /// <param name="content"></param>
+    /// <param name="isOpenMediaEnded"></param>
     /// <returns></returns>
-    public async Task MediaPlayerPlaySoundByTTSAsync(string content, bool isOpenMediaEnded = true)
+    public async Task MediaPlayerPlaySoundByTtsAsync(string content, bool isOpenMediaEnded = true)
     {
         _isOpenMediaEnded = isOpenMediaEnded;
         if (!string.IsNullOrWhiteSpace(content))

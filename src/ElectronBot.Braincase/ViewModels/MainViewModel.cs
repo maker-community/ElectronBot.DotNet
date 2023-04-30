@@ -243,7 +243,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
                 ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
 
-                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text, true);
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text, true);
             }
             else if (e == Constants.FingerHeart && _isBeginning == true)
             {
@@ -341,7 +341,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
         });
 
-        await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(text);
+        await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text);
 
 
         //var stream = await _speechAndTTSService.TextToSpeechAsync(text);
