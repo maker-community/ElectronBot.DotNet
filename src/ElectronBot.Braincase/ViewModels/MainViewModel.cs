@@ -582,6 +582,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
             var (x, y) = EbHelper.GetScreenCursorPos();
             var str = $"x:{x}y:{y}";
+            
             Debug.WriteLine(str);
         }
     }
