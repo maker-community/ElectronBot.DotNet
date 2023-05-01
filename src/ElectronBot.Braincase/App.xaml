@@ -1,0 +1,22 @@
+﻿<Application
+    x:Class="ElectronBot.Braincase.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default" Source="Themes/DefaultThemeDictionary.xaml" />
+                <ResourceDictionary x:Key="Light" Source="Themes/LightThemeDictionary.xaml" />
+            </ResourceDictionary.ThemeDictionaries>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="/Styles/FontSizes.xaml" />
+                <ResourceDictionary Source="/Styles/Thickness.xaml" />
+                <ResourceDictionary Source="/Styles/TextBlock.xaml" />
+                <ResourceDictionary Source="/Styles/Toast.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="TimeFont">/Assets/Font/DINPro-Regular.otf#DINPro</FontFamily>
+            <FontFamily x:Key="TimeFontBold">/Assets/Font/DINPro-Bold.otf#DINPro</FontFamily>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

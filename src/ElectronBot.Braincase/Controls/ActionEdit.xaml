@@ -1,0 +1,54 @@
+﻿<UserControl
+    x:Class="ElectronBot.Braincase.Controls.ActionEdit"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ElectronBot.Braincase.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <Slider
+            x:Name="Head"
+            x:Uid="Sd_Head"
+            Maximum="15"
+            Minimum="-15"
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J1, Mode=TwoWay}" />
+        <Slider
+            x:Name="LeftArmExpansion"
+            x:Uid="Sd_LeftArmExpansion"
+            Maximum="30"
+            Minimum="0"
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J2, Mode=TwoWay}" />
+        <Slider
+            x:Name="LeftArm"
+            x:Uid="Sd_LeftArm"
+            Maximum="180"
+            Minimum="0"
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J3, Mode=TwoWay}" />
+        <Slider
+            x:Name="RightArmExpansion"
+            x:Uid="Sd_RightArmExpansion"
+            Maximum="30"
+            Minimum="0"
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J4, Mode=TwoWay}" />
+        <Slider
+            x:Name="RightArm"
+            x:Uid="Sd_RightArm"
+            Maximum="180"
+            Minimum="0"
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J5, Mode=TwoWay}" />
+        <Slider
+            x:Name="Bottom"
+            x:Uid="Sd_Bottom"
+            Maximum="90"
+            Minimum="-90"
+            ValueChanged="Head_ValueChanged"
+            Value="{x:Bind J6, Mode=TwoWay}" />
+    </StackPanel>
+</UserControl>
