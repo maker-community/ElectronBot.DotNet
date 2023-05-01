@@ -24,6 +24,11 @@ public class ElectronBotHelper
         get; set;
     }
 
+    public bool PlayEmojisLock
+    {
+        get; set;
+    } = false;
+
     private static ElectronBotHelper? _instance;
     public static ElectronBotHelper Instance => _instance ??= new ElectronBotHelper();
 
@@ -158,8 +163,6 @@ public class ElectronBotHelper
             {
 
             }
-
-
         }
     }
 
@@ -434,6 +437,8 @@ public class ElectronBotHelper
             await speechAndTTSService.ReleaseRecognizerAsync();
             //await speechAndTTSService.CancelAsync();
         }
+
+        PlayEmojisLock = false;
     }
 
     public void ToPlayEmojisRandom()

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO.Ports;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
 using System.Windows.Input;
@@ -578,6 +579,42 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                 }
             }
         }
+        else if (modeNo == 4)
+        {
+            var (x, y) = EbHelper.GetScreenCursorPos();
+
+            var screenSize = EbHelper.GetScreenSize(_hwnd);
+            var mdButton = EbHelper.IsVkMButtonEnabled();
+            var str = $"height:{screenSize.height}width:{screenSize.width}x:{x}y:{y} mdButton:{mdButton}";
+            Debug.WriteLine(str);
+
+            if (mdButton)
+            {
+                var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                if (mdButton && !playEmojisLock)
+                {
+                    //随机播放表情
+                    ElectronBotHelper.Instance.ToPlayEmojisRandom();
+                }
+
+                ElectronBotHelper.Instance.PlayEmojisLock = true;
+            }
+            else
+            {
+                if (!ElectronBotHelper.Instance.PlayEmojisLock)
+                {
+                    if (screenSize.height > screenSize.width)
+                    {
+                        await EbHelper.ShowClockCanvasAndPosToDeviceAsync(Element, screenSize.width, screenSize.height, x, y);
+                    }
+                    else
+                    {
+                        await EbHelper.ShowClockCanvasAndPosToDeviceAsync(Element, screenSize.height, screenSize.width, x, y);
+                    }
+                }
+            }
+        }
     }
 
     public void Head_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
@@ -655,6 +692,32 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             {
                 await ResetActionAsync();
                 _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
+                _dispatcherTimer.Start();
+            }
+        }
+        else if (index == 4)
+        {
+            if (!ElectronBotHelper.Instance.EbConnected)
+            {
+                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+            }
+            else
+            {
+                await ResetActionAsync();
+
+                var matData = new OpenCvSharp.Mat(Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\Pic\\eyes-closed.png");
+
+                var mat2 = matData.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+
+                var dataMeta = mat2.Data;
+
+                var data = new byte[240 * 240 * 3];
+
+                Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
+
+                EbHelper.FaceData = data;
+
+                _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(50);
                 _dispatcherTimer.Start();
             }
         }
