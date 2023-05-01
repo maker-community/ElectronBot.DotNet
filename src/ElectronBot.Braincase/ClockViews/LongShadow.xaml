@@ -1,0 +1,133 @@
+﻿<UserControl
+    x:Class="ElectronBot.Braincase.ClockViews.LongShadow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:ElectronBot.Braincase.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:ElectronBot.Braincase.ClockViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Grid x:Name="LayoutRoot" Background="Black">
+        <Viewbox>
+            <Grid
+                x:Name="Root"
+                Width="200"
+                Height="200">
+                <controls:FlipSide x:Name="FlipSide" Margin="0,0,0,0">
+                    <controls:FlipSide.Side1>
+                        <Grid
+                            x:Name="InworkElement"
+                            Background="#fd6e5d"
+                            CornerRadius="1">
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
+                                <Grid>
+                                    <Rectangle x:Name="CustomTitleBackground" />
+
+                                    <TextBlock
+                                        x:Name="CustomTitleTb"
+                                        MaxWidth="120"
+                                        HorizontalAlignment="Left"
+                                        FontFamily="{StaticResource TimeFont}"
+                                        FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+                                <Grid>
+                                    <Rectangle x:Name="InworkBackground" />
+
+                                    <TextBlock
+                                        x:Name="InWorkCountDown"
+                                        HorizontalAlignment="Center"
+                                        FontFamily="{StaticResource TimeFont}"
+                                        FontSize="40"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="{x:Bind ViewModel.TodayTime, Mode=OneWay}" />
+                                </Grid>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <Grid Margin="12,0,0,8" VerticalAlignment="Bottom">
+                                        <Rectangle x:Name="DayBackground" />
+                                        <TextBlock
+                                            x:Name="Day"
+                                            HorizontalAlignment="Center"
+                                            FontFamily="{StaticResource TimeFont}"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="White"
+                                            Text="{x:Bind ViewModel.Day, Mode=OneWay}" />
+                                    </Grid>
+                                    <Grid Margin="12,0,0,8" VerticalAlignment="Bottom">
+                                        <Rectangle x:Name="InworkSecondBackground" />
+                                        <TextBlock
+                                            x:Name="InWorkCountDownSecond"
+                                            HorizontalAlignment="Center"
+                                            FontFamily="{StaticResource TimeFont}"
+                                            FontSize="24"
+                                            FontWeight="Bold"
+                                            Foreground="White"
+                                            Text="{x:Bind ViewModel.TodayWeek, Mode=OneWay}" />
+                                    </Grid>
+                                </StackPanel>
+
+                            </StackPanel>
+                        </Grid>
+                    </controls:FlipSide.Side1>
+                    <!--<controls:FlipSide.Side2>
+                <Grid
+                    x:Name="BreakElement"
+                    Background="#FF5271c2"
+                    CornerRadius="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="56"
+                        Text="Relax" />
+
+                    <StackPanel
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <Grid>
+                            <Rectangle x:Name="BreakBackground" />
+                            <TextBlock
+                                x:Name="BreakCountDown"
+                                FontFamily="{StaticResource TimeFont}"
+                                FontSize="72"
+                                FontWeight="Bold"
+                                Text="06:00" />
+                        </Grid>
+                        <Grid Margin="12,0,0,-16" VerticalAlignment="Bottom">
+                            <Rectangle x:Name="BreakSecondBackground" />
+                            <TextBlock
+                                x:Name="BreakCountDownSecond"
+                                FontFamily="{StaticResource TimeFont}"
+                                FontSize="48"
+                                FontWeight="Bold"
+                                Text="test" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </controls:FlipSide.Side2>-->
+                </controls:FlipSide>
+            </Grid>
+        </Viewbox>
+    </Grid>
+</UserControl>
