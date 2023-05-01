@@ -17,11 +17,18 @@ using Windows.Media.Devices;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Microsoft.VisualBasic.Logging;
 
 namespace ElectronBot.Braincase.Helpers;
 
 public class EbHelper
 {
+    public static byte[] FaceData
+    {
+        get;
+        set;
+    } = new byte[240 * 240 * 3];
+
     public static async Task<string> ToBase64Async(byte[] image, uint height, uint width, double dpiX = 96, double dpiY = 96)
     {
         // encode image
@@ -291,7 +298,6 @@ public class EbHelper
             var service = App.GetService<EmoticonActionFrameService>();
 
             await service.SendToUsbDeviceAsync(frame);
-            ///EmojiPlayHelper.Current.Enqueue(frame);
         }
     }
 
@@ -303,6 +309,85 @@ public class EbHelper
     /// <returns></returns>
     public static async Task ShowClockCanvasToDeviceAsync(UIElement element)
     {
+        var data = await SetClockUiToFrameAsync(element);
+        var service = App.GetService<EmoticonActionFrameService>();
+        _ = await service.SendToUsbDeviceAsync(data);
+    }
+
+    /// <summary>
+    /// 表盘内容和指针数据同步到电子
+    /// </summary>
+    /// <param name="element">画面</param>
+    /// <param name="height">屏幕高度</param>
+    /// <param name="width">屏幕宽度</param>
+    /// <param name="x">指针x轴</param>
+    /// <param name="y">指针y轴</param>
+    /// <returns></returns>
+    public static async Task ShowClockCanvasAndPosToDeviceAsync(UIElement? element, int height, int width, int x, int y)
+    {
+        //var data = await SetClockUiToFrameAsync(element);
+        //var data1 = new byte[240 * 240 * 3];
+        var data = new EmoticonActionFrame(FaceData);
+
+        var centerX = width / 2;
+        var centerY = height / 2;
+        if (y == 0)
+        {
+            data.J1 = 15;
+        }
+
+        if (x == 0)
+        {
+            data.J6 = -90;
+        }
+        if (x < centerX && x > 0)
+        {
+            var j6 = -(float)((centerX - x) / (centerX * 1.0) * 90);
+            data.J6 = j6;
+        }
+        else if (x >= centerX)
+        {
+            var j6 = (float)((x - centerX) / (centerX * 1.0) * 90);
+            data.J6 = j6;
+        }
+
+        if (y < centerY && y > 0)
+        {
+            var j1 = (float)((centerY - y) / (centerY * 1.0) * 15);
+            data.J1 = j1;
+        }
+        else if (y >= centerY)
+        {
+            var j1 = -(float)((y - centerY) / (centerY * 1.0) * 15);
+            data.J1 = j1;
+        }
+
+        data.Enable = true;
+
+        var str = $"j1:{data.J1} j6:{data.J6} centerX:{centerX}centerY:{centerY}";
+        Debug.WriteLine(str);
+
+        //Task.Run(() =>
+        //{
+        //    if (ElectronBotHelper.Instance.EbConnected)
+        //    {
+        //        ElectronBotHelper.Instance.PlayEmoticonActionFrame(data);
+        //    }
+        //});
+        //return Task.CompletedTask;
+
+        var service = App.GetService<EmoticonActionFrameService>();
+        _ = await service.SendToUsbDeviceAsync(data);
+    }
+
+    /// <summary>
+    /// 组装表盘数据
+    /// </summary>
+    /// <param name="element"></param>
+    /// <returns></returns>
+    private static async Task<EmoticonActionFrame> SetClockUiToFrameAsync(UIElement element)
+    {
+        var data = new byte[240 * 240 * 3];
         try
         {
             var bitmap = new RenderTargetBitmap();
@@ -333,32 +418,57 @@ public class EbHelper
 
             var dataMeta = mat2.Data;
 
-            var data = new byte[240 * 240 * 3];
-
             Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
 
-            //EmojiPlayHelper.Current.Enqueue(new EmoticonActionFrame(data));
-
-            var service = App.GetService<EmoticonActionFrameService>();
-            _ = await service.SendToUsbDeviceAsync(new EmoticonActionFrame(data));
         }
         catch (Exception)
         {
 
         }
+        return new EmoticonActionFrame(data);
     }
 
     /// <summary>
     /// 获取屏幕鼠标坐标
     /// </summary>
     /// <returns></returns>
-    public static (int x,int y) GetScreenCursorPos()
+    public static (int x, int y) GetScreenCursorPos()
     {
         var myPoint = new CursorPoint();
         GetCursorPos(ref myPoint);
         return (myPoint.X, myPoint.Y);
     }
 
+    /// <summary>
+    /// 获取屏幕尺寸
+    /// </summary>
+    /// <param name="hwnd"></param>
+    /// <returns></returns>
+    public static (int height, int width) GetScreenSize(IntPtr hwnd)
+    {
+        var monitor = MonitorFromWindow(hwnd, 2);
+
+        var monitorInfo = new MONITORINFO();
+        monitorInfo.cbSize = Marshal.SizeOf(monitorInfo);
+        GetMonitorInfo(monitor, ref monitorInfo);
+        var width = monitorInfo.rcMonitor.Width - monitorInfo.rcMonitor.Left;
+        var height = monitorInfo.rcMonitor.Height - monitorInfo.rcMonitor.Top;
+        return (height, width);
+    }
+
+    /// <summary>
+    /// 鼠标中键是否被按住
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsVkMButtonEnabled()
+    {
+        if ((GetKeyState(4) & 0x8000) != 0)
+        {
+            // 鼠标中键被按下
+            return true;
+        }
+        return false;
+    }
 
     ///<summary>
     ///返回当前光标的位置(用来更换鼠标位置）
@@ -378,4 +488,33 @@ public class EbHelper
             this.Y = y;
         }
     }
+
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct MONITORINFO
+    {
+        public int cbSize;
+        public RECT rcMonitor;
+        public RECT rcWork;
+        public uint dwFlags;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
+    {
+        public int Left;
+        public int Top;
+        public int Height;
+        public int Width;
+    }
+
+    [DllImport("user32.dll")]
+    static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
+
+    [DllImport("user32.dll")]
+    public static extern short GetKeyState(int nVirtKey);
 }

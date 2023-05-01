@@ -41,7 +41,6 @@
         <StackPanel
             Grid.Row="1"
             Grid.ColumnSpan="3"
-            Margin="8"
             VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
                 <Button
@@ -107,7 +106,7 @@
                         Value="{x:Bind ViewModel.Interval, Mode=TwoWay}" />
                 </Grid>
                 <Border
-                    Height="120"
+                    Height="108"
                     BorderBrush="{ThemeResource SystemAccentColor}"
                     BorderThickness="2"
                     CornerRadius="8">
@@ -129,9 +128,10 @@
                             <ScrollViewer
                                 x:Name="ActionSV"
                                 Width="780"
+                                Height="104"
                                 HorizontalScrollBarVisibility="Visible"
                                 HorizontalScrollMode="Enabled">
-                                <StackPanel Margin="8">
+                                <StackPanel Margin="4">
                                     <ListView
                                         x:Name="ActonList"
                                         ItemsSource="{x:Bind ViewModel.Actions, Mode=OneWay}"
@@ -174,8 +174,7 @@
                                                     <Grid
                                                         Grid.RowSpan="2"
                                                         Grid.ColumnSpan="2"
-                                                        Margin="8"
-                                                        Padding="4"
+                                                        Margin="4"
                                                         Background="{ThemeResource MainCustomAcrylicBrush}"
                                                         BorderBrush="{ThemeResource SystemAccentColor}"
                                                         BorderThickness="1"
@@ -190,6 +189,7 @@
                                                                 <TextBlock Margin="2" Text="J1:" />
                                                                 <TextBlock
                                                                     Margin="2"
+                                                                    Padding="2"
                                                                     HorizontalAlignment="Right"
                                                                     Text="{x:Bind J1, Mode=OneWay}" />
                                                             </StackPanel>
@@ -301,7 +301,7 @@
             Grid.Column="0"
             VerticalAlignment="Top">
             <StackPanel
-                Margin="8"
+                Margin="4"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
                 <RadioButtons
@@ -321,7 +321,7 @@
                     x:Name="BorderGrid"
                     Width="200"
                     Height="200"
-                    Margin="8"
+                    Margin="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     BorderBrush="{ThemeResource SystemAccentColor}"
@@ -329,7 +329,7 @@
                     Child="{x:Bind ViewModel.Element, Mode=OneWay}"
                     CornerRadius="8" />
                 <StackPanel
-                    Margin="8"
+                    Margin="4"
                     VerticalAlignment="Top"
                     Orientation="Vertical">
                     <Border
@@ -337,7 +337,7 @@
                         Height="200"
                         VerticalAlignment="Top"
                         BorderBrush="{ThemeResource SystemAccentColor}"
-                        BorderThickness="4"
+                        BorderThickness="2"
                         CornerRadius="8">
                         <Grid>
                             <Image x:Name="FaceImage" Source="{x:Bind ViewModel.FaceImage.Source, Mode=OneWay}" />
