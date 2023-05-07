@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Controls.CompactOverlay;
 using ElectronBot.Braincase.Contracts.Services;
 using Verdure.ElectronBot.Core.Helpers;
 using Verdure.ElectronBot.Core.Services;
@@ -9,6 +10,7 @@ using ElectronBot.Braincase.Views;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Services;
+using Microsoft.UI.Windowing;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -75,6 +77,7 @@ public partial class ShellViewModel : ObservableRecipient
             App.MainWindow.Show();
         }
     }
+
     [RelayCommand]
     private void Settings()
     {

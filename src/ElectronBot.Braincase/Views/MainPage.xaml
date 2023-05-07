@@ -68,6 +68,17 @@
                     x:Uid="RebootElectron"
                     Margin="0,0,8,0"
                     Command="{x:Bind ViewModel.RebootElectronCommand}" />
+                <Button
+                    x:Name="CompactOverlayBtn"
+                    x:Uid="CompactOverlayBtn"
+                    Width="16"
+                    Height="16"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    Command="{x:Bind ViewModel.CompactOverlayCommand}"
+                    Foreground="{ThemeResource SystemAccentColor}">
+                    <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE73F;" />
+                </Button>
                 <ComboBox
                     x:Uid="ChangeClockViewCB"
                     Width="120"

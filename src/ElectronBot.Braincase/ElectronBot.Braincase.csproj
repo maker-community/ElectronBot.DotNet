@@ -49,6 +49,8 @@
     <None Remove="Controls\AddEmojisContentDialog.xaml" />
     <None Remove="Controls\AddEmojisPage.xaml" />
     <None Remove="Controls\AppQuitPage.xaml" />
+    <None Remove="Controls\CompactOverlay\CompactOverlayWindow.xaml" />
+    <None Remove="Controls\CompactOverlay\DefaultCompactOverlayPage.xaml" />
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
     <None Remove="Controls\EmojisInfoPage.xaml" />
     <None Remove="Controls\MarketplacePage.xaml" />
@@ -198,6 +200,12 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\CompactOverlay\DefaultCompactOverlayPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\CompactOverlay\CompactOverlayWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\UploadEmojisPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

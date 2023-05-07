@@ -27,6 +27,8 @@ using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 using Windows.Storage;
+using Controls.CompactOverlay;
+using Microsoft.UI.Windowing;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -732,6 +734,21 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     [ObservableProperty]
     ObservableCollection<ElectronBotAction> actions = new();
+
+
+    [RelayCommand]
+    public void CompactOverlay()
+    {
+        WindowEx compactOverlay = new CompactOverlayWindow();
+
+        compactOverlay.Content = new DefaultCompactOverlayPage();
+
+        var appWindow = compactOverlay.GetAppWindow();
+
+        appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+
+        appWindow.Show();
+    }
 
     /// <summary>
     /// 导入动作列表
