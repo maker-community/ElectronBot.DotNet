@@ -3,7 +3,7 @@ using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Helpers;
 using Microsoft.Graph;
 
-namespace Verdure.ElectronBot.Core.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class MicrosoftGraphService : IMicrosoftGraphService
 {

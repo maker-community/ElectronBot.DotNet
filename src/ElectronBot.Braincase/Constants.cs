@@ -5,6 +5,8 @@ using ElectronBot.Braincase.Models;
 namespace ElectronBot.Braincase;
 public class Constants
 {
+    public const string AuthDataKey = "AuthDataKey";
+
     public const string CustomClockTitleKey = "CustomClockTitleKey";
 
     public const string PlayEmojisLock = "PlayEmojisLock";

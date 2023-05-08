@@ -71,8 +71,6 @@
                 <Button
                     x:Name="CompactOverlayBtn"
                     x:Uid="CompactOverlayBtn"
-                    Width="16"
-                    Height="16"
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.CompactOverlayCommand}"

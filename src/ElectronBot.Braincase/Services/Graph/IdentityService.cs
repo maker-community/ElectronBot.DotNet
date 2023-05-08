@@ -1,9 +1,10 @@
 ﻿using System.Configuration;
 using System.Net.NetworkInformation;
+using ElectronBot.Braincase.Contracts.Services;
 using Microsoft.Identity.Client;
 using Verdure.ElectronBot.Core.Helpers;
 
-namespace Verdure.ElectronBot.Core.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class IdentityService
 {
@@ -23,12 +24,14 @@ public class IdentityService
     private readonly string[] _graphScopes = new string[] { "user.read", "Tasks.ReadWrite" };
 
     private bool _integratedAuthAvailable;
+
     private IPublicClientApplication _client;
     private AuthenticationResult _authenticationResult;
 
     public event EventHandler LoggedIn;
 
     public event EventHandler LoggedOut;
+
 
     public void InitializeWithAadAndPersonalMsAccounts()
     {
@@ -75,12 +78,24 @@ public class IdentityService
             return LoginResultType.NoNetworkAvailable;
         }
 
+        var settingService = App.GetService<ILocalSettingsService>();
+
+        _authenticationResult = await settingService.ReadSettingAsync<AuthenticationResult>(Constants.AuthDataKey);
+
+        if (_authenticationResult != null)
+        {
+            return LoginResultType.Success;
+        }
+
         try
         {
             var accounts = await _client.GetAccountsAsync();
             _authenticationResult = await _client.AcquireTokenInteractive(_graphScopes)
                                                  .WithAccount(accounts.FirstOrDefault())
                                                  .ExecuteAsync();
+
+            await settingService.SaveSettingAsync(Constants.AuthDataKey, _authenticationResult);
+
 
             LoggedIn?.Invoke(this, EventArgs.Empty);
             return LoginResultType.Success;
@@ -173,6 +188,15 @@ public class IdentityService
             return false;
         }
 
+        var settingService = App.GetService<ILocalSettingsService>();
+
+        _authenticationResult = await settingService.ReadSettingAsync<AuthenticationResult>(Constants.AuthDataKey);
+
+        if (_authenticationResult != null)
+        {
+            return true;
+        }
+
         try
         {
             var accounts = await _client.GetAccountsAsync();
@@ -180,6 +204,9 @@ public class IdentityService
             {
                 _authenticationResult = await _client.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                                                .ExecuteAsync();
+
+                    await settingService.SaveSettingAsync(Constants.AuthDataKey, _authenticationResult);
+
                 return true;
             }
             return false;

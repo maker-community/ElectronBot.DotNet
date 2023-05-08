@@ -140,11 +140,18 @@ public partial class ShellViewModel : ObservableRecipient
     }
 
 
-    public void Initialize()
+    public async void Initialize()
     {
         _identityService.LoggedIn += OnLoggedIn;
         _identityService.LoggedOut += OnLoggedOut;
         _userDataService.UserDataUpdated += OnUserDataUpdated;
+
+        var user = await _userDataService.GetUserAsync();
+        if (user != null)
+        {
+            User = user;
+            IsLoggedIn = true;
+        }
     }
 
     private void OnUserDataUpdated(object sender, UserViewModel userData)
@@ -190,7 +197,7 @@ public partial class ShellViewModel : ObservableRecipient
     {
         if (IsLoggedIn)
         {
-            NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
+            //NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
         }
         else
         {
