@@ -8,6 +8,7 @@ using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
+using Verdure.ElectronBot.Core.Helpers;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
 using Windows.System;
@@ -23,6 +24,9 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     private ObservableCollection<ComboxItemModel> _cameras;
 
     private ObservableCollection<ComboxItemModel> _audioDevs;
+    private readonly IdentityService _identityService;
+
+    private readonly UserDataService _userDataService;
 
 
     private ComboxItemModel _cameraSelect;
@@ -31,17 +35,24 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
 
     private string _customClockTitle;
-
+    private RelayCommand _logInCommand;
+    private RelayCommand _logOutCommand;
+    private bool _isLoggedIn;
+    private bool _isBusy;
+    private UserViewModel _user;
     public SettingsViewModel(
     IThemeSelectorService themeSelectorService,
     ILocalSettingsService localSettingsService,
-    ComboxDataService comboxDataService)
+    ComboxDataService comboxDataService,
+    IdentityService identityService,
+    UserDataService userDataService)
     {
         _themeSelectorService = themeSelectorService;
         _elementTheme = _themeSelectorService.Theme;
         _localSettingsService = localSettingsService;
         VersionDescription = GetVersionDescription();
-
+        _identityService = identityService;
+        _userDataService = userDataService;
         chatBotComboxModels = comboxDataService.GetChatBotClientComboxList();
     }
 
@@ -230,6 +241,88 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         }
     }
 
+    public RelayCommand LogInCommand => _logInCommand ?? (_logInCommand = new RelayCommand(OnLogIn, () => !IsBusy));
+
+    public RelayCommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new RelayCommand(OnLogOut, () => !IsBusy));
+
+    public bool IsLoggedIn
+    {
+        get
+        {
+            return _isLoggedIn;
+        }
+        set
+        {
+            SetProperty(ref _isLoggedIn, value);
+        }
+    }
+
+    public bool IsBusy
+    {
+        get => _isBusy;
+        set
+        {
+            SetProperty(ref _isBusy, value);
+            LogInCommand.NotifyCanExecuteChanged();
+            LogOutCommand.NotifyCanExecuteChanged();
+        }
+    }
+
+    public void UnregisterEvents()
+    {
+        _identityService.LoggedIn -= OnLoggedIn;
+        _identityService.LoggedOut -= OnLoggedOut;
+        _userDataService.UserDataUpdated -= OnUserDataUpdated;
+    }
+
+    private void OnUserDataUpdated(object sender, UserViewModel userData)
+    {
+        User = userData;
+    }
+
+    private async void OnLogIn()
+    {
+        IsBusy = true;
+        var loginResult = await _identityService.LoginAsync();
+        if (loginResult != LoginResultType.Success)
+        {
+            await AuthenticationHelper.ShowLoginErrorAsync(loginResult);
+            IsBusy = false;
+        }
+    }
+
+    private async void OnLogOut()
+    {
+        IsBusy = true;
+        await _identityService.LogoutAsync();
+    }
+
+    private void OnLoggedIn(object sender, EventArgs e)
+    {
+        IsLoggedIn = true;
+        IsBusy = false;
+    }
+
+    private void OnLoggedOut(object sender, EventArgs e)
+    {
+        User = null;
+        IsLoggedIn = false;
+        IsBusy = false;
+    }
+
+    public UserViewModel User
+    {
+        get
+        {
+            return _user;
+        }
+        set
+        {
+            SetProperty(ref _user, value);
+        }
+    }
+
+
     private async Task InitAsync()
     {
         try
@@ -271,6 +364,12 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             {
                 ChatBotSelect = chatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
             }
+
+            _identityService.LoggedIn += OnLoggedIn;
+            _identityService.LoggedOut += OnLoggedOut;
+            _userDataService.UserDataUpdated += OnUserDataUpdated;
+            IsLoggedIn = _identityService.IsLoggedIn();
+            User = await _userDataService.GetUserAsync();
         }
         catch (Exception ex)
         {
@@ -292,5 +391,6 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     }
     public void OnNavigatedFrom()
     {
+        UnregisterEvents();
     }
 }

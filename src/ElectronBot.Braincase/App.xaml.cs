@@ -239,10 +239,10 @@ public partial class App : Application
         {
             // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
             XamlRoot = MainWindow.Content.XamlRoot,
-            Title = "是否关闭应用?",
-            PrimaryButtonText = "确定",
-            CloseButtonText = "取消",
-            SecondaryButtonText = "托盘化",
+            Title = "ExitBtn_Title".GetLocalized(),
+            PrimaryButtonText = "ExitBtn_PrimaryButtonText".GetLocalized(),
+            CloseButtonText = "ExitBtn_CloseButtonText".GetLocalized(),
+            SecondaryButtonText = "ExitBtn_SecondaryButtonText".GetLocalized(),
             DefaultButton = ContentDialogButton.Primary,
             RequestedTheme = theme.Theme,
             Content = new AppQuitPage()

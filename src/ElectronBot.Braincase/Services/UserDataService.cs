@@ -65,7 +65,6 @@ public class UserDataService
 
     private async Task<UserViewModel> GetUserFromGraphApiAsync()
     {
-        await _microsoftGraphService.PrepareGraphAsync();
         var accessToken = await _identityService.GetAccessTokenForGraphAsync();
         if (string.IsNullOrEmpty(accessToken))
         {

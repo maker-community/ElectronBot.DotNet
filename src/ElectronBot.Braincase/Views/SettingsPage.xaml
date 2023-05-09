@@ -8,15 +8,47 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xaml="using:Microsoft.UI.Xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     mc:Ignorable="d">
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <converters:BoolToVisibilityConverter x:Name="ReverseBoolToVisibility" FalseValue="Visible" TrueValue="Collapsed" />
     </Page.Resources>
     <Grid>
         <ScrollViewer>
             <StackPanel x:Name="ContentArea">
 
                 <StackPanel>
+                    <StackPanel>
+                        <StackPanel
+                            Margin="{StaticResource SmallTopMargin}"
+                            Orientation="Horizontal"
+                            Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay}">
+                            <Ellipse Width="64" Height="64">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{x:Bind ViewModel.User.Photo, Mode=OneWay}" Stretch="UniformToFill" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel Margin="{StaticResource SmallLeftMargin}">
+                                <TextBlock Text="{x:Bind ViewModel.User.Name, Mode=OneWay}" />
+                                <TextBlock Margin="{StaticResource XSmallTopMargin}" Text="{x:Bind ViewModel.User.UserPrincipalName, Mode=OneWay}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <HyperlinkButton
+                            x:Uid="Settings_LogOut"
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Command="{x:Bind ViewModel.LogOutCommand}"
+                            Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay}" />
+                        <TextBlock
+                            x:Uid="Settings_NoUserLoggedIn"
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay, Converter={StaticResource ReverseBoolToVisibility}}" />
+                        <HyperlinkButton
+                            x:Uid="Settings_LogIn"
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Command="{x:Bind ViewModel.LogInCommand}"
+                            Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay, Converter={StaticResource ReverseBoolToVisibility}}" />
+                    </StackPanel>
                     <Expander
                         Width="800"
                         Margin="0,8,0,4"

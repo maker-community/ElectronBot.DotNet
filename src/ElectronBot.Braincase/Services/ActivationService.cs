@@ -40,7 +40,8 @@ public class ActivationService : IActivationService
 
         _userDataService.Initialize();
         _identityService.InitializeWithAadAndPersonalMsAccounts();
-         await _identityService.AcquireTokenSilentAsync();
+        await _identityService.AttachTokenCacheAsync();
+        await _identityService.AcquireTokenSilentAsync();
 
         // Set the MainWindow Content.
         if (App.MainWindow.Content == null)

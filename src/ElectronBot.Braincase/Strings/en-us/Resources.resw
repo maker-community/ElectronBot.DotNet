@@ -126,27 +126,6 @@
   <data name="Shell_Main.Content" xml:space="preserve">
     <value>电子控制</value>
   </data>
-  <data name="WebView_Loading.Text" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="WebView_FailedMessage.Text" xml:space="preserve">
-    <value>Page failed to load. Check connection and reload.</value>
-  </data>
-  <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Browser back</value>
-  </data>
-  <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Browser back</value>
-  </data>
-  <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Browser forward</value>
-  </data>
-  <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Browser forward</value>
-  </data>
-  <data name="WebView_Reload.Content" xml:space="preserve">
-    <value>Reload</value>
-  </data>
   <data name="ReloadButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Reload</value>
   </data>
@@ -158,9 +137,6 @@
   </data>
   <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Open in browser</value>
-  </data>
-  <data name="Shell_WebView.Content" xml:space="preserve">
-    <value>WebView</value>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>个性化</value>
@@ -678,5 +654,26 @@
   </data>
   <data name="NeedleModeRb.Content" xml:space="preserve">
     <value>盯针模式</value>
+  </data>
+  <data name="ExitBtn_CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ExitBtn_PrimaryButtonText" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="ExitBtn_SecondaryButtonText" xml:space="preserve">
+    <value>托盘化</value>
+  </data>
+  <data name="ExitBtn_Title" xml:space="preserve">
+    <value>是否关闭应用?</value>
+  </data>
+  <data name="Settings_LogIn.Content" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="Settings_LogOut.Content" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="Settings_NoUserLoggedIn.Text" xml:space="preserve">
+    <value>There is no user logged in, please click "Log In" to log in.</value>
   </data>
 </root>

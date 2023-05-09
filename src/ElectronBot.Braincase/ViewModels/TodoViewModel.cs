@@ -38,6 +38,8 @@ public class TodoViewModel : ObservableRecipient
     {
         if (_identityService.IsLoggedIn())
         {
+            await _microsoftGraphService.PrepareGraphAsync();
+
             var todos =  await _microsoftGraphService.GetTodoTaskListAsync();
             
             TodoTaskLists = new ObservableCollection<TodoTaskList>(todos);

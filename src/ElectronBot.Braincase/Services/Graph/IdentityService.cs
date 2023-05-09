@@ -2,6 +2,7 @@
 using System.Net.NetworkInformation;
 using ElectronBot.Braincase.Contracts.Services;
 using Microsoft.Identity.Client;
+using Microsoft.Identity.Client.Extensions.Msal;
 using Verdure.ElectronBot.Core.Helpers;
 
 namespace ElectronBot.Braincase.Services;
@@ -42,6 +43,18 @@ public class IdentityService
                                                 .Build();
     }
 
+    /// <summary>
+    /// Attaches the token cache to the Public Client app.
+    /// </summary>
+    /// <returns>IAccount list of already signed-in users (if available)</returns>
+    public async Task AttachTokenCacheAsync()
+    {
+        // Cache configuration and hook-up to public application. Refer to https://github.com/AzureAD/microsoft-authentication-extensions-for-dotnet/wiki/Cross-platform-Token-Cache#configuring-the-token-cache
+        var storageProperties = new StorageCreationPropertiesBuilder(Constants.CacheFileName, MsalCacheHelper.UserRootDirectory).Build();
+        var msalcachehelper = await MsalCacheHelper.CreateAsync(storageProperties);
+        msalcachehelper.RegisterCache(_client.UserTokenCache);
+    }
+
     public void InitializeWithPersonalMsAccount()
     {
         _integratedAuthAvailable = false;
@@ -78,24 +91,13 @@ public class IdentityService
             return LoginResultType.NoNetworkAvailable;
         }
 
-        var settingService = App.GetService<ILocalSettingsService>();
-
-        _authenticationResult = await settingService.ReadSettingAsync<AuthenticationResult>(Constants.AuthDataKey);
-
-        if (_authenticationResult != null)
-        {
-            return LoginResultType.Success;
-        }
-
         try
         {
             var accounts = await _client.GetAccountsAsync();
+
             _authenticationResult = await _client.AcquireTokenInteractive(_graphScopes)
                                                  .WithAccount(accounts.FirstOrDefault())
                                                  .ExecuteAsync();
-
-            await settingService.SaveSettingAsync(Constants.AuthDataKey, _authenticationResult);
-
 
             LoggedIn?.Invoke(this, EventArgs.Empty);
             return LoginResultType.Success;
@@ -188,15 +190,6 @@ public class IdentityService
             return false;
         }
 
-        var settingService = App.GetService<ILocalSettingsService>();
-
-        _authenticationResult = await settingService.ReadSettingAsync<AuthenticationResult>(Constants.AuthDataKey);
-
-        if (_authenticationResult != null)
-        {
-            return true;
-        }
-
         try
         {
             var accounts = await _client.GetAccountsAsync();
@@ -204,8 +197,6 @@ public class IdentityService
             {
                 _authenticationResult = await _client.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                                                .ExecuteAsync();
-
-                    await settingService.SaveSettingAsync(Constants.AuthDataKey, _authenticationResult);
 
                 return true;
             }
