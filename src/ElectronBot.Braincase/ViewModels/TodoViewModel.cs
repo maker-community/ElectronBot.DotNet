@@ -6,10 +6,12 @@ using ElectronBot.Braincase.Services;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
 using Microsoft.Graph;
+using Controls.CompactOverlay;
+using Microsoft.UI.Windowing;
 
 namespace ElectronBot.Braincase.ViewModels;
 
-public class TodoViewModel : ObservableRecipient
+public partial class TodoViewModel : ObservableRecipient
 {
     private ICommand _loadedCommand;
     public ICommand LoadedCommand => _loadedCommand ??= new RelayCommand(OnLoaded);
@@ -58,5 +60,21 @@ public class TodoViewModel : ObservableRecipient
         var todos = await _microsoftGraphService.GetTodoTaskListAsync();
 
         TodoTaskLists = new ObservableCollection<TodoTaskList>(todos);
+    }
+
+    [RelayCommand]
+    public void CompactOverlay()
+    {
+        WindowEx compactOverlay = new CompactOverlayWindow();
+
+        compactOverlay.Content = new DefaultCompactOverlayPage();
+
+        var appWindow = compactOverlay.AppWindow;
+
+        appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+
+        appWindow.Show();
+
+        App.MainWindow.Hide();
     }
 }

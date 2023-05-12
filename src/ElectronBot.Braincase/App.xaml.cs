@@ -26,6 +26,7 @@ using Views;
 using Windows.ApplicationModel.Background;
 using Windows.Media.Playback;
 using Windows.UI.Popups;
+using ViewModels;
 
 namespace ElectronBot.Braincase;
 
@@ -157,6 +158,8 @@ public partial class App : Application
             services.AddTransient<ImageCropperPickerViewModel>();
 
             services.AddTransient<ImageCropperPage>();
+
+            services.AddTransient<TodoCompactOverlayViewModel>();
 
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 

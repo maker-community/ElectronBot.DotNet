@@ -22,6 +22,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
+using Windows.Graphics;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -735,20 +736,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     ObservableCollection<ElectronBotAction> actions = new();
 
-
-    [RelayCommand]
-    public void CompactOverlay()
-    {
-        WindowEx compactOverlay = new CompactOverlayWindow();
-
-        compactOverlay.Content = new DefaultCompactOverlayPage();
-
-        var appWindow = compactOverlay.GetAppWindow();
-
-        appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-
-        appWindow.Show();
-    }
 
     /// <summary>
     /// 导入动作列表

@@ -8,9 +8,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Controls.CompactOverlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="TodoCompactOverlayPage"
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock FontSize="36">我是小窗模式</TextBlock>
+        <TextBlock Margin="8" FontSize="36">我是小窗模式</TextBlock>
+        <Button
+            x:Name="CompactOverlayBtn"
+            x:Uid="CompactOverlayBtn"
+            Margin="8"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Background="Transparent"
+            Command="{x:Bind ViewModel.CompactOverlayCommand}"
+            Foreground="{ThemeResource SystemAccentColor}">
+            <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEE47;" />
+        </Button>
     </Grid>
 </Page>

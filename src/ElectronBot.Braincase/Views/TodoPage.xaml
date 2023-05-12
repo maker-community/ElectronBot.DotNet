@@ -15,14 +15,26 @@
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Grid x:Name="ContentArea">
-        <ListView ItemsSource="{x:Bind ViewModel.TodoTaskLists, Mode=OneWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:TodoTaskList">
-                    <Grid>
-                        <TextBlock Text="{x:Bind DisplayName}" />
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackPanel>
+            <Button
+                x:Name="CompactOverlayBtn"
+                x:Uid="CompactOverlayBtn"
+                Margin="8"
+                HorizontalAlignment="Left"
+                Background="Transparent"
+                Command="{x:Bind ViewModel.CompactOverlayCommand}"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEE49;" />
+            </Button>
+            <ListView ItemsSource="{x:Bind ViewModel.TodoTaskLists, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:TodoTaskList">
+                        <Grid>
+                            <TextBlock Text="{x:Bind DisplayName}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
     </Grid>
 </Page>
