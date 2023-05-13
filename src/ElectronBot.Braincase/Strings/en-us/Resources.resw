@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>电子脑壳</value>
+    <value>ElectronBot Braincase</value>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>这是一个windows app sdk 开发的上位机软件，主要是为开源项目ElectronBot机器人开发的上位机，主要提供动作编排和动作播放和和显示。</value>
+    <value>This is a host computer software developed by windows app sdk. It is mainly developed for the open source project ElectronBot robot. It mainly provides action arrangement and action playback and display.</value>
   </data>
   <data name="Shell_Main.Content" xml:space="preserve">
-    <value>电子控制</value>
+    <value>ElectronBot Control</value>
   </data>
   <data name="ReloadButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Reload</value>
@@ -139,163 +139,163 @@
     <value>Open in browser</value>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
-    <value>个性化</value>
+    <value>Personalise</value>
   </data>
   <data name="Settings_Theme.Text" xml:space="preserve">
-    <value>主题</value>
+    <value>Theme</value>
   </data>
   <data name="Settings_Theme_Light.Content" xml:space="preserve">
-    <value>浅色</value>
+    <value>Light</value>
   </data>
   <data name="Settings_Theme_Dark.Content" xml:space="preserve">
-    <value>深色</value>
+    <value>Dark</value>
   </data>
   <data name="Settings_Theme_Default.Content" xml:space="preserve">
-    <value>默认</value>
+    <value>Default</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
-    <value>关于此软件</value>
+    <value>About this software</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>这是一个windows app sdk 开发的上位机软件，主要是为开源项目ElectronBot机器人开发的上位机，主要提供动作编排和动作播放和和显示。</value>
+    <value>This is a host computer software developed by windows app sdk. It is mainly developed for the open source project ElectronBot robot. It mainly provides action arrangement and action playback and display.</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
-    <value>隐私策略</value>
+    <value>Privacy policy</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://blog.csdn.net/weixin_43500426/article/details/83315983</value>
   </data>
   <data name="ElectronBotAddTip" xml:space="preserve">
-    <value>电子已连接</value>
+    <value>ElectronBot connected</value>
   </data>
   <data name="ElectronBotRemoveTip" xml:space="preserve">
-    <value>电子已移除</value>
+    <value>Electron removed</value>
   </data>
   <data name="ExportToastText" xml:space="preserve">
-    <value>动作导出成功</value>
+    <value>Action exported successfully</value>
   </data>
   <data name="PlayEmptyToastText" xml:space="preserve">
-    <value>请添加或者导入动作</value>
+    <value>Please add or import action</value>
   </data>
   <data name="PlayErrorToastText" xml:space="preserve">
-    <value>请切换到控制模式</value>
+    <value>Please switch to control mode</value>
   </data>
   <data name="PlayClearToastText" xml:space="preserve">
-    <value>列表已清空</value>
+    <value>List is cleared</value>
   </data>
   <data name="PlayResetToastText" xml:space="preserve">
-    <value>动作已重置</value>
+    <value>Action reset</value>
   </data>
   <data name="ChangeClockViewCB.PlaceholderText" xml:space="preserve">
-    <value>切换表盘</value>
+    <value>switch dial</value>
   </data>
   <data name="ClearBtn.Content" xml:space="preserve">
-    <value>清除列表</value>
+    <value>Clear list</value>
   </data>
   <data name="ControlMode.Content" xml:space="preserve">
-    <value>控制模式</value>
+    <value>Control mode</value>
   </data>
   <data name="DefautView" xml:space="preserve">
-    <value>默认效果</value>
+    <value>Default effect</value>
   </data>
   <data name="DisableModeRb.Content" xml:space="preserve">
-    <value>禁用模式</value>
+    <value>Disable mode</value>
   </data>
   <data name="EntitySchemaRb.Content" xml:space="preserve">
-    <value>录制模式</value>
+    <value>Recording mode</value>
   </data>
   <data name="ExportBtn.Content" xml:space="preserve">
-    <value>导出动作</value>
+    <value>Export action</value>
   </data>
   <data name="ImportBtn.Content" xml:space="preserve">
-    <value>导入动作</value>
+    <value>Import action</value>
   </data>
   <data name="LongShadowView" xml:space="preserve">
-    <value>长阴影</value>
+    <value>Long shadow</value>
   </data>
   <data name="ModeRadioBtn.Header" xml:space="preserve">
-    <value>选择模式</value>
+    <value>Select mode</value>
   </data>
   <data name="PlayBtn.Content" xml:space="preserve">
-    <value>播放动作</value>
+    <value>Play action</value>
   </data>
   <data name="PleaseConnectToastText" xml:space="preserve">
-    <value>请连接电子（初次使用请检测驱动）</value>
+    <value>Please connect the electronics (please check the drive for the first use)</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>重置动作</value>
+    <value>Reset action</value>
   </data>
   <data name="Sd_Bottom.Header" xml:space="preserve">
-    <value>底盘转动(J6)</value>
+    <value>Chassis rotation (J6)</value>
   </data>
   <data name="Sd_Head.Header" xml:space="preserve">
-    <value>头部(J1)</value>
+    <value>Head (J1)</value>
   </data>
   <data name="Sd_LeftArm.Header" xml:space="preserve">
-    <value>左臂旋转(J3)</value>
+    <value>Left arm rotation (J3)</value>
   </data>
   <data name="Sd_LeftArmExpansion.Header" xml:space="preserve">
-    <value>左臂展开(J2)</value>
+    <value>Left Arm Extended (J2)</value>
   </data>
   <data name="Sd_RightArm.Header" xml:space="preserve">
-    <value>右臂旋转(J5)</value>
+    <value>Right arm rotation (J5)</value>
   </data>
   <data name="Sd_RightArmExpansion.Header" xml:space="preserve">
-    <value>右臂展开(J4)</value>
+    <value>Right Arm Extended (J4)</value>
   </data>
   <data name="StopBtn.Content" xml:space="preserve">
-    <value>停止动作</value>
+    <value>Stop motion</value>
   </data>
   <data name="AddPic.Text" xml:space="preserve">
-    <value>添加图片</value>
+    <value>Add picture</value>
   </data>
   <data name="ImageCropperAcceptBtn.Label" xml:space="preserve">
-    <value>确认</value>
+    <value>Confirm</value>
   </data>
   <data name="ImageCropperCancelBtn.Label" xml:space="preserve">
-    <value>取消</value>
+    <value>Cancel</value>
   </data>
   <data name="CameraHelperResultFailed" xml:space="preserve">
     <value>🤷 Unable to continue...</value>
   </data>
   <data name="EmotionAnger" xml:space="preserve">
-    <value>愤怒</value>
+    <value>Anger</value>
   </data>
   <data name="EmotionContempt" xml:space="preserve">
-    <value>蔑视</value>
+    <value>Contempt</value>
   </data>
   <data name="EmotionDisgust" xml:space="preserve">
-    <value>厌恶</value>
+    <value>Disgust</value>
   </data>
   <data name="EmotionFear" xml:space="preserve">
-    <value>恐惧</value>
+    <value>Fear</value>
   </data>
   <data name="EmotionHappiness" xml:space="preserve">
-    <value>快乐</value>
+    <value>Hapiness</value>
   </data>
   <data name="EmotionNeutral" xml:space="preserve">
-    <value>中性</value>
+    <value>Neutral</value>
   </data>
   <data name="EmotionSadness" xml:space="preserve">
-    <value>悲伤</value>
+    <value>Sad</value>
   </data>
   <data name="EmotionSurprise" xml:space="preserve">
-    <value>惊讶</value>
+    <value>Surprise</value>
   </data>
   <data name="ModelLoadedFailed" xml:space="preserve">
     <value>The machine learning model did not load successfully. 🤔 Unable to continue...</value>
   </data>
   <data name="Shell_CameraEmojis.Content" xml:space="preserve">
-    <value>表情识别</value>
+    <value>Facial expression recognition</value>
   </data>
   <data name="RemoveAction.Text" xml:space="preserve">
-    <value>移除动作</value>
+    <value>Remove action</value>
   </data>
   <data name="CameraErrorText" xml:space="preserve">
-    <value>摄像头打开失败</value>
+    <value>Failed to open camera</value>
   </data>
   <data name="DialogAuthenticationTitle" xml:space="preserve">
-    <value>登录</value>
+    <value>Log in</value>
   </data>
   <data name="DialogNoNetworkAvailableContent" xml:space="preserve">
     <value>ApplicatioThere is no internet connection, please connect to the internet and try again.</value>
@@ -304,368 +304,368 @@
     <value>Something went wrong during the login, please try again.</value>
   </data>
   <data name="GooeyFooter" xml:space="preserve">
-    <value>融合效果</value>
+    <value>Fusion effect</value>
   </data>
   <data name="Shell_LogIn.Text" xml:space="preserve">
-    <value>登录</value>
+    <value>Log in</value>
   </data>
   <data name="Shell_Todo.Content" xml:space="preserve">
-    <value>微软待办</value>
+    <value>Microsoft to do</value>
   </data>
   <data name="CameraLoadedFailed" xml:space="preserve">
-    <value>暂未发现摄像头</value>
+    <value>No camera found yet</value>
   </data>
   <data name="Settings_Thank.Text" xml:space="preserve">
-    <value>感谢列表</value>
+    <value>Thanks list</value>
   </data>
   <data name="Shell_EmojisEdit.Content" xml:space="preserve">
-    <value>表情动作</value>
+    <value>Facial expressions</value>
   </data>
   <data name="AddEmojisCancelBtnContent" xml:space="preserve">
-    <value>取消</value>
+    <value>Cancel</value>
   </data>
   <data name="AddEmojisOkBtnContent" xml:space="preserve">
-    <value>保存</value>
+    <value>Save</value>
   </data>
   <data name="AddEmojisTitle" xml:space="preserve">
-    <value>添加表情</value>
+    <value>Add emoji</value>
   </data>
   <data name="AngerName" xml:space="preserve">
-    <value>愤怒</value>
+    <value>Anger</value>
   </data>
   <data name="DisdainName" xml:space="preserve">
-    <value>不屑</value>
+    <value>Disdain</value>
   </data>
   <data name="EmojisAvatar.Text" xml:space="preserve">
-    <value>图片地址：</value>
+    <value>The map's address:</value>
   </data>
   <data name="EmojisDesc.Text" xml:space="preserve">
-    <value>描述：</value>
+    <value>describe:</value>
   </data>
   <data name="EmojisNameId.Text" xml:space="preserve">
-    <value>标识ID：</value>
+    <value>ID:</value>
   </data>
   <data name="EmojisNameTitle.Text" xml:space="preserve">
-    <value>名称：</value>
+    <value>Name:</value>
   </data>
   <data name="EmojisVideoUrl.Text" xml:space="preserve">
-    <value>视频地址：</value>
+    <value>Video address:</value>
   </data>
   <data name="ExcitedName" xml:space="preserve">
-    <value>兴奋</value>
+    <value>Excited</value>
   </data>
   <data name="FearName" xml:space="preserve">
-    <value>惊恐</value>
+    <value>Frightened</value>
   </data>
   <data name="PlayEmojis.Text" xml:space="preserve">
-    <value>播放表情</value>
+    <value>Play emoji</value>
   </data>
   <data name="SadName" xml:space="preserve">
-    <value>难过</value>
+    <value>Sad</value>
   </data>
   <data name="Shell_Gamepad.Content" xml:space="preserve">
-    <value>手柄控制器</value>
+    <value>Controller</value>
   </data>
   <data name="Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>添加动作帧</value>
+    <value>Add action frame</value>
   </data>
   <data name="AddEmojisBtn.Label" xml:space="preserve">
-    <value>添加新表情</value>
+    <value>Add new emoji</value>
   </data>
   <data name="AppLogoAuthor.Content" xml:space="preserve">
-    <value>应用LOGO作者(oooooohmygosh)B站地址</value>
+    <value>Application LOGO author (oooooohmygosh) station B address</value>
   </data>
   <data name="AppTheme.Text" xml:space="preserve">
-    <value>应用主题</value>
+    <value>Apply theme</value>
   </data>
   <data name="AudioCB.Header" xml:space="preserve">
-    <value>默认音频设备</value>
+    <value>Default audio device</value>
   </data>
   <data name="AudioCB.PlaceholderText" xml:space="preserve">
-    <value>默认音频设备</value>
+    <value>Default audio device</value>
   </data>
   <data name="CameraCB.Header" xml:space="preserve">
-    <value>默认相机</value>
+    <value>Default camera</value>
   </data>
   <data name="CameraCB.PlaceholderText" xml:space="preserve">
-    <value>默认相机</value>
+    <value>Default camera</value>
   </data>
   <data name="ClockAuthor.Content" xml:space="preserve">
-    <value>表盘项目参考作者(DinoChan)Github地址</value>
+    <value>Dial project reference author (DinoChan) Github address</value>
   </data>
   <data name="ClockConfig.Text" xml:space="preserve">
-    <value>表盘配置</value>
+    <value>Dial configuration</value>
   </data>
   <data name="ClockCumstomWords.Text" xml:space="preserve">
-    <value>表盘自定义文字：</value>
+    <value>Dial custom text:</value>
   </data>
   <data name="ClockCustomFontSize.Text" xml:space="preserve">
-    <value>表盘自定义文字字体大小：</value>
+    <value>Dial custom text font size:</value>
   </data>
   <data name="ClockParameter.Text" xml:space="preserve">
-    <value>设置表盘参数</value>
+    <value>Set dial parameters</value>
   </data>
   <data name="DefaultDeviceConfig.Text" xml:space="preserve">
-    <value>默认设备设置</value>
+    <value>Default device settings</value>
   </data>
   <data name="ElectronBotInfo.Content" xml:space="preserve">
-    <value>电子脑壳介绍地址</value>
+    <value>Introduction address of ElectronBot Braincase</value>
   </data>
   <data name="EmojisInfoTitle" xml:space="preserve">
-    <value>表情详情</value>
+    <value>Emoticon details</value>
   </data>
   <data name="Export.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>导出动作</value>
+    <value>Export action</value>
   </data>
   <data name="GamepadViewCB.PlaceholderText" xml:space="preserve">
-    <value>选择手柄</value>
+    <value>Select handle</value>
   </data>
   <data name="Import.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>导入动作</value>
+    <value>Import action</value>
   </data>
   <data name="Reference.Text" xml:space="preserve">
-    <value>参考的项目和一些资源的链接</value>
+    <value>Referenced projects and links to some resources</value>
   </data>
   <data name="SelectAppTheme.Text" xml:space="preserve">
-    <value>选择要显示的应用主题</value>
+    <value>Select App Themes to Display</value>
   </data>
   <data name="SettingDefaultDevice.Text" xml:space="preserve">
-    <value>设置相关默认设备</value>
+    <value>Set related default devices</value>
   </data>
   <data name="TestEmoji.Content" xml:space="preserve">
-    <value>测试表情</value>
+    <value>Test expression</value>
   </data>
   <data name="TestVoice.Content" xml:space="preserve">
-    <value>测试语音</value>
+    <value>Test voice</value>
   </data>
   <data name="ViewEmojisInfo.Text" xml:space="preserve">
-    <value>查看详情</value>
+    <value>Check the details</value>
   </data>
   <data name="ClockModeRb.Content" xml:space="preserve">
-    <value>时钟模式</value>
+    <value>Clock mode</value>
   </data>
   <data name="EmojisEmpty" xml:space="preserve">
-    <value>表情表示不能为空</value>
+    <value>Emoticons cannot be empty</value>
   </data>
   <data name="EmojisListEmpty" xml:space="preserve">
-    <value>动作列表不能为空</value>
+    <value>Action list cannot be empty</value>
   </data>
   <data name="EmojisActionAddTB.Text" xml:space="preserve">
-    <value>导入动作按钮：</value>
+    <value>Import action buttons:</value>
   </data>
   <data name="EmojisActionFileSize" xml:space="preserve">
-    <value>文件请小于5兆</value>
+    <value>The file should be less than 5 megabytes</value>
   </data>
   <data name="EmojisActionPath.Text" xml:space="preserve">
-    <value>动作地址：</value>
+    <value>Action address:</value>
   </data>
   <data name="EmojisAvatarBtn.Text" xml:space="preserve">
-    <value>添加图片按钮：</value>
+    <value>Add image button:</value>
   </data>
   <data name="EmojisFileSize" xml:space="preserve">
-    <value>文件请小于1兆</value>
+    <value>The file should be less than 1 MB</value>
   </data>
   <data name="EmojisNameIdAlreadyExists" xml:space="preserve">
-    <value>此表情Id已存在</value>
+    <value>This emoticon ID already exists</value>
   </data>
   <data name="EmojisNameIdOnlyEn" xml:space="preserve">
-    <value>表情标识只支持英文字母和数字</value>
+    <value>Emoticons only support English letters and numbers</value>
   </data>
   <data name="EmojisVideoAddTB.Text" xml:space="preserve">
-    <value>添加视频按钮：</value>
+    <value>Add video button:</value>
   </data>
   <data name="SetEmojisName" xml:space="preserve">
-    <value>请设置表情名称</value>
+    <value>Please set emoticon name</value>
   </data>
   <data name="ReconnectBtn.Content" xml:space="preserve">
-    <value>重连电子</value>
+    <value>Reconnect ElectronBot</value>
   </data>
   <data name="ReconnectText" xml:space="preserve">
-    <value>重连电子</value>
+    <value>Reconnect ElectronBot</value>
   </data>
   <data name="RebootElectron.Content" xml:space="preserve">
-    <value>复位电子</value>
+    <value>Reset ElectronBot</value>
   </data>
   <data name="Shell_GestureClassification.Content" xml:space="preserve">
-    <value>手势识别</value>
+    <value>Gesture Recognition</value>
   </data>
   <data name="GradientsWithBlend" xml:space="preserve">
-    <value>资源监控</value>
+    <value>Resource monitoring</value>
   </data>
   <data name="CpuTitle.Text" xml:space="preserve">
     <value>CPU</value>
   </data>
   <data name="RadialGaugeCPU.Unit" xml:space="preserve">
-    <value>百分比</value>
+    <value>Percentage</value>
   </data>
   <data name="RadialGaugeROM.Unit" xml:space="preserve">
-    <value>百分比</value>
+    <value>Percentage</value>
   </data>
   <data name="RomTitle.Text" xml:space="preserve">
     <value>ROM</value>
   </data>
   <data name="AddRandomContentBtn.Label" xml:space="preserve">
-    <value>添加随机内容</value>
+    <value>Add random content</value>
   </data>
   <data name="AddRandomContentTitle" xml:space="preserve">
-    <value>添加随机内容</value>
+    <value>Add random content</value>
   </data>
   <data name="ContentAlreadyExists" xml:space="preserve">
-    <value>内容已存在</value>
+    <value>Content already exists</value>
   </data>
   <data name="DelEmojis.Text" xml:space="preserve">
-    <value>删除表情</value>
+    <value>Delete emoticon</value>
   </data>
   <data name="DelRandomContent.Text" xml:space="preserve">
-    <value>删除</value>
+    <value>Delete</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.5.2 版本更新说明
-1. 调整源码目录命名。
-2. 添加盯针模式，也就是通过鼠标指针控制电子，并通过滚轮按下触发随机表情播放功能，前提是在盯针模式下。
+    <value>1.5.2 Version update instructions
+1. Adjust the source code directory naming.
+2. Add the pin-pointing mode, that is, control the electronics through the mouse pointer, and press the scroll wheel to trigger the random expression playback function, provided that it is in the pin-pointing mode.
 
-1.5.1 版本更新说明
-1. 重构代码升级框架到.net7和windows app sdk 1.3。
-2. 优化电子连接，可以打开电子脑壳，然后插入电子，热拔插也进行修复，为后期功能打下稳定的基础。
+1.5.1 Version update instructions
+1. Refactor the code and upgrade the framework to .net7 and windows app sdk 1.3.
+2. Optimize the electronic connection, you can open the electronic head, and then insert the electronic, hot-swapping is also repaired, laying a stable foundation for later functions.
 
-1.5.0 版本更新说明
-1. 添加在线表情分享功能，类似于表情商城的功能，可以分享下载表情文件。
-2. 调整UI显示，优化弹窗的明暗主题色。
+1.5.0 version update instructions
+1. Add online emoticon sharing function, similar to the emoticon mall function, you can share and download emoticon files.
+2. Adjust the UI display and optimize the light and dark theme colors of the pop-up window.
 
-1.4.4 版本更新说明
-1. 添加开机自启动电子脑壳注册，并选择随机播放三次表情列表的表情。如果不喜欢开机自启，请到系统设置=&gt;应用=&gt;启动 禁用。
+1.4.4 Version Update Instructions
+1. Add the registration of the electronic brain case that starts automatically after booting, and select the emoticon that will play the emoticon list three times randomly. If you don't like to boot automatically, please go to System Settings =&gt; Application =&gt; Start to disable.
 
-1.4.3 版本更新说明
-1. 调整ChatGPT对接改成ApiKey对接，更加人性化。
-2. 开放手柄控制页面，目前支持Xbox手柄控制电子。
+1.4.3 Version Update Instructions
+1. Adjust the ChatGPT docking to ApiKey docking, which is more user-friendly.
+2. Open the handle control page, currently supports Xbox handle control electronics.
 
-1.4.2 版本更新说明
-1. 添加表情的导入导出功能
-2. 添加邮件反馈链接，可以直接点击进行功能建议和BUG反馈。
+1.4.2 Version update instructions
+1. Add the import and export function of emoticons
+2. Add an email feedback link, you can directly click to make function suggestions and BUG feedback.
 
-1.4.1 版本更新说明
-1. 调整电子脑壳主题色，恢复到重构之前的颜色。
-2. 加入ChatGPT和图灵机器人配置，图灵机器人请在图灵机器人官网申请然后将AppKey放入到电子脑壳配置里。
-3. 优化UI样式。
+1.4.1 Version update instructions
+1. Adjust the theme color of the electronic brain case to return to the color before reconstruction.
+2. Add ChatGPT and Turing robot configuration, Turing robot please apply on the Turing robot official website and then put the AppKey into the electronic brain case configuration.
+3. Optimize the UI style.
 
-1.4版本更新说明
-1. 首页加入手势识别，包含打开B站测试，和撒个娇随机播放表情，目前采用比心触发语音识别，ok结束，再次比心触发。
-2. 选择困难页的手势触发为握紧拳头碰拳头的动作为触发，ok为停止。
-3. 表情创建页面添加了表情的删除，修复视频播放色差问题，以及视频不能播放声音问题。</value>
+1.4 Version Update Instructions
+1. Gesture recognition is added to the homepage, including opening Bilibili for testing, and playing emoticons randomly. Currently, voice recognition is triggered by heart-to-heart triggering.
+2. Select the gesture trigger of the difficult page as the action of clenching a fist and touching the fist as the trigger, and ok as the stop.
+3. Added the deletion of emoticons on the emoticon creation page, fixed the problem of color difference in video playback, and the problem that the video cannot play sound.</value>
   </data>
   <data name="Settings_Update.Text" xml:space="preserve">
-    <value>更新说明</value>
+    <value>Release Notes</value>
   </data>
   <data name="ChatGPT-SessionKey.Text" xml:space="preserve">
     <value>ChatGPT AppKey：</value>
   </data>
   <data name="AnswerText.Text" xml:space="preserve">
-    <value>手势识别语音回复文本：</value>
+    <value>Gesture Recognition Voice Response Text:</value>
   </data>
   <data name="ChatBotSecurityData.Text" xml:space="preserve">
-    <value>语音对话提供程序配置</value>
+    <value>Speech dialog provider configuration</value>
   </data>
   <data name="ChatBotSecurityDataDesc.Text" xml:space="preserve">
-    <value>提供密钥配置和程序切换</value>
+    <value>Provides key configuration and program switching</value>
   </data>
   <data name="ChatBotType.Text" xml:space="preserve">
-    <value>默认语音提供程序：</value>
+    <value>Default speech provider:</value>
   </data>
   <data name="ChatGPTTitle" xml:space="preserve">
     <value>ChatGPT</value>
   </data>
   <data name="Turing-AppKey.Text" xml:space="preserve">
-    <value>图灵机器人AppKey：</value>
+    <value>Turing Robot AppKey:</value>
   </data>
   <data name="Turing-UserId.Text" xml:space="preserve">
-    <value>图灵机器人UserId：</value>
+    <value>Turing Robot UserId:</value>
   </data>
   <data name="TuringTitle" xml:space="preserve">
-    <value>图灵机器人</value>
+    <value>Turing robot</value>
   </data>
   <data name="CameraPreviewImage.Text" xml:space="preserve">
-    <value>相机画面预览</value>
+    <value>Camera Screen Preview</value>
   </data>
   <data name="ActionEditTitle.Text" xml:space="preserve">
-    <value>电子动作时间轴</value>
+    <value>Action Timeline</value>
   </data>
   <data name="ExportEmojis.Text" xml:space="preserve">
-    <value>导出表情文件</value>
+    <value>Export emoticon file</value>
   </data>
   <data name="ImportEmojisFileBtn.Label" xml:space="preserve">
-    <value>导入表情</value>
+    <value>Import emoticons</value>
   </data>
   <data name="ElectronBotCode.Content" xml:space="preserve">
-    <value>电子脑壳源码地址</value>
+    <value>Source code address of ElectronBot Braincase</value>
   </data>
   <data name="MarketplaceBtn.Label" xml:space="preserve">
-    <value>表情商城</value>
+    <value>Emoji Mall</value>
   </data>
   <data name="UploadEmojis.Text" xml:space="preserve">
-    <value>分享表情</value>
+    <value>Share emoticons</value>
   </data>
   <data name="DownLoadEmojis.Text" xml:space="preserve">
-    <value>下载表情</value>
+    <value>Download emoticons</value>
   </data>
   <data name="MarketplaceDialogClose" xml:space="preserve">
-    <value>关闭</value>
+    <value>Closure</value>
   </data>
   <data name="MarketplaceDialogTitle" xml:space="preserve">
-    <value>表情商城</value>
+    <value>Emoji Mall</value>
   </data>
   <data name="UploadEmojisAuthorTitle.Text" xml:space="preserve">
-    <value>作者：</value>
+    <value>Author:</value>
   </data>
   <data name="UploadEmojisCreateTimeTitle.Text" xml:space="preserve">
-    <value>创建时间：</value>
+    <value>Creation time:</value>
   </data>
   <data name="UploadEmojisDescTitle.Text" xml:space="preserve">
-    <value>描述：</value>
+    <value>Describe:</value>
   </data>
   <data name="UploadEmojisNameIdTitle.Text" xml:space="preserve">
-    <value>标识ID：</value>
+    <value>ID：</value>
   </data>
   <data name="UploadEmojisNameTitle.Text" xml:space="preserve">
-    <value>名称：</value>
+    <value>Name:</value>
   </data>
   <data name="UploadEmojisOKBtn" xml:space="preserve">
-    <value>分享</value>
+    <value>Share</value>
   </data>
   <data name="UploadEmojisTitle" xml:space="preserve">
-    <value>表情分享</value>
+    <value>Emoticon sharing</value>
   </data>
   <data name="DownloadDebugger.Content" xml:space="preserve">
-    <value>点击文字下载电子调试助手</value>
+    <value>Click the text to download the electronic commissioning assistant</value>
   </data>
   <data name="FeedBackText.Text" xml:space="preserve">
-    <value>反馈点我</value>
+    <value>Give me feedback</value>
   </data>
   <data name="hlOpenPrivacySettings.Text" xml:space="preserve">
-    <value>如果语音识别异常请确认是否打开语音识别策略，开启策略允许个性化。</value>
+    <value>If the speech recognition is abnormal, please confirm whether the speech recognition policy is enabled, and the policy is enabled to allow personalization.</value>
   </data>
   <data name="OpenGestureSwitch.OffContent" xml:space="preserve">
-    <value>打开手势识别</value>
+    <value>Turn on gesture recognition</value>
   </data>
   <data name="OpenGestureSwitch.OnContent" xml:space="preserve">
-    <value>关闭手势识别</value>
+    <value>Turn off gesture recognition</value>
   </data>
   <data name="PrivacyHyperLink.Content" xml:space="preserve">
-    <value>点击文字进入策略设置页</value>
+    <value>Click on the text to enter the policy setting page</value>
   </data>
   <data name="NeedleModeRb.Content" xml:space="preserve">
-    <value>盯针模式</value>
+    <value>Pin mode</value>
   </data>
   <data name="ExitBtn_CloseButtonText" xml:space="preserve">
-    <value>取消</value>
+    <value>Cancel</value>
   </data>
   <data name="ExitBtn_PrimaryButtonText" xml:space="preserve">
-    <value>确定</value>
+    <value>Sure</value>
   </data>
   <data name="ExitBtn_SecondaryButtonText" xml:space="preserve">
-    <value>托盘化</value>
+    <value>Palletization</value>
   </data>
   <data name="ExitBtn_Title" xml:space="preserve">
-    <value>是否关闭应用?</value>
+    <value>Do you want to close the application?</value>
   </data>
   <data name="Settings_LogIn.Content" xml:space="preserve">
     <value>Log in</value>
@@ -675,5 +675,11 @@
   </data>
   <data name="Settings_NoUserLoggedIn.Text" xml:space="preserve">
     <value>There is no user logged in, please click "Log In" to log in.</value>
+  </data>
+  <data name="AppQuit_Content.Text" xml:space="preserve">
+    <value>This option is to prevent accidental closing of the application</value>
+  </data>
+  <data name="ElectronSourceCode.Content" xml:space="preserve">
+    <value>The open source address of the ElectronBot robot</value>
   </data>
 </root>

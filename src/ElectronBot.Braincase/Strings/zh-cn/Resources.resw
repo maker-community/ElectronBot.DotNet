@@ -673,4 +673,10 @@
   <data name="Settings_NoUserLoggedIn.Text" xml:space="preserve">
     <value>没有用户登录，请点击“登录”登录。</value>
   </data>
+  <data name="AppQuit_Content.Text" xml:space="preserve">
+    <value>此选项是防止意外关闭应用</value>
+  </data>
+  <data name="ElectronSourceCode.Content" xml:space="preserve">
+    <value>ElectronBot机器人的开源地址</value>
+  </data>
 </root>

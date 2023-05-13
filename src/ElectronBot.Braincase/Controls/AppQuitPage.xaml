@@ -12,7 +12,9 @@
 
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <!--  Content body  -->
-        <TextBlock Text="此选项是防止意外关闭应用" TextWrapping="Wrap" />
+        <TextBlock
+            x:Uid="AppQuit_Content"
+            TextWrapping="Wrap" />
         <!--<CheckBox Content="Upload your content to the cloud." />-->
     </StackPanel>
 
