@@ -520,7 +520,11 @@
     <value>Delete</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.5.2 Version update instructions
+    <value>1.5.3 Version Update Instructions
+1. Fix the Microsoft account login can not persist to save the login status.
+2. Add ElectronBot Braincase to increase English translation.
+
+1.5.2 Version update instructions
 1. Adjust the source code directory naming.
 2. Add the pin-pointing mode, that is, control the electronics through the mouse pointer, and press the scroll wheel to trigger the random expression playback function, provided that it is in the pin-pointing mode.
 
