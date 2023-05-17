@@ -42,6 +42,7 @@
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\model.onnx" />
     <None Remove="Assets\pig.ico" />
+    <None Remove="ClockViews\CustomClockView.xaml" />
     <None Remove="ClockViews\GooeyFooter.xaml" />
     <None Remove="ClockViews\GradientsWithBlend.xaml" />
     <None Remove="ClockViews\RandomContentView.xaml" />
@@ -200,6 +201,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="ClockViews\CustomClockView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\CompactOverlay\DefaultCompactOverlayPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -686,4 +686,7 @@
   <data name="ElectronSourceCode.Content" xml:space="preserve">
     <value>The open source address of the ElectronBot robot</value>
   </data>
+  <data name="CustomView" xml:space="preserve">
+    <value>CustomView</value>
+  </data>
 </root>

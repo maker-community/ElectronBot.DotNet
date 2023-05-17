@@ -165,6 +165,8 @@ public partial class App : Application
 
             services.AddTransient<IClockViewProvider, DefaultClockViewProvider>();
 
+            services.AddTransient<IClockViewProvider, CustomClockViewProvider>();
+
             services.AddTransient<IClockViewProvider, LongShadowClockViewProvider>();
 
             services.AddTransient<IClockViewProvider, GooeyFooterClockViewProvider>();

@@ -683,4 +683,7 @@
   <data name="ElectronSourceCode.Content" xml:space="preserve">
     <value>ElectronBot机器人的开源地址</value>
   </data>
+  <data name="CustomView" xml:space="preserve">
+    <value>自定义表盘</value>
+  </data>
 </root>
