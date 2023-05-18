@@ -689,4 +689,13 @@
   <data name="CustomView" xml:space="preserve">
     <value>CustomView</value>
   </data>
+  <data name="CustomClockViewConfig.Text" xml:space="preserve">
+    <value>Custom Dial configuration</value>
+  </data>
+  <data name="CustomViewContentIsVisibility.Text" xml:space="preserve">
+    <value>Content is visible:</value>
+  </data>
+  <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
+    <value>GaussianBlur Value:</value>
+  </data>
 </root>

@@ -686,4 +686,13 @@
   <data name="CustomView" xml:space="preserve">
     <value>自定义</value>
   </data>
+  <data name="CustomClockViewConfig.Text" xml:space="preserve">
+    <value>自定义表盘配置</value>
+  </data>
+  <data name="CustomViewContentIsVisibility.Text" xml:space="preserve">
+    <value>表盘内容是否可见：</value>
+  </data>
+  <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
+    <value>高斯模糊值：</value>
+  </data>
 </root>

@@ -49,19 +49,36 @@ public sealed partial class CustomClockView : UserControl
         await PrepareRaindayAsync(sender);
     }
 
-    private async Task PrepareRaindayAsync(CanvasControl sender, string demo = "demo1", bool isFullScreen = false)
+    private async Task PrepareRaindayAsync(CanvasControl sender)
     {
-        var imgPath = Path.Combine(AppContext.BaseDirectory, $"Assets/Images/{demo}.jpg");
+        var imgPath = Path.Combine(AppContext.BaseDirectory, $"Assets/Images/CustomViewDefault.jpg");
+
+        var blurAmount = 4.0f;
+
+        if (ViewModel.ClockTitleConfig != null)
+        {
+            if (!string.IsNullOrEmpty(ViewModel.ClockTitleConfig.CustomViewPicturePath))
+            {
+                imgPath = ViewModel.ClockTitleConfig.CustomViewPicturePath;
+            }
+
+            blurAmount = ViewModel.ClockTitleConfig.GaussianBlurValue;
+
+            if (!ViewModel.ClockTitleConfig.CustomViewContentIsVisibility)
+            {
+                PomodoroPanel.Visibility = Visibility.Collapsed;
+            }
+        }
 
         imgbackground = await CanvasBitmap.LoadAsync(sender, imgPath);
 
         blurEffect = new GaussianBlurEffect()
         {
             Source = imgbackground,
-            BlurAmount = 4.0f,
+            BlurAmount = blurAmount,
             BorderMode = EffectBorderMode.Soft
         };
-        scalefactor = isFullScreen ? (float)Math.Max(sender.Size.Width / imgbackground.Size.Width, sender.Size.Height / imgbackground.Size.Height) : (float)Math.Min(sender.Size.Width / imgbackground.Size.Width, sender.Size.Height / imgbackground.Size.Height);
+        scalefactor =  (float)Math.Min(sender.Size.Width / imgbackground.Size.Width, sender.Size.Height / imgbackground.Size.Height);
         imgW = (float)imgbackground.Size.Width * scalefactor;
         imgH = (float)imgbackground.Size.Height * scalefactor;
         imgX = (float)(sender.Size.Width - imgW) / 2;
@@ -71,61 +88,18 @@ public sealed partial class CustomClockView : UserControl
         List<List<float>> pesets;
 
 
-        if (demo == "demo1")
+        rainday = new RainyDay(sender, imgW, imgH, imgbackground)
         {
-            rainday = new RainyDay(sender, imgW, imgH, imgbackground)
-            {
-                ImgSclaeFactor = scalefactor,
-                GravityAngle = (float)Math.PI / 2
-            };
-            pesets = new List<List<float>>() {
+            ImgSclaeFactor = scalefactor,
+            GravityAngle = (float)Math.PI / 2
+        };
+        pesets = new List<List<float>>() {
 
             new List<float> { 3, 3, 0.88f },
             new List<float> { 5, 5, 0.9f },
             new List<float> { 6, 2, 1 }
-            };
-        }
-        else if (demo == "demo2")
-        {
-            rainday = new RainyDay(sender, imgW, imgH, imgbackground)
-            {
-                ImgSclaeFactor = scalefactor,
-                GravityAngle = (float)Math.PI / 9
-            };
-            pesets = new List<List<float>>()
-            {
-                new List<float> { 1, 0, 1000 },
-                new List<float> { 3, 3, 1 },
-            };
-        }
-        else if (demo == "demo3")
-        {
-            rainday = new RainyDay(sender, imgW, imgH, imgbackground)
-            {
-                ImgSclaeFactor = scalefactor,
-                CurrentGravity = RainyDay.GravityType.Gravity_None_Linear,
-                GravityAngle = (float)Math.PI / 2
-            };
-            pesets = new List<List<float>>() {
-            new List<float> {0, 2, 200},
-            new List<float> { 3, 3, 1 }
-
         };
 
-        }
-        else
-        {
-            rainday = new RainyDay(sender, imgW, imgH, imgbackground)
-            {
-                ImgSclaeFactor = scalefactor,
-                GravityAngle = (float)Math.PI / 2,
-                CurrentGravity = RainyDay.GravityType.Gravity_None_Linear,
-                CurrentTrail = RainyDay.TrailType.Trail_Smudge
-            };
-            pesets = new List<List<float>>() {
-            new List<float> { 3, 3, 0.1f }
-        };
-        }
         rainday.Rain(pesets, 100);
     }
 
@@ -158,24 +132,6 @@ public sealed partial class CustomClockView : UserControl
 
     void InitDemoData()
     {
-        var demos = new List<string>()
-        {
-            "demo1","demo2","demo3","demo4"
-        };
         this.DataContext = this;
-
     }
-    private async void DemosCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        var s = sender as ComboBox;
-        var demo = s.SelectedValue.ToString();
-        var w = canvas.ActualWidth;
-        if (glassSurface != null && imgbackground != null)
-        {
-            await PrepareRaindayAsync(canvas, demo);
-            canvas.Invalidate();
-        }
-
-    }
-
 }

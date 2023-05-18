@@ -226,6 +226,111 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <Border Margin="4,4,12,4">
+                                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE121;" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock
+                                            x:Uid="CustomClockViewConfig"
+                                            Margin="0,4,0,4"
+                                            FontSize="16" />
+                                        <TextBlock
+                                            x:Uid="ClockParameter"
+                                            Margin="0,0,0,4"
+                                            FontSize="12" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <Grid>
+                            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="EmojisAvatarBtn"
+                                        Width="100"
+                                        VerticalAlignment="Center" />
+                                    <Button
+                                        x:Uid="EmojisAvatarAddBtn"
+                                        Margin="4"
+                                        Command="{x:Bind ViewModel.AddEmojisAvatarCommand}">
+                                        <FontIcon
+                                            FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                            FontSize="48"
+                                            Glyph="&#xE158;" />
+                                    </Button>
+                                    <Border
+                                        Width="48"
+                                        Height="48"
+                                        Margin="4"
+                                        CornerRadius="4">
+                                        <Image Source="{x:Bind ViewModel.EmojisAvatarBitMap, Mode=TwoWay}" />
+                                    </Border>
+                                    <Button
+                                        x:Uid="EmojisAvatarAddBtn"
+                                        Margin="4"
+                                        Command="{x:Bind ViewModel.RemoveEmojisAvatarCommand}">
+                                        <FontIcon
+                                            FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                            FontSize="48"
+                                            Glyph="&#xF78A;" />
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="EmojisAvatar"
+                                        Width="100"
+                                        VerticalAlignment="Center" />
+                                    <TextBox
+                                        Width="280"
+                                        Margin="4"
+                                        IsReadOnly="True"
+                                        Text="{x:Bind ViewModel.EmojisAvatar, Mode=OneWay}"
+                                        TextWrapping="NoWrap" />
+                                </StackPanel>
+
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="CustomViewGaussianBlurValue"
+                                        Width="100"
+                                        VerticalAlignment="Center" />
+                                    <Slider
+                                        Width="280"
+                                        Margin="4"
+                                        Maximum="4"
+                                        Minimum="0"
+                                        ValueChanged="{x:Bind ViewModel.RangeBase_OnValueChanged}"
+                                        Value="{x:Bind ViewModel.ClockTitleConfig.GaussianBlurValue, Mode=TwoWay}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="CustomViewContentIsVisibility"
+                                        Width="100"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        Margin="4"
+                                        IsOn="{x:Bind ViewModel.IsVisual, Mode=TwoWay}"
+                                        Toggled="{x:Bind ViewModel.ToggleSwitch_OnToggled}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Expander>
+
+
+                    <Expander
+                        Width="800"
+                        Margin="0,8,0,4"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        ExpandDirection="Down"
+                        IsExpanded="False">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Margin="4,4,12,4">
                                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE772;" />
                                     </Border>
                                     <StackPanel Grid.Column="1">

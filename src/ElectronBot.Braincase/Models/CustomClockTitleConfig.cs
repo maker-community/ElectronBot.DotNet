@@ -32,4 +32,22 @@ public class CustomClockTitleConfig
     {
         get; set;
     } = "你想做什么,你需要帮忙吗,我能帮你做些什么,你需要帮助吗";
+
+    public string CustomViewPicturePath
+    {
+        get;
+        set;
+    }= string.Empty;
+
+    public float GaussianBlurValue
+    {
+        get;
+        set;
+    } = 4.0f;
+
+    public bool CustomViewContentIsVisibility
+    {
+        get;
+        set;
+    } = true;
 }

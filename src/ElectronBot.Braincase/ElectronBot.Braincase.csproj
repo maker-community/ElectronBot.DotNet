@@ -40,6 +40,7 @@
     <None Remove="Assets\Emoji\defaultaction.json" />
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
+    <None Remove="Assets\Images\CustomViewDefault.jpg" />
     <None Remove="Assets\model.onnx" />
     <None Remove="Assets\pig.ico" />
     <None Remove="ClockViews\CustomClockView.xaml" />
@@ -166,16 +167,7 @@
     <Content Update="Assets\Emoji\defaultaction.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="Assets\Images\demo1.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Images\demo2.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Images\demo3.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Images\demo4.jpg">
+    <Content Update="Assets\Images\CustomViewDefault.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
