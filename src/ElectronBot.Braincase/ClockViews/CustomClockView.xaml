@@ -8,70 +8,66 @@
     xmlns:local="using:ElectronBot.Braincase.ClockViews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:ElectronBot.Braincase.Media"
+    xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot">
         <Viewbox>
             <Grid
                 x:Name="Root"
                 Width="200"
                 Height="200">
-                <ContentControl
+                <xaml:CanvasControl
+                    x:Name="canvas"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    CreateResources="Canvas_CreateResources"
+                    Draw="Canvas_Draw" />
+                <StackPanel
+                    x:Name="PomodoroPanel"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontFamily="{StaticResource TimeFont}"
-                    Foreground="White">
-                    <StackPanel
-                        x:Name="PomodoroPanel"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                        <StackPanel x:Name="FocusPanel" VerticalAlignment="Center">
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <TextBlock
-                                    Margin="2"
-                                    HorizontalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="White"
-                                    Text="{x:Bind ViewModel.Day, Mode=OneWay}" />
-                                <TextBlock
-                                    Margin="2"
-                                    HorizontalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="White"
-                                    Text="{x:Bind ViewModel.TodayWeek, Mode=OneWay}" />
-                            </StackPanel>
+                    VerticalAlignment="Center">
+                    <StackPanel x:Name="FocusPanel" VerticalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                             <TextBlock
                                 Margin="2"
-                                HorizontalAlignment="Right"
-                                FontSize="32"
+                                HorizontalAlignment="Center"
+                                FontSize="20"
                                 FontWeight="Bold"
                                 Foreground="White"
-                                Text="{x:Bind ViewModel.TodayTime, Mode=OneWay}" />
-
+                                Text="{x:Bind ViewModel.Day, Mode=OneWay}" />
                             <TextBlock
-                                MaxWidth="120"
                                 Margin="2"
-                                HorizontalAlignment="Right"
-                                FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
+                                HorizontalAlignment="Center"
+                                FontSize="20"
                                 FontWeight="Bold"
                                 Foreground="White"
-                                Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}"
-                                TextWrapping="Wrap" />
+                                Text="{x:Bind ViewModel.TodayWeek, Mode=OneWay}" />
                         </StackPanel>
+                        <TextBlock
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            FontSize="32"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="{x:Bind ViewModel.TodayTime, Mode=OneWay}" />
+
+                        <TextBlock
+                            MaxWidth="120"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}"
+                            TextWrapping="Wrap" />
                     </StackPanel>
-                </ContentControl>
+                </StackPanel>
             </Grid>
         </Viewbox>
-        <Rectangle Grid.RowSpan="2" IsHitTestVisible="False">
-            <Rectangle.Fill>
-                <media:TiledImageBrush Source="ms-appx:///Assets//Emoji//pic//eyes-closed.png" />
-            </Rectangle.Fill>
-        </Rectangle>
     </Grid>
 </UserControl>

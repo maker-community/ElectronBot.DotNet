@@ -684,6 +684,6 @@
     <value>ElectronBot机器人的开源地址</value>
   </data>
   <data name="CustomView" xml:space="preserve">
-    <value>自定义表盘</value>
+    <value>自定义</value>
   </data>
 </root>

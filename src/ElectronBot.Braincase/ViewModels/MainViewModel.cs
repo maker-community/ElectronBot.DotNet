@@ -487,7 +487,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
             var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockName);
 
-            if (clockName == "GooeyFooter")
+            if (clockName == "GooeyFooter" || clockName == "CustomView")
             {
                 _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 40);
             }
@@ -677,7 +677,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
                 var clockName = clockComBoxSelect?.DataKey;
 
-                if (clockName != "GooeyFooter")
+                if (clockName != "GooeyFooter"&&clockName!="CustomView")
                 {
                     _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
                 }

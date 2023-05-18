@@ -2,12 +2,18 @@
 using System.Numerics;
 using CommunityToolkit.WinUI.UI;
 using ElectronBot.Braincase.ViewModels;
+using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.Graphics.Canvas.UI;
+using Microsoft.Graphics.Canvas;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Input;
 using Windows.UI;
+using Windows.Foundation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -16,15 +22,16 @@ namespace ElectronBot.Braincase.ClockViews;
 public sealed partial class CustomClockView : UserControl
 {
 
-    private PointLight _redLight;
-    private PointLight _blueLight;
-    private AmbientLight _backgroundLight;
-
-    private Color _redColor = Color.FromArgb(255, 217, 17, 83);
-    private Color _blueColor = Color.FromArgb(255, 0, 27, 171);
-
-    private Color _lightRedColor = Color.FromArgb(255, 247, 97, 163);
-    private Color _lightBlueColor = Color.FromArgb(255, 80, 107, 251);
+    const float defaultDpi = 96;
+    CanvasRenderTarget glassSurface;
+    CanvasBitmap imgbackground;
+    GaussianBlurEffect blurEffect;
+    RainyDay rainday;
+    float scalefactor;
+    float imgW;
+    float imgH;
+    float imgX;
+    float imgY;
 
     public ClockViewModel ViewModel
     {
@@ -34,98 +41,141 @@ public sealed partial class CustomClockView : UserControl
     public CustomClockView()
     {
         this.InitializeComponent();
-        //this.Loaded += HiddenTextView_Loaded;
-
         ViewModel = App.GetService<ClockViewModel>();
-
-        ShowTextShimmingAsync();
-        CreateBackgroundLight();
-        ShowBackgroundLight();
     }
 
-    //private void HiddenTextView_Loaded(object sender, RoutedEventArgs e)
-    //{
-    //    ShowTextShimmingAsync();
-    //    CreateBackgroundLight();
-    //    ShowBackgroundLight();
-    //}
-
-    private void ShowTextShimmingAsync()
+    private async void Canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
     {
-        _redLight = CreatePointLightAndStartAnimation(_redColor, TimeSpan.Zero);
-        _blueLight = CreatePointLightAndStartAnimation(_blueColor, TimeSpan.FromSeconds(0.25));
-        var focusVisual = VisualExtensions.GetVisual(FocusPanel);
-
-        _redLight.Targets.Add(focusVisual);
-        _blueLight.Targets.Add(focusVisual);
+        await PrepareRaindayAsync(sender);
     }
 
-    private void CreateBackgroundLight()
+    private async Task PrepareRaindayAsync(CanvasControl sender, string demo = "demo1", bool isFullScreen = false)
     {
-        Visual hostVisual = ElementCompositionPreview.GetElementVisual(this);
+        var imgPath = Path.Combine(AppContext.BaseDirectory, $"Assets/Images/{demo}.jpg");
 
-        var compositor = hostVisual.Compositor;
-        var focusVisual = VisualExtensions.GetVisual(FocusPanel);
+        imgbackground = await CanvasBitmap.LoadAsync(sender, imgPath);
 
-        _backgroundLight = compositor.CreateAmbientLight();
-        _backgroundLight.Color = _lightRedColor;
-        _backgroundLight.Intensity = 0;
-        _backgroundLight.Targets.Add(focusVisual);
+        blurEffect = new GaussianBlurEffect()
+        {
+            Source = imgbackground,
+            BlurAmount = 4.0f,
+            BorderMode = EffectBorderMode.Soft
+        };
+        scalefactor = isFullScreen ? (float)Math.Max(sender.Size.Width / imgbackground.Size.Width, sender.Size.Height / imgbackground.Size.Height) : (float)Math.Min(sender.Size.Width / imgbackground.Size.Width, sender.Size.Height / imgbackground.Size.Height);
+        imgW = (float)imgbackground.Size.Width * scalefactor;
+        imgH = (float)imgbackground.Size.Height * scalefactor;
+        imgX = (float)(sender.Size.Width - imgW) / 2;
+        imgY = (float)(sender.Size.Height - imgH) / 2;
+        glassSurface = new CanvasRenderTarget(sender, imgW, imgH, defaultDpi);
+
+        List<List<float>> pesets;
+
+
+        if (demo == "demo1")
+        {
+            rainday = new RainyDay(sender, imgW, imgH, imgbackground)
+            {
+                ImgSclaeFactor = scalefactor,
+                GravityAngle = (float)Math.PI / 2
+            };
+            pesets = new List<List<float>>() {
+
+            new List<float> { 3, 3, 0.88f },
+            new List<float> { 5, 5, 0.9f },
+            new List<float> { 6, 2, 1 }
+            };
+        }
+        else if (demo == "demo2")
+        {
+            rainday = new RainyDay(sender, imgW, imgH, imgbackground)
+            {
+                ImgSclaeFactor = scalefactor,
+                GravityAngle = (float)Math.PI / 9
+            };
+            pesets = new List<List<float>>()
+            {
+                new List<float> { 1, 0, 1000 },
+                new List<float> { 3, 3, 1 },
+            };
+        }
+        else if (demo == "demo3")
+        {
+            rainday = new RainyDay(sender, imgW, imgH, imgbackground)
+            {
+                ImgSclaeFactor = scalefactor,
+                CurrentGravity = RainyDay.GravityType.Gravity_None_Linear,
+                GravityAngle = (float)Math.PI / 2
+            };
+            pesets = new List<List<float>>() {
+            new List<float> {0, 2, 200},
+            new List<float> { 3, 3, 1 }
+
+        };
+
+        }
+        else
+        {
+            rainday = new RainyDay(sender, imgW, imgH, imgbackground)
+            {
+                ImgSclaeFactor = scalefactor,
+                GravityAngle = (float)Math.PI / 2,
+                CurrentGravity = RainyDay.GravityType.Gravity_None_Linear,
+                CurrentTrail = RainyDay.TrailType.Trail_Smudge
+            };
+            pesets = new List<List<float>>() {
+            new List<float> { 3, 3, 0.1f }
+        };
+        }
+        rainday.Rain(pesets, 100);
     }
 
-    private PointLight CreatePointLightAndStartAnimation(Color color, TimeSpan delay)
+    private void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
     {
-        var width = 960;
-        var height = 461;
+        if (imgbackground != null)
+        {
+            args.DrawingSession.DrawImage(blurEffect, new Rect(imgX, imgY, imgW, imgH), new Rect(0, 0, imgbackground.Size.Width, imgbackground.Size.Height));
+            args.DrawingSession.DrawImage(glassSurface, imgX, imgY);
 
-        Visual hostVisual = ElementCompositionPreview.GetElementVisual(this);
+            using var ds = glassSurface.CreateDrawingSession();
+            rainday.UpdateDrops(ds);
 
-        var compositor = hostVisual.Compositor;
-
-        var rootVisual = VisualExtensions.GetVisual(Root);
-        var pointLight = compositor.CreatePointLight();
-
-        pointLight.Color = color;
-        pointLight.CoordinateSpace = rootVisual;
-        pointLight.Offset = new Vector3(-width * 4, height / 2, 75.0f);
-
-        var offsetAnimation = compositor.CreateScalarKeyFrameAnimation();
-        offsetAnimation.InsertKeyFrame(1.0f, width * 5, compositor.CreateLinearEasingFunction());
-        offsetAnimation.Duration = TimeSpan.FromSeconds(10);
-        offsetAnimation.DelayTime = delay;
-        offsetAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
-
-        pointLight.StartAnimation("Offset.X", offsetAnimation);
-        return pointLight;
+        }
+        canvas.Invalidate();
     }
 
-    private void SwitchBackgroundLightColor()
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e)
     {
-        if (_backgroundLight == null)
-            return;
-
-        Visual hostVisual = ElementCompositionPreview.GetElementVisual(this);
-
-        var compositor = hostVisual.Compositor;
-
-        var colorAnimation = compositor.CreateColorKeyFrameAnimation();
-        colorAnimation.InsertKeyFrame(1.0f, Colors.Purple, compositor.CreateLinearEasingFunction());
-        colorAnimation.Duration = TimeSpan.FromSeconds(1);
-        _backgroundLight.StartAnimation(nameof(AmbientLight.Color), colorAnimation);
+        canvas.RemoveFromVisualTree();
+        canvas = null;
     }
 
-    private void ShowBackgroundLight()
+
+
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        if (_backgroundLight == null)
-            return;
-
-        Visual hostVisual = ElementCompositionPreview.GetElementVisual(this);
-
-        var compositor = hostVisual.Compositor;
-
-        var scalarAnimation = compositor.CreateScalarKeyFrameAnimation();
-        scalarAnimation.InsertKeyFrame(1.0f, 0.5f, compositor.CreateLinearEasingFunction());
-        scalarAnimation.Duration = TimeSpan.FromSeconds(1);
-        _backgroundLight.StartAnimation(nameof(AmbientLight.Intensity), scalarAnimation);
+        InitDemoData();
     }
+
+    void InitDemoData()
+    {
+        var demos = new List<string>()
+        {
+            "demo1","demo2","demo3","demo4"
+        };
+        this.DataContext = this;
+
+    }
+    private async void DemosCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var s = sender as ComboBox;
+        var demo = s.SelectedValue.ToString();
+        var w = canvas.ActualWidth;
+        if (glassSurface != null && imgbackground != null)
+        {
+            await PrepareRaindayAsync(canvas, demo);
+            canvas.Invalidate();
+        }
+
+    }
+
 }
