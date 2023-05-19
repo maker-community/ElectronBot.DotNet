@@ -517,7 +517,10 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.5.3 版本更新说明
+    <value>1.5.4 版本更新说明
+1. 添加自定义表盘功能，可以通过在设置界面配置文本设置自己的表盘。
+
+1.5.3 版本更新说明
 1. 修复微软账号登录不能持久化保存登录状态。
 2. 添加电子脑壳增加英文翻译。
 
