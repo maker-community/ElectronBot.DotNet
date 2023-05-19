@@ -82,7 +82,7 @@
 
 本项目采用MIT许可证发布，请参见[LICENSE](https://github.com/maker-community/ElectronBot.DotNet/blob/master/LICENSE.txt)文件。
 
-感谢 [JetBrains](https://www.jetbrains.com/?from=spdlog) 提供许可证开发 **电子脑壳** <a href="https://www.jetbrains.com/?from=maker-community"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" width="94" align="center" /></a>
+感谢 [JetBrains](https://www.jetbrains.com/?from=maker-community) 提供许可证开发 **电子脑壳** <a href="https://www.jetbrains.com/?from=maker-community"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" width="94" align="center" /></a>
 
 [树莓派连接ElectronBot项目介绍](https://github.com/maker-community/ElectronBot.DotNet/tree/master/src/Verdure.ElectronBot.GrpcService)
 
