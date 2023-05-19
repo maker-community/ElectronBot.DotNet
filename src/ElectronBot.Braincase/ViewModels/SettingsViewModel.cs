@@ -16,6 +16,7 @@ using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
+using Microsoft.UI.Xaml.Controls;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -101,7 +102,12 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
     public async void ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
     {
-        ClockTitleConfig.CustomViewContentIsVisibility = !IsVisual;
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var isVisual = toggleSwitch.IsOn;
+            ClockTitleConfig.CustomViewContentIsVisibility = isVisual;
+        }
+       
         await _localSettingsService
             .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
     }
@@ -111,8 +117,6 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         await _localSettingsService
             .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
     }
-    [ObservableProperty]
-    public bool isVisual;
 
     /// <summary>
     /// 选中的相机
@@ -203,9 +207,9 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
         var size = propList.Size;
 
-        if (size > 1 * 1000 * 1000)
+        if (size > 5 * 1000 * 1000)
         {
-            ToastHelper.SendToast("EmojisFileSize".GetLocalized(), TimeSpan.FromSeconds(3));
+            ToastHelper.SendToast("EmojisActionFileSize".GetLocalized(), TimeSpan.FromSeconds(3));
 
             return;
         }
@@ -439,8 +443,6 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
             EmojisAvatar = ClockTitleConfig.CustomViewPicturePath;
 
-            IsVisual = ClockTitleConfig.CustomViewContentIsVisibility;
-            
             var camera = await EbHelper.FindCameraDeviceListAsync();
 
             Cameras = new ObservableCollection<ComboxItemModel>(camera);

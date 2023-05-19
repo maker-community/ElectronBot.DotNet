@@ -295,8 +295,9 @@
                                     <Slider
                                         Width="280"
                                         Margin="4"
-                                        Maximum="4"
+                                        Maximum="8"
                                         Minimum="0"
+                                        TickFrequency="0.5"
                                         ValueChanged="{x:Bind ViewModel.RangeBase_OnValueChanged}"
                                         Value="{x:Bind ViewModel.ClockTitleConfig.GaussianBlurValue, Mode=TwoWay}" />
                                 </StackPanel>
@@ -308,7 +309,7 @@
                                         VerticalAlignment="Center" />
                                     <ToggleSwitch
                                         Margin="4"
-                                        IsOn="{x:Bind ViewModel.IsVisual, Mode=TwoWay}"
+                                        IsOn="{x:Bind ViewModel.ClockTitleConfig.CustomViewContentIsVisibility, Mode=OneWay}"
                                         Toggled="{x:Bind ViewModel.ToggleSwitch_OnToggled}" />
                                 </StackPanel>
                             </StackPanel>

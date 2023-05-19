@@ -11,10 +11,10 @@ public class ComboxDataService
             {
 
                 new ComboxItemModel { DataKey = "DefautView", DataValue = "DefautView".GetLocalized() },
-                new ComboxItemModel { DataKey = "CustomView", DataValue = "CustomView".GetLocalized() },
                 new ComboxItemModel { DataKey = "LongShadowView", DataValue ="LongShadowView".GetLocalized() },
                 new ComboxItemModel { DataKey = "GooeyFooter", DataValue ="GooeyFooter".GetLocalized() },
-                new ComboxItemModel { DataKey = "GradientsWithBlend", DataValue ="GradientsWithBlend".GetLocalized() }
+                new ComboxItemModel { DataKey = "GradientsWithBlend", DataValue ="GradientsWithBlend".GetLocalized() },
+                new ComboxItemModel { DataKey = "CustomView", DataValue = "CustomView".GetLocalized() }
             };
     }
 

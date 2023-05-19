@@ -690,7 +690,7 @@
     <value>自定义表盘配置</value>
   </data>
   <data name="CustomViewContentIsVisibility.Text" xml:space="preserve">
-    <value>表盘内容是否可见：</value>
+    <value>是否显示文本：</value>
   </data>
   <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
     <value>高斯模糊值：</value>
