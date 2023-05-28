@@ -701,4 +701,7 @@
   <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
     <value>GaussianBlur Value:</value>
   </data>
+  <data name="ElectronEmulation.Content" xml:space="preserve">
+    <value>Emulation</value>
+  </data>
 </root>

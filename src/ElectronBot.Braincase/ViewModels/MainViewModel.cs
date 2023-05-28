@@ -67,6 +67,8 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     CanvasImageSource? canvasImageSource = null;
 
+    private readonly ElementTheme _elementTheme;
+
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public MainViewModel(
@@ -77,7 +79,8 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         ObjectPickerService objectPickerService,
         MediaPlayer mediaPlayer,
         IActionExpressionProviderFactory actionExpressionProviderFactory,
-        ISpeechAndTTSService speechAndTTSService)
+        ISpeechAndTTSService speechAndTTSService,
+        IThemeSelectorService elementTheme)
     {
         _localSettingsService = localSettingsService;
 
@@ -109,6 +112,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
         ElectronBotHelper.Instance.ClockCanvasStop += Instance_ClockCanvasStop;
         ElectronBotHelper.Instance.ClockCanvasStart += Instance_ClockCanvasStart;
+        _elementTheme = elementTheme.Theme;
     }
 
     private void Instance_ClockCanvasStart(object? sender, EventArgs e)
@@ -312,6 +316,31 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                 ElectronBotHelper.Instance.SerialPort.Close();
             }
 
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    [RelayCommand]
+    private void ElectronEmulation()
+    {
+        try
+        {
+            WindowEx compactOverlay = new CompactOverlayWindow();
+
+            compactOverlay.Content = new ModelLoadCompactOverlayPage()
+            {
+                RequestedTheme = _elementTheme
+            };
+
+            var appWindow = compactOverlay.AppWindow;
+
+            appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+
+            appWindow.Show();
+
+            //App.MainWindow.Hide();
         }
         catch (Exception)
         {

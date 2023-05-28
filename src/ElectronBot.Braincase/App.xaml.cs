@@ -26,6 +26,7 @@ using Views;
 using Windows.ApplicationModel.Background;
 using Windows.Media.Playback;
 using Windows.UI.Popups;
+using HelixToolkit.SharpDX.Core;
 using ViewModels;
 
 namespace ElectronBot.Braincase;
@@ -160,6 +161,9 @@ public partial class App : Application
             services.AddTransient<ImageCropperPage>();
 
             services.AddTransient<TodoCompactOverlayViewModel>();
+            services.AddTransient<ModelLoadCompactOverlayViewModel>();
+            services.AddSingleton<IEffectsManager, DefaultEffectsManager>();
+
 
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 

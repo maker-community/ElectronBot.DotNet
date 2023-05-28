@@ -698,4 +698,7 @@
   <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
     <value>高斯模糊值：</value>
   </data>
+  <data name="ElectronEmulation.Content" xml:space="preserve">
+    <value>电子仿真</value>
+  </data>
 </root>
