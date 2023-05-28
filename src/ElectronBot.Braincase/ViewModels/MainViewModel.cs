@@ -22,11 +22,14 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
+using Windows.Graphics;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 using Windows.Storage;
+using Controls.CompactOverlay;
+using Microsoft.UI.Windowing;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -484,7 +487,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
             var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockName);
 
-            if (clockName == "GooeyFooter")
+            if (clockName == "GooeyFooter" || clockName == "CustomView")
             {
                 _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 40);
             }
@@ -674,7 +677,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
                 var clockName = clockComBoxSelect?.DataKey;
 
-                if (clockName != "GooeyFooter")
+                if (clockName != "GooeyFooter"&&clockName!="CustomView")
                 {
                     _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
                 }
@@ -732,6 +735,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     [ObservableProperty]
     ObservableCollection<ElectronBotAction> actions = new();
+
 
     /// <summary>
     /// 导入动作列表

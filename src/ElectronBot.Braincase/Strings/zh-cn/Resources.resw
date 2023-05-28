@@ -126,41 +126,11 @@
   <data name="Shell_Main.Content" xml:space="preserve">
     <value>电子控制</value>
   </data>
-  <data name="WebView_Loading.Text" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="WebView_FailedMessage.Text" xml:space="preserve">
-    <value>Page failed to load. Check connection and reload.</value>
-  </data>
-  <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Browser back</value>
-  </data>
-  <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Browser back</value>
-  </data>
-  <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Browser forward</value>
-  </data>
-  <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Browser forward</value>
-  </data>
-  <data name="WebView_Reload.Content" xml:space="preserve">
-    <value>Reload</value>
-  </data>
   <data name="ReloadButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Reload</value>
   </data>
   <data name="ReloadButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Reload</value>
-  </data>
-  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open in browser</value>
-  </data>
-  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Open in browser</value>
-  </data>
-  <data name="Shell_WebView.Content" xml:space="preserve">
-    <value>WebView</value>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>个性化</value>
@@ -547,7 +517,14 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.5.2 版本更新说明
+    <value>1.5.4 版本更新说明
+1. 添加自定义表盘功能，可以通过在设置界面配置文本设置自己的表盘。
+
+1.5.3 版本更新说明
+1. 修复微软账号登录不能持久化保存登录状态。
+2. 添加电子脑壳增加英文翻译。
+
+1.5.2 版本更新说明
 1. 调整源码目录命名。
 2. 添加盯针模式，也就是通过鼠标指针控制电子，并通过滚轮按下触发随机表情播放功能，前提是在盯针模式下。
 
@@ -681,5 +658,44 @@
   </data>
   <data name="NeedleModeRb.Content" xml:space="preserve">
     <value>盯针模式</value>
+  </data>
+  <data name="ExitBtn_CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ExitBtn_PrimaryButtonText" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="ExitBtn_SecondaryButtonText" xml:space="preserve">
+    <value>托盘化</value>
+  </data>
+  <data name="ExitBtn_Title" xml:space="preserve">
+    <value>是否关闭应用?</value>
+  </data>
+  <data name="Settings_LogIn.Content" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Settings_LogOut.Content" xml:space="preserve">
+    <value>登出</value>
+  </data>
+  <data name="Settings_NoUserLoggedIn.Text" xml:space="preserve">
+    <value>没有用户登录，请点击“登录”登录。</value>
+  </data>
+  <data name="AppQuit_Content.Text" xml:space="preserve">
+    <value>此选项是防止意外关闭应用</value>
+  </data>
+  <data name="ElectronSourceCode.Content" xml:space="preserve">
+    <value>ElectronBot机器人的开源地址</value>
+  </data>
+  <data name="CustomView" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="CustomClockViewConfig.Text" xml:space="preserve">
+    <value>自定义表盘配置</value>
+  </data>
+  <data name="CustomViewContentIsVisibility.Text" xml:space="preserve">
+    <value>是否显示文本：</value>
+  </data>
+  <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
+    <value>高斯模糊值：</value>
   </data>
 </root>

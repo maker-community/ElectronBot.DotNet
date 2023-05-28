@@ -1,9 +1,11 @@
 ﻿using System.Configuration;
 using System.Net.NetworkInformation;
+using ElectronBot.Braincase.Contracts.Services;
 using Microsoft.Identity.Client;
+using Microsoft.Identity.Client.Extensions.Msal;
 using Verdure.ElectronBot.Core.Helpers;
 
-namespace Verdure.ElectronBot.Core.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class IdentityService
 {
@@ -23,12 +25,14 @@ public class IdentityService
     private readonly string[] _graphScopes = new string[] { "user.read", "Tasks.ReadWrite" };
 
     private bool _integratedAuthAvailable;
+
     private IPublicClientApplication _client;
     private AuthenticationResult _authenticationResult;
 
     public event EventHandler LoggedIn;
 
     public event EventHandler LoggedOut;
+
 
     public void InitializeWithAadAndPersonalMsAccounts()
     {
@@ -37,6 +41,18 @@ public class IdentityService
                                                 .WithAuthority(AadAuthorityAudience.AzureAdAndPersonalMicrosoftAccount)
                                                 .WithRedirectUri(_redirectUri)
                                                 .Build();
+    }
+
+    /// <summary>
+    /// Attaches the token cache to the Public Client app.
+    /// </summary>
+    /// <returns>IAccount list of already signed-in users (if available)</returns>
+    public async Task AttachTokenCacheAsync()
+    {
+        // Cache configuration and hook-up to public application. Refer to https://github.com/AzureAD/microsoft-authentication-extensions-for-dotnet/wiki/Cross-platform-Token-Cache#configuring-the-token-cache
+        var storageProperties = new StorageCreationPropertiesBuilder(Constants.CacheFileName, MsalCacheHelper.UserRootDirectory).Build();
+        var msalcachehelper = await MsalCacheHelper.CreateAsync(storageProperties);
+        msalcachehelper.RegisterCache(_client.UserTokenCache);
     }
 
     public void InitializeWithPersonalMsAccount()
@@ -78,6 +94,7 @@ public class IdentityService
         try
         {
             var accounts = await _client.GetAccountsAsync();
+
             _authenticationResult = await _client.AcquireTokenInteractive(_graphScopes)
                                                  .WithAccount(accounts.FirstOrDefault())
                                                  .ExecuteAsync();
@@ -180,6 +197,7 @@ public class IdentityService
             {
                 _authenticationResult = await _client.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                                                .ExecuteAsync();
+
                 return true;
             }
             return false;
