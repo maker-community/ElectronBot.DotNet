@@ -210,7 +210,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
     private void FocusCameraToScene()
     {
-        var maxWidth = Math.Max(Math.Max(ModelBoundingBox.Width, ModelBoundingBox.Height), ModelBoundingBox.Depth) + 80;
+        var maxWidth = Math.Max(Math.Max(ModelBoundingBox.Width, ModelBoundingBox.Height), ModelBoundingBox.Depth) + 240;
         var pos = ModelBoundingBox.Center + new Vector3(0, 0, maxWidth);
         Camera.Position = pos;
         Camera.LookDirection = ModelBoundingBox.Center - pos;

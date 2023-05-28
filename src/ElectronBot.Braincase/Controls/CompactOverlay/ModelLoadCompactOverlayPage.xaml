@@ -7,7 +7,6 @@
     xmlns:hx="using:HelixToolkit.WinUI"
     xmlns:local="using:Controls.CompactOverlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="ModelLoadCompactOverlayPage_OnLoaded"
     mc:Ignorable="d">
 
@@ -17,10 +16,12 @@
             BackgroundColor="Transparent"
             Camera="{x:Bind ViewModel.Camera}"
             EffectsManager="{x:Bind ViewModel.EffectsManager}"
-            FXAALevel="High"
+            FXAALevel="Low"
             FixedRotationPoint="{x:Bind ViewModel.ModelCentroidPoint}"
-            FixedRotationPointEnabled="True">
-            <hx:DirectionalLight3D Direction="{x:Bind ViewModel.Camera.LookDirection}" Color="White" />
+            FixedRotationPointEnabled="True"
+            ManipulationMode="All"
+            ShowViewCube="False">
+            <hx:DirectionalLight3D Direction="{x:Bind ViewModel.Camera.LookDirection}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. HeadModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. BodyModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. RightArmModel}" />
