@@ -1,10 +1,15 @@
 ﻿using System.Collections.ObjectModel;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
+using Microsoft.Identity.Client.Extensions.Msal;
 
 namespace ElectronBot.Braincase;
 public class Constants
 {
+    public const string CacheFileName = "braincase_msal_cache.txt";
+
+    public const string AuthDataKey = "AuthDataKey";
+
     public const string CustomClockTitleKey = "CustomClockTitleKey";
 
     public const string PlayEmojisLock = "PlayEmojisLock";

@@ -2,6 +2,7 @@
     x:Class="ElectronBot.Braincase.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:ElectronBot.Braincase.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -11,12 +12,46 @@
     mc:Ignorable="d">
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <converters:BoolToVisibilityConverter
+            x:Name="ReverseBoolToVisibility"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
     </Page.Resources>
     <Grid>
         <ScrollViewer>
             <StackPanel x:Name="ContentArea">
 
                 <StackPanel>
+                    <StackPanel>
+                        <StackPanel
+                            Margin="{StaticResource SmallTopMargin}"
+                            Orientation="Horizontal"
+                            Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay}">
+                            <Ellipse Width="64" Height="64">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{x:Bind ViewModel.User.Photo, Mode=OneWay}" Stretch="UniformToFill" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel Margin="{StaticResource SmallLeftMargin}">
+                                <TextBlock Text="{x:Bind ViewModel.User.Name, Mode=OneWay}" />
+                                <TextBlock Margin="{StaticResource XSmallTopMargin}" Text="{x:Bind ViewModel.User.UserPrincipalName, Mode=OneWay}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <HyperlinkButton
+                            x:Uid="Settings_LogOut"
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Command="{x:Bind ViewModel.LogOutCommand}"
+                            Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay}" />
+                        <TextBlock
+                            x:Uid="Settings_NoUserLoggedIn"
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay, Converter={StaticResource ReverseBoolToVisibility}}" />
+                        <HyperlinkButton
+                            x:Uid="Settings_LogIn"
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Command="{x:Bind ViewModel.LogInCommand}"
+                            Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay, Converter={StaticResource ReverseBoolToVisibility}}" />
+                    </StackPanel>
                     <Expander
                         Width="800"
                         Margin="0,8,0,4"
@@ -175,6 +210,112 @@
                             </StackPanel>
                         </Grid>
                     </Expander>
+
+                    <Expander
+                        Width="800"
+                        Margin="0,8,0,4"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        ExpandDirection="Down"
+                        IsExpanded="False">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Margin="4,4,12,4">
+                                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE121;" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock
+                                            x:Uid="CustomClockViewConfig"
+                                            Margin="0,4,0,4"
+                                            FontSize="16" />
+                                        <TextBlock
+                                            x:Uid="ClockParameter"
+                                            Margin="0,0,0,4"
+                                            FontSize="12" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <Grid>
+                            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="EmojisAvatarBtn"
+                                        Width="100"
+                                        VerticalAlignment="Center" />
+                                    <Button
+                                        x:Uid="EmojisAvatarAddBtn"
+                                        Margin="4"
+                                        Command="{x:Bind ViewModel.AddEmojisAvatarCommand}">
+                                        <FontIcon
+                                            FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                            FontSize="48"
+                                            Glyph="&#xE158;" />
+                                    </Button>
+                                    <Border
+                                        Width="48"
+                                        Height="48"
+                                        Margin="4"
+                                        CornerRadius="4">
+                                        <Image Source="{x:Bind ViewModel.EmojisAvatarBitMap, Mode=TwoWay}" />
+                                    </Border>
+                                    <Button
+                                        x:Uid="EmojisAvatarAddBtn"
+                                        Margin="4"
+                                        Command="{x:Bind ViewModel.RemoveEmojisAvatarCommand}">
+                                        <FontIcon
+                                            FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                            FontSize="48"
+                                            Glyph="&#xF78A;" />
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="EmojisAvatar"
+                                        Width="100"
+                                        VerticalAlignment="Center" />
+                                    <TextBox
+                                        Width="280"
+                                        Margin="4"
+                                        IsReadOnly="True"
+                                        Text="{x:Bind ViewModel.EmojisAvatar, Mode=OneWay}"
+                                        TextWrapping="NoWrap" />
+                                </StackPanel>
+
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="CustomViewGaussianBlurValue"
+                                        Width="100"
+                                        VerticalAlignment="Center" />
+                                    <Slider
+                                        Width="280"
+                                        Margin="4"
+                                        Maximum="8"
+                                        Minimum="0"
+                                        TickFrequency="0.5"
+                                        ValueChanged="{x:Bind ViewModel.RangeBase_OnValueChanged}"
+                                        Value="{x:Bind ViewModel.ClockTitleConfig.GaussianBlurValue, Mode=TwoWay}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="CustomViewContentIsVisibility"
+                                        Width="100"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        Margin="4"
+                                        IsOn="{x:Bind ViewModel.ClockTitleConfig.CustomViewContentIsVisibility, Mode=OneWay}"
+                                        Toggled="{x:Bind ViewModel.ToggleSwitch_OnToggled}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Expander>
+
 
                     <Expander
                         Width="800"
@@ -473,6 +614,12 @@
 
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
                     <TextBlock x:Uid="Reference" Style="{ThemeResource BodyTextBlockStyle}" />
+
+
+                    <HyperlinkButton
+                        x:Uid="ElectronSourceCode"
+                        Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
+                        NavigateUri="https://github.com/peng-zhihui/ElectronBot" />
 
                     <HyperlinkButton
                         x:Uid="AppLogoAuthor"

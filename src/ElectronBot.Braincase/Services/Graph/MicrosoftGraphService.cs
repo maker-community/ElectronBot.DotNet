@@ -3,7 +3,7 @@ using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Helpers;
 using Microsoft.Graph;
 
-namespace Verdure.ElectronBot.Core.Services;
+namespace ElectronBot.Braincase.Services;
 
 public class MicrosoftGraphService : IMicrosoftGraphService
 {
@@ -16,15 +16,11 @@ public class MicrosoftGraphService : IMicrosoftGraphService
 
     private readonly IdentityService _identityService;
 
-    private GraphServiceClient _graphServiceClient;
+    private readonly GraphServiceClient _graphServiceClient;
 
     public MicrosoftGraphService(IdentityService identityService)
     {
         _identityService = identityService;
-    }
-
-    public Task PrepareGraphAsync()
-    {
         _graphServiceClient = new GraphServiceClient(_graphAPIEndpoint,
             new DelegateAuthenticationProvider(async (requestMessage) =>
             {
@@ -32,6 +28,11 @@ public class MicrosoftGraphService : IMicrosoftGraphService
 
                 requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
             }));
+    }
+
+    public Task PrepareGraphAsync()
+    {
+      
 
         return Task.CompletedTask;
     }

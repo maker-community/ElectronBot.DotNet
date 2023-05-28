@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -8,9 +9,14 @@ using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Verdure.ElectronBot.Core.Helpers;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
+using Windows.Storage;
 using Windows.System;
+using Microsoft.UI.Xaml.Controls;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -23,6 +29,9 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     private ObservableCollection<ComboxItemModel> _cameras;
 
     private ObservableCollection<ComboxItemModel> _audioDevs;
+    private readonly IdentityService _identityService;
+
+    private readonly UserDataService _userDataService;
 
 
     private ComboxItemModel _cameraSelect;
@@ -30,18 +39,28 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     private ComboxItemModel _audioSelect;
 
 
-    private string _customClockTitle;
+    private WriteableBitmap _emojisAvatarBitMap;
 
+
+    private string _customClockTitle;
+    private RelayCommand _logInCommand;
+    private RelayCommand _logOutCommand;
+    private bool _isLoggedIn;
+    private bool _isBusy;
+    private UserViewModel _user;
     public SettingsViewModel(
     IThemeSelectorService themeSelectorService,
     ILocalSettingsService localSettingsService,
-    ComboxDataService comboxDataService)
+    ComboxDataService comboxDataService,
+    IdentityService identityService,
+    UserDataService userDataService)
     {
         _themeSelectorService = themeSelectorService;
         _elementTheme = _themeSelectorService.Theme;
         _localSettingsService = localSettingsService;
         VersionDescription = GetVersionDescription();
-
+        _identityService = identityService;
+        _userDataService = userDataService;
         chatBotComboxModels = comboxDataService.GetChatBotClientComboxList();
     }
 
@@ -63,7 +82,16 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         set => SetProperty(ref _customClockTitle, value);
     }
 
+    public WriteableBitmap EmojisAvatarBitMap
+    {
+        get => _emojisAvatarBitMap;
+        set => SetProperty(ref _emojisAvatarBitMap, value);
+    }
 
+    /// <summary>
+    /// 表情图片
+    /// </summary>
+    [ObservableProperty] public string emojisAvatar;
 
     private CustomClockTitleConfig _clockTitleConfig = new();
     public CustomClockTitleConfig ClockTitleConfig
@@ -72,7 +100,23 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         set => SetProperty(ref _clockTitleConfig, value);
     }
 
-
+    public async void ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var isVisual = toggleSwitch.IsOn;
+            ClockTitleConfig.CustomViewContentIsVisibility = isVisual;
+        }
+       
+        await _localSettingsService
+            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+    }
+    public async void RangeBase_OnValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+    {
+        
+        await _localSettingsService
+            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+    }
 
     /// <summary>
     /// 选中的相机
@@ -131,6 +175,83 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     {
         get => _versionDescription;
         set => SetProperty(ref _versionDescription, value);
+
+    }
+
+    [RelayCommand]
+    private async void AddEmojisAvatar()
+    {
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+
+        var picker = new Windows.Storage.Pickers.FileOpenPicker
+        {
+            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+
+            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
+        };
+
+        picker.FileTypeFilter.Add(".png");
+        picker.FileTypeFilter.Add(".jpg");
+        picker.FileTypeFilter.Add(".jpeg");
+
+        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+        var file = await picker.PickSingleFileAsync();
+
+        if (file is null)
+        {
+            return;
+        }
+
+        var propList = await file.GetBasicPropertiesAsync();
+
+        var size = propList.Size;
+
+        if (size > 5 * 1000 * 1000)
+        {
+            ToastHelper.SendToast("EmojisActionFileSize".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
+        var config = new ImageCropperConfig
+        {
+            ImageFile = file,
+            AspectRatio = 1
+        };
+
+        var croppedImage = await ImageHelper.CropImage(config);
+
+        if (croppedImage is null)
+        {
+            return;
+        }
+
+        EmojisAvatarBitMap = croppedImage;
+
+        var folder = ApplicationData.Current.LocalFolder;
+
+        var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+        var storageFile = await storageFolder
+            .CreateFileAsync($"CustomViewPicture-{DateTime.Now.Second}{file.FileType}", CreationCollisionOption.ReplaceExisting);
+
+        if (await ImageHelper.SaveWriteableBitmapImageFileAsync(croppedImage, storageFile))
+        {
+            ClockTitleConfig.CustomViewPicturePath = storageFile.Path;
+            await _localSettingsService
+                .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+            EmojisAvatar = storageFile.Path;
+        }
+    }
+
+    [RelayCommand]
+    private async void RemoveEmojisAvatar()
+    {
+        ClockTitleConfig.CustomViewPicturePath = "";
+        await _localSettingsService
+            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+        EmojisAvatar = "";
     }
 
     [RelayCommand]
@@ -230,6 +351,88 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         }
     }
 
+    public RelayCommand LogInCommand => _logInCommand ?? (_logInCommand = new RelayCommand(OnLogIn, () => !IsBusy));
+
+    public RelayCommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new RelayCommand(OnLogOut, () => !IsBusy));
+
+    public bool IsLoggedIn
+    {
+        get
+        {
+            return _isLoggedIn;
+        }
+        set
+        {
+            SetProperty(ref _isLoggedIn, value);
+        }
+    }
+
+    public bool IsBusy
+    {
+        get => _isBusy;
+        set
+        {
+            SetProperty(ref _isBusy, value);
+            LogInCommand.NotifyCanExecuteChanged();
+            LogOutCommand.NotifyCanExecuteChanged();
+        }
+    }
+
+    public void UnregisterEvents()
+    {
+        _identityService.LoggedIn -= OnLoggedIn;
+        _identityService.LoggedOut -= OnLoggedOut;
+        _userDataService.UserDataUpdated -= OnUserDataUpdated;
+    }
+
+    private void OnUserDataUpdated(object sender, UserViewModel userData)
+    {
+        User = userData;
+    }
+
+    private async void OnLogIn()
+    {
+        IsBusy = true;
+        var loginResult = await _identityService.LoginAsync();
+        if (loginResult != LoginResultType.Success)
+        {
+            await AuthenticationHelper.ShowLoginErrorAsync(loginResult);
+            IsBusy = false;
+        }
+    }
+
+    private async void OnLogOut()
+    {
+        IsBusy = true;
+        await _identityService.LogoutAsync();
+    }
+
+    private void OnLoggedIn(object sender, EventArgs e)
+    {
+        IsLoggedIn = true;
+        IsBusy = false;
+    }
+
+    private void OnLoggedOut(object sender, EventArgs e)
+    {
+        User = null;
+        IsLoggedIn = false;
+        IsBusy = false;
+    }
+
+    public UserViewModel User
+    {
+        get
+        {
+            return _user;
+        }
+        set
+        {
+            SetProperty(ref _user, value);
+        }
+    }
+
+
     private async Task InitAsync()
     {
         try
@@ -237,6 +440,8 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             var ret2 = await _localSettingsService
                 .ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
             ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
+
+            EmojisAvatar = ClockTitleConfig.CustomViewPicturePath;
 
             var camera = await EbHelper.FindCameraDeviceListAsync();
 
@@ -271,6 +476,12 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             {
                 ChatBotSelect = chatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
             }
+
+            _identityService.LoggedIn += OnLoggedIn;
+            _identityService.LoggedOut += OnLoggedOut;
+            _userDataService.UserDataUpdated += OnUserDataUpdated;
+            IsLoggedIn = _identityService.IsLoggedIn();
+            User = await _userDataService.GetUserAsync();
         }
         catch (Exception ex)
         {
@@ -292,5 +503,6 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     }
     public void OnNavigatedFrom()
     {
+        UnregisterEvents();
     }
 }
