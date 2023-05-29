@@ -186,6 +186,8 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                     currentAction = actions[actionCount];
                 }
 
+               
+
                 var mat1 = image.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Lanczos4);
 
                 var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
@@ -204,9 +206,19 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                     currentAction.J5,
                     currentAction.J6);
 
-                //EmojiPlayHelper.Current.Enqueue(frameData);
+                var stream = image.ToMemoryStream();
 
-                
+                var modelFrameData = new ModelActionFrame(stream, true,
+                    currentAction.J1,
+                    currentAction.J2,
+                    currentAction.J3,
+                    currentAction.J4,
+                    currentAction.J5,
+                    currentAction.J6);
+
+                //EmojiPlayHelper.Current.Enqueue(frameData);
+                ElectronBotHelper.Instance.ModelActionInvoke(modelFrameData);
+
                 _ = await service.SendToUsbDeviceAsync(frameData);
 
                 //通过grpc通讯和树莓派传输数据 

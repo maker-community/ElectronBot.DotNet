@@ -38,6 +38,20 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         };
     }
 
+    [RelayCommand]
+    public void PlayAction()
+    {
+        var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+        if (!playEmojisLock)
+        {
+            //随机播放表情
+            ElectronBotHelper.Instance.ToPlayEmojisRandom();
+        }
+
+        ElectronBotHelper.Instance.PlayEmojisLock = true;
+    }
+
 
     [RelayCommand]
     public async Task Loaded()
@@ -201,11 +215,22 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
             FocusCameraToScene();
             DispatcherTimer.Start();
+
+            ElectronBotHelper.Instance.ModelActionFrame += Instance_ModelActionFrame;
         }
         catch (Exception)
         {
             ToastHelper.SendToast("模型加载失败", TimeSpan.FromSeconds(3));
         }
+    }
+
+    private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
+    {
+        Material = new DiffuseMaterial()
+        {
+            EnableUnLit = false,
+            DiffuseMap = LoadTextureByStream(e.FrameStream)
+        };
     }
 
     private void FocusCameraToScene()
@@ -240,6 +265,39 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
 
             RightArmModel.HxTransform3D = tr5;
+
+
+
+            var nodeList = HeadModel.GroupNode;
+
+
+            foreach (var itemMode in nodeList.Items)
+            {
+                if (itemMode.Name == "Head3.obj")
+                {
+                    foreach (var node in itemMode.Traverse())
+                    {
+                        if (node is MeshNode meshNode)
+                        {
+                            meshNode.Material = Material;
+                        }
+                    }
+                }
+            }
+
+            //if (modelName == "Head3.obj")
+            //{
+            //    if (newScene != null && newScene.Root != null)
+            //    {
+            //        foreach (var node in newScene.Root.Traverse())
+            //        {
+            //            if (node is MeshNode meshNode)
+            //            {
+            //                meshNode.Material = Material;
+            //            }
+            //        }
+            //    }
+            //}
         }
         catch
         {
@@ -320,5 +378,11 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
        var filePath =  Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\Pic\\{file}";
         
         return TextureModel.Create(filePath);
+    }
+
+    private TextureModel LoadTextureByStream(Stream data)
+    {
+
+        return TextureModel.Create(data);
     }
 }

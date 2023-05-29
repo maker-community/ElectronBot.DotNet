@@ -11,6 +11,7 @@
     mc:Ignorable="d">
 
     <Grid>
+
         <hx:Viewport3DX
             x:Name="Viewport"
             BackgroundColor="Transparent"
@@ -29,5 +30,15 @@
             <hx:Element3DPresenter Content="{x:Bind ViewModel. BaseModel}" />
             <hx:PostEffectMeshBorderHighlight EffectName="highlight" />
         </hx:Viewport3DX>
+        <StackPanel Margin="8">
+            <Button
+                Margin="4"
+                BorderBrush="{ThemeResource SystemAccentColor}"
+                BorderThickness="2"
+                Command="{x:Bind ViewModel.PlayActionCommand}"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF5B0;" />
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>
