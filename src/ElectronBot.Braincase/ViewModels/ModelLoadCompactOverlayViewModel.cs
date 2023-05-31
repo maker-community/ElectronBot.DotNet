@@ -210,11 +210,21 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                     newScene.Root.UpdateAllTransformMatrix();
 
                     BaseModel.AddNode(newScene.Root);
+
+                    if (newScene.Root.TryGetBound(out var bound))
+                    {
+                        /// Must use UI thread to set value back.
+                        if (modelName == "Base.obj")
+                        { 
+                            BaseBoundingBox = bound;
+                        }
+
+                    }
                 }
             }
 
             FocusCameraToScene();
-            DispatcherTimer.Start();
+            //DispatcherTimer.Start();
 
             ElectronBotHelper.Instance.ModelActionFrame += Instance_ModelActionFrame;
         }
@@ -226,11 +236,65 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
     private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
     {
+
+        var list = ModelBoundingBox.GetCorners();
+
+        var average = new SharpDX.Vector3(
+            (list[1].X + list[5].X) / 2f,
+            ((list[1].Y + list[5].Y) / 2f) - 8f,
+            (list[1].Z + list[5].Z) / 2f
+        );
+
+        var translationMatrix = Matrix.Translation(-average.X, -average.Y, -average.Z);
+
+        var tr2 = RightArmModel.HxTransform3D * translationMatrix;
+        var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
+        var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
+        var tr5 = tr4* Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+        var tr6 = tr5 * Matrix.Translation(average.X, average.Y, average.Z);
+
+        RightArmModel.HxTransform3D = tr6;
+
+        //var baseCenter = BaseBoundingBox.Center();
+
+        //var baseMatrix = Matrix.Translation(-baseCenter.X, -baseCenter.Y, -baseCenter.Z);
+
+        //var tr2 = RightArmModel.HxTransform3D * baseMatrix;
+        //var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
+        //var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
+        //var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
+
+        HeadModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+
+
+        BodyModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+
+
+        LeftArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+
+
         Material = new DiffuseMaterial()
         {
             EnableUnLit = false,
             DiffuseMap = LoadTextureByStream(e.FrameStream)
         };
+
+
+        var nodeList = HeadModel.GroupNode;
+
+        foreach (var itemMode in nodeList.Items)
+        {
+            if (itemMode.Name == "Head3.obj")
+            {
+                foreach (var node in itemMode.Traverse())
+                {
+                    if (node is MeshNode meshNode)
+                    {
+                        meshNode.Material = Material;
+                    }
+                }
+            }
+        }
     }
 
     private void FocusCameraToScene()
@@ -351,6 +415,9 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
     private bool _showWireframe = false;
     [ObservableProperty]
     private BoundingBox _modelBoundingBox = default;
+
+    [ObservableProperty]
+    private BoundingBox _baseBoundingBox = default;
 
     public Camera Camera
     {
