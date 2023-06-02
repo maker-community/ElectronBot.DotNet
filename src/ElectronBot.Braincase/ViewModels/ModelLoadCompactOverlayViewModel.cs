@@ -245,15 +245,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             (list[1].Z + list[5].Z) / 2f
         );
 
-        var translationMatrix = Matrix.Translation(-average.X, -average.Y, -average.Z);
-
-        var tr2 = RightArmModel.HxTransform3D * translationMatrix;
-        var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
-        var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
-        var tr5 = tr4* Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
-        var tr6 = tr5 * Matrix.Translation(average.X, average.Y, average.Z);
-
-        RightArmModel.HxTransform3D = tr6;
+        RightArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
         //var baseCenter = BaseBoundingBox.Center();
 
@@ -264,13 +256,13 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         //var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
         //var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
 
-        HeadModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+        HeadModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
 
-        BodyModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+        BodyModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
 
-        LeftArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+        LeftArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
 
         Material = new DiffuseMaterial()
@@ -295,6 +287,16 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                 }
             }
         }
+
+        //var translationMatrix = Matrix.Translation(-average.X, -average.Y, -average.Z);
+
+        //var tr2 = RightArmModel.HxTransform3D * translationMatrix;
+        //var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
+        //var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
+
+        //var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
+
+        //RightArmModel.HxTransform3D *= tr5;
     }
 
     private void FocusCameraToScene()

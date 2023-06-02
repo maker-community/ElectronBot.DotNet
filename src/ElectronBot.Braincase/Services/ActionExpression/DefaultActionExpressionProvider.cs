@@ -73,8 +73,12 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
         {
             capture.Read(image);
 
-            capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
-                capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 1);
+            if (ElectronBotHelper.Instance.EbConnected)
+            {
+                capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
+                    capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 1);
+
+            }
 
             if (image.Empty())
             {
@@ -160,8 +164,12 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
         {
             capture.Read(image);
 
-            capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
-                capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 1);
+            if (ElectronBotHelper.Instance.EbConnected)
+            {
+                capture.Set(OpenCvSharp.VideoCaptureProperties.PosFrames,
+                    capture.Get(OpenCvSharp.VideoCaptureProperties.PosFrames) + 1);
+            }
+         
 
             if (image.Empty())
             {
