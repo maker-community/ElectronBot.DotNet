@@ -121,6 +121,32 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                             }
                         }
                     }
+                    else if (modelName == "Head1.obj")
+                    {
+                        if (newScene != null && newScene.Root != null)
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.LightBlue;
+                                }
+                            }
+                        }
+                    }
+                    else if (modelName == "Head2.obj")
+                    {
+                        if (newScene != null && newScene.Root != null)
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -145,6 +171,30 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                         {
                             /// Must use UI thread to set value back.
                             ModelCentroidPoint = centroid;
+                        }
+
+                        if (newScene != null && newScene.Root != null)
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
+                            }
+                        }
+                    }
+                    else if (modelName == "Body1.obj")
+                    {
+                        if (newScene != null && newScene.Root != null)
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.LightBlue;
+                                }
+                            }
                         }
                     }
                 }
@@ -171,6 +221,33 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                         }
 
                     }
+
+                    if (modelName == "RightArm1.obj")
+                    {
+                        if (newScene != null && newScene.Root != null)
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
+                            }
+                        }
+                    }
+                    else if (modelName == "RightArm2.obj")
+                    {
+                        if (newScene != null && newScene.Root != null)
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.LightBlue;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -196,6 +273,33 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                         }
 
                     }
+
+                    if (modelName == "LeftArm1.obj")
+                    {
+                        if (newScene != null && newScene.Root != null)
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
+                            }
+                        }
+                    }
+                    else if (modelName == "LeftArm2.obj")
+                    {
+                        if (newScene != null && newScene.Root != null)
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.LightBlue;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -219,6 +323,20 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                             BaseBoundingBox = bound;
                         }
 
+                    }
+
+                    if (modelName == "Base.obj")
+                    {
+                        if (newScene != null && newScene.Root != null)
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
+                            }
+                        }
                     }
                 }
             }

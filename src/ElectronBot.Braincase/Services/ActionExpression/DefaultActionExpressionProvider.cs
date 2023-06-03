@@ -123,7 +123,11 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
                 //EmojiPlayHelper.Current.Enqueue(frameData);
 
-        
+
+                if (!ElectronBotHelper.Instance.EbConnected)
+                {
+                    await Task.Delay(40);
+                }
                 _ = await service.SendToUsbDeviceAsync(frameData);
 
                 //通过grpc通讯和树莓派传输数据 
