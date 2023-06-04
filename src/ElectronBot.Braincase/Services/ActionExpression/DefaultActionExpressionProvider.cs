@@ -126,7 +126,7 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
                 if (!ElectronBotHelper.Instance.EbConnected)
                 {
-                    await Task.Delay(40);
+                    await Task.Delay(30);
                 }
                 _ = await service.SendToUsbDeviceAsync(frameData);
 
@@ -233,7 +233,7 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
 
                 if(!ElectronBotHelper.Instance.EbConnected)
                 {
-                    await Task.Delay(40);
+                    await Task.Delay(30);
                 }
                 _ = await service.SendToUsbDeviceAsync(frameData);
 

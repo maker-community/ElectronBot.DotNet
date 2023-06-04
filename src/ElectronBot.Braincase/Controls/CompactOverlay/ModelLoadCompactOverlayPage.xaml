@@ -17,20 +17,20 @@
             BackgroundColor="Transparent"
             Camera="{x:Bind ViewModel.Camera}"
             EffectsManager="{x:Bind ViewModel.EffectsManager}"
-            FXAALevel="Low"
+            FXAALevel="High"
             FixedRotationPoint="{x:Bind ViewModel.ModelCentroidPoint}"
             FixedRotationPointEnabled="True"
             ManipulationMode="All"
-            ShowCoordinateSystem="True"
-            ShowCameraInfo="True"
-            ShowViewCube="True">
+            ShowCameraInfo="False"
+            ShowCoordinateSystem="False"
+            ShowViewCube="False">
             <hx:DirectionalLight3D Direction="{x:Bind ViewModel.Camera.LookDirection}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. HeadModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. BodyModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. RightArmModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. LeftArmModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. BaseModel}" />
-            <hx:PostEffectMeshBorderHighlight EffectName="highlight" />
+            <!--<hx:PostEffectMeshBorderHighlight EffectName="highlight" />-->
         </hx:Viewport3DX>
         <StackPanel Margin="8">
             <Button

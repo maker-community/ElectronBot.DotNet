@@ -23,8 +23,6 @@ using Camera = HelixToolkit.WinUI.Camera;
 namespace ViewModels;
 public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 {
-    private readonly DispatcherTimer DispatcherTimer = new();
-
     public IEffectsManager EffectsManager
     {
         get;
@@ -66,23 +64,36 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
     [ObservableProperty]
     private Vector3 _modelCentroidPoint = default;
+
+    [ObservableProperty]
+    private Vector3 _headModelCentroidPoint = default;
+
     [ObservableProperty]
     private bool _showWireframe = false;
     [ObservableProperty]
-    private BoundingBox _modelBoundingBox = default;
+    private BoundingBox _rightShoulderBoundingBox = default;
+
+    [ObservableProperty]
+    private BoundingBox _leftShoulderBoundingBox = default;
+
+    [ObservableProperty]
+    private BoundingBox _bodyBoundingBox = default;
+
+    [ObservableProperty]
+    private BoundingBox _headBoundingBox = default;
 
     [ObservableProperty]
     private BoundingBox _baseBoundingBox = default;
 
-    private Matrix bodyMt = default;
+    private Matrix _bodyMt = default;
 
-    private Matrix leftArmMt = default;
+    private Matrix _leftArmMt = default;
 
-    private Matrix rightArmMt = default;
+    private Matrix _rightArmMt = default;
 
-    private Matrix headMt = default;
+    private Matrix _headMt = default;
 
-    private Matrix baseMt = default;
+    private Matrix _baseMt = default;
 
     public Camera Camera
     {
@@ -92,9 +103,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
     public ModelLoadCompactOverlayViewModel(IEffectsManager effectsManager)
     {
         EffectsManager = effectsManager;
-        DispatcherTimer.Interval = TimeSpan.FromMilliseconds(500);
 
-        DispatcherTimer.Tick += ModelAcitonDispatcherTimer_Tick;
         Material = new DiffuseMaterial()
         {
             EnableUnLit = false,
@@ -130,7 +139,6 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
             var head = new List<string>()
         {
-            "Face.obj",
             "Head1.obj",
             "Head2.obj",
             "Head3.obj",
@@ -172,7 +180,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     HeadModel.AddNode(newScene.Root);
 
-                    headMt = HeadModel.HxTransform3D;
+                    _headMt = HeadModel.HxTransform3D;
 
                     if (modelName == "Head3.obj")
                     {
@@ -189,6 +197,12 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                     }
                     else if (modelName == "Head1.obj")
                     {
+                        if (newScene.Root.TryGetCentroid(out var centroid))
+                        {
+                            /// Must use UI thread to set value back.
+                            HeadModelCentroidPoint = centroid;
+                        }
+
                         if (newScene != null && newScene.Root != null)
                         {
                             foreach (var node in newScene.Root.Traverse())
@@ -231,7 +245,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     BodyModel.AddNode(newScene.Root);
 
-                    bodyMt = BodyModel.HxTransform3D;
+                    _bodyMt = BodyModel.HxTransform3D;
 
                     if (modelName == "Body2.obj")
                     {
@@ -280,14 +294,14 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     RightArmModel.AddNode(newScene.Root);
 
-                    rightArmMt = RightArmModel.HxTransform3D;
+                    _rightArmMt = RightArmModel.HxTransform3D;
 
                     if (newScene.Root.TryGetBound(out var bound))
                     {
                         /// Must use UI thread to set value back.
                         if (modelName == "RightShoulder.obj")
                         {
-                            ModelBoundingBox = bound;
+                            RightShoulderBoundingBox = bound;
                         }
 
                     }
@@ -334,14 +348,14 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     LeftArmModel.AddNode(newScene.Root);
 
-                    leftArmMt = LeftArmModel.HxTransform3D;
+                    _leftArmMt = LeftArmModel.HxTransform3D;
 
                     if (newScene.Root.TryGetBound(out var bound))
                     {
                         /// Must use UI thread to set value back.
-                        if (modelName == "RightShoulder.obj")
+                        if (modelName == "LeftShoulder.obj")
                         {
-                           // ModelBoundingBox = bound;
+                           LeftShoulderBoundingBox = bound;
                         }
 
                     }
@@ -387,7 +401,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     BaseModel.AddNode(newScene.Root);
 
-                    baseMt = BaseModel.HxTransform3D;
+                    _baseMt = BaseModel.HxTransform3D;
 
                     if (newScene.Root.TryGetBound(out var bound))
                     {
@@ -416,7 +430,6 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             }
 
             FocusCameraToScene();
-            //DispatcherTimer.Start();
 
             ElectronBotHelper.Instance.ModelActionFrame += Instance_ModelActionFrame;
         }
@@ -428,34 +441,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
     private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
     {
-
-        var list = ModelBoundingBox.GetCorners();
-
-        var average = new SharpDX.Vector3(
-            (list[1].X + list[5].X) / 2f,
-            ((list[1].Y + list[5].Y) / 2f) - 8f,
-            (list[1].Z + list[5].Z) / 2f
-        );
-
-        //RightArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
-
-        //var baseCenter = BaseBoundingBox.Center();
-
-        //var baseMatrix = Matrix.Translation(-baseCenter.X, -baseCenter.Y, -baseCenter.Z);
-
-        //var tr2 = RightArmModel.HxTransform3D * baseMatrix;
-        //var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
-        //var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
-        //var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
-
-        HeadModel.HxTransform3D = headMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
-
-
-        BodyModel.HxTransform3D = bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
-
-
-        LeftArmModel.HxTransform3D = leftArmMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
-
+        BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
 
         Material = new DiffuseMaterial()
         {
@@ -480,95 +466,76 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             }
         }
 
-        //RightArmModel.HxTransform3D = Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+        var rightList = RightShoulderBoundingBox.GetCorners();
 
-        var translationMatrix = Matrix.Translation(-average.X, -average.Y, -average.Z);
+        var rightAverage = new SharpDX.Vector3(
+            (rightList[1].X + rightList[5].X) / 2f,
+            ((rightList[1].Y + rightList[5].Y) / 2f) - 8f,
+            (rightList[1].Z + rightList[5].Z) / 2f
+        );
 
-        var tr2 = rightArmMt * translationMatrix;
-        var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians((e.J4)));
-        var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians((e.J5)));
+        var leftList = LeftShoulderBoundingBox.GetCorners();
 
-        var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
+        var leftAverage = new SharpDX.Vector3(
+            (leftList[0].X + leftList[4].X) / 2f,
+            ((leftList[0].Y + leftList[4].Y) / 2f) - 8f,
+            (leftList[0].Z + leftList[4].Z) / 2f
+        );
+
+        var translationMatrix = Matrix.Translation(-rightAverage.X, -rightAverage.Y, -rightAverage.Z);
+
+        var tr2 = _rightArmMt * translationMatrix;
+
+        var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
+        var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
+
+        var tr5 = tr4 * Matrix.Translation(rightAverage.X, rightAverage.Y, rightAverage.Z);
 
 
-        var tr6 = tr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+        var tr6 = tr5 * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
 
         RightArmModel.HxTransform3D = tr6;
 
-        //RightArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+
+        var leftMatrix = Matrix.Translation(-leftAverage.X, -leftAverage.Y, -leftAverage.Z);
+
+        var leftTr2 = _leftArmMt * leftMatrix;
+
+        var leftTr3 = leftTr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
+        var leftTr4 = leftTr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
+
+        var leftTr5 = leftTr4 * Matrix.Translation(leftAverage.X, leftAverage.Y, leftAverage.Z);
+
+
+        var leftTr6 = leftTr5 * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+
+        LeftArmModel.HxTransform3D = leftTr6;
+
+        var headMatrix = Matrix.Translation(-HeadModelCentroidPoint.X, -HeadModelCentroidPoint.Y, -HeadModelCentroidPoint.Z);
+
+        var headTr2 = _headMt * headMatrix;
+
+        var headTr3 = headTr2 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J1)));
+
+        var headTr4 = headTr3 * Matrix.Translation(HeadModelCentroidPoint.X, HeadModelCentroidPoint.Y, HeadModelCentroidPoint.Z);
+
+
+        var headTr5 = headTr4 * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+
+        HeadModel.HxTransform3D = headTr5;
     }
 
     private void FocusCameraToScene()
     {
-        var maxWidth = Math.Max(Math.Max(ModelBoundingBox.Width, ModelBoundingBox.Height), ModelBoundingBox.Depth) + 240;
-        var pos = ModelBoundingBox.Center + new Vector3(0, 0, maxWidth);
+        var maxWidth = Math.Max(Math.Max(RightShoulderBoundingBox.Width, RightShoulderBoundingBox.Height), BodyBoundingBox.Depth) + 240;
+        var pos = RightShoulderBoundingBox.Center + new Vector3(0, 0, maxWidth);
         Camera.Position = pos;
-        Camera.LookDirection = ModelBoundingBox.Center - pos;
+        Camera.LookDirection = RightShoulderBoundingBox.Center - pos;
         Camera.UpDirection = Vector3.UnitY;
         if (Camera is OrthographicCamera orthCam)
         {
             orthCam.Width = maxWidth;
         }
-    }
-
-    private void ModelAcitonDispatcherTimer_Tick(object? sender, object e)
-    {
-        try
-        {
-            var list = ModelBoundingBox.GetCorners();
-
-            var average = new SharpDX.Vector3(
-                (list[1].X + list[5].X) / 2f,
-                ((list[1].Y + list[5].Y) / 2f) - 8f,
-                (list[1].Z + list[5].Z) / 2f
-            );
-
-            var translationMatrix = Matrix.Translation(-average.X, -average.Y, -average.Z);
-            var tr2 = RightArmModel.HxTransform3D * translationMatrix;
-            //var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(DateTime.Now.Second)));
-            var tr4 = tr2 * Matrix.RotationX(MathUtil.DegreesToRadians(-(DateTime.Now.Second)));
-            var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
-
-            RightArmModel.HxTransform3D = tr5;
-
-
-
-            var nodeList = HeadModel.GroupNode;
-
-
-            foreach (var itemMode in nodeList.Items)
-            {
-                if (itemMode.Name == "Head3.obj")
-                {
-                    foreach (var node in itemMode.Traverse())
-                    {
-                        if (node is MeshNode meshNode)
-                        {
-                            meshNode.Material = Material;
-                        }
-                    }
-                }
-            }
-
-            //if (modelName == "Head3.obj")
-            //{
-            //    if (newScene != null && newScene.Root != null)
-            //    {
-            //        foreach (var node in newScene.Root.Traverse())
-            //        {
-            //            if (node is MeshNode meshNode)
-            //            {
-            //                meshNode.Material = Material;
-            //            }
-            //        }
-            //    }
-            //}
-        }
-        catch
-        {
-
-        }
-
     }
 
     [RelayCommand]
