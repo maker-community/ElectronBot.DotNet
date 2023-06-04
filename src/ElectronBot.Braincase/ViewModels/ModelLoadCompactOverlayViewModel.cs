@@ -25,6 +25,70 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 {
     private readonly DispatcherTimer DispatcherTimer = new();
 
+    public IEffectsManager EffectsManager
+    {
+        get;
+    }
+
+
+    public SceneNodeGroupModel3D BodyModel
+    {
+        get;
+    } = new SceneNodeGroupModel3D();
+
+    public SceneNodeGroupModel3D LeftArmModel
+    {
+        get;
+    } = new SceneNodeGroupModel3D();
+
+    public SceneNodeGroupModel3D RightArmModel
+    {
+        get;
+    } = new SceneNodeGroupModel3D();
+
+    public SceneNodeGroupModel3D HeadModel
+    {
+        get;
+    } = new SceneNodeGroupModel3D();
+
+    public SceneNodeGroupModel3D BaseModel
+    {
+        get;
+    } = new SceneNodeGroupModel3D();
+
+    public DiffuseMaterial Material
+    {
+        private set;
+        get;
+    }
+
+    [ObservableProperty] bool _showAxis = true;
+
+    [ObservableProperty]
+    private Vector3 _modelCentroidPoint = default;
+    [ObservableProperty]
+    private bool _showWireframe = false;
+    [ObservableProperty]
+    private BoundingBox _modelBoundingBox = default;
+
+    [ObservableProperty]
+    private BoundingBox _baseBoundingBox = default;
+
+    private Matrix bodyMt = default;
+
+    private Matrix leftArmMt = default;
+
+    private Matrix rightArmMt = default;
+
+    private Matrix headMt = default;
+
+    private Matrix baseMt = default;
+
+    public Camera Camera
+    {
+        get;
+    } = new OrthographicCamera() { NearPlaneDistance = 1e-2, FarPlaneDistance = 1e4 };
+
     public ModelLoadCompactOverlayViewModel(IEffectsManager effectsManager)
     {
         EffectsManager = effectsManager;
@@ -108,6 +172,8 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     HeadModel.AddNode(newScene.Root);
 
+                    headMt = HeadModel.HxTransform3D;
+
                     if (modelName == "Head3.obj")
                     {
                         if (newScene != null && newScene.Root != null)
@@ -165,6 +231,8 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     BodyModel.AddNode(newScene.Root);
 
+                    bodyMt = BodyModel.HxTransform3D;
+
                     if (modelName == "Body2.obj")
                     {
                         if (newScene.Root.TryGetCentroid(out var centroid))
@@ -211,6 +279,8 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                     newScene.Root.UpdateAllTransformMatrix();
 
                     RightArmModel.AddNode(newScene.Root);
+
+                    rightArmMt = RightArmModel.HxTransform3D;
 
                     if (newScene.Root.TryGetBound(out var bound))
                     {
@@ -264,6 +334,8 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     LeftArmModel.AddNode(newScene.Root);
 
+                    leftArmMt = LeftArmModel.HxTransform3D;
+
                     if (newScene.Root.TryGetBound(out var bound))
                     {
                         /// Must use UI thread to set value back.
@@ -315,6 +387,8 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     BaseModel.AddNode(newScene.Root);
 
+                    baseMt = BaseModel.HxTransform3D;
+
                     if (newScene.Root.TryGetBound(out var bound))
                     {
                         /// Must use UI thread to set value back.
@@ -363,7 +437,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             (list[1].Z + list[5].Z) / 2f
         );
 
-        RightArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+        //RightArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
         //var baseCenter = BaseBoundingBox.Center();
 
@@ -374,13 +448,13 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         //var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
         //var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
 
-        HeadModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+        HeadModel.HxTransform3D = headMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
 
-        BodyModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+        BodyModel.HxTransform3D = bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
 
-        LeftArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+        LeftArmModel.HxTransform3D = leftArmMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
 
         Material = new DiffuseMaterial()
@@ -406,15 +480,22 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             }
         }
 
-        //var translationMatrix = Matrix.Translation(-average.X, -average.Y, -average.Z);
+        //RightArmModel.HxTransform3D = Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
-        //var tr2 = RightArmModel.HxTransform3D * translationMatrix;
-        //var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
-        //var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
+        var translationMatrix = Matrix.Translation(-average.X, -average.Y, -average.Z);
 
-        //var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
+        var tr2 = rightArmMt * translationMatrix;
+        var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians((e.J4)));
+        var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians((e.J5)));
 
-        //RightArmModel.HxTransform3D *= tr5;
+        var tr5 = tr4 * Matrix.Translation(average.X, average.Y, average.Z);
+
+
+        var tr6 = tr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+
+        RightArmModel.HxTransform3D = tr6;
+
+        //RightArmModel.HxTransform3D *= Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
     }
 
     private void FocusCameraToScene()
@@ -489,60 +570,6 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         }
 
     }
-
-    public IEffectsManager EffectsManager
-    {
-        get;
-    }
-
-
-    public SceneNodeGroupModel3D BodyModel
-    {
-        get;
-    } = new SceneNodeGroupModel3D();
-
-    public SceneNodeGroupModel3D LeftArmModel
-    {
-        get;
-    } = new SceneNodeGroupModel3D();
-
-    public SceneNodeGroupModel3D RightArmModel
-    {
-        get;
-    } = new SceneNodeGroupModel3D();
-
-    public SceneNodeGroupModel3D HeadModel
-    {
-        get;
-    } = new SceneNodeGroupModel3D();
-
-    public SceneNodeGroupModel3D BaseModel
-    {
-        get;
-    } = new SceneNodeGroupModel3D();
-
-    public DiffuseMaterial Material
-    {
-        private set;
-        get;
-    }
-
-    [ObservableProperty] bool _showAxis = true;
-
-    [ObservableProperty]
-    private Vector3 _modelCentroidPoint = default;
-    [ObservableProperty]
-    private bool _showWireframe = false;
-    [ObservableProperty]
-    private BoundingBox _modelBoundingBox = default;
-
-    [ObservableProperty]
-    private BoundingBox _baseBoundingBox = default;
-
-    public Camera Camera
-    {
-        get;
-    } = new OrthographicCamera() { NearPlaneDistance = 1e-2, FarPlaneDistance = 1e4 };
 
     [RelayCommand]
     public void CompactOverlay()

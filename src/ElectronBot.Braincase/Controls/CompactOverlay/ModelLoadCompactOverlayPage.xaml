@@ -21,7 +21,9 @@
             FixedRotationPoint="{x:Bind ViewModel.ModelCentroidPoint}"
             FixedRotationPointEnabled="True"
             ManipulationMode="All"
-            ShowViewCube="False">
+            ShowCoordinateSystem="True"
+            ShowCameraInfo="True"
+            ShowViewCube="True">
             <hx:DirectionalLight3D Direction="{x:Bind ViewModel.Camera.LookDirection}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. HeadModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. BodyModel}" />
