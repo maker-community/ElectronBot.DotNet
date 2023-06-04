@@ -43,6 +43,8 @@ public class ElectronBotHelper
 
     public event EventHandler? PlayEmojisRandom;
 
+    public event EventHandler<ModelActionFrame>? ModelActionFrame;
+
     private MediaPlayer mediaPlayer = new();
 
     private bool isTTS = false;
@@ -444,5 +446,10 @@ public class ElectronBotHelper
     public void ToPlayEmojisRandom()
     {
         PlayEmojisRandom?.Invoke(this, new EventArgs());
+    }
+
+    public void ModelActionInvoke(ModelActionFrame frame)
+    {
+        ModelActionFrame?.Invoke(this, frame);
     }
 }
