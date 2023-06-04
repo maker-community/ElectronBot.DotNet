@@ -8,13 +8,13 @@
     xmlns:local="using:Controls.CompactOverlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="ModelLoadCompactOverlayPage_OnLoaded"
+    Unloaded="ModelLoadCompactOverlayPage_OnUnloaded"
     mc:Ignorable="d">
 
     <Grid>
-
         <hx:Viewport3DX
             x:Name="Viewport"
-            BackgroundColor="Transparent"
+            BackgroundColor="LightBlue"
             Camera="{x:Bind ViewModel.Camera}"
             EffectsManager="{x:Bind ViewModel.EffectsManager}"
             FXAALevel="High"
@@ -30,7 +30,7 @@
             <hx:Element3DPresenter Content="{x:Bind ViewModel. RightArmModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. LeftArmModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. BaseModel}" />
-            <!--<hx:PostEffectMeshBorderHighlight EffectName="highlight" />-->
+            <hx:EnvironmentMap3D Texture="{x:Bind ViewModel.EnvironmentMap, Mode=OneWay}" />
         </hx:Viewport3DX>
         <StackPanel Margin="8">
             <Button
@@ -42,5 +42,12 @@
                 <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF5B0;" />
             </Button>
         </StackPanel>
+        <ProgressRing
+            x:Name="ModelProgressRing"
+            Width="40"
+            Height="40"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsActive="False" />
     </Grid>
 </Page>

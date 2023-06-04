@@ -14,6 +14,9 @@ using ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using ElectronBot.Braincase;
+using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Services;
+using Services;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -34,8 +37,15 @@ public sealed partial class ModelLoadCompactOverlayPage : Page
         ViewModel = App.GetService<ModelLoadCompactOverlayViewModel>();
     }
 
-    private async void ModelLoadCompactOverlayPage_OnLoaded(object sender, RoutedEventArgs e)
+    private void ModelLoadCompactOverlayPage_OnLoaded(object sender, RoutedEventArgs e)
     {
-        await ViewModel.Loaded();
+        ModelProgressRing.IsActive = true;
+        ViewModel.Loaded();
+        ModelProgressRing.IsActive = false;
+    }
+
+    private async void ModelLoadCompactOverlayPage_OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        ViewModel.UnLoaded();
     }
 }

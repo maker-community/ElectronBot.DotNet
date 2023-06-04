@@ -26,6 +26,7 @@ using Views;
 using Windows.ApplicationModel.Background;
 using Windows.Media.Playback;
 using Windows.UI.Popups;
+using Controls.CompactOverlay;
 using HelixToolkit.SharpDX.Core;
 using ViewModels;
 
@@ -162,6 +163,7 @@ public partial class App : Application
 
             services.AddTransient<TodoCompactOverlayViewModel>();
             services.AddTransient<ModelLoadCompactOverlayViewModel>();
+            services.AddTransient<ModelLoadCompactOverlayPage>();
             services.AddSingleton<IEffectsManager, DefaultEffectsManager>();
 
 

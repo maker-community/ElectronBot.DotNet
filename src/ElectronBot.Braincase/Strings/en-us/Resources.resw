@@ -651,10 +651,10 @@
     <value>If the speech recognition is abnormal, please confirm whether the speech recognition policy is enabled, and the policy is enabled to allow personalization.</value>
   </data>
   <data name="OpenGestureSwitch.OffContent" xml:space="preserve">
-    <value>Turn on gesture recognition</value>
+    <value>Turn on gesture</value>
   </data>
   <data name="OpenGestureSwitch.OnContent" xml:space="preserve">
-    <value>Turn off gesture recognition</value>
+    <value>Turn off gesture</value>
   </data>
   <data name="PrivacyHyperLink.Content" xml:space="preserve">
     <value>Click on the text to enter the policy setting page</value>

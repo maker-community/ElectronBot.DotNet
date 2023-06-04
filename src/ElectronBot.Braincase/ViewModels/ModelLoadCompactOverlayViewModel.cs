@@ -28,7 +28,6 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         get;
     }
 
-
     public SceneNodeGroupModel3D BodyModel
     {
         get;
@@ -95,6 +94,15 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
     private Matrix _baseMt = default;
 
+    [ObservableProperty] private TextureModel _environmentMap;
+
+    private readonly DiffuseMaterial _pinkModelMaterial = new()
+    {
+        Name = "Pink",
+        DiffuseColor = Color.LightPink// DiffuseMaterials.ToColor(255, 192, 203, 1.0),
+    };
+
+
     public Camera Camera
     {
         get;
@@ -109,6 +117,10 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             EnableUnLit = false,
             DiffuseMap = LoadTexture("eyes-closed.png")
         };
+
+        var filePath = Package.Current.InstalledLocation.Path + "\\Assets\\model-backgroud.jpg";
+
+        EnvironmentMap = LoadTextureByFullPath(filePath);
     }
 
     [RelayCommand]
@@ -127,43 +139,44 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
 
     [RelayCommand]
-    public async Task Loaded()
+    public void Loaded()
     {
         try
         {
             var body = new List<string>()
-        {
-            "Body1.obj",
-            "Body2.obj",
-        };
+            {
+                "Body1.obj",
+                "Body2.obj",
+            };
 
             var head = new List<string>()
-        {
-            "Head1.obj",
-            "Head2.obj",
-            "Head3.obj",
-        };
+            {
+                "Head1.obj",
+                "Head2.obj",
+                "Head3.obj",
+            };
 
             var leftArm = new List<string>()
-        {
-            "LeftArm1.obj",
-            "LeftArm2.obj",
-            "LeftShoulder.obj",
-        };
+            {
+                "LeftArm1.obj",
+                "LeftArm2.obj",
+                "LeftShoulder.obj",
+            };
 
             var rightArm = new List<string>()
-        {
-            "RightArm1.obj",
-            "RightArm2.obj",
-            "RightShoulder.obj"
-        };
+            {
+                "RightArm1.obj",
+                "RightArm2.obj",
+                "RightShoulder.obj"
+            };
 
 
             var baseBody = new List<string>()
-        {
-            "Base.obj",
-        };
-            var importer = new Importer();
+            {
+                "Base.obj",
+            };
+
+            using var importer = new Importer();
 
             foreach (var modelName in head)
             {
@@ -171,9 +184,9 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                 var newScene = importer.Load(modelPath);
 
-                if (newScene != null)
+                if (newScene != null && newScene.Root != null)
                 {
-                    /// Pre-attach and calculate all scene info in a separate task.
+                    // Pre-attach and calculate all scene info in a separate task.
                     newScene.Root.Attach(EffectsManager);
 
                     newScene.Root.UpdateAllTransformMatrix();
@@ -184,14 +197,12 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     if (modelName == "Head3.obj")
                     {
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = Material;
-                                }
+                                // this is face
+                                meshNode.Material = Material;
                             }
                         }
                     }
@@ -199,31 +210,24 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                     {
                         if (newScene.Root.TryGetCentroid(out var centroid))
                         {
-                            /// Must use UI thread to set value back.
+                            // Must use UI thread to set value back.
                             HeadModelCentroidPoint = centroid;
                         }
-
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = DiffuseMaterials.LightBlue;
-                                }
+                                meshNode.Material = _pinkModelMaterial;
                             }
                         }
                     }
                     else if (modelName == "Head2.obj")
                     {
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = DiffuseMaterials.PureWhite;
-                                }
+                                meshNode.Material = DiffuseMaterials.PureWhite;
                             }
                         }
                     }
@@ -237,9 +241,9 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                 var newScene = importer.Load(modelPath);
 
-                if (newScene != null)
+                if (newScene != null && newScene.Root != null)
                 {
-                    /// Pre-attach and calculate all scene info in a separate task.
+                    // Pre-attach and calculate all scene info in a separate task.
                     newScene.Root.Attach(EffectsManager);
                     newScene.Root.UpdateAllTransformMatrix();
 
@@ -251,31 +255,25 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                     {
                         if (newScene.Root.TryGetCentroid(out var centroid))
                         {
-                            /// Must use UI thread to set value back.
+                            // Must use UI thread to set value back.
                             ModelCentroidPoint = centroid;
                         }
 
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = DiffuseMaterials.PureWhite;
-                                }
+                                meshNode.Material = DiffuseMaterials.PureWhite;
                             }
                         }
                     }
                     else if (modelName == "Body1.obj")
                     {
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = DiffuseMaterials.LightBlue;
-                                }
+                                meshNode.Material = _pinkModelMaterial;
                             }
                         }
                     }
@@ -286,9 +284,9 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             {
                 var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
                 var newScene = importer.Load(modelPath);
-                if (newScene != null)
+                if (newScene != null && newScene.Root != null)
                 {
-                    /// Pre-attach and calculate all scene info in a separate task.
+                    // Pre-attach and calculate all scene info in a separate task.
                     newScene.Root.Attach(EffectsManager);
                     newScene.Root.UpdateAllTransformMatrix();
 
@@ -298,7 +296,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     if (newScene.Root.TryGetBound(out var bound))
                     {
-                        /// Must use UI thread to set value back.
+                        // Must use UI thread to set value back.
                         if (modelName == "RightShoulder.obj")
                         {
                             RightShoulderBoundingBox = bound;
@@ -308,27 +306,21 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     if (modelName == "RightArm1.obj")
                     {
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = DiffuseMaterials.PureWhite;
-                                }
+                                meshNode.Material = DiffuseMaterials.PureWhite;
                             }
                         }
                     }
                     else if (modelName == "RightArm2.obj")
                     {
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = DiffuseMaterials.LightBlue;
-                                }
+                                meshNode.Material = _pinkModelMaterial;
                             }
                         }
                     }
@@ -340,9 +332,9 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             {
                 var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
                 var newScene = importer.Load(modelPath);
-                if (newScene != null)
+                if (newScene != null && newScene.Root != null)
                 {
-                    /// Pre-attach and calculate all scene info in a separate task.
+                    // Pre-attach and calculate all scene info in a separate task.
                     newScene.Root.Attach(EffectsManager);
                     newScene.Root.UpdateAllTransformMatrix();
 
@@ -352,37 +344,31 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     if (newScene.Root.TryGetBound(out var bound))
                     {
-                        /// Must use UI thread to set value back.
+                        // Must use UI thread to set value back.
                         if (modelName == "LeftShoulder.obj")
                         {
-                           LeftShoulderBoundingBox = bound;
+                            LeftShoulderBoundingBox = bound;
                         }
 
                     }
 
                     if (modelName == "LeftArm1.obj")
                     {
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = DiffuseMaterials.PureWhite;
-                                }
+                                meshNode.Material = DiffuseMaterials.PureWhite;
                             }
                         }
                     }
                     else if (modelName == "LeftArm2.obj")
                     {
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = DiffuseMaterials.LightBlue;
-                                }
+                                meshNode.Material = _pinkModelMaterial;
                             }
                         }
                     }
@@ -393,9 +379,9 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             {
                 var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
                 var newScene = importer.Load(modelPath);
-                if (newScene != null)
+                if (newScene != null && newScene.Root != null)
                 {
-                    /// Pre-attach and calculate all scene info in a separate task.
+                    // Pre-attach and calculate all scene info in a separate task.
                     newScene.Root.Attach(EffectsManager);
                     newScene.Root.UpdateAllTransformMatrix();
 
@@ -405,9 +391,9 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     if (newScene.Root.TryGetBound(out var bound))
                     {
-                        /// Must use UI thread to set value back.
+                        // Must use UI thread to set value back.
                         if (modelName == "Base.obj")
-                        { 
+                        {
                             BaseBoundingBox = bound;
                         }
 
@@ -415,14 +401,11 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
                     if (modelName == "Base.obj")
                     {
-                        if (newScene != null && newScene.Root != null)
+                        foreach (var node in newScene.Root.Traverse())
                         {
-                            foreach (var node in newScene.Root.Traverse())
+                            if (node is MeshNode meshNode)
                             {
-                                if (node is MeshNode meshNode)
-                                {
-                                    meshNode.Material = DiffuseMaterials.PureWhite;
-                                }
+                                meshNode.Material = DiffuseMaterials.PureWhite;
                             }
                         }
                     }
@@ -439,7 +422,18 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         }
     }
 
-    private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
+    public void UnLoaded()
+    {
+        ElectronBotHelper.Instance.ModelActionFrame -= Instance_ModelActionFrame;
+        HeadModel.Dispose();
+        BodyModel.Dispose();
+        RightArmModel.Dispose();
+        LeftArmModel.Dispose();
+        BaseModel.Dispose();
+        EffectsManager.Dispose();
+    }
+
+        private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
     {
         BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
 
@@ -471,16 +465,14 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         var rightAverage = new SharpDX.Vector3(
             (rightList[1].X + rightList[5].X) / 2f,
             ((rightList[1].Y + rightList[5].Y) / 2f) - 8f,
-            (rightList[1].Z + rightList[5].Z) / 2f
-        );
+            (rightList[1].Z + rightList[5].Z) / 2f);
 
         var leftList = LeftShoulderBoundingBox.GetCorners();
 
         var leftAverage = new SharpDX.Vector3(
             (leftList[0].X + leftList[4].X) / 2f,
             ((leftList[0].Y + leftList[4].Y) / 2f) - 8f,
-            (leftList[0].Z + leftList[4].Z) / 2f
-        );
+            (leftList[0].Z + leftList[4].Z) / 2f);
 
         var translationMatrix = Matrix.Translation(-rightAverage.X, -rightAverage.Y, -rightAverage.Z);
 
@@ -541,23 +533,18 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
     [RelayCommand]
     public void CompactOverlay()
     {
-        //WindowEx compactOverlay = new CompactOverlayWindow();
-
-        //compactOverlay.Content = new DefaultCompactOverlayPage();
-
-        //var appWindow = compactOverlay.AppWindow;
-
-        //appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-
-        //appWindow.Destroy();
-
         App.MainWindow.Show();
+    }
+
+    private TextureModel LoadTextureByFullPath(string filePath)
+    {
+        return TextureModel.Create(filePath);
     }
 
     private TextureModel LoadTexture(string file)
     {
-       var filePath =  Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\Pic\\{file}";
-        
+        var filePath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\Pic\\{file}";
+
         return TextureModel.Create(filePath);
     }
 

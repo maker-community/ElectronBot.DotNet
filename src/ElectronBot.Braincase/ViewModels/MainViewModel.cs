@@ -230,16 +230,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                 (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
 
                 var textList = config.AnswerText.Split(",").ToList();
-                //        var textList = new List<string>()
-                //{
-                //    "哥哥想做什么",
-                //    "哥哥看剧嘛",
-                //    "哥哥看节目不",
-                //    "哥哥喝茶不",
-                //    "哥哥累了没",
-                //    "哥哥我是娜娜",
-                //    "哥哥我是七七"
-                //};
 
                 var r = new Random().Next(textList.Count);
 
@@ -329,10 +319,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
             WindowEx compactOverlay = new CompactOverlayWindow();
 
-            compactOverlay.Content = new ModelLoadCompactOverlayPage()
-            {
-                RequestedTheme = _elementTheme
-            };
+            compactOverlay.Content = App.GetService<ModelLoadCompactOverlayPage>();
 
             var appWindow = compactOverlay.AppWindow;
 
@@ -340,7 +327,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
             appWindow.Show();
 
-            //App.MainWindow.Hide();
+            App.MainWindow.Hide();
         }
         catch (Exception)
         {
