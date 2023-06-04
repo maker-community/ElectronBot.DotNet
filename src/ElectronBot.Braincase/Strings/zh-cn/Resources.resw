@@ -517,7 +517,10 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.5.4 版本更新说明
+    <value>1.6.0 版本更新说明
+1. 添加电子仿真，可以独立演示编排的动作。
+
+1.5.4 版本更新说明
 1. 添加自定义表盘功能，可以通过在设置界面配置文本设置自己的表盘。
 
 1.5.3 版本更新说明
@@ -697,5 +700,8 @@
   </data>
   <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
     <value>高斯模糊值：</value>
+  </data>
+  <data name="ElectronEmulation.Content" xml:space="preserve">
+    <value>电子仿真</value>
   </data>
 </root>

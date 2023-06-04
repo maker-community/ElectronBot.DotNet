@@ -67,6 +67,8 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     CanvasImageSource? canvasImageSource = null;
 
+    private readonly ElementTheme _elementTheme;
+
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public MainViewModel(
@@ -77,7 +79,8 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         ObjectPickerService objectPickerService,
         MediaPlayer mediaPlayer,
         IActionExpressionProviderFactory actionExpressionProviderFactory,
-        ISpeechAndTTSService speechAndTTSService)
+        ISpeechAndTTSService speechAndTTSService,
+        IThemeSelectorService elementTheme)
     {
         _localSettingsService = localSettingsService;
 
@@ -109,6 +112,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
         ElectronBotHelper.Instance.ClockCanvasStop += Instance_ClockCanvasStop;
         ElectronBotHelper.Instance.ClockCanvasStart += Instance_ClockCanvasStart;
+        _elementTheme = elementTheme.Theme;
     }
 
     private void Instance_ClockCanvasStart(object? sender, EventArgs e)
@@ -226,16 +230,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                 (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
 
                 var textList = config.AnswerText.Split(",").ToList();
-                //        var textList = new List<string>()
-                //{
-                //    "哥哥想做什么",
-                //    "哥哥看剧嘛",
-                //    "哥哥看节目不",
-                //    "哥哥喝茶不",
-                //    "哥哥累了没",
-                //    "哥哥我是娜娜",
-                //    "哥哥我是七七"
-                //};
 
                 var r = new Random().Next(textList.Count);
 
@@ -312,6 +306,28 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                 ElectronBotHelper.Instance.SerialPort.Close();
             }
 
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    [RelayCommand]
+    private void ElectronEmulation()
+    {
+        try
+        {
+            WindowEx compactOverlay = new CompactOverlayWindow();
+
+            compactOverlay.Content = App.GetService<ModelLoadCompactOverlayPage>();
+
+            var appWindow = compactOverlay.AppWindow;
+
+            appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+
+            appWindow.Show();
+
+            App.MainWindow.Hide();
         }
         catch (Exception)
         {

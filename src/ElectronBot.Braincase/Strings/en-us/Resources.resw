@@ -520,7 +520,10 @@
     <value>Delete</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.5.4 Version Update Instructions
+    <value>1.6.0 Version Update Instructions
+1. Add electronic simulation to independently demonstrate the choreographed action.
+
+1.5.4 Version Update Instructions
 1. To add a custom watch face function, you can set your own watch face by configuring text in the settings interface.
 
 1.5.3 Version Update Instructions
@@ -651,10 +654,10 @@
     <value>If the speech recognition is abnormal, please confirm whether the speech recognition policy is enabled, and the policy is enabled to allow personalization.</value>
   </data>
   <data name="OpenGestureSwitch.OffContent" xml:space="preserve">
-    <value>Turn on gesture recognition</value>
+    <value>Turn on gesture</value>
   </data>
   <data name="OpenGestureSwitch.OnContent" xml:space="preserve">
-    <value>Turn off gesture recognition</value>
+    <value>Turn off gesture</value>
   </data>
   <data name="PrivacyHyperLink.Content" xml:space="preserve">
     <value>Click on the text to enter the policy setting page</value>
@@ -700,5 +703,8 @@
   </data>
   <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
     <value>GaussianBlur Value:</value>
+  </data>
+  <data name="ElectronEmulation.Content" xml:space="preserve">
+    <value>Emulation</value>
   </data>
 </root>

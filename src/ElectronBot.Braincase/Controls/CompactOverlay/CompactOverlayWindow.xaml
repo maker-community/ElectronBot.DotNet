@@ -9,9 +9,10 @@
     xmlns:local="using:Controls.CompactOverlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:windowex="using:WinUIEx"
+    Closed="CompactOverlayWindow_OnClosed"
     PersistenceId="CompactOverlayWindow"
     mc:Ignorable="d">
-    <windowex:WindowEx.Backdrop>
-        <windowex:MicaSystemBackdrop />
-    </windowex:WindowEx.Backdrop>
+    <Window.SystemBackdrop>
+        <MicaBackdrop/>
+    </Window.SystemBackdrop>
 </windowex:WindowEx>
