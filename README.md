@@ -37,13 +37,18 @@
 - 手柄控制：用户连接xbox手柄之后，可以在手柄控制器页面进行电子的控制，可以同时操作底部旋转、手臂旋转、手臂单个展开和头部总共五个舵机。
 ![xbox](/Images/xbox-controller.png)
 
+- 电子仿真：可以在没有机器人的情况下进行表情的随机播放，进行效果展示。
+![ElectronBotModelLoad](/Images/ElectronBotModelLoad.gif)
+
 
 ## 安装
 
 1. 安装Visual Studio 2022，并选择安装WASDK开发组件。
 2. 克隆或下载本项目到本地。
 3. 打开ElectronBot.Braincase.sln文件，并编译运行。
-4. 连接ElectronBot硬件设备，并在设置页面选择相应的端口号。
+4. 重点设置启动项目为ElectronBot.Braincase不然会导致运行不了。
+
+[项目运行详细步骤请点此处](https://github.com/maker-community/ElectronBot.Braincase)
 
 ## 使用
 
@@ -77,6 +82,8 @@
 + [ChatGPTSharp](https://github.com/aiqinxuancai/ChatGPTSharp)
 
 + [MediaPipe.NET](https://github.com/vignetteapp/MediaPipe.NET)
+
++ [helix-toolkit](https://github.com/helix-toolkit/helix-toolkit)
 
 ## 许可证
 
