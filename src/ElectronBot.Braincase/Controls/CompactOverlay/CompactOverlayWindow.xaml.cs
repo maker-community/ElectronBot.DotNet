@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using ElectronBot.Braincase;
 using ElectronBot.Braincase.Helpers;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -32,5 +33,10 @@ public sealed partial class CompactOverlayWindow : WindowEx
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/WindowIcon.ico"));
         Content = null;
         Title = "AppDisplayName".GetLocalized();
+    }
+
+    private void CompactOverlayWindow_OnClosed(object sender, WindowEventArgs args)
+    {
+        App.MainWindow.Show();
     }
 }
