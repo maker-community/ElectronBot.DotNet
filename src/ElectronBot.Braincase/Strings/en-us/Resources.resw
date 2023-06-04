@@ -520,7 +520,10 @@
     <value>Delete</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.5.4 Version Update Instructions
+    <value>1.6.0 Version Update Instructions
+1. Add electronic simulation to independently demonstrate the choreographed action.
+
+1.5.4 Version Update Instructions
 1. To add a custom watch face function, you can set your own watch face by configuring text in the settings interface.
 
 1.5.3 Version Update Instructions
