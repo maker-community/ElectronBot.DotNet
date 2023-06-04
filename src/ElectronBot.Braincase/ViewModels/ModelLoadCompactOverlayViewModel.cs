@@ -96,6 +96,8 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
     [ObservableProperty] private TextureModel _environmentMap;
 
+    private readonly Importer _importer = new();
+
     private readonly DiffuseMaterial _pinkModelMaterial = new()
     {
         Name = "Pink",
@@ -176,13 +178,11 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                 "Base.obj",
             };
 
-            using var importer = new Importer();
-
             foreach (var modelName in head)
             {
                 var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
 
-                var newScene = importer.Load(modelPath);
+                var newScene = _importer.Load(modelPath);
 
                 if (newScene != null && newScene.Root != null)
                 {
@@ -239,7 +239,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             {
                 var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
 
-                var newScene = importer.Load(modelPath);
+                var newScene = _importer.Load(modelPath);
 
                 if (newScene != null && newScene.Root != null)
                 {
@@ -283,7 +283,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             foreach (var modelName in rightArm)
             {
                 var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
-                var newScene = importer.Load(modelPath);
+                var newScene = _importer.Load(modelPath);
                 if (newScene != null && newScene.Root != null)
                 {
                     // Pre-attach and calculate all scene info in a separate task.
@@ -331,7 +331,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             foreach (var modelName in leftArm)
             {
                 var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
-                var newScene = importer.Load(modelPath);
+                var newScene = _importer.Load(modelPath);
                 if (newScene != null && newScene.Root != null)
                 {
                     // Pre-attach and calculate all scene info in a separate task.
@@ -378,7 +378,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             foreach (var modelName in baseBody)
             {
                 var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
-                var newScene = importer.Load(modelPath);
+                var newScene = _importer.Load(modelPath);
                 if (newScene != null && newScene.Root != null)
                 {
                     // Pre-attach and calculate all scene info in a separate task.
@@ -431,11 +431,12 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         LeftArmModel.Dispose();
         BaseModel.Dispose();
         EffectsManager.Dispose();
+        _importer.Dispose();
     }
 
-        private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
+    private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
     {
-        BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+        BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
         Material = new DiffuseMaterial()
         {
@@ -478,13 +479,13 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
         var tr2 = _rightArmMt * translationMatrix;
 
-        var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
-        var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
+        var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J2)));
+        var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J3)));
 
         var tr5 = tr4 * Matrix.Translation(rightAverage.X, rightAverage.Y, rightAverage.Z);
 
 
-        var tr6 = tr5 * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+        var tr6 = tr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
         RightArmModel.HxTransform3D = tr6;
 
@@ -493,13 +494,13 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
         var leftTr2 = _leftArmMt * leftMatrix;
 
-        var leftTr3 = leftTr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
+        var leftTr3 = leftTr2 * Matrix.RotationZ(MathUtil.DegreesToRadians((e.J4)));
         var leftTr4 = leftTr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
 
         var leftTr5 = leftTr4 * Matrix.Translation(leftAverage.X, leftAverage.Y, leftAverage.Z);
 
 
-        var leftTr6 = leftTr5 * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+        var leftTr6 = leftTr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
         LeftArmModel.HxTransform3D = leftTr6;
 
@@ -512,7 +513,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         var headTr4 = headTr3 * Matrix.Translation(HeadModelCentroidPoint.X, HeadModelCentroidPoint.Y, HeadModelCentroidPoint.Z);
 
 
-        var headTr5 = headTr4 * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
+        var headTr5 = headTr4 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
         HeadModel.HxTransform3D = headTr5;
     }

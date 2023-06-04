@@ -164,7 +164,7 @@ public partial class App : Application
             services.AddTransient<TodoCompactOverlayViewModel>();
             services.AddTransient<ModelLoadCompactOverlayViewModel>();
             services.AddTransient<ModelLoadCompactOverlayPage>();
-            services.AddSingleton<IEffectsManager, DefaultEffectsManager>();
+            services.AddTransient<IEffectsManager, DefaultEffectsManager>();
 
 
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
