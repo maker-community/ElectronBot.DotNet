@@ -19,6 +19,7 @@ using HelixToolkit.SharpDX.Core.Assimp;
 using HelixToolkit.SharpDX.Core.Model.Scene;
 using BoundingBox = SharpDX.BoundingBox;
 using Camera = HelixToolkit.WinUI.Camera;
+using Verdure.ElectronBot.Core.Models;
 
 namespace ViewModels;
 public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
@@ -436,10 +437,30 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         BaseModel.Dispose();
         EffectsManager.Dispose();
         _importer.Dispose();
+        ElectronBotHelper.Instance.PlayEmojisLock = false;
     }
 
-    private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
+    private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame ex)
     {
+        var e = new OnlyAction();
+
+        if (ElectronBotHelper.Instance.IsEntityFirstEnabled)
+        {
+            e = ex.Actions;
+        }
+        else
+        {
+            e = new OnlyAction()
+            {
+                J1 = ex.J1,
+                J2 = ex.J2,
+                J3 = ex.J3,
+                J4 = ex.J4,
+                J5 = ex.J5,
+                J6 = ex.J6
+            };
+        }
+
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
             BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
@@ -447,7 +468,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             Material = new DiffuseMaterial()
             {
                 EnableUnLit = false,
-                DiffuseMap = LoadTextureByStream(e.FrameStream)
+                DiffuseMap = LoadTextureByStream(ex.FrameStream)
             };
 
 

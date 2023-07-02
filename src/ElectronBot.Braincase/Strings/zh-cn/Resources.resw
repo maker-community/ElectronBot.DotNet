@@ -704,4 +704,10 @@
   <data name="ElectronEmulation.Content" xml:space="preserve">
     <value>电子仿真</value>
   </data>
+  <data name="OpenEntityFirstSwitch.OffContent" xml:space="preserve">
+    <value>打开机器人动作优先</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OnContent" xml:space="preserve">
+    <value>关闭机器人动作优先</value>
+  </data>
 </root>

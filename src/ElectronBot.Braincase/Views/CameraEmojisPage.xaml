@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controlLocal="using:ElectronBot.Braincase.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:ElectronBot.Braincase.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -16,6 +18,18 @@
         <StackPanel Margin="12" VerticalAlignment="Bottom">
             <Grid>
                 <StackPanel VerticalAlignment="Top">
+                    <ToggleSwitch
+                        x:Name="OpenEntityFirstSwitch"
+                        x:Uid="OpenEntityFirstSwitch"
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Left"
+                        IsOn="{x:Bind ViewModel.IsEntityFirstEnabled, Mode=TwoWay}">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Toggled">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.OpenEntityFirstCommand}" CommandParameter="{x:Bind OpenEntityFirstSwitch.IsOn, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </ToggleSwitch>
                     <StackPanel Margin="8">
                         <TextBlock
                             x:Name="Face"

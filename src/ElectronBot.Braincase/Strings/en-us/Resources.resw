@@ -707,4 +707,10 @@
   <data name="ElectronEmulation.Content" xml:space="preserve">
     <value>Emulation</value>
   </data>
+  <data name="OpenEntityFirstSwitch.OffContent" xml:space="preserve">
+    <value>Turn on the robot action first</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OnContent" xml:space="preserve">
+    <value>Turn off the robot action first</value>
+  </data>
 </root>

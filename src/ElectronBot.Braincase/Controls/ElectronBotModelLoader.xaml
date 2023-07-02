@@ -32,16 +32,6 @@
             <hx:Element3DPresenter Content="{x:Bind ViewModel. BaseModel}" />
             <hx:EnvironmentMap3D Texture="{x:Bind ViewModel.EnvironmentMap, Mode=OneWay}" />
         </hx:Viewport3DX>
-        <StackPanel Margin="8">
-            <Button
-                Margin="4"
-                BorderBrush="{ThemeResource SystemAccentColor}"
-                BorderThickness="2"
-                Command="{x:Bind ViewModel.PlayActionCommand}"
-                Foreground="{ThemeResource SystemAccentColor}">
-                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF5B0;" />
-            </Button>
-        </StackPanel>
         <ProgressRing
             x:Name="ModelProgressRing"
             Width="40"

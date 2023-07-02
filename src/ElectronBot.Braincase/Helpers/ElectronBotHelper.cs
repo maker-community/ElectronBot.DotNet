@@ -64,6 +64,12 @@ public class ElectronBotHelper
         get; set;
     }
 
+    public bool IsEntityFirstEnabled
+    {
+        get;
+        set;
+    } = false;
+
 
     public void InvokeClockCanvasStop()
     {

@@ -7,10 +7,11 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
 using Windows.Graphics.Imaging;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ElectronBot.Braincase.ViewModels;
 
-public class CameraEmojisViewModel : ObservableRecipient, INavigationAware
+public partial class CameraEmojisViewModel : ObservableRecipient, INavigationAware
 {
 
     private bool _isInitialized = false;
@@ -59,6 +60,9 @@ public class CameraEmojisViewModel : ObservableRecipient, INavigationAware
         set => SetProperty(ref _faceIcon, value);
     }
 
+    [ObservableProperty]
+    private bool _isEntityFirstEnabled = true;
+
     private async Task InitAsync()
     {
         if (_isInitialized)
@@ -94,6 +98,26 @@ public class CameraEmojisViewModel : ObservableRecipient, INavigationAware
         IntelligenceService.Current.FaceBoxFrameCaptured += Current_FaceBoxFrameCaptured;
 
         _isInitialized = true;
+    }
+
+    [RelayCommand]
+    private void OpenEntityFirst(bool isOn)
+    {
+        try
+        {
+            //按钮开启
+            if (!isOn)
+            {
+                ElectronBotHelper.Instance.IsEntityFirstEnabled = true;
+            }
+            else
+            {
+                ElectronBotHelper.Instance.IsEntityFirstEnabled = false;
+            }
+        }
+        catch (Exception)
+        {
+        }
     }
 
     private async void Current_FaceBoxFrameCaptured(object sender, SoftwareBitmapEventArgs e)
@@ -142,6 +166,7 @@ public class CameraEmojisViewModel : ObservableRecipient, INavigationAware
         var service = App.GetService<EmoticonActionFrameService>();
         service.ClearQueue();
         await InitAsync();
+        ElectronBotHelper.Instance.IsEntityFirstEnabled = true;
     }
     public async void OnNavigatedFrom()
     {
