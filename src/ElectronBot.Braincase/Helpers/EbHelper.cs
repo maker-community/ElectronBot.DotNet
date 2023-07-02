@@ -297,6 +297,8 @@ public class EbHelper
 
             var service = App.GetService<EmoticonActionFrameService>();
 
+            ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(mat2.ToMemoryStream()));
+
             await service.SendToUsbDeviceAsync(frame);
         }
     }

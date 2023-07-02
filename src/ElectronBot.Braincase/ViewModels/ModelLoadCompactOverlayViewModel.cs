@@ -143,29 +143,31 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
     [RelayCommand]
     public void Loaded()
     {
-        try
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            var body = new List<string>()
+            try
+            {
+                var body = new List<string>()
             {
                 "Body1.obj",
                 "Body2.obj",
             };
 
-            var head = new List<string>()
+                var head = new List<string>()
             {
                 "Head1.obj",
                 "Head2.obj",
                 "Head3.obj",
             };
 
-            var leftArm = new List<string>()
+                var leftArm = new List<string>()
             {
                 "LeftArm1.obj",
                 "LeftArm2.obj",
                 "LeftShoulder.obj",
             };
 
-            var rightArm = new List<string>()
+                var rightArm = new List<string>()
             {
                 "RightArm1.obj",
                 "RightArm2.obj",
@@ -173,253 +175,255 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             };
 
 
-            var baseBody = new List<string>()
+                var baseBody = new List<string>()
             {
                 "Base.obj",
             };
 
-            foreach (var modelName in head)
-            {
-                var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
-
-                var newScene = _importer.Load(modelPath);
-
-                if (newScene != null && newScene.Root != null)
+                foreach (var modelName in head)
                 {
-                    // Pre-attach and calculate all scene info in a separate task.
-                    newScene.Root.Attach(EffectsManager);
+                    var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
 
-                    newScene.Root.UpdateAllTransformMatrix();
+                    var newScene = _importer.Load(modelPath);
 
-                    HeadModel.AddNode(newScene.Root);
-
-                    _headMt = HeadModel.HxTransform3D;
-
-                    if (modelName == "Head3.obj")
+                    if (newScene != null && newScene.Root != null)
                     {
-                        foreach (var node in newScene.Root.Traverse())
+                        // Pre-attach and calculate all scene info in a separate task.
+                        newScene.Root.Attach(EffectsManager);
+
+                        newScene.Root.UpdateAllTransformMatrix();
+
+                        HeadModel.AddNode(newScene.Root);
+
+                        _headMt = HeadModel.HxTransform3D;
+
+                        if (modelName == "Head3.obj")
                         {
-                            if (node is MeshNode meshNode)
+                            foreach (var node in newScene.Root.Traverse())
                             {
-                                // this is face
-                                meshNode.Material = Material;
+                                if (node is MeshNode meshNode)
+                                {
+                                    // this is face
+                                    meshNode.Material = Material;
+                                }
+                            }
+                        }
+                        else if (modelName == "Head1.obj")
+                        {
+                            if (newScene.Root.TryGetCentroid(out var centroid))
+                            {
+                                // Must use UI thread to set value back.
+                                HeadModelCentroidPoint = centroid;
+                            }
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = _pinkModelMaterial;
+                                }
+                            }
+                        }
+                        else if (modelName == "Head2.obj")
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
                             }
                         }
                     }
-                    else if (modelName == "Head1.obj")
+                }
+
+
+                foreach (var modelName in body)
+                {
+                    var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
+
+                    var newScene = _importer.Load(modelPath);
+
+                    if (newScene != null && newScene.Root != null)
                     {
-                        if (newScene.Root.TryGetCentroid(out var centroid))
+                        // Pre-attach and calculate all scene info in a separate task.
+                        newScene.Root.Attach(EffectsManager);
+                        newScene.Root.UpdateAllTransformMatrix();
+
+                        BodyModel.AddNode(newScene.Root);
+
+                        _bodyMt = BodyModel.HxTransform3D;
+
+                        if (modelName == "Body2.obj")
+                        {
+                            if (newScene.Root.TryGetCentroid(out var centroid))
+                            {
+                                // Must use UI thread to set value back.
+                                ModelCentroidPoint = centroid;
+                            }
+
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
+                            }
+                        }
+                        else if (modelName == "Body1.obj")
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = _pinkModelMaterial;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var modelName in rightArm)
+                {
+                    var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
+                    var newScene = _importer.Load(modelPath);
+                    if (newScene != null && newScene.Root != null)
+                    {
+                        // Pre-attach and calculate all scene info in a separate task.
+                        newScene.Root.Attach(EffectsManager);
+                        newScene.Root.UpdateAllTransformMatrix();
+
+                        RightArmModel.AddNode(newScene.Root);
+
+                        _rightArmMt = RightArmModel.HxTransform3D;
+
+                        if (newScene.Root.TryGetBound(out var bound))
                         {
                             // Must use UI thread to set value back.
-                            HeadModelCentroidPoint = centroid;
-                        }
-                        foreach (var node in newScene.Root.Traverse())
-                        {
-                            if (node is MeshNode meshNode)
+                            if (modelName == "RightShoulder.obj")
                             {
-                                meshNode.Material = _pinkModelMaterial;
+                                RightShoulderBoundingBox = bound;
+                            }
+
+                        }
+
+                        if (modelName == "RightArm1.obj")
+                        {
+                            foreach (var node in newScene.Root.Traverse())
+                            {
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
                             }
                         }
-                    }
-                    else if (modelName == "Head2.obj")
-                    {
-                        foreach (var node in newScene.Root.Traverse())
+                        else if (modelName == "RightArm2.obj")
                         {
-                            if (node is MeshNode meshNode)
+                            foreach (var node in newScene.Root.Traverse())
                             {
-                                meshNode.Material = DiffuseMaterials.PureWhite;
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = _pinkModelMaterial;
+                                }
                             }
                         }
                     }
                 }
-            }
 
 
-            foreach (var modelName in body)
-            {
-                var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
-
-                var newScene = _importer.Load(modelPath);
-
-                if (newScene != null && newScene.Root != null)
+                foreach (var modelName in leftArm)
                 {
-                    // Pre-attach and calculate all scene info in a separate task.
-                    newScene.Root.Attach(EffectsManager);
-                    newScene.Root.UpdateAllTransformMatrix();
-
-                    BodyModel.AddNode(newScene.Root);
-
-                    _bodyMt = BodyModel.HxTransform3D;
-
-                    if (modelName == "Body2.obj")
+                    var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
+                    var newScene = _importer.Load(modelPath);
+                    if (newScene != null && newScene.Root != null)
                     {
-                        if (newScene.Root.TryGetCentroid(out var centroid))
+                        // Pre-attach and calculate all scene info in a separate task.
+                        newScene.Root.Attach(EffectsManager);
+                        newScene.Root.UpdateAllTransformMatrix();
+
+                        LeftArmModel.AddNode(newScene.Root);
+
+                        _leftArmMt = LeftArmModel.HxTransform3D;
+
+                        if (newScene.Root.TryGetBound(out var bound))
                         {
                             // Must use UI thread to set value back.
-                            ModelCentroidPoint = centroid;
+                            if (modelName == "LeftShoulder.obj")
+                            {
+                                LeftShoulderBoundingBox = bound;
+                            }
+
                         }
 
-                        foreach (var node in newScene.Root.Traverse())
+                        if (modelName == "LeftArm1.obj")
                         {
-                            if (node is MeshNode meshNode)
+                            foreach (var node in newScene.Root.Traverse())
                             {
-                                meshNode.Material = DiffuseMaterials.PureWhite;
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
                             }
                         }
-                    }
-                    else if (modelName == "Body1.obj")
-                    {
-                        foreach (var node in newScene.Root.Traverse())
+                        else if (modelName == "LeftArm2.obj")
                         {
-                            if (node is MeshNode meshNode)
+                            foreach (var node in newScene.Root.Traverse())
                             {
-                                meshNode.Material = _pinkModelMaterial;
-                            }
-                        }
-                    }
-                }
-            }
-
-            foreach (var modelName in rightArm)
-            {
-                var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
-                var newScene = _importer.Load(modelPath);
-                if (newScene != null && newScene.Root != null)
-                {
-                    // Pre-attach and calculate all scene info in a separate task.
-                    newScene.Root.Attach(EffectsManager);
-                    newScene.Root.UpdateAllTransformMatrix();
-
-                    RightArmModel.AddNode(newScene.Root);
-
-                    _rightArmMt = RightArmModel.HxTransform3D;
-
-                    if (newScene.Root.TryGetBound(out var bound))
-                    {
-                        // Must use UI thread to set value back.
-                        if (modelName == "RightShoulder.obj")
-                        {
-                            RightShoulderBoundingBox = bound;
-                        }
-
-                    }
-
-                    if (modelName == "RightArm1.obj")
-                    {
-                        foreach (var node in newScene.Root.Traverse())
-                        {
-                            if (node is MeshNode meshNode)
-                            {
-                                meshNode.Material = DiffuseMaterials.PureWhite;
-                            }
-                        }
-                    }
-                    else if (modelName == "RightArm2.obj")
-                    {
-                        foreach (var node in newScene.Root.Traverse())
-                        {
-                            if (node is MeshNode meshNode)
-                            {
-                                meshNode.Material = _pinkModelMaterial;
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = _pinkModelMaterial;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-
-            foreach (var modelName in leftArm)
-            {
-                var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
-                var newScene = _importer.Load(modelPath);
-                if (newScene != null && newScene.Root != null)
+                foreach (var modelName in baseBody)
                 {
-                    // Pre-attach and calculate all scene info in a separate task.
-                    newScene.Root.Attach(EffectsManager);
-                    newScene.Root.UpdateAllTransformMatrix();
-
-                    LeftArmModel.AddNode(newScene.Root);
-
-                    _leftArmMt = LeftArmModel.HxTransform3D;
-
-                    if (newScene.Root.TryGetBound(out var bound))
+                    var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
+                    var newScene = _importer.Load(modelPath);
+                    if (newScene != null && newScene.Root != null)
                     {
-                        // Must use UI thread to set value back.
-                        if (modelName == "LeftShoulder.obj")
-                        {
-                            LeftShoulderBoundingBox = bound;
-                        }
+                        // Pre-attach and calculate all scene info in a separate task.
+                        newScene.Root.Attach(EffectsManager);
+                        newScene.Root.UpdateAllTransformMatrix();
 
-                    }
+                        BaseModel.AddNode(newScene.Root);
 
-                    if (modelName == "LeftArm1.obj")
-                    {
-                        foreach (var node in newScene.Root.Traverse())
+                        _baseMt = BaseModel.HxTransform3D;
+
+                        if (newScene.Root.TryGetBound(out var bound))
                         {
-                            if (node is MeshNode meshNode)
+                            // Must use UI thread to set value back.
+                            if (modelName == "Base.obj")
                             {
-                                meshNode.Material = DiffuseMaterials.PureWhite;
+                                BaseBoundingBox = bound;
                             }
+
                         }
-                    }
-                    else if (modelName == "LeftArm2.obj")
-                    {
-                        foreach (var node in newScene.Root.Traverse())
-                        {
-                            if (node is MeshNode meshNode)
-                            {
-                                meshNode.Material = _pinkModelMaterial;
-                            }
-                        }
-                    }
-                }
-            }
 
-            foreach (var modelName in baseBody)
-            {
-                var modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\ElectronBotModel\\{modelName}";
-                var newScene = _importer.Load(modelPath);
-                if (newScene != null && newScene.Root != null)
-                {
-                    // Pre-attach and calculate all scene info in a separate task.
-                    newScene.Root.Attach(EffectsManager);
-                    newScene.Root.UpdateAllTransformMatrix();
-
-                    BaseModel.AddNode(newScene.Root);
-
-                    _baseMt = BaseModel.HxTransform3D;
-
-                    if (newScene.Root.TryGetBound(out var bound))
-                    {
-                        // Must use UI thread to set value back.
                         if (modelName == "Base.obj")
                         {
-                            BaseBoundingBox = bound;
-                        }
-
-                    }
-
-                    if (modelName == "Base.obj")
-                    {
-                        foreach (var node in newScene.Root.Traverse())
-                        {
-                            if (node is MeshNode meshNode)
+                            foreach (var node in newScene.Root.Traverse())
                             {
-                                meshNode.Material = DiffuseMaterials.PureWhite;
+                                if (node is MeshNode meshNode)
+                                {
+                                    meshNode.Material = DiffuseMaterials.PureWhite;
+                                }
                             }
                         }
                     }
                 }
+
+                FocusCameraToScene();
+
+                ElectronBotHelper.Instance.ModelActionFrame += Instance_ModelActionFrame;
             }
-
-            FocusCameraToScene();
-
-            ElectronBotHelper.Instance.ModelActionFrame += Instance_ModelActionFrame;
-        }
-        catch (Exception)
-        {
-            ToastHelper.SendToast("模型加载失败", TimeSpan.FromSeconds(3));
-        }
+            catch (Exception)
+            {
+                ToastHelper.SendToast("模型加载失败", TimeSpan.FromSeconds(3));
+            }
+        });
+       
     }
 
     public void UnLoaded()
@@ -436,86 +440,97 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
     private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
     {
-        BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
-
-        Material = new DiffuseMaterial()
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            EnableUnLit = false,
-            DiffuseMap = LoadTextureByStream(e.FrameStream)
-        };
+            BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
-
-        var nodeList = HeadModel.GroupNode;
-
-        foreach (var itemMode in nodeList.Items)
-        {
-            if (itemMode.Name == "Head3.obj")
+            Material = new DiffuseMaterial()
             {
-                foreach (var node in itemMode.Traverse())
+                EnableUnLit = false,
+                DiffuseMap = LoadTextureByStream(e.FrameStream)
+            };
+
+
+            var nodeList = HeadModel.GroupNode;
+
+            foreach (var itemMode in nodeList.Items)
+            {
+                if (itemMode.Name == "Head3.obj")
                 {
-                    if (node is MeshNode meshNode)
+                    foreach (var node in itemMode.Traverse())
                     {
-                        meshNode.Material = Material;
+                        try
+                        {
+                            if (node is MeshNode meshNode)
+                            {
+                                meshNode.Material = Material;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                       
                     }
                 }
             }
-        }
 
-        var rightList = RightShoulderBoundingBox.GetCorners();
+            var rightList = RightShoulderBoundingBox.GetCorners();
 
-        var rightAverage = new SharpDX.Vector3(
-            (rightList[1].X + rightList[5].X) / 2f,
-            ((rightList[1].Y + rightList[5].Y) / 2f) - 8f,
-            (rightList[1].Z + rightList[5].Z) / 2f);
+            var rightAverage = new SharpDX.Vector3(
+                (rightList[1].X + rightList[5].X) / 2f,
+                ((rightList[1].Y + rightList[5].Y) / 2f) - 8f,
+                (rightList[1].Z + rightList[5].Z) / 2f);
 
-        var leftList = LeftShoulderBoundingBox.GetCorners();
+            var leftList = LeftShoulderBoundingBox.GetCorners();
 
-        var leftAverage = new SharpDX.Vector3(
-            (leftList[0].X + leftList[4].X) / 2f,
-            ((leftList[0].Y + leftList[4].Y) / 2f) - 8f,
-            (leftList[0].Z + leftList[4].Z) / 2f);
+            var leftAverage = new SharpDX.Vector3(
+                (leftList[0].X + leftList[4].X) / 2f,
+                ((leftList[0].Y + leftList[4].Y) / 2f) - 8f,
+                (leftList[0].Z + leftList[4].Z) / 2f);
 
-        var translationMatrix = Matrix.Translation(-rightAverage.X, -rightAverage.Y, -rightAverage.Z);
+            var translationMatrix = Matrix.Translation(-rightAverage.X, -rightAverage.Y, -rightAverage.Z);
 
-        var tr2 = _rightArmMt * translationMatrix;
+            var tr2 = _rightArmMt * translationMatrix;
 
-        var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J2)));
-        var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J3)));
+            var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J2)));
+            var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J3)));
 
-        var tr5 = tr4 * Matrix.Translation(rightAverage.X, rightAverage.Y, rightAverage.Z);
-
-
-        var tr6 = tr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
-
-        RightArmModel.HxTransform3D = tr6;
+            var tr5 = tr4 * Matrix.Translation(rightAverage.X, rightAverage.Y, rightAverage.Z);
 
 
-        var leftMatrix = Matrix.Translation(-leftAverage.X, -leftAverage.Y, -leftAverage.Z);
+            var tr6 = tr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
-        var leftTr2 = _leftArmMt * leftMatrix;
-
-        var leftTr3 = leftTr2 * Matrix.RotationZ(MathUtil.DegreesToRadians((e.J4)));
-        var leftTr4 = leftTr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
-
-        var leftTr5 = leftTr4 * Matrix.Translation(leftAverage.X, leftAverage.Y, leftAverage.Z);
+            RightArmModel.HxTransform3D = tr6;
 
 
-        var leftTr6 = leftTr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+            var leftMatrix = Matrix.Translation(-leftAverage.X, -leftAverage.Y, -leftAverage.Z);
 
-        LeftArmModel.HxTransform3D = leftTr6;
+            var leftTr2 = _leftArmMt * leftMatrix;
 
-        var headMatrix = Matrix.Translation(-HeadModelCentroidPoint.X, -HeadModelCentroidPoint.Y, -HeadModelCentroidPoint.Z);
+            var leftTr3 = leftTr2 * Matrix.RotationZ(MathUtil.DegreesToRadians((e.J4)));
+            var leftTr4 = leftTr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
 
-        var headTr2 = _headMt * headMatrix;
-
-        var headTr3 = headTr2 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J1)));
-
-        var headTr4 = headTr3 * Matrix.Translation(HeadModelCentroidPoint.X, HeadModelCentroidPoint.Y, HeadModelCentroidPoint.Z);
+            var leftTr5 = leftTr4 * Matrix.Translation(leftAverage.X, leftAverage.Y, leftAverage.Z);
 
 
-        var headTr5 = headTr4 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+            var leftTr6 = leftTr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
-        HeadModel.HxTransform3D = headTr5;
+            LeftArmModel.HxTransform3D = leftTr6;
+
+            var headMatrix = Matrix.Translation(-HeadModelCentroidPoint.X, -HeadModelCentroidPoint.Y, -HeadModelCentroidPoint.Z);
+
+            var headTr2 = _headMt * headMatrix;
+
+            var headTr3 = headTr2 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J1)));
+
+            var headTr4 = headTr3 * Matrix.Translation(HeadModelCentroidPoint.X, HeadModelCentroidPoint.Y, HeadModelCentroidPoint.Z);
+
+
+            var headTr5 = headTr4 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+
+            HeadModel.HxTransform3D = headTr5;
+        });
     }
 
     private void FocusCameraToScene()

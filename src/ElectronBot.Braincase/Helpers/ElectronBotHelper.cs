@@ -52,6 +52,8 @@ public class ElectronBotHelper
     private bool _isOpenMediaEnded = false;
 
     private readonly int _playEmojisCount = 3;
+
+    private List<float>? _angleList;
     public bool EbConnected
     {
         get; set;
@@ -181,6 +183,7 @@ public class ElectronBotHelper
                         ElectronBot.SetImageSrc(frame.FrameBuffer);
                         ElectronBot.SetJointAngles(frame.J1, frame.J2, frame.J3, frame.J4, frame.J5, frame.J6, frame.Enable);
                         ElectronBot.Sync();
+                        _angleList = ElectronBot.GetJointAngles();
                     }
                 }
             }
@@ -450,6 +453,7 @@ public class ElectronBotHelper
 
     public void ModelActionInvoke(ModelActionFrame frame)
     {
+        frame.Actions = new OnlyAction(_angleList);
         ModelActionFrame?.Invoke(this, frame);
     }
 }

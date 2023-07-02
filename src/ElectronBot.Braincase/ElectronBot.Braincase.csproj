@@ -55,6 +55,7 @@
     <None Remove="Controls\CompactOverlay\DefaultCompactOverlayPage.xaml" />
     <None Remove="Controls\CompactOverlay\ModelLoadCompactOverlayPage.xaml" />
     <None Remove="Controls\ElectronBotModelLoad.xaml" />
+    <None Remove="Controls\ElectronBotModelLoader.xaml" />
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
     <None Remove="Controls\EmojisInfoPage.xaml" />
     <None Remove="Controls\MarketplacePage.xaml" />
@@ -214,6 +215,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\ElectronBotModelLoader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\ElectronBotModelLoad.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
