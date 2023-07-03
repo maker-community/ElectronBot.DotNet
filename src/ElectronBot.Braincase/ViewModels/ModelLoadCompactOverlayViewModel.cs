@@ -463,7 +463,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+            BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
 
             Material = new DiffuseMaterial()
             {
@@ -514,13 +514,13 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
             var tr2 = _rightArmMt * translationMatrix;
 
-            var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J2)));
-            var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J3)));
+            var tr3 = tr2 * Matrix.RotationZ(MathUtil.DegreesToRadians(-(e.J4)));
+            var tr4 = tr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
 
             var tr5 = tr4 * Matrix.Translation(rightAverage.X, rightAverage.Y, rightAverage.Z);
 
 
-            var tr6 = tr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+            var tr6 = tr5 * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
 
             RightArmModel.HxTransform3D = tr6;
 
@@ -529,13 +529,13 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
             var leftTr2 = _leftArmMt * leftMatrix;
 
-            var leftTr3 = leftTr2 * Matrix.RotationZ(MathUtil.DegreesToRadians((e.J4)));
-            var leftTr4 = leftTr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J5)));
+            var leftTr3 = leftTr2 * Matrix.RotationZ(MathUtil.DegreesToRadians((e.J2)));
+            var leftTr4 = leftTr3 * Matrix.RotationX(MathUtil.DegreesToRadians(-(e.J3)));
 
             var leftTr5 = leftTr4 * Matrix.Translation(leftAverage.X, leftAverage.Y, leftAverage.Z);
 
 
-            var leftTr6 = leftTr5 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+            var leftTr6 = leftTr5 * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
 
             LeftArmModel.HxTransform3D = leftTr6;
 
@@ -548,7 +548,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             var headTr4 = headTr3 * Matrix.Translation(HeadModelCentroidPoint.X, HeadModelCentroidPoint.Y, HeadModelCentroidPoint.Z);
 
 
-            var headTr5 = headTr4 * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
+            var headTr5 = headTr4 * Matrix.RotationY(MathUtil.DegreesToRadians(-(e.J6)));
 
             HeadModel.HxTransform3D = headTr5;
         });

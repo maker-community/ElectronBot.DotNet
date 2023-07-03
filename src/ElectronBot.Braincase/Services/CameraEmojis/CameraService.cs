@@ -338,6 +338,7 @@ class CameraService
             // Set to CPU to ensure frames always contain CPU SoftwareBitmap images
             // instead of preferring GPU D3DSurface images.
             MemoryPreference = MediaCaptureMemoryPreference.Cpu,
+
         };
 
         await _mediaCapture.InitializeAsync(settings);
@@ -408,6 +409,8 @@ class CameraService
                         if (_cameraName != null && _cameraName.EndsWith("Cam"))
                         {
                             encoder.BitmapTransform.Rotation = BitmapRotation.Clockwise270Degrees;
+                            //encoder.BitmapTransform.Rotation = BitmapRotation.Clockwise90Degrees;
+                            //encoder.BitmapTransform.Flip = BitmapFlip.Horizontal;
                         }
 
                         // Set the software bitmap
