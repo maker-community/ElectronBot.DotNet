@@ -517,7 +517,11 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.6.0 版本更新说明
+    <value>1.6.1 版本更新说明
+1. 优化表情识别页面，添加模型同步机器人实体动作。
+2. 增加韩语界面资源文件。
+
+1.6.0 版本更新说明
 1. 添加电子仿真，可以独立演示编排的动作。
 
 1.5.4 版本更新说明
