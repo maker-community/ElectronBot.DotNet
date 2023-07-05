@@ -41,9 +41,15 @@
     <None Remove="Assets\Emoji\anger.json" />
     <None Remove="Assets\Emoji\defaultaction.json" />
     <None Remove="Assets\Emoji\disdain.json" />
+    <None Remove="Assets\Emoji\left.json" />
+    <None Remove="Assets\Emoji\left.mp4" />
+    <None Remove="Assets\Emoji\left.png" />
     <None Remove="Assets\Emoji\normal.json" />
     <None Remove="Assets\Emoji\normal.mp4" />
     <None Remove="Assets\Emoji\normal.png" />
+    <None Remove="Assets\Emoji\right.json" />
+    <None Remove="Assets\Emoji\right.mp4" />
+    <None Remove="Assets\Emoji\right.png" />
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\Images\CustomViewDefault.jpg" />
@@ -188,6 +194,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Emoji\disdain.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\right.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\left.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Emoji\normal.png">

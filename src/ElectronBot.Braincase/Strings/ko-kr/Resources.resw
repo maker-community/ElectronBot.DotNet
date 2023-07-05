@@ -717,7 +717,13 @@
   <data name="Shell_GestureInteraction.Content" xml:space="preserve">
     <value>제스처 상호 작용</value>
   </data>
+  <data name="LeftName" xml:space="preserve">
+    <value>왼쪽</value>
+  </data>
   <data name="NormalName" xml:space="preserve">
     <value>정적인</value>
+  </data>
+  <data name="RightName" xml:space="preserve">
+    <value>우회전</value>
   </data>
 </root>

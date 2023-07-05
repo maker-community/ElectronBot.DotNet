@@ -720,7 +720,13 @@
   <data name="Shell_GestureInteraction.Content" xml:space="preserve">
     <value>Gesture interaction</value>
   </data>
+  <data name="LeftName" xml:space="preserve">
+    <value>Left</value>
+  </data>
   <data name="NormalName" xml:space="preserve">
     <value>Normal</value>
+  </data>
+  <data name="RightName" xml:space="preserve">
+    <value>Right</value>
   </data>
 </root>
