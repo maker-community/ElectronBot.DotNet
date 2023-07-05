@@ -38,7 +38,12 @@
   <ItemGroup>
     <None Remove="Assets\Cubemap_Grandcanyon.dds" />
     <None Remove="Assets\DefaultIcon.png" />
+    <None Remove="Assets\Emoji\anger.json" />
     <None Remove="Assets\Emoji\defaultaction.json" />
+    <None Remove="Assets\Emoji\disdain.json" />
+    <None Remove="Assets\Emoji\normal.json" />
+    <None Remove="Assets\Emoji\normal.mp4" />
+    <None Remove="Assets\Emoji\normal.png" />
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\Images\CustomViewDefault.jpg" />
@@ -176,7 +181,16 @@
     <Content Update="Assets\Cubemap_Grandcanyon.dds">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\Emoji\anger.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Emoji\defaultaction.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\disdain.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\normal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Images\CustomViewDefault.jpg">
@@ -205,6 +219,9 @@
     <None Update="Assets\Emoji\fear.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Update="Assets\Emoji\normal.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Update="Assets\Emoji\pic\eyes-closed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

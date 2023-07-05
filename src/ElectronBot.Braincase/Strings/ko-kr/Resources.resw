@@ -717,4 +717,7 @@
   <data name="Shell_GestureInteraction.Content" xml:space="preserve">
     <value>제스처 상호 작용</value>
   </data>
+  <data name="NormalName" xml:space="preserve">
+    <value>정적인</value>
+  </data>
 </root>

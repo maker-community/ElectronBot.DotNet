@@ -660,7 +660,7 @@ public partial class GestureInteractionViewModel : ObservableRecipient
                     if (!playEmojisLock)
                     {
                         //根据表情ID播放表情
-                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("normal");
                         ElectronBotHelper.Instance.PlayEmojisLock = true;
                     }
                     ElectronBotHelper.Instance.UpLock = false;
@@ -685,7 +685,7 @@ public partial class GestureInteractionViewModel : ObservableRecipient
                     if (!playEmojisLock)
                     {
                         //根据表情ID播放表情
-                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("normal");
                         ElectronBotHelper.Instance.PlayEmojisLock = true;
                     }
                     ElectronBotHelper.Instance.UpLock = false;
@@ -710,7 +710,7 @@ public partial class GestureInteractionViewModel : ObservableRecipient
                     if (!playEmojisLock)
                     {
                         //根据表情ID播放表情
-                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("normal");
                         ElectronBotHelper.Instance.PlayEmojisLock = true;
                     }
                     ElectronBotHelper.Instance.UpLock = false;
@@ -735,7 +735,7 @@ public partial class GestureInteractionViewModel : ObservableRecipient
                     if (!playEmojisLock)
                     {
                         //根据表情ID播放表情
-                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("normal");
                         ElectronBotHelper.Instance.PlayEmojisLock = true;
                     }
                     ElectronBotHelper.Instance.UpLock = false;
@@ -760,7 +760,7 @@ public partial class GestureInteractionViewModel : ObservableRecipient
                     if (!playEmojisLock)
                     {
                         //根据表情ID播放表情
-                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("normal");
                         ElectronBotHelper.Instance.PlayEmojisLock = true;
                     }
                     ElectronBotHelper.Instance.UpLock = false;

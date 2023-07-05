@@ -717,4 +717,7 @@
   <data name="Shell_GestureInteraction.Content" xml:space="preserve">
     <value>手势互动</value>
   </data>
+  <data name="NormalName" xml:space="preserve">
+    <value>静态</value>
+  </data>
 </root>
