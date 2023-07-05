@@ -531,6 +531,16 @@ public partial class GestureInteractionViewModel : ObservableRecipient
             {
                 if (!ElectronBotHelper.Instance.RightLock)
                 {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //随机播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisRandom();
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+
+                    //ElectronBotHelper.Instance.PlayEmojisLock = true;
                     ElectronBotHelper.Instance.RightLock = true;
                     ElectronBotHelper.Instance.LeftLock = false;
                     ElectronBotHelper.Instance.ForwardLock = false;
@@ -541,6 +551,16 @@ public partial class GestureInteractionViewModel : ObservableRecipient
             {
                 if (!ElectronBotHelper.Instance.LeftLock)
                 {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //随机播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisRandom();
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+
+                    //ElectronBotHelper.Instance.PlayEmojisLock = true;
                     ElectronBotHelper.Instance.LeftLock = true;
                     ElectronBotHelper.Instance.RightLock = false;
                     ElectronBotHelper.Instance.ForwardLock = false;
@@ -551,6 +571,16 @@ public partial class GestureInteractionViewModel : ObservableRecipient
             {
                 if (!ElectronBotHelper.Instance.UpLock)
                 {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //随机播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisRandom();
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+
+                    //ElectronBotHelper.Instance.PlayEmojisLock = true;
                     ElectronBotHelper.Instance.RightLock = false;
                     ElectronBotHelper.Instance.LeftLock = false;
                     ElectronBotHelper.Instance.ForwardLock = false;
@@ -562,6 +592,16 @@ public partial class GestureInteractionViewModel : ObservableRecipient
             {
                 if (!ElectronBotHelper.Instance.ForwardLock)
                 {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //随机播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisRandom();
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+
+                    //ElectronBotHelper.Instance.PlayEmojisLock = true;
                     ElectronBotHelper.Instance.RightLock = false;
                     ElectronBotHelper.Instance.LeftLock = false;
                     ElectronBotHelper.Instance.UpLock = false;

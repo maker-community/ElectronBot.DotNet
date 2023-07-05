@@ -36,21 +36,32 @@
             <hx:EnvironmentMap3D Texture="{x:Bind ViewModel.EnvironmentMap, Mode=OneWay}" />
         </hx:Viewport3DX>
         <StackPanel Margin="8">
-            <Button
+            <!--<Button
                 Margin="4"
                 BorderBrush="{ThemeResource SystemAccentColor}"
                 BorderThickness="2"
                 Command="{x:Bind ViewModel.PlayActionCommand}"
                 Foreground="{ThemeResource SystemAccentColor}">
                 <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF5B0;" />
-            </Button>
-            <Button
+            </Button>-->
+            <!--<Button
                 Margin="4"
                 BorderBrush="{x:Bind ViewModel.CameraBackground, Mode=OneWay}"
                 BorderThickness="2"
                 Foreground="{x:Bind ViewModel.CameraBackground, Mode=OneWay}">
                 <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE114;" />
-            </Button>
+            </Button>-->
+            <Border
+                Width="200"
+                Height="200"
+                Margin="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{ThemeResource SystemAccentColor}"
+                BorderThickness="4"
+                CornerRadius="8">
+                <Image x:Name="FaceImage" Source="{x:Bind ViewModel.FaceImage.Source, Mode=OneWay}" />
+            </Border>
             <TextBlock
                 x:Name="Result"
                 Margin="4"

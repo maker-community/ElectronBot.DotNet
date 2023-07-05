@@ -201,7 +201,7 @@ public class ElectronBotHelper
             }
             catch (Exception)
             {
-
+                PlayEmojisLock = false;
             }
         }
     }
@@ -409,6 +409,7 @@ public class ElectronBotHelper
             }
             catch (Exception)
             {
+                PlayEmojisLock = false;
             }
         }
     }
@@ -461,22 +462,28 @@ public class ElectronBotHelper
 
     private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
     {
-
-        var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
-
-        if (isTTS && _isOpenMediaEnded)
+        try
         {
+            var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
 
-            await speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
+            if (isTTS && _isOpenMediaEnded)
+            {
+
+                await speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
 
 
-            await speechAndTTSService.StartAsync();
-            isTTS = false;
+                await speechAndTTSService.StartAsync();
+                isTTS = false;
+            }
+            else
+            {
+                await speechAndTTSService.ReleaseRecognizerAsync();
+                //await speechAndTTSService.CancelAsync();
+            }
         }
-        else
+        catch (Exception)
         {
-            await speechAndTTSService.ReleaseRecognizerAsync();
-            //await speechAndTTSService.CancelAsync();
+
         }
 
         PlayEmojisLock = false;
