@@ -121,7 +121,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
             DiffuseMap = LoadTexture("eyes-closed.png")
         };
 
-        var filePath = Package.Current.InstalledLocation.Path + "\\Assets\\model-backgroud.jpg";
+        var filePath = Package.Current.InstalledLocation.Path + "\\Assets\\Cubemap_Grandcanyon.dds";
 
         EnvironmentMap = LoadTextureByFullPath(filePath);
     }

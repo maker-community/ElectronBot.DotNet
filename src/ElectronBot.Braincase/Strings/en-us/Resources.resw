@@ -717,4 +717,7 @@
   <data name="OpenEntityFirstSwitch.OnContent" xml:space="preserve">
     <value>Turn off the robot action first</value>
   </data>
+  <data name="Shell_GestureInteraction.Content" xml:space="preserve">
+    <value>Gesture interaction</value>
+  </data>
 </root>

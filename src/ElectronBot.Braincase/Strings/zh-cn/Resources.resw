@@ -714,4 +714,7 @@
   <data name="OpenEntityFirstSwitch.OnContent" xml:space="preserve">
     <value>关闭机器人动作优先</value>
   </data>
+  <data name="Shell_GestureInteraction.Content" xml:space="preserve">
+    <value>手势互动</value>
+  </data>
 </root>

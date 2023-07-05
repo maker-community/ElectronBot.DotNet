@@ -714,4 +714,7 @@
   <data name="OpenEntityFirstSwitch.OnContent" xml:space="preserve">
     <value>로봇 작업 우선 순위 끄기</value>
   </data>
+  <data name="Shell_GestureInteraction.Content" xml:space="preserve">
+    <value>제스처 상호 작용</value>
+  </data>
 </root>

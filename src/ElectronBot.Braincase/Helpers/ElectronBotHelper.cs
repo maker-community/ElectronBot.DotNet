@@ -29,6 +29,36 @@ public class ElectronBotHelper
         get; set;
     } = false;
 
+    public bool RightLock
+    {
+        get;
+        set;
+    }
+
+    public bool LeftLock
+    {
+        get;
+        set;
+    }
+
+    public bool LandLock
+    {
+        get;
+        set;
+    }
+
+    public bool UpLock
+    {
+        get;
+        set;
+    }
+
+    public bool ForwardLock
+    {
+        get;
+        set;
+    }
+
     private static ElectronBotHelper? _instance;
     public static ElectronBotHelper Instance => _instance ??= new ElectronBotHelper();
 
