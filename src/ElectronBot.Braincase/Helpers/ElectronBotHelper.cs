@@ -29,13 +29,24 @@ public class ElectronBotHelper
         get; set;
     } = false;
 
-    public bool RightLock
+    public bool UpLock
+    {
+        get;
+        set;
+    }
+    public bool DownLock
     {
         get;
         set;
     }
 
-    public bool LeftLock
+    public bool BackLock
+    {
+        get;
+        set;
+    }
+
+    public bool ForwardLock
     {
         get;
         set;
@@ -46,14 +57,31 @@ public class ElectronBotHelper
         get;
         set;
     }
-
-    public bool UpLock
+    public bool StopLock
+    {
+        get;
+        set;
+    }
+    public bool LeftLock
     {
         get;
         set;
     }
 
-    public bool ForwardLock
+    public bool RightLock
+    {
+        get;
+        set;
+    }
+
+    public bool FingerHeartLock
+    {
+        get;
+        set;
+    }
+
+
+    public bool ThirdFingerLock
     {
         get;
         set;
@@ -74,6 +102,8 @@ public class ElectronBotHelper
     public event EventHandler? PlayEmojisRandom;
 
     public event EventHandler<ModelActionFrame>? ModelActionFrame;
+
+    public event EventHandler<string>? PlayEmojisByNameId; 
 
     private MediaPlayer mediaPlayer = new();
 
@@ -132,6 +162,83 @@ public class ElectronBotHelper
         mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
 
         PlayEmojisRandom += ElectronBotHelper_PlayEmojisRandom;
+
+        PlayEmojisByNameId += ElectronBotHelper_PlayEmojisByNameId;
+    }
+
+    private async void ElectronBotHelper_PlayEmojisByNameId(object? sender, string e)
+    {
+        var localSettingsService = App.GetService<ILocalSettingsService>();
+        var list = (await localSettingsService
+             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (list != null && list.Count > 0)
+        {
+            try
+            {
+                var emojis = list.FirstOrDefault(i=>i.NameId == e);
+
+                if (emojis == null)
+                {
+                    PlayEmojisLock = false;
+                    return;
+                }
+
+                List<ElectronBotAction> actions = new();
+
+                if (emojis.HasAction)
+                {
+                    if (!string.IsNullOrWhiteSpace(emojis.EmojisActionPath))
+                    {
+                        try
+                        {
+                            var path = string.Empty;
+
+                            if (emojis.EmojisType == EmojisType.Default)
+                            {
+                                path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
+                            }
+                            else
+                            {
+                                path = emojis.EmojisActionPath;
+                            }
+
+
+                            var json = await File.ReadAllTextAsync(path);
+
+
+                            var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
+
+                            if (actionList != null && actionList.Count > 0)
+                            {
+                                actions = actionList;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+
+                string? videoPath;
+
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
+                }
+                else
+                {
+                    videoPath = emojis.EmojisVideoPath;
+                }
+                _ = ElectronBotHelper.Instance.MediaPlayerPlaySoundAsync(videoPath);
+                await App.GetService<IActionExpressionProvider>().PlayActionExpressionAsync(emojis, actions);
+            }
+            catch (Exception)
+            {
+                PlayEmojisLock = false;
+            }
+        }
     }
 
     private async void ElectronBotHelper_PlayEmojisRandom(object? sender, EventArgs e)
@@ -492,6 +599,11 @@ public class ElectronBotHelper
     public void ToPlayEmojisRandom()
     {
         PlayEmojisRandom?.Invoke(this, new EventArgs());
+    }
+
+    public void ToPlayEmojisByNameId(string nameId)
+    {
+        PlayEmojisByNameId?.Invoke(this, nameId);
     }
 
     public void ModelActionInvoke(ModelActionFrame frame)

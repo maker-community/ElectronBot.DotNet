@@ -527,47 +527,7 @@ public partial class GestureInteractionViewModel : ObservableRecipient
         {
             ResultLabel = e;
 
-            if (e == "right")
-            {
-                if (!ElectronBotHelper.Instance.RightLock)
-                {
-                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
-
-                    if (!playEmojisLock)
-                    {
-                        //随机播放表情
-                        ElectronBotHelper.Instance.ToPlayEmojisRandom();
-                        ElectronBotHelper.Instance.PlayEmojisLock = true;
-                    }
-
-                    //ElectronBotHelper.Instance.PlayEmojisLock = true;
-                    ElectronBotHelper.Instance.RightLock = true;
-                    ElectronBotHelper.Instance.LeftLock = false;
-                    ElectronBotHelper.Instance.ForwardLock = false;
-                    ElectronBotHelper.Instance.UpLock = false;
-                }
-            }
-            else if (e == "left")
-            {
-                if (!ElectronBotHelper.Instance.LeftLock)
-                {
-                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
-
-                    if (!playEmojisLock)
-                    {
-                        //随机播放表情
-                        ElectronBotHelper.Instance.ToPlayEmojisRandom();
-                        ElectronBotHelper.Instance.PlayEmojisLock = true;
-                    }
-
-                    //ElectronBotHelper.Instance.PlayEmojisLock = true;
-                    ElectronBotHelper.Instance.LeftLock = true;
-                    ElectronBotHelper.Instance.RightLock = false;
-                    ElectronBotHelper.Instance.ForwardLock = false;
-                    ElectronBotHelper.Instance.UpLock = false;
-                }
-            }
-            else if (e == "up")
+            if (e == "up")
             {
                 if (!ElectronBotHelper.Instance.UpLock)
                 {
@@ -575,18 +535,70 @@ public partial class GestureInteractionViewModel : ObservableRecipient
 
                     if (!playEmojisLock)
                     {
-                        //随机播放表情
-                        ElectronBotHelper.Instance.ToPlayEmojisRandom();
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("excited");
                         ElectronBotHelper.Instance.PlayEmojisLock = true;
                     }
 
-                    //ElectronBotHelper.Instance.PlayEmojisLock = true;
-                    ElectronBotHelper.Instance.RightLock = false;
-                    ElectronBotHelper.Instance.LeftLock = false;
-                    ElectronBotHelper.Instance.ForwardLock = false;
                     ElectronBotHelper.Instance.UpLock = true;
+                    ElectronBotHelper.Instance.DownLock = false;
+                    ElectronBotHelper.Instance.BackLock = false;
+                    ElectronBotHelper.Instance.ForwardLock = false;
+                    ElectronBotHelper.Instance.LandLock = false;
+                    ElectronBotHelper.Instance.StopLock = false;
+                    ElectronBotHelper.Instance.LeftLock = false;
+                    ElectronBotHelper.Instance.RightLock = false;
+                    ElectronBotHelper.Instance.FingerHeartLock = false;
+                    ElectronBotHelper.Instance.ThirdFingerLock = false;
                 }
+            }
+            else if (e == "down")
+            {
+                if (!ElectronBotHelper.Instance.DownLock)
+                {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
 
+                    if (!playEmojisLock)
+                    {
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("disdain");
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+                    ElectronBotHelper.Instance.UpLock = false;
+                    ElectronBotHelper.Instance.DownLock = true;
+                    ElectronBotHelper.Instance.BackLock = false;
+                    ElectronBotHelper.Instance.ForwardLock = false;
+                    ElectronBotHelper.Instance.LandLock = false;
+                    ElectronBotHelper.Instance.StopLock = false;
+                    ElectronBotHelper.Instance.LeftLock = false;
+                    ElectronBotHelper.Instance.RightLock = false;
+                    ElectronBotHelper.Instance.FingerHeartLock = false;
+                    ElectronBotHelper.Instance.ThirdFingerLock = false;
+                }
+            }
+            else if (e == "back")
+            {
+                if (!ElectronBotHelper.Instance.BackLock)
+                {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("fear");
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+                    ElectronBotHelper.Instance.UpLock = false;
+                    ElectronBotHelper.Instance.DownLock = false;
+                    ElectronBotHelper.Instance.BackLock = true;
+                    ElectronBotHelper.Instance.ForwardLock = false;
+                    ElectronBotHelper.Instance.LandLock = false;
+                    ElectronBotHelper.Instance.StopLock = false;
+                    ElectronBotHelper.Instance.LeftLock = false;
+                    ElectronBotHelper.Instance.RightLock = false;
+                    ElectronBotHelper.Instance.FingerHeartLock = false;
+                    ElectronBotHelper.Instance.ThirdFingerLock = false;
+                }
             }
             else if (e == "forward")
             {
@@ -596,16 +608,171 @@ public partial class GestureInteractionViewModel : ObservableRecipient
 
                     if (!playEmojisLock)
                     {
-                        //随机播放表情
-                        ElectronBotHelper.Instance.ToPlayEmojisRandom();
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
                         ElectronBotHelper.Instance.PlayEmojisLock = true;
                     }
 
-                    //ElectronBotHelper.Instance.PlayEmojisLock = true;
-                    ElectronBotHelper.Instance.RightLock = false;
-                    ElectronBotHelper.Instance.LeftLock = false;
                     ElectronBotHelper.Instance.UpLock = false;
+                    ElectronBotHelper.Instance.DownLock = false;
+                    ElectronBotHelper.Instance.BackLock = false;
                     ElectronBotHelper.Instance.ForwardLock = true;
+                    ElectronBotHelper.Instance.LandLock = false;
+                    ElectronBotHelper.Instance.StopLock = false;
+                    ElectronBotHelper.Instance.LeftLock = false;
+                    ElectronBotHelper.Instance.RightLock = false;
+                    ElectronBotHelper.Instance.FingerHeartLock = false;
+                    ElectronBotHelper.Instance.ThirdFingerLock = false;
+                }
+
+            }
+            else if (e == "land")
+            {
+                if (!ElectronBotHelper.Instance.LandLock)
+                {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("sad");
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+                    ElectronBotHelper.Instance.UpLock = false;
+                    ElectronBotHelper.Instance.DownLock = false;
+                    ElectronBotHelper.Instance.BackLock = false;
+                    ElectronBotHelper.Instance.ForwardLock = false;
+                    ElectronBotHelper.Instance.LandLock = true;
+                    ElectronBotHelper.Instance.StopLock = false;
+                    ElectronBotHelper.Instance.LeftLock = false;
+                    ElectronBotHelper.Instance.RightLock = false;
+                    ElectronBotHelper.Instance.FingerHeartLock = false;
+                    ElectronBotHelper.Instance.ThirdFingerLock = false;
+                }
+
+            }
+            else if (e == "stop")
+            {
+                if (!ElectronBotHelper.Instance.StopLock)
+                {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+                    ElectronBotHelper.Instance.UpLock = false;
+                    ElectronBotHelper.Instance.DownLock = false;
+                    ElectronBotHelper.Instance.BackLock = false;
+                    ElectronBotHelper.Instance.ForwardLock = false;
+                    ElectronBotHelper.Instance.LandLock = false;
+                    ElectronBotHelper.Instance.StopLock = true;
+                    ElectronBotHelper.Instance.LeftLock = false;
+                    ElectronBotHelper.Instance.RightLock = false;
+                    ElectronBotHelper.Instance.FingerHeartLock = false;
+                    ElectronBotHelper.Instance.ThirdFingerLock = false;
+                }
+
+            }
+            else if (e == "left")
+            {
+                if (!ElectronBotHelper.Instance.LeftLock)
+                {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+                    ElectronBotHelper.Instance.UpLock = false;
+                    ElectronBotHelper.Instance.DownLock = false;
+                    ElectronBotHelper.Instance.BackLock = false;
+                    ElectronBotHelper.Instance.ForwardLock = false;
+                    ElectronBotHelper.Instance.LandLock = false;
+                    ElectronBotHelper.Instance.StopLock = false;
+                    ElectronBotHelper.Instance.LeftLock = true;
+                    ElectronBotHelper.Instance.RightLock = false;
+                    ElectronBotHelper.Instance.FingerHeartLock = false;
+                    ElectronBotHelper.Instance.ThirdFingerLock = false;
+                }
+
+            }
+            else if (e == "right")
+            {
+                if (!ElectronBotHelper.Instance.RightLock)
+                {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+                    ElectronBotHelper.Instance.UpLock = false;
+                    ElectronBotHelper.Instance.DownLock = false;
+                    ElectronBotHelper.Instance.BackLock = false;
+                    ElectronBotHelper.Instance.ForwardLock = false;
+                    ElectronBotHelper.Instance.LandLock = false;
+                    ElectronBotHelper.Instance.StopLock = false;
+                    ElectronBotHelper.Instance.LeftLock = false;
+                    ElectronBotHelper.Instance.RightLock = true;
+                    ElectronBotHelper.Instance.FingerHeartLock = false;
+                    ElectronBotHelper.Instance.ThirdFingerLock = false;
+                }
+
+            }
+            else if (e == "finger-heart")
+            {
+                if (!ElectronBotHelper.Instance.FingerHeartLock)
+                {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+                    ElectronBotHelper.Instance.UpLock = false;
+                    ElectronBotHelper.Instance.DownLock = false;
+                    ElectronBotHelper.Instance.BackLock = false;
+                    ElectronBotHelper.Instance.ForwardLock = false;
+                    ElectronBotHelper.Instance.LandLock = false;
+                    ElectronBotHelper.Instance.StopLock = false;
+                    ElectronBotHelper.Instance.LeftLock = false;
+                    ElectronBotHelper.Instance.RightLock = false;
+                    ElectronBotHelper.Instance.FingerHeartLock = true;
+                    ElectronBotHelper.Instance.ThirdFingerLock = false;
+                }
+
+            }
+            else if (e == "third-finger")
+            {
+                if (!ElectronBotHelper.Instance.FingerHeartLock)
+                {
+                    var playEmojisLock = ElectronBotHelper.Instance.PlayEmojisLock;
+
+                    if (!playEmojisLock)
+                    {
+                        //根据表情ID播放表情
+                        ElectronBotHelper.Instance.ToPlayEmojisByNameId("anger");
+                        ElectronBotHelper.Instance.PlayEmojisLock = true;
+                    }
+                    ElectronBotHelper.Instance.UpLock = false;
+                    ElectronBotHelper.Instance.DownLock = false;
+                    ElectronBotHelper.Instance.BackLock = false;
+                    ElectronBotHelper.Instance.ForwardLock = false;
+                    ElectronBotHelper.Instance.LandLock = false;
+                    ElectronBotHelper.Instance.StopLock = false;
+                    ElectronBotHelper.Instance.LeftLock = false;
+                    ElectronBotHelper.Instance.RightLock = false;
+                    ElectronBotHelper.Instance.FingerHeartLock = false;
+                    ElectronBotHelper.Instance.ThirdFingerLock = true;
                 }
 
             }
