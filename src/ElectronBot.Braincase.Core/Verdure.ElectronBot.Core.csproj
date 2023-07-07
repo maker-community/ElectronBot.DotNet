@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Verdure.ElectronBot.Core</RootNamespace>
@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.29.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
 	  <PackageReference Include="Google.Protobuf" Version="3.21.8" />
-	  <PackageReference Include="Grpc.Net.Client" Version="2.49.0" />
+	  <PackageReference Include="Grpc.Net.Client" Version="2.52.0" />
 	  <PackageReference Include="Grpc.Net.ClientFactory" Version="2.49.0" />
 	  <PackageReference Include="System.IO.Ports" Version="6.0.0" />
 	  <PackageReference Include="SharpZipLib" Version="1.4.2" />
