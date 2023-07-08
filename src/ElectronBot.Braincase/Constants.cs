@@ -66,12 +66,52 @@ public class Constants
     {
         new EmoticonAction()
         {
+            Name ="LeftName".GetLocalized(),
+            NameId="left",
+            Avatar = "ms-appx:///Assets/Emoji/left.png",
+            Desc ="LeftName".GetLocalized(),
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "left.json",
+            HasAction = true
+        },
+        new EmoticonAction()
+        {
+            Name ="RightName".GetLocalized(),
+            NameId="right",
+            Avatar = "ms-appx:///Assets/Emoji/right.png",
+            Desc ="RightName".GetLocalized(),
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "right.json",
+            HasAction = true
+        },
+        new EmoticonAction()
+        {
+            Name ="NormalName".GetLocalized(),
+            NameId="normal",
+            Avatar = "ms-appx:///Assets/Emoji/normal.png",
+            Desc ="NormalName".GetLocalized(),
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "normal.json",
+            HasAction = true
+        },
+        new EmoticonAction()
+        {
+            Name ="NormalName".GetLocalized(),
+            NameId="normal",
+            Avatar = "ms-appx:///Assets/Emoji/normal.png",
+            Desc ="NormalName".GetLocalized(),
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "normal.json",
+            HasAction = true
+        },
+        new EmoticonAction()
+        {
             Name ="AngerName".GetLocalized(),
             NameId="anger",
             Avatar = "ms-appx:///Assets/Emoji/anger.png",
             Desc ="AngerName".GetLocalized(),
             EmojisType = EmojisType.Default,
-            EmojisActionPath = "defaultaction.json",
+            EmojisActionPath = "anger.json",
             HasAction = true
         },
         new EmoticonAction()
@@ -81,7 +121,7 @@ public class Constants
             Avatar = "ms-appx:///Assets/Emoji/disdain.png",
             Desc ="DisdainName".GetLocalized(),
             EmojisType = EmojisType.Default,
-            EmojisActionPath = "defaultaction.json",
+            EmojisActionPath = "disdain.json",
             HasAction = true
         },
         new EmoticonAction()

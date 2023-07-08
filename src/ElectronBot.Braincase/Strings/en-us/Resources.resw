@@ -520,7 +520,14 @@
     <value>Delete</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.6.0 Version Update Instructions
+    <value>1.6.2 Version Update Instructions
+1. Add a gesture interaction page and update some emoticon files.
+
+1.6.1 Version Update Instructions
+1. Optimize the facial expression recognition page, add model synchronization robot entity action.
+2. Add Korean interface resource files.
+
+1.6.0 Version Update Instructions
 1. Add electronic simulation to independently demonstrate the choreographed action.
 
 1.5.4 Version Update Instructions
@@ -706,5 +713,23 @@
   </data>
   <data name="ElectronEmulation.Content" xml:space="preserve">
     <value>Emulation</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OffContent" xml:space="preserve">
+    <value>Turn on the robot action first</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OnContent" xml:space="preserve">
+    <value>Turn off the robot action first</value>
+  </data>
+  <data name="Shell_GestureInteraction.Content" xml:space="preserve">
+    <value>Gesture interaction</value>
+  </data>
+  <data name="LeftName" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="NormalName" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="RightName" xml:space="preserve">
+    <value>Right</value>
   </data>
 </root>

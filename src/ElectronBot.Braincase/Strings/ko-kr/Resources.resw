@@ -1,0 +1,732 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>ElectronBot Braincase</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Windows app sdk에서 개발한 호스트 컴퓨터 소프트웨어로 주로 오픈소스 프로젝트인 ElectronBot 로봇을 위해 개발되었으며 주로 동작 배열과 동작 재생 및 표시 기능을 제공합니다.</value>
+  </data>
+  <data name="Shell_Main.Content" xml:space="preserve">
+    <value>ElectronBot 제어</value>
+  </data>
+  <data name="ReloadButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="ReloadButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="Settings_Personalization.Text" xml:space="preserve">
+    <value>개인화하다</value>
+  </data>
+  <data name="Settings_Theme.Text" xml:space="preserve">
+    <value>주제</value>
+  </data>
+  <data name="Settings_Theme_Light.Content" xml:space="preserve">
+    <value>밝은 색</value>
+  </data>
+  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
+    <value>어두운</value>
+  </data>
+  <data name="Settings_Theme_Default.Content" xml:space="preserve">
+    <value>기본</value>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>이 소프트웨어 정보</value>
+  </data>
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
+    <value>Windows app sdk에서 개발한 호스트 컴퓨터 소프트웨어로 주로 오픈소스 프로젝트인 ElectronBot 로봇을 위해 개발되었으며 주로 동작 배열과 동작 재생 및 표시 기능을 제공합니다.</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>개인 정보 정책</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://blog.csdn.net/weixin_43500426/article/details/83315983</value>
+  </data>
+  <data name="ElectronBotAddTip" xml:space="preserve">
+    <value>ElectronBot이 연결되었습니다.</value>
+  </data>
+  <data name="ElectronBotRemoveTip" xml:space="preserve">
+    <value>ElectronBot이 제거되었습니다.</value>
+  </data>
+  <data name="ExportToastText" xml:space="preserve">
+    <value>작업을 성공적으로 내보냈습니다.</value>
+  </data>
+  <data name="PlayEmptyToastText" xml:space="preserve">
+    <value>작업을 추가하거나 가져오십시오.</value>
+  </data>
+  <data name="PlayErrorToastText" xml:space="preserve">
+    <value>제어 모드로 전환하십시오</value>
+  </data>
+  <data name="PlayClearToastText" xml:space="preserve">
+    <value>목록이 지워졌습니다</value>
+  </data>
+  <data name="PlayResetToastText" xml:space="preserve">
+    <value>액션 리셋</value>
+  </data>
+  <data name="ChangeClockViewCB.PlaceholderText" xml:space="preserve">
+    <value>스위치 다이얼</value>
+  </data>
+  <data name="ClearBtn.Content" xml:space="preserve">
+    <value>목록 지우기</value>
+  </data>
+  <data name="ControlMode.Content" xml:space="preserve">
+    <value>제어 모드</value>
+  </data>
+  <data name="DefautView" xml:space="preserve">
+    <value>기본 효과</value>
+  </data>
+  <data name="DisableModeRb.Content" xml:space="preserve">
+    <value>비활성화 모드</value>
+  </data>
+  <data name="EntitySchemaRb.Content" xml:space="preserve">
+    <value>녹음 모드</value>
+  </data>
+  <data name="ExportBtn.Content" xml:space="preserve">
+    <value>수출 조치</value>
+  </data>
+  <data name="ImportBtn.Content" xml:space="preserve">
+    <value>가져오기 작업</value>
+  </data>
+  <data name="LongShadowView" xml:space="preserve">
+    <value>긴 그림자</value>
+  </data>
+  <data name="ModeRadioBtn.Header" xml:space="preserve">
+    <value>선택 모드</value>
+  </data>
+  <data name="PlayBtn.Content" xml:space="preserve">
+    <value>행동을 하다</value>
+  </data>
+  <data name="PleaseConnectToastText" xml:space="preserve">
+    <value>ElectronBot을 연결해주세요(최초 사용시 드라이버 확인 부탁드립니다)</value>
+  </data>
+  <data name="ResetBtn.Content" xml:space="preserve">
+    <value>리셋 동작</value>
+  </data>
+  <data name="Sd_Bottom.Header" xml:space="preserve">
+    <value>섀시 회전(J6)</value>
+  </data>
+  <data name="Sd_Head.Header" xml:space="preserve">
+    <value>헤드(J1)</value>
+  </data>
+  <data name="Sd_LeftArm.Header" xml:space="preserve">
+    <value>왼쪽 팔 회전(J3)</value>
+  </data>
+  <data name="Sd_LeftArmExpansion.Header" xml:space="preserve">
+    <value>왼팔 펴기(J2)</value>
+  </data>
+  <data name="Sd_RightArm.Header" xml:space="preserve">
+    <value>오른쪽 팔 회전(J5)</value>
+  </data>
+  <data name="Sd_RightArmExpansion.Header" xml:space="preserve">
+    <value>오른쪽 팔 확장(J4)</value>
+  </data>
+  <data name="StopBtn.Content" xml:space="preserve">
+    <value>스톱모션</value>
+  </data>
+  <data name="AddPic.Text" xml:space="preserve">
+    <value>사진 추가</value>
+  </data>
+  <data name="ImageCropperAcceptBtn.Label" xml:space="preserve">
+    <value>확인하다</value>
+  </data>
+  <data name="ImageCropperCancelBtn.Label" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="CameraHelperResultFailed" xml:space="preserve">
+    <value>🤷 Unable to continue...</value>
+  </data>
+  <data name="EmotionAnger" xml:space="preserve">
+    <value>화</value>
+  </data>
+  <data name="EmotionContempt" xml:space="preserve">
+    <value>경멸</value>
+  </data>
+  <data name="EmotionDisgust" xml:space="preserve">
+    <value>싫음</value>
+  </data>
+  <data name="EmotionFear" xml:space="preserve">
+    <value>두려움</value>
+  </data>
+  <data name="EmotionHappiness" xml:space="preserve">
+    <value>행복</value>
+  </data>
+  <data name="EmotionNeutral" xml:space="preserve">
+    <value>중립적</value>
+  </data>
+  <data name="EmotionSadness" xml:space="preserve">
+    <value>슬퍼</value>
+  </data>
+  <data name="EmotionSurprise" xml:space="preserve">
+    <value>놀라다</value>
+  </data>
+  <data name="ModelLoadedFailed" xml:space="preserve">
+    <value>The machine learning model did not load successfully. 🤔 Unable to continue...</value>
+  </data>
+  <data name="Shell_CameraEmojis.Content" xml:space="preserve">
+    <value>표정 인식</value>
+  </data>
+  <data name="RemoveAction.Text" xml:space="preserve">
+    <value>액션 제거</value>
+  </data>
+  <data name="CameraErrorText" xml:space="preserve">
+    <value>카메라를 열지 못했습니다.</value>
+  </data>
+  <data name="DialogAuthenticationTitle" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="DialogNoNetworkAvailableContent" xml:space="preserve">
+    <value>ApplicatioThere is no internet connection, please connect to the internet and try again.</value>
+  </data>
+  <data name="DialogStatusUnknownErrorContent" xml:space="preserve">
+    <value>Something went wrong during the login, please try again.</value>
+  </data>
+  <data name="GooeyFooter" xml:space="preserve">
+    <value>융합 효과</value>
+  </data>
+  <data name="Shell_LogIn.Text" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="Shell_Todo.Content" xml:space="preserve">
+    <value>할 마이크로소프트</value>
+  </data>
+  <data name="CameraLoadedFailed" xml:space="preserve">
+    <value>아직 카메라를 찾지 못했습니다.</value>
+  </data>
+  <data name="Settings_Thank.Text" xml:space="preserve">
+    <value>감사 목록</value>
+  </data>
+  <data name="Shell_EmojisEdit.Content" xml:space="preserve">
+    <value>얼굴 표정</value>
+  </data>
+  <data name="AddEmojisCancelBtnContent" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="AddEmojisOkBtnContent" xml:space="preserve">
+    <value>구하다</value>
+  </data>
+  <data name="AddEmojisTitle" xml:space="preserve">
+    <value>이모티콘 추가</value>
+  </data>
+  <data name="AngerName" xml:space="preserve">
+    <value>화</value>
+  </data>
+  <data name="DisdainName" xml:space="preserve">
+    <value>경멸감</value>
+  </data>
+  <data name="EmojisAvatar.Text" xml:space="preserve">
+    <value>지도 주소:</value>
+  </data>
+  <data name="EmojisDesc.Text" xml:space="preserve">
+    <value>설명하다:</value>
+  </data>
+  <data name="EmojisNameId.Text" xml:space="preserve">
+    <value>신분증:</value>
+  </data>
+  <data name="EmojisNameTitle.Text" xml:space="preserve">
+    <value>이름:</value>
+  </data>
+  <data name="EmojisVideoUrl.Text" xml:space="preserve">
+    <value>비디오 주소:</value>
+  </data>
+  <data name="ExcitedName" xml:space="preserve">
+    <value>흥분한</value>
+  </data>
+  <data name="FearName" xml:space="preserve">
+    <value>겁먹은</value>
+  </data>
+  <data name="PlayEmojis.Text" xml:space="preserve">
+    <value>이모티콘 재생</value>
+  </data>
+  <data name="SadName" xml:space="preserve">
+    <value>슬퍼</value>
+  </data>
+  <data name="Shell_Gamepad.Content" xml:space="preserve">
+    <value>제어 장치</value>
+  </data>
+  <data name="Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>동작 프레임 추가</value>
+  </data>
+  <data name="AddEmojisBtn.Label" xml:space="preserve">
+    <value>새로운 이모티콘 추가</value>
+  </data>
+  <data name="AppLogoAuthor.Content" xml:space="preserve">
+    <value>응용 프로그램 로고 작성자(ooooooohmygosh) 스테이션 B 주소</value>
+  </data>
+  <data name="AppTheme.Text" xml:space="preserve">
+    <value>테마 적용</value>
+  </data>
+  <data name="AudioCB.Header" xml:space="preserve">
+    <value>기본 오디오 장치</value>
+  </data>
+  <data name="AudioCB.PlaceholderText" xml:space="preserve">
+    <value>기본 오디오 장치</value>
+  </data>
+  <data name="CameraCB.Header" xml:space="preserve">
+    <value>기본 카메라</value>
+  </data>
+  <data name="CameraCB.PlaceholderText" xml:space="preserve">
+    <value>기본 카메라</value>
+  </data>
+  <data name="ClockAuthor.Content" xml:space="preserve">
+    <value>Dial 프로젝트 참조 작성자(DinoChan) Github 주소</value>
+  </data>
+  <data name="ClockConfig.Text" xml:space="preserve">
+    <value>다이얼 구성</value>
+  </data>
+  <data name="ClockCumstomWords.Text" xml:space="preserve">
+    <value>사용자 지정 문자로 전화 걸기:</value>
+  </data>
+  <data name="ClockCustomFontSize.Text" xml:space="preserve">
+    <value>다이얼 사용자 지정 텍스트 글꼴 크기:</value>
+  </data>
+  <data name="ClockParameter.Text" xml:space="preserve">
+    <value>다이얼 매개변수 설정</value>
+  </data>
+  <data name="DefaultDeviceConfig.Text" xml:space="preserve">
+    <value>기본 장치 설정</value>
+  </data>
+  <data name="ElectronBotInfo.Content" xml:space="preserve">
+    <value>ElectronBot Braincase 소개 주소</value>
+  </data>
+  <data name="EmojisInfoTitle" xml:space="preserve">
+    <value>이모티콘 세부정보</value>
+  </data>
+  <data name="Export.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>수출 조치</value>
+  </data>
+  <data name="GamepadViewCB.PlaceholderText" xml:space="preserve">
+    <value>핸들 선택</value>
+  </data>
+  <data name="Import.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>가져오기 작업</value>
+  </data>
+  <data name="Reference.Text" xml:space="preserve">
+    <value>참조된 프로젝트 및 일부 리소스에 대한 링크</value>
+  </data>
+  <data name="SelectAppTheme.Text" xml:space="preserve">
+    <value>표시할 앱 테마 선택</value>
+  </data>
+  <data name="SettingDefaultDevice.Text" xml:space="preserve">
+    <value>관련 기본 장치 설정</value>
+  </data>
+  <data name="TestEmoji.Content" xml:space="preserve">
+    <value>테스트 표현식</value>
+  </data>
+  <data name="TestVoice.Content" xml:space="preserve">
+    <value>테스트 음성</value>
+  </data>
+  <data name="ViewEmojisInfo.Text" xml:space="preserve">
+    <value>세부 사항을 확인</value>
+  </data>
+  <data name="ClockModeRb.Content" xml:space="preserve">
+    <value>시계 모드</value>
+  </data>
+  <data name="EmojisEmpty" xml:space="preserve">
+    <value>이모티콘은 비워둘 수 없습니다.</value>
+  </data>
+  <data name="EmojisListEmpty" xml:space="preserve">
+    <value>작업 목록은 비워둘 수 없습니다.</value>
+  </data>
+  <data name="SetEmojisNameId" xml:space="preserve">
+    <value>이모티콘 아이디를 설정해주세요</value>
+  </data>
+  <data name="EmojisActionAddTB.Text" xml:space="preserve">
+    <value>작업 버튼 가져오기:</value>
+  </data>
+  <data name="EmojisActionFileSize" xml:space="preserve">
+    <value>파일은 5MB 미만이어야 합니다.</value>
+  </data>
+  <data name="EmojisActionPath.Text" xml:space="preserve">
+    <value>조치 주소:</value>
+  </data>
+  <data name="EmojisAvatarBtn.Text" xml:space="preserve">
+    <value>이미지 추가 버튼:</value>
+  </data>
+  <data name="EmojisFileSize" xml:space="preserve">
+    <value>파일은 1MB 미만이어야 합니다.</value>
+  </data>
+  <data name="EmojisNameIdAlreadyExists" xml:space="preserve">
+    <value>이 이모티콘 ID는 이미 존재합니다.</value>
+  </data>
+  <data name="EmojisNameIdOnlyEn" xml:space="preserve">
+    <value>이모티콘은 영문과 숫자만 지원합니다.</value>
+  </data>
+  <data name="EmojisVideoAddTB.Text" xml:space="preserve">
+    <value>동영상 추가 버튼:</value>
+  </data>
+  <data name="SetEmojisName" xml:space="preserve">
+    <value>이모티콘 이름을 설정해주세요</value>
+  </data>
+  <data name="ReconnectBtn.Content" xml:space="preserve">
+    <value>ElectronBot 다시 연결</value>
+  </data>
+  <data name="ReconnectText" xml:space="preserve">
+    <value>ElectronBot 다시 연결</value>
+  </data>
+  <data name="RebootElectron.Content" xml:space="preserve">
+    <value>ElectronBot 재설정</value>
+  </data>
+  <data name="Shell_GestureClassification.Content" xml:space="preserve">
+    <value>제스처 인식</value>
+  </data>
+  <data name="GradientsWithBlend" xml:space="preserve">
+    <value>리소스 모니터링</value>
+  </data>
+  <data name="CpuTitle.Text" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="RadialGaugeCPU.Unit" xml:space="preserve">
+    <value>백분율</value>
+  </data>
+  <data name="RadialGaugeROM.Unit" xml:space="preserve">
+    <value>백분율</value>
+  </data>
+  <data name="RomTitle.Text" xml:space="preserve">
+    <value>ROM</value>
+  </data>
+  <data name="AddRandomContentBtn.Label" xml:space="preserve">
+    <value>무작위 콘텐츠 추가</value>
+  </data>
+  <data name="AddRandomContentTitle" xml:space="preserve">
+    <value>무작위 콘텐츠 추가</value>
+  </data>
+  <data name="ContentAlreadyExists" xml:space="preserve">
+    <value>콘텐츠가 이미 존재합니다.</value>
+  </data>
+  <data name="DelEmojis.Text" xml:space="preserve">
+    <value>이모티콘 삭제</value>
+  </data>
+  <data name="DelRandomContent.Text" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="Settings_AboutUpdate.Text" xml:space="preserve">
+    <value>1.6.2 버전 업데이트 지침
+1. 제스처 상호 작용 페이지를 추가하고 일부 이모티콘 파일을 업데이트합니다.
+
+1.6.1 버전 업데이트 지침
+1. 얼굴 표정 인식 페이지 최적화, 모델 동기화 로봇 엔터티 작업 추가.
+2. 한국어 인터페이스 리소스 파일을 추가합니다.
+
+1.6.0 버전 업데이트 안내
+1. 안무 동작을 독립적으로 시연할 수 있는 전자 시뮬레이션을 추가합니다.
+
+1.5.4 버전 업데이트 지침
+1. 사용자 정의 시계 모드 기능을 추가하면 설정 인터페이스에서 텍스트를 구성하여 나만의 시계 모드를 설정할 수 있습니다.
+
+1.5.3 버전 업데이트 지침
+1. 로그인 상태를 저장하기 위해 Microsoft 계정 로그인이 지속되지 않는 문제를 수정했습니다.
+2. 전자 두뇌 케이스를 추가하여 영어 번역을 높입니다.
+
+1.5.2 버전 업데이트 지침
+1. 소스 코드 디렉토리 이름을 조정합니다.
+2. 핀 포인팅 모드를 추가합니다. 즉, 마우스 포인터를 통해 전자 장치를 제어하고 핀 포인팅 모드에 있는 경우 스크롤 휠을 눌러 임의 표현 재생 기능을 트리거합니다.
+
+1.5.1 버전 업데이트 지침
+1. 코드를 리팩터링하고 프레임워크를 .net7 및 Windows 앱 SDK 1.3으로 업그레이드합니다.
+2. 전자 연결을 최적화하면 전자 헤드를 연 다음 전자를 삽입할 수 있으며 핫 스왑도 수리되어 이후 기능을 위한 안정적인 기반을 마련합니다.
+
+1.5.0 버전 업데이트 안내
+1. 온라인 이모티콘 공유 기능 추가, 이모티콘 몰 기능과 유사하게 이모티콘 파일을 공유 및 다운로드 할 수 있습니다.
+2. UI 디스플레이를 조정하고 팝업 창의 밝고 어두운 테마 색상을 최적화합니다.
+
+1.4.4 버전 업데이트 지침
+1. 부팅 후 자동으로 시작되는 전자두뇌 케이스 등록을 추가하고, 이모티콘 목록을 무작위로 3번 재생시킬 이모티콘을 선택합니다. 자동 부팅을 원하지 않으시면 시스템 설정 =&gt; 응용 프로그램 =&gt; 시작으로 이동하여 비활성화하십시오.
+
+1.4.3 버전 업데이트 지침
+1. ChatGPT 도킹을 보다 사용자 친화적인 ApiKey 도킹으로 조정합니다.
+2. 현재 Xbox 핸들 컨트롤 전자 장치를 지원하는 핸들 컨트롤 페이지를 엽니다.
+
+1.4.2 버전 업데이트 지침
+1. 이모티콘 가져오기 및 내보내기 기능 추가
+2. 이메일 피드백 링크를 추가하면 직접 클릭하여 기능 제안 및 버그 피드백을 할 수 있습니다.
+
+1.4.1 버전 업데이트 안내
+1. 재구성 전 색상으로 돌아가려면 전자 두뇌 케이스의 테마 색상을 조정하십시오.
+2. ChatGPT 및 Turing 로봇 구성을 추가하십시오. Turing 로봇은 Turing 로봇 공식 웹 사이트에서 신청한 다음 AppKey를 전자 두뇌 케이스 구성에 넣으십시오.
+3. UI 스타일을 최적화합니다.
+
+1.4 버전 업데이트 안내
+1. 테스트를 위해 Bilibili를 열고 이모티콘을 무작위로 재생하는 등 제스처 인식이 홈페이지에 추가되었습니다.현재 음성 인식은 하트 투 하트 트리거로 트리거됩니다.
+2. 어려운 페이지의 제스처 트리거를 주먹을 쥐고 주먹을 대는 동작을 트리거로 선택하고 ok를 중지로 선택합니다.
+3. 이모티콘 생성 페이지에서 이모티콘 삭제 기능 추가, 영상 재생 시 색상 차이 문제, 영상에서 음성 재생이 안되는 문제를 수정하였습니다.</value>
+  </data>
+  <data name="Settings_Update.Text" xml:space="preserve">
+    <value>릴리즈 노트</value>
+  </data>
+  <data name="ChatGPT-SessionKey.Text" xml:space="preserve">
+    <value>ChatGPT AppKey：</value>
+  </data>
+  <data name="AnswerText.Text" xml:space="preserve">
+    <value>제스처 인식 음성 응답 텍스트:</value>
+  </data>
+  <data name="ChatBotSecurityData.Text" xml:space="preserve">
+    <value>음성 대화 공급자 구성</value>
+  </data>
+  <data name="ChatBotSecurityDataDesc.Text" xml:space="preserve">
+    <value>키 구성 및 프로그램 전환 제공</value>
+  </data>
+  <data name="ChatBotType.Text" xml:space="preserve">
+    <value>기본 음성 공급자:</value>
+  </data>
+  <data name="ChatGPTTitle" xml:space="preserve">
+    <value>ChatGPT</value>
+  </data>
+  <data name="Turing-AppKey.Text" xml:space="preserve">
+    <value>튜링 로봇 앱키:</value>
+  </data>
+  <data name="Turing-UserId.Text" xml:space="preserve">
+    <value>튜링 로봇 사용자 ID:</value>
+  </data>
+  <data name="TuringTitle" xml:space="preserve">
+    <value>튜링 로봇</value>
+  </data>
+  <data name="CameraPreviewImage.Text" xml:space="preserve">
+    <value>카메라 화면 미리보기</value>
+  </data>
+  <data name="ActionEditTitle.Text" xml:space="preserve">
+    <value>ElectronBot 작업 타임라인</value>
+  </data>
+  <data name="ExportEmojis.Text" xml:space="preserve">
+    <value>이모티콘 내보내기</value>
+  </data>
+  <data name="ImportEmojisFileBtn.Label" xml:space="preserve">
+    <value>이모티콘 가져오기</value>
+  </data>
+  <data name="ElectronBotCode.Content" xml:space="preserve">
+    <value>ElectronBot Braincase 소스 주소</value>
+  </data>
+  <data name="MarketplaceBtn.Label" xml:space="preserve">
+    <value>이모티콘 몰</value>
+  </data>
+  <data name="UploadEmojis.Text" xml:space="preserve">
+    <value>이모티콘 공유</value>
+  </data>
+  <data name="DownLoadEmojis.Text" xml:space="preserve">
+    <value>이모티콘 다운로드</value>
+  </data>
+  <data name="MarketplaceDialogClose" xml:space="preserve">
+    <value>폐쇄</value>
+  </data>
+  <data name="MarketplaceDialogTitle" xml:space="preserve">
+    <value>이모티콘 몰</value>
+  </data>
+  <data name="UploadEmojisAuthorTitle.Text" xml:space="preserve">
+    <value>작가:</value>
+  </data>
+  <data name="UploadEmojisCreateTimeTitle.Text" xml:space="preserve">
+    <value>생성 시간:</value>
+  </data>
+  <data name="UploadEmojisDescTitle.Text" xml:space="preserve">
+    <value>설명하다:</value>
+  </data>
+  <data name="UploadEmojisNameIdTitle.Text" xml:space="preserve">
+    <value>신분증:</value>
+  </data>
+  <data name="UploadEmojisNameTitle.Text" xml:space="preserve">
+    <value>이름:</value>
+  </data>
+  <data name="UploadEmojisOKBtn" xml:space="preserve">
+    <value>공유하다</value>
+  </data>
+  <data name="UploadEmojisTitle" xml:space="preserve">
+    <value>이모티콘 공유</value>
+  </data>
+  <data name="DownloadDebugger.Content" xml:space="preserve">
+    <value>전자 커미셔닝 도우미를 다운로드하려면 텍스트를 클릭하십시오.</value>
+  </data>
+  <data name="FeedBackText.Text" xml:space="preserve">
+    <value>나에게 피드백을 줘</value>
+  </data>
+  <data name="hlOpenPrivacySettings.Text" xml:space="preserve">
+    <value>음성 인식이 비정상적인 경우 음성 인식 정책이 활성화되어 있는지, 개인화를 허용하도록 정책이 활성화되어 있는지 확인하십시오.</value>
+  </data>
+  <data name="OpenGestureSwitch.OffContent" xml:space="preserve">
+    <value>제스처 인식 켜기</value>
+  </data>
+  <data name="OpenGestureSwitch.OnContent" xml:space="preserve">
+    <value>제스처 인식 끄기</value>
+  </data>
+  <data name="PrivacyHyperLink.Content" xml:space="preserve">
+    <value>텍스트를 클릭하여 정책 설정 페이지로 들어갑니다.</value>
+  </data>
+  <data name="NeedleModeRb.Content" xml:space="preserve">
+    <value>핀 모드</value>
+  </data>
+  <data name="ExitBtn_CloseButtonText" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="ExitBtn_PrimaryButtonText" xml:space="preserve">
+    <value>확신하는</value>
+  </data>
+  <data name="ExitBtn_SecondaryButtonText" xml:space="preserve">
+    <value>팔레타이징</value>
+  </data>
+  <data name="ExitBtn_Title" xml:space="preserve">
+    <value>응용 프로그램을 닫으시겠습니까?</value>
+  </data>
+  <data name="Settings_LogIn.Content" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="Settings_LogOut.Content" xml:space="preserve">
+    <value>로그아웃</value>
+  </data>
+  <data name="Settings_NoUserLoggedIn.Text" xml:space="preserve">
+    <value>로그인한 사용자가 없습니다. "로그인"을 클릭하여 로그인하십시오.</value>
+  </data>
+  <data name="AppQuit_Content.Text" xml:space="preserve">
+    <value>이 옵션은 응용 프로그램이 실수로 닫히는 것을 방지하기 위한 것입니다.</value>
+  </data>
+  <data name="ElectronSourceCode.Content" xml:space="preserve">
+    <value>ElectronBot 로봇의 오픈 소스 주소</value>
+  </data>
+  <data name="CustomView" xml:space="preserve">
+    <value>맞춤화하다</value>
+  </data>
+  <data name="CustomClockViewConfig.Text" xml:space="preserve">
+    <value>맞춤 시계 모드 구성</value>
+  </data>
+  <data name="CustomViewContentIsVisibility.Text" xml:space="preserve">
+    <value>텍스트 표시 여부:</value>
+  </data>
+  <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
+    <value>가우시안 블러 값:</value>
+  </data>
+  <data name="ElectronEmulation.Content" xml:space="preserve">
+    <value>ElectronBot 시뮬레이션</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OffContent" xml:space="preserve">
+    <value>로봇 작업 우선순위 켜기</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OnContent" xml:space="preserve">
+    <value>로봇 작업 우선 순위 끄기</value>
+  </data>
+  <data name="Shell_GestureInteraction.Content" xml:space="preserve">
+    <value>제스처 상호 작용</value>
+  </data>
+  <data name="LeftName" xml:space="preserve">
+    <value>왼쪽</value>
+  </data>
+  <data name="NormalName" xml:space="preserve">
+    <value>정적인</value>
+  </data>
+  <data name="RightName" xml:space="preserve">
+    <value>우회전</value>
+  </data>
+</root>

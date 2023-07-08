@@ -243,6 +243,7 @@ public class DefaultActionExpressionProvider : IActionExpressionProvider
                 //await grpcClient.PlayEmoticonActionFrameAsync(frameData);
             }
         }
+        ElectronBotHelper.Instance.PlayEmojisLock = false;
     }
 
     public async Task PlayActionExpressionAsync(EmoticonAction emoticonAction)
