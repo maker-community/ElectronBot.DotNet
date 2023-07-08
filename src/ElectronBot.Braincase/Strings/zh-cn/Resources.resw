@@ -517,7 +517,14 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.6.0 版本更新说明
+    <value>1.6.2 版本更新说明
+1. 添加手势互动页面，更新部分表情动作文件。
+
+1.6.1 版本更新说明
+1. 优化表情识别页面，添加模型同步机器人实体动作。
+2. 增加韩语界面资源文件。
+
+1.6.0 版本更新说明
 1. 添加电子仿真，可以独立演示编排的动作。
 
 1.5.4 版本更新说明
@@ -703,5 +710,23 @@
   </data>
   <data name="ElectronEmulation.Content" xml:space="preserve">
     <value>电子仿真</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OffContent" xml:space="preserve">
+    <value>打开机器人动作优先</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OnContent" xml:space="preserve">
+    <value>关闭机器人动作优先</value>
+  </data>
+  <data name="Shell_GestureInteraction.Content" xml:space="preserve">
+    <value>手势互动</value>
+  </data>
+  <data name="LeftName" xml:space="preserve">
+    <value>左转</value>
+  </data>
+  <data name="NormalName" xml:space="preserve">
+    <value>静态</value>
+  </data>
+  <data name="RightName" xml:space="preserve">
+    <value>右转</value>
   </data>
 </root>
