@@ -36,8 +36,20 @@
     <Content Remove="Assets\xbox-one-controller.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Cubemap_Grandcanyon.dds" />
     <None Remove="Assets\DefaultIcon.png" />
+    <None Remove="Assets\Emoji\anger.json" />
     <None Remove="Assets\Emoji\defaultaction.json" />
+    <None Remove="Assets\Emoji\disdain.json" />
+    <None Remove="Assets\Emoji\left.json" />
+    <None Remove="Assets\Emoji\left.mp4" />
+    <None Remove="Assets\Emoji\left.png" />
+    <None Remove="Assets\Emoji\normal.json" />
+    <None Remove="Assets\Emoji\normal.mp4" />
+    <None Remove="Assets\Emoji\normal.png" />
+    <None Remove="Assets\Emoji\right.json" />
+    <None Remove="Assets\Emoji\right.mp4" />
+    <None Remove="Assets\Emoji\right.png" />
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\Images\CustomViewDefault.jpg" />
@@ -55,6 +67,7 @@
     <None Remove="Controls\CompactOverlay\DefaultCompactOverlayPage.xaml" />
     <None Remove="Controls\CompactOverlay\ModelLoadCompactOverlayPage.xaml" />
     <None Remove="Controls\ElectronBotModelLoad.xaml" />
+    <None Remove="Controls\ElectronBotModelLoader.xaml" />
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
     <None Remove="Controls\EmojisInfoPage.xaml" />
     <None Remove="Controls\MarketplacePage.xaml" />
@@ -81,6 +94,7 @@
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\GamepadPage.xaml" />
     <None Remove="Views\GestureClassificationPage.xaml" />
+    <None Remove="Views\GestureInteractionPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
     <None Remove="Views\TodoPage.xaml" />
   </ItemGroup>
@@ -142,19 +156,19 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ChatGPTSharp" Version="1.1.3" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.15.0" />
+    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.15.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230502000" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230602002" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.7.0.20230115" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.7.0.20230115" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-    <PackageReference Include="System.Management" Version="7.0.1" />
+    <PackageReference Include="System.Management" Version="7.0.2" />
     <PackageReference Include="WinUIEx" Version="2.2.0" />
     <PackageReference Include="HelixToolkit" Version="2.24.0" />
     <PackageReference Include="HelixToolkit.SharpDX.Assimp" Version="2.24.0" />
@@ -170,7 +184,31 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Assets\Cubemap_Grandcanyon.dds">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\anger.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Emoji\defaultaction.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\disdain.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\right.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\left.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\normal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Images\CustomViewDefault.jpg">
@@ -199,6 +237,9 @@
     <None Update="Assets\Emoji\fear.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Update="Assets\Emoji\normal.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Update="Assets\Emoji\pic\eyes-closed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -214,6 +255,12 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\GestureInteractionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\ElectronBotModelLoader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\ElectronBotModelLoad.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -677,6 +677,37 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
             await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, emoticonActions.ToList());
         }
+        else
+        {
+            var isShouldUpdate = false;
+
+            var emoticonActions = Constants.EMOJI_ACTION_LIST;
+
+            foreach (var emotion in emoticonActions)
+            {
+                var emotionData = list.FirstOrDefault(e => e.NameId == emotion.NameId);
+
+                if (emotionData != null)
+                {
+                    if (emotionData.EmojisActionPath != emotion.EmojisActionPath)
+                    {
+                        emotionData.EmojisActionPath = emotion.EmojisActionPath;
+                        isShouldUpdate = true;
+                    }
+                }
+                else
+                {
+                    list.Add(emotion);
+                    isShouldUpdate = true;
+                }
+            }
+
+            if (isShouldUpdate)
+            {
+                await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, list);
+            }
+        }
+
 
         await Task.Delay(TimeSpan.FromMilliseconds(500));
 

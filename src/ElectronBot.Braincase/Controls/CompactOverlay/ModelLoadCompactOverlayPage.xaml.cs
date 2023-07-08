@@ -41,6 +41,7 @@ public sealed partial class ModelLoadCompactOverlayPage : Page
     {
         ModelProgressRing.IsActive = true;
         ViewModel.Loaded();
+        ElectronBotHelper.Instance.IsEntityFirstEnabled = false;
         ModelProgressRing.IsActive = false;
     }
 

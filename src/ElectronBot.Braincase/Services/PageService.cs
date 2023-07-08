@@ -5,6 +5,7 @@ using ElectronBot.Braincase.ViewModels;
 using ElectronBot.Braincase.Views;
 
 using Microsoft.UI.Xaml.Controls;
+using ViewModels;
 using Views;
 
 namespace ElectronBot.Braincase.Services;
@@ -24,6 +25,7 @@ public class PageService : IPageService
         Configure<ImageCropperPickerViewModel, ImageCropperPage>();
         Configure<GamepadViewModel, GamepadPage>();
         Configure<GestureClassificationViewModel, GestureClassificationPage>();
+        Configure<GestureInteractionViewModel, GestureInteractionPage>();
     }
 
     public Type GetPageType(string key)
