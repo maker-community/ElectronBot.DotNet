@@ -517,7 +517,10 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.6.2 版本更新说明
+    <value>1.6.3 版本更新说明
+1. 添加姿态识别，并同步姿态动作到模型。
+
+1.6.2 版本更新说明
 1. 添加手势互动页面，更新部分表情动作文件。
 
 1.6.1 版本更新说明

@@ -520,7 +520,10 @@
     <value>Delete</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.6.2 Version Update Instructions
+    <value>1.6.3 Version Update Instructions
+1. Add gesture recognition and synchronize gesture actions to the model.
+
+1.6.2 Version Update Instructions
 1. Add a gesture interaction page and update some emoticon files.
 
 1.6.1 Version Update Instructions

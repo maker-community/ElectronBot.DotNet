@@ -517,7 +517,10 @@
     <value>삭제</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.6.2 버전 업데이트 지침
+    <value>1.6.3 버전 업데이트 지침
+1. 제스처 인식을 추가하고 제스처 동작을 모델에 동기화합니다.
+
+1.6.2 버전 업데이트 지침
 1. 제스처 상호 작용 페이지를 추가하고 일부 이모티콘 파일을 업데이트합니다.
 
 1.6.1 버전 업데이트 지침
