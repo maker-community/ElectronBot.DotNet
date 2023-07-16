@@ -11,7 +11,7 @@
     Unloaded="ModelLoadCompactOverlayPage_OnUnloaded"
     mc:Ignorable="d">
     <Grid
-        MaxWidth="800"
+        MaxWidth="1080"
         MaxHeight="600"
         Margin="24"
         CornerRadius="12">

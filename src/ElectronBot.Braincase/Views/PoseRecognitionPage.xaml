@@ -12,49 +12,42 @@
     mc:Ignorable="d">
 
     <Grid
-        MaxWidth="800"
+        MaxWidth="1080"
         MaxHeight="600"
         Margin="24"
         CornerRadius="12">
-        <hx:Viewport3DX
-            x:Name="Viewport"
-            BackgroundColor="LightBlue"
-            Camera="{x:Bind ViewModel.Camera}"
-            EffectsManager="{x:Bind ViewModel.EffectsManager}"
-            FXAALevel="High"
-            FixedRotationPoint="{x:Bind ViewModel.ModelCentroidPoint}"
-            FixedRotationPointEnabled="True"
-            ManipulationMode="All"
-            ShowCameraInfo="False"
-            ShowCoordinateSystem="False"
-            ShowViewCube="False">
-            <hx:DirectionalLight3D Direction="{x:Bind ViewModel.Camera.LookDirection}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. HeadModel}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. BodyModel}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. RightArmModel}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. LeftArmModel}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. BaseModel}" />
-            <hx:EnvironmentMap3D Texture="{x:Bind ViewModel.EnvironmentMap, Mode=OneWay}" />
-        </hx:Viewport3DX>
-        <StackPanel Margin="8">
-            <!--<Button
-                Margin="4"
-                BorderBrush="{ThemeResource SystemAccentColor}"
-                BorderThickness="2"
-                Command="{x:Bind ViewModel.PlayActionCommand}"
-                Foreground="{ThemeResource SystemAccentColor}">
-                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF5B0;" />
-            </Button>-->
-            <!--<Button
-                Margin="4"
-                BorderBrush="{x:Bind ViewModel.CameraBackground, Mode=OneWay}"
-                BorderThickness="2"
-                Foreground="{x:Bind ViewModel.CameraBackground, Mode=OneWay}">
-                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE114;" />
-            </Button>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" CornerRadius="12">
+            <hx:Viewport3DX
+                x:Name="Viewport"
+                BackgroundColor="LightBlue"
+                Camera="{x:Bind ViewModel.Camera}"
+                CornerRadius="12"
+                EffectsManager="{x:Bind ViewModel.EffectsManager}"
+                FXAALevel="High"
+                FixedRotationPoint="{x:Bind ViewModel.ModelCentroidPoint}"
+                FixedRotationPointEnabled="True"
+                ManipulationMode="All"
+                ShowCameraInfo="False"
+                ShowCoordinateSystem="False"
+                ShowViewCube="False">
+                <hx:DirectionalLight3D Direction="{x:Bind ViewModel.Camera.LookDirection}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. HeadModel}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. BodyModel}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. RightArmModel}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. LeftArmModel}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. BaseModel}" />
+                <hx:EnvironmentMap3D Texture="{x:Bind ViewModel.EnvironmentMap, Mode=OneWay}" />
+            </hx:Viewport3DX>
+        </Grid>
+
+        <StackPanel Grid.Column="0" Margin="8">
             <Border
-                Width="200"
-                Height="200"
+                Width="400"
+                Height="400"
                 Margin="4"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
@@ -63,16 +56,10 @@
                 CornerRadius="8">
                 <Image x:Name="FaceImage" Source="{x:Bind ViewModel.PoseImageSource, Mode=OneWay}" />
             </Border>
-            <TextBlock
-                x:Name="Result"
-                Margin="4"
-                HorizontalAlignment="Left"
-                FontSize="32"
-                Foreground="Red"
-                Text="{x:Bind ViewModel.ResultLabel, Mode=OneWay}" />
         </StackPanel>
         <ProgressRing
             x:Name="ModelProgressRing"
+            Grid.ColumnSpan="2"
             Width="40"
             Height="40"
             HorizontalAlignment="Center"
