@@ -29,6 +29,10 @@ using Windows.Graphics.Imaging;
 using Mediapipe.Net.Solutions;
 using Microsoft.UI;
 using Constants = ElectronBot.Braincase.Constants;
+using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.Graphics.Canvas;
+using Windows.Media.Playback;
+using ElectronBot.Braincase.Extensions;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -40,6 +44,8 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
     ///</summary>
     [ObservableProperty]
     ImageSource _poseImageSource;
+
+    CanvasImageSource? _canvasImageSource = null;
 
     public IEffectsManager EffectsManager
     {
@@ -129,7 +135,9 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
     [ObservableProperty]
     private Image _faceImage = new();
 
-    private static HandsCpuSolution? calculator;
+    SoftwareBitmap? _frameServerDest = null;
+
+    private static PoseCpuSolution? calculator;
     public Camera Camera
     {
         get;
@@ -145,7 +153,7 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
             DiffuseMap = LoadTexture("eyes-closed.png")
         };
 
-        calculator = new HandsCpuSolution();
+        calculator = new(modelComplexity: 2, smoothLandmarks: false);
 
         var filePath = Package.Current.InstalledLocation.Path + "\\Assets\\Cubemap_Grandcanyon.dds";
 
@@ -168,8 +176,6 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
 
     [ObservableProperty]
     private string _resultLabel;
-
-    private readonly string _modelPath = Package.Current.InstalledLocation.Path + $"\\Assets\\MLModel1.zip";
 
     #region load model
     [RelayCommand]
@@ -468,7 +474,7 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
         {
             CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
 
-            CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
+            CameraFrameService.Current.SoftwareBitmapFramePosePredictResult -= Current_SoftwareBitmapFramePosePredictResult;
             await CameraFrameService.Current.CleanupMediaCaptureAsync();
         }
         else
@@ -483,19 +489,47 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
 
         CameraFrameService.Current.SoftwareBitmapFrameCaptured += Current_SoftwareBitmapFrameCaptured;
 
-        CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult += Current_SoftwareBitmapFrameHandPredictResult;
+        CameraFrameService.Current.SoftwareBitmapFramePosePredictResult += Current_SoftwareBitmapFramePosePredictResult;
 
         _isInitialized = true;
 
         CameraBackground = new SolidColorBrush(Colors.Green);
     }
 
-    private void Current_SoftwareBitmapFrameHandPredictResult(object? sender, string e)
+    private void Current_SoftwareBitmapFramePosePredictResult(object? sender, PoseOutput e)
     {
 
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            ResultLabel = e;
+
+            var canvasDevice = App.GetService<CanvasDevice>();
+
+            if (_canvasImageSource == null)
+            {
+                _canvasImageSource = new CanvasImageSource(canvasDevice, _frameServerDest.PixelWidth, _frameServerDest.PixelHeight, 96);//96); 
+
+                PoseImageSource = _canvasImageSource;
+            }
+
+            using var inputBitmap = CanvasBitmap.CreateFromSoftwareBitmap(canvasDevice, _frameServerDest);
+
+            using var ds = _canvasImageSource.CreateDrawingSession(Microsoft.UI.Colors.Black);
+            ds.DrawImage(inputBitmap);
+            var poseLineList = e.GetPoseLines(_frameServerDest.PixelWidth, _frameServerDest.PixelHeight);
+            foreach (var postLine in poseLineList)
+            {
+                ds.DrawLine(postLine.StartVector2, postLine.EndVector2, Microsoft.UI.Colors.Green, 8);
+            }
+            foreach (var Landmark in e?.PoseLandmarks?.Landmark)
+            {
+
+                var x = (int)_frameServerDest.PixelWidth * Landmark.X;
+                var y = (int)_frameServerDest.PixelHeight * Landmark.Y;
+                // Draw a point at (100, 100)
+                ds.DrawCircle(x, y, 4, Microsoft.UI.Colors.Red, 8);
+            }
+
+            //ds.DrawCircle(50, 50, 4, Microsoft.UI.Colors.Red, 10);
         });
     }
 
@@ -510,9 +544,11 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
                 e.SoftwareBitmap = SoftwareBitmap.Convert(
                     e.SoftwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
             }
-            var service = App.GetService<GestureClassificationService>();
+            var service = App.GetService<PoseRecognitionService>();
 
-            _ = service.HandPredictResultUnUseQueueAsync(calculator, _modelPath, e.SoftwareBitmap);
+            _frameServerDest = e.SoftwareBitmap;
+
+            _ = service.PosePredictResultUnUseQueueAsync(calculator, e.SoftwareBitmap);
         }
     }
 
@@ -529,7 +565,7 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
 
         CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
 
-        CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
+        CameraFrameService.Current.SoftwareBitmapFramePosePredictResult -= Current_SoftwareBitmapFramePosePredictResult;
         var service = App.GetService<EmoticonActionFrameService>();
         service.ClearQueue();
         await CleanUpAsync();

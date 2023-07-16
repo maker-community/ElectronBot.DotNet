@@ -193,6 +193,8 @@ public partial class App : Application
 
             services.AddSingleton<GestureClassificationService>();
 
+            services.AddSingleton<PoseRecognitionService>();
+
 
             services.AddTransient<IChatbotClient, ChatGPTChatbotClient>();
 
