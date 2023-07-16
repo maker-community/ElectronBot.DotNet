@@ -56,6 +56,36 @@
                 CornerRadius="8">
                 <Image x:Name="FaceImage" Source="{x:Bind ViewModel.PoseImageSource, Mode=OneWay}" />
             </Border>
+
+            <!--<TextBlock
+                x:Name="LeftUpResult"
+                Margin="4"
+                HorizontalAlignment="Left"
+                FontSize="12"
+                Foreground="Red"
+                Text="{x:Bind ViewModel.LeftUpResultLabel, Mode=OneWay}" />
+            <TextBlock
+                x:Name="RightUpResult"
+                Margin="4"
+                HorizontalAlignment="Left"
+                FontSize="12"
+                Foreground="Red"
+                Text="{x:Bind ViewModel.RightUpResultLabel, Mode=OneWay}" />
+            <TextBlock
+                x:Name="LeftWaveResult"
+                Margin="4"
+                HorizontalAlignment="Left"
+                FontSize="12"
+                Foreground="Red"
+                Text="{x:Bind ViewModel.LeftWaveResultLabel, Mode=OneWay}" />
+
+            <TextBlock
+                x:Name="RightWaveResult"
+                Margin="4"
+                HorizontalAlignment="Left"
+                FontSize="12"
+                Foreground="Red"
+                Text="{x:Bind ViewModel.RightWaveResultLabel, Mode=OneWay}" />-->
         </StackPanel>
         <ProgressRing
             x:Name="ModelProgressRing"

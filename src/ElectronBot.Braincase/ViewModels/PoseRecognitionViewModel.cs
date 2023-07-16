@@ -25,6 +25,7 @@ using Microsoft.UI.Xaml.Controls;
 using ElectronBot.Braincase.Services;
 using Services;
 using System.Diagnostics;
+using System.Numerics;
 using Windows.Graphics.Imaging;
 using Mediapipe.Net.Solutions;
 using Microsoft.UI;
@@ -33,6 +34,8 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
 using Windows.Media.Playback;
 using ElectronBot.Braincase.Extensions;
+using Vector3 = SharpDX.Vector3;
+using Verdure.ElectronBot.Core.Models;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -175,7 +178,13 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
     }
 
     [ObservableProperty]
-    private string _resultLabel;
+    private string _leftUpResultLabel;
+    [ObservableProperty]
+    private string _RightUpResultLabel;
+    [ObservableProperty]
+    private string _leftWaveResultLabel;
+    [ObservableProperty]
+    private string _rightWaveResultLabel;
 
     #region load model
     [RelayCommand]
@@ -499,8 +508,44 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
     private void Current_SoftwareBitmapFramePosePredictResult(object? sender, PoseOutput e)
     {
 
-        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
         {
+            var leftUpAngle = AngleHelper.GetPointAngle(
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[24].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[24].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[14].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[14].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[12].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[12].Y * _frameServerDest.PixelHeight));
+            LeftUpResultLabel = $"LeftUp: {leftUpAngle}";
+
+            var rightUpAngle = AngleHelper.GetPointAngle(
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[13].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[13].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[23].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[23].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[11].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[11].Y * _frameServerDest.PixelHeight));
+            RightUpResultLabel = $"RightUp: {rightUpAngle}";
+
+
+            var leftWaveAngle = AngleHelper.GetPointAngle(
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[16].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[16].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[12].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[12].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[14].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[14].Y * _frameServerDest.PixelHeight));
+            LeftWaveResultLabel = $"LeftWave: {leftWaveAngle}";
+
+            var rightWaveAngle = AngleHelper.GetPointAngle(
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[15].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[15].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[11].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[11].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[13].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[13].Y * _frameServerDest.PixelHeight));
+            RightWaveResultLabel = $"RightWave: {rightWaveAngle}";
 
             var canvasDevice = App.GetService<CanvasDevice>();
 
@@ -525,11 +570,15 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
 
                 var x = (int)_frameServerDest.PixelWidth * Landmark.X;
                 var y = (int)_frameServerDest.PixelHeight * Landmark.Y;
-                // Draw a point at (100, 100)
                 ds.DrawCircle(x, y, 4, Microsoft.UI.Colors.Red, 8);
             }
 
-            //ds.DrawCircle(50, 50, 4, Microsoft.UI.Colors.Red, 10);
+            var data = new byte[240 * 240 * 3];
+
+            var frame = new EmoticonActionFrame(data, true, 0, (rightWaveAngle / 180) * 30, rightUpAngle, (leftWaveAngle / 180) * 30, leftUpAngle, 0);
+
+            //待处理面部数据
+            await EbHelper.ShowDataToDeviceAsync(null, frame);
         });
     }
 
@@ -577,11 +626,11 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
         {
             BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
-            Material = new DiffuseMaterial()
-            {
-                EnableUnLit = false,
-                DiffuseMap = LoadTextureByStream(e.FrameStream)
-            };
+            //Material = new DiffuseMaterial()
+            //{
+            //    EnableUnLit = false,
+            //    DiffuseMap = LoadTextureByStream(e.FrameStream)
+            //};
 
 
             var nodeList = HeadModel.GroupNode;

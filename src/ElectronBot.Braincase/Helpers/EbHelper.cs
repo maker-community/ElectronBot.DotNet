@@ -262,6 +262,59 @@ public class EbHelper
     }
 
     /// <summary>
+    /// 量子纠缠带动作
+    /// </summary>
+    /// <param name="softwareBitmap"></param>
+    /// <param name="frameData"></param>
+    /// <returns></returns>
+    public static async Task ShowDataToDeviceAsync(SoftwareBitmap? softwareBitmap, EmoticonActionFrame? frameData = null)
+    {
+        if (softwareBitmap != null)
+        {
+            using IRandomAccessStream stream = new InMemoryRandomAccessStream();
+
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+
+            // Set the software bitmap
+            encoder.SetSoftwareBitmap(softwareBitmap);
+
+            await encoder.FlushAsync();
+
+            var image = new Bitmap(stream.AsStream());
+
+            var mat = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
+
+            var mat1 = mat.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Area);
+
+            var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+
+            var dataMeta = mat2.Data;
+
+            var data = new byte[240 * 240 * 3];
+
+            Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
+
+            var frame = new EmoticonActionFrame(data);
+
+            var service = App.GetService<EmoticonActionFrameService>();
+
+            ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(mat2.ToMemoryStream()));
+
+            await service.SendToUsbDeviceAsync(frame);
+        }
+        else
+        {
+            if (frameData != null)
+            {
+                ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(new MemoryStream(), false,
+                    frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6));
+
+                ElectronBotHelper.Instance.PlayEmoticonActionFrame(frameData);
+            }
+        }
+    }
+
+    /// <summary>
     /// 量子纠缠
     /// </summary>
     /// <param name="softwareBitmap"></param>
