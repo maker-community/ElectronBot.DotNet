@@ -732,4 +732,7 @@
   <data name="RightName" xml:space="preserve">
     <value>Right</value>
   </data>
+  <data name="Shell_PoseRecognition.Content" xml:space="preserve">
+    <value>Pose recognition</value>
+  </data>
 </root>

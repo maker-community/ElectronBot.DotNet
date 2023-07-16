@@ -143,6 +143,9 @@ public partial class App : Application
             services.AddTransient<GestureInteractionPage>();
             services.AddTransient<GestureInteractionViewModel>();
 
+            services.AddTransient<PoseRecognitionPage>();
+            services.AddTransient<PoseRecognitionViewModel>();
+
             services.AddTransient<RandomContentPage>();
             services.AddTransient<RandomContentViewModel>();
 

@@ -96,6 +96,7 @@
     <None Remove="Views\GestureClassificationPage.xaml" />
     <None Remove="Views\GestureInteractionPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
+    <None Remove="Views\PoseRecognitionPage.xaml" />
     <None Remove="Views\TodoPage.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -353,4 +354,12 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Views\PoseRecognitionPage.xaml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Resource Remove="Views\PoseRecognitionPage.xaml" />
+  </ItemGroup>
 </Project>

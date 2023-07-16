@@ -729,4 +729,7 @@
   <data name="RightName" xml:space="preserve">
     <value>右转</value>
   </data>
+  <data name="Shell_PoseRecognition.Content" xml:space="preserve">
+    <value>姿态识别</value>
+  </data>
 </root>
