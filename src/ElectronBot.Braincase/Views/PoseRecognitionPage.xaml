@@ -46,8 +46,19 @@
 
         <StackPanel Grid.Column="0" Margin="8">
             <Border
-                Width="400"
-                Height="400"
+                Width="100"
+                Height="100"
+                Margin="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{ThemeResource SystemAccentColor}"
+                BorderThickness="4"
+                CornerRadius="8">
+                <Image x:Name="FaceBox" Source="{x:Bind ViewModel.FaceBoxSource, Mode=OneWay}" />
+            </Border>
+            <Border
+                Width="360"
+                Height="240"
                 Margin="4"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"

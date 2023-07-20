@@ -267,7 +267,7 @@ public class EbHelper
     /// <param name="softwareBitmap"></param>
     /// <param name="frameData"></param>
     /// <returns></returns>
-    public static async Task ShowDataToDeviceAsync(SoftwareBitmap? softwareBitmap, EmoticonActionFrame? frameData = null)
+    public static async Task ShowDataToDeviceAsync(SoftwareBitmap? softwareBitmap, EmoticonActionFrame frameData)
     {
         if (softwareBitmap != null)
         {
@@ -294,23 +294,23 @@ public class EbHelper
 
             Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
 
-            var frame = new EmoticonActionFrame(data);
+            var frame = new EmoticonActionFrame(data, frameData.Enable,
+                frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6);
 
             var service = App.GetService<EmoticonActionFrameService>();
 
-            ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(mat2.ToMemoryStream()));
+            ElectronBotHelper.Instance.ModelActionInvoke(
+                new ModelActionFrame(mat2.ToMemoryStream(),
+                    false, frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6));
 
             await service.SendToUsbDeviceAsync(frame);
         }
         else
         {
-            if (frameData != null)
-            {
-                ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(new MemoryStream(), false,
-                    frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6));
+            ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(new MemoryStream(), false,
+                frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6));
 
-                ElectronBotHelper.Instance.PlayEmoticonActionFrame(frameData);
-            }
+            ElectronBotHelper.Instance.PlayEmoticonActionFrame(frameData);
         }
     }
 

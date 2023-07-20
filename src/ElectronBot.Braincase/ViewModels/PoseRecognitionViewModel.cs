@@ -36,6 +36,9 @@ using Windows.Media.Playback;
 using ElectronBot.Braincase.Extensions;
 using Vector3 = SharpDX.Vector3;
 using Verdure.ElectronBot.Core.Models;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Media.FaceAnalysis;
+using Windows.Media;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -138,9 +141,16 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
     [ObservableProperty]
     private Image _faceImage = new();
 
+    [ObservableProperty]
+    private SoftwareBitmapSource _faceBoxSource;
+
     SoftwareBitmap? _frameServerDest = null;
 
+    SoftwareBitmap? _faceSoftwareBitmap = null;
+
     private static PoseCpuSolution? calculator;
+
+    private FaceDetector _faceDetector;
     public Camera Camera
     {
         get;
@@ -503,6 +513,8 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
         _isInitialized = true;
 
         CameraBackground = new SolidColorBrush(Colors.Green);
+
+        _faceDetector = await FaceDetector.CreateAsync();
     }
 
     private void Current_SoftwareBitmapFramePosePredictResult(object? sender, PoseOutput e)
@@ -547,6 +559,19 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
                     e.PoseLandmarks.Landmark[13].Y * _frameServerDest.PixelHeight));
             RightWaveResultLabel = $"RightWave: {rightWaveAngle}";
 
+            var headAngle = AngleHelper.GetPointAngle(
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[11].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[11].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[12].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[12].Y * _frameServerDest.PixelHeight),
+                new System.Numerics.Vector2(e.PoseLandmarks.Landmark[0].X * _frameServerDest.PixelWidth,
+                    e.PoseLandmarks.Landmark[0].Y * _frameServerDest.PixelHeight));
+
+            if (headAngle > 90)
+            {
+                headAngle = 90;
+            }
+
             var canvasDevice = App.GetService<CanvasDevice>();
 
             if (_canvasImageSource == null)
@@ -575,15 +600,17 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
 
             var data = new byte[240 * 240 * 3];
 
-            var frame = new EmoticonActionFrame(data, true, 0, (rightWaveAngle / 180) * 30, rightUpAngle, (leftWaveAngle / 180) * 30, leftUpAngle, 0);
+            var frame = new EmoticonActionFrame(data, true, (headAngle / 90) * 15, (rightWaveAngle / 180) * 30, rightUpAngle, (leftWaveAngle / 180) * 30, leftUpAngle, 0);
 
             //待处理面部数据
-            await EbHelper.ShowDataToDeviceAsync(null, frame);
+            await EbHelper.ShowDataToDeviceAsync(_faceSoftwareBitmap, frame);
         });
     }
 
-    private void Current_SoftwareBitmapFrameCaptured(object? sender, SoftwareBitmapEventArgs e)
+    private async void Current_SoftwareBitmapFrameCaptured(object? sender, SoftwareBitmapEventArgs e)
     {
+        App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
+        {
         if (e.SoftwareBitmap is not null)
         {
 
@@ -597,8 +624,23 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
 
             _frameServerDest = e.SoftwareBitmap;
 
+            var face = await FaceDetectionAsync(e.SoftwareBitmap);
+
+            if (face is not null)
+            {
+
+                var source = new SoftwareBitmapSource();
+
+                await source.SetBitmapAsync(face);
+
+                _faceSoftwareBitmap = face;
+                // Set the source of the Image control
+                FaceBoxSource = source;
+
+            }
+
             _ = service.PosePredictResultUnUseQueueAsync(calculator, e.SoftwareBitmap);
-        }
+        } });
     }
 
     public async void UnLoaded()
@@ -626,12 +668,14 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
         {
             BodyModel.HxTransform3D = _bodyMt * Matrix.RotationY(MathUtil.DegreesToRadians((e.J6)));
 
-            //Material = new DiffuseMaterial()
-            //{
-            //    EnableUnLit = false,
-            //    DiffuseMap = LoadTextureByStream(e.FrameStream)
-            //};
-
+            if (e.FrameStream != null && e.FrameStream.Length > 0)
+            {
+                Material = new DiffuseMaterial()
+                {
+                    EnableUnLit = false,
+                    DiffuseMap = LoadTextureByStream(e.FrameStream)
+                };
+            }
 
             var nodeList = HeadModel.GroupNode;
 
@@ -756,5 +800,65 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
         {
 
         }
+    }
+
+    private async Task<SoftwareBitmap?> FaceDetectionAsync(SoftwareBitmap? imgSoftwareBitmap)
+    {
+        Debug.WriteLine("FrameCaptured");
+        Debug.WriteLine($"Frame evaluation started {DateTime.Now}");
+        if (imgSoftwareBitmap != null)
+        {
+            BitmapPixelFormat bpf = imgSoftwareBitmap.BitmapPixelFormat;
+
+            var uncroppedBitmap = SoftwareBitmap.Convert(imgSoftwareBitmap, BitmapPixelFormat.Nv12);
+            var faces = await _faceDetector.DetectFacesAsync(uncroppedBitmap);
+
+            if (faces.Count > 0)
+            {
+                //crop image to focus on face portion
+                var faceBox = faces[0].FaceBox;
+
+                VideoFrame inputFrame = VideoFrame.CreateWithSoftwareBitmap(imgSoftwareBitmap);
+
+                VideoFrame tmp = null;
+
+                tmp = new VideoFrame(imgSoftwareBitmap.BitmapPixelFormat, (int)(faceBox.Width + faceBox.Width % 2) - 2,
+                    (int)(faceBox.Height + faceBox.Height % 2) - 2);
+
+                await inputFrame.CopyToAsync(tmp, faceBox, null);
+
+                if (tmp.SoftwareBitmap is not null)
+                {
+                    return tmp.SoftwareBitmap;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static BitmapBounds GetCropBounds(int srcWidth, int srcHeight, int targetWidth, int targetHeight)
+    {
+        var modelHeight = targetHeight;
+        var modelWidth = targetWidth;
+        BitmapBounds bounds = new BitmapBounds();
+        // we need to recalculate the crop bounds in order to correctly center-crop the input image
+        float flRequiredAspectRatio = (float)modelWidth / modelHeight;
+
+        if (flRequiredAspectRatio * srcHeight > (float)srcWidth)
+        {
+            // clip on the y axis
+            bounds.Height = (uint)Math.Min((srcWidth / flRequiredAspectRatio + 0.5f), srcHeight);
+            bounds.Width = (uint)srcWidth;
+            bounds.X = 0;
+            bounds.Y = (uint)(srcHeight - bounds.Height) / 2;
+        }
+        else // clip on the x axis
+        {
+            bounds.Width = (uint)Math.Min((flRequiredAspectRatio * srcHeight + 0.5f), srcWidth);
+            bounds.Height = (uint)srcHeight;
+            bounds.X = (uint)(srcWidth - bounds.Width) / 2; ;
+            bounds.Y = 0;
+        }
+        return bounds;
     }
 }
