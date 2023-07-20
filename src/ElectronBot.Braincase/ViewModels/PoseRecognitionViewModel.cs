@@ -569,9 +569,15 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
                     new System.Numerics.Vector2(e.PoseLandmarks.Landmark[0].X * _frameServerDest.PixelWidth,
                         e.PoseLandmarks.Landmark[0].Y * _frameServerDest.PixelHeight));
 
-                if (headAngle > 90)
+                float j1 = 0;
+                if (headAngle < 90)
                 {
-                    headAngle = 90;
+                    headAngle = 180 - headAngle;
+                    j1 = (headAngle / 180) * 20;
+                }
+                else if (headAngle > 90)
+                {
+                    j1 = (headAngle / 180) * 15 * (-1);
                 }
 
                 var canvasDevice = App.GetService<CanvasDevice>();
@@ -602,7 +608,7 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
 
                 var data = new byte[240 * 240 * 3];
 
-                var frame = new EmoticonActionFrame(data, true, (headAngle / 90) * 15, (rightWaveAngle / 180) * 30, rightUpAngle, (leftWaveAngle / 180) * 30, leftUpAngle, 0);
+                var frame = new EmoticonActionFrame(data, true, j1, (rightWaveAngle / 180) * 30, rightUpAngle, (leftWaveAngle / 180) * 30, leftUpAngle, 0);
 
                 //待处理面部数据
                 await EbHelper.ShowDataToDeviceAsync(_faceSoftwareBitmap, frame);
