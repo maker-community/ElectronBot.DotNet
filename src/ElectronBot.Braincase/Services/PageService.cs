@@ -26,6 +26,7 @@ public class PageService : IPageService
         Configure<GamepadViewModel, GamepadPage>();
         Configure<GestureClassificationViewModel, GestureClassificationPage>();
         Configure<GestureInteractionViewModel, GestureInteractionPage>();
+        Configure<PoseRecognitionViewModel, PoseRecognitionPage>();
     }
 
     public Type GetPageType(string key)
