@@ -122,9 +122,16 @@ public static class HandDataFormatHelper
             // Make a single prediction on the sample data and print results
             var predictionResult = MLModel1.Predict(sampleData);
 
-            Debug.WriteLine(predictionResult.PredictedLabel);
+            if (predictionResult.Score.Length > 0)
+            {
+                var ret = predictionResult.Score.ToList().Max();
 
-            return predictionResult.PredictedLabel;
+                Debug.WriteLine($"label:{predictionResult.PredictedLabel}--score:{ret}");
+                if (ret > 0.99)
+                {
+                    return predictionResult.PredictedLabel;
+                }
+            }
         }
         return "";
     }

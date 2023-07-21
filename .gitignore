@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/src/ElectronBot.Braincase/VFS/SystemX64/mediapipe/modules/pose_landmark/pose_landmark_full.tflite
+/src/ElectronBot.Braincase/VFS/SystemX64/mediapipe/modules/pose_landmark/pose_landmark_heavy.tflite
+/src/ElectronBot.Braincase/VFS/SystemX64/mediapipe/modules/pose_landmark/pose_landmark_lite.tflite

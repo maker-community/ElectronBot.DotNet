@@ -91,11 +91,32 @@
     <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_full.tflite" />
     <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_gpu.pbtxt" />
     <None Remove="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_model_loader.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_detection\BUILD" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_detection\pose_detection.tflite" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_detection\pose_detection_cpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_detection\pose_detection_gpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\BUILD" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_detection_to_roi.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmarks_and_segmentation_inverse_projection.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmarks_to_roi.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_by_roi_cpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_by_roi_gpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_cpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_filtering.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_full.tflite" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_gpu.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_heavy.tflite" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_lite.tflite" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_model_loader.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_topology.svg" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_segmentation_filtering.pbtxt" />
+    <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\tensors_to_pose_landmarks_and_segmentation.pbtxt" />
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\GamepadPage.xaml" />
     <None Remove="Views\GestureClassificationPage.xaml" />
     <None Remove="Views\GestureInteractionPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
+    <None Remove="Views\PoseRecognitionPage.xaml" />
     <None Remove="Views\TodoPage.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +163,66 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="VFS\SystemX64\mediapipe\modules\palm_detection\palm_detection_model_loader.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_detection\BUILD">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_detection\pose_detection.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_detection\pose_detection_cpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_detection\pose_detection_gpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\BUILD">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_detection_to_roi.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmarks_and_segmentation_inverse_projection.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmarks_to_roi.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_by_roi_cpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_by_roi_gpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_cpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_filtering.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_full.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_gpu.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_heavy.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_lite.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_model_loader.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_topology.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_segmentation_filtering.pbtxt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\tensors_to_pose_landmarks_and_segmentation.pbtxt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -353,4 +434,12 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Views\PoseRecognitionPage.xaml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Resource Remove="Views\PoseRecognitionPage.xaml" />
+  </ItemGroup>
 </Project>

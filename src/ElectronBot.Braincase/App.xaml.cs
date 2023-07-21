@@ -143,6 +143,9 @@ public partial class App : Application
             services.AddTransient<GestureInteractionPage>();
             services.AddTransient<GestureInteractionViewModel>();
 
+            services.AddTransient<PoseRecognitionPage>();
+            services.AddTransient<PoseRecognitionViewModel>();
+
             services.AddTransient<RandomContentPage>();
             services.AddTransient<RandomContentViewModel>();
 
@@ -189,6 +192,8 @@ public partial class App : Application
             services.AddSingleton<EmoticonActionFrameService>();
 
             services.AddSingleton<GestureClassificationService>();
+
+            services.AddSingleton<PoseRecognitionService>();
 
 
             services.AddTransient<IChatbotClient, ChatGPTChatbotClient>();
