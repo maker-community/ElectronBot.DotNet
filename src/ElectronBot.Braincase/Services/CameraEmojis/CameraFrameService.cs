@@ -12,6 +12,7 @@ using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 using Windows.Storage.Streams;
+using Mediapipe.Net.Solutions;
 
 namespace ElectronBot.Braincase.Services;
 
@@ -28,6 +29,8 @@ public class CameraFrameService
     public event EventHandler<SoftwareBitmapEventArgs> SoftwareBitmapFrameCaptured;
 
     public event EventHandler<string> SoftwareBitmapFrameHandPredictResult;
+
+    public event EventHandler<PoseOutput> SoftwareBitmapFramePosePredictResult;
 
     private IReadOnlyDictionary<MediaFrameSourceKind, FrameRenderer> _frameRenderers;
 
@@ -48,6 +51,11 @@ public class CameraFrameService
     public void NotifyHandPredictResult(string result)
     {
         SoftwareBitmapFrameHandPredictResult?.Invoke(this, result);
+    }
+
+    public void NotifyPosePredictResult(PoseOutput result)
+    {
+        SoftwareBitmapFramePosePredictResult?.Invoke(this, result);
     }
 
     /// <summary>
