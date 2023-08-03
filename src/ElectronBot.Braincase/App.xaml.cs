@@ -146,6 +146,9 @@ public partial class App : Application
             services.AddTransient<PoseRecognitionPage>();
             services.AddTransient<PoseRecognitionViewModel>();
 
+            services.AddTransient<MoviePage>();
+            services.AddTransient<MovieViewModel>();
+
             services.AddTransient<RandomContentPage>();
             services.AddTransient<RandomContentViewModel>();
 
