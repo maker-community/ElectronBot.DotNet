@@ -201,19 +201,13 @@
     <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_filtering.pbtxt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_full.tflite">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_gpu.pbtxt">
+	  <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_gpu.pbtxt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_heavy.tflite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_lite.tflite">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_model_loader.pbtxt">
+	  <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_model_loader.pbtxt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="VFS\SystemX64\mediapipe\modules\pose_landmark\pose_landmark_topology.svg">
