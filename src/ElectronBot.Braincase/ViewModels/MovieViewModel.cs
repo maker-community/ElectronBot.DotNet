@@ -49,20 +49,12 @@ using Microsoft.Graphics.DirectX;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Hosting;
 using Windows.Storage.Streams;
+using System.Runtime.InteropServices;
 
 namespace ElectronBot.Braincase.ViewModels;
 
 public partial class MovieViewModel : ObservableRecipient
 {
-
-    /// <summary>
-    /// 姿态数据
-    ///</summary>
-    [ObservableProperty]
-    ImageSource _poseImageSource;
-
-    CanvasImageSource? _canvasImageSource = null;
-
     public IEffectsManager EffectsManager
     {
         get;
@@ -148,16 +140,6 @@ public partial class MovieViewModel : ObservableRecipient
 
     [ObservableProperty] private SolidColorBrush _cameraBackground = new(Colors.Red);
 
-    [ObservableProperty]
-    private Image _faceImage = new();
-
-    [ObservableProperty]
-    private SoftwareBitmapSource _faceBoxSource;
-
-    SoftwareBitmap? _frameServerDest = null;
-
-    SoftwareBitmap? _faceSoftwareBitmap = null;
-
     private static PoseCpuSolution? calculator;
 
     private FaceDetector _faceDetector;
@@ -183,9 +165,17 @@ public partial class MovieViewModel : ObservableRecipient
     private CanvasBitmap _currentFrame;
     private string _screenshotFilename = "test.png";
 
-    public MovieViewModel(IEffectsManager effectsManager)
+
+    private PoseRecognitionService _poseRecognitionService;
+    private DateTime _lastFrameTime = DateTime.Now;
+
+    private byte[] _faceData = new byte[240 * 240 * 3];
+
+    public MovieViewModel(IEffectsManager effectsManager,PoseRecognitionService poseRecognitionService)
     {
         EffectsManager = effectsManager;
+
+        _poseRecognitionService = poseRecognitionService;
 
         Material = new DiffuseMaterial()
         {
@@ -501,7 +491,7 @@ public partial class MovieViewModel : ObservableRecipient
 
                 FocusCameraToScene();
 
-                ElectronBotHelper.Instance.ModelActionFrame += Instance_ModelActionFrame;
+                //ElectronBotHelper.Instance.ModelActionFrame += Instance_ModelActionFrame;
 
                 await InitAsync();
 
@@ -548,8 +538,6 @@ public partial class MovieViewModel : ObservableRecipient
     {
         if (_isInitialized)
         {
-            CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
-
             CameraFrameService.Current.SoftwareBitmapFramePosePredictResult -= Current_SoftwareBitmapFramePosePredictResult;
             await CameraFrameService.Current.CleanupMediaCaptureAsync();
         }
@@ -561,10 +549,6 @@ public partial class MovieViewModel : ObservableRecipient
 
     private async Task InitializeScreenAsync()
     {
-        //await CameraFrameService.Current.PickNextMediaSourceWorkerAsync(FaceImage);
-
-        CameraFrameService.Current.SoftwareBitmapFrameCaptured += Current_SoftwareBitmapFrameCaptured;
-
         CameraFrameService.Current.SoftwareBitmapFramePosePredictResult += Current_SoftwareBitmapFramePosePredictResult;
 
         _isInitialized = true;
@@ -609,49 +593,49 @@ public partial class MovieViewModel : ObservableRecipient
             try
             {
                 var leftUpAngle = AngleHelper.GetPointAngle(
-            new System.Numerics.Vector2(e.PoseLandmarks.Landmark[24].X * _frameServerDest.PixelWidth,
-                e.PoseLandmarks.Landmark[24].Y * _frameServerDest.PixelHeight),
-            new System.Numerics.Vector2(e.PoseLandmarks.Landmark[14].X * _frameServerDest.PixelWidth,
-                e.PoseLandmarks.Landmark[14].Y * _frameServerDest.PixelHeight),
-            new System.Numerics.Vector2(e.PoseLandmarks.Landmark[12].X * _frameServerDest.PixelWidth,
-                e.PoseLandmarks.Landmark[12].Y * _frameServerDest.PixelHeight));
+            new System.Numerics.Vector2(e.PoseLandmarks.Landmark[24].X * _lastSize.Width,
+                e.PoseLandmarks.Landmark[24].Y * _lastSize.Height),
+            new System.Numerics.Vector2(e.PoseLandmarks.Landmark[14].X * _lastSize.Width,
+                e.PoseLandmarks.Landmark[14].Y * _lastSize.Height),
+            new System.Numerics.Vector2(e.PoseLandmarks.Landmark[12].X * _lastSize.Width,
+                e.PoseLandmarks.Landmark[12].Y * _lastSize.Height));
                 LeftUpResultLabel = $"LeftUp: {leftUpAngle}";
 
                 var rightUpAngle = AngleHelper.GetPointAngle(
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[13].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[13].Y * _frameServerDest.PixelHeight),
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[23].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[23].Y * _frameServerDest.PixelHeight),
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[11].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[11].Y * _frameServerDest.PixelHeight));
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[13].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[13].Y * _lastSize.Height),
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[23].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[23].Y * _lastSize.Height),
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[11].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[11].Y * _lastSize.Height));
                 RightUpResultLabel = $"RightUp: {rightUpAngle}";
 
 
                 var leftWaveAngle = AngleHelper.GetPointAngle(
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[16].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[16].Y * _frameServerDest.PixelHeight),
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[12].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[12].Y * _frameServerDest.PixelHeight),
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[14].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[14].Y * _frameServerDest.PixelHeight));
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[16].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[16].Y * _lastSize.Height),
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[12].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[12].Y * _lastSize.Height),
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[14].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[14].Y * _lastSize.Height));
                 LeftWaveResultLabel = $"LeftWave: {leftWaveAngle}";
 
                 var rightWaveAngle = AngleHelper.GetPointAngle(
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[15].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[15].Y * _frameServerDest.PixelHeight),
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[11].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[11].Y * _frameServerDest.PixelHeight),
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[13].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[13].Y * _frameServerDest.PixelHeight));
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[15].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[15].Y * _lastSize.Height),
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[11].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[11].Y * _lastSize.Height),
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[13].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[13].Y * _lastSize.Height));
                 RightWaveResultLabel = $"RightWave: {rightWaveAngle}";
 
                 var headAngle = AngleHelper.GetPointAngle(
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[11].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[11].Y * _frameServerDest.PixelHeight),
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[12].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[12].Y * _frameServerDest.PixelHeight),
-                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[0].X * _frameServerDest.PixelWidth,
-                        e.PoseLandmarks.Landmark[0].Y * _frameServerDest.PixelHeight));
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[11].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[11].Y * _lastSize.Height),
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[12].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[12].Y * _lastSize.Height),
+                    new System.Numerics.Vector2(e.PoseLandmarks.Landmark[0].X * _lastSize.Width,
+                        e.PoseLandmarks.Landmark[0].Y * _lastSize.Height));
 
                 float j1 = 0;
                 if (headAngle < 90)
@@ -664,82 +648,11 @@ public partial class MovieViewModel : ObservableRecipient
                     j1 = (headAngle / 180) * 15 * (-1);
                 }
 
-                //var canvasDevice = App.GetService<CanvasDevice>();
 
-                //if (_canvasImageSource == null)
-                //{
-                //    _canvasImageSource = new CanvasImageSource(canvasDevice, _frameServerDest.PixelWidth, _frameServerDest.PixelHeight, 96);//96); 
-
-                //    PoseImageSource = _canvasImageSource;
-                //}
-
-                //using var inputBitmap = CanvasBitmap.CreateFromSoftwareBitmap(canvasDevice, _frameServerDest);
-
-                //using var ds = _canvasImageSource.CreateDrawingSession(Microsoft.UI.Colors.Black);
-                //ds.DrawImage(inputBitmap);
-                //var poseLineList = e.GetPoseLines(_frameServerDest.PixelWidth, _frameServerDest.PixelHeight);
-                //foreach (var postLine in poseLineList)
-                //{
-                //    ds.DrawLine(postLine.StartVector2, postLine.EndVector2, Microsoft.UI.Colors.Green, 8);
-                //}
-                //foreach (var Landmark in e?.PoseLandmarks?.Landmark)
-                //{
-
-                //    var x = (int)_frameServerDest.PixelWidth * Landmark.X;
-                //    var y = (int)_frameServerDest.PixelHeight * Landmark.Y;
-                //    ds.DrawCircle(x, y, 4, Microsoft.UI.Colors.Red, 8);
-                //}
-
-                var data = new byte[240 * 240 * 3];
-
-                var frame = new EmoticonActionFrame(data, true, j1, (rightWaveAngle / 180) * 30, rightUpAngle, (leftWaveAngle / 180) * 30, leftUpAngle, 0);
+                var frame = new EmoticonActionFrame(_faceData, true, j1, (rightWaveAngle / 180) * 30, rightUpAngle, (leftWaveAngle / 180) * 30, leftUpAngle, 0);
 
                 //待处理面部数据
-                await EbHelper.ShowDataToDeviceAsync(_faceSoftwareBitmap, frame);
-            }
-            catch (Exception ex)
-            {
-                ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(3));
-            }
-        });
-    }
-
-    private async void Current_SoftwareBitmapFrameCaptured(object? sender, SoftwareBitmapEventArgs e)
-    {
-        App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
-        {
-            try
-            {
-                if (e.SoftwareBitmap is not null)
-                {
-
-                    if (e.SoftwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 ||
-                        e.SoftwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight)
-                    {
-                        e.SoftwareBitmap = SoftwareBitmap.Convert(
-                            e.SoftwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
-                    }
-                    var service = App.GetService<PoseRecognitionService>();
-
-                    _frameServerDest = e.SoftwareBitmap;
-
-                    var face = await FaceDetectionAsync(e.SoftwareBitmap);
-
-                    if (face is not null)
-                    {
-
-                        var source = new SoftwareBitmapSource();
-
-                        await source.SetBitmapAsync(face);
-
-                        _faceSoftwareBitmap = face;
-                        // Set the source of the Image control
-                        FaceBoxSource = source;
-
-                    }
-
-                    _ = service.PosePredictResultUnUseQueueAsync(calculator, e.SoftwareBitmap);
-                }
+                await EbHelper.ShowDataToDeviceAsync(null, frame);
             }
             catch (Exception ex)
             {
@@ -759,15 +672,12 @@ public partial class MovieViewModel : ObservableRecipient
         EffectsManager.Dispose();
         _importer.Dispose();
 
-        CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
-
         CameraFrameService.Current.SoftwareBitmapFramePosePredictResult -= Current_SoftwareBitmapFramePosePredictResult;
         var service = App.GetService<EmoticonActionFrameService>();
         service.ClearQueue();
         await CleanUpAsync();
 
-        _frameServerDest?.Dispose();
-        _faceSoftwareBitmap?.Dispose();
+        StopCapture();
     }
 
     private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
@@ -1042,25 +952,58 @@ public partial class MovieViewModel : ObservableRecipient
             // Take the D3D11 surface and draw it into a  
             // Composition surface.
 
-            // Convert our D3D11 surface into a Win2D object.
-            CanvasBitmap canvasBitmap = CanvasBitmap.CreateFromDirect3D11Surface(
+            using var canvasBitmap = CanvasBitmap.CreateFromDirect3D11Surface(
                 _canvasDevice,
                 frame.Surface);
 
-            using IRandomAccessStream stream = new InMemoryRandomAccessStream();
+            // Convert our D3D11 surface into a Win2D object.
+            if (DateTime.Now - _lastFrameTime >= TimeSpan.FromSeconds(1.0 / 20))
+            {
+                _lastFrameTime = DateTime.Now;
 
-            await canvasBitmap.SaveAsync(stream, CanvasBitmapFileFormat.Png);
 
-            _currentFrame = canvasBitmap;
+                using IRandomAccessStream stream = new InMemoryRandomAccessStream();
 
-            var decoder = await BitmapDecoder.CreateAsync(stream);
+                await canvasBitmap.SaveAsync(stream, CanvasBitmapFileFormat.Png);
 
-            var softwareBitmap = await decoder.GetSoftwareBitmapAsync();
+                ////_currentFrame = canvasBitmap;
 
-            CameraFrameService.Current.SoftwareBitmapFrameCapturedResult(softwareBitmap);
+                var decoder = await BitmapDecoder.CreateAsync(stream);
+                
+                using var softwareBitmap = await decoder.GetSoftwareBitmapAsync(); 
+                
+                using var face = await FaceDetectionAsync(softwareBitmap);
 
-            // Helper that handles the drawing for us.
-            //FillSurfaceWithBitmap(canvasBitmap);
+                if (face is not null)
+                {
+                    using IRandomAccessStream faceStream = new InMemoryRandomAccessStream();
+
+                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, faceStream);
+
+                    // Set the software bitmap
+                    encoder.SetSoftwareBitmap(face);
+
+                    await encoder.FlushAsync();
+
+                    using var image = new System.Drawing.Bitmap(faceStream.AsStream());
+
+                    var mat = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
+
+                    var mat1 = mat.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Area);
+
+                    var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+
+                    var dataMeta = mat2.Data;
+
+                    var faceData = new byte[240 * 240 * 3];
+
+                    Marshal.Copy(dataMeta, faceData, 0, 240 * 240 * 3);
+
+                    _faceData = faceData;
+                }
+
+                _ = _poseRecognitionService.PosePredictResultUnUseQueueAsync(calculator, null, stream.AsStream());
+            }
         }
 
         // This is the device-lost convention for Win2D.

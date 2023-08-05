@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Services;
@@ -23,8 +24,8 @@ namespace Services
 
 
         public async Task<PoseOutput?> PosePredictResultUnUseQueueAsync(
-            PoseCpuSolution? calculator, 
-            SoftwareBitmap softwareBitmap, CancellationToken cancellationToken = default)
+            PoseCpuSolution? calculator,
+            SoftwareBitmap? softwareBitmap, Stream? stream1 = null, CancellationToken cancellationToken = default)
         {
             if (_isProcessing)
             {
@@ -49,7 +50,7 @@ namespace Services
 
                     await encoder.FlushAsync();
 
-                    var image = new Bitmap(stream.AsStream());
+                    using var image = new Bitmap(stream.AsStream());
 
                     var matData = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
 
@@ -65,9 +66,9 @@ namespace Services
 
                     var widthStep = (int)mat2.Step();
 
-                    var imgframe = new ImageFrame(ImageFormat.Types.Format.Srgb, mat2.Width, mat2.Height, widthStep, data);
+                    using var imgFrame = new ImageFrame(ImageFormat.Types.Format.Srgb, mat2.Width, mat2.Height, widthStep, data);
 
-                    var handsOutput = _calculator!.Compute(imgframe);
+                    var handsOutput = _calculator!.Compute(imgFrame);
 
                     if (handsOutput.PoseLandmarks != null)
                     {
@@ -78,6 +79,42 @@ namespace Services
                         Debug.WriteLine("No hand landmarks");
                     }
                     _isProcessing = false;
+                }
+                else
+                {
+                    if (stream1 != null)
+                    {
+                        _isProcessing = true;
+                        using var image = new Bitmap(stream1);
+
+                        var matData = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
+
+                        var mat2 = matData.CvtColor(OpenCvSharp.ColorConversionCodes.BGR2RGB);
+
+                        var dataMeta = mat2.Data;
+
+                        var length = mat2.Width * mat2.Height * mat2.Channels();
+
+                        var data = new byte[length];
+
+                        Marshal.Copy(dataMeta, data, 0, length);
+
+                        var widthStep = (int)mat2.Step();
+
+                        using var imgFrame = new ImageFrame(ImageFormat.Types.Format.Srgb, mat2.Width, mat2.Height, widthStep, data);
+
+                        var handsOutput = _calculator!.Compute(imgFrame);
+
+                        if (handsOutput.PoseLandmarks != null)
+                        {
+                            CameraFrameService.Current.NotifyPosePredictResult(handsOutput);
+                        }
+                        else
+                        {
+                            Debug.WriteLine("No hand landmarks");
+                        }
+                        _isProcessing = false;
+                    }
                 }
             }
             catch (Exception e)
