@@ -976,7 +976,7 @@ public partial class MovieViewModel : ObservableRecipient
 
                 var transform = new BitmapTransform();
 
-                const float sourceImageHeightLimit = 400;
+                const float sourceImageHeightLimit = 1280;
 
                 if (decoder.PixelHeight > sourceImageHeightLimit)
                 {
@@ -987,35 +987,81 @@ public partial class MovieViewModel : ObservableRecipient
 
                 using var softwareBitmap = await decoder.GetSoftwareBitmapAsync(decoder.BitmapPixelFormat, BitmapAlphaMode.Premultiplied, transform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
 
-                using var face = await FaceDetectionAsync(softwareBitmap);
+                using var unCroppedBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Nv12);
 
-                if (face is not null)
+                var faces = await _faceDetector.DetectFacesAsync(unCroppedBitmap);
+
+                if (faces.Count > 0)
                 {
-                    using IRandomAccessStream faceStream = new InMemoryRandomAccessStream();
+                    //crop image to focus on face portion
+                    var faceBox = faces[0].FaceBox;
 
-                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, faceStream);
+                    using var inputFrame = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
 
-                    // Set the software bitmap
-                    encoder.SetSoftwareBitmap(face);
 
-                    await encoder.FlushAsync();
+                   using  var tmp = new VideoFrame(softwareBitmap.BitmapPixelFormat, (int)(faceBox.Width + faceBox.Width % 2) - 2,
+                        (int)(faceBox.Height + faceBox.Height % 2) - 2);
 
-                    using var image = new System.Drawing.Bitmap(faceStream.AsStream());
+                    await inputFrame.CopyToAsync(tmp, new BitmapBounds(faceBox.X - 20, faceBox.Y - 20, faceBox.Width + 40, faceBox.Height + 40), null);
 
-                    using var mat = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
+                    if (tmp.SoftwareBitmap is not null)
+                    {
+                        using IRandomAccessStream faceStream = new InMemoryRandomAccessStream();
 
-                    using var mat1 = mat.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Area);
+                        var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, faceStream);
 
-                    using var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+                        // Set the software bitmap
+                        encoder.SetSoftwareBitmap(tmp.SoftwareBitmap);
 
-                    var dataMeta = mat2.Data;
+                        await encoder.FlushAsync();
 
-                    var faceData = new byte[240 * 240 * 3];
+                        using var image = new System.Drawing.Bitmap(faceStream.AsStream());
 
-                    Marshal.Copy(dataMeta, faceData, 0, 240 * 240 * 3);
+                        using var mat = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
 
-                    _faceData = faceData;
+                        using var mat1 = mat.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Area);
+
+                        using var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+
+                        var dataMeta = mat2.Data;
+
+                        var faceData = new byte[240 * 240 * 3];
+
+                        Marshal.Copy(dataMeta, faceData, 0, 240 * 240 * 3);
+
+                        _faceData = faceData;
+                    }
                 }
+
+                //using var face = await FaceDetectionAsync(softwareBitmap);
+
+                //if (face is not null)
+                //{
+                //    using IRandomAccessStream faceStream = new InMemoryRandomAccessStream();
+
+                //    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, faceStream);
+
+                //    // Set the software bitmap
+                //    encoder.SetSoftwareBitmap(face);
+
+                //    await encoder.FlushAsync();
+
+                //    using var image = new System.Drawing.Bitmap(faceStream.AsStream());
+
+                //    using var mat = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
+
+                //    using var mat1 = mat.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Area);
+
+                //    using var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+
+                //    var dataMeta = mat2.Data;
+
+                //    var faceData = new byte[240 * 240 * 3];
+
+                //    Marshal.Copy(dataMeta, faceData, 0, 240 * 240 * 3);
+
+                //    _faceData = faceData;
+                //}
 
                 using var imagePose = new System.Drawing.Bitmap(stream.AsStream());
 
