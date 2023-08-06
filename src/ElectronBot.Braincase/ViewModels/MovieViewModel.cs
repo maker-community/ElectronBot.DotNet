@@ -50,6 +50,9 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Hosting;
 using Windows.Storage.Streams;
 using System.Runtime.InteropServices;
+using Mediapipe.Net.Framework.Format;
+using Mediapipe.Net.Framework.Protobuf;
+using Color = SharpDX.Color;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -171,7 +174,7 @@ public partial class MovieViewModel : ObservableRecipient
 
     private byte[] _faceData = new byte[240 * 240 * 3];
 
-    public MovieViewModel(IEffectsManager effectsManager,PoseRecognitionService poseRecognitionService)
+    public MovieViewModel(IEffectsManager effectsManager, PoseRecognitionService poseRecognitionService)
     {
         EffectsManager = effectsManager;
 
@@ -582,7 +585,7 @@ public partial class MovieViewModel : ObservableRecipient
         {
 
         }
-     
+
     }
 
     private void Current_SoftwareBitmapFramePosePredictResult(object? sender, PoseOutput e)
@@ -826,7 +829,7 @@ public partial class MovieViewModel : ObservableRecipient
         Debug.WriteLine($"Frame evaluation started {DateTime.Now}");
         if (imgSoftwareBitmap != null)
         {
-            BitmapPixelFormat bpf = imgSoftwareBitmap.BitmapPixelFormat;
+            var bpf = imgSoftwareBitmap.BitmapPixelFormat;
 
             var uncroppedBitmap = SoftwareBitmap.Convert(imgSoftwareBitmap, BitmapPixelFormat.Nv12);
             var faces = await _faceDetector.DetectFacesAsync(uncroppedBitmap);
@@ -836,14 +839,13 @@ public partial class MovieViewModel : ObservableRecipient
                 //crop image to focus on face portion
                 var faceBox = faces[0].FaceBox;
 
-                VideoFrame inputFrame = VideoFrame.CreateWithSoftwareBitmap(imgSoftwareBitmap);
+                using var inputFrame = VideoFrame.CreateWithSoftwareBitmap(imgSoftwareBitmap);
 
-                VideoFrame tmp = null;
 
-                tmp = new VideoFrame(imgSoftwareBitmap.BitmapPixelFormat, (int)(faceBox.Width + faceBox.Width % 2) - 2,
-                    (int)(faceBox.Height + faceBox.Height % 2) - 2);
+                var tmp = new VideoFrame(imgSoftwareBitmap.BitmapPixelFormat, (int)(faceBox.Width + faceBox.Width % 2) - 2,
+                     (int)(faceBox.Height + faceBox.Height % 2) - 2);
 
-                await inputFrame.CopyToAsync(tmp, faceBox, null);
+                await inputFrame.CopyToAsync(tmp, new BitmapBounds(faceBox.X - 20, faceBox.Y - 20, faceBox.Width + 40, faceBox.Height + 40), null);
 
                 if (tmp.SoftwareBitmap is not null)
                 {
@@ -957,7 +959,7 @@ public partial class MovieViewModel : ObservableRecipient
                 frame.Surface);
 
             // Convert our D3D11 surface into a Win2D object.
-            if (DateTime.Now - _lastFrameTime >= TimeSpan.FromSeconds(1.0 / 20))
+            if (DateTime.Now - _lastFrameTime >= TimeSpan.FromSeconds(1.0 / 25))
             {
                 _lastFrameTime = DateTime.Now;
 
@@ -969,9 +971,22 @@ public partial class MovieViewModel : ObservableRecipient
                 ////_currentFrame = canvasBitmap;
 
                 var decoder = await BitmapDecoder.CreateAsync(stream);
-                
-                using var softwareBitmap = await decoder.GetSoftwareBitmapAsync(); 
-                
+
+                //using var softwareBitmap = await decoder.GetSoftwareBitmapAsync();
+
+                var transform = new BitmapTransform();
+
+                const float sourceImageHeightLimit = 400;
+
+                if (decoder.PixelHeight > sourceImageHeightLimit)
+                {
+                    var scalingFactor = (float)sourceImageHeightLimit / (float)decoder.PixelHeight;
+                    transform.ScaledWidth = (uint)Math.Floor(decoder.PixelWidth * scalingFactor);
+                    transform.ScaledHeight = (uint)Math.Floor(decoder.PixelHeight * scalingFactor);
+                }
+
+                using var softwareBitmap = await decoder.GetSoftwareBitmapAsync(decoder.BitmapPixelFormat, BitmapAlphaMode.Premultiplied, transform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
+
                 using var face = await FaceDetectionAsync(softwareBitmap);
 
                 if (face is not null)
@@ -987,11 +1002,11 @@ public partial class MovieViewModel : ObservableRecipient
 
                     using var image = new System.Drawing.Bitmap(faceStream.AsStream());
 
-                    var mat = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
+                    using var mat = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
 
-                    var mat1 = mat.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Area);
+                    using var mat1 = mat.Resize(new OpenCvSharp.Size(240, 240), 0, 0, OpenCvSharp.InterpolationFlags.Area);
 
-                    var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+                    using var mat2 = mat1.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
 
                     var dataMeta = mat2.Data;
 
@@ -1002,7 +1017,36 @@ public partial class MovieViewModel : ObservableRecipient
                     _faceData = faceData;
                 }
 
-                _ = _poseRecognitionService.PosePredictResultUnUseQueueAsync(calculator, null, stream.AsStream());
+                using var imagePose = new System.Drawing.Bitmap(stream.AsStream());
+
+                using var matPoseData = OpenCvSharp.Extensions.BitmapConverter.ToMat(imagePose);
+
+                using var matPose2 = matPoseData.CvtColor(OpenCvSharp.ColorConversionCodes.BGR2RGB);
+
+                var dataMetaPose = matPose2.Data;
+
+                var length = matPose2.Width * matPose2.Height * matPose2.Channels();
+
+                var data = new byte[length];
+
+                Marshal.Copy(dataMetaPose, data, 0, length);
+
+                var widthStep = (int)matPose2.Step();
+
+                using var imgFrame = new ImageFrame(ImageFormat.Types.Format.Srgb, matPose2.Width, matPose2.Height, widthStep, data);
+
+                var handsOutput = calculator!.Compute(imgFrame);
+
+                if (handsOutput.PoseLandmarks != null)
+                {
+                    CameraFrameService.Current.NotifyPosePredictResult(handsOutput);
+                }
+                else
+                {
+                    Debug.WriteLine("No hand landmarks");
+                }
+
+                //_ = _poseRecognitionService.PosePredictResultUnUseQueueAsync(calculator, null, stream.AsStream());
             }
         }
 
