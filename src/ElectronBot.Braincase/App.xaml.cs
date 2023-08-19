@@ -63,6 +63,11 @@ public partial class App : Application
 
     public static WindowEx MainWindow { get; } = new MainWindow();
 
+    public static UIElement? AppTitlebar
+    {
+        get; set;
+    }
+
     public App()
     {
         InitializeComponent();
@@ -145,6 +150,9 @@ public partial class App : Application
 
             services.AddTransient<PoseRecognitionPage>();
             services.AddTransient<PoseRecognitionViewModel>();
+
+            services.AddTransient<MoviePage>();
+            services.AddTransient<MovieViewModel>();
 
             services.AddTransient<RandomContentPage>();
             services.AddTransient<RandomContentViewModel>();

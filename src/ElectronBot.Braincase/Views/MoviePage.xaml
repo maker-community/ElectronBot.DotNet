@@ -1,0 +1,65 @@
+﻿<Page
+    x:Class="ElectronBot.Braincase.Views.MoviePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hx="using:HelixToolkit.WinUI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="ModelLoadCompactOverlayPage_OnLoaded"
+    Unloaded="ModelLoadCompactOverlayPage_OnUnloaded"
+    mc:Ignorable="d">
+    <Grid
+        MaxWidth="1080"
+        MaxHeight="600"
+        Margin="24"
+        CornerRadius="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button
+            Height="40"
+            Margin="4"
+            BorderBrush="{ThemeResource SystemAccentColor}"
+            BorderThickness="2"
+            Command="{x:Bind ViewModel.StartCaptureCommand}"
+            Foreground="{ThemeResource SystemAccentColor}">
+            <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF7EE;" />
+        </Button>
+        <Grid
+            Grid.Row="1"
+            Margin="4"
+            CornerRadius="12">
+            <hx:Viewport3DX
+                x:Name="Viewport"
+                BackgroundColor="LightBlue"
+                Camera="{x:Bind ViewModel.Camera}"
+                CornerRadius="12"
+                EffectsManager="{x:Bind ViewModel.EffectsManager}"
+                FXAALevel="High"
+                FixedRotationPoint="{x:Bind ViewModel.ModelCentroidPoint}"
+                FixedRotationPointEnabled="True"
+                ManipulationMode="All"
+                ShowCameraInfo="False"
+                ShowCoordinateSystem="False"
+                ShowViewCube="False">
+                <hx:DirectionalLight3D Direction="{x:Bind ViewModel.Camera.LookDirection}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. HeadModel}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. BodyModel}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. RightArmModel}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. LeftArmModel}" />
+                <hx:Element3DPresenter Content="{x:Bind ViewModel. BaseModel}" />
+                <hx:EnvironmentMap3D Texture="{x:Bind ViewModel.EnvironmentMap, Mode=OneWay}" />
+            </hx:Viewport3DX>
+        </Grid>
+        <ProgressRing
+            x:Name="ModelProgressRing"
+            Grid.ColumnSpan="2"
+            Width="40"
+            Height="40"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsActive="False" />
+    </Grid>
+</Page>
