@@ -280,7 +280,7 @@ public class EbHelper
 
             await encoder.FlushAsync();
 
-            var image = new Bitmap(stream.AsStream());
+            using var image = new Bitmap(stream.AsStream());
 
             var mat = OpenCvSharp.Extensions.BitmapConverter.ToMat(image);
 
@@ -312,6 +312,7 @@ public class EbHelper
 
             ElectronBotHelper.Instance.PlayEmoticonActionFrame(frameData);
         }
+
     }
 
     /// <summary>

@@ -48,6 +48,14 @@ public class CameraFrameService
         _isProcessing = false;
     }
 
+    public void SoftwareBitmapFrameCapturedResult(SoftwareBitmap? softwareBitmap)
+    {
+        if (softwareBitmap != null)
+        {
+            SoftwareBitmapFrameCaptured?.Invoke(this, new SoftwareBitmapEventArgs(softwareBitmap));
+        }
+    }
+
     public void NotifyHandPredictResult(string result)
     {
         SoftwareBitmapFrameHandPredictResult?.Invoke(this, result);

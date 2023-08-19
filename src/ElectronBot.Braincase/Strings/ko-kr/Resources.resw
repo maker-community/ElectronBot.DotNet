@@ -735,4 +735,7 @@
   <data name="Shell_PoseRecognition.Content" xml:space="preserve">
     <value>포즈 인식</value>
   </data>
+  <data name="Shell_Movie.Content" xml:space="preserve">
+    <value>보기 모드</value>
+  </data>
 </root>

@@ -1,10 +1,13 @@
-﻿{
-    "profiles": {
-      "ElectronBot.Braincase (Package)": {
-        "commandName": "MsixPackage"
-      },
-      "ElectronBot.Braincase (Unpackaged)": {
-        "commandName": "Project"
-      }
+{
+  "profiles": {
+    "ElectronBot.Braincase (Package)": {
+      "commandName": "MsixPackage",
+      "remoteDebugEnabled": false,
+      "authenticationMode": "None",
+      "remoteDebugMachine": "192.168.3.225"
+    },
+    "ElectronBot.Braincase (Unpackaged)": {
+      "commandName": "Project"
     }
+  }
 }
