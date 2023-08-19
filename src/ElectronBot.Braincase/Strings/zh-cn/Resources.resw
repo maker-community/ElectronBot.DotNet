@@ -735,4 +735,7 @@
   <data name="Shell_PoseRecognition.Content" xml:space="preserve">
     <value>姿态识别</value>
   </data>
+  <data name="Shell_Movie.Content" xml:space="preserve">
+    <value>观影模式</value>
+  </data>
 </root>

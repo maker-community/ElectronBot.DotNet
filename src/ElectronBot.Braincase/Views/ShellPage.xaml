@@ -8,7 +8,6 @@
     xmlns:helpers="using:ElectronBot.Braincase.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource MainCustomAcrylicBrush}"
     Loaded="OnLoaded">
 
 
@@ -74,6 +73,11 @@
                 <NavigationViewItem x:Uid="Shell_PoseRecognition" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.PoseRecognitionViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE776;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_Movie" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.MovieViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE8B2;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_Todo" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.TodoViewModel">
