@@ -30,6 +30,8 @@ public class Constants
 
     public const string DefaultAudioNameKey = "DefaultAudioNameKey";
 
+    public const string CustomGestureAppConfigKey = "CustomGestureAppConfigKey";
+
     public const string DefaultCameraName = "USB";
 
     public const string MODEL_PATH = "ms-appx:///Assets//model.onnx";

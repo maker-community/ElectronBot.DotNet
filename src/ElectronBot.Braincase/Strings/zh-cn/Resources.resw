@@ -738,4 +738,25 @@
   <data name="Shell_Movie.Content" xml:space="preserve">
     <value>观影模式</value>
   </data>
+  <data name="Shell_GestureAppConfig.Content" xml:space="preserve">
+    <value>手势App配置</value>
+  </data>
+  <data name="GestureAppConfigTree_AppPath.Text" xml:space="preserve">
+    <value>APP路径</value>
+  </data>
+  <data name="GestureAppConfigTree_DeleteButton.Content" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="GestureAppConfigTree_GestureLabel.Text" xml:space="preserve">
+    <value>启动手势</value>
+  </data>
+  <data name="GestureAppConfigTree_Text.Text" xml:space="preserve">
+    <value>语音文本</value>
+  </data>
+  <data name="GestureAppConfig_Add.Content" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="GestureAppConfig_Save.Content" xml:space="preserve">
+    <value>保存</value>
+  </data>
 </root>

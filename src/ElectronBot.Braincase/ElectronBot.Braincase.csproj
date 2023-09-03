@@ -70,6 +70,7 @@
     <None Remove="Controls\ElectronBotModelLoader.xaml" />
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
     <None Remove="Controls\EmojisInfoPage.xaml" />
+    <None Remove="Controls\GestureAppConfigItems.xaml" />
     <None Remove="Controls\MarketplacePage.xaml" />
     <None Remove="Controls\RandomContentPage.xaml" />
     <None Remove="Controls\UploadEmojisPage.xaml" />
@@ -113,6 +114,7 @@
     <None Remove="VFS\SystemX64\mediapipe\modules\pose_landmark\tensors_to_pose_landmarks_and_segmentation.pbtxt" />
     <None Remove="Views\CameraEmojisPage.xaml" />
     <None Remove="Views\GamepadPage.xaml" />
+    <None Remove="Views\GestureAppConfigPage.xaml" />
     <None Remove="Views\GestureClassificationPage.xaml" />
     <None Remove="Views\GestureInteractionPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
@@ -331,6 +333,12 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\GestureAppConfigItems.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\GestureAppConfigPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\MoviePage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

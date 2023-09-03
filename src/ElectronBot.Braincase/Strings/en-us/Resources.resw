@@ -741,4 +741,25 @@
   <data name="Shell_Movie.Content" xml:space="preserve">
     <value>Viewing Mode</value>
   </data>
+  <data name="GestureAppConfigTree_AppPath.Text" xml:space="preserve">
+    <value>App Path</value>
+  </data>
+  <data name="GestureAppConfigTree_DeleteButton.Content" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="GestureAppConfigTree_GestureLabel.Text" xml:space="preserve">
+    <value>Start Gesture</value>
+  </data>
+  <data name="GestureAppConfigTree_Text.Text" xml:space="preserve">
+    <value>Speech Text</value>
+  </data>
+  <data name="GestureAppConfig_Add.Content" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="GestureAppConfig_Save.Content" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Shell_GestureAppConfig.Content" xml:space="preserve">
+    <value>Gesture App Config</value>
+  </data>
 </root>
