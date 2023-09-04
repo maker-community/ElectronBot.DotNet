@@ -69,6 +69,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     private readonly ElementTheme _elementTheme;
 
+    private GestureAppService _gestureAppService = new();
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public MainViewModel(
@@ -203,6 +204,10 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
             await InitializeScreenAsync();
         }
+
+        var gestureAppConfigs = (await _localSettingsService.ReadSettingAsync<List<GestureAppConfig>>
+                  (Constants.CustomGestureAppConfigKey)) ?? new List<GestureAppConfig>();
+        _gestureAppService.Init(gestureAppConfigs);
     }
 
     private async Task InitializeScreenAsync()
@@ -222,31 +227,36 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
             ResultLabel = e;
 
-            if (e == Constants.FingerHeart && _isBeginning == false)
+            //if (e == Constants.FingerHeart && _isBeginning == false)
+            //{
+            //    _isBeginning = true;
+
+            //    var config = (await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>
+            //    (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
+
+            //    var textList = config.AnswerText.Split(",").ToList();
+
+            //    var r = new Random().Next(textList.Count);
+
+            //    var text = textList[r];
+
+            //    ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
+
+            //    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text, true);
+            //}
+            //else if (e == Constants.FingerHeart && _isBeginning == true)
+            //{
+            //    //当前处于启动状态
+            //    //不做处理
+            //}
+            //else if (e == Constants.Land && _isBeginning == true)
+            //{
+            //    _isBeginning = false;
+            //}
+
+            if (!_gestureAppService.GetInExecuting())
             {
-                _isBeginning = true;
-
-                var config = (await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>
-                (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
-
-                var textList = config.AnswerText.Split(",").ToList();
-
-                var r = new Random().Next(textList.Count);
-
-                var text = textList[r];
-
-                ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
-
-                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text, true);
-            }
-            else if (e == Constants.FingerHeart && _isBeginning == true)
-            {
-                //当前处于启动状态
-                //不做处理
-            }
-            else if (e == Constants.Land && _isBeginning == true)
-            {
-                _isBeginning = false;
+                await _gestureAppService.Execute(ResultLabel);
             }
         });
     }

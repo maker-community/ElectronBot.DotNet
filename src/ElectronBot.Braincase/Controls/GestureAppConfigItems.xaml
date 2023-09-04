@@ -1,0 +1,96 @@
+<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<ItemsControl
+    x:Class="ElectronBot.Braincase.Controls.GestureAppConfigItems"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="GestureAppConfigTreesss"
+    mc:Ignorable="d">
+    <ItemsControl.Style>
+        <Style TargetType="ItemsControl">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border
+                            Margin="3"
+                            Padding="6"
+                            BorderBrush="#fff"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Margin="6" Orientation="Vertical">
+                                    <Grid Margin="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="70" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Uid="GestureAppConfigTree_AppPath" VerticalAlignment="Center" />
+                                            <TextBlock Margin="3,0,0,0" VerticalAlignment="Center" Text=":" />
+                                        </StackPanel>
+                                        <TextBox
+                                            Grid.Column="1"
+                                            Width="Auto"
+                                            Height="30"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Path=AppPath, Mode=TwoWay}" />
+                                    </Grid>
+                                    <Grid Margin="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="70" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Uid="GestureAppConfigTree_Text" VerticalAlignment="Center" />
+                                            <TextBlock Margin="3,0,0,0" VerticalAlignment="Center" Text=":" />
+                                        </StackPanel>
+                                        <TextBox
+                                            Grid.Column="1"
+                                            Width="Auto"
+                                            Height="30"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Path=SpeechText, Mode=TwoWay}" />
+                                    </Grid>
+                                    <Grid Margin="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="70" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Uid="GestureAppConfigTree_GestureLabel" VerticalAlignment="Center" />
+                                            <TextBlock Margin="3,0,0,0" VerticalAlignment="Center" Text=":" />
+                                        </StackPanel>
+                                        <ComboBox
+                                            Grid.Column="1"
+                                            Width="Auto"
+                                            Height="30"
+                                            HorizontalAlignment="Stretch"
+                                            ItemsSource="{Binding GestureLabels, ElementName='GestureAppConfigTreesss'}"
+                                            SelectedValue="{Binding GestureLabel, Mode=TwoWay}" />
+                                    </Grid>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <Button x:Uid="GestureAppConfigTree_DeleteButton" VerticalAlignment="Center" Click="DeleteButton_Click" Tag="{Binding Path=Id}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ItemsControl.Style>
+</ItemsControl>

@@ -162,6 +162,9 @@ public partial class App : Application
             services.AddTransient<GamepadViewModel>();
             services.AddTransient<GamepadPage>();
 
+            services.AddTransient<GestureAppConfigPage>();
+            services.AddTransient<GestureAppConfigViewModel>();
+
             services.AddTransient<LongShadow>();
 
             services.AddTransient<HiddenTextView>();
