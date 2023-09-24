@@ -31,7 +31,7 @@ public sealed partial class ImageCropperPage : Page
     {
         using IRandomAccessStream stream = new InMemoryRandomAccessStream();
 
-        await ImageCropper.SaveAsync(stream, CommunityToolkit.WinUI.UI.Controls.BitmapFileFormat.Png);
+        await ImageCropper.SaveAsync(stream, CommunityToolkit.WinUI.Controls.BitmapFileFormat.Png);
 
         var writeableBitmap = await BitmapTools.GetCroppedBitmapAsync(stream, new Point(0, 0), new Size(240, 240), 1);
 
