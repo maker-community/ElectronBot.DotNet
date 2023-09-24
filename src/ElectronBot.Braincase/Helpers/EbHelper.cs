@@ -526,6 +526,20 @@ public class EbHelper
         return false;
     }
 
+    /// <summary>
+    /// 语音唤醒组合键是否被按住
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsVioceEnabled()
+    {
+        // 检测Ctrl + Alt + Delete是否被按下
+        if (GetAsyncKeyState((int)System.Windows.Forms.Keys.ControlKey) < 0 && GetAsyncKeyState((int)System.Windows.Forms.Keys.Menu) < 0 && GetAsyncKeyState((int)System.Windows.Forms.Keys.Delete) < 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
     ///<summary>
     ///返回当前光标的位置(用来更换鼠标位置）
     ///lpPoint-POINTAPI，随同指针在屏幕像素坐标中的位置载入的一个结构
@@ -573,4 +587,7 @@ public class EbHelper
 
     [DllImport("user32.dll")]
     public static extern short GetKeyState(int nVirtKey);
+
+    [DllImport("user32.dll")]
+    public static extern short GetAsyncKeyState(int vKey);
 }
