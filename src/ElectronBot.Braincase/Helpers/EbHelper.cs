@@ -532,14 +532,73 @@ public class EbHelper
     /// <returns></returns>
     public static bool IsVioceEnabled()
     {
-        // 检测Ctrl + Alt + Delete是否被按下
-        if (GetAsyncKeyState((int)System.Windows.Forms.Keys.ControlKey) < 0 && GetAsyncKeyState((int)System.Windows.Forms.Keys.Menu) < 0 && GetAsyncKeyState((int)System.Windows.Forms.Keys.Delete) < 0)
-        {
-            return true;
-        }
-        return false;
+          // 检测Space + E是否被按下
+         if ((GetAsyncKeyState(0x20) & 0x8000) != 0 && (GetAsyncKeyState((int)'E') & 0x8000) != 0)
+         {
+             return true;
+         }
+         return false;
     }
+    /*
+    GitHub Copilot: 键盘虚拟键码是一个0到255之间的整数，用于表示键盘上的每个按键。以下是一些常见按键的虚拟键码：
 
+    - `VK_BACK`：0x08
+    - `VK_TAB`：0x09
+    - `VK_RETURN`：0x0D
+    - `VK_SHIFT`：0x10
+    - `VK_CONTROL`：0x11
+    - `VK_MENU`：0x12
+    - `VK_PAUSE`：0x13
+    - `VK_CAPITAL`：0x14
+    - `VK_ESCAPE`：0x1B
+    - `VK_SPACE`：0x20
+    - `VK_PRIOR`：0x21
+    - `VK_NEXT`：0x22
+    - `VK_END`：0x23
+    - `VK_HOME`：0x24
+    - `VK_LEFT`：0x25
+    - `VK_UP`：0x26
+    - `VK_RIGHT`：0x27
+    - `VK_DOWN`：0x28
+    - `VK_SELECT`：0x29
+    - `VK_PRINT`：0x2A
+    - `VK_EXECUTE`：0x2B
+    - `VK_SNAPSHOT`：0x2C
+    - `VK_INSERT`：0x2D
+    - `VK_DELETE`：0x2E
+    - `VK_HELP`：0x2F
+    - `VK_NUMPAD0`：0x60
+    - `VK_NUMPAD1`：0x61
+    - `VK_NUMPAD2`：0x62
+    - `VK_NUMPAD3`：0x63
+    - `VK_NUMPAD4`：0x64
+    - `VK_NUMPAD5`：0x65
+    - `VK_NUMPAD6`：0x66
+    - `VK_NUMPAD7`：0x67
+    - `VK_NUMPAD8`：0x68
+    - `VK_NUMPAD9`：0x69
+    - `VK_MULTIPLY`：0x6A
+    - `VK_ADD`：0x6B
+    - `VK_SEPARATOR`：0x6C
+    - `VK_SUBTRACT`：0x6D
+    - `VK_DECIMAL`：0x6E
+    - `VK_DIVIDE`：0x6F
+    - `VK_F1`：0x70
+    - `VK_F2`：0x71
+    - `VK_F3`：0x72
+    - `VK_F4`：0x73
+    - `VK_F5`：0x74
+    - `VK_F6`：0x75
+    - `VK_F7`：0x76
+    - `VK_F8`：0x77
+    - `VK_F9`：0x78
+    - `VK_F10`：0x79
+    - `VK_F11`：0x7A
+    - `VK_F12`：0x7B
+
+    注意，这只是一些常见按键的虚拟键码，键盘上还有很多其他按键，每个按键都有自己的虚拟键码。你可以使用`MapVirtualKey`函数将字符值转换为虚拟键码，或者使用`GetAsyncKeyState`函数检测虚拟键码对应的按键是否被按下。
+
+    */
     ///<summary>
     ///返回当前光标的位置(用来更换鼠标位置）
     ///lpPoint-POINTAPI，随同指针在屏幕像素坐标中的位置载入的一个结构
