@@ -269,6 +269,10 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                 ElectronBotHelper.Instance.ToPlayEmojisRandom();
             }
+            else if (args.Result.Text.ToUpper().StartsWith("启动"))
+            {
+               await  LaunchAppAsync(args.Result.Text.ToUpper().Replace("启动", ""));
+            }
             else
             {
                 try
@@ -336,5 +340,26 @@ public class SpeechAndTTSService : ISpeechAndTTSService
         }
     }
 
-
+    private async Task LaunchAppAsync(string appFullName)
+    {
+        var package = ElectronBotHelper.Instance.AppPackages.Where(x => x.DisplayName.ToUpper().StartsWith(appFullName.ToUpper())).FirstOrDefault();
+        if (ElectronBotHelper.Instance.AppPackages.Where(x => x.DisplayName.ToUpper().StartsWith(appFullName.ToUpper())).FirstOrDefault() == null)
+        {
+            package = ElectronBotHelper.Instance.AppPackages.Where(x => x.DisplayName.ToUpper().Contains(appFullName.ToUpper())).FirstOrDefault();
+        }
+        if (package != null)
+        {
+            try
+            {
+                await package.GetAppListEntries()[0].LaunchAsync();
+            }
+            catch(Exception ex)
+            {
+                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(3));
+                });
+            }
+        }
+    }
 }

@@ -12,6 +12,7 @@ using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
+using Windows.Management.Deployment;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 
@@ -148,6 +149,10 @@ public class ElectronBotHelper
 
 
     public SerialPort SerialPort { get; set; } = new SerialPort();
+
+    public List<Package> AppPackages = new ();
+
+    private PackageManager PackageManager { get; } = new PackageManager();
 
     public async Task InitAsync()
     {
@@ -617,5 +622,12 @@ public class ElectronBotHelper
     {
         frame.Actions = new OnlyAction(_angleList);
         ModelActionFrame?.Invoke(this, frame);
+    }
+
+    public void LoadAppList()
+    {
+        AppPackages.Clear();
+        AppPackages = PackageManager.FindPackagesForUser(string.Empty)
+           .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
     }
 }

@@ -452,6 +452,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
 
                 _timer.Start();
+                ElectronBotHelper.Instance.LoadAppList();
             }
             catch (Exception)
             {
