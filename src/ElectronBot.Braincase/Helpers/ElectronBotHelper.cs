@@ -29,6 +29,11 @@ public class ElectronBotHelper
         get; set;
     } = false;
 
+    public bool VoiceLock
+    {
+        get; set;
+    } = false;
+
     public bool UpLock
     {
         get;
@@ -517,6 +522,7 @@ public class ElectronBotHelper
             catch (Exception)
             {
                 PlayEmojisLock = false;
+                VoiceLock = false;
             }
         }
     }
@@ -594,6 +600,7 @@ public class ElectronBotHelper
         }
 
         PlayEmojisLock = false;
+        VoiceLock = false;
     }
 
     public void ToPlayEmojisRandom()

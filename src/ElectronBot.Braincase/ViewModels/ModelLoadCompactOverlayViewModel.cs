@@ -111,6 +111,13 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         get;
     } = new OrthographicCamera() { NearPlaneDistance = 1e-2, FarPlaneDistance = 1e4 };
 
+    private readonly DispatcherTimer _timer = new()
+    {
+        Interval = TimeSpan.FromMilliseconds(200)
+    };
+
+    [ObservableProperty] private string _voiceResult = string.Empty;
+
     public ModelLoadCompactOverlayViewModel(IEffectsManager effectsManager)
     {
         EffectsManager = effectsManager;
@@ -124,6 +131,30 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         var filePath = Package.Current.InstalledLocation.Path + "\\Assets\\Cubemap_Grandcanyon.dds";
 
         EnvironmentMap = LoadTextureByFullPath(filePath);
+
+        _timer.Tick += Timer_Tick;
+    }
+
+    private async void Timer_Tick(object? sender, object e)
+    {
+        var resultState = EbHelper.IsVoiceEnabled();
+
+        if (resultState)
+        {
+            VoiceResult = "快捷键按下";
+            var voiceLock = ElectronBotHelper.Instance.VoiceLock;
+
+            if (resultState && !voiceLock)
+            {
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync("主人需要帮忙吗", true);
+            }
+
+            ElectronBotHelper.Instance.VoiceLock = true;
+        }
+        else
+        {
+            VoiceResult = "快捷键松开";
+        }
     }
 
     [RelayCommand]
@@ -418,13 +449,16 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                 FocusCameraToScene();
 
                 ElectronBotHelper.Instance.ModelActionFrame += Instance_ModelActionFrame;
+
+
+                _timer.Start();
             }
             catch (Exception)
             {
                 ToastHelper.SendToast("模型加载失败", TimeSpan.FromSeconds(3));
             }
         });
-       
+
     }
 
     public void UnLoaded()
@@ -438,6 +472,8 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
         EffectsManager.Dispose();
         _importer.Dispose();
         ElectronBotHelper.Instance.PlayEmojisLock = false;
+
+        _timer.Stop();
     }
 
     private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame ex)
@@ -491,7 +527,7 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
                         {
 
                         }
-                       
+
                     }
                 }
             }

@@ -530,7 +530,7 @@ public class EbHelper
     /// 语音唤醒组合键是否被按住
     /// </summary>
     /// <returns></returns>
-    public static bool IsVioceEnabled()
+    public static bool IsVoiceEnabled()
     {
           // 检测Space + E是否被按下
          if ((GetAsyncKeyState(0x20) & 0x8000) != 0 && (GetAsyncKeyState((int)'E') & 0x8000) != 0)
