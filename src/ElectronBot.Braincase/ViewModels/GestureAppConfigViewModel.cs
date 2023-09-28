@@ -4,16 +4,21 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Contracts.ViewModels;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
+using Windows.Management.Deployment;
+using Controls;
+using Microsoft.UI.Xaml.Controls;
+using ElectronBot.Braincase.Core.Models;
 
 namespace ElectronBot.Braincase.ViewModels;
 
-public partial class GestureAppConfigViewModel : ObservableRecipient
+public partial class GestureAppConfigViewModel : ObservableRecipient,INavigationAware
 {
     private readonly ILocalSettingsService _localSettingsService;
 
@@ -24,6 +29,8 @@ public partial class GestureAppConfigViewModel : ObservableRecipient
         set => SetProperty(ref _gestureAppConfigs, value);
     }
 
+
+    private readonly PackageManager _packageManager = new();
     public List<string> GestureLabels { get; set; } = new()
     {
         Constants.Land,
@@ -38,6 +45,7 @@ public partial class GestureAppConfigViewModel : ObservableRecipient
         Constants.ThirdFinger,
     };
 
+    [ObservableProperty] private ObservableCollection<Package> _appPackages;
     public GestureAppConfigViewModel(ILocalSettingsService localSettingsService)
     {
         _localSettingsService = localSettingsService;
@@ -113,5 +121,52 @@ public partial class GestureAppConfigViewModel : ObservableRecipient
             Id = Guid.NewGuid().ToString(),
         };
         GestureAppConfigs.Add(gestureAppConfig);
+    }
+
+    [RelayCommand]
+    public async Task AddLaunchApp()
+    {
+        try
+        {
+            var theme = App.GetService<IThemeSelectorService>();
+            var addLaunchApDialog = new ContentDialog()
+            {
+                Title = "AddRandomContentTitle".GetLocalized(),
+                PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
+                CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = App.MainWindow.Content.XamlRoot,
+                Content = new LaunchAppPage(),
+                RequestedTheme = theme.Theme
+            };
+
+            addLaunchApDialog.Closed += LaunchAppDialog_Closed;
+
+            await addLaunchApDialog.ShowAsync();
+        }
+        catch
+        {
+
+        }
+    }
+
+    private async void LaunchAppDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+        var list = (await _localSettingsService.ReadSettingAsync<List<RandomContent>>(Constants.LaunchAppListKey)) ?? new List<RandomContent>();
+    }
+
+    public void OnNavigatedTo(object parameter)
+    {
+        Task.Run(() =>
+        {
+            var apps = _packageManager.FindPackagesForUser(string.Empty)
+                .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
+            App.MainWindow.DispatcherQueue.TryEnqueue(() => AppPackages = new ObservableCollection<Package>(apps));
+        });
+    }
+
+    public void OnNavigatedFrom()
+    {
+
     }
 }

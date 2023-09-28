@@ -18,6 +18,8 @@ public class Constants
 
     public const string RandomContentListKey = "RandomContentListKey";
 
+    public const string LaunchAppListKey = "LaunchAppListKey";
+
     public const string EmojisFolder = "EmojisAction";
 
     public const string EmojisTempFileFolder = "EmojisFileTemp";

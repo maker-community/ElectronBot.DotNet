@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <RootNamespace>ElectronBot.Braincase</RootNamespace>
     <ApplicationIcon>Assets/WindowIcon.ico</ApplicationIcon>
@@ -71,6 +71,7 @@
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
     <None Remove="Controls\EmojisInfoPage.xaml" />
     <None Remove="Controls\GestureAppConfigItems.xaml" />
+    <None Remove="Controls\LaunchAppPage.xaml" />
     <None Remove="Controls\MarketplacePage.xaml" />
     <None Remove="Controls\RandomContentPage.xaml" />
     <None Remove="Controls\UploadEmojisPage.xaml" />
@@ -242,14 +243,14 @@
     <PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.0.230907" />
     <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.16.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.8.0.20230708" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.8.0.20230708" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="System.Management" Version="7.0.2" />
-    <PackageReference Include="WinUIEx" Version="2.3.0" />
+    <PackageReference Include="WinUIEx" Version="2.3.1" />
     <PackageReference Include="HelixToolkit" Version="2.24.0" />
     <PackageReference Include="HelixToolkit.SharpDX.Assimp" Version="2.24.0" />
     <PackageReference Include="HelixToolkit.SharpDX.Core" Version="2.24.0" />
@@ -337,6 +338,9 @@
     </None>
     <Page Update="Controls\GestureAppConfigItems.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\LaunchAppPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Views\GestureAppConfigPage.xaml">
       <Generator>MSBuild:Compile</Generator>
