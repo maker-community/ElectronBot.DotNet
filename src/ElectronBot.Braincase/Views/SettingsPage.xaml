@@ -574,10 +574,7 @@
 
 
                 <StackPanel Margin="8">
-                    <Button
-                        x:Name="Call"
-                        Background="{ThemeResource MainCustomAcrylicBrush}"
-                        Command="{x:Bind ViewModel.FeedbackBtnCommand}">
+                    <Button x:Name="Call" Command="{x:Bind ViewModel.FeedbackBtnCommand}">
                         <Button.Content>
                             <StackPanel>
                                 <FontIcon
