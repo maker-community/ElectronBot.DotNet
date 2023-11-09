@@ -9,7 +9,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:package="using:Windows.ApplicationModel"
+    xmlns:package="using:Models"
     mc:Ignorable="d">
     <Grid x:Name="ContentArea">
         <Grid.RowDefinitions>
@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <StackPanel>
             <AppBarButton
-                x:Uid="AddRandomContentBtn"
+                x:Uid="AddAppStartConfigBtn"
                 HorizontalAlignment="Right"
                 Command="{x:Bind ViewModel.AddLaunchAppCommand}"
                 Foreground="{ThemeResource SystemAccentColor}">
@@ -36,7 +36,7 @@
                     <RowDefinition Height="36" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <StackPanel Margin="3" Orientation="Horizontal">
+                <!--<StackPanel Margin="3" Orientation="Horizontal">
                     <Button
                         x:Uid="GestureAppConfig_Add"
                         HorizontalAlignment="Left"
@@ -46,17 +46,17 @@
                         Margin="7,0,0,0"
                         HorizontalAlignment="Left"
                         Command="{x:Bind ViewModel.SaveConfigCommand}" />
-                </StackPanel>
+                </StackPanel>-->
                 <ScrollViewer Grid.Row="1">
                     <StackPanel>
-                        <cusControl:GestureAppConfigItems
+                        <!--<cusControl:GestureAppConfigItems
                             DeleteItemCommand="{x:Bind ViewModel.DelConfigCommand}"
                             GestureLabels="{x:Bind ViewModel.GestureLabels}"
-                            ItemsSource="{x:Bind ViewModel.GestureAppConfigs, Mode=TwoWay}" />
-                        <ListView ItemsSource="{x:Bind ViewModel.AppPackages, Mode=OneWay}">
+                            ItemsSource="{x:Bind ViewModel.GestureAppConfigs, Mode=TwoWay}" />-->
+                        <ListView ItemsSource="{x:Bind ViewModel.LaunchApps, Mode=OneWay}">
                             <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="package:Package">
-                                    <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind DisplayName}">
+                                <DataTemplate x:DataType="package:LaunchAppConfig">
+                                    <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind AppNameText}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" MinWidth="150" />
                                             <ColumnDefinition Width="*" />
@@ -69,21 +69,21 @@
                                                 FontWeight="SemiBold"
                                                 LineHeight="20"
                                                 Style="{ThemeResource BaseTextBlockStyle}"
-                                                Text="{x:Bind DisplayName}" />
+                                                Text="{x:Bind AppNameText}" />
                                             <TextBlock
                                                 Width="350"
                                                 HorizontalAlignment="Left"
                                                 FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                                                 FontWeight="Normal"
                                                 MaxLines="1"
-                                                Text="{x:Bind Description}"
+                                                Text="{x:Bind VoiceText}"
                                                 TextTrimming="CharacterEllipsis" />
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock
                                                     Margin="0,0,0,0"
                                                     HorizontalAlignment="Left"
                                                     Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Text="{x:Bind InstalledDate}" />
+                                                    Text="{x:Bind Win32Path}" />
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>

@@ -23,6 +23,7 @@ namespace Controls
         public LaunchAppPage()
         {
             ViewModel = App.GetService<LaunchAppViewModel>();
+            DataContext = ViewModel;
             this.InitializeComponent();
         }
     }

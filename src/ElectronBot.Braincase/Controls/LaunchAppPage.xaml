@@ -24,7 +24,7 @@
                 Height="600"
                 Margin="12">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="12" Orientation="Horizontal">
                         <TextBlock
                             Width="100"
                             VerticalAlignment="Center"
@@ -38,7 +38,7 @@
                             <RadioButton Content="Win32类型" />
                         </RadioButtons>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="12" Orientation="Horizontal">
                         <TextBlock
                             Width="100"
                             VerticalAlignment="Center"
@@ -49,7 +49,10 @@
                             Text="{x:Bind ViewModel.VoiceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             TextWrapping="NoWrap" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.Win32PathVisibility, Mode=OneWay}">
+                    <StackPanel
+                        Margin="12"
+                        Orientation="Horizontal"
+                        Visibility="{x:Bind ViewModel.Win32PathVisibility, Mode=OneWay}">
                         <TextBlock
                             Width="100"
                             VerticalAlignment="Center"
@@ -61,10 +64,13 @@
                             <FontIcon
                                 FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
                                 FontSize="48"
-                                Glyph="&#xE158;" />
+                                Glyph="&#xE838;" />
                         </Button>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.Win32PathVisibility, Mode=OneWay}">
+                    <StackPanel
+                        Margin="12"
+                        Orientation="Horizontal"
+                        Visibility="{x:Bind ViewModel.Win32PathVisibility, Mode=OneWay}">
                         <TextBlock
                             Width="100"
                             VerticalAlignment="Center"
@@ -77,26 +83,30 @@
                             TextWrapping="NoWrap" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.MsixVisibility, Mode=OneWay}">
+                    <StackPanel
+                        Margin="12"
+                        Orientation="Horizontal"
+                        Visibility="{x:Bind ViewModel.MsixVisibility, Mode=OneWay}">
                         <TextBlock
                             Width="100"
                             VerticalAlignment="Center"
                             Text="Msix应用选择:" />
                         <ComboBox
-                            x:Uid="ChangeClockViewCB"
+                            x:Uid="AddAppStartConfigBtnCB"
                             Width="120"
                             Margin="4"
                             VerticalAlignment="Center"
+                            DisplayMemberPath="DisplayName"
                             IsEditable="True"
                             ItemsSource="{x:Bind ViewModel.AppPackages, Mode=OneWay}"
                             SelectedItem="{x:Bind ViewModel.SelectPackage, Mode=TwoWay}"
                             SelectionChanged="{x:Bind ViewModel.Selector_OnSelectionChanged}"
                             TextSubmitted="{x:Bind ViewModel.ComboBox_OnTextSubmitted}">
-                            <ComboBox.ItemTemplate>
+                            <!--<ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="package:Package">
                                     <TextBlock Text="{x:Bind DisplayName}" />
                                 </DataTemplate>
-                            </ComboBox.ItemTemplate>
+                            </ComboBox.ItemTemplate>-->
                             <!--<i:Interaction.Behaviors>
                                 <ic:EventTriggerBehavior EventName="SelectionChanged">
                                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLaunchAppCommand}" />

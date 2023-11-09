@@ -759,4 +759,13 @@
   <data name="GestureAppConfig_Save.Content" xml:space="preserve">
     <value>保存</value>
   </data>
+  <data name="AddAppStartConfigBtn.Label" xml:space="preserve">
+    <value>添加应用启动配置</value>
+  </data>
+  <data name="AddAppStartConfigBtnCB.PlaceholderText" xml:space="preserve">
+    <value>选择应用</value>
+  </data>
+  <data name="AddAppStartConfigTitle" xml:space="preserve">
+    <value>添加应用启动配置</value>
+  </data>
 </root>

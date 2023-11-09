@@ -34,6 +34,8 @@ public class Constants
 
     public const string CustomGestureAppConfigKey = "CustomGestureAppConfigKey";
 
+    public const string LaunchAppConfigKey = "LaunchAppConfigKey";
+
     public const string DefaultCameraName = "USB";
 
     public const string MODEL_PATH = "ms-appx:///Assets//model.onnx";

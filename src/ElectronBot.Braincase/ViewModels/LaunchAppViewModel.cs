@@ -1,20 +1,12 @@
 ﻿using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.Windows.Input;
-using Windows.ApplicationModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Controls;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Services;
+using Models;
+using Windows.ApplicationModel;
 using Windows.Management.Deployment;
-using Windows.Storage;
 
 
 namespace ElectronBot.Braincase.ViewModels;
@@ -29,7 +21,11 @@ public partial class LaunchAppViewModel : ObservableRecipient
 
     [ObservableProperty] private string _VoiceText;
 
-    [ObservableProperty] private Package _selectPackage;
+    [ObservableProperty] private string _appNameText;
+
+    [ObservableProperty] private bool _IsMsix = true;
+
+    [ObservableProperty] private Package? _selectPackage;
 
     private readonly ILocalSettingsService _localSettingsService;
 
@@ -40,13 +36,17 @@ public partial class LaunchAppViewModel : ObservableRecipient
 
     public void ComboBox_OnTextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
     {
-        if(args.Text is not null)
+        if (args.Text is not null)
         {
             var text = args.Text;
             var apps = _packageManager.FindPackagesForUser(string.Empty)
                 .Where(p => p.IsFramework == false && p.DisplayName.Contains(text)).ToList();
 
-            App.MainWindow.DispatcherQueue.TryEnqueue(() => AppPackages = new ObservableCollection<Package>(apps));
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                AppPackages = new ObservableCollection<Package>(apps);
+                SelectPackage = apps.FirstOrDefault();
+            });
         }
         else
         {
@@ -54,7 +54,11 @@ public partial class LaunchAppViewModel : ObservableRecipient
             {
                 var apps = _packageManager.FindPackagesForUser(string.Empty)
                     .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
-                App.MainWindow.DispatcherQueue.TryEnqueue(() => AppPackages = new ObservableCollection<Package>(apps));
+                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+               {
+                   AppPackages = new ObservableCollection<Package>(apps);
+                   SelectPackage = apps.FirstOrDefault();
+               });
             });
         }
     }
@@ -67,17 +71,23 @@ public partial class LaunchAppViewModel : ObservableRecipient
         {
             Win32PathVisibility = Visibility.Collapsed;
             MsixVisibility = Visibility.Visible;
+            IsMsix = true;
             Task.Run(() =>
             {
                 var apps = _packageManager.FindPackagesForUser(string.Empty)
                     .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
-                App.MainWindow.DispatcherQueue.TryEnqueue(() => AppPackages = new ObservableCollection<Package>(apps));
+                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    AppPackages = new ObservableCollection<Package>(apps);
+                    SelectPackage = apps.FirstOrDefault();
+                });
             });
         }
         else
         {
             Win32PathVisibility = Visibility.Visible;
             MsixVisibility = Visibility.Collapsed;
+            IsMsix = false;
         }
     }
 
@@ -115,12 +125,31 @@ public partial class LaunchAppViewModel : ObservableRecipient
 
     public void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      
+        if (sender is ComboBox cb)
+        {
+            if (cb.SelectedItem is Package pa)
+            {
+                SelectPackage = pa;
+                AppNameText = SelectPackage!.DisplayName;
+            }
+        }
     }
 
-    [RelayCommand]
-    private async Task SaveLaunchApp()
+    //[RelayCommand]
+    public async Task SaveLaunchApp()
     {
-       
+        var launchAppConfigs = (await _localSettingsService.ReadSettingAsync<List<LaunchAppConfig>>
+       (Constants.LaunchAppConfigKey)) ?? new List<LaunchAppConfig>();
+
+        var launchAppConfig = new LaunchAppConfig
+        {
+            VoiceText = VoiceText,
+            Win32Path = Win32Path,
+            AppNameText = AppNameText,
+            IsMsix = IsMsix
+        };
+        launchAppConfigs.Add(launchAppConfig);
+
+        await _localSettingsService.SaveSettingAsync<List<LaunchAppConfig>>(Constants.LaunchAppConfigKey, launchAppConfigs);
     }
 }

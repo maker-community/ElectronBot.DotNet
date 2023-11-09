@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Windows.ApplicationModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Controls;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Contracts.ViewModels;
+using ElectronBot.Braincase.Core.Models;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
-using Windows.Management.Deployment;
-using Controls;
 using Microsoft.UI.Xaml.Controls;
-using ElectronBot.Braincase.Core.Models;
+using Models;
+using Windows.ApplicationModel;
+using Windows.Management.Deployment;
 
 namespace ElectronBot.Braincase.ViewModels;
 
-public partial class GestureAppConfigViewModel : ObservableRecipient,INavigationAware
+public partial class GestureAppConfigViewModel : ObservableRecipient, INavigationAware
 {
     private readonly ILocalSettingsService _localSettingsService;
 
@@ -29,9 +26,14 @@ public partial class GestureAppConfigViewModel : ObservableRecipient,INavigation
         set => SetProperty(ref _gestureAppConfigs, value);
     }
 
+    [ObservableProperty] private ObservableCollection<LaunchAppConfig> _launchApps;
+
 
     private readonly PackageManager _packageManager = new();
-    public List<string> GestureLabels { get; set; } = new()
+    public List<string> GestureLabels
+    {
+        get; set;
+    } = new()
     {
         Constants.Land,
         Constants.Up,
@@ -72,8 +74,8 @@ public partial class GestureAppConfigViewModel : ObservableRecipient,INavigation
     /// </summary>
     public async void SaveConfig()
     {
-       await _localSettingsService.SaveSettingAsync<List<GestureAppConfig>>(Constants.CustomGestureAppConfigKey, GestureAppConfigs.ToList());
-       Init();
+        await _localSettingsService.SaveSettingAsync<List<GestureAppConfig>>(Constants.CustomGestureAppConfigKey, GestureAppConfigs.ToList());
+        Init();
     }
 
 
@@ -90,11 +92,11 @@ public partial class GestureAppConfigViewModel : ObservableRecipient,INavigation
     public async void DelConfig(string id)
     {
         int index = -1;
-        for(int i = 0; i < GestureAppConfigs.Count; i++)
+        for (int i = 0; i < GestureAppConfigs.Count; i++)
         {
             if (GestureAppConfigs[i].Id == id)
             {
-                index = i; break;   
+                index = i; break;
             }
         }
 
@@ -131,7 +133,7 @@ public partial class GestureAppConfigViewModel : ObservableRecipient,INavigation
             var theme = App.GetService<IThemeSelectorService>();
             var addLaunchApDialog = new ContentDialog()
             {
-                Title = "AddRandomContentTitle".GetLocalized(),
+                Title = "AddAppStartConfigTitle".GetLocalized(),
                 PrimaryButtonText = "AddEmojisOkBtnContent".GetLocalized(),
                 CloseButtonText = "AddEmojisCancelBtnContent".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary,
@@ -139,6 +141,8 @@ public partial class GestureAppConfigViewModel : ObservableRecipient,INavigation
                 Content = new LaunchAppPage(),
                 RequestedTheme = theme.Theme
             };
+
+            addLaunchApDialog.PrimaryButtonClick += AddLaunchApDialog_PrimaryButtonClick;
 
             addLaunchApDialog.Closed += LaunchAppDialog_Closed;
 
@@ -150,18 +154,74 @@ public partial class GestureAppConfigViewModel : ObservableRecipient,INavigation
         }
     }
 
+    private async void AddLaunchApDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    {
+
+        if (sender.Content is LaunchAppPage page)
+        {
+            if (page.DataContext is LaunchAppViewModel viewModel)
+            {
+                if (viewModel is not null)
+                {
+                    //if (string.IsNullOrWhiteSpace(viewModel.Win32Path))
+                    //{
+                    //    ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
+                    //    args.Cancel = true;
+                    //    return;
+                    //}
+
+                    if (string.IsNullOrWhiteSpace(viewModel.AppNameText))
+                    {
+                        ToastHelper.SendToast("SetEmojisName".GetLocalized(), TimeSpan.FromSeconds(3));
+                        args.Cancel = true;
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(viewModel.VoiceText))
+                    {
+                        ToastHelper.SendToast("SetEmojisName".GetLocalized(), TimeSpan.FromSeconds(3));
+                        args.Cancel = true;
+                        return;
+                    }
+
+                    await viewModel.SaveLaunchApp();
+                }
+            }
+        }
+    }
+
     private async void LaunchAppDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        var list = (await _localSettingsService.ReadSettingAsync<List<RandomContent>>(Constants.LaunchAppListKey)) ?? new List<RandomContent>();
+        var list = (await _localSettingsService.ReadSettingAsync<List<LaunchAppConfig>>(Constants.LaunchAppConfigKey)) ?? new List<LaunchAppConfig>();
+
+        if (sender.Content is LaunchAppPage page)
+        {
+            if (page.DataContext is LaunchAppViewModel viewModel)
+            {
+                if (viewModel is not null)
+                {
+                    var launchAppConfig = new LaunchAppConfig
+                    {
+                        VoiceText = viewModel.VoiceText,
+                        Win32Path = viewModel.Win32Path,
+                        AppNameText = viewModel.AppNameText,
+                        IsMsix = viewModel.IsMsix
+                    };
+
+                    LaunchApps.Add(launchAppConfig);
+                }
+            }
+        }
     }
 
     public void OnNavigatedTo(object parameter)
     {
-        Task.Run(() =>
+        Task.Run(async () =>
         {
-            var apps = _packageManager.FindPackagesForUser(string.Empty)
-                .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
-            App.MainWindow.DispatcherQueue.TryEnqueue(() => AppPackages = new ObservableCollection<Package>(apps));
+            var launchAppConfigs = (await _localSettingsService.ReadSettingAsync<List<LaunchAppConfig>>
+           (Constants.LaunchAppConfigKey)) ?? new List<LaunchAppConfig>();
+
+            App.MainWindow.DispatcherQueue.TryEnqueue(() => LaunchApps = new ObservableCollection<LaunchAppConfig>(launchAppConfigs));
         });
     }
 

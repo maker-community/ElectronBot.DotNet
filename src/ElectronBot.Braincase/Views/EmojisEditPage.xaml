@@ -28,6 +28,7 @@
                 <StackPanel Orientation="Vertical">
                     <Grid>
                         <Image
+                            Width="200"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Source="{x:Bind Avatar}"
