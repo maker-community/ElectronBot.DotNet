@@ -102,7 +102,7 @@
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_GestureAppConfig" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.GestureAppConfigViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE19D;" />
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE720;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

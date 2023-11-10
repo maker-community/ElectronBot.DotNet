@@ -739,7 +739,7 @@
     <value>观影模式</value>
   </data>
   <data name="Shell_GestureAppConfig.Content" xml:space="preserve">
-    <value>手势App配置</value>
+    <value>语音启动应用</value>
   </data>
   <data name="GestureAppConfigTree_AppPath.Text" xml:space="preserve">
     <value>APP路径</value>
@@ -767,5 +767,20 @@
   </data>
   <data name="AddAppStartConfigTitle" xml:space="preserve">
     <value>添加应用启动配置</value>
+  </data>
+  <data name="AppLaunchListHeader.Text" xml:space="preserve">
+    <value>语音启动应用列表</value>
+  </data>
+  <data name="AppNameText.Text" xml:space="preserve">
+    <value>应用名称：</value>
+  </data>
+  <data name="IsMsix.Text" xml:space="preserve">
+    <value>是否为Msix：</value>
+  </data>
+  <data name="VoiceText.Text" xml:space="preserve">
+    <value>唤醒文本：</value>
+  </data>
+  <data name="Win32Path.Text" xml:space="preserve">
+    <value>Win32文件路径：</value>
   </data>
 </root>

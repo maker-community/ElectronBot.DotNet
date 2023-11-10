@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Controls;
 using Models;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
+using Windows.Storage;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -163,13 +164,6 @@ public partial class GestureAppConfigViewModel : ObservableRecipient, INavigatio
             {
                 if (viewModel is not null)
                 {
-                    //if (string.IsNullOrWhiteSpace(viewModel.Win32Path))
-                    //{
-                    //    ToastHelper.SendToast("SetEmojisNameId".GetLocalized(), TimeSpan.FromSeconds(3));
-                    //    args.Cancel = true;
-                    //    return;
-                    //}
-
                     if (string.IsNullOrWhiteSpace(viewModel.AppNameText))
                     {
                         ToastHelper.SendToast("SetEmojisName".GetLocalized(), TimeSpan.FromSeconds(3));
@@ -185,21 +179,7 @@ public partial class GestureAppConfigViewModel : ObservableRecipient, INavigatio
                     }
 
                     await viewModel.SaveLaunchApp();
-                }
-            }
-        }
-    }
 
-    private async void LaunchAppDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
-    {
-        var list = (await _localSettingsService.ReadSettingAsync<List<LaunchAppConfig>>(Constants.LaunchAppConfigKey)) ?? new List<LaunchAppConfig>();
-
-        if (sender.Content is LaunchAppPage page)
-        {
-            if (page.DataContext is LaunchAppViewModel viewModel)
-            {
-                if (viewModel is not null)
-                {
                     var launchAppConfig = new LaunchAppConfig
                     {
                         VoiceText = viewModel.VoiceText,
@@ -212,6 +192,35 @@ public partial class GestureAppConfigViewModel : ObservableRecipient, INavigatio
                 }
             }
         }
+    }
+
+
+    [RelayCommand]
+    public async Task DelEmojis(object? obj)
+    {
+        if (obj == null)
+        {
+            ToastHelper.SendToast("请选中一个表情", TimeSpan.FromSeconds(3));
+            return;
+        }
+        if (obj is LaunchAppConfig emojis)
+        {
+            try
+            {
+                LaunchApps.Remove(emojis);
+
+                await _localSettingsService.SaveSettingAsync(Constants.LaunchAppConfigKey, LaunchApps.ToList());
+            }
+            catch (Exception ex)
+            {
+                ToastHelper.SendToast($"删除失败-{ex.Message}", TimeSpan.FromSeconds(3));
+            }
+        }
+    }
+
+    private  void LaunchAppDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+
     }
 
     public void OnNavigatedTo(object parameter)

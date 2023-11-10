@@ -7,6 +7,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cusControl="using:ElectronBot.Braincase.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:package="using:Models"
@@ -30,69 +32,107 @@
                 </AppBarButton.Icon>
             </AppBarButton>
         </StackPanel>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="36" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <!--<StackPanel Margin="3" Orientation="Horizontal">
-                    <Button
-                        x:Uid="GestureAppConfig_Add"
-                        HorizontalAlignment="Left"
-                        Command="{x:Bind ViewModel.AddConfigCommand}" />
-                    <Button
-                        x:Uid="GestureAppConfig_Save"
-                        Margin="7,0,0,0"
-                        HorizontalAlignment="Left"
-                        Command="{x:Bind ViewModel.SaveConfigCommand}" />
-                </StackPanel>-->
-                <ScrollViewer Grid.Row="1">
-                    <StackPanel>
-                        <!--<cusControl:GestureAppConfigItems
-                            DeleteItemCommand="{x:Bind ViewModel.DelConfigCommand}"
-                            GestureLabels="{x:Bind ViewModel.GestureLabels}"
-                            ItemsSource="{x:Bind ViewModel.GestureAppConfigs, Mode=TwoWay}" />-->
-                        <ListView ItemsSource="{x:Bind ViewModel.LaunchApps, Mode=OneWay}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="package:LaunchAppConfig">
-                                    <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind AppNameText}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" MinWidth="150" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                            <TextBlock
-                                                Margin="0,0,0,6"
-                                                HorizontalAlignment="Left"
-                                                FontSize="14"
-                                                FontWeight="SemiBold"
-                                                LineHeight="20"
-                                                Style="{ThemeResource BaseTextBlockStyle}"
-                                                Text="{x:Bind AppNameText}" />
-                                            <TextBlock
-                                                Width="350"
-                                                HorizontalAlignment="Left"
-                                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                                FontWeight="Normal"
-                                                MaxLines="1"
-                                                Text="{x:Bind VoiceText}"
-                                                TextTrimming="CharacterEllipsis" />
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock
-                                                    Margin="0,0,0,0"
-                                                    HorizontalAlignment="Left"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Text="{x:Bind Win32Path}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
-                </ScrollViewer>
-            </Grid>
-        </StackPanel>
+        <Grid Grid.Row="1" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ListView
+                x:Name="AppListView"
+                Grid.Row="1"
+                Width="800"
+                Margin="0,0,0,24"
+                ItemsSource="{x:Bind ViewModel.LaunchApps, Mode=OneWay}">
+                <!--<ListView.Header>
+                    <TextBlock
+                        x:Uid="AppLaunchListHeader"
+                        Margin="0,0,0,12"
+                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                        FontSize="28" />
+                </ListView.Header>-->
+                <ListView.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Name="DelPic"
+                            x:Uid="DelEmojis"
+                            Foreground="Red">
+                            <i:Interaction.Behaviors>
+                                <ic:EventTriggerBehavior EventName="Click">
+                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.DelEmojisCommand}" CommandParameter="{x:Bind AppListView.SelectedItem, Mode=TwoWay}" />
+                                </ic:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </ListView.ContextFlyout>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="package:LaunchAppConfig">
+                        <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind AppNameText}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="AppNameText"
+                                        Width="100"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        LineHeight="20"
+                                        Style="{ThemeResource BaseTextBlockStyle}"
+                                        Text="{x:Bind AppNameText}" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="VoiceText"
+                                        Width="100"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                    <TextBlock
+                                        Width="350"
+                                        HorizontalAlignment="Left"
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                        FontWeight="Normal"
+                                        MaxLines="1"
+                                        Text="{x:Bind VoiceText}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="IsMsix"
+                                        Width="100"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        LineHeight="20"
+                                        Style="{ThemeResource BaseTextBlockStyle}"
+                                        Text="{x:Bind IsMsix}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="Win32Path"
+                                        Width="100"
+                                        VerticalAlignment="Center"
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                    <TextBlock
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        LineHeight="20"
+                                        Style="{ThemeResource BaseTextBlockStyle}"
+                                        Text="{x:Bind Win32Path}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </Grid>
 </Page>

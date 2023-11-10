@@ -195,37 +195,37 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
             ResultLabel = e;
 
-            //if (e == Constants.FingerHeart && _isBeginning == false)
-            //{
-            //    _isBeginning = true;
-
-            //    var config = (await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>
-            //    (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
-
-            //    var textList = config.AnswerText.Split(",").ToList();
-
-            //    var r = new Random().Next(textList.Count);
-
-            //    var text = textList[r];
-
-            //    ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
-
-            //    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text, true);
-            //}
-            //else if (e == Constants.FingerHeart && _isBeginning == true)
-            //{
-            //    //当前处于启动状态
-            //    //不做处理
-            //}
-            //else if (e == Constants.Land && _isBeginning == true)
-            //{
-            //    _isBeginning = false;
-            //}
-
-            if (!_gestureAppService.GetInExecuting())
+            if (e == Constants.FingerHeart && _isBeginning == false)
             {
-                await _gestureAppService.Execute(ResultLabel);
+                _isBeginning = true;
+
+                var config = (await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>
+                (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
+
+                var textList = config.AnswerText.Split(",").ToList();
+
+                var r = new Random().Next(textList.Count);
+
+                var text = textList[r];
+
+                ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
+
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text, true);
             }
+            else if (e == Constants.FingerHeart && _isBeginning == true)
+            {
+                //当前处于启动状态
+                //不做处理
+            }
+            else if (e == Constants.Land && _isBeginning == true)
+            {
+                _isBeginning = false;
+            }
+
+            //if (!_gestureAppService.GetInExecuting())
+            //{
+            //    await _gestureAppService.Execute(ResultLabel);
+            //}
         });
     }
 
