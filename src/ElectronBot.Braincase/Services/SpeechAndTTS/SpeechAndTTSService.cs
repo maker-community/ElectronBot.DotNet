@@ -277,6 +277,14 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                await  LaunchAppAsync(args.Result.Text.ToUpper().Replace("启动", ""));
             }
+            else if (args.Result.Text.ToUpper().StartsWith("打开"))
+            {
+                await LaunchAppAsync(args.Result.Text.ToUpper().Replace("打开", ""));
+            }
+            else if (args.Result.Text.ToUpper().StartsWith("open"))
+            {
+                await LaunchAppAsync(args.Result.Text.ToUpper().Replace("open ", ""));
+            }
             else
             {
                 try
@@ -360,13 +368,14 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                 try
                 {
-                    await WindowHelper.Instance.StartProcess(appConfig.Win32Path!);
+                    
                     var appText = $"正在唤醒{appConfig.VoiceText}";
                     App.MainWindow.DispatcherQueue.TryEnqueue(() =>
                     {
                         ToastHelper.SendToast(appText, TimeSpan.FromSeconds(2));
                     });
                     await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(appText, true);
+                    await WindowHelper.Instance.StartProcess(appConfig.Win32Path!);
                     return;
                 }
                 catch (Exception ex)
@@ -389,13 +398,15 @@ public class SpeechAndTTSService : ISpeechAndTTSService
         {
             try
             {
-                await package.GetAppListEntries()[0].LaunchAsync();
+              
                 var appText = $"正在唤醒{appName}";
                 App.MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
                     ToastHelper.SendToast(appText, TimeSpan.FromSeconds(2));
                 });
                 await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(appText, true);
+
+                await package.GetAppListEntries()[0].LaunchAsync();
             }
             catch(Exception ex)
             {

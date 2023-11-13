@@ -54,7 +54,7 @@
                     <MenuFlyout>
                         <MenuFlyoutItem
                             x:Name="DelPic"
-                            x:Uid="DelEmojis"
+                            x:Uid="DelLaunchApp"
                             Foreground="Red">
                             <i:Interaction.Behaviors>
                                 <ic:EventTriggerBehavior EventName="Click">
@@ -66,69 +66,75 @@
                 </ListView.ContextFlyout>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="package:LaunchAppConfig">
-                        <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind AppNameText}">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock
-                                        x:Uid="AppNameText"
-                                        Width="100"
-                                        VerticalAlignment="Center"
-                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
-                                    <TextBlock
-                                        HorizontalAlignment="Left"
-                                        FontSize="14"
-                                        FontWeight="SemiBold"
-                                        LineHeight="20"
-                                        Style="{ThemeResource BaseTextBlockStyle}"
-                                        Text="{x:Bind AppNameText}" />
-                                </StackPanel>
+                        <Grid AutomationProperties.Name="{x:Bind AppNameText}">
+                            <Border
+                                Margin="0,12,0,12"
+                                BorderBrush="{ThemeResource SystemAccentColor}"
+                                BorderThickness="2"
+                                CornerRadius="8">
+                                <StackPanel Margin="8">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            x:Uid="AppNameText"
+                                            Width="100"
+                                            VerticalAlignment="Center"
+                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                        <TextBlock
+                                            HorizontalAlignment="Left"
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            LineHeight="20"
+                                            Style="{ThemeResource BaseTextBlockStyle}"
+                                            Text="{x:Bind AppNameText}" />
+                                    </StackPanel>
 
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock
-                                        x:Uid="VoiceText"
-                                        Width="100"
-                                        VerticalAlignment="Center"
-                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
-                                    <TextBlock
-                                        Width="350"
-                                        HorizontalAlignment="Left"
-                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                        FontWeight="Normal"
-                                        MaxLines="1"
-                                        Text="{x:Bind VoiceText}"
-                                        TextTrimming="CharacterEllipsis" />
-                                </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            x:Uid="VoiceText"
+                                            Width="100"
+                                            VerticalAlignment="Center"
+                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                        <TextBlock
+                                            Width="350"
+                                            HorizontalAlignment="Left"
+                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                            FontWeight="Normal"
+                                            MaxLines="1"
+                                            Text="{x:Bind VoiceText}"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
 
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock
-                                        x:Uid="IsMsix"
-                                        Width="100"
-                                        VerticalAlignment="Center"
-                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
-                                    <TextBlock
-                                        HorizontalAlignment="Left"
-                                        FontSize="14"
-                                        FontWeight="SemiBold"
-                                        LineHeight="20"
-                                        Style="{ThemeResource BaseTextBlockStyle}"
-                                        Text="{x:Bind IsMsix}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            x:Uid="IsMsix"
+                                            Width="100"
+                                            VerticalAlignment="Center"
+                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                        <TextBlock
+                                            HorizontalAlignment="Left"
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            LineHeight="20"
+                                            Style="{ThemeResource BaseTextBlockStyle}"
+                                            Text="{x:Bind IsMsix}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            x:Uid="Win32Path"
+                                            Width="100"
+                                            VerticalAlignment="Center"
+                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                        <TextBlock
+                                            Margin="0,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            LineHeight="20"
+                                            Style="{ThemeResource BaseTextBlockStyle}"
+                                            Text="{x:Bind Win32Path}" />
+                                    </StackPanel>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock
-                                        x:Uid="Win32Path"
-                                        Width="100"
-                                        VerticalAlignment="Center"
-                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
-                                    <TextBlock
-                                        Margin="0,0,0,0"
-                                        HorizontalAlignment="Left"
-                                        FontSize="14"
-                                        FontWeight="SemiBold"
-                                        LineHeight="20"
-                                        Style="{ThemeResource BaseTextBlockStyle}"
-                                        Text="{x:Bind Win32Path}" />
-                                </StackPanel>
-                            </StackPanel>
+                            </Border>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

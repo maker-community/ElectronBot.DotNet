@@ -141,19 +141,19 @@ public partial class ModelLoadCompactOverlayViewModel : ObservableRecipient
 
         if (resultState)
         {
-            VoiceResult = "快捷键按下";
+            VoiceResult = "空格+E组合键按下";
             var voiceLock = ElectronBotHelper.Instance.VoiceLock;
 
             if (resultState && !voiceLock)
             {
-                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync("主人需要帮忙吗", true);
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync("你需要帮忙吗", true);
             }
 
             ElectronBotHelper.Instance.VoiceLock = true;
         }
         else
         {
-            VoiceResult = "快捷键松开";
+            VoiceResult = "空格+E组合键松开";
         }
     }
 

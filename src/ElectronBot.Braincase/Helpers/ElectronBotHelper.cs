@@ -476,19 +476,19 @@ public class ElectronBotHelper
                 return;
             }
 
-            if (StartupTask == true)
-            {
-                Thread.Sleep(3000);
+            //if (StartupTask == true)
+            //{
+            //    Thread.Sleep(3000);
 
-                for (var i = 0; i < _playEmojisCount; i++)
-                {
-                    ToPlayEmojisRandom();
+            //    for (var i = 0; i < _playEmojisCount; i++)
+            //    {
+            //        ToPlayEmojisRandom();
 
-                    Thread.Sleep(3000);
-                }
+            //        Thread.Sleep(3000);
+            //    }
 
 
-            }
+            //}
         }
     }
 

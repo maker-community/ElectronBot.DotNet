@@ -166,14 +166,14 @@ public partial class GestureAppConfigViewModel : ObservableRecipient, INavigatio
                 {
                     if (string.IsNullOrWhiteSpace(viewModel.AppNameText))
                     {
-                        ToastHelper.SendToast("SetEmojisName".GetLocalized(), TimeSpan.FromSeconds(3));
+                        ToastHelper.SendToast("AppNameNullText".GetLocalized(), TimeSpan.FromSeconds(3));
                         args.Cancel = true;
                         return;
                     }
 
                     if (string.IsNullOrWhiteSpace(viewModel.VoiceText))
                     {
-                        ToastHelper.SendToast("SetEmojisName".GetLocalized(), TimeSpan.FromSeconds(3));
+                        ToastHelper.SendToast("VoiceNullText".GetLocalized(), TimeSpan.FromSeconds(3));
                         args.Cancel = true;
                         return;
                     }
@@ -200,7 +200,7 @@ public partial class GestureAppConfigViewModel : ObservableRecipient, INavigatio
     {
         if (obj == null)
         {
-            ToastHelper.SendToast("请选中一个表情", TimeSpan.FromSeconds(3));
+            ToastHelper.SendToast("请选中一个项", TimeSpan.FromSeconds(3));
             return;
         }
         if (obj is LaunchAppConfig emojis)

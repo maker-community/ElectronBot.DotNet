@@ -517,7 +517,12 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.6.3 版本更新说明
+    <value>1.6.8 版本更新说明
+1. 升级框架版本为1.4，并升级社区工具到8.0。
+2. 可能会引入相关新的BUG。
+3. 添加语音唤醒应用功能，在语音配置页配置应用，在电子仿真窗口按下空格加E组合按键，通过语音打开+应用名称，或者启用+应用名称唤醒软件。
+
+1.6.3 版本更新说明
 1. 添加姿态识别，并同步姿态动作到模型。
 
 1.6.2 版本更新说明
@@ -771,11 +776,20 @@
   <data name="AppLaunchListHeader.Text" xml:space="preserve">
     <value>语音启动应用列表</value>
   </data>
+  <data name="AppNameNullText" xml:space="preserve">
+    <value>应用名不能为空</value>
+  </data>
   <data name="AppNameText.Text" xml:space="preserve">
     <value>应用名称：</value>
   </data>
+  <data name="DelLaunchApp.Text" xml:space="preserve">
+    <value>删除应用</value>
+  </data>
   <data name="IsMsix.Text" xml:space="preserve">
     <value>是否为Msix：</value>
+  </data>
+  <data name="VoiceNullText" xml:space="preserve">
+    <value>唤醒词不能为空</value>
   </data>
   <data name="VoiceText.Text" xml:space="preserve">
     <value>唤醒文本：</value>
