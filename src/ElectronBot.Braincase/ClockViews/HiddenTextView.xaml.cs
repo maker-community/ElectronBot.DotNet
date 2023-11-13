@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI;
 using ElectronBot.Braincase.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Composition;

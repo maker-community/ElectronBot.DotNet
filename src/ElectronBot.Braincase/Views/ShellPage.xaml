@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:ElectronBot.Braincase.Behaviors"
-    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:ElectronBot.Braincase.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -12,7 +12,10 @@
 
 
     <Page.Resources>
-        <converters:BoolToVisibilityConverter x:Name="ReverseBoolToVisibility" FalseValue="Visible" TrueValue="Collapsed" />
+        <converters:BoolToVisibilityConverter
+            x:Name="ReverseBoolToVisibility"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
     </Page.Resources>
 
     <Grid>
@@ -22,7 +25,11 @@
             VerticalAlignment="Top"
             Canvas.ZIndex="1"
             IsHitTestVisible="True">
-            <Image Width="16" Height="16" HorizontalAlignment="Left" Source="/Assets/WindowIcon.ico" />
+            <Image
+                Width="16"
+                Height="16"
+                HorizontalAlignment="Left"
+                Source="/Assets/WindowIcon.ico" />
             <TextBlock
                 x:Name="AppTitleBarText"
                 Margin="28,0,0,0"
@@ -95,14 +102,17 @@
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_GestureAppConfig" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.GestureAppConfigViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE19D;" />
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE720;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Style="{ThemeResource TitleTextBlockStyle}" Text="{Binding}" />
+                        <TextBlock
+                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                            Style="{ThemeResource TitleTextBlockStyle}"
+                            Text="{Binding}" />
                     </Grid>
                 </DataTemplate>
             </NavigationView.HeaderTemplate>
@@ -111,7 +121,10 @@
                     <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Style="{ThemeResource TitleTextBlockStyle}" Text="{Binding}" />
+                                <TextBlock
+                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                    Style="{ThemeResource TitleTextBlockStyle}"
+                                    Text="{Binding}" />
                             </Grid>
                         </DataTemplate>
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
@@ -133,12 +146,20 @@
                                 <ColumnDefinition Width="48" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Ellipse Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Center">
+                            <Ellipse
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                HorizontalAlignment="Center">
                                 <Ellipse.Fill>
                                     <ImageBrush ImageSource="{x:Bind ViewModel.User.Photo, Mode=OneWay}" Stretch="UniformToFill" />
                                 </Ellipse.Fill>
                             </Ellipse>
-                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.User.Name, Mode=OneWay}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Text="{x:Bind ViewModel.User.Name, Mode=OneWay}" />
                         </Grid>
                     </Button>
                     <Button
@@ -155,7 +176,11 @@
                                 <ColumnDefinition Width="48" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Ellipse Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Center">
+                            <Ellipse
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                HorizontalAlignment="Center">
                                 <Ellipse.Fill>
                                     <ImageBrush ImageSource="/Assets/DefaultIcon.png" Stretch="UniformToFill" />
                                 </Ellipse.Fill>

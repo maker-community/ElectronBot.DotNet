@@ -2,6 +2,7 @@
 using Contracts.Services;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Helpers;
+using Models;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
@@ -26,8 +27,11 @@ public class SpeechAndTTSService : ISpeechAndTTSService
     // Keep track of whether the continuous recognizer is currently running, so it can be cleaned up appropriately.
     private bool isListening = false;
 
-    public SpeechAndTTSService()
+    private readonly ILocalSettingsService _localSettingsService;
+
+    public SpeechAndTTSService(ILocalSettingsService localSettingsService)
     {
+        _localSettingsService = localSettingsService;
     }
 
     public async Task<IRandomAccessStream?> TextToSpeechAsync(string text)
@@ -269,6 +273,18 @@ public class SpeechAndTTSService : ISpeechAndTTSService
             {
                 ElectronBotHelper.Instance.ToPlayEmojisRandom();
             }
+            else if (args.Result.Text.ToUpper().StartsWith("启动"))
+            {
+               await  LaunchAppAsync(args.Result.Text.ToUpper().Replace("启动", ""));
+            }
+            else if (args.Result.Text.ToUpper().StartsWith("打开"))
+            {
+                await LaunchAppAsync(args.Result.Text.ToUpper().Replace("打开", ""));
+            }
+            else if (args.Result.Text.ToUpper().StartsWith("open"))
+            {
+                await LaunchAppAsync(args.Result.Text.ToUpper().Replace("open ", ""));
+            }
             else
             {
                 try
@@ -333,6 +349,72 @@ public class SpeechAndTTSService : ISpeechAndTTSService
         if (args.State == SpeechRecognizerState.SoundEnded)
         {
             isListening = false;
+        }
+    }
+
+    private async Task LaunchAppAsync(string appFullName)
+    {
+        var launchAppConfigs = (await _localSettingsService.ReadSettingAsync<List<LaunchAppConfig>>(Constants.LaunchAppConfigKey)) ?? new List<LaunchAppConfig>();
+
+        var appConfig = launchAppConfigs.FirstOrDefault(l=>l.VoiceText == appFullName);
+
+        var appName = appFullName;
+
+        if (appConfig != null)
+        {
+            appName = appConfig.AppNameText;
+
+            if (!appConfig.IsMsix)
+            {
+                try
+                {
+                    
+                    var appText = $"正在唤醒{appConfig.VoiceText}";
+                    App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        ToastHelper.SendToast(appText, TimeSpan.FromSeconds(2));
+                    });
+                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(appText, true);
+                    await WindowHelper.Instance.StartProcess(appConfig.Win32Path!);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(3));
+                    });
+                }
+            }
+        }
+
+        var package = ElectronBotHelper.Instance.AppPackages.Where(x => x.DisplayName.ToUpper().StartsWith(appName.ToUpper())).FirstOrDefault();
+
+        if (ElectronBotHelper.Instance.AppPackages.Where(x => x.DisplayName.ToUpper().StartsWith(appName.ToUpper())).FirstOrDefault() == null)
+        {
+            package = ElectronBotHelper.Instance.AppPackages.Where(x => x.DisplayName.ToUpper().Contains(appName.ToUpper())).FirstOrDefault();
+        }
+        if (package != null)
+        {
+            try
+            {
+              
+                var appText = $"正在唤醒{appName}";
+                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    ToastHelper.SendToast(appText, TimeSpan.FromSeconds(2));
+                });
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(appText, true);
+
+                await package.GetAppListEntries()[0].LaunchAsync();
+            }
+            catch(Exception ex)
+            {
+                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(3));
+                });
+            }
         }
     }
 }

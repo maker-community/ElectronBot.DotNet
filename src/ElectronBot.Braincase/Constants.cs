@@ -18,6 +18,8 @@ public class Constants
 
     public const string RandomContentListKey = "RandomContentListKey";
 
+    public const string LaunchAppListKey = "LaunchAppListKey";
+
     public const string EmojisFolder = "EmojisAction";
 
     public const string EmojisTempFileFolder = "EmojisFileTemp";
@@ -31,6 +33,8 @@ public class Constants
     public const string DefaultAudioNameKey = "DefaultAudioNameKey";
 
     public const string CustomGestureAppConfigKey = "CustomGestureAppConfigKey";
+
+    public const string LaunchAppConfigKey = "LaunchAppConfigKey";
 
     public const string DefaultCameraName = "USB";
 
