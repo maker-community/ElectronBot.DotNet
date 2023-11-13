@@ -41,6 +41,10 @@
                 Foreground="{ThemeResource SystemAccentColor}">
                 <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF5B0;" />
             </Button>
+            <TextBlock
+                Margin="4"
+                Text="{x:Bind ViewModel.VoiceResult, Mode=Oneway}"
+                TextWrapping="WrapWholeWords" />
         </StackPanel>
         <ProgressRing
             x:Name="ModelProgressRing"

@@ -132,38 +132,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         });
     }
 
-    [ObservableProperty]
-    int selectIndex;
-
-    [ObservableProperty]
-    int interval;
-
-    /// <summary>
-    /// 时钟选中数据
-    /// </summary>
-    [ObservableProperty]
-    ComboxItemModel clockComBoxSelect;
-
-    /// <summary>
-    /// 表盘列表
-    /// </summary>
-    [ObservableProperty]
-    public ObservableCollection<ComboxItemModel> clockComboxModels;
-
-    /// <summary>
-    /// 当前播放表情
-    /// </summary>
-    [ObservableProperty]
-    ImageSource emojiImageSource;
-
-    /// <summary>
-    /// 表盘内容
-    /// </summary>
-    [ObservableProperty]
-    UIElement element;
-
-    [ObservableProperty]
-    string resultLabel;
 
     [RelayCommand]
     private async void OpenGesture(bool isOn)
@@ -227,37 +195,37 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
             ResultLabel = e;
 
-            //if (e == Constants.FingerHeart && _isBeginning == false)
-            //{
-            //    _isBeginning = true;
-
-            //    var config = (await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>
-            //    (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
-
-            //    var textList = config.AnswerText.Split(",").ToList();
-
-            //    var r = new Random().Next(textList.Count);
-
-            //    var text = textList[r];
-
-            //    ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
-
-            //    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text, true);
-            //}
-            //else if (e == Constants.FingerHeart && _isBeginning == true)
-            //{
-            //    //当前处于启动状态
-            //    //不做处理
-            //}
-            //else if (e == Constants.Land && _isBeginning == true)
-            //{
-            //    _isBeginning = false;
-            //}
-
-            if (!_gestureAppService.GetInExecuting())
+            if (e == Constants.FingerHeart && _isBeginning == false)
             {
-                await _gestureAppService.Execute(ResultLabel);
+                _isBeginning = true;
+
+                var config = (await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>
+                (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
+
+                var textList = config.AnswerText.Split(",").ToList();
+
+                var r = new Random().Next(textList.Count);
+
+                var text = textList[r];
+
+                ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
+
+                await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text, true);
             }
+            else if (e == Constants.FingerHeart && _isBeginning == true)
+            {
+                //当前处于启动状态
+                //不做处理
+            }
+            else if (e == Constants.Land && _isBeginning == true)
+            {
+                _isBeginning = false;
+            }
+
+            //if (!_gestureAppService.GetInExecuting())
+            //{
+            //    await _gestureAppService.Execute(ResultLabel);
+            //}
         });
     }
 
@@ -528,44 +496,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
 
     /// <summary>
-    /// 头部舵机
-    /// </summary>
-    [ObservableProperty]
-    float j1;
-
-    /// <summary>
-    /// 左臂展开
-    /// </summary>
-    [ObservableProperty]
-    float j2;
-    /// <summary>
-    /// 左臂旋转
-    /// </summary>
-    [ObservableProperty]
-    float j3;
-    /// <summary>
-    /// 右臂展开
-    /// </summary>
-    [ObservableProperty]
-    float j4;
-    /// <summary>
-    /// 右臂旋转
-    /// </summary>
-    [ObservableProperty]
-    float j5;
-    /// <summary>
-    /// 底盘转动
-    /// </summary>
-    [ObservableProperty]
-    float j6;
-
-    [ObservableProperty]
-    public Image faceImage = new()
-    {
-        Source = new BitmapImage(new Uri("ms-appx:///Assets/LargeTile.scale-200.png"))
-    };
-
-    /// <summary>
     /// 定时器处理
     /// </summary>
     /// <param name="sender"></param>
@@ -755,12 +685,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             _dispatcherTimer.Stop();
         }
     }
-
-    [ObservableProperty]
-    ElectronBotAction selectdAction = new();
-
-    [ObservableProperty]
-    ObservableCollection<ElectronBotAction> actions = new();
 
 
     /// <summary>

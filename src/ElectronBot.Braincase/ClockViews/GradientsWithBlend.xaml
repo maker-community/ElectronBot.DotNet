@@ -5,9 +5,9 @@
     x:Class="ClockViews.GradientsWithBlend"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
-    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:ClockViews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -66,7 +66,12 @@
                                         To="1"
                                         Duration="0:0:0.6" />
                                 </animations:Implicit.ShowAnimations>
-                                <controls:DropShadowPanel
+                                <TextBlock
+                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                    FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
+                                    Foreground="White"
+                                    Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}" />
+                                <!--<controls:DropShadowPanel
                                     Margin="0,32,0,0"
                                     HorizontalAlignment="Center"
                                     BlurRadius="8"
@@ -77,7 +82,7 @@
                                         FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
                                         Foreground="White"
                                         Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}" />
-                                </controls:DropShadowPanel>
+                                </controls:DropShadowPanel>-->
                                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                     <Grid VerticalAlignment="Center">
 
@@ -154,7 +159,13 @@
 
 
                                 </StackPanel>
-                                <controls:DropShadowPanel
+                                <TextBlock
+                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                    FontSize="14"
+                                    Foreground="White"
+                                    Text="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsageText, Mode=OneWay}"
+                                    TextWrapping="WrapWholeWords" />
+                                <!--<controls:DropShadowPanel
                                     Margin="0,0,0,4"
                                     HorizontalAlignment="Center"
                                     BlurRadius="8"
@@ -166,8 +177,13 @@
                                         Foreground="White"
                                         Text="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsageText, Mode=OneWay}"
                                         TextWrapping="WrapWholeWords" />
-                                </controls:DropShadowPanel>
-                                <controls:DropShadowPanel
+                                </controls:DropShadowPanel>-->
+                                <TextBlock
+                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                    FontSize="14"
+                                    Foreground="White"
+                                    Text="{x:Bind ViewModel.ClockDiagnosticInfo.Temperature, Mode=OneWay}" />
+                                <!--<controls:DropShadowPanel
                                     Margin="0,0,0,0"
                                     HorizontalAlignment="Center"
                                     BlurRadius="8"
@@ -178,7 +194,7 @@
                                         FontSize="14"
                                         Foreground="White"
                                         Text="{x:Bind ViewModel.ClockDiagnosticInfo.Temperature, Mode=OneWay}" />
-                                </controls:DropShadowPanel>
+                                </controls:DropShadowPanel>-->
                             </StackPanel>
                         </Grid>
                         <Grid

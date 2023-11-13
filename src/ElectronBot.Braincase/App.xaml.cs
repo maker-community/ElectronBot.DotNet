@@ -157,6 +157,9 @@ public partial class App : Application
             services.AddTransient<RandomContentPage>();
             services.AddTransient<RandomContentViewModel>();
 
+            services.AddTransient<LaunchAppPage>();
+            services.AddTransient<LaunchAppViewModel>();
+
             services.AddTransient<EmojisInfoDialogViewModel>();
 
             services.AddTransient<GamepadViewModel>();

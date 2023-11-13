@@ -12,6 +12,7 @@ using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
+using Windows.Management.Deployment;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 
@@ -25,6 +26,11 @@ public class ElectronBotHelper
     }
 
     public bool PlayEmojisLock
+    {
+        get; set;
+    } = false;
+
+    public bool VoiceLock
     {
         get; set;
     } = false;
@@ -143,6 +149,10 @@ public class ElectronBotHelper
 
 
     public SerialPort SerialPort { get; set; } = new SerialPort();
+
+    public List<Package> AppPackages = new ();
+
+    private PackageManager PackageManager { get; } = new PackageManager();
 
     public async Task InitAsync()
     {
@@ -466,19 +476,19 @@ public class ElectronBotHelper
                 return;
             }
 
-            if (StartupTask == true)
-            {
-                Thread.Sleep(3000);
+            //if (StartupTask == true)
+            //{
+            //    Thread.Sleep(3000);
 
-                for (var i = 0; i < _playEmojisCount; i++)
-                {
-                    ToPlayEmojisRandom();
+            //    for (var i = 0; i < _playEmojisCount; i++)
+            //    {
+            //        ToPlayEmojisRandom();
 
-                    Thread.Sleep(3000);
-                }
+            //        Thread.Sleep(3000);
+            //    }
 
 
-            }
+            //}
         }
     }
 
@@ -517,6 +527,7 @@ public class ElectronBotHelper
             catch (Exception)
             {
                 PlayEmojisLock = false;
+                VoiceLock = false;
             }
         }
     }
@@ -594,6 +605,7 @@ public class ElectronBotHelper
         }
 
         PlayEmojisLock = false;
+        VoiceLock = false;
     }
 
     public void ToPlayEmojisRandom()
@@ -610,5 +622,12 @@ public class ElectronBotHelper
     {
         frame.Actions = new OnlyAction(_angleList);
         ModelActionFrame?.Invoke(this, frame);
+    }
+
+    public void LoadAppList()
+    {
+        AppPackages.Clear();
+        AppPackages = PackageManager.FindPackagesForUser(string.Empty)
+           .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
     }
 }
