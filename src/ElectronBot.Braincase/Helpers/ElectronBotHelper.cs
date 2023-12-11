@@ -408,7 +408,7 @@ public class ElectronBotHelper
 
     private async void OnDeviceAdded(DeviceWatcher sender, DeviceInformation args)
     {
-        if (args.Name.Contains("CP210"))
+        if (args.Name.Contains("CP210") || args.Name.Contains("CH910"))
         {
             var comName = Regex.Replace(args.Name, @"(.*\()(.*)(\).*)", "$2"); //小括号()
 
