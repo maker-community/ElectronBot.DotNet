@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestureClassification", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.NotificationArea", "src\Verdure.NotificationArea\Verdure.NotificationArea.csproj", "{2DD1EED6-1778-41DF-9E0D-EC23C99416B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronBot.Copilot", "ElectronBot.Copilot\ElectronBot.Copilot.csproj", "{066FC203-FAD3-46D9-95A9-30FB6AE41583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronBot.Copilot", "ElectronBot.Copilot\ElectronBot.Copilot.csproj", "{066FC203-FAD3-46D9-95A9-30FB6AE41583}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWordKeyboard.DotNet", "HelloWordKeyboard.DotNet\HelloWordKeyboard.DotNet.csproj", "{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWordKeyboard.ConsoleApp", "HelloWordKeyboard.ConsoleApp\HelloWordKeyboard.ConsoleApp.csproj", "{BF25733C-E01B-4611-B8AA-97A853F3E8FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,6 +173,38 @@ Global
 		{066FC203-FAD3-46D9-95A9-30FB6AE41583}.Release|x64.Build.0 = Release|Any CPU
 		{066FC203-FAD3-46D9-95A9-30FB6AE41583}.Release|x86.ActiveCfg = Release|Any CPU
 		{066FC203-FAD3-46D9-95A9-30FB6AE41583}.Release|x86.Build.0 = Release|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Debug|arm64.Build.0 = Debug|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Debug|x64.Build.0 = Debug|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Debug|x86.Build.0 = Debug|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Release|arm64.ActiveCfg = Release|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Release|arm64.Build.0 = Release|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Release|x64.ActiveCfg = Release|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Release|x64.Build.0 = Release|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Release|x86.ActiveCfg = Release|Any CPU
+		{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}.Release|x86.Build.0 = Release|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Debug|arm64.Build.0 = Debug|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Debug|x64.Build.0 = Debug|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Debug|x86.Build.0 = Debug|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|arm64.ActiveCfg = Release|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|arm64.Build.0 = Release|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|x64.ActiveCfg = Release|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|x64.Build.0 = Release|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|x86.ActiveCfg = Release|Any CPU
+		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
