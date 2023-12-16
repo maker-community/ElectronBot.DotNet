@@ -6,4 +6,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.25.1" />
+    <PackageReference Include="Grpc.Tools" Version="2.60.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="HidApi.Net" Version="1.0.0" />
+  </ItemGroup>
+	<ItemGroup>
+		<Protobuf Include="Protos\comm.proto" GrpcServices="Client" />
+	</ItemGroup>
 </Project>

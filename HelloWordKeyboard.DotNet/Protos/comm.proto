@@ -1,0 +1,160 @@
+syntax = "proto2";
+
+package UsbComm;
+
+enum Action {
+  NOP = 0;
+  VERSION = 1;
+  MOTOR_GET_STATE = 2;
+  KNOB_GET_CONFIG = 3;
+  KNOB_SET_CONFIG = 4;
+  KNOB_UPDATE_PREF = 9;
+  RGB_CONTROL = 5;
+  RGB_GET_STATE = 6;
+  RGB_SET_STATE = 8;
+  RGB_GET_INDICATOR = 10;
+  RGB_SET_INDICATOR = 11;
+  EINK_SET_IMAGE = 7;
+}
+
+message MessageH2D {
+  required Action action = 1;
+  oneof payload {
+    Nop nop = 2;
+    KnobConfig knob_config = 3;
+    KnobConfig.Pref knob_pref = 6;
+    RgbControl rgb_control = 4;
+    RgbState rgb_state = 7;
+    RgbIndicator rgb_indicator = 8;
+    EinkImage eink_image = 5;
+  }
+}
+
+message MessageD2H {
+  required Action action = 1;
+  oneof payload {
+    Nop nop = 2;
+    Version version = 3;
+    MotorState motor_state = 4;
+    KnobConfig knob_config = 5;
+    KnobConfig.Pref knob_pref = 8;
+    RgbState rgb_state = 6;
+    RgbIndicator rgb_indicator = 9;
+    EinkImage eink_image = 7;
+  }
+}
+
+message Nop {}
+
+message Version {
+  required string zephyr_version = 1;
+  required string zmk_version = 2;
+  required string app_version = 3;
+  optional Features features = 4;
+
+  message Features {
+    optional bool rgb = 1;
+    optional bool rgb_full_control = 5;
+    optional bool rgb_indicator = 6;
+    optional bool eink = 2;
+    optional bool knob = 3;
+    optional bool knob_prefs = 4;
+  }
+}
+
+message MotorState {
+  required uint32 timestamp = 1;
+  required ControlMode control_mode = 2;
+  required float current_angle = 3;
+  required float current_velocity = 4;
+  required float target_angle = 5;
+  required float target_velocity = 6;
+  required float target_voltage = 7;
+
+  enum ControlMode {
+    TORQUE = 0;
+    VELOCITY = 1;
+    ANGLE = 2;
+  }
+}
+
+message KnobConfig {
+  required bool demo = 1;
+  required Mode mode = 2;
+  repeated Pref prefs = 5;
+
+  enum Mode {
+    DISABLE = 0;
+    INERTIA = 1;
+    ENCODER = 2;
+    SPRING = 3;
+    DAMPED = 4;
+    SPIN = 5;
+    RATCHET = 6;
+  }
+
+  message Pref {
+    required uint32 layer_id = 1;
+    optional string layer_name = 2;
+    required bool active = 3;
+    optional Mode mode = 4;
+    optional uint32 ppr = 5;
+    optional float torque_limit = 6;
+  }
+}
+
+message RgbControl {
+  required Command command = 1;
+
+  enum Command {
+    RGB_ON = 1;
+    RGB_OFF = 2;
+    RGB_HUI = 3;
+    RGB_HUD = 4;
+    RGB_SAI = 5;
+    RGB_SAD = 6;
+    RGB_BRI = 7;
+    RGB_BRD = 8;
+    RGB_SPI = 9;
+    RGB_SPD = 10;
+    RGB_EFF = 11;
+    RGB_EFR = 12;
+  }
+}
+
+message RgbState {
+  required bool on = 1;
+  optional HSB color = 2;
+  optional Effect effect = 3;
+  optional uint32 speed = 4;
+
+  message HSB {
+    required uint32 h = 1;
+    required uint32 s = 2;
+    required uint32 b = 3;
+  }
+
+  enum Effect {
+    SOLID = 0;
+    BREATHE = 1;
+    SPECTRUM = 2;
+    SWIRL = 3;
+  }
+}
+
+message RgbIndicator {
+  optional bool enable = 1;
+  optional uint32 brightness_active = 2;
+  optional uint32 brightness_inactive = 3;
+}
+
+message EinkImage {
+  required uint32 id = 1;
+  optional uint32 bits_length = 2 [ deprecated = true ];
+  optional bytes bits = 3;
+  optional uint32 x = 4;
+  optional uint32 y = 5;
+  optional uint32 width = 6;
+  optional uint32 height = 7;
+  optional bool partial = 8;
+}
