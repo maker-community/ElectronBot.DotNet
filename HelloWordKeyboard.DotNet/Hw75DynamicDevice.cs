@@ -73,7 +73,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
             Action = Action.EinkSetImage,
             EinkImage = new EinkImage()
             {
-                Id = (uint)new Random().Next()* 1000000,
+                Id = (uint)new Random().Next() * 1000000,
                 Bits = ByteString.CopyFrom(imageData),
                 Partial = partial,
             }
