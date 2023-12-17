@@ -1,4 +1,6 @@
 using Google.Protobuf;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using UsbComm;
 
 namespace HelloWordKeyboard.DotNet;
@@ -20,5 +22,34 @@ public static class AssembleDataExtension
 
             return result;
         }
+    }
+
+    public static byte[] EnCodeImageToBytes(this Image<Rgba32> image)
+    {
+        // Create a 01 matrix
+        int[,] matrix = new int[image.Height, image.Width];
+
+        for (int y = 0; y < image.Height; y++)
+        {
+            for (int x = 0; x < image.Width; x++)
+            {
+                matrix[y, x] = image[x, y].R > 128 ? 1 : 0;
+            }
+        }
+
+        // Convert the matrix to a byte array
+        byte[] byteArray = new byte[image.Height * image.Width / 8];
+        for (int y = 0; y < image.Height; y++)
+        {
+            for (int x = 0; x < image.Width; x += 8)
+            {
+                for (int k = 0; k < 8; k++)
+                {
+                    byteArray[y * image.Width / 8 + x / 8] |= (byte)(matrix[y, x + k] << (7 - k));
+                }
+            }
+        }
+
+        return byteArray;
     }
 }

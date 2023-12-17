@@ -37,5 +37,5 @@ public interface IHw75DynamicDevice
     /// <param name="height"></param>
     /// <param name="partial"></param>
     /// <returns></returns>
-    UsbComm.EinkImage SetEInkImage(byte[] imageData,int? x,int? y,int? width,int? height,bool partial=false);
+    UsbComm.EinkImage SetEInkImage(byte[] imageData, int? x, int? y, int? width, int? height, bool partial = false);
 }
