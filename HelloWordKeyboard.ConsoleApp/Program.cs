@@ -6,7 +6,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-//byte[] byteArray = new byte[128 * 296 / 8];
+byte[] byteArray = new byte[128 * 296 / 8];
 
 // Create a 296*128 matrix
 //int[,] matrix = new int[296, 128];
@@ -41,41 +41,51 @@ using SixLabors.ImageSharp.Processing;
 //}
 var list = new List<byte>();
 
-using (var image = Image.Load<Rgba32>("default.jpg"))
+using (var image = Image.Load<Rgba32>("face.jpg"))
 {
-    //// Convert the image to grayscale
+    // Convert the image to grayscale
     image.Mutate(x => x.Grayscale());
 
-    for (int i = 0; i < image.Height; i++)
+    // Create a 01 matrix
+    int[,] matrix = new int[image.Height, image.Width];
+    for (int y = 0; y < image.Height; y++)
     {
-        for (int j = 0; j < image.Width; j++)
+        for (int x = 0; x < image.Width; x++)
         {
-            var buffer32 = image[j, i];
-
-            float grayScale = 0.299f * buffer32.R + 0.587f * buffer32.G + 0.114f * buffer32.B;
-
-            list.Add((byte)grayScale);
+            matrix[y, x] = image[x, y].R > 128 ? 1 : 0;
         }
     }
 
-    // image.CopyPixelDataTo(byteArray);
+    // Convert the matrix to a byte array
+    //byte[] byteArray = new byte[image.Height * image.Width / 8];
+    for (int y = 0; y < image.Height; y++)
+    {
+        for (int x = 0; x < image.Width; x += 8)
+        {
+            for (int k = 0; k < 8; k++)
+            {
+                byteArray[y * image.Width / 8 + x / 8] |= (byte)(matrix[y, x + k] << (7 - k));
+            }
+        }
+    }
+
 }
 
 // Original byte array
-byte[] originalArray = list.ToArray();
+//byte[] originalArray = list.ToArray();
 
-// New array
-byte[] byteArray = new byte[originalArray.Length / 8];
+//// New array
+//byte[] byteArray = new byte[originalArray.Length / 8];
 
-for (int i = 0; i < originalArray.Length; i += 8)
-{
-    int sum = 0;
-    for (int j = 0; j < 8; j++)
-    {
-        sum += originalArray[i + j];
-    }
-    byteArray[i / 8] = (byte)(sum / 8);
-}
+//for (int i = 0; i < originalArray.Length; i += 8)
+//{
+//    int sum = 0;
+//    for (int j = 0; j < 8; j++)
+//    {
+//        sum += originalArray[i + j];
+//    }
+//    byteArray[i / 8] = (byte)(sum / 8);
+//}
 
 //var byteArray = list.ToArray();
 
