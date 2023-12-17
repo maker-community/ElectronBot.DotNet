@@ -12,19 +12,32 @@ using System.Diagnostics;
 using System.Numerics;
 
 byte[] byteArray = new byte[128 * 296 / 8];
+
 var list = new List<byte>();
 
-var font = SystemFonts.CreateFont("Arial", 32, FontStyle.Bold);
+var collection = new FontCollection();
+var family = collection.Add("./SmileySans-Oblique.ttf");
+var font = family.CreateFont(18, FontStyle.Bold);
 
 using (var image = Image.Load<Rgba32>("face.jpg"))
 {
+    using var overlay = Image.Load<Rgba32>("bzhan.png");
+    
+    overlay.Mutate(x =>
+    {
+        x.Resize(new Size(50,50));
+    });
     // Convert the image to grayscale
     image.Mutate(x =>
     {
-        x.Grayscale();
-        x.DrawText("fans:", font, Color.Black, new Vector2(20, 220));
+        
+        x.DrawImage(overlay,  new Point(0, 64), opacity: 1);
+        x.DrawText("粉丝数:", font, Color.Black, new Vector2(20, 220));
         x.DrawText("999999", font, Color.Black, new Vector2(20, 260));
+        x.Grayscale();
     });
+    
+    image.Save("test.jpg");
 
     byteArray = image.EnCodeImageToBytes();
 }
