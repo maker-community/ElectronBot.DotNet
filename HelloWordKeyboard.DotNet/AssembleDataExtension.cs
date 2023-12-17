@@ -9,10 +9,16 @@ public static class AssembleDataExtension
     {
         var msgBytes = messageH2D.ToByteArray();
 
-        var list = new List<byte> { (byte)msgBytes.Length };
+        using (MemoryStream ms = new MemoryStream())
+        {
+            CodedOutputStream output = new CodedOutputStream(ms);
+            output.WriteInt32(msgBytes.Length);
+            output.Flush();
+            byte[] byteList = ms.ToArray();
 
-        list.AddRange(msgBytes);
-        
-        return list.ToArray();
+            var result = byteList.Concat(msgBytes).ToArray();
+
+            return result;
+        }
     }
 }

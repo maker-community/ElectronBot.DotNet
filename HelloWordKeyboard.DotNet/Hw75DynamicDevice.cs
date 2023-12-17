@@ -11,12 +11,12 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
 {
     private const string Path = "\\\\?\\hid#vid_1d50&pid_615e&mi_01#8&a8a6dc9&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}";
 
-    private  const int RePortCount = 63;
-    
+    private const int RePortCount = 63;
+
     private const int PayloadSize = RePortCount - 1;
-    
-    private Device? _device = null; 
-    
+
+    private Device? _device = null;
+
     public DeviceInfo Open()
     {
         var info = new DeviceInfo();
@@ -31,7 +31,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
         }
         catch (Exception)
         {
-            
+
         }
 
         return info;
@@ -51,7 +51,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
             Action = Action.Version
         };
         var data = Call(version);
-        
+
         return data.Version;
     }
 
@@ -62,7 +62,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
             Action = Action.MotorGetState
         };
         var data = Call(motorGetState);
-        
+
         return data.MotorState;
     }
 
@@ -73,7 +73,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
             Action = Action.EinkSetImage,
             EinkImage = new EinkImage()
             {
-                Id = (uint)new Random().Next()*1000000,
+                Id = (uint)397105,
                 Bits = ByteString.CopyFrom(imageData),
                 Partial = partial,
             }
@@ -100,34 +100,39 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
         }
         var bytes = h2d.EnCodeProtoMessage();
 
-        for (int i = 0; i < bytes.Length; i+=PayloadSize)
+        for (int i = 0; i < bytes.Length; i += PayloadSize)
         {
-            var buf = bytes[i..(i+PayloadSize)];
+            var buf = new byte[PayloadSize];
 
-            var list =new List<byte>
+            if (i + PayloadSize > bytes.Length)
             {
-                1,
-                (byte)buf.Length
-            };
-            list.AddRange(buf);
-            _device.Write(list.ToArray());
+                buf = bytes[i..];
+            }
+            else
+            {
+                buf = bytes[i..(i + PayloadSize)];
+            }
+
+            var list = new byte[2] { 1, (byte)buf.Length };
+
+            var result = list.Concat(buf).ToArray();
+            _device.Write(result);
         }
-        
+
         Task.Delay(20);
 
         var byteList = new List<byte>();
-        
+
         while (true)
         {
-            var read = _device.Read(RePortCount+1);
+            var read = _device.Read(RePortCount + 1);
             int cnt = read[1];
-            byteList.AddRange(read[2..cnt]);
+            byteList.AddRange(read[3..(cnt + 2)]);
             if (cnt < PayloadSize)
             {
                 break;
             }
         }
-
         return MessageD2H.Parser.ParseFrom(byteList.ToArray());
     }
 }
