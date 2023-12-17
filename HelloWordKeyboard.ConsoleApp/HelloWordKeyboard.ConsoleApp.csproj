@@ -11,4 +11,10 @@
     <ProjectReference Include="..\HelloWordKeyboard.DotNet\HelloWordKeyboard.DotNet.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="default.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
