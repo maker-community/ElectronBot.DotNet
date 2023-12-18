@@ -29,6 +29,7 @@ public class PageService : IPageService
         Configure<PoseRecognitionViewModel, PoseRecognitionPage>();
         Configure<MovieViewModel,MoviePage>();
         Configure<GestureAppConfigViewModel, GestureAppConfigPage>();
+        Configure<Hw75ViewModel, Hw75Page>();
     }
 
     public Type GetPageType(string key)

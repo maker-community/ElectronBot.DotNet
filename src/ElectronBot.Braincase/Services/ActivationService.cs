@@ -46,8 +46,17 @@ public class ActivationService : IActivationService
         // Set the MainWindow Content.
         if (App.MainWindow.Content == null)
         {
-            _shell = App.GetService<ShellPage>();
-            App.MainWindow.Content = _shell ?? new Frame();
+            var isHw = true;
+            if (isHw)
+            {
+                _shell = App.GetService<Hw75ShellPage>();
+                App.MainWindow.Content = _shell ?? new Frame();
+            }
+            else
+            {
+                _shell = App.GetService<ShellPage>();
+                App.MainWindow.Content = _shell ?? new Frame();
+            }
         }
 
         // Activate the MainWindow.

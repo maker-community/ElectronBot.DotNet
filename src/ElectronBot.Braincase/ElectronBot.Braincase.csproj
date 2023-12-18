@@ -118,6 +118,8 @@
     <None Remove="Views\GestureAppConfigPage.xaml" />
     <None Remove="Views\GestureClassificationPage.xaml" />
     <None Remove="Views\GestureInteractionPage.xaml" />
+    <None Remove="Views\Hw75Page.xaml" />
+    <None Remove="Views\Hw75ShellPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
     <None Remove="Views\MoviePage.xaml" />
     <None Remove="Views\PoseRecognitionPage.xaml" />
@@ -336,6 +338,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\Hw75Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\GestureAppConfigItems.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -418,6 +423,9 @@
     <Page Update="Views\EmojisEditPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Hw75ShellPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Views\TodoPage.xaml">
       <Generator>MSBuild:Compile</Generator>

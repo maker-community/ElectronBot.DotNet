@@ -187,6 +187,14 @@ public partial class App : Application
             services.AddTransient<IEffectsManager, DefaultEffectsManager>();
 
 
+            services.AddTransient<Hw75ViewModel>();
+
+            services.AddTransient<Hw75Page>();
+
+            services.AddTransient<Hw75ShellPage>();
+            services.AddTransient<Hw75ShellViewModel>();
+
+
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 
             services.AddTransient<IClockViewProvider, DefaultClockViewProvider>();
