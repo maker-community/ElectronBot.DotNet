@@ -1,8 +1,7 @@
 ﻿using ElectronBot.Braincase.Activation;
 using ElectronBot.Braincase.Contracts.Services;
-using Verdure.ElectronBot.Core.Services;
+using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Views;
-
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -19,18 +18,22 @@ public class ActivationService : IActivationService
 
     private readonly IdentityService _identityService;
 
+    private readonly ILocalSettingsService _localSettingsService;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, 
-        IEnumerable<IActivationHandler> activationHandlers, 
-        IThemeSelectorService themeSelectorService, 
-        UserDataService userDataService, 
-        IdentityService identityService)
+
+    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler,
+        IEnumerable<IActivationHandler> activationHandlers,
+        IThemeSelectorService themeSelectorService,
+        UserDataService userDataService,
+        IdentityService identityService,
+        ILocalSettingsService localSettingsService)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
         _themeSelectorService = themeSelectorService;
         _userDataService = userDataService;
         _identityService = identityService;
+        _localSettingsService = localSettingsService;
     }
 
     public async Task ActivateAsync(object activationArgs)
@@ -46,8 +49,12 @@ public class ActivationService : IActivationService
         // Set the MainWindow Content.
         if (App.MainWindow.Content == null)
         {
-            var isHw = true;
-            if (isHw)
+            var config = await _localSettingsService
+              .ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
+
+            var customConfig = config ?? new CustomClockTitleConfig();
+
+            if (customConfig.Hw75IsOpen)
             {
                 _shell = App.GetService<Hw75ShellPage>();
                 App.MainWindow.Content = _shell ?? new Frame();

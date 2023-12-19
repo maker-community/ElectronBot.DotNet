@@ -771,4 +771,16 @@
   <data name="Win32Path.Text" xml:space="preserve">
     <value>Win32文件路径：</value>
   </data>
+  <data name="Hw75Config.Text" xml:space="preserve">
+    <value>瀚文键盘拓展配置</value>
+  </data>
+  <data name="Hw75ConfigDesc.Text" xml:space="preserve">
+    <value>电子脑壳瀚文键盘相关配置</value>
+  </data>
+  <data name="Hw75ModeIsOpen.Text" xml:space="preserve">
+    <value>软件是否开启瀚文模式：</value>
+  </data>
+  <data name="Hw75Page.Content" xml:space="preserve">
+    <value>瀚文键盘拓展</value>
+  </data>
 </root>

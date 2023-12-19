@@ -50,4 +50,10 @@ public class CustomClockTitleConfig
         get;
         set;
     } = true;
+
+    public bool Hw75IsOpen
+    {
+        get;
+        set;
+    }
 }
