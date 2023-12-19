@@ -4,11 +4,49 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock>hw75 test</TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>
+            <Border
+                x:Name="BorderGrid"
+                Width="128"
+                Height="296"
+                Margin="8"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{ThemeResource SystemAccentColor}"
+                BorderThickness="2"
+                Child="{x:Bind ViewModel.Element, Mode=OneWay}"
+                CornerRadius="8" />
+            <ComboBox
+                x:Uid="ChangeClockViewCB"
+                Width="120"
+                Margin="8"
+                VerticalAlignment="Center"
+                DisplayMemberPath="DataValue"
+                ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
+                SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="SelectionChanged">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClockChangedCommand}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+            <TextBlock />
+            <TextBlock />
+        </StackPanel>
     </Grid>
 </Page>

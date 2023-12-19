@@ -29,6 +29,7 @@ using Windows.UI.Popups;
 using Controls.CompactOverlay;
 using HelixToolkit.SharpDX.Core;
 using ViewModels;
+using HelloWordKeyboard.DotNet;
 
 namespace ElectronBot.Braincase;
 
@@ -223,6 +224,8 @@ public partial class App : Application
             services.AddTransient<IChatbotClient, TuringChatbotClient>();
 
             services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
+
+            services.AddSingleton<IHw75DynamicDevice,Hw75DynamicDevice>();
 
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>

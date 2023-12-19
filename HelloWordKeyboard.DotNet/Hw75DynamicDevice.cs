@@ -119,7 +119,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
             _device.Write(result);
         }
 
-        Task.Delay(20);
+        Task.Delay(50);
 
         var byteList = new List<byte>();
 

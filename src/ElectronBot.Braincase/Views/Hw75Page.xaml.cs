@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using ElectronBot.Braincase.ViewModels;
+using ElectronBot.Braincase;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -22,8 +24,15 @@ namespace Views;
 /// </summary>
 public sealed partial class Hw75Page : Page
 {
+    public Hw75ViewModel ViewModel
+    {
+        get;
+    }
+
     public Hw75Page()
     {
-        this.InitializeComponent();
+        ViewModel = App.GetService<Hw75ViewModel>();
+
+        InitializeComponent();
     }
 }

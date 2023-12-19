@@ -11,13 +11,13 @@
     <PackageReference Include="Microsoft.Graph" Version="4.45.0" />
     <PackageReference Include="Microsoft.Identity.Client.Broker" Version="4.53.0" />
     <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.29.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
-	  <PackageReference Include="Google.Protobuf" Version="3.25.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+	  <PackageReference Include="Google.Protobuf" Version="3.25.1" />
 	  <PackageReference Include="Grpc.Net.Client" Version="2.59.0" />
 	  <PackageReference Include="Grpc.Net.ClientFactory" Version="2.59.0" />
-	  <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+	  <PackageReference Include="System.IO.Ports" Version="8.0.0" />
 	  <PackageReference Include="SharpZipLib" Version="1.4.2" />
-	  <PackageReference Include="Grpc.Tools" Version="2.59.0">
+	  <PackageReference Include="Grpc.Tools" Version="2.60.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
