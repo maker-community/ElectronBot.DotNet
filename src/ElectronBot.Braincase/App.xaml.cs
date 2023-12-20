@@ -30,6 +30,8 @@ using Controls.CompactOverlay;
 using HelixToolkit.SharpDX.Core;
 using ViewModels;
 using HelloWordKeyboard.DotNet;
+using HidApi;
+using Hw75Views;
 
 namespace ElectronBot.Braincase;
 
@@ -212,6 +214,9 @@ public partial class App : Application
 
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
 
+            services.AddTransient<TodoView>();
+            services.AddSingleton<Hw75DynamicViewModel>();
+
             services.AddSingleton<EmoticonActionFrameService>();
 
             services.AddSingleton<GestureClassificationService>();
@@ -227,6 +232,9 @@ public partial class App : Application
 
             services.AddSingleton<IHw75DynamicDevice,Hw75DynamicDevice>();
 
+            services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicTodoViewProvider>();
+
+            services.AddSingleton<IHw75DynamicViewProviderFactory, Hw75DynamicViewProviderFactory>();
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
             {
@@ -321,6 +329,7 @@ public partial class App : Application
             }
 
             MainWindow.Close();
+            Hid.Exit();
         }
         else if(result == ContentDialogResult.Secondary)
         {

@@ -36,13 +36,13 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     public ObservableCollection<ComboxItemModel> clockComboxModels;
 
-    private readonly IClockViewProviderFactory _viewProviderFactory;
+    private readonly IHw75DynamicViewProviderFactory _viewProviderFactory;
 
     private readonly DispatcherTimer _dispatcherTimer = new ();
 
     private readonly IHw75DynamicDevice _hw75DynamicDevice;
 
-    public Hw75ViewModel(ComboxDataService comboxDataService, IClockViewProviderFactory viewProviderFactory
+    public Hw75ViewModel(ComboxDataService comboxDataService, IHw75DynamicViewProviderFactory viewProviderFactory
         , IHw75DynamicDevice hw75DynamicDevice)
     {
         ClockComboxModels = comboxDataService.GetClockViewComboxList();
@@ -105,17 +105,17 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
         if (!string.IsNullOrWhiteSpace(clockName))
         {
-            var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockName);
+            var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider(clockName);
 
-            Element = viewProvider.CreateClockView(clockName);
+            Element = viewProvider.CreateHw75DynamickView(clockName);
         }
     }
 
     public void OnNavigatedTo(object parameter)
     {
-        var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
+        var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider("TodoView");
 
-        Element = viewProvider.CreateClockView("DefautView");
+        Element = viewProvider.CreateHw75DynamickView("TodoView");
 
         _dispatcherTimer.Start();
 
