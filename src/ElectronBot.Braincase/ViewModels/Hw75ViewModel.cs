@@ -1,31 +1,22 @@
-﻿using System.Collections;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
+﻿using System.Collections.ObjectModel;
 using System.Runtime.InteropServices.WindowsRuntime;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Services;
 using HelloWordKeyboard.DotNet;
-using HidApi;
-using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Services;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Verdure.ElectronBot.Core.Models;
-using Windows.Devices.HumanInterfaceDevice;
+using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
-using static Mediapipe.Net.Framework.Protobuf.Rasterization.Types;
 
 namespace ElectronBot.Braincase.ViewModels;
 
-public partial class Hw75ViewModel : ObservableRecipient,INavigationAware
+public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 {
     /// <summary>
     /// eink content
@@ -47,16 +38,15 @@ public partial class Hw75ViewModel : ObservableRecipient,INavigationAware
 
     private readonly IClockViewProviderFactory _viewProviderFactory;
 
-    private readonly DispatcherTimer _dispatcherTimer;
+    private readonly DispatcherTimer _dispatcherTimer = new ();
 
     private readonly IHw75DynamicDevice _hw75DynamicDevice;
 
     public Hw75ViewModel(ComboxDataService comboxDataService, IClockViewProviderFactory viewProviderFactory
-        , DispatcherTimer dispatcherTimer, IHw75DynamicDevice hw75DynamicDevice)
+        , IHw75DynamicDevice hw75DynamicDevice)
     {
         ClockComboxModels = comboxDataService.GetClockViewComboxList();
         _viewProviderFactory = viewProviderFactory;
-        _dispatcherTimer = dispatcherTimer;
         _dispatcherTimer.Interval = new TimeSpan(0, 0, 20);
 
         _dispatcherTimer.Tick += DispatcherTimer_Tick;
@@ -67,39 +57,41 @@ public partial class Hw75ViewModel : ObservableRecipient,INavigationAware
     {
         try
         {
-            var bitmap = new RenderTargetBitmap();
+            var renderTargetBitmap = new RenderTargetBitmap();
 
-        await bitmap.RenderAsync(Element);
+            await renderTargetBitmap.RenderAsync(Element);
 
-        var pixels = await bitmap.GetPixelsAsync();
+            var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
 
-        using var canvasDevice = new CanvasDevice();
+            using var stream = new InMemoryRandomAccessStream();
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore,
+            (uint)renderTargetBitmap.PixelWidth,
+            (uint)renderTargetBitmap.PixelHeight,
+                96,
+                96,
+                pixelBuffer.ToArray());
 
-        using var canvasBitmap = CanvasBitmap.CreateFromBytes(
-            canvasDevice, pixels.ToArray(), bitmap.PixelWidth, bitmap.PixelHeight,
-            Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8A8UIntNormalized);
+            await encoder.FlushAsync();
+            stream.Seek(0);
 
-        using IRandomAccessStream stream = new InMemoryRandomAccessStream();
+            using var image = SixLabors.ImageSharp.Image.Load<Rgba32>(stream.AsStream());
 
-        await canvasBitmap.SaveAsync(stream, CanvasBitmapFileFormat.Png);
+            image.Mutate(x =>
+            {
+                x.Resize(128, 296);
+                x.Grayscale();
+            });
 
-        using var image =  SixLabors.ImageSharp.Image.Load<Rgba32>(stream.AsStream());
+            var byteArray = image.EnCodeImageToBytes();
 
-        image.Mutate(x => 
-        {
-            x.Resize(128, 296);
-            x.Grayscale();
-        });
 
-        var byteArray = image.EnCodeImageToBytes();
-
-   
             _ = _hw75DynamicDevice.SetEInkImage(byteArray, 0, 0, 128, 296, false);
         }
-        catch(Exception ex)
-        { 
+        catch (Exception ex)
+        {
         }
-      
+
     }
 
 
@@ -121,24 +113,25 @@ public partial class Hw75ViewModel : ObservableRecipient,INavigationAware
 
     public void OnNavigatedTo(object parameter)
     {
-        var viewProvider = _viewProviderFactory.CreateClockViewProvider("LongShadowView");
+        var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
 
-        Element = viewProvider.CreateClockView("LongShadowView");
+        Element = viewProvider.CreateClockView("DefautView");
 
-        //_dispatcherTimer.Start();
+        _dispatcherTimer.Start();
 
         try
         {
             _hw75DynamicDevice.Open();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
         }
-       
+
     }
     public void OnNavigatedFrom()
     {
         _dispatcherTimer.Stop();
-        Hid.Exit();
+        _hw75DynamicDevice.Close();
+        _hw75DynamicDevice.Dispose();
     }
 }

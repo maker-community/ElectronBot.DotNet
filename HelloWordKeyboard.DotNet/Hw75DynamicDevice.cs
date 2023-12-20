@@ -135,4 +135,9 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
         }
         return MessageD2H.Parser.ParseFrom(byteList.ToArray());
     }
+
+    public void Dispose()
+    {
+        _device?.Dispose();
+    }
 }
