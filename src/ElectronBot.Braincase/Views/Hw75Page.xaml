@@ -21,7 +21,7 @@
                 x:Name="BorderGrid"
                 Width="128"
                 Height="296"
-                Margin="8"
+                Margin="0,0,0,4"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 BorderBrush="{ThemeResource SystemAccentColor}"
