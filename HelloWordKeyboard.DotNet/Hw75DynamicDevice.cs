@@ -28,12 +28,12 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
                 var manufacturer = _device.GetManufacturer();
                 var devInfo = _device.GetDeviceInfo();
             }
+            GC.KeepAlive(this);
         }
         catch (Exception)
         {
 
         }
-
         return info;
     }
 
@@ -68,6 +68,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
 
     public EinkImage SetEInkImage(byte[] imageData, int? x, int? y, int? width, int? height, bool partial = false)
     {
+        _device = new Device(Path);
         var eInkImage = new MessageH2D()
         {
             Action = Action.EinkSetImage,
@@ -133,11 +134,8 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
                 break;
             }
         }
-        return MessageD2H.Parser.ParseFrom(byteList.ToArray());
-    }
+        var dataResult = MessageD2H.Parser.ParseFrom(byteList.ToArray());
 
-    public void Dispose()
-    {
-        _device?.Dispose();
+        return dataResult;
     }
 }

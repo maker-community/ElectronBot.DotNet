@@ -230,8 +230,6 @@ public partial class App : Application
 
             services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
 
-            services.AddSingleton<IHw75DynamicDevice,Hw75DynamicDevice>();
-
             services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicTodoViewProvider>();
 
             services.AddSingleton<IHw75DynamicViewProviderFactory, Hw75DynamicViewProviderFactory>();
@@ -267,6 +265,8 @@ public partial class App : Application
         Thread.Sleep(1000);
 
         ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+
+        Hw75Helper.Instance.Hw75DynamicDevice?.Close();
         // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
@@ -322,6 +322,8 @@ public partial class App : Application
                 await CameraFrameService.Current.CleanupMediaCaptureAsync();
 
                 ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+
+                Hw75Helper.Instance.Hw75DynamicDevice?.Close();
             }
             catch (Exception)
             {

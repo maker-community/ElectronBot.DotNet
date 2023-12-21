@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Contracts.ViewModels;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Services;
 using HelloWordKeyboard.DotNet;
 using Microsoft.UI.Xaml;
@@ -38,19 +39,15 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
     private readonly IHw75DynamicViewProviderFactory _viewProviderFactory;
 
-    private readonly DispatcherTimer _dispatcherTimer = new ();
+    private readonly DispatcherTimer _dispatcherTimer = new();
 
-    private readonly IHw75DynamicDevice _hw75DynamicDevice;
-
-    public Hw75ViewModel(ComboxDataService comboxDataService, IHw75DynamicViewProviderFactory viewProviderFactory
-        , IHw75DynamicDevice hw75DynamicDevice)
+    public Hw75ViewModel(ComboxDataService comboxDataService, IHw75DynamicViewProviderFactory viewProviderFactory)
     {
         ClockComboxModels = comboxDataService.GetClockViewComboxList();
         _viewProviderFactory = viewProviderFactory;
-        _dispatcherTimer.Interval = new TimeSpan(0, 0, 20);
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
 
         _dispatcherTimer.Tick += DispatcherTimer_Tick;
-        _hw75DynamicDevice = hw75DynamicDevice;
     }
 
     private async void DispatcherTimer_Tick(object? sender, object e)
@@ -86,12 +83,11 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
             var byteArray = image.EnCodeImageToBytes();
 
 
-            _ = _hw75DynamicDevice.SetEInkImage(byteArray, 0, 0, 128, 296, false);
+            _ = Hw75Helper.Instance.Hw75DynamicDevice?.SetEInkImage(byteArray, 0, 0, 128, 296, false);
         }
         catch (Exception ex)
         {
         }
-
     }
 
 
@@ -118,20 +114,9 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
         Element = viewProvider.CreateHw75DynamickView("TodoView");
 
         _dispatcherTimer.Start();
-
-        try
-        {
-            _hw75DynamicDevice.Open();
-        }
-        catch (Exception ex)
-        {
-        }
-
     }
     public void OnNavigatedFrom()
     {
         _dispatcherTimer.Stop();
-        _hw75DynamicDevice.Close();
-        _hw75DynamicDevice.Dispose();
     }
 }

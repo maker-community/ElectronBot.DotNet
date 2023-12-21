@@ -2,7 +2,7 @@ using HelloWordKeyboard.DotNet.Models;
 
 namespace HelloWordKeyboard.DotNet;
 
-public interface IHw75DynamicDevice : IDisposable
+public interface IHw75DynamicDevice
 {
     /// <summary>
     /// 打开拓展设备
