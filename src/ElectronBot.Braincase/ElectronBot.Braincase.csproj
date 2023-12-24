@@ -75,6 +75,9 @@
     <None Remove="Controls\MarketplacePage.xaml" />
     <None Remove="Controls\RandomContentPage.xaml" />
     <None Remove="Controls\UploadEmojisPage.xaml" />
+    <None Remove="Hw75Views\Hw75CustomView.xaml" />
+    <None Remove="Hw75Views\Hw75WeatherView.xaml" />
+    <None Remove="Hw75Views\Hw75YellowCalendarView.xaml" />
     <None Remove="Hw75Views\TodoView.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Themes\DefaultThemeDictionary.xaml" />
@@ -340,6 +343,15 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Hw75Views\Hw75YellowCalendarView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Hw75Views\Hw75WeatherView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Hw75Views\Hw75CustomView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Hw75Views\TodoView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

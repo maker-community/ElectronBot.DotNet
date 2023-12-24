@@ -807,6 +807,9 @@
   <data name="Hw75Page.Content" xml:space="preserve">
     <value>瀚文键盘拓展</value>
   </data>
+  <data name="ChangeHw75ViewCB.PlaceholderText" xml:space="preserve">
+    <value>切换墨水屏显示</value>
+  </data>
   <data name="Hw75AddImageBtnTitle.Text" xml:space="preserve">
     <value>添加自定义页面图片</value>
   </data>
@@ -819,7 +822,19 @@
   <data name="Hw75CustomFontSize.Text" xml:space="preserve">
     <value>自定义文字大小：</value>
   </data>
+  <data name="Hw75CustomView" xml:space="preserve">
+    <value>自定义</value>
+  </data>
   <data name="Hw75ImagePath.Text" xml:space="preserve">
     <value>自定义图片路径：</value>
+  </data>
+  <data name="Hw75WeatherView" xml:space="preserve">
+    <value>天气</value>
+  </data>
+  <data name="Hw75YellowCalendarView" xml:space="preserve">
+    <value>黄历</value>
+  </data>
+  <data name="TodoView" xml:space="preserve">
+    <value>微软待办</value>
   </data>
 </root>

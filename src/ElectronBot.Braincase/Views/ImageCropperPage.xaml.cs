@@ -33,7 +33,7 @@ public sealed partial class ImageCropperPage : Page
 
         await ImageCropper.SaveAsync(stream, CommunityToolkit.WinUI.Controls.BitmapFileFormat.Png);
 
-        var writeableBitmap = await BitmapTools.GetCroppedBitmapAsync(stream, new Point(0, 0), new Size(240, 240), 1);
+        var writeableBitmap = await BitmapTools.GetCroppedBitmapAsync(stream, new Point(0, 0),ViewModel.AspectRatio ==1? new Size(240, 240): new Size(12, 296), 1);
 
         ViewModel?.SetResult(writeableBitmap);
     }

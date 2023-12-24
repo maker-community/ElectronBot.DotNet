@@ -32,7 +32,7 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     ComboxItemModel? clockComBoxSelect;
 
     /// <summary>
-    /// 表盘列表
+    /// 瀚文界面列表
     /// </summary>
     [ObservableProperty]
     public ObservableCollection<ComboxItemModel> clockComboxModels;
@@ -43,7 +43,7 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
     public Hw75ViewModel(ComboxDataService comboxDataService, IHw75DynamicViewProviderFactory viewProviderFactory)
     {
-        ClockComboxModels = comboxDataService.GetClockViewComboxList();
+        ClockComboxModels = comboxDataService.GetHw75ViewComboxList();
         _viewProviderFactory = viewProviderFactory;
         _dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
 
@@ -109,11 +109,11 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
     public void OnNavigatedTo(object parameter)
     {
-        var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider("TodoView");
+        var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider("Hw75CustomView");
 
-        Element = viewProvider.CreateHw75DynamickView("TodoView");
+        Element = viewProvider.CreateHw75DynamickView("Hw75CustomView");
 
-        _dispatcherTimer.Start();
+        //_dispatcherTimer.Start();
     }
     public void OnNavigatedFrom()
     {

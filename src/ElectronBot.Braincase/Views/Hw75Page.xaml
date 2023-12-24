@@ -29,9 +29,9 @@
                 Child="{x:Bind ViewModel.Element, Mode=OneWay}"
                 CornerRadius="8" />
             <ComboBox
-                x:Uid="ChangeClockViewCB"
-                Width="120"
-                Margin="8"
+                x:Uid="ChangeHw75ViewCB"
+                Width="180"
+                Margin="0,8,8,8"
                 VerticalAlignment="Center"
                 DisplayMemberPath="DataValue"
                 ItemsSource="{x:Bind ViewModel.ClockComboxModels}"

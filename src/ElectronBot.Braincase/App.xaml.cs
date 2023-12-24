@@ -196,7 +196,9 @@ public partial class App : Application
 
             services.AddTransient<Hw75ShellPage>();
             services.AddTransient<Hw75ShellViewModel>();
-
+            services.AddTransient<Hw75CustomView>();
+            services.AddTransient<Hw75WeatherView>();
+            services.AddTransient<Hw75YellowCalendarView>();
 
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 
@@ -231,6 +233,12 @@ public partial class App : Application
             services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
 
             services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicTodoViewProvider>();
+
+
+            services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicCustomViewProvider>();
+
+            services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicWeatherViewProvider>();
+            services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicYellowCalendarViewProvider>();
 
             services.AddSingleton<IHw75DynamicViewProviderFactory, Hw75DynamicViewProviderFactory>();
 
