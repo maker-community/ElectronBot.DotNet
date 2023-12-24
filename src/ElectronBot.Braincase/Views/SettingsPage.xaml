@@ -595,6 +595,115 @@
                                         IsOn="{x:Bind ViewModel.ClockTitleConfig.Hw75IsOpen, Mode=OneWay}"
                                         Toggled="{x:Bind ViewModel.Hw75ToggleSwitch_OnToggled}" />
                                 </StackPanel>
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="Hw75AddImageBtnTitle"
+                                        Width="140"
+                                        VerticalAlignment="Center" />
+                                    <Button
+                                        x:Uid="Hw75AddImageBtn"
+                                        Margin="4"
+                                        Command="{x:Bind ViewModel.AddHw75ImageCommand}">
+                                        <FontIcon
+                                            FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                            FontSize="48"
+                                            Glyph="&#xE158;" />
+                                    </Button>
+                                    <Border
+                                        Width="32"
+                                        Height="74"
+                                        Margin="4"
+                                        CornerRadius="4">
+                                        <Image Source="{x:Bind ViewModel.Hw75BitMap, Mode=TwoWay}" />
+                                    </Border>
+                                    <Button
+                                        x:Uid="EmojisAvatarAddBtn"
+                                        Margin="4"
+                                        Command="{x:Bind ViewModel.RemoveHw75ImageCommand}">
+                                        <FontIcon
+                                            FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                            FontSize="48"
+                                            Glyph="&#xF78A;" />
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="Hw75ImagePath"
+                                        Width="120"
+                                        VerticalAlignment="Center" />
+                                    <TextBox
+                                        Width="280"
+                                        Margin="4"
+                                        IsReadOnly="True"
+                                        Text="{x:Bind ViewModel.Hw75ImagePath, Mode=OneWay}"
+                                        TextWrapping="NoWrap" />
+                                </StackPanel>
+
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="Hw75CustomContentIsVisibility"
+                                        Width="140"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        Margin="4"
+                                        IsOn="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentIsVisibility, Mode=OneWay}"
+                                        Toggled="{x:Bind ViewModel.Hw75ContentToggleSwitch_OnToggled}" />
+                                </StackPanel>
+
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            x:Uid="Hw75CustomFontSize"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                        <Grid Grid.Column="1">
+                                            <NumberBox
+                                                LargeChange="4"
+                                                Maximum="40"
+                                                Minimum="16"
+                                                SmallChange="2"
+                                                SpinButtonPlacementMode="Inline"
+                                                Value="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontsize, Mode=TwoWay}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="ValueChanged">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.Hw75CustomContentFontsizeCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </NumberBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            x:Uid="Hw75CumstomWords"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                        <Grid Grid.Column="1">
+                                            <TextBox
+                                                Width="240"
+                                                HorizontalAlignment="Right"
+                                                Text="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContent, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="LostFocus">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
                             </StackPanel>
                         </Grid>
                     </Expander>

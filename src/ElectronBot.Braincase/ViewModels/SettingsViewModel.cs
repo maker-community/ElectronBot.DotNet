@@ -88,10 +88,18 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         set => SetProperty(ref _emojisAvatarBitMap, value);
     }
 
+    [ObservableProperty]
+    public WriteableBitmap _hw75BitMap;
+
     /// <summary>
     /// 表情图片
     /// </summary>
     [ObservableProperty] public string emojisAvatar;
+
+    /// <summary>
+    /// Hw75图片
+    /// </summary>
+    [ObservableProperty] public string _hw75ImagePath;
 
     private CustomClockTitleConfig _clockTitleConfig = new();
     public CustomClockTitleConfig ClockTitleConfig
@@ -108,6 +116,18 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             ClockTitleConfig.CustomViewContentIsVisibility = isVisual;
         }
        
+        await _localSettingsService
+            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+    }
+
+    public async void Hw75ContentToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var isVisual = toggleSwitch.IsOn;
+            ClockTitleConfig.Hw75CustomContentIsVisibility = isVisual;
+        }
+
         await _localSettingsService
             .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
     }
@@ -456,6 +476,8 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
             EmojisAvatar = ClockTitleConfig.CustomViewPicturePath;
 
+            Hw75ImagePath = ClockTitleConfig.CustomHw75ImagePath;
+
             var camera = await EbHelper.FindCameraDeviceListAsync();
 
             Cameras = new ObservableCollection<ComboxItemModel>(camera);
@@ -500,6 +522,95 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         {
         }
     }
+
+
+
+    #region 瀚文配置相关
+    [RelayCommand]
+    private async Task AddHw75Image()
+    {
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+
+        var picker = new Windows.Storage.Pickers.FileOpenPicker
+        {
+            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+
+            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
+        };
+
+        picker.FileTypeFilter.Add(".png");
+        picker.FileTypeFilter.Add(".jpg");
+        picker.FileTypeFilter.Add(".jpeg");
+
+        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+        var file = await picker.PickSingleFileAsync();
+
+        if (file is null)
+        {
+            return;
+        }
+
+        var propList = await file.GetBasicPropertiesAsync();
+
+        var size = propList.Size;
+
+        if (size > 5 * 1000 * 1000)
+        {
+            ToastHelper.SendToast("EmojisActionFileSize".GetLocalized(), TimeSpan.FromSeconds(3));
+
+            return;
+        }
+
+        var config = new ImageCropperConfig
+        {
+            ImageFile = file,
+            AspectRatio = 128d/276d
+        };
+
+        var croppedImage = await ImageHelper.CropImage(config);
+
+        if (croppedImage is null)
+        {
+            return;
+        }
+
+        Hw75BitMap = croppedImage;
+
+        var folder = ApplicationData.Current.LocalFolder;
+
+        var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+        var storageFile = await storageFolder
+            .CreateFileAsync($"CustomHw75Image-{DateTime.Now.Second}{file.FileType}", CreationCollisionOption.ReplaceExisting);
+
+        if (await ImageHelper.SaveWriteableBitmapImageFileAsync(croppedImage, storageFile))
+        {
+            ClockTitleConfig.CustomHw75ImagePath = storageFile.Path;
+            await _localSettingsService
+                .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+            Hw75ImagePath = storageFile.Path;
+        }
+    }
+
+    [RelayCommand]
+    private async Task RemoveHw75Image()
+    {
+        ClockTitleConfig.CustomHw75ImagePath = "";
+        await _localSettingsService
+            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+        Hw75ImagePath = "";
+    }
+
+
+    [RelayCommand]
+    private async Task Hw75CustomContentFontsize()
+    {
+        await _localSettingsService
+                            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+    }
+
+    #endregion
 
     private static string GetVersionDescription()
     {

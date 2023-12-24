@@ -809,4 +809,19 @@
   <data name="Hw75Page.Content" xml:space="preserve">
     <value>瀚文键盘拓展</value>
   </data>
+  <data name="Hw75AddImageBtnTitle.Text" xml:space="preserve">
+    <value>添加自定义页面图片：</value>
+  </data>
+  <data name="Hw75CumstomWords.Text" xml:space="preserve">
+    <value>瀚文自定义内容：</value>
+  </data>
+  <data name="Hw75CustomContentIsVisibility.Text" xml:space="preserve">
+    <value>是否显示自定义文本：</value>
+  </data>
+  <data name="Hw75CustomFontSize.Text" xml:space="preserve">
+    <value>自定义文字大小：</value>
+  </data>
+  <data name="Hw75ImagePath.Text" xml:space="preserve">
+    <value>自定义图片路径：</value>
+  </data>
 </root>
