@@ -22,7 +22,7 @@ namespace Hw75Views
 {
     public sealed partial class Hw75CustomView : UserControl
     {
-        public ClockViewModel ViewModel
+        public Hw75CustomViewModel ViewModel
         {
             get;
         }
@@ -30,7 +30,7 @@ namespace Hw75Views
         {
             this.InitializeComponent();
 
-            ViewModel = App.GetService<ClockViewModel>();
+            ViewModel = App.GetService<Hw75CustomViewModel>();
         }
     }
 }

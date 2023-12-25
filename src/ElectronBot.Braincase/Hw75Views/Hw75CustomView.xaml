@@ -15,65 +15,57 @@
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <Grid x:Name="LayoutRoot" Background="Black">
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Image Source="{x:Bind ViewModel.ClockTitleConfig.CustomHw75ImagePath, Mode=OneWay}" />
         <Viewbox>
-            <Grid
-                x:Name="Root"
-                Width="128"
-                Height="296">
-                <ContentControl
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontFamily="{StaticResource TimeFont}"
-                    Foreground="White">
-                    <StackPanel
-                        x:Name="PomodoroPanel"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                        <StackPanel x:Name="FocusPanel" VerticalAlignment="Center">
-                            <StackPanel HorizontalAlignment="center" Orientation="Horizontal">
-                                <TextBlock
-                                    Margin="2"
-                                    HorizontalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="White"
-                                    Text="{x:Bind ViewModel.Day, Mode=OneWay}" />
-                                <TextBlock
-                                    Margin="2"
-                                    HorizontalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="White"
-                                    Text="{x:Bind ViewModel.TodayWeek, Mode=OneWay}" />
-                            </StackPanel>
-                            <TextBlock
-                                Margin="2"
-                                HorizontalAlignment="Center"
-                                FontSize="32"
-                                FontWeight="Bold"
-                                Foreground="White"
-                                Text="{x:Bind ViewModel.TodayTime, Mode=OneWay}" />
-
-                            <TextBlock
-                                MaxWidth="120"
-                                Margin="2"
-                                HorizontalAlignment="Center"
-                                FontSize="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontsize, Mode=OneWay}"
-                                FontWeight="Bold"
-                                Foreground="White"
-                                Text="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContent, Mode=OneWay}"
-                                TextAlignment="Center"
-                                TextWrapping="Wrap" />
-                        </StackPanel>
+            <Grid Width="128" Height="296">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" VerticalAlignment="Top">
+                    <StackPanel HorizontalAlignment="center" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="2"
+                            HorizontalAlignment="Center"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="Black"
+                            Text="{x:Bind ViewModel.Day, Mode=OneWay}" />
+                        <TextBlock
+                            Margin="2"
+                            HorizontalAlignment="Center"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="Black"
+                            Text="{x:Bind ViewModel.TodayWeek, Mode=OneWay}" />
                     </StackPanel>
-                </ContentControl>
+
+                    <TextBlock
+                        Margin="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="32"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="{x:Bind ViewModel.TodayTime, Mode=OneWay}" />
+                </StackPanel>
+
+
+                <TextBlock
+                    Grid.Row="2"
+                    MaxWidth="120"
+                    Margin="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    FontSize="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontsize, Mode=OneWay}"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Text="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContent, Mode=OneWay}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
             </Grid>
         </Viewbox>
-        <Rectangle Grid.RowSpan="2" IsHitTestVisible="False">
-            <Rectangle.Fill>
-                <media:TiledImageBrush Source="ms-appx:///Assets/flutter.png" />
-            </Rectangle.Fill>
-        </Rectangle>
     </Grid>
 </UserControl>

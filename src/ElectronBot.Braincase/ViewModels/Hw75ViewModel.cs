@@ -113,7 +113,7 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
         Element = viewProvider.CreateHw75DynamickView("Hw75CustomView");
 
-        //_dispatcherTimer.Start();
+        _dispatcherTimer.Start();
     }
     public void OnNavigatedFrom()
     {

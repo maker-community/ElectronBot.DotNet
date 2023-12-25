@@ -1,8 +1,11 @@
-﻿using ElectronBot.Braincase.Helpers;
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Foundation;
+using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -33,9 +36,24 @@ public sealed partial class ImageCropperPage : Page
 
         await ImageCropper.SaveAsync(stream, CommunityToolkit.WinUI.Controls.BitmapFileFormat.Png);
 
-        var writeableBitmap = await BitmapTools.GetCroppedBitmapAsync(stream, new Point(0, 0),ViewModel.AspectRatio ==1? new Size(240, 240): new Size(12, 296), 1);
+        var writeableBitmap = await ConvertStreamToWriteableBitmap(stream); //await BitmapTools.GetCroppedBitmapAsync(stream, new Point(0, 0),ViewModel.AspectRatio ==1? new Size(240, 240): new Size(12, 296), 1);
 
         ViewModel?.SetResult(writeableBitmap);
+    }
+
+    public async Task<WriteableBitmap> ConvertStreamToWriteableBitmap(IRandomAccessStream stream)
+    {
+        BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+        PixelDataProvider pixelData = await decoder.GetPixelDataAsync();
+        byte[] pixels = pixelData.DetachPixelData();
+
+        var writeableBitmap = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
+        using (Stream pixelStream = writeableBitmap.PixelBuffer.AsStream())
+        {
+            await pixelStream.WriteAsync(pixels, 0, pixels.Length);
+        }
+
+        return writeableBitmap;
     }
 
     private void AppBarButton_Click(object sender, RoutedEventArgs e)
