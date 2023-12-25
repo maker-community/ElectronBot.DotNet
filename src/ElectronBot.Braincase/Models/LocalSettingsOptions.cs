@@ -11,4 +11,9 @@ public class LocalSettingsOptions
     {
         get; set;
     }
+
+    public string? Hw75AppCode
+    {
+        get; set;
+    }
 }

@@ -202,6 +202,10 @@ public partial class App : Application
 
             services.AddTransient<Hw75CustomViewModel>();
 
+            services.AddTransient<Hw75WeatherViewModel>();
+
+            services.AddTransient<Hw75YellowCalendarViewModel>();
+
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 
             services.AddTransient<IClockViewProvider, DefaultClockViewProvider>();
