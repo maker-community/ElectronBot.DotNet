@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml;
 
 namespace ElectronBot.Braincase.ViewModels;
 
-public class Hw75CustomViewModel : ObservableRecipient
+public partial class Hw75CustomViewModel : ObservableRecipient
 {
     private readonly DispatcherTimer _dispatcherTimer;
 
@@ -26,6 +26,11 @@ public class Hw75CustomViewModel : ObservableRecipient
     private readonly ClockDiagnosticService _diagnosticService;
 
     private bool isProcessing = false;
+
+    [ObservableProperty] private Visibility _customContentVisibility = Visibility.Visible;
+
+    [ObservableProperty] private Visibility _dateVisibility = Visibility.Visible;
+
 
 
     public string TodayWeek
@@ -77,7 +82,10 @@ public class Hw75CustomViewModel : ObservableRecipient
 
         ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
 
-        _diagnosticService.ClockDiagnosticInfoResult += DiagnosticService_ClockDiagnosticInfoResult;
+        CustomContentVisibility = ClockTitleConfig.Hw75CustomContentIsVisibility ? Visibility.Visible : Visibility.Collapsed;
+
+        DateVisibility = ClockTitleConfig.Hw75TimeIsVisibility ? Visibility.Visible : Visibility.Collapsed;
+       _diagnosticService.ClockDiagnosticInfoResult += DiagnosticService_ClockDiagnosticInfoResult;
     }
 
     private void DiagnosticService_ClockDiagnosticInfoResult(object? sender, ClockDiagnosticInfo e)
@@ -85,7 +93,7 @@ public class Hw75CustomViewModel : ObservableRecipient
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
             ClockDiagnosticInfo = e ?? new ClockDiagnosticInfo();
-        });    
+        });
     }
 
     private async void DispatcherTimer_Tick(object? sender, object e)

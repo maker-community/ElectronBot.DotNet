@@ -24,7 +24,10 @@
                     <RowDefinition />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" VerticalAlignment="Top">
+                <StackPanel
+                    Grid.Row="0"
+                    VerticalAlignment="Top"
+                    Visibility="{x:Bind ViewModel.DateVisibility, Mode=OneWay}">
                     <StackPanel HorizontalAlignment="center" Orientation="Horizontal">
                         <TextBlock
                             Margin="2"
@@ -64,7 +67,8 @@
                     Foreground="Black"
                     Text="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContent, Mode=OneWay}"
                     TextAlignment="Center"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind ViewModel.CustomContentVisibility, Mode=OneWay}" />
             </Grid>
         </Viewbox>
     </Grid>
