@@ -11,12 +11,17 @@ public class CustomClockTitleConfig
         get; set;
     } = "你好世界☺️";
 
-    public int CustomClockTitleFontsize
+    public string Hw75YellowCalendarKey
+    {
+        get; set;
+    } = string.Empty;
+
+    public int CustomClockTitleFontSize
     {
         get; set;
     } = 16;
 
-    public int Hw75CustomContentFontsize
+    public int Hw75CustomContentFontSize
     {
         get; set;
     } = 16;
@@ -69,6 +74,12 @@ public class CustomClockTitleConfig
     } = true;
 
     public bool Hw75CustomContentIsVisibility
+    {
+        get;
+        set;
+    } = true;
+
+    public bool Hw75TimeIsVisibility
     {
         get;
         set;

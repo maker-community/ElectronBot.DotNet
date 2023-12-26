@@ -38,7 +38,7 @@
                                         MaxWidth="120"
                                         HorizontalAlignment="Left"
                                         FontFamily="{StaticResource TimeFont}"
-                                        FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
+                                        FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
                                         FontWeight="Bold"
                                         Foreground="White"
                                         Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}"

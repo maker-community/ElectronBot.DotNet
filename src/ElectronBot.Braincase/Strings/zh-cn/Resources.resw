@@ -839,4 +839,10 @@
   <data name="TodoView" xml:space="preserve">
     <value>微软待办</value>
   </data>
+  <data name="Hw75TimeIsVisibility.Text" xml:space="preserve">
+    <value>是否显示日期时间:</value>
+  </data>
+  <data name="Hw75YellowCalendarKey.Text" xml:space="preserve">
+    <value>聚合数据老黄历Key：</value>
+  </data>
 </root>

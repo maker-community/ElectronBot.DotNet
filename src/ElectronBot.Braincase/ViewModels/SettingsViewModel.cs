@@ -565,7 +565,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         var config = new ImageCropperConfig
         {
             ImageFile = file,
-            AspectRatio = 128d/276d
+            AspectRatio = 128d/296d
         };
 
         var croppedImage = await ImageHelper.CropImage(config);

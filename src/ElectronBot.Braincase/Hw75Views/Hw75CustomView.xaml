@@ -59,7 +59,7 @@
                     Margin="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
-                    FontSize="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontsize, Mode=OneWay}"
+                    FontSize="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontSize, Mode=OneWay}"
                     FontWeight="Bold"
                     Foreground="Black"
                     Text="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContent, Mode=OneWay}"
