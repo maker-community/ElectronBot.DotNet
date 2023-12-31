@@ -89,13 +89,13 @@
                     Orientation="Horizontal">
                     <TextBlock
                         Margin="4"
-                        FontSize="24"
+                        FontSize="20"
                         FontWeight="Bold"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.GpsResult.Now.Province, Mode=OneWay}" />
                     <TextBlock
                         Margin="4"
-                        FontSize="24"
+                        FontSize="20"
                         FontWeight="Bold"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.GpsResult.Now.City, Mode=OneWay}" />

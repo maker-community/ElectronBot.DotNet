@@ -132,6 +132,18 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
     }
 
+    public async void Hw75TimeToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var isVisual = toggleSwitch.IsOn;
+            ClockTitleConfig.Hw75TimeIsVisibility = isVisual;
+        }
+
+        await _localSettingsService
+            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+    }
+
     public async void Hw75ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)

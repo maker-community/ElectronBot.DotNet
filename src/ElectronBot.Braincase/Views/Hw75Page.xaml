@@ -45,8 +45,66 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1">
-            <TextBlock />
-            <TextBlock />
+            <TextBlock
+                Margin="8"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                FontSize="24"
+                FontWeight="Bold"
+                Text="设备" />
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="设备名：" />
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+            </StackPanel>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="VID：" />
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+            </StackPanel>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="PID：" />
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+            </StackPanel>
+            <Line
+                Margin="8"
+                Stroke="{ThemeResource SystemAccentColor}"
+                StrokeThickness="2"
+                X1="0"
+                X2="400"
+                Y1="0"
+                Y2="0" />
+            <TextBlock
+                Margin="8"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                FontSize="24"
+                FontWeight="Bold"
+                Text="固件" />
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="固件版本：" />
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+            </StackPanel>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="ZMK 版本：" />
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+            </StackPanel>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="Zephyr 版本：" />
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+            </StackPanel>
+            <Line
+                Margin="8"
+                Stroke="{ThemeResource SystemAccentColor}"
+                StrokeThickness="2"
+                X1="0"
+                X2="400"
+                Y1="0"
+                Y2="0" />
+            <HyperlinkButton
+                Content="固件问题反馈"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                NavigateUri="https://github.com/xingrz/zmk-config_helloword_hw-75/issues" />
+            <HyperlinkButton
+                Content="获取最新版本固件"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                NavigateUri="https://github.com/xingrz/zmk-config_helloword_hw-75/releases" />
         </StackPanel>
     </Grid>
 </Page>
