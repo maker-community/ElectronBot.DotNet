@@ -20,32 +20,62 @@
         <Viewbox>
             <Grid Width="128" Height="296">
                 <StackPanel>
-                    <TextBlock TextAlignment="Center" Margin="0,4,0,4" FontWeight="Bold" Text="{x:Bind ViewModel.YellowCalendarResult.Yangli,Mode=OneWay}" Foreground="Black" TextWrapping="Wrap">
+                    <TextBlock TextAlignment="Center"
+                               FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                               Margin="0,4,0,4" FontSize="20"
+                               Text="{x:Bind ViewModel.YellowCalendarResult.Yangli,Mode=OneWay}" 
+                               Foreground="Black" 
+                               TextWrapping="Wrap">
                         
                     </TextBlock>
 
-                    <TextBlock TextAlignment="Center" Margin="0,4,0,4" FontWeight="Bold" Text="{x:Bind ViewModel.YellowCalendarResult.Yinli,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
+                    <TextBlock TextAlignment="Center"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                               Margin="0,4,0,4" Text="{x:Bind ViewModel.YellowCalendarResult.Yinli,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
 
                     </TextBlock>
 
-                    <TextBlock TextAlignment="Center" Margin="0,4,0,4" FontWeight="Bold" Text="{x:Bind ViewModel.YellowCalendarResult.Wuxing,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
+                    <TextBlock TextAlignment="Center"
+                                  FontSize="12"
+  FontWeight="Bold"
+                                FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                               Margin="0,4,0,4" Text="{x:Bind ViewModel.YellowCalendarResult.Wuxing,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
 
                     </TextBlock>
 
 
-                    <TextBlock TextAlignment="Center" Margin="0,4,0,4" FontWeight="Bold" Text="{x:Bind ViewModel.YellowCalendarResult.Chongsha,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
+                    <TextBlock TextAlignment="Center" 
+                                  FontSize="12"
+  FontWeight="Bold"
+FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                               Margin="0,4,0,4" Text="{x:Bind ViewModel.YellowCalendarResult.Chongsha,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
 
                     </TextBlock>
 
-                    <TextBlock TextAlignment="Center" Margin="0,4,0,4" FontWeight="Bold" Text="{x:Bind ViewModel.YellowCalendarResult.Yi,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
+                    <TextBlock TextAlignment="Center" 
+                               
+                                  FontSize="12"
+  FontWeight="Bold"
+FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                               Margin="0,4,0,4" Text="{x:Bind ViewModel.YellowCalendarResult.Yi,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
 
                     </TextBlock>
 
-                    <TextBlock TextAlignment="Center" Margin="0,4,0,4" FontWeight="Bold" Text="{x:Bind ViewModel.YellowCalendarResult.Xiongshen,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
+                    <TextBlock TextAlignment="Center"
+                               
+                                  FontSize="16"
+FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                               Margin="0,4,0,4" Text="{x:Bind ViewModel.YellowCalendarResult.Xiongshen,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
 
                     </TextBlock>
 
-                    <TextBlock TextAlignment="Center" Margin="0,4,0,4" FontWeight="Bold" Text="{x:Bind ViewModel.YellowCalendarResult.Ji,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
+                    <TextBlock TextAlignment="Center"
+                                  FontSize="12"
+  FontWeight="Bold"
+FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                               Margin="0,4,0,4" Text="{x:Bind ViewModel.YellowCalendarResult.Ji,Mode=OneWay}"  Foreground="Black" TextWrapping="Wrap">
 
                     </TextBlock>
                 </StackPanel>

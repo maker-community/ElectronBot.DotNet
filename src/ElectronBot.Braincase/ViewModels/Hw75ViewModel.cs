@@ -77,7 +77,7 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
             image.Mutate(x =>
             {
                 x.Resize(128, 296);
-                x.Grayscale();
+                //x.Grayscale();
             });
 
             var byteArray = image.EnCodeImageToBytes();
