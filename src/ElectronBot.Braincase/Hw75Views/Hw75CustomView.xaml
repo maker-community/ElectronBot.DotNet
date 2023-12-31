@@ -29,16 +29,16 @@
                         <TextBlock
                             Margin="2"
                             HorizontalAlignment="Center"
-                            FontSize="20"
-                            FontWeight="Bold"
+                            FontSize="24"
+                            FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                             Foreground="Black"
                             Text="{x:Bind ViewModel.Day, Mode=OneWay}" />
                         <TextBlock
                             Margin="2"
                             HorizontalAlignment="Center"
-                            FontSize="20"
-                            FontWeight="Bold"
+                            FontSize="24"
                             Foreground="Black"
+                            FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                             Text="{x:Bind ViewModel.TodayWeek, Mode=OneWay}" />
                     </StackPanel>
 
@@ -46,9 +46,9 @@
                         Margin="2"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontSize="32"
-                        FontWeight="Bold"
+                        FontSize="36"
                         Foreground="Black"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         Text="{x:Bind ViewModel.TodayTime, Mode=OneWay}" />
                 </StackPanel>
 
@@ -60,8 +60,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
                     FontSize="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontSize, Mode=OneWay}"
-                    FontWeight="Bold"
                     Foreground="Black"
+                    FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                     Text="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContent, Mode=OneWay}"
                     TextAlignment="Center"
                     TextWrapping="Wrap" />

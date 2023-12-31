@@ -51,6 +51,7 @@
     <None Remove="Assets\Emoji\right.mp4" />
     <None Remove="Assets\Emoji\right.png" />
     <None Remove="Assets\flutter.png" />
+    <None Remove="Assets\Font\fusion-pixel-12px-monospaced-zh_hans.ttf" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\Images\CustomViewDefault.jpg" />
     <None Remove="Assets\model.onnx" />
