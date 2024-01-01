@@ -23,6 +23,7 @@
     <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\alipay.JPG" />
     <Content Remove="Assets\cat_with_wry_smile_3d.png" />
     <Content Remove="Assets\Emoji\anger.png" />
     <Content Remove="Assets\Emoji\disdain.png" />
@@ -33,6 +34,7 @@
     <Content Remove="Assets\hand.png" />
     <Content Remove="Assets\MLModel1.zip" />
     <Content Remove="Assets\model.onnx" />
+    <Content Remove="Assets\wechat.JPG" />
     <Content Remove="Assets\xbox-one-controller.png" />
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +53,6 @@
     <None Remove="Assets\Emoji\right.mp4" />
     <None Remove="Assets\Emoji\right.png" />
     <None Remove="Assets\flutter.png" />
-    <None Remove="Assets\Font\fusion-pixel-12px-monospaced-zh_hans.ttf" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\Images\CustomViewDefault.jpg" />
     <None Remove="Assets\model.onnx" />
@@ -311,6 +312,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\alipay.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\cat_with_wry_smile_3d.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -339,6 +343,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\MLModel1.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\wechat.JPG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\xbox-one-controller.png">

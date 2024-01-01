@@ -767,23 +767,74 @@
 
 
                 <StackPanel Margin="8">
-                    <Button x:Name="Call" Command="{x:Bind ViewModel.FeedbackBtnCommand}">
-                        <Button.Content>
-                            <StackPanel>
-                                <FontIcon
-                                    FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
-                                    FontSize="80"
-                                    Glyph="&#xE1A8;" />
-                                <TextBlock
-                                    x:Uid="FeedBackText"
-                                    HorizontalAlignment="Center"
-                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                    FontSize="24" />
-                            </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="Call" Command="{x:Bind ViewModel.FeedbackBtnCommand}">
+                            <Button.Content>
+                                <StackPanel>
+                                    <FontIcon
+                                        FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="80"
+                                        Glyph="&#xE1A8;" />
+                                    <TextBlock
+                                        x:Uid="FeedBackText"
+                                        HorizontalAlignment="Center"
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                        FontSize="24" />
+                                </StackPanel>
 
-                        </Button.Content>
-                    </Button>
+                            </Button.Content>
+                        </Button>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                            <TextBlock
+                                Margin="8"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
+                                Text="如果你觉得本软件对你有帮助，你可以邮件反馈或者打赏作者。" />
+                            <Button
+                                x:Uid="DaShang"
+                                Margin="8"
+                                VerticalAlignment="Bottom"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑">
+                                <Button.Flyout>
+                                    <Flyout Placement="BottomEdgeAlignedLeft">
+                                        <StackPanel Margin="4" Orientation="Horizontal">
+                                            <StackPanel>
+                                                <TextBlock
+                                                    x:Uid="alipay"
+                                                    Margin="4"
+                                                    HorizontalAlignment="Center"
+                                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                                <Image
+                                                    Width="200"
+                                                    Height="200"
+                                                    Source="ms-appx:///Assets/alipay.JPG" />
+                                            </StackPanel>
+                                            <StackPanel>
+                                                <TextBlock
+                                                    x:Uid="wechat"
+                                                    Margin="4"
+                                                    HorizontalAlignment="Center"
+                                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                                <Image
+                                                    Width="200"
+                                                    Height="200"
+                                                    Source="ms-appx:///Assets/wechat.JPG" />
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
                 </StackPanel>
+
+
 
 
                 <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
@@ -805,6 +856,10 @@
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
                     <TextBlock x:Uid="Reference" Style="{ThemeResource BodyTextBlockStyle}" />
 
+                    <HyperlinkButton
+                        x:Uid="VerdureBilibili"
+                        Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
+                        NavigateUri="https://space.bilibili.com/25228512" />
 
                     <HyperlinkButton
                         x:Uid="ElectronSourceCode"

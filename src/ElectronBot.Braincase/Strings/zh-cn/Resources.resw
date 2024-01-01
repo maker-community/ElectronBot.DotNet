@@ -845,4 +845,16 @@
   <data name="Hw75YellowCalendarKey.Text" xml:space="preserve">
     <value>聚合数据老黄历Key：</value>
   </data>
+  <data name="alipay.Text" xml:space="preserve">
+    <value>支付宝</value>
+  </data>
+  <data name="DaShang.Content" xml:space="preserve">
+    <value>点击扫码打赏作者</value>
+  </data>
+  <data name="wechat.Text" xml:space="preserve">
+    <value>微信</value>
+  </data>
+  <data name="VerdureBilibili.Content" xml:space="preserve">
+    <value>点击关注我B站获取最新消息</value>
+  </data>
 </root>
