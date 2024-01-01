@@ -38,6 +38,8 @@ public class Constants
 
     public const string DefaultCameraName = "USB";
 
+    public const string YellowCalendarKey = "YellowCalendarKey";
+
     public const string MODEL_PATH = "ms-appx:///Assets//model.onnx";
 
     public const float CLASSIFICATION_CERTAINTY_THRESHOLD = 0.2f;

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
@@ -86,6 +87,8 @@ public partial class Hw75CustomViewModel : ObservableRecipient
 
         DateVisibility = ClockTitleConfig.Hw75TimeIsVisibility ? Visibility.Visible : Visibility.Collapsed;
        _diagnosticService.ClockDiagnosticInfoResult += DiagnosticService_ClockDiagnosticInfoResult;
+
+        Hw75Helper.Instance.InvokeHandler();
     }
 
     private void DiagnosticService_ClockDiagnosticInfoResult(object? sender, ClockDiagnosticInfo e)
@@ -96,13 +99,13 @@ public partial class Hw75CustomViewModel : ObservableRecipient
         });
     }
 
-    private async void DispatcherTimer_Tick(object? sender, object e)
+    private void DispatcherTimer_Tick(object? sender, object e)
     {
         TodayTime = DateTimeOffset.Now.ToString("t");
         TodayWeek = DateTimeOffset.Now.ToString("ddd");
         Day = DateTimeOffset.Now.Day.ToString();
 
-        _ = await _diagnosticService.InvokeClockViewAsync(sender!);
+        Hw75Helper.Instance.InvokeHandler();
     }
 
     public Hw75CustomViewModel(DispatcherTimer dispatcherTimer,
@@ -114,7 +117,7 @@ public partial class Hw75CustomViewModel : ObservableRecipient
         _diagnosticService = clockDiagnosticService;
         _localSettingsService = localSettingsService;
 
-        _dispatcherTimer.Interval = new TimeSpan(0, 0, 50);
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 60);
 
         _dispatcherTimer.Tick += DispatcherTimer_Tick;
     }

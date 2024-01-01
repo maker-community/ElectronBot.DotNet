@@ -21,6 +21,8 @@ public class Hw75Helper
         get; set;
     }
 
+    public event EventHandler? UpdateDataToDeviceHandler;
+
     private static Hw75Helper? _instance;
     public static Hw75Helper Instance => _instance ??= new Hw75Helper();
 
@@ -38,6 +40,16 @@ public class Hw75Helper
         }
 
     }
+
+
+    /// <summary>
+    /// 触发更新事件
+    /// </summary>
+    public void InvokeHandler()
+    {
+        UpdateDataToDeviceHandler?.Invoke(this, new EventArgs());
+    }
+
 
     /// <summary>
     /// 同步数据到瀚文键盘

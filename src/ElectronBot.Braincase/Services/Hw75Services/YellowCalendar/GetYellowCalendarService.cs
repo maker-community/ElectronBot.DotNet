@@ -7,7 +7,7 @@ namespace Services.Hw75Services.YellowCalendar;
 public class GetYellowCalendarService
 {
     private const string host = "http://v.juhe.cn/laohuangli/d";
-    public static async Task<YellowCalendarResult> GetYellowCalendarAsync()
+    public static async Task<YellowCalendarResult> GetYellowCalendarAsync(bool noCache = false)
     {
         try
         {
@@ -17,11 +17,20 @@ public class GetYellowCalendarService
                 .ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
             var clockTitleConfig = ret2 ?? new CustomClockTitleConfig();
 
-            var urlLast = $"{host}?date={DateTime.Now.ToShortDateString().ToString()}&key={clockTitleConfig.Hw75YellowCalendarKey}";
+            var urlLast = $"{host}?date={DateTime.Now.ToShortDateString()}&key={clockTitleConfig.Hw75YellowCalendarKey}";
 
-            var httpClient = App.GetService<HttpClient>();
-            var resultJson = await httpClient.GetStringAsync(urlLast);
-            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<YellowCalendarData>(resultJson);
+            var yellowCalendarStr = await _localSettingsService.ReadSettingAsync<string>($"{Constants.YellowCalendarKey}-{DateTime.Now.ToShortDateString()}");
+
+            if (noCache == true || string.IsNullOrWhiteSpace(yellowCalendarStr))
+            {
+                var httpClient = App.GetService<HttpClient>();
+
+                yellowCalendarStr = await httpClient.GetStringAsync(urlLast);
+
+                await _localSettingsService.SaveSettingAsync<string>($"{Constants.YellowCalendarKey}-{DateTime.Now.ToShortDateString()}", yellowCalendarStr);
+            }
+
+            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<YellowCalendarData>(yellowCalendarStr);
 
             if (data != null && data.Reason == "successed")
             {

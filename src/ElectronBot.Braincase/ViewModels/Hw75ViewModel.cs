@@ -71,7 +71,7 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
     private async void DispatcherTimer_Tick(object? sender, object e)
     {
-        await Hw75Helper.Instance.SyncDataToDeviceAsync(Element);
+        //await Hw75Helper.Instance.SyncDataToDeviceAsync(Element);
     }
 
 
@@ -95,10 +95,9 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     }
 
     [RelayCommand]
-    private async Task OnLoaded()
+    private void OnLoaded()
     {
-        await Task.Delay(1000);
-        await Hw75Helper.Instance.SyncDataToDeviceAsync(Element);
+
     }
 
     public void OnNavigatedTo(object parameter)
@@ -106,6 +105,9 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
         var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider("Hw75CustomView");
 
         Element = viewProvider.CreateHw75DynamickView("Hw75CustomView");
+
+        Hw75Helper.Instance.UpdateDataToDeviceHandler += Instance_UpdateDataToDeviceHandler;
+
         try
         {
             DeviceInfo = Hw75Helper.Instance.Hw75DynamicDevice?.Open();
@@ -137,10 +139,18 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
         _dispatcherTimer.Start();
     }
+
+    private async void Instance_UpdateDataToDeviceHandler(object? sender, EventArgs e)
+    {
+        await Task.Delay(1000);
+        await Hw75Helper.Instance.SyncDataToDeviceAsync(Element);
+    }
+
     public void OnNavigatedFrom()
     {
         Hw75Helper.Instance.Hw75DynamicDevice?.Close();
         Hw75Helper.Instance.IsConnected = false;
+        Hw75Helper.Instance.UpdateDataToDeviceHandler -= Instance_UpdateDataToDeviceHandler;
         _dispatcherTimer.Stop();
     }
 }

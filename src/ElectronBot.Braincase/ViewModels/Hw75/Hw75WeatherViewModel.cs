@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
@@ -13,7 +14,7 @@ public partial class Hw75WeatherViewModel : ObservableRecipient
     [ObservableProperty]
     private Weather_Displayed? _gpsResult;
 
-    private readonly DispatcherTimer _dispatcherTimer;
+    private readonly DispatcherTimer _dispatcherTimer =new ();
 
     private readonly ILocalSettingsService _localSettingsService;
 
@@ -31,23 +32,24 @@ public partial class Hw75WeatherViewModel : ObservableRecipient
     [ObservableProperty]
     private CustomClockTitleConfig? _clockTitleConfig;
 
-    public Hw75WeatherViewModel(DispatcherTimer dispatcherTimer,
-    ILocalSettingsService localSettingsService
-    )
+    public Hw75WeatherViewModel(ILocalSettingsService localSettingsService)
     {
-        _dispatcherTimer = dispatcherTimer;
         _localSettingsService = localSettingsService;
 
-        _dispatcherTimer.Interval = new TimeSpan(0, 0, 50);
+        _dispatcherTimer.Interval = new TimeSpan(0, 30, 0);
 
         _dispatcherTimer.Tick += DispatcherTimer_Tick;
     }
 
-    private void DispatcherTimer_Tick(object? sender, object e)
+    private async void DispatcherTimer_Tick(object? sender, object e)
     {
-        TodayTime = DateTimeOffset.Now.ToString("t");
-        TodayWeek = DateTimeOffset.Now.ToString("ddd");
-        Day = DateTimeOffset.Now.Day.ToString();
+        var ret2 = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
+
+        ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
+
+        GpsResult = await GpsGetWeather.GetWeatherIdea();
+
+        Hw75Helper.Instance.InvokeHandler();
 
     }
 
@@ -61,5 +63,7 @@ public partial class Hw75WeatherViewModel : ObservableRecipient
         ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
 
         GpsResult = await GpsGetWeather.GetWeatherIdea();
+
+        Hw75Helper.Instance.InvokeHandler();
     }
 }
