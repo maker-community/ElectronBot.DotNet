@@ -53,15 +53,24 @@
                 Text="设备" />
             <StackPanel Margin="8" Orientation="Horizontal">
                 <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="设备名：" />
-                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.DeviceInfo.DeviceName, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Margin="8" Orientation="Horizontal">
                 <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="VID：" />
-                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.DeviceInfo.Vid, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Margin="8" Orientation="Horizontal">
                 <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="PID：" />
-                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.DeviceInfo.Pid, Mode=OneWay}" />
             </StackPanel>
             <Line
                 Margin="8"
@@ -79,15 +88,24 @@
                 Text="固件" />
             <StackPanel Margin="8" Orientation="Horizontal">
                 <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="固件版本：" />
-                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.FirmwareVersion, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Margin="8" Orientation="Horizontal">
                 <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="ZMK 版本：" />
-                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.ZmkVersion, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Margin="8" Orientation="Horizontal">
                 <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="Zephyr 版本：" />
-                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.ZephyrVersion, Mode=OneWay}" />
             </StackPanel>
             <Line
                 Margin="8"

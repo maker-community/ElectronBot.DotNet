@@ -7,6 +7,7 @@ using ElectronBot.Braincase.Contracts.ViewModels;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Services;
 using HelloWordKeyboard.DotNet;
+using HelloWordKeyboard.DotNet.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using SixLabors.ImageSharp.PixelFormats;
@@ -32,6 +33,30 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     ComboxItemModel? clockComBoxSelect;
 
     /// <summary>
+    /// 瀚文设备信息
+    /// </summary>
+    [ObservableProperty]
+    DeviceInfo? _deviceInfo;
+
+    /// <summary>
+    /// 固件版本
+    /// </summary>
+    [ObservableProperty]
+    string? _firmwareVersion;
+
+    /// <summary>
+    /// ZMK版本
+    /// </summary>
+    [ObservableProperty]
+    string? _zmkVersion;
+
+    /// <summary>
+    /// Zephyr版本
+    /// </summary>
+    [ObservableProperty]
+    string? _zephyrVersion;
+
+    /// <summary>
     /// 瀚文界面列表
     /// </summary>
     [ObservableProperty]
@@ -45,48 +70,51 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     {
         ClockComboxModels = comboxDataService.GetHw75ViewComboxList();
         _viewProviderFactory = viewProviderFactory;
-        _dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 50);
 
         _dispatcherTimer.Tick += DispatcherTimer_Tick;
     }
 
     private async void DispatcherTimer_Tick(object? sender, object e)
     {
-        try
+        if (Hw75Helper.Instance.IsConnected)
         {
-            var renderTargetBitmap = new RenderTargetBitmap();
-
-            await renderTargetBitmap.RenderAsync(Element);
-
-            var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
-
-            using var stream = new InMemoryRandomAccessStream();
-            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
-            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore,
-            (uint)renderTargetBitmap.PixelWidth,
-            (uint)renderTargetBitmap.PixelHeight,
-                96,
-                96,
-                pixelBuffer.ToArray());
-
-            await encoder.FlushAsync();
-            stream.Seek(0);
-
-            using var image = SixLabors.ImageSharp.Image.Load<Rgba32>(stream.AsStream());
-
-            image.Mutate(x =>
+            try
             {
-                x.Resize(128, 296);
-                //x.Grayscale();
-            });
+                var renderTargetBitmap = new RenderTargetBitmap();
 
-            var byteArray = image.EnCodeImageToBytes();
+                await renderTargetBitmap.RenderAsync(Element);
+
+                var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
+
+                using var stream = new InMemoryRandomAccessStream();
+                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore,
+                (uint)renderTargetBitmap.PixelWidth,
+                (uint)renderTargetBitmap.PixelHeight,
+                    96,
+                    96,
+                    pixelBuffer.ToArray());
+
+                await encoder.FlushAsync();
+                stream.Seek(0);
+
+                using var image = SixLabors.ImageSharp.Image.Load<Rgba32>(stream.AsStream());
+
+                image.Mutate(x =>
+                {
+                    x.Resize(128, 296);
+                    //x.Grayscale();
+                });
+
+                var byteArray = image.EnCodeImageToBytes();
 
 
-            _ = Hw75Helper.Instance.Hw75DynamicDevice?.SetEInkImage(byteArray, 0, 0, 128, 296, false);
-        }
-        catch (Exception ex)
-        {
+                _ = Hw75Helper.Instance.Hw75DynamicDevice?.SetEInkImage(byteArray, 0, 0, 128, 296, false);
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 
@@ -112,11 +140,41 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
         var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider("Hw75CustomView");
 
         Element = viewProvider.CreateHw75DynamickView("Hw75CustomView");
+        try
+        {
+            DeviceInfo = Hw75Helper.Instance.Hw75DynamicDevice?.Open();
+
+            Hw75Helper.Instance.IsConnected = true;
+
+            var firmwareInfo = Hw75Helper.Instance.Hw75DynamicDevice?.GetVersion();
+
+            ZmkVersion = firmwareInfo?.ZmkVersion;
+
+            FirmwareVersion = firmwareInfo?.AppVersion;
+
+            ZephyrVersion = firmwareInfo?.ZephyrVersion;
+        }
+        catch (Exception ex)
+        {
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(2));
+            });
+
+            DeviceInfo = new DeviceInfo
+            {
+                DeviceName = ex.Message
+            };
+
+            Hw75Helper.Instance.IsConnected = false;
+        }
 
         _dispatcherTimer.Start();
     }
     public void OnNavigatedFrom()
     {
+        Hw75Helper.Instance.Hw75DynamicDevice?.Close();
+        Hw75Helper.Instance.IsConnected = false;
         _dispatcherTimer.Stop();
     }
 }

@@ -9,6 +9,11 @@ public class Hw75Helper
         get; set;
     }
 
+    public bool IsConnected
+    {
+        get; set;
+    }
+
     private static Hw75Helper? _instance;
     public static Hw75Helper Instance => _instance ??= new Hw75Helper();
 
