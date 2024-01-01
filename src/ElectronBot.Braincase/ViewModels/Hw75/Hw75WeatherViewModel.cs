@@ -66,4 +66,10 @@ public partial class Hw75WeatherViewModel : ObservableRecipient
 
         Hw75Helper.Instance.InvokeHandler();
     }
+
+    [RelayCommand]
+    private void OnUnLoaded()
+    {
+        _dispatcherTimer.Stop();
+    }
 }

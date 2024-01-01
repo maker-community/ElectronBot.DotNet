@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Helpers;
@@ -11,12 +10,9 @@ namespace ElectronBot.Braincase.ViewModels;
 
 public partial class Hw75CustomViewModel : ObservableRecipient
 {
-    private readonly DispatcherTimer _dispatcherTimer;
+    private readonly DispatcherTimer _dispatcherTimer = new();
 
     private readonly ILocalSettingsService _localSettingsService;
-
-    private ICommand _loadedCommand;
-    public ICommand LoadedCommand => _loadedCommand ??= new RelayCommand(OnLoaded);
 
     private string _todayWeek = DateTimeOffset.Now.ToString("ddd");
 
@@ -75,7 +71,9 @@ public partial class Hw75CustomViewModel : ObservableRecipient
         get => _todayTime;
         set => SetProperty(ref _todayTime, value);
     }
-    private async void OnLoaded()
+
+    [RelayCommand]
+    private async Task OnLoaded()
     {
         _dispatcherTimer.Start();
 
@@ -86,9 +84,15 @@ public partial class Hw75CustomViewModel : ObservableRecipient
         CustomContentVisibility = ClockTitleConfig.Hw75CustomContentIsVisibility ? Visibility.Visible : Visibility.Collapsed;
 
         DateVisibility = ClockTitleConfig.Hw75TimeIsVisibility ? Visibility.Visible : Visibility.Collapsed;
-       _diagnosticService.ClockDiagnosticInfoResult += DiagnosticService_ClockDiagnosticInfoResult;
+        _diagnosticService.ClockDiagnosticInfoResult += DiagnosticService_ClockDiagnosticInfoResult;
 
         Hw75Helper.Instance.InvokeHandler();
+    }
+
+    [RelayCommand]
+    private void OnUnLoaded()
+    {
+        _dispatcherTimer.Stop();
     }
 
     private void DiagnosticService_ClockDiagnosticInfoResult(object? sender, ClockDiagnosticInfo e)
@@ -108,12 +112,9 @@ public partial class Hw75CustomViewModel : ObservableRecipient
         Hw75Helper.Instance.InvokeHandler();
     }
 
-    public Hw75CustomViewModel(DispatcherTimer dispatcherTimer,
-        ClockDiagnosticService clockDiagnosticService,
-        ILocalSettingsService localSettingsService
+    public Hw75CustomViewModel(ClockDiagnosticService clockDiagnosticService, ILocalSettingsService localSettingsService
         )
     {
-        _dispatcherTimer = dispatcherTimer;
         _diagnosticService = clockDiagnosticService;
         _localSettingsService = localSettingsService;
 

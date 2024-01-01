@@ -26,7 +26,7 @@ public class ComboxDataService
                 new ComboxItemModel { DataKey = "Hw75CustomView", DataValue = "Hw75CustomView".GetLocalized() },
                 new ComboxItemModel { DataKey = "Hw75WeatherView", DataValue ="Hw75WeatherView".GetLocalized() },
                 new ComboxItemModel { DataKey = "Hw75YellowCalendarView", DataValue ="Hw75YellowCalendarView".GetLocalized() },
-                new ComboxItemModel { DataKey = "TodoView", DataValue ="TodoView".GetLocalized() },
+                //new ComboxItemModel { DataKey = "TodoView", DataValue ="TodoView".GetLocalized() },
             };
     }
 

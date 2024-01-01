@@ -238,15 +238,15 @@ public partial class App : Application
 
             services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
 
-            services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicTodoViewProvider>();
+            services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicTodoViewProvider>();
 
 
-            services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicCustomViewProvider>();
+            services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicCustomViewProvider>();
 
-            services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicWeatherViewProvider>();
-            services.AddSingleton<IHw75DynamicViewProvider, Hw75DynamicYellowCalendarViewProvider>();
+            services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicWeatherViewProvider>();
+            services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicYellowCalendarViewProvider>();
 
-            services.AddSingleton<IHw75DynamicViewProviderFactory, Hw75DynamicViewProviderFactory>();
+            services.AddTransient<IHw75DynamicViewProviderFactory, Hw75DynamicViewProviderFactory>();
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
             {

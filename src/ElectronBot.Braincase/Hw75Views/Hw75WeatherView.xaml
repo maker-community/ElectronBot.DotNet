@@ -13,6 +13,9 @@
         <ic:EventTriggerBehavior EventName="Loaded">
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
         </ic:EventTriggerBehavior>
+        <ic:EventTriggerBehavior EventName="UnLoaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.UnLoadedCommand}" />
+        </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
     <Grid x:Name="LayoutRoot" Background="White">
@@ -48,15 +51,15 @@
                     Orientation="Horizontal">
                     <TextBlock
                         Margin="4"
-                        FontSize="24"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontSize="24"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.GpsResult.Now.Province, Mode=OneWay}" />
                     <TextBlock
                         Margin="4"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         FontSize="24"
                         Foreground="Black"
-                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         Text="{x:Bind ViewModel.GpsResult.Now.City, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel
@@ -71,18 +74,18 @@
                         VerticalAlignment="Center"
                         Source="{x:Bind ViewModel.GpsResult.Now.Icon, Mode=OneWay}" />
                     <TextBlock
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         FontSize="24"
                         Foreground="Black"
-                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         Text="{x:Bind ViewModel.GpsResult.Now.Temperature, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel Grid.Row="2" HorizontalAlignment="Center">
                     <TextBlock
                         x:Name="WeatherInfo"
-                        FontSize="24"
                         Margin="4"
-                        Foreground="Black"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontSize="24"
+                        Foreground="Black"
                         Text="{x:Bind ViewModel.GpsResult.Now.Skycon, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel
@@ -91,9 +94,9 @@
                     Orientation="Horizontal">
                     <TextBlock
                         x:Name="ftime"
-                        FontSize="12"
                         Margin="4"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontSize="12"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.GpsResult.Now.Time, Mode=OneWay}" />
                 </StackPanel>
@@ -104,8 +107,8 @@
                     <TextBlock
                         x:Name="wind"
                         Margin="4"
-                        FontSize="12"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontSize="12"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.GpsResult.Now.Wind, Mode=OneWay}" />
 
@@ -115,8 +118,8 @@
                         x:Name="wind_sd"
                         Margin="4"
                         HorizontalAlignment="Center"
-                        FontSize="12"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontSize="12"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.GpsResult.Now.Wind_sd, Mode=OneWay}" />
                 </StackPanel>
@@ -124,9 +127,9 @@
                     <TextBlock
                         x:Name="Sunset"
                         Margin="4"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         FontSize="12"
                         Foreground="Black"
-                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         Text="{x:Bind ViewModel.GpsResult.Now.SunSet, Mode=OneWay}" />
 
 
@@ -135,18 +138,18 @@
                     <TextBlock
                         x:Name="Sunrise"
                         Margin="4"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         FontSize="12"
                         Foreground="Black"
-                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         Text="{x:Bind ViewModel.GpsResult.Now.SunRise, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel Grid.Row="8" HorizontalAlignment="Center">
                     <TextBlock
                         x:Name="Press"
                         Margin="4"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         FontSize="12"
                         Foreground="Black"
-                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         Text="{x:Bind ViewModel.GpsResult.Now.Pressure, Mode=OneWay}" />
                 </StackPanel>
             </Grid>

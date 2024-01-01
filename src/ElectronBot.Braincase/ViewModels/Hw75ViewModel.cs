@@ -79,7 +79,7 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     /// 表盘切换方法
     /// </summary>
     [RelayCommand]
-    private async Task ClockChanged()
+    private void ClockChanged()
     {
         var clockName = ClockComBoxSelect?.DataKey;
 
@@ -88,9 +88,6 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
             var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider(clockName);
 
             Element = viewProvider.CreateHw75DynamickView(clockName);
-
-            await Task.Delay(1000);
-            await Hw75Helper.Instance.SyncDataToDeviceAsync(Element);
         }
     }
 
