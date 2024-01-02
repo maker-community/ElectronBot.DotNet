@@ -197,7 +197,7 @@
                                                 Minimum="16"
                                                 SmallChange="2"
                                                 SpinButtonPlacementMode="Inline"
-                                                Value="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=TwoWay}">
+                                                Value="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=TwoWay}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="ValueChanged">
                                                         <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
@@ -550,6 +550,199 @@
                     </Expander>
 
 
+                    <!--  瀚文键盘配置  -->
+
+                    <Expander
+                        Width="800"
+                        Margin="0,8,0,4"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        ExpandDirection="Down"
+                        IsExpanded="False">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Margin="4,4,12,4">
+                                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE121;" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock
+                                            x:Uid="Hw75Config"
+                                            Margin="0,4,0,4"
+                                            FontSize="16" />
+                                        <TextBlock
+                                            x:Uid="Hw75ConfigDesc"
+                                            Margin="0,0,0,4"
+                                            FontSize="12" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <Grid>
+                            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="Hw75ModeIsOpen"
+                                        Width="160"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        Margin="4"
+                                        IsOn="{x:Bind ViewModel.ClockTitleConfig.Hw75IsOpen, Mode=OneWay}"
+                                        Toggled="{x:Bind ViewModel.Hw75ToggleSwitch_OnToggled}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="Hw75AddImageBtnTitle"
+                                        Width="140"
+                                        VerticalAlignment="Center" />
+                                    <Button
+                                        x:Uid="Hw75AddImageBtn"
+                                        Margin="4"
+                                        Command="{x:Bind ViewModel.AddHw75ImageCommand}">
+                                        <FontIcon
+                                            FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                            FontSize="48"
+                                            Glyph="&#xE158;" />
+                                    </Button>
+                                    <Border
+                                        Width="32"
+                                        Height="74"
+                                        Margin="4"
+                                        CornerRadius="4">
+                                        <Image Source="{x:Bind ViewModel.Hw75BitMap, Mode=TwoWay}" />
+                                    </Border>
+                                    <Button
+                                        x:Uid="EmojisAvatarAddBtn"
+                                        Margin="4"
+                                        Command="{x:Bind ViewModel.RemoveHw75ImageCommand}">
+                                        <FontIcon
+                                            FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                            FontSize="48"
+                                            Glyph="&#xF78A;" />
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="Hw75ImagePath"
+                                        Width="120"
+                                        VerticalAlignment="Center" />
+                                    <TextBox
+                                        Width="280"
+                                        Margin="4"
+                                        IsReadOnly="True"
+                                        Text="{x:Bind ViewModel.Hw75ImagePath, Mode=OneWay}"
+                                        TextWrapping="NoWrap" />
+                                </StackPanel>
+
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="Hw75CustomContentIsVisibility"
+                                        Width="140"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        Margin="4"
+                                        IsOn="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentIsVisibility, Mode=TwoWay}"
+                                        Toggled="{x:Bind ViewModel.Hw75ContentToggleSwitch_OnToggled}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="Hw75TimeIsVisibility"
+                                        Width="140"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        Margin="4"
+                                        IsOn="{x:Bind ViewModel.ClockTitleConfig.Hw75TimeIsVisibility, Mode=TwoWay}"
+                                        Toggled="{x:Bind ViewModel.Hw75TimeToggleSwitch_OnToggled}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            x:Uid="Hw75CustomFontSize"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                        <Grid Grid.Column="1">
+                                            <NumberBox
+                                                LargeChange="4"
+                                                Maximum="40"
+                                                Minimum="16"
+                                                SmallChange="2"
+                                                SpinButtonPlacementMode="Inline"
+                                                Value="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontSize, Mode=TwoWay}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="ValueChanged">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.Hw75CustomContentFontsizeCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </NumberBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            x:Uid="Hw75CumstomWords"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                        <Grid Grid.Column="1">
+                                            <TextBox
+                                                Width="240"
+                                                HorizontalAlignment="Right"
+                                                Text="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContent, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="LostFocus">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            x:Uid="Hw75YellowCalendarKey"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                        <Grid Grid.Column="1">
+                                            <TextBox
+                                                Width="240"
+                                                HorizontalAlignment="Right"
+                                                Text="{x:Bind ViewModel.ClockTitleConfig.Hw75YellowCalendarKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="LostFocus">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Expander>
+
                 </StackPanel>
 
 
@@ -574,23 +767,74 @@
 
 
                 <StackPanel Margin="8">
-                    <Button x:Name="Call" Command="{x:Bind ViewModel.FeedbackBtnCommand}">
-                        <Button.Content>
-                            <StackPanel>
-                                <FontIcon
-                                    FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
-                                    FontSize="80"
-                                    Glyph="&#xE1A8;" />
-                                <TextBlock
-                                    x:Uid="FeedBackText"
-                                    HorizontalAlignment="Center"
-                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                    FontSize="24" />
-                            </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="Call" Command="{x:Bind ViewModel.FeedbackBtnCommand}">
+                            <Button.Content>
+                                <StackPanel>
+                                    <FontIcon
+                                        FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                        FontSize="80"
+                                        Glyph="&#xE1A8;" />
+                                    <TextBlock
+                                        x:Uid="FeedBackText"
+                                        HorizontalAlignment="Center"
+                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                        FontSize="24" />
+                                </StackPanel>
 
-                        </Button.Content>
-                    </Button>
+                            </Button.Content>
+                        </Button>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                            <TextBlock
+                                Margin="8"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
+                                Text="如果你觉得本软件对你有帮助，你可以邮件反馈或者打赏作者。" />
+                            <Button
+                                x:Uid="DaShang"
+                                Margin="8"
+                                VerticalAlignment="Bottom"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑">
+                                <Button.Flyout>
+                                    <Flyout Placement="BottomEdgeAlignedLeft">
+                                        <StackPanel Margin="4" Orientation="Horizontal">
+                                            <StackPanel>
+                                                <TextBlock
+                                                    x:Uid="alipay"
+                                                    Margin="4"
+                                                    HorizontalAlignment="Center"
+                                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                                <Image
+                                                    Width="200"
+                                                    Height="200"
+                                                    Source="ms-appx:///Assets/alipay.JPG" />
+                                            </StackPanel>
+                                            <StackPanel>
+                                                <TextBlock
+                                                    x:Uid="wechat"
+                                                    Margin="4"
+                                                    HorizontalAlignment="Center"
+                                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                                <Image
+                                                    Width="200"
+                                                    Height="200"
+                                                    Source="ms-appx:///Assets/wechat.JPG" />
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
                 </StackPanel>
+
+
 
 
                 <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
@@ -612,6 +856,10 @@
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
                     <TextBlock x:Uid="Reference" Style="{ThemeResource BodyTextBlockStyle}" />
 
+                    <HyperlinkButton
+                        x:Uid="VerdureBilibili"
+                        Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
+                        NavigateUri="https://space.bilibili.com/25228512" />
 
                     <HyperlinkButton
                         x:Uid="ElectronSourceCode"

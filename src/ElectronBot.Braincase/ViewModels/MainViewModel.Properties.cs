@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Verdure.ElectronBot.Core.Models;
+using Image = Microsoft.UI.Xaml.Controls.Image;
 
 namespace ElectronBot.Braincase.ViewModels;
 

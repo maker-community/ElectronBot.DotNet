@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <RootNamespace>ElectronBot.Braincase</RootNamespace>
     <ApplicationIcon>Assets/WindowIcon.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;arm64</Platforms>
-    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
@@ -21,8 +21,11 @@
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
+    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\alipay.JPG" />
     <Content Remove="Assets\cat_with_wry_smile_3d.png" />
     <Content Remove="Assets\Emoji\anger.png" />
     <Content Remove="Assets\Emoji\disdain.png" />
@@ -33,6 +36,7 @@
     <Content Remove="Assets\hand.png" />
     <Content Remove="Assets\MLModel1.zip" />
     <Content Remove="Assets\model.onnx" />
+    <Content Remove="Assets\wechat.JPG" />
     <Content Remove="Assets\xbox-one-controller.png" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +79,10 @@
     <None Remove="Controls\MarketplacePage.xaml" />
     <None Remove="Controls\RandomContentPage.xaml" />
     <None Remove="Controls\UploadEmojisPage.xaml" />
+    <None Remove="Hw75Views\Hw75CustomView.xaml" />
+    <None Remove="Hw75Views\Hw75WeatherView.xaml" />
+    <None Remove="Hw75Views\Hw75YellowCalendarView.xaml" />
+    <None Remove="Hw75Views\TodoView.xaml" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Themes\DefaultThemeDictionary.xaml" />
     <None Remove="Themes\LightThemeDictionary.xaml" />
@@ -118,6 +126,8 @@
     <None Remove="Views\GestureAppConfigPage.xaml" />
     <None Remove="Views\GestureClassificationPage.xaml" />
     <None Remove="Views\GestureInteractionPage.xaml" />
+    <None Remove="Views\Hw75Page.xaml" />
+    <None Remove="Views\Hw75ShellPage.xaml" />
     <None Remove="Views\ImageCropperPage.xaml" />
     <None Remove="Views\MoviePage.xaml" />
     <None Remove="Views\PoseRecognitionPage.xaml" />
@@ -241,15 +251,15 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.RadialGauge" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.0.230907" />
-    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.16.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
+    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.16.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.8.0.20230708" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.8.0.20230708" />
-    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-    <PackageReference Include="System.Management" Version="7.0.2" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="WinUIEx" Version="2.3.3" />
     <PackageReference Include="HelixToolkit" Version="2.24.0" />
     <PackageReference Include="HelixToolkit.SharpDX.Assimp" Version="2.24.0" />
@@ -258,6 +268,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\HelloWordKeyboard.DotNet\HelloWordKeyboard.DotNet.csproj" />
     <ProjectReference Include="..\ElectronBot.Braincase.Core\Verdure.ElectronBot.Core.csproj" />
     <ProjectReference Include="..\GestureClassification\GestureClassification.csproj" />
     <ProjectReference Include="..\Mediapipe.Net\Mediapipe.Net.csproj" />
@@ -303,6 +314,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\alipay.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\cat_with_wry_smile_3d.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -333,9 +347,27 @@
     <None Update="Assets\MLModel1.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\wechat.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Hw75Views\Hw75YellowCalendarView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Hw75Views\Hw75WeatherView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Hw75Views\Hw75CustomView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Hw75Views\TodoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Hw75Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\GestureAppConfigItems.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -418,6 +450,9 @@
     <Page Update="Views\EmojisEditPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Hw75ShellPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Views\TodoPage.xaml">
       <Generator>MSBuild:Compile</Generator>
