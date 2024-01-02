@@ -68,7 +68,7 @@
                                 </animations:Implicit.ShowAnimations>
                                 <TextBlock
                                     FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                    FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
+                                    FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
                                     Foreground="White"
                                     Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}" />
                                 <!--<controls:DropShadowPanel
@@ -79,7 +79,7 @@
                                     ShadowOpacity="0.3">
                                     <TextBlock
                                         FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                        FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
+                                        FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
                                         Foreground="White"
                                         Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}" />
                                 </controls:DropShadowPanel>-->

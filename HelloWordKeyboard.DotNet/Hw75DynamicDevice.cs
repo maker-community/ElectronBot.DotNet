@@ -17,23 +17,21 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
 
     private Device? _device = null;
 
+    private const int ZmkxUasage = 0xff14;
+
     public DeviceInfo Open()
     {
         var info = new DeviceInfo();
-        try
-        {
-            _device = new Device(Path);
-            if (_device is not null)
-            {
-                var manufacturer = _device.GetManufacturer();
-                var devInfo = _device.GetDeviceInfo();
-            }
-        }
-        catch (Exception)
-        {
+        _device = FindDevice();
 
-        }
+        if (_device is not null)
+        {
+            var devInfo = _device.GetDeviceInfo();
 
+            info.DeviceName = devInfo.ProductString;
+            info.Pid = devInfo.ProductId.ToString("X");
+            info.Vid = devInfo.VendorId.ToString("X");
+        }
         return info;
     }
 
@@ -68,6 +66,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
 
     public EinkImage SetEInkImage(byte[] imageData, int? x, int? y, int? width, int? height, bool partial = false)
     {
+        _device = FindDevice();
         var eInkImage = new MessageH2D()
         {
             Action = Action.EinkSetImage,
@@ -119,7 +118,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
             _device.Write(result);
         }
 
-        Task.Delay(20);
+        Task.Delay(50);
 
         var byteList = new List<byte>();
 
@@ -133,6 +132,25 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
                 break;
             }
         }
-        return MessageD2H.Parser.ParseFrom(byteList.ToArray());
+        var dataResult = MessageD2H.Parser.ParseFrom(byteList.ToArray());
+
+        return dataResult;
+    }
+
+    /// <summary>
+    /// 获取设备
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    private Device FindDevice()
+    {
+        foreach (var deviceInfo in Hid.Enumerate())
+        {
+            if (deviceInfo.UsagePage == ZmkxUasage)
+            {
+                return new Device(deviceInfo.Path);
+            }
+        }
+        throw new Exception("瀚文设备未连接");
     }
 }

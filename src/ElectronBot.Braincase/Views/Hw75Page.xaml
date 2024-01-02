@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Views.Hw75Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>
+            <Border
+                x:Name="BorderGrid"
+                Width="128"
+                Height="296"
+                Margin="0,0,0,4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{ThemeResource SystemAccentColor}"
+                BorderThickness="2"
+                Child="{x:Bind ViewModel.Element, Mode=OneWay}"
+                CornerRadius="8" />
+            <ComboBox
+                x:Uid="ChangeHw75ViewCB"
+                Width="180"
+                Margin="0,8,8,8"
+                VerticalAlignment="Center"
+                DisplayMemberPath="DataValue"
+                ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
+                SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="SelectionChanged">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClockChangedCommand}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+            <TextBlock
+                Margin="8"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                FontSize="24"
+                FontWeight="Bold"
+                Text="设备" />
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="设备名：" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.DeviceInfo.DeviceName, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="VID：" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.DeviceInfo.Vid, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="PID：" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.DeviceInfo.Pid, Mode=OneWay}" />
+            </StackPanel>
+            <Line
+                Margin="8"
+                Stroke="{ThemeResource SystemAccentColor}"
+                StrokeThickness="2"
+                X1="0"
+                X2="400"
+                Y1="0"
+                Y2="0" />
+            <TextBlock
+                Margin="8"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                FontSize="24"
+                FontWeight="Bold"
+                Text="固件" />
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="固件版本：" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.FirmwareVersion, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="ZMK 版本：" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.ZmkVersion, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <TextBlock FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" Text="Zephyr 版本：" />
+                <TextBlock
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.ZephyrVersion, Mode=OneWay}" />
+            </StackPanel>
+            <Line
+                Margin="8"
+                Stroke="{ThemeResource SystemAccentColor}"
+                StrokeThickness="2"
+                X1="0"
+                X2="400"
+                Y1="0"
+                Y2="0" />
+            <HyperlinkButton
+                Content="固件问题反馈"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                NavigateUri="https://github.com/xingrz/zmk-config_helloword_hw-75/issues" />
+            <HyperlinkButton
+                Content="获取最新版本固件"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                NavigateUri="https://github.com/xingrz/zmk-config_helloword_hw-75/releases" />
+        </StackPanel>
+    </Grid>
+</Page>

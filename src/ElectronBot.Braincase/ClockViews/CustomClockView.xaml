@@ -60,7 +60,7 @@
                             MaxWidth="120"
                             Margin="2"
                             HorizontalAlignment="Right"
-                            FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontsize, Mode=OneWay}"
+                            FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
                             FontWeight="Bold"
                             Foreground="White"
                             Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}"

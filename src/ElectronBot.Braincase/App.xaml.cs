@@ -29,6 +29,9 @@ using Windows.UI.Popups;
 using Controls.CompactOverlay;
 using HelixToolkit.SharpDX.Core;
 using ViewModels;
+using HelloWordKeyboard.DotNet;
+using HidApi;
+using Hw75Views;
 
 namespace ElectronBot.Braincase;
 
@@ -187,6 +190,22 @@ public partial class App : Application
             services.AddTransient<IEffectsManager, DefaultEffectsManager>();
 
 
+            services.AddTransient<Hw75ViewModel>();
+
+            services.AddTransient<Hw75Page>();
+
+            services.AddTransient<Hw75ShellPage>();
+            services.AddTransient<Hw75ShellViewModel>();
+            services.AddTransient<Hw75CustomView>();
+            services.AddTransient<Hw75WeatherView>();
+            services.AddTransient<Hw75YellowCalendarView>();
+
+            services.AddTransient<Hw75CustomViewModel>();
+
+            services.AddTransient<Hw75WeatherViewModel>();
+
+            services.AddTransient<Hw75YellowCalendarViewModel>();
+
             services.AddSingleton<IClockViewProviderFactory, ClockViewProviderFactory>();
 
             services.AddTransient<IClockViewProvider, DefaultClockViewProvider>();
@@ -203,6 +222,9 @@ public partial class App : Application
 
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
 
+            services.AddTransient<TodoView>();
+            services.AddSingleton<Hw75DynamicViewModel>();
+
             services.AddSingleton<EmoticonActionFrameService>();
 
             services.AddSingleton<GestureClassificationService>();
@@ -216,6 +238,15 @@ public partial class App : Application
 
             services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
 
+            services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicTodoViewProvider>();
+
+
+            services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicCustomViewProvider>();
+
+            services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicWeatherViewProvider>();
+            services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicYellowCalendarViewProvider>();
+
+            services.AddTransient<IHw75DynamicViewProviderFactory, Hw75DynamicViewProviderFactory>();
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
             {
@@ -248,6 +279,8 @@ public partial class App : Application
         Thread.Sleep(1000);
 
         ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+
+        Hw75Helper.Instance.Hw75DynamicDevice?.Close();
         // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
@@ -303,6 +336,8 @@ public partial class App : Application
                 await CameraFrameService.Current.CleanupMediaCaptureAsync();
 
                 ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
+
+                Hw75Helper.Instance.Hw75DynamicDevice?.Close();
             }
             catch (Exception)
             {
@@ -310,6 +345,7 @@ public partial class App : Application
             }
 
             MainWindow.Close();
+            Hid.Exit();
         }
         else if(result == ContentDialogResult.Secondary)
         {
