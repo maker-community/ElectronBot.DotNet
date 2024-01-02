@@ -5,7 +5,23 @@ public class CustomClockTitleConfig
     {
         get; set;
     } = "你好世界☺️";
-    public int CustomClockTitleFontsize
+
+    public string Hw75CustomContent
+    {
+        get; set;
+    } = "你好世界☺️";
+
+    public string Hw75YellowCalendarKey
+    {
+        get; set;
+    } = string.Empty;
+
+    public int CustomClockTitleFontSize
+    {
+        get; set;
+    } = 16;
+
+    public int Hw75CustomContentFontSize
     {
         get; set;
     } = 16;
@@ -39,6 +55,12 @@ public class CustomClockTitleConfig
         set;
     }= string.Empty;
 
+    public string CustomHw75ImagePath
+    {
+        get;
+        set;
+    } = string.Empty;
+
     public float GaussianBlurValue
     {
         get;
@@ -50,4 +72,22 @@ public class CustomClockTitleConfig
         get;
         set;
     } = true;
+
+    public bool Hw75CustomContentIsVisibility
+    {
+        get;
+        set;
+    } = true;
+
+    public bool Hw75TimeIsVisibility
+    {
+        get;
+        set;
+    } = true;
+
+    public bool Hw75IsOpen
+    {
+        get;
+        set;
+    }
 }

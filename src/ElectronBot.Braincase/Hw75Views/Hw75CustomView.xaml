@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Hw75Views.Hw75CustomView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Hw75Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:ElectronBot.Braincase.Media"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+        <ic:EventTriggerBehavior EventName="UnLoaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.UnLoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Image Source="{x:Bind ViewModel.ClockTitleConfig.CustomHw75ImagePath, Mode=OneWay}" />
+        <Viewbox>
+            <Grid Width="128" Height="296">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <StackPanel
+                    Grid.Row="0"
+                    VerticalAlignment="Top"
+                    Visibility="{x:Bind ViewModel.DateVisibility, Mode=OneWay}">
+                    <StackPanel HorizontalAlignment="center" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="2"
+                            HorizontalAlignment="Center"
+                            FontSize="24"
+                            FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                            Foreground="Black"
+                            Text="{x:Bind ViewModel.Day, Mode=OneWay}" />
+                        <TextBlock
+                            Margin="2"
+                            HorizontalAlignment="Center"
+                            FontSize="24"
+                            Foreground="Black"
+                            FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                            Text="{x:Bind ViewModel.TodayWeek, Mode=OneWay}" />
+                    </StackPanel>
+
+                    <TextBlock
+                        Margin="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="36"
+                        Foreground="Black"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        Text="{x:Bind ViewModel.TodayTime, Mode=OneWay}" />
+                </StackPanel>
+
+
+                <TextBlock
+                    Grid.Row="2"
+                    MaxWidth="120"
+                    Margin="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    FontSize="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontSize, Mode=OneWay}"
+                    Foreground="Black"
+                    FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                    Text="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContent, Mode=OneWay}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind ViewModel.CustomContentVisibility, Mode=OneWay}" />
+            </Grid>
+        </Viewbox>
+    </Grid>
+</UserControl>

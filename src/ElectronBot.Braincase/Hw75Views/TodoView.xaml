@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Hw75Views.TodoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:graph="using:Microsoft.Graph"
+    xmlns:local="using:Hw75Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="UserControl_Loaded"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Border
+            Width="128"
+            Height="296"
+            Background="White" />
+        <ListView ItemsSource="{x:Bind ViewModel.TodoTaskLists, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="graph:TodoTaskList">
+                    <StackPanel>
+                        <TextBlock
+                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                            FontSize="20"
+                            Foreground="Black"
+                            Text="{x:Bind DisplayName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

@@ -1,5 +1,4 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ElectronBot.Braincase.Contracts.ViewModels;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Picker;
@@ -45,7 +44,8 @@ public class ImageCropperPickerViewModel : ObservableRecipient, INavigationAware
     {
         if (parameter is ImageCropperConfig config)
         {
-            var writeableBitmap = new WriteableBitmap(1, 1);
+
+            var writeableBitmap = config.AspectRatio == 1 ? new WriteableBitmap(240, 240) : new WriteableBitmap(128, 296);
             using (var stream = await config.ImageFile.OpenReadAsync())
             {
                 await writeableBitmap.SetSourceAsync(stream);

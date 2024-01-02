@@ -33,7 +33,7 @@ public static class AssembleDataExtension
         {
             for (int x = 0; x < image.Width; x++)
             {
-                matrix[y, x] = image[x, y].R > 128 ? 1 : 0;
+                matrix[y, x] = (image[x, y].R + image[x, y].G + image[x, y].B) / 3 > 128 ? 1 : 0;
             }
         }
 

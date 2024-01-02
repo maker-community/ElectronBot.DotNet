@@ -20,4 +20,9 @@
 	<ItemGroup>
 		<Protobuf Include="Protos\comm.proto" GrpcServices="Client" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Update="hidapi.dll">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>
