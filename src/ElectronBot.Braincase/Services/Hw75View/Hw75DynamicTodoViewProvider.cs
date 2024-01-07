@@ -11,6 +11,6 @@ public class Hw75DynamicTodoViewProvider : IHw75DynamicViewProvider
 
     public UIElement CreateHw75DynamickView(string viewName)
     {
-        return new TodoView();
+        return App.GetService<TodoView>();
     }
 }

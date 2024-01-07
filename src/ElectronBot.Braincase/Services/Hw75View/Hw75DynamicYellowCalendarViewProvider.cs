@@ -10,6 +10,6 @@ public class Hw75DynamicYellowCalendarViewProvider : IHw75DynamicViewProvider
 
     public UIElement CreateHw75DynamickView(string viewName)
     {
-        return new Hw75YellowCalendarView();
+        return App.GetService<Hw75YellowCalendarView>();
     }
 }

@@ -18,6 +18,8 @@ public partial class Hw75DynamicViewModel : ObservableRecipient
 
     private readonly DispatcherTimer _dispatcherTimer = new();
 
+    private const string ViewName = "TodoView";
+
     [ObservableProperty]
     private ObservableCollection<TodoTaskList>? _todoTaskLists;
     public Hw75DynamicViewModel(IMicrosoftGraphService microsoftGraphService, IdentityService identityService)

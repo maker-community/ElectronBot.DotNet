@@ -223,7 +223,7 @@ public partial class App : Application
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
 
             services.AddTransient<TodoView>();
-            services.AddSingleton<Hw75DynamicViewModel>();
+            services.AddTransient<Hw75DynamicViewModel>();
 
             services.AddSingleton<EmoticonActionFrameService>();
 

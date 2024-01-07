@@ -1,4 +1,5 @@
-﻿using ElectronBot.Braincase.Models;
+﻿using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Models.Gps;
 using ElectronBot.Braincase.Models.Name24;
 using Microsoft.Extensions.Options;
@@ -22,10 +23,17 @@ namespace ElectronBot.Braincase.Services
         /// <returns>结果封装的类的实例</returns>
         public async static Task<Weather_Displayed> GetWeatherIdea()
         {
-
+            var weatherDisplayed = new Weather_Displayed();
             var accessStatus = await Geolocator.RequestAccessAsync();
             Geolocator geolocator = new Geolocator();
-            if (accessStatus != GeolocationAccessStatus.Allowed) throw new Exception();
+            if (accessStatus != GeolocationAccessStatus.Allowed) 
+            {
+                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    ToastHelper.SendToast($"请检查系统设置是否开启系统定位权限。", TimeSpan.FromSeconds(5));
+                });
+                return weatherDisplayed;
+            };
             Geoposition pos = await geolocator.GetGeopositionAsync();
             double lat = pos.Coordinate.Point.Position.Latitude;
             double lon = pos.Coordinate.Point.Position.Longitude;
@@ -44,7 +52,7 @@ namespace ElectronBot.Braincase.Services
                 resultJson = await httpClient.GetStringAsync(uri);
             }
             var data = Newtonsoft.Json.JsonConvert.DeserializeObject<GpsWeatherData>(resultJson);
-            var weatherDisplayed = new Weather_Displayed();
+          
             var hour24 = await NameGet24Weather.NameGet24WeatherIdea(System.Web.HttpUtility.UrlEncode(data.showapi_res_body.cityInfo.c3, System.Text.Encoding.UTF8));
             //var hour24 = await NameGet24Weather.NameGet24WeatherIdea(TransCoding.UrlCode(data.showapi_res_body.cityInfo.c3, "utf-8"));
             OrganizeWeatherData(weatherDisplayed, data, hour24);

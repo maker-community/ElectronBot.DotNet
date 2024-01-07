@@ -21,6 +21,9 @@ public class Hw75Helper
         get; set;
     }
 
+    public string ViewName { get; set; } = "Hw75CustomView";
+
+
     public event EventHandler? UpdateDataToDeviceHandler;
 
     private static Hw75Helper? _instance;
@@ -68,13 +71,15 @@ public class Hw75Helper
 
                 var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
 
+                var dpi = App.MainWindow.GetDpiForWindow();
+
                 using var stream = new InMemoryRandomAccessStream();
                 var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
                 encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore,
                 (uint)renderTargetBitmap.PixelWidth,
                 (uint)renderTargetBitmap.PixelHeight,
-                    96,
-                    96,
+                    dpi,
+                    dpi,
                     pixelBuffer.ToArray());
 
                 await encoder.FlushAsync();
@@ -87,7 +92,6 @@ public class Hw75Helper
                     x.Resize(128, 296);
                     //x.Grayscale();
                 });
-
                 var byteArray = image.EnCodeImageToBytes();
 
 
