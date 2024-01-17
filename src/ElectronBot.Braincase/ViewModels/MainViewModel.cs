@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Controls.CompactOverlay;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Contracts.ViewModels;
 using ElectronBot.Braincase.Helpers;
@@ -15,21 +16,17 @@ using ElectronBot.Braincase.Services;
 using Mediapipe.Net.Solutions;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
-using Windows.Graphics;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 using Windows.Storage;
-using Controls.CompactOverlay;
-using Microsoft.UI.Windowing;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -289,6 +286,96 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
         }
     }
+
+    [RelayCommand]
+    private async Task StartChat()
+    {
+        var config = (await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>
+            (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
+
+        var textList = config.AnswerText.Split(",").ToList();
+
+        var r = new Random().Next(textList.Count);
+
+        var text = textList[r];
+
+        ToastHelper.SendToast(text, TimeSpan.FromSeconds(4));
+
+        var localSettingsService = App.GetService<ILocalSettingsService>();
+        var list = (await localSettingsService
+             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (list != null && list.Count > 0)
+        {
+            try
+            {
+                var emojis = list.First(l => l.NameId == "normal");
+
+                List<ElectronBotAction> actions = new();
+
+                if (emojis.HasAction)
+                {
+                    if (!string.IsNullOrWhiteSpace(emojis.EmojisActionPath))
+                    {
+                        try
+                        {
+                            var path = string.Empty;
+
+                            if (emojis.EmojisType == EmojisType.Default)
+                            {
+                                path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
+                            }
+                            else
+                            {
+                                path = emojis.EmojisActionPath;
+                            }
+
+
+                            var json = await File.ReadAllTextAsync(path);
+
+
+                            var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
+
+                            if (actionList != null && actionList.Count > 0)
+                            {
+                                actions = actionList;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+
+                string? videoPath;
+
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
+                }
+                else
+                {
+                    videoPath = emojis.EmojisVideoPath;
+                }
+                _ = ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text, true);
+                await App.GetService<IActionExpressionProvider>().PlayActionExpressionAsync(emojis, actions);
+            }
+            catch (Exception)
+            {
+            }
+        }
+    }
+
+    [RelayCommand]
+    private async Task EndChat()
+    {
+
+        ToastHelper.SendToast("end chat", TimeSpan.FromSeconds(4));
+
+        await ElectronBotHelper.Instance.CloseChatAsync();
+    }
+
 
     [RelayCommand]
     private void ElectronEmulation()
@@ -633,7 +720,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
                 var clockName = clockComBoxSelect?.DataKey;
 
-                if (clockName != "GooeyFooter"&&clockName!="CustomView")
+                if (clockName != "GooeyFooter" && clockName != "CustomView")
                 {
                     _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
                 }

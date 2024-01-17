@@ -132,7 +132,7 @@
                         <StackPanel>
                             <ScrollViewer
                                 x:Name="ActionSV"
-                                Width="780"
+                                Width="600"
                                 Height="104"
                                 HorizontalScrollBarVisibility="Visible"
                                 HorizontalScrollMode="Enabled">
@@ -298,6 +298,30 @@
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE710;" />
                     </Button>
                 </StackPanel>
+                <StackPanel>
+                    <Button
+                        x:Name="StartChat"
+                        x:Uid="StartChat"
+                        Height="28"
+                        Margin="4"
+                        BorderBrush="{ThemeResource SystemAccentColor}"
+                        BorderThickness="2"
+                        Command="{x:Bind ViewModel.StartChatCommand}"
+                        Foreground="{ThemeResource SystemAccentColor}">
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEDD6;" />
+                    </Button>
+                    <Button
+                        x:Name="EndChat"
+                        x:Uid="EndChat"
+                        Height="28"
+                        Margin="4"
+                        BorderBrush="{ThemeResource SystemAccentColor}"
+                        BorderThickness="2"
+                        Command="{x:Bind ViewModel.EndChatCommand}"
+                        Foreground="{ThemeResource SystemAccentColor}">
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF16B;" />
+                    </Button>
+                </StackPanel>
 
             </StackPanel>
         </StackPanel>
@@ -373,7 +397,7 @@
                         <AdaptiveTrigger MinWindowWidth="1200" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ActionSV.Width" Value="880" />
+                        <Setter Target="ActionSV.Width" Value="700" />
                         <Setter Target="ActionEdit.Width" Value="440" />
                     </VisualState.Setters>
                 </VisualState>
@@ -382,7 +406,7 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ActionSV.Width" Value="780" />
+                        <Setter Target="ActionSV.Width" Value="700" />
                         <Setter Target="ActionEdit.Width" Value="340" />
                     </VisualState.Setters>
                 </VisualState>
