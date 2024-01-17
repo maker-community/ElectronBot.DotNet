@@ -36,7 +36,8 @@ public class ComboxDataService
             {
 
                 new ComboxItemModel { DataKey = "Turing", DataValue = "TuringTitle".GetLocalized() },
-                new ComboxItemModel { DataKey = "ChatGPT", DataValue ="ChatGPTTitle".GetLocalized() }
+                new ComboxItemModel { DataKey = "ChatGPT", DataValue ="ChatGPTTitle".GetLocalized() },
+                new ComboxItemModel { DataKey = "ChatGPT-Custom", DataValue ="ChatGPTCustomTitle".GetLocalized() }
             };
     }
 }

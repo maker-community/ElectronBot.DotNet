@@ -520,6 +520,32 @@
                                     </Grid>
                                 </StackPanel>
 
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="OpenAI BaseUrl:" />
+                                        <Grid Grid.Column="1">
+                                            <TextBox
+                                                Width="360"
+                                                HorizontalAlignment="Right"
+                                                Text="{x:Bind ViewModel.ClockTitleConfig.OpenAIBaseUrl, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="LostFocus">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+
                                 <StackPanel Margin="8" Orientation="Horizontal">
                                     <Grid>
                                         <Grid.ColumnDefinitions>

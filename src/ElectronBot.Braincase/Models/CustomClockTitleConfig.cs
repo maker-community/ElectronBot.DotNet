@@ -41,6 +41,11 @@ public class CustomClockTitleConfig
         get; set;
     } = string.Empty;
 
+    public string OpenAIBaseUrl
+    {
+        get; set;
+    } = "https://api.openai.com/";
+
     /// <summary>
     /// 手势识别回复文本
     /// </summary>

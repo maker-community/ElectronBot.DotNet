@@ -232,6 +232,8 @@ public partial class App : Application
             services.AddSingleton<PoseRecognitionService>();
 
 
+            services.AddTransient<IChatbotClient, ChatGPTChatbotCustomClient>();
+
             services.AddTransient<IChatbotClient, ChatGPTChatbotClient>();
 
             services.AddTransient<IChatbotClient, TuringChatbotClient>();
