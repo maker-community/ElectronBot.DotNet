@@ -20,7 +20,8 @@
                             <TextBlock
                                 Margin="40,20"
                                 Foreground="White"
-                                Text="{TemplateBinding Content}" />
+                                Text="{TemplateBinding Content}"
+                                TextWrapping="Wrap" />
                         </Border>
                     </Grid>
                 </ControlTemplate>

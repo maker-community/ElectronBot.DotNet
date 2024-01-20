@@ -1,9 +1,12 @@
-﻿
-using ChatGPTSharp;
+﻿using System.Net.Http.Headers;
 using Contracts.Services;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
+using ElectronBot.Copilot;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace Services;
 public class ChatGPTChatbotCustomClient : IChatbotClient
@@ -12,7 +15,7 @@ public class ChatGPTChatbotCustomClient : IChatbotClient
 
     private readonly ILocalSettingsService _localSettingsService;
 
-    private ChatGPTClient? _chatGptClient;
+    private Kernel? _kernel;
     public ChatGPTChatbotCustomClient(ILocalSettingsService localSettingsService)
     {
         _localSettingsService = localSettingsService;
@@ -27,12 +30,58 @@ public class ChatGPTChatbotCustomClient : IChatbotClient
             throw new Exception("配置为空");
         }
 
-        _chatGptClient ??= new ChatGPTClient(result.ChatGPTSessionKey, "gpt-3.5-turbo");
 
-        _chatGptClient.Settings.OpenAIAPIBaseUri = result.OpenAIBaseUrl;
+        var hasCustomEndpoint = !string.IsNullOrEmpty(result.OpenAIBaseUrl) && Uri.TryCreate(result.OpenAIBaseUrl, UriKind.Absolute, out var _);
+        var customHttpClient = hasCustomEndpoint
+            ? GetProxyClient(result.OpenAIBaseUrl)
+            : default;
 
-        var msg = await _chatGptClient.SendMessage(message);
+        _kernel ??= Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion("gpt-3.5-turbo", result.ChatGPTSessionKey, httpClient: customHttpClient)
+            .Build();
 
-        return msg.Response ?? "";
+        var chat = _kernel.GetRequiredService<IChatCompletionService>()
+            ?? throw new KernelException("not init chat");
+
+        var resMessage = string.Empty;
+
+        try
+        {
+            await Task.Run(async () =>
+            {
+                var history = new ChatHistory();
+                history.AddMessage(AuthorRole.User, message);
+                var response = chat.GetStreamingChatMessageContentsAsync(history);
+                await foreach (var item in response)
+                {
+                    resMessage += item;
+                    //streamHandler?.Invoke(resMessage);
+                }
+            });
+
+            resMessage = resMessage.Trim();
+
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                ToastHelper.SendToast(resMessage, TimeSpan.FromSeconds(10));
+            });
+
+            if (string.IsNullOrEmpty(resMessage))
+            {
+                throw new KernelException("chat is empty");
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+
+        return resMessage;
+    }
+
+    private static HttpClient GetProxyClient(string baseUrl)
+    {
+        var httpClient = new HttpClient(new ProxyOpenAIHttpClientHandler(baseUrl));
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/event-stream"));
+        return httpClient;
     }
 }

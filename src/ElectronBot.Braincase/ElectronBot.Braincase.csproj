@@ -254,7 +254,7 @@
     <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.16.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.8.0.20230708" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.8.0.20230708" />
@@ -268,6 +268,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ElectronBot.Copilot\ElectronBot.Copilot.csproj" />
     <ProjectReference Include="..\..\HelloWordKeyboard.DotNet\HelloWordKeyboard.DotNet.csproj" />
     <ProjectReference Include="..\ElectronBot.Braincase.Core\Verdure.ElectronBot.Core.csproj" />
     <ProjectReference Include="..\GestureClassification\GestureClassification.csproj" />

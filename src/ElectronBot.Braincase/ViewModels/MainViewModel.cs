@@ -302,8 +302,16 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         ToastHelper.SendToast(text, TimeSpan.FromSeconds(4));
 
         var localSettingsService = App.GetService<ILocalSettingsService>();
-        var list = (await localSettingsService
-             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        var list = (await _localSettingsService
+            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (!list.Any(a => a.EmojisType == EmojisType.Default))
+        {
+            var emoticonActions = Constants.EMOJI_ACTION_LIST;
+            await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, emoticonActions.ToList());
+            list = emoticonActions.ToList();
+        }
 
         if (list != null && list.Count > 0)
         {
