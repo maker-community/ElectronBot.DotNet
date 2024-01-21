@@ -3,7 +3,10 @@ using ChatGPTSharp;
 using Contracts.Services;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace Services;
 public class ChatGPTChatbotClient : IChatbotClient
@@ -11,6 +14,8 @@ public class ChatGPTChatbotClient : IChatbotClient
     public string Name => "ChatGPT";
 
     private readonly ILocalSettingsService _localSettingsService;
+
+    private Kernel? _kernel;
 
     private ChatGPTClient? _chatGptClient;
     public ChatGPTChatbotClient(ILocalSettingsService localSettingsService)
@@ -27,10 +32,50 @@ public class ChatGPTChatbotClient : IChatbotClient
             throw new Exception("配置为空");
         }
 
-        _chatGptClient ??= new ChatGPTClient(result.ChatGPTSessionKey, "gpt-3.5-turbo");
 
-        var msg = await _chatGptClient.SendMessage(message);
+        _kernel ??= Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion("gpt-3.5-turbo", result.ChatGPTSessionKey)
+            .Build();
 
-        return msg.Response ?? "";
+        var chat = _kernel.GetRequiredService<IChatCompletionService>()
+            ?? throw new KernelException("not init chat");
+
+        var resMessage = string.Empty;
+
+        try
+        {
+            await Task.Run(async () =>
+            {
+                var history = new ChatHistory();
+                history.AddMessage(AuthorRole.User, message);
+                var response = chat.GetStreamingChatMessageContentsAsync(history);
+                await foreach (var item in response)
+                {
+                    resMessage += item;
+                    //streamHandler?.Invoke(resMessage);
+                }
+            });
+
+            resMessage = resMessage.Trim();
+
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                ToastHelper.SendToast(resMessage, TimeSpan.FromSeconds(10));
+            });
+
+            if (string.IsNullOrEmpty(resMessage))
+            {
+                throw new KernelException("chat is empty");
+            }
+        }
+        catch (Exception ex)
+        {
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(10));
+            });
+        }
+
+        return resMessage;
     }
 }

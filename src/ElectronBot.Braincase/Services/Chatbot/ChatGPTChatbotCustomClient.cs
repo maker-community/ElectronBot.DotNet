@@ -73,6 +73,10 @@ public class ChatGPTChatbotCustomClient : IChatbotClient
         }
         catch (Exception ex)
         {
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(10));
+            });
         }
 
         return resMessage;
