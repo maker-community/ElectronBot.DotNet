@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Contracts.Services;
 using Controls.CompactOverlay;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Contracts.ViewModels;
@@ -374,6 +375,130 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
             }
         }
     }
+
+
+    [RelayCommand]
+    private async Task SendChat()
+    {
+        var config = (await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>
+            (Constants.CustomClockTitleConfigKey)) ?? new CustomClockTitleConfig();
+
+        var textList = config.AnswerText.Split(",").ToList();
+
+        var r = new Random().Next(textList.Count);
+
+
+        var text = textList[r];
+
+        ToastHelper.SendToast("please wait for a moment", TimeSpan.FromSeconds(4));
+
+        var localSettingsService = App.GetService<ILocalSettingsService>();
+
+        var list = (await _localSettingsService
+            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
+
+        if (!list.Any(a => a.EmojisType == EmojisType.Default))
+        {
+            var emoticonActions = Constants.EMOJI_ACTION_LIST;
+            await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, emoticonActions.ToList());
+            list = emoticonActions.ToList();
+        }
+
+        if (list != null && list.Count > 0)
+        {
+            try
+            {
+                var emojis = list.First(l => l.NameId == "normal");
+
+                List<ElectronBotAction> actions = new();
+
+                if (emojis.HasAction)
+                {
+                    if (!string.IsNullOrWhiteSpace(emojis.EmojisActionPath))
+                    {
+                        try
+                        {
+                            var path = string.Empty;
+
+                            if (emojis.EmojisType == EmojisType.Default)
+                            {
+                                path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
+                            }
+                            else
+                            {
+                                path = emojis.EmojisActionPath;
+                            }
+
+
+                            var json = await File.ReadAllTextAsync(path);
+
+
+                            var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
+
+                            if (actionList != null && actionList.Count > 0)
+                            {
+                                actions = actionList;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+
+                string? videoPath;
+
+                if (emojis.EmojisType == EmojisType.Default)
+                {
+                    videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
+                }
+                else
+                {
+                    videoPath = emojis.EmojisVideoPath;
+                }
+                _ = ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync("please wait for a moment", false);
+                await App.GetService<IActionExpressionProvider>().PlayActionExpressionAsync(emojis, actions);
+
+                try
+                {
+                    //var chatGPTClient = App.GetService<IChatGPTService>();
+
+                    //var resultText = await chatGPTClient.AskQuestionResultAsync(args.Result.Text);
+
+                    //await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTTSAsync(resultText);
+
+                    var chatBotClientFactory = App.GetService<IChatbotClientFactory>();
+
+                    var chatBotClientName = (await App.GetService<ILocalSettingsService>()
+                         .ReadSettingAsync<ComboxItemModel>(Constants.DefaultChatBotNameKey))?.DataKey;
+
+                    if (string.IsNullOrEmpty(chatBotClientName))
+                    {
+                        throw new Exception("no app key in the config");
+                    }
+
+                    var chatBotClient = chatBotClientFactory.CreateChatbotClient(chatBotClientName);
+
+                    var resultText = await chatBotClient.AskQuestionResultAsync(SendText);
+
+                    await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(resultText, false);
+                }
+                catch (Exception ex)
+                {
+                    App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        ToastHelper.SendToast(ex.Message, TimeSpan.FromSeconds(3));
+                    });
+
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+    }
+
 
     [RelayCommand]
     private async Task EndChat()

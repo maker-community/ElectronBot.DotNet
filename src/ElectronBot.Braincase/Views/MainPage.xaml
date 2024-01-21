@@ -345,48 +345,63 @@
                     <RadioButton x:Uid="NeedleModeRb" />
                 </RadioButtons>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Border
-                    x:Name="BorderGrid"
-                    Width="200"
-                    Height="200"
-                    Margin="4"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    BorderBrush="{ThemeResource SystemAccentColor}"
-                    BorderThickness="2"
-                    Child="{x:Bind ViewModel.Element, Mode=OneWay}"
-                    CornerRadius="8" />
-                <StackPanel
-                    Margin="4"
-                    VerticalAlignment="Top"
-                    Orientation="Vertical">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
                     <Border
-                        Width="300"
-                        Height="200"
+                        x:Name="BorderGrid"
+                        Width="160"
+                        Height="160"
+                        Margin="4"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         BorderBrush="{ThemeResource SystemAccentColor}"
                         BorderThickness="2"
-                        CornerRadius="8">
-                        <Grid>
-                            <Image x:Name="FaceImage" Source="{x:Bind ViewModel.FaceImage.Source, Mode=OneWay}" />
-                            <TextBlock
-                                x:Uid="CameraPreviewImage"
-                                Margin="8"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                FontSize="18" />
-                        </Grid>
+                        Child="{x:Bind ViewModel.Element, Mode=OneWay}"
+                        CornerRadius="8" />
+                    <StackPanel
+                        Margin="4"
+                        VerticalAlignment="Top"
+                        Orientation="Vertical">
+                        <Border
+                            Width="260"
+                            Height="160"
+                            VerticalAlignment="Top"
+                            BorderBrush="{ThemeResource SystemAccentColor}"
+                            BorderThickness="2"
+                            CornerRadius="8">
+                            <Grid>
+                                <Image x:Name="FaceImage" Source="{x:Bind ViewModel.FaceImage.Source, Mode=OneWay}" />
+                                <TextBlock
+                                    x:Uid="CameraPreviewImage"
+                                    Margin="8"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                    FontSize="18" />
+                            </Grid>
 
-                    </Border>
-                    <TextBlock
-                        x:Name="GestureResult"
-                        Margin="8"
-                        HorizontalAlignment="Center"
-                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                        FontSize="18"
-                        Text="{x:Bind ViewModel.ResultLabel, Mode=OneWay}" />
+                        </Border>
+                        <TextBlock
+                            x:Name="GestureResult"
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                            FontSize="18"
+                            Text="{x:Bind ViewModel.ResultLabel, Mode=OneWay}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="160" Text="{x:Bind ViewModel.SendText, Mode=TwoWay}" />
+                    <Button
+                        x:Uid="StartChat"
+                        Height="28"
+                        Margin="4"
+                        BorderBrush="{ThemeResource SystemAccentColor}"
+                        BorderThickness="2"
+                        Command="{x:Bind ViewModel.SendChatCommand}"
+                        Foreground="{ThemeResource SystemAccentColor}">
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE724;" />
+                    </Button>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
