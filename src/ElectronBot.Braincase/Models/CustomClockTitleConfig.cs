@@ -44,7 +44,7 @@ public class CustomClockTitleConfig
     public string OpenAIBaseUrl
     {
         get; set;
-    } = "https://api.openai.com/";
+    } = "https://api.openai-proxy.com/";
 
     /// <summary>
     /// 手势识别回复文本
@@ -95,4 +95,9 @@ public class CustomClockTitleConfig
         get;
         set;
     }
+
+    public string Hw75ViewName
+    {
+        get; set;
+    } = "Hw75CustomView";
 }

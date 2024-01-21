@@ -56,19 +56,25 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     public ObservableCollection<ComboxItemModel> clockComboxModels;
 
+    [ObservableProperty]
+    private CustomClockTitleConfig _clockTitleConfig;
+
     private readonly IHw75DynamicViewProviderFactory _viewProviderFactory;
 
-    public Hw75ViewModel(ComboxDataService comboxDataService, IHw75DynamicViewProviderFactory viewProviderFactory)
+    private readonly ILocalSettingsService _localSettingsService;
+
+    public Hw75ViewModel(ComboxDataService comboxDataService, IHw75DynamicViewProviderFactory viewProviderFactory, ILocalSettingsService localSettingsService)
     {
         ClockComboxModels = comboxDataService.GetHw75ViewComboxList();
         _viewProviderFactory = viewProviderFactory;
+        _localSettingsService = localSettingsService;
     }
 
     /// <summary>
     /// 表盘切换方法
     /// </summary>
     [RelayCommand]
-    private void ClockChanged()
+    private async Task ClockChanged()
     {
         var clockName = ClockComBoxSelect?.DataKey;
 
@@ -79,6 +85,10 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
             var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider(clockName);
 
             Element = viewProvider.CreateHw75DynamickView(clockName);
+
+            ClockTitleConfig.Hw75ViewName = clockName;
+
+            await _localSettingsService.SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
         }
     }
 
@@ -88,11 +98,16 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
     }
 
-    public void OnNavigatedTo(object parameter)
+    public async void OnNavigatedTo(object parameter)
     {
-        var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider("Hw75CustomView");
 
-        Element = viewProvider.CreateHw75DynamickView("Hw75CustomView");
+        var ret2 = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
+
+        ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
+
+        var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider(ClockTitleConfig.Hw75ViewName);
+
+        Element = viewProvider.CreateHw75DynamickView(ClockTitleConfig.Hw75ViewName);
 
         Hw75Helper.Instance.UpdateDataToDeviceHandler += Instance_UpdateDataToDeviceHandler;
 
