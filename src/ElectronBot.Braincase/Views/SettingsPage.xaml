@@ -452,6 +452,36 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
+                                            x:Uid="ChatGPTVersion"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                        <Grid Grid.Column="1">
+                                            <ComboBox
+                                                x:Uid="ChangeGPTVersionCB"
+                                                Width="160"
+                                                Margin="0,0,8,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                DisplayMemberPath="DataValue"
+                                                ItemsSource="{x:Bind ViewModel.ChatGPTVersionomboxModels}"
+                                                SelectedItem="{x:Bind ViewModel.ChatGPTVersionSelect, Mode=TwoWay}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="SelectionChanged">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.ChatGPTVersionChangedCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </ComboBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
                                             x:Uid="ChatGPT-SessionKey"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Center" />
@@ -510,6 +540,32 @@
                                                 Width="360"
                                                 HorizontalAlignment="Right"
                                                 Text="{x:Bind ViewModel.ClockTitleConfig.TuringUserId, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="LostFocus">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="OpenAI BaseUrl:" />
+                                        <Grid Grid.Column="1">
+                                            <TextBox
+                                                Width="360"
+                                                HorizontalAlignment="Right"
+                                                Text="{x:Bind ViewModel.ClockTitleConfig.OpenAIBaseUrl, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="LostFocus">
                                                         <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />

@@ -855,4 +855,10 @@
   <data name="VerdureBilibili.Content" xml:space="preserve">
     <value>点击关注我B站获取最新消息</value>
   </data>
+  <data name="ChatGPTCustomTitle" xml:space="preserve">
+    <value>ChatGPTCustom</value>
+  </data>
+  <data name="ChatGPTVersion.Text" xml:space="preserve">
+    <value>ChatGPT-Model:</value>
+  </data>
 </root>

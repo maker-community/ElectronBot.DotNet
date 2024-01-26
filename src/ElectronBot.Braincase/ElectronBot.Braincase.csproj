@@ -57,6 +57,7 @@
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\Images\CustomViewDefault.jpg" />
+    <None Remove="Assets\Images\Hw75CustomViewDefault.png" />
     <None Remove="Assets\model.onnx" />
     <None Remove="Assets\pig.ico" />
     <None Remove="ClockViews\CustomClockView.xaml" />
@@ -254,7 +255,7 @@
     <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.16.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.8.0.20230708" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.8.0.20230708" />
@@ -268,9 +269,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\HelloWordKeyboard.DotNet\HelloWordKeyboard.DotNet.csproj" />
     <ProjectReference Include="..\ElectronBot.Braincase.Core\Verdure.ElectronBot.Core.csproj" />
+    <ProjectReference Include="..\ElectronBot.Copilot\ElectronBot.Copilot.csproj" />
     <ProjectReference Include="..\GestureClassification\GestureClassification.csproj" />
+    <ProjectReference Include="..\HelloWordKeyboard.DotNet\HelloWordKeyboard.DotNet.csproj" />
     <ProjectReference Include="..\Mediapipe.Net\Mediapipe.Net.csproj" />
     <ProjectReference Include="..\Verdure.NotificationArea\Verdure.NotificationArea.csproj" />
   </ItemGroup>
@@ -344,6 +346,9 @@
     <None Update="Assets\hand.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Update="Assets\Images\Hw75CustomViewDefault.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Update="Assets\MLModel1.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -23,7 +23,7 @@
 
   <ItemGroup Label="Package References">
     <PackageReference Include="Google.Protobuf" Version="3.25.0" />
-    <PackageReference Include="Mediapipe.Net.Framework.Protobuf" Version="1.0.0-alpha2" />
+    <PackageReference Include="Mediapipe.Net.Framework.Protobuf" Version="0.9.1" />
   </ItemGroup>
 
   <ItemGroup>

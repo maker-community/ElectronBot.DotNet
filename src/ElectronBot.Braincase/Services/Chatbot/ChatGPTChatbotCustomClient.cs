@@ -1,24 +1,22 @@
-﻿
-using ChatGPTSharp;
+﻿using System.Net.Http.Headers;
 using Contracts.Services;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
+using ElectronBot.Copilot;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace Services;
-public class ChatGPTChatbotClient : IChatbotClient
+public class ChatGPTChatbotCustomClient : IChatbotClient
 {
-    public string Name => "ChatGPT";
+    public string Name => "ChatGPT-Custom";
 
     private readonly ILocalSettingsService _localSettingsService;
 
     private Kernel? _kernel;
-
-    private ChatGPTClient? _chatGptClient;
-    public ChatGPTChatbotClient(ILocalSettingsService localSettingsService)
+    public ChatGPTChatbotCustomClient(ILocalSettingsService localSettingsService)
     {
         _localSettingsService = localSettingsService;
     }
@@ -33,8 +31,13 @@ public class ChatGPTChatbotClient : IChatbotClient
         }
 
 
+        var hasCustomEndpoint = !string.IsNullOrEmpty(result.OpenAIBaseUrl) && Uri.TryCreate(result.OpenAIBaseUrl, UriKind.Absolute, out var _);
+        var customHttpClient = hasCustomEndpoint
+            ? GetProxyClient(result.OpenAIBaseUrl)
+            : default;
+
         _kernel ??= Kernel.CreateBuilder()
-            .AddOpenAIChatCompletion(result.ChatGPTVersion, result.ChatGPTSessionKey)
+            .AddOpenAIChatCompletion(result.ChatGPTVersion, result.ChatGPTSessionKey, httpClient: customHttpClient)
             .Build();
 
         var chat = _kernel.GetRequiredService<IChatCompletionService>()
@@ -77,5 +80,12 @@ public class ChatGPTChatbotClient : IChatbotClient
         }
 
         return resMessage;
+    }
+
+    private static HttpClient GetProxyClient(string baseUrl)
+    {
+        var httpClient = new HttpClient(new ProxyOpenAIHttpClientHandler(baseUrl));
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/event-stream"));
+        return httpClient;
     }
 }

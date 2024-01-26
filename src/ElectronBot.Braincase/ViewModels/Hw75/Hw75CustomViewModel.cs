@@ -22,13 +22,24 @@ public partial class Hw75CustomViewModel : ObservableRecipient
 
     private readonly ClockDiagnosticService _diagnosticService;
 
-    private bool isProcessing = false;
+    private const string ViewName = "Hw75CustomView";
 
     [ObservableProperty] private Visibility _customContentVisibility = Visibility.Visible;
 
     [ObservableProperty] private Visibility _dateVisibility = Visibility.Visible;
 
 
+
+    public Hw75CustomViewModel(ClockDiagnosticService clockDiagnosticService,
+        ILocalSettingsService localSettingsService)
+    {
+        _diagnosticService = clockDiagnosticService;
+        _localSettingsService = localSettingsService;
+
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 60);
+
+        _dispatcherTimer.Tick += DispatcherTimer_Tick;
+    }
 
     public string TodayWeek
     {
@@ -105,22 +116,15 @@ public partial class Hw75CustomViewModel : ObservableRecipient
 
     private void DispatcherTimer_Tick(object? sender, object e)
     {
-        TodayTime = DateTimeOffset.Now.ToString("t");
-        TodayWeek = DateTimeOffset.Now.ToString("ddd");
-        Day = DateTimeOffset.Now.Day.ToString();
+        if (Hw75Helper.Instance.ViewName == ViewName)
+        {
+            TodayTime = DateTimeOffset.Now.ToString("t");
+            TodayWeek = DateTimeOffset.Now.ToString("ddd");
+            Day = DateTimeOffset.Now.Day.ToString();
 
-        Hw75Helper.Instance.InvokeHandler();
-    }
+            Hw75Helper.Instance.InvokeHandler();
+        }
 
-    public Hw75CustomViewModel(ClockDiagnosticService clockDiagnosticService, ILocalSettingsService localSettingsService
-        )
-    {
-        _diagnosticService = clockDiagnosticService;
-        _localSettingsService = localSettingsService;
-
-        _dispatcherTimer.Interval = new TimeSpan(0, 0, 60);
-
-        _dispatcherTimer.Tick += DispatcherTimer_Tick;
     }
 
 }
