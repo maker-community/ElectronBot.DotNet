@@ -42,6 +42,17 @@
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
 
+
+                    <TextBlock
+                        Margin="0,4,0,4"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="五行"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+
                     <TextBlock
                         Margin="0,4,0,4"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
@@ -49,6 +60,16 @@
                         FontWeight="Bold"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.YellowCalendarResult.Wuxing, Mode=OneWay}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock
+                        Margin="0,4,0,4"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="冲煞"
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
 
@@ -64,7 +85,7 @@
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
 
-                    <TextBlock
+                    <!--<TextBlock
                         Margin="0,4,0,4"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
                         FontSize="18"
@@ -72,6 +93,16 @@
                         Foreground="Black"
                         LineHeight="2"
                         Text="{x:Bind ViewModel.YellowCalendarResult.Yi, Mode=OneWay}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />-->
+
+                    <TextBlock
+                        Margin="0,4,0,4"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="凶神宜忌"
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
 
@@ -84,6 +115,15 @@
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
 
+                    <TextBlock
+                        Margin="0,4,0,4"
+                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="忌"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
                     <TextBlock
                         Margin="0,4,0,4"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"

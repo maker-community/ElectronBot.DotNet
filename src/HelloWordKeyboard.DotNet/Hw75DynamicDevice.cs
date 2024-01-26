@@ -9,8 +9,6 @@ namespace HelloWordKeyboard.DotNet;
 
 public class Hw75DynamicDevice : IHw75DynamicDevice
 {
-    private const string Path = "\\\\?\\hid#vid_1d50&pid_615e&mi_01#8&a8a6dc9&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}";
-
     private const int RePortCount = 63;
 
     private const int PayloadSize = RePortCount - 1;
@@ -148,9 +146,14 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
         {
             if (deviceInfo.UsagePage == ZmkxUasage)
             {
-                return new Device(deviceInfo.Path);
+                _device = new Device(deviceInfo.Path);
+                var version = GetVersion();
+                if (version.Features.HasEink && version.Features.Eink == true)
+                {
+                    return new Device(deviceInfo.Path);
+                }
             }
         }
-        throw new Exception("瀚文设备未连接");
+        throw new Exception("瀚文拓展设备未连接");
     }
 }

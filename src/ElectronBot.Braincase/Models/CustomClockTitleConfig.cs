@@ -41,6 +41,11 @@ public class CustomClockTitleConfig
         get; set;
     } = string.Empty;
 
+    public string OpenAIBaseUrl
+    {
+        get; set;
+    } = "https://api.openai-proxy.com/";
+
     /// <summary>
     /// 手势识别回复文本
     /// </summary>
@@ -59,7 +64,7 @@ public class CustomClockTitleConfig
     {
         get;
         set;
-    } = string.Empty;
+    } = "ms-appx:///Assets/Images/Hw75CustomViewDefault.png";
 
     public float GaussianBlurValue
     {
@@ -90,4 +95,14 @@ public class CustomClockTitleConfig
         get;
         set;
     }
+
+    public string Hw75ViewName
+    {
+        get; set;
+    } = "Hw75CustomView";
+
+    public string ChatGPTVersion
+    {
+        get; set;
+    } = "gpt-3.5-turbo";
 }

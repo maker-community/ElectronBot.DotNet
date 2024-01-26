@@ -17,6 +17,8 @@ public partial class Hw75YellowCalendarViewModel : ObservableRecipient
 
     private readonly DispatcherTimer _dispatcherTimer = new ();
 
+    private const string ViewName = "Hw75YellowCalendarView";
+
     public Hw75YellowCalendarViewModel()
     {
         _dispatcherTimer.Interval = new TimeSpan(1, 0, 0);
@@ -26,9 +28,12 @@ public partial class Hw75YellowCalendarViewModel : ObservableRecipient
 
     private async void DispatcherTimer_Tick(object? sender, object e)
     {
-        YellowCalendarResult = await GetYellowCalendarService.GetYellowCalendarAsync(true);
+        if (Hw75Helper.Instance.ViewName == ViewName)
+        {
+            YellowCalendarResult = await GetYellowCalendarService.GetYellowCalendarAsync(true);
 
-        Hw75Helper.Instance.InvokeHandler();
+            Hw75Helper.Instance.InvokeHandler();
+        }
     }
 
     [RelayCommand]

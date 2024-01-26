@@ -47,6 +47,8 @@ public partial class MainViewModel : ObservableRecipient
     string resultLabel;
 
 
+    [ObservableProperty]
+    string _sendText;
 
     /// <summary>
     /// 头部舵机

@@ -223,7 +223,7 @@ public partial class App : Application
             services.AddSingleton<IActionExpressionProviderFactory, ActionExpressionProviderFactory>();
 
             services.AddTransient<TodoView>();
-            services.AddSingleton<Hw75DynamicViewModel>();
+            services.AddTransient<Hw75DynamicViewModel>();
 
             services.AddSingleton<EmoticonActionFrameService>();
 
@@ -231,6 +231,8 @@ public partial class App : Application
 
             services.AddSingleton<PoseRecognitionService>();
 
+
+            services.AddTransient<IChatbotClient, ChatGPTChatbotCustomClient>();
 
             services.AddTransient<IChatbotClient, ChatGPTChatbotClient>();
 

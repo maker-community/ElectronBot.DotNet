@@ -1,5 +1,6 @@
 ﻿using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using Models.Hw75.YellowCalendar;
 
@@ -21,7 +22,7 @@ public class GetYellowCalendarService
 
             var yellowCalendarStr = await _localSettingsService.ReadSettingAsync<string>($"{Constants.YellowCalendarKey}-{DateTime.Now.ToShortDateString()}");
 
-            if (noCache == true || string.IsNullOrWhiteSpace(yellowCalendarStr))
+            if (noCache == true || string.IsNullOrWhiteSpace(yellowCalendarStr) || (!string.IsNullOrWhiteSpace(yellowCalendarStr) && !yellowCalendarStr.Contains("successed")))
             {
                 var httpClient = App.GetService<HttpClient>();
 
@@ -36,9 +37,17 @@ public class GetYellowCalendarService
             {
                 return data.Result;
             }
+            else
+            {
+                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    ToastHelper.SendToast($"请检查聚合数据key的配置", TimeSpan.FromSeconds(5));
+                });
+            }
         }
-        catch
+        catch(Exception ex)
         {
+
         }
 
         return new YellowCalendarResult();

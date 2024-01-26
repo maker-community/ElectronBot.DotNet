@@ -578,6 +578,20 @@ public class ElectronBotHelper
         }
     }
 
+    public async Task CloseChatAsync()
+    {
+        try
+        {
+            var speechAndTTSService = App.GetService<ISpeechAndTTSService>();
+            await speechAndTTSService.ReleaseRecognizerAsync();
+            //await speechAndTTSService.CancelAsync();
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+
     private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
     {
         try
