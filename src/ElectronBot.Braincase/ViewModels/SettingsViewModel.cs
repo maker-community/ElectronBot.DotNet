@@ -61,6 +61,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         _identityService = identityService;
         _userDataService = userDataService;
         chatBotComboxModels = comboxDataService.GetChatBotClientComboxList();
+        _chatGPTVersionomboxModels = comboxDataService.GetChatGPTVersionComboxList();
     }
 
 
@@ -193,6 +194,18 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     public ObservableCollection<ComboxItemModel> chatBotComboxModels;
 
+    /// <summary>
+    /// CHatGPTVersion选中数据
+    /// </summary>
+    [ObservableProperty]
+    private ComboxItemModel? _chatGPTVersionSelect;
+
+    /// <summary>
+    /// CHatGPTVersion列表
+    /// </summary>
+    [ObservableProperty]
+    private ObservableCollection<ComboxItemModel>? _chatGPTVersionomboxModels;
+
 
     /// <summary>
     /// 相机列表
@@ -290,7 +303,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     }
 
     [RelayCommand]
-    private async void RemoveEmojisAvatar()
+    private async Task RemoveEmojisAvatar()
     {
         ClockTitleConfig.CustomViewPicturePath = "";
         await _localSettingsService
@@ -306,6 +319,21 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         if (!string.IsNullOrWhiteSpace(chatBotName))
         {
             await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, chatBotSelect);
+        }
+    }
+
+    [RelayCommand]
+    public async Task ChatGPTVersionChangedAsync()
+    {
+        var chatGPTName = ChatGPTVersionSelect?.DataKey;
+
+        if (!string.IsNullOrWhiteSpace(chatGPTName))
+        {
+            ClockTitleConfig.ChatGPTVersion = chatGPTName;
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultChatGPTNameKey, chatGPTName);
+
+            await _localSettingsService
+                .SaveSettingAsync(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
         }
     }
 
@@ -521,6 +549,18 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             if (chatBotModel != null)
             {
                 ChatBotSelect = chatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
+            }
+
+            var chatGPTModel = await _localSettingsService
+                .ReadSettingAsync<string>(Constants.DefaultChatGPTNameKey);
+
+            if (!string.IsNullOrWhiteSpace(chatGPTModel))
+            {
+                ChatGPTVersionSelect = ChatGPTVersionomboxModels?.FirstOrDefault(c => c.DataKey == chatGPTModel);
+            }
+            else
+            {
+                ChatGPTVersionSelect = ChatGPTVersionomboxModels?.FirstOrDefault(c => c.DataKey == ClockTitleConfig.ChatGPTVersion);
             }
 
             _identityService.LoggedIn += OnLoggedIn;

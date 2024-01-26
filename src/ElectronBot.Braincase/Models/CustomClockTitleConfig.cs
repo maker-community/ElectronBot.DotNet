@@ -100,4 +100,9 @@ public class CustomClockTitleConfig
     {
         get; set;
     } = "Hw75CustomView";
+
+    public string ChatGPTVersion
+    {
+        get; set;
+    } = "gpt-3.5-turbo";
 }

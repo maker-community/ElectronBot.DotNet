@@ -858,4 +858,7 @@
   <data name="ChatGPTCustomTitle" xml:space="preserve">
     <value>ChatGPTCustom</value>
   </data>
+  <data name="ChatGPTVersion.Text" xml:space="preserve">
+    <value>ChatGPT-Model:</value>
+  </data>
 </root>

@@ -37,7 +37,7 @@ public class ChatGPTChatbotCustomClient : IChatbotClient
             : default;
 
         _kernel ??= Kernel.CreateBuilder()
-            .AddOpenAIChatCompletion("gpt-3.5-turbo", result.ChatGPTSessionKey, httpClient: customHttpClient)
+            .AddOpenAIChatCompletion(result.ChatGPTVersion, result.ChatGPTSessionKey, httpClient: customHttpClient)
             .Build();
 
         var chat = _kernel.GetRequiredService<IChatCompletionService>()

@@ -40,4 +40,16 @@ public class ComboxDataService
                 new ComboxItemModel { DataKey = "ChatGPT-Custom", DataValue ="ChatGPTCustomTitle".GetLocalized() }
             };
     }
+
+    public ObservableCollection<ComboxItemModel> GetChatGPTVersionComboxList()
+    {
+        return new ObservableCollection<ComboxItemModel>
+            {
+
+                new ComboxItemModel { DataKey = "gpt-3.5-turbo-0301", DataValue = "gpt-3.5-turbo-0301" },
+                new ComboxItemModel { DataKey = "gpt-4", DataValue ="gpt-4" },
+                new ComboxItemModel { DataKey = "gpt-4-0314", DataValue ="gpt-4-0314" },
+                new ComboxItemModel { DataKey = "gpt-4-0613", DataValue ="gpt-4-0613" }
+            };
+    }
 }

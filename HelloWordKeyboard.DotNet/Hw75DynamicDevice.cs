@@ -148,7 +148,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
             {
                 _device = new Device(deviceInfo.Path);
                 var version = GetVersion();
-                if (version.Features.Eink == true)
+                if (version.Features.HasEink && version.Features.Eink == true)
                 {
                     return new Device(deviceInfo.Path);
                 }

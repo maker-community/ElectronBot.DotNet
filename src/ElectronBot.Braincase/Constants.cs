@@ -30,6 +30,8 @@ public class Constants
 
     public const string DefaultChatBotNameKey = "DefaultChatBotNameKey";
 
+    public const string DefaultChatGPTNameKey = "DefaultChatGPTNameKey";
+
     public const string DefaultAudioNameKey = "DefaultAudioNameKey";
 
     public const string CustomGestureAppConfigKey = "CustomGestureAppConfigKey";
