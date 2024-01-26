@@ -64,7 +64,7 @@ public class CustomClockTitleConfig
     {
         get;
         set;
-    } = string.Empty;
+    } = "ms-appx:///Assets/Images/Hw75CustomViewDefault.png";
 
     public float GaussianBlurValue
     {

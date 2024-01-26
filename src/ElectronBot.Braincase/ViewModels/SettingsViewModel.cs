@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,6 +8,7 @@ using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Verdure.ElectronBot.Core.Helpers;
@@ -16,7 +16,6 @@ using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
-using Microsoft.UI.Xaml.Controls;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -115,7 +114,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             var isVisual = toggleSwitch.IsOn;
             ClockTitleConfig.CustomViewContentIsVisibility = isVisual;
         }
-       
+
         await _localSettingsService
             .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
     }
@@ -158,7 +157,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
     public async void RangeBase_OnValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {
-        
+
         await _localSettingsService
             .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
     }
@@ -577,7 +576,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         var config = new ImageCropperConfig
         {
             ImageFile = file,
-            AspectRatio = 128d/296d
+            AspectRatio = 128d / 296d
         };
 
         var croppedImage = await ImageHelper.CropImage(config);
@@ -608,7 +607,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     [RelayCommand]
     private async Task RemoveHw75Image()
     {
-        ClockTitleConfig.CustomHw75ImagePath = "";
+        ClockTitleConfig.CustomHw75ImagePath = "ms-appx:///Assets/Images/Hw75CustomViewDefault.png";
         await _localSettingsService
             .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
         Hw75ImagePath = "";

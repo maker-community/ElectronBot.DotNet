@@ -21,43 +21,54 @@ namespace ElectronBot.Braincase.Services
         /// <param name="lat">纬度</param>
         /// <param name="lon">经度</param>
         /// <returns>结果封装的类的实例</returns>
-        public async static Task<Weather_Displayed> GetWeatherIdea()
+        public static async Task<Weather_Displayed> GetWeatherIdea()
         {
+
             var weatherDisplayed = new Weather_Displayed();
-            var accessStatus = await Geolocator.RequestAccessAsync();
-            Geolocator geolocator = new Geolocator();
-            if (accessStatus != GeolocationAccessStatus.Allowed) 
+            try
+            {
+                var accessStatus = await Geolocator.RequestAccessAsync();
+                var geolocator = new Geolocator();
+                if (accessStatus != GeolocationAccessStatus.Allowed)
+                {
+                    App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        ToastHelper.SendToast($"请检查系统设置是否开启系统定位权限。", TimeSpan.FromSeconds(5));
+                    });
+                    return weatherDisplayed;
+                };
+                var pos = await geolocator.GetGeopositionAsync();
+                var lat = pos.Coordinate.Point.Position.Latitude;
+                var lon = pos.Coordinate.Point.Position.Longitude;
+                var querys = "from=5&lat=" + lat.ToString() + "&lng=" + lon.ToString() + "&need3HourForcast=0&needAlarm=0&needHourData=0&needIndex=1&needMoreDay=1";
+                var url = host + path;
+                var urlLast = url + "?" + querys;
+                var uri = new Uri(urlLast);
+                var resultJson = string.Empty;
+
+                var appCode = App.GetService<IOptions<LocalSettingsOptions>>().Value.Hw75AppCode;
+
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "APPCODE " + appCode);
+                    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+                    resultJson = await httpClient.GetStringAsync(uri);
+                }
+                var data = Newtonsoft.Json.JsonConvert.DeserializeObject<GpsWeatherData>(resultJson);
+
+                var hour24 = await NameGet24Weather.NameGet24WeatherIdea(System.Web.HttpUtility.UrlEncode(data.showapi_res_body.cityInfo.c3, System.Text.Encoding.UTF8));
+                //var hour24 = await NameGet24Weather.NameGet24WeatherIdea(TransCoding.UrlCode(data.showapi_res_body.cityInfo.c3, "utf-8"));
+                OrganizeWeatherData(weatherDisplayed, data, hour24);
+            }
+            catch(Exception ex)
             {
                 App.MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
-                    ToastHelper.SendToast($"请检查系统设置是否开启系统定位权限。", TimeSpan.FromSeconds(5));
+                    ToastHelper.SendToast($"天气获取错误。{ex.Message}", TimeSpan.FromSeconds(5));
                 });
-                return weatherDisplayed;
-            };
-            Geoposition pos = await geolocator.GetGeopositionAsync();
-            double lat = pos.Coordinate.Point.Position.Latitude;
-            double lon = pos.Coordinate.Point.Position.Longitude;
-            string querys = "from=5&lat=" + lat.ToString() + "&lng=" + lon.ToString() + "&need3HourForcast=0&needAlarm=0&needHourData=0&needIndex=1&needMoreDay=1";
-            string url = host + path;
-            string urlLast = url + "?" + querys;
-            Uri uri = new Uri(urlLast);
-            string resultJson = string.Empty;
-
-            var appCode = App.GetService<IOptions<LocalSettingsOptions>>().Value.Hw75AppCode;
-
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.DefaultRequestHeaders.Add("Authorization", "APPCODE " + appCode);
-                httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-                resultJson = await httpClient.GetStringAsync(uri);
             }
-            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<GpsWeatherData>(resultJson);
           
-            var hour24 = await NameGet24Weather.NameGet24WeatherIdea(System.Web.HttpUtility.UrlEncode(data.showapi_res_body.cityInfo.c3, System.Text.Encoding.UTF8));
-            //var hour24 = await NameGet24Weather.NameGet24WeatherIdea(TransCoding.UrlCode(data.showapi_res_body.cityInfo.c3, "utf-8"));
-            OrganizeWeatherData(weatherDisplayed, data, hour24);
             return weatherDisplayed;
-
         }
 
         #region 这是数据处理部分

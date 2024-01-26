@@ -2,8 +2,6 @@
     x:Class="ElectronBot.Braincase.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clockControl="using:ElectronBot.Braincase.ClockViews"
-    xmlns:control="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:controlLocal="using:ElectronBot.Braincase.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -298,7 +296,7 @@
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE710;" />
                     </Button>
                 </StackPanel>
-                <StackPanel>
+                <!--<StackPanel>
                     <Button
                         x:Name="StartChat"
                         x:Uid="StartChat"
@@ -321,7 +319,7 @@
                         Foreground="{ThemeResource SystemAccentColor}">
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF16B;" />
                     </Button>
-                </StackPanel>
+                </StackPanel>-->
 
             </StackPanel>
         </StackPanel>
@@ -391,16 +389,28 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBox Width="160" Text="{x:Bind ViewModel.SendText, Mode=TwoWay}" />
+                    <TextBox Width="320" Text="{x:Bind ViewModel.SendText, Mode=TwoWay}" />
                     <Button
                         x:Uid="StartChat"
-                        Height="28"
-                        Margin="4"
+                        Width="48"
+                        Height="36"
+                        Margin="2"
                         BorderBrush="{ThemeResource SystemAccentColor}"
                         BorderThickness="2"
                         Command="{x:Bind ViewModel.SendChatCommand}"
                         Foreground="{ThemeResource SystemAccentColor}">
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE724;" />
+                    </Button>
+                    <Button
+                        x:Uid="StartChat"
+                        Width="48"
+                        Height="36"
+                        Margin="2"
+                        BorderBrush="{ThemeResource SystemAccentColor}"
+                        BorderThickness="2"
+                        Command="{x:Bind ViewModel.StartChatCommand}"
+                        Foreground="{ThemeResource SystemAccentColor}">
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE720;" />
                     </Button>
                 </StackPanel>
             </StackPanel>

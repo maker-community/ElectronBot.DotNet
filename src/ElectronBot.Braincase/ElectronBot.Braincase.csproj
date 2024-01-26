@@ -57,6 +57,7 @@
     <None Remove="Assets\flutter.png" />
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\Images\CustomViewDefault.jpg" />
+    <None Remove="Assets\Images\Hw75CustomViewDefault.png" />
     <None Remove="Assets\model.onnx" />
     <None Remove="Assets\pig.ico" />
     <None Remove="ClockViews\CustomClockView.xaml" />
@@ -345,6 +346,9 @@
     <None Update="Assets\hand.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Update="Assets\Images\Hw75CustomViewDefault.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Update="Assets\MLModel1.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -3,6 +3,7 @@ using System.Text.Json;
 using Contracts.Services;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 
 namespace Services;
@@ -70,7 +71,11 @@ public class TuringChatbotClient : IChatbotClient
                     if (retObj.Results != null && retObj.Results.Count > 0)
                     {
                         var retText = retObj.Results[0].Values.Text;
-
+                        
+                        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                        {
+                            ToastHelper.SendToast(retText, TimeSpan.FromSeconds(5));
+                        });
                         return retText;
                     }
                 }
