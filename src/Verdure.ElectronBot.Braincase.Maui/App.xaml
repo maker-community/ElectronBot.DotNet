@@ -56,7 +56,7 @@
                 FlyoutItemIsVisible="False"
                 Route="settings"
                 Title="Settings">
-                <ShellContent ContentTemplate="{DataTemplate page:SettingsPage}" />
+                <ShellContent ContentTemplate="{DataTemplate page:SettingPage1}" />
             </FlyoutItem>
 
             <!--  Phone  -->
@@ -71,7 +71,7 @@
                 <!--     <ShellContent ContentTemplate="{DataTemplate page:MapPage}" /> -->
                 <!-- </Tab> -->
                 <Tab Icon="tab_settings.png" Title="Settings">
-                    <ShellContent ContentTemplate="{DataTemplate page:SettingsPage}" />
+                    <ShellContent ContentTemplate="{DataTemplate page:SettingPage1}" />
                 </Tab>
             </TabBar>
 
