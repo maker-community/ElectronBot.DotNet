@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="Verdure.ElectronBot.Braincase.Maui.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:local="clr-namespace:Verdure.ElectronBot.Braincase.Maui"
+    xmlns:page="clr-namespace:Verdure.ElectronBot.Braincase.Maui.Pages"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+                <ResourceDictionary Source="Resources/Styles/DefaultTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.MainPage>
+        <Shell
+            FlyoutBackgroundColor="{StaticResource Background_Mid}"
+            FlyoutBehavior="{OnIdiom Phone=Disabled,
+                                     Default=Locked}"
+            FlyoutWidth="68">
+
+            <Shell.FlyoutFooterTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="68">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                        </Grid.GestureRecognizers>
+                        <Image
+                            HeightRequest="40"
+                            HorizontalOptions="Center"
+                            Source="tab_settings.png"
+                            VerticalOptions="Center"
+                            WidthRequest="40" />
+
+                    </Grid>
+                </DataTemplate>
+
+            </Shell.FlyoutFooterTemplate>
+
+
+
+            <!--  Desktop/Tablet  -->
+            <FlyoutItem Style="{StaticResource HomeFlyout}" Title="Home">
+                <ShellContent ContentTemplate="{DataTemplate page:HomePage}" />
+            </FlyoutItem>
+            <!-- <FlyoutItem Style="{StaticResource FavFlyout}" Title="Favorites"> -->
+            <!--     <ShellContent ContentTemplate="{DataTemplate page:FavoritesPage}" /> -->
+            <!-- </FlyoutItem> -->
+            <!-- <FlyoutItem Style="{StaticResource MapFlyout}" Title="Map"> -->
+            <!--     <ShellContent ContentTemplate="{DataTemplate page:MapPage}" /> -->
+            <!-- </FlyoutItem> -->
+            <FlyoutItem
+                FlyoutItemIsVisible="False"
+                Route="settings"
+                Title="Settings">
+                <ShellContent ContentTemplate="{DataTemplate page:SettingPage1}" />
+            </FlyoutItem>
+
+            <!--  Phone  -->
+            <TabBar x:Name="PhoneTabs">
+                <Tab Icon="tab_home.png" Title="Home">
+                    <ShellContent ContentTemplate="{DataTemplate page:HomePage}" />
+                </Tab>
+                <!-- <Tab Icon="tab_favorites.png" Title="Favorites"> -->
+                <!--     <ShellContent ContentTemplate="{DataTemplate page:FavoritesPage}" /> -->
+                <!-- </Tab> -->
+                <!-- <Tab Icon="tab_map.png" Title="Map"> -->
+                <!--     <ShellContent ContentTemplate="{DataTemplate page:MapPage}" /> -->
+                <!-- </Tab> -->
+                <Tab Icon="tab_settings.png" Title="Settings">
+                    <ShellContent ContentTemplate="{DataTemplate page:SettingPage1}" />
+                </Tab>
+            </TabBar>
+
+
+
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid
+                        ColumnDefinitions="44"
+                        HeightRequest="68"
+                        RowDefinitions="68"
+                        WidthRequest="44">
+                        <Image
+                            HeightRequest="38"
+                            HorizontalOptions="Center"
+                            Source="{Binding FlyoutIcon}"
+                            VerticalOptions="Center"
+                            WidthRequest="38" />
+                    </Grid>
+                </DataTemplate>
+
+            </Shell.ItemTemplate>
+        </Shell>
+    </Application.MainPage>
+</Application>
