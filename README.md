@@ -22,7 +22,7 @@
 
 电子的控制界面
 
-![电子脑壳界面](/Images/homepage.png)
+![电子脑壳界面](/Images/HomePage.png)
 
 瀚文键盘的控制
 ![瀚文界面](/Images/helloworld-%20keyboard.PNG)
