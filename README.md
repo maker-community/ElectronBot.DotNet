@@ -16,10 +16,13 @@
 
 ---
 
-电子脑壳是一个为稚晖君开源的桌面机器人[ElectronBot](https://github.com/peng-zhihui/ElectronBot)提供一些软件功能的桌面程序项目。它是由绿荫阿广开发的，使用了微软的WASDK框架和C#语言。
+电子脑壳是一个为稚晖君开源的桌面机器人[ElectronBot](https://github.com/peng-zhihui/ElectronBot)和瀚文键盘（[HelloWord-Keyboard](https://github.com/peng-zhihui/HelloWord-Keyboard)）提供一些软件功能的桌面程序项目。它是由绿荫阿广开发的，使用了微软的WASDK框架和C#语言。
 
 ![电子脑壳截图](/Images/home.png)
 
+![电子脑壳界面](/Images/homepage.PNG)
+
+![瀚文界面](/Images/helloworld-%20keyboard.PNG)
 ## 功能
 
 - 多彩表盘：可以显示时间和自定义文字，也有表盘可以专门显示当前电脑资源占用情况。
