@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWordKeyboard.DotNet", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWordKeyboard.ConsoleApp", "src\HelloWordKeyboard.ConsoleApp\HelloWordKeyboard.ConsoleApp.csproj", "{BF25733C-E01B-4611-B8AA-97A853F3E8FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verdure.ElectronBot.Braincase.Maui", "src\Verdure.ElectronBot.Braincase.Maui\Verdure.ElectronBot.Braincase.Maui.csproj", "{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -205,6 +207,22 @@ Global
 		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|x64.Build.0 = Release|Any CPU
 		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF25733C-E01B-4611-B8AA-97A853F3E8FD}.Release|x86.Build.0 = Release|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Debug|arm64.Build.0 = Debug|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Debug|x64.Build.0 = Debug|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Debug|x86.Build.0 = Debug|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Release|arm64.ActiveCfg = Release|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Release|arm64.Build.0 = Release|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Release|x64.ActiveCfg = Release|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Release|x64.Build.0 = Release|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABBAF3DE-6DB6-445F-B5AE-AA756010ECFA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

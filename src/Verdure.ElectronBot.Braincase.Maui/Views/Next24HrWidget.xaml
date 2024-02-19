@@ -1,0 +1,41 @@
+﻿<VerticalStackLayout
+    x:Class="Verdure.ElectronBot.Braincase.Maui.Views.Next24HrWidget"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:m="clr-namespace:Verdure.ElectronBot.Braincase.Maui.Models"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Label
+        Margin="{OnIdiom Phone='15,0',
+                         Default='25,0'}"
+        Text="Next 24 Hours"
+        class="SectionTitle" />
+
+    <ScrollView Orientation="Horizontal">
+        <HorizontalStackLayout
+            BindableLayout.ItemsSource="{Binding Hours}"
+            Padding="{OnIdiom Phone='15,0',
+                              Default='25,0'}"
+            Spacing="12">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="{Binding DateTime, StringFormat='{0:h tt}'}"
+                            class="Small" />
+                        <Image
+                            HeightRequest="40"
+                            HorizontalOptions="Center"
+                            Source="{Binding Day.Phrase, StringFormat='{0:F2}.png'}"
+                            WidthRequest="40" />
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="{Binding Temperature.Minimum.Value, StringFormat='{0:F0}°'}"
+                            class="Subhead" />
+                    </StackLayout>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </HorizontalStackLayout>
+    </ScrollView>
+
+</VerticalStackLayout>

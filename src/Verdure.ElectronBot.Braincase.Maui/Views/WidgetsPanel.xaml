@@ -1,0 +1,142 @@
+﻿<Grid
+    ColumnDefinitions="1,*"
+    x:Class="Verdure.ElectronBot.Braincase.Maui.Views.WidgetsPanel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:m="clr-namespace:Verdure.ElectronBot.Braincase.Maui.Models"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Grid.Resources>
+        <DataTemplate x:Key="MetricTemplate">
+            <Border
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightGray},
+                                                  Dark={StaticResource Background_Mid}}"
+                HeightRequest="154"
+                Stroke="Transparent"
+                x:DataType="m:Metric">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <Grid
+                    ColumnDefinitions="*"
+                    Margin="15"
+                    RowDefinitions="*">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnTapped" />
+                    </Grid.GestureRecognizers>
+                    <Image
+                        Aspect="AspectFit"
+                        HeightRequest="45"
+                        HorizontalOptions="End"
+                        Source="{Binding Icon}"
+                        VerticalOptions="Start"
+                        WidthRequest="45" />
+
+                    <StackLayout
+                        HorizontalOptions="Start"
+                        Spacing="0"
+                        VerticalOptions="End">
+                        <Label Text="{Binding Value}" class="LargeTitle" />
+                        <Label Text="From" class="Subhead" />
+                        <Label Text="{Binding WeatherStation}" class="SubContent" />
+                    </StackLayout>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MetricBorderTemplate">
+            <Border
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightGray},
+                                                  Dark={StaticResource Background_Mid}}"
+                HeightRequest="154"
+                Stroke="Transparent"
+                WidthRequest="150">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="40" />
+                </Border.StrokeShape>
+                <Grid
+                    ColumnDefinitions="*"
+                    Margin="15"
+                    RowDefinitions="*">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnTapped" />
+                    </Grid.GestureRecognizers>
+                    <Image
+                        BackgroundColor="Green"
+                        HeightRequest="45"
+                        HorizontalOptions="End"
+                        Source="{Binding Icon}"
+                        VerticalOptions="Start"
+                        WidthRequest="45" />
+
+                    <StackLayout
+                        HorizontalOptions="Start"
+                        Spacing="0"
+                        VerticalOptions="End">
+                        <Label Text="{Binding Value}" class="LargeTitle" />
+                        <Label Text="From" class="Subhead" />
+                        <Label Text="{Binding WeatherStation}" class="SubContent" />
+                    </StackLayout>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Grid.Resources>
+
+    <CollectionView
+        Grid.Column="1"
+        ItemSizingStrategy="MeasureFirstItem"
+        ItemTemplate="{StaticResource MetricTemplate}"
+        Margin="15">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout
+                HorizontalItemSpacing="8"
+                Orientation="Vertical"
+                Span="3"
+                VerticalItemSpacing="8" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemsSource>
+            <x:Array Type="{x:Type m:Metric}">
+                <m:Metric
+                    Icon="humidity_icon.png"
+                    Title="Humidity"
+                    Value="78%"
+                    WeatherStation="Pond Elementary" />
+                <m:Metric
+                    Icon="rain_icon.png"
+                    Title="Rain"
+                    Value="0.2in"
+                    WeatherStation="Pond Elementary" />
+                <m:Metric
+                    Icon="umbrella_icon.png"
+                    Title="Chance of Rain"
+                    Value="2%"
+                    WeatherStation="Pond Elementary" />
+                <m:Metric
+                    Icon="wind_icon.png"
+                    Title="Wind"
+                    Value="9mph"
+                    WeatherStation="Pond Elementary" />
+                <m:Metric
+                    Icon="humidity_icon.png"
+                    Title="Humidity"
+                    Value="78%"
+                    WeatherStation="City Hall" />
+                <m:Metric
+                    Icon="rain_icon.png"
+                    Title="Rain"
+                    Value="0.2in"
+                    WeatherStation="Rockwood Reservation" />
+                <m:Metric
+                    Icon="umbrella_icon.png"
+                    Title="Chance of Rain"
+                    Value="2%"
+                    WeatherStation="County Library" />
+            </x:Array>
+        </CollectionView.ItemsSource>
+
+
+    </CollectionView>
+    <BoxView
+        BackgroundColor="{StaticResource Background_Mid}"
+        HorizontalOptions="Start"
+        WidthRequest="1" />
+
+</Grid>
