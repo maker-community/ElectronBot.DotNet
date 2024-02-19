@@ -20,8 +20,11 @@
 
 ![电子脑壳截图](/Images/home.png)
 
-![电子脑壳界面](/Images/homepage.PNG)
+电子的控制界面
 
+![电子脑壳界面](/Images/homepage.png)
+
+瀚文键盘的控制
 ![瀚文界面](/Images/helloworld-%20keyboard.PNG)
 ## 功能
 
