@@ -1,6 +1,4 @@
-﻿
-using ChatGPTSharp;
-using Contracts.Services;
+﻿using Contracts.Services;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Helpers;
@@ -16,8 +14,6 @@ public class ChatGPTChatbotClient : IChatbotClient
     private readonly ILocalSettingsService _localSettingsService;
 
     private Kernel? _kernel;
-
-    private ChatGPTClient? _chatGptClient;
     public ChatGPTChatbotClient(ILocalSettingsService localSettingsService)
     {
         _localSettingsService = localSettingsService;
