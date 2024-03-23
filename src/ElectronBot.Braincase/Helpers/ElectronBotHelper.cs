@@ -7,6 +7,7 @@ using ElectronBot.Braincase.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using Models;
 using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
@@ -110,7 +111,7 @@ public class ElectronBotHelper
 
     public event EventHandler<ModelActionFrame>? ModelActionFrame;
 
-    public event EventHandler<string>? PlayEmojisByNameId; 
+    public event EventHandler<string>? PlayEmojisByNameId;
 
     private MediaPlayer mediaPlayer = new();
 
@@ -151,7 +152,7 @@ public class ElectronBotHelper
 
     public SerialPort SerialPort { get; set; } = new SerialPort();
 
-    public List<Package> AppPackages = new ();
+    public List<Package> AppPackages = new();
 
     private PackageManager PackageManager { get; } = new PackageManager();
 
@@ -192,7 +193,7 @@ public class ElectronBotHelper
         {
             try
             {
-                var emojis = list.FirstOrDefault(i=>i.NameId == e);
+                var emojis = list.FirstOrDefault(i => i.NameId == e);
 
                 if (emojis == null)
                 {
@@ -395,7 +396,7 @@ public class ElectronBotHelper
             await CameraFrameService.Current.CleanupMediaCaptureAsync();
 
             ElectronBot?.Disconnect();
-            
+
             if (SerialPort.IsOpen)
             {
                 SerialPort.Close();
@@ -652,16 +653,25 @@ public class ElectronBotHelper
         VoiceLock = false;
     }
 
-    private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
+    private async void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
     {
-        switch (e.Reason)
+        var localSettingsService = App.GetService<ILocalSettingsService>();
+
+        var botSetting = await localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
+
+        var isHelloEnabled = botSetting == null || botSetting.IsHelloEnabled;
+
+        if (isHelloEnabled)
         {
-            case SessionSwitchReason.SessionUnlock:
-                ToPlayEmojisByNameId("hello");
-                break;
-            case SessionSwitchReason.SessionLock:
-                ToPlayEmojisByNameId("goodbye");
-                break;
+            switch (e.Reason)
+            {
+                case SessionSwitchReason.SessionUnlock:
+                    ToPlayEmojisByNameId("hello");
+                    break;
+                case SessionSwitchReason.SessionLock:
+                    ToPlayEmojisByNameId("goodbye");
+                    break;
+            }
         }
     }
 }
