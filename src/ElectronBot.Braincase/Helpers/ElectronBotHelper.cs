@@ -6,6 +6,7 @@ using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
@@ -174,6 +175,11 @@ public class ElectronBotHelper
         PlayEmojisRandom += ElectronBotHelper_PlayEmojisRandom;
 
         PlayEmojisByNameId += ElectronBotHelper_PlayEmojisByNameId;
+
+        SystemEvents.InvokeOnEventsThread(() =>
+        {
+            SystemEvents.SessionSwitch += new SessionSwitchEventHandler(SystemEvents_SessionSwitch);
+        });
     }
 
     private async void ElectronBotHelper_PlayEmojisByNameId(object? sender, string e)
@@ -592,6 +598,30 @@ public class ElectronBotHelper
         }
     }
 
+
+    public void ToPlayEmojisRandom()
+    {
+        PlayEmojisRandom?.Invoke(this, new EventArgs());
+    }
+
+    public void ToPlayEmojisByNameId(string nameId)
+    {
+        PlayEmojisByNameId?.Invoke(this, nameId);
+    }
+
+    public void ModelActionInvoke(ModelActionFrame frame)
+    {
+        frame.Actions = new OnlyAction(_angleList);
+        ModelActionFrame?.Invoke(this, frame);
+    }
+
+    public void LoadAppList()
+    {
+        AppPackages.Clear();
+        AppPackages = PackageManager.FindPackagesForUser(string.Empty)
+           .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
+    }
+
     private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
     {
         try
@@ -622,26 +652,16 @@ public class ElectronBotHelper
         VoiceLock = false;
     }
 
-    public void ToPlayEmojisRandom()
+    private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
     {
-        PlayEmojisRandom?.Invoke(this, new EventArgs());
-    }
-
-    public void ToPlayEmojisByNameId(string nameId)
-    {
-        PlayEmojisByNameId?.Invoke(this, nameId);
-    }
-
-    public void ModelActionInvoke(ModelActionFrame frame)
-    {
-        frame.Actions = new OnlyAction(_angleList);
-        ModelActionFrame?.Invoke(this, frame);
-    }
-
-    public void LoadAppList()
-    {
-        AppPackages.Clear();
-        AppPackages = PackageManager.FindPackagesForUser(string.Empty)
-           .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
+        switch (e.Reason)
+        {
+            case SessionSwitchReason.SessionUnlock:
+                ToPlayEmojisByNameId("hello");
+                break;
+            case SessionSwitchReason.SessionLock:
+                ToPlayEmojisByNameId("goodbye");
+                break;
+        }
     }
 }

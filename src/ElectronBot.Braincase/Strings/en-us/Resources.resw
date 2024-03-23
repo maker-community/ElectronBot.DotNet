@@ -861,4 +861,10 @@
   <data name="ChatGPTVersion.Text" xml:space="preserve">
     <value>ChatGPT-Model:</value>
   </data>
+  <data name="GoodbyeName" xml:space="preserve">
+    <value>主人再见呀</value>
+  </data>
+  <data name="HelloName" xml:space="preserve">
+    <value>主人你好呀</value>
+  </data>
 </root>

@@ -31,6 +31,8 @@
     <Content Remove="Assets\Emoji\disdain.png" />
     <Content Remove="Assets\Emoji\excited.png" />
     <Content Remove="Assets\Emoji\fear.png" />
+    <Content Remove="Assets\Emoji\goodbye.jpg" />
+    <Content Remove="Assets\Emoji\hello.jpg" />
     <Content Remove="Assets\Emoji\pic\eyes-closed.png" />
     <Content Remove="Assets\Emoji\sad.png" />
     <Content Remove="Assets\hand.png" />
@@ -45,6 +47,10 @@
     <None Remove="Assets\Emoji\anger.json" />
     <None Remove="Assets\Emoji\defaultaction.json" />
     <None Remove="Assets\Emoji\disdain.json" />
+    <None Remove="Assets\Emoji\goodbye.json" />
+    <None Remove="Assets\Emoji\goodbye.mp4" />
+    <None Remove="Assets\Emoji\hello.json" />
+    <None Remove="Assets\Emoji\hello.mp4" />
     <None Remove="Assets\Emoji\left.json" />
     <None Remove="Assets\Emoji\left.mp4" />
     <None Remove="Assets\Emoji\left.png" />
@@ -289,6 +295,12 @@
     <Content Update="Assets\Emoji\disdain.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\Emoji\hello.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\goodbye.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Emoji\right.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -336,6 +348,12 @@
     <Content Update="Assets\Emoji\normal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Update="Assets\Emoji\hello.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Emoji\goodbye.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Emoji\pic\eyes-closed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

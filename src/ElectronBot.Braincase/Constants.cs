@@ -163,6 +163,26 @@ public class Constants
             EmojisType = EmojisType.Default,
             EmojisActionPath = "defaultaction.json",
             HasAction = true
+        },
+         new EmoticonAction()
+        {
+            Name ="HelloName".GetLocalized(),
+            NameId="hello",
+            Avatar = "ms-appx:///Assets/Emoji/hello.jpg",
+            Desc ="HelloName".GetLocalized(),
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "hello.json",
+            HasAction = true
+        },
+          new EmoticonAction()
+        {
+            Name ="GoodbyeName".GetLocalized(),
+            NameId="goodbye",
+            Avatar = "ms-appx:///Assets/Emoji/Goodbye.jpg",
+            Desc ="GoodbyeName".GetLocalized(),
+            EmojisType = EmojisType.Default,
+            EmojisActionPath = "goodbye.json",
+            HasAction = true
         }
     };
     public static readonly string TwitterConsumerKey = "";
