@@ -26,6 +26,8 @@ public class Constants
 
     public const string CustomClockTitleConfigKey = "CustomClockTitleConfigKey";
 
+    public const string BotSettingKey = "BotSettingKeyKey";
+
     public const string DefaultCameraNameKey = "DefaultCameraNameKey";
 
     public const string DefaultChatBotNameKey = "DefaultChatBotNameKey";

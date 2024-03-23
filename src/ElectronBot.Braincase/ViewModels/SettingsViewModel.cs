@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.Braincase.Contracts.Services;
@@ -11,6 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Models;
 using Verdure.ElectronBot.Core.Helpers;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
@@ -23,30 +23,15 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 {
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly ILocalSettingsService _localSettingsService;
-    private ElementTheme _elementTheme;
 
-    private ObservableCollection<ComboxItemModel> _cameras;
-
-    private ObservableCollection<ComboxItemModel> _audioDevs;
     private readonly IdentityService _identityService;
 
     private readonly UserDataService _userDataService;
 
-
-    private ComboxItemModel _cameraSelect;
-
-    private ComboxItemModel _audioSelect;
-
-
-    private WriteableBitmap _emojisAvatarBitMap;
-
-
-    private string _customClockTitle;
     private RelayCommand _logInCommand;
     private RelayCommand _logOutCommand;
-    private bool _isLoggedIn;
-    private bool _isBusy;
-    private UserViewModel _user;
+
+
     public SettingsViewModel(
     IThemeSelectorService themeSelectorService,
     ILocalSettingsService localSettingsService,
@@ -60,33 +45,47 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         VersionDescription = GetVersionDescription();
         _identityService = identityService;
         _userDataService = userDataService;
-        chatBotComboxModels = comboxDataService.GetChatBotClientComboxList();
+        _chatBotComboxModels = comboxDataService.GetChatBotClientComboxList();
         _chatGPTVersionomboxModels = comboxDataService.GetChatGPTVersionComboxList();
     }
 
 
-    private ICommand _cameraCommand;
-    public ICommand CameraCommand => _cameraCommand ??= new RelayCommand(CameraChanged);
+    [ObservableProperty]
+    private bool _isLoggedIn;
 
-    private ICommand _audioCommand;
-    public ICommand AudioCommand => _audioCommand ??= new RelayCommand(AudioChanged);
-    public ElementTheme ElementTheme
-    {
-        get => _elementTheme;
-        set => SetProperty(ref _elementTheme, value);
-    }
+    [ObservableProperty]
+    private bool _isBusy;
 
-    public string CustomClockTitle
-    {
-        get => _customClockTitle;
-        set => SetProperty(ref _customClockTitle, value);
-    }
+    [ObservableProperty]
+    private UserViewModel? _user;
 
-    public WriteableBitmap EmojisAvatarBitMap
-    {
-        get => _emojisAvatarBitMap;
-        set => SetProperty(ref _emojisAvatarBitMap, value);
-    }
+    [ObservableProperty]
+    private ElementTheme _elementTheme;
+
+    [ObservableProperty]
+    private ObservableCollection<ComboxItemModel> _cameras;
+
+    [ObservableProperty]
+    private ObservableCollection<ComboxItemModel> _audioDevs;
+
+    /// <summary>
+    /// 选中的相机
+    /// </summary>
+    [ObservableProperty]
+    private ComboxItemModel? _cameraSelect;
+
+    /// <summary>
+    /// 选中的音频设备
+    /// </summary>
+
+    [ObservableProperty]
+    private ComboxItemModel? _audioSelect;
+
+    [ObservableProperty]
+    private WriteableBitmap _emojisAvatarBitMap;
+
+    [ObservableProperty]
+    private string _customClockTitle;
 
     [ObservableProperty]
     public WriteableBitmap _hw75BitMap;
@@ -101,23 +100,32 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     /// </summary>
     [ObservableProperty] public string _hw75ImagePath;
 
+    [ObservableProperty]
+
     private CustomClockTitleConfig _clockTitleConfig = new();
-    public CustomClockTitleConfig ClockTitleConfig
-    {
-        get => _clockTitleConfig;
-        set => SetProperty(ref _clockTitleConfig, value);
-    }
+
+    [ObservableProperty]
+
+    private BotSetting _botSetting = new();
 
     public async void ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var isVisual = toggleSwitch.IsOn;
-            ClockTitleConfig.CustomViewContentIsVisibility = isVisual;
+            BotSetting.CustomViewContentIsVisibility = isVisual;
         }
+        await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
+    }
 
-        await _localSettingsService
-            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+    public async void IsHelloToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var isVisual = toggleSwitch.IsOn;
+            BotSetting.IsHelloEnabled = isVisual;
+        }
+        await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
     }
 
     public async void Hw75ContentToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -128,8 +136,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             ClockTitleConfig.Hw75CustomContentIsVisibility = isVisual;
         }
 
-        await _localSettingsService
-            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+        await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
     }
 
     public async void Hw75TimeToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -140,8 +147,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             ClockTitleConfig.Hw75TimeIsVisibility = isVisual;
         }
 
-        await _localSettingsService
-            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+        await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
     }
 
     public async void Hw75ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -152,33 +158,13 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             ClockTitleConfig.Hw75IsOpen = isVisual;
         }
 
-        await _localSettingsService
-            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+        await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
     }
 
     public async void RangeBase_OnValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {
 
-        await _localSettingsService
-            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
-    }
-
-    /// <summary>
-    /// 选中的相机
-    /// </summary>
-    public ComboxItemModel CameraSelect
-    {
-        get => _cameraSelect;
-        set => SetProperty(ref _cameraSelect, value);
-    }
-
-    /// <summary>
-    /// 选中的音频设备
-    /// </summary>
-    public ComboxItemModel AudioSelect
-    {
-        get => _audioSelect;
-        set => SetProperty(ref _audioSelect, value);
+        await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
     }
 
 
@@ -186,13 +172,13 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     /// 聊天机器人选中数据
     /// </summary>
     [ObservableProperty]
-    ComboxItemModel chatBotSelect;
+    ComboxItemModel? chatBotSelect;
 
     /// <summary>
     /// 聊天机器人列表
     /// </summary>
     [ObservableProperty]
-    public ObservableCollection<ComboxItemModel> chatBotComboxModels;
+    public ObservableCollection<ComboxItemModel> _chatBotComboxModels;
 
     /// <summary>
     /// CHatGPTVersion选中数据
@@ -207,36 +193,12 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     private ObservableCollection<ComboxItemModel>? _chatGPTVersionomboxModels;
 
 
-    /// <summary>
-    /// 相机列表
-    /// </summary>
-    public ObservableCollection<ComboxItemModel> Cameras
-    {
-        get => _cameras;
-        set => SetProperty(ref _cameras, value);
-    }
-
-    /// <summary>
-    /// 音频设备列表
-    /// </summary>
-    public ObservableCollection<ComboxItemModel> AudioDevs
-    {
-        get => _audioDevs;
-        set => SetProperty(ref _audioDevs, value);
-    }
-
-
+    [ObservableProperty]
     private string _versionDescription;
 
-    public string VersionDescription
-    {
-        get => _versionDescription;
-        set => SetProperty(ref _versionDescription, value);
-
-    }
 
     [RelayCommand]
-    private async void AddEmojisAvatar()
+    private async Task AddEmojisAvatar()
     {
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
 
@@ -295,9 +257,8 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
         if (await ImageHelper.SaveWriteableBitmapImageFileAsync(croppedImage, storageFile))
         {
-            ClockTitleConfig.CustomViewPicturePath = storageFile.Path;
-            await _localSettingsService
-                .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+            BotSetting.CustomViewPicturePath = storageFile.Path;
+            await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
             EmojisAvatar = storageFile.Path;
         }
     }
@@ -305,9 +266,8 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     [RelayCommand]
     private async Task RemoveEmojisAvatar()
     {
-        ClockTitleConfig.CustomViewPicturePath = "";
-        await _localSettingsService
-            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+        BotSetting.CustomViewPicturePath = "";
+        await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
         EmojisAvatar = "";
     }
 
@@ -318,7 +278,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
         if (!string.IsNullOrWhiteSpace(chatBotName))
         {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, chatBotSelect);
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, ChatBotSelect);
         }
     }
 
@@ -329,11 +289,10 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
         if (!string.IsNullOrWhiteSpace(chatGPTName))
         {
-            ClockTitleConfig.ChatGPTVersion = chatGPTName;
+            BotSetting.ChatGPTVersion = chatGPTName;
             await _localSettingsService.SaveSettingAsync(Constants.DefaultChatGPTNameKey, chatGPTName);
 
-            await _localSettingsService
-                .SaveSettingAsync(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+            await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
         }
     }
 
@@ -353,102 +312,82 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         await Launcher.LaunchUriAsync(mailto);
     }
 
-    private ICommand _switchThemeCommand;
 
-    public ICommand SwitchThemeCommand
+    /// <summary>
+    /// TextChanged
+    /// </summary>
+    [RelayCommand]
+    private async Task SwitchTheme(ElementTheme param)
     {
-        get
+        if (ElementTheme != param)
         {
-            if (_switchThemeCommand == null)
-            {
-                _switchThemeCommand = new RelayCommand<ElementTheme>(
-                    async (param) =>
-                    {
-                        if (ElementTheme != param)
-                        {
-                            ElementTheme = param;
-                            await _themeSelectorService.SetThemeAsync(param);
-                        }
-                    });
-            }
-
-            return _switchThemeCommand;
+            ElementTheme = param;
+            await _themeSelectorService.SetThemeAsync(param);
         }
     }
 
-    private ICommand _textChangedCommand;
-    public ICommand TextChangedCommand
+
+    /// <summary>
+    /// TextChanged
+    /// </summary>
+    [RelayCommand]
+    private async Task TextChanged()
     {
-        get
-        {
-            if (_textChangedCommand == null)
-            {
-                _textChangedCommand = new RelayCommand(
-                    async () =>
-                    {
-                        //await _localSettingsService
-                        //  .SaveSettingAsync<string>(Constants.CustomClockTitleKey, _customClockTitle);
+        await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
+    }
 
-                        await _localSettingsService
-                       .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
-                    });
-            }
 
-            return _textChangedCommand;
-        }
+    /// <summary>
+    /// BotSetting
+    /// </summary>
+    [RelayCommand]
+    private async Task SaveBotSetting()
+    {
+        await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
     }
 
     /// <summary>
     /// 音频切换方法
     /// </summary>
-    private async void AudioChanged()
+    [RelayCommand]
+    private async Task Audio()
     {
-        var audioName = _audioSelect?.DataKey;
+        var audioName = AudioSelect?.DataKey;
 
         if (!string.IsNullOrWhiteSpace(audioName))
         {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultAudioNameKey, _audioSelect);
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultAudioNameKey, AudioSelect);
         }
     }
     /// <summary>
     /// 相机选择方法
     /// </summary>
-    private async void CameraChanged()
+    [RelayCommand]
+    private async Task Camera()
     {
-        var cameraName = _cameraSelect?.DataKey;
+        var cameraName = CameraSelect?.DataKey;
 
         if (!string.IsNullOrWhiteSpace(cameraName))
         {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultCameraNameKey, _cameraSelect);
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultCameraNameKey, CameraSelect);
         }
     }
 
-    public RelayCommand LogInCommand => _logInCommand ?? (_logInCommand = new RelayCommand(OnLogIn, () => !IsBusy));
+    public RelayCommand LogInCommand => _logInCommand ??= new RelayCommand(OnLogIn, () => !IsBusy);
 
-    public RelayCommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new RelayCommand(OnLogOut, () => !IsBusy));
+    public RelayCommand LogOutCommand => _logOutCommand ??= new RelayCommand(OnLogOut, () => !IsBusy);
 
-    public bool IsLoggedIn
-    {
-        get
-        {
-            return _isLoggedIn;
-        }
-        set
-        {
-            SetProperty(ref _isLoggedIn, value);
-        }
-    }
 
-    public bool IsBusy
-    {
-        get => _isBusy;
-        set
-        {
-            SetProperty(ref _isBusy, value);
-            LogInCommand.NotifyCanExecuteChanged();
-            LogOutCommand.NotifyCanExecuteChanged();
-        }
-    }
+    //public bool IsBusy
+    //{
+    //    get => _isBusy;
+    //    set
+    //    {
+    //        SetProperty(ref _isBusy, value);
+    //        LogInCommand.NotifyCanExecuteChanged();
+    //        LogOutCommand.NotifyCanExecuteChanged();
+    //    }
+    //}
 
     public void UnregisterEvents()
     {
@@ -457,7 +396,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         _userDataService.UserDataUpdated -= OnUserDataUpdated;
     }
 
-    private void OnUserDataUpdated(object sender, UserViewModel userData)
+    private void OnUserDataUpdated(object? sender, UserViewModel userData)
     {
         User = userData;
     }
@@ -479,41 +418,31 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         await _identityService.LogoutAsync();
     }
 
-    private void OnLoggedIn(object sender, EventArgs e)
+    private void OnLoggedIn(object? sender, EventArgs e)
     {
         IsLoggedIn = true;
         IsBusy = false;
     }
 
-    private void OnLoggedOut(object sender, EventArgs e)
+    private void OnLoggedOut(object? sender, EventArgs e)
     {
         User = null;
         IsLoggedIn = false;
         IsBusy = false;
     }
 
-    public UserViewModel User
-    {
-        get
-        {
-            return _user;
-        }
-        set
-        {
-            SetProperty(ref _user, value);
-        }
-    }
-
-
     private async Task InitAsync()
     {
         try
         {
-            var ret2 = await _localSettingsService
+            var config = await _localSettingsService
                 .ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
-            ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
+            ClockTitleConfig = config ?? new CustomClockTitleConfig();
 
-            EmojisAvatar = ClockTitleConfig.CustomViewPicturePath;
+            var botSetting = await _localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
+            BotSetting = botSetting ?? new BotSetting();
+
+            EmojisAvatar = BotSetting.CustomViewPicturePath;
 
             Hw75ImagePath = ClockTitleConfig.CustomHw75ImagePath;
 
@@ -521,13 +450,11 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
             Cameras = new ObservableCollection<ComboxItemModel>(camera);
 
-
             var audioDevs = await EbHelper.FindAudioDeviceListAsync();
 
             AudioDevs = new ObservableCollection<ComboxItemModel>(audioDevs);
 
-            var cameraModel = await _localSettingsService
-                .ReadSettingAsync<ComboxItemModel>(Constants.DefaultCameraNameKey);
+            var cameraModel = await _localSettingsService.ReadSettingAsync<ComboxItemModel>(Constants.DefaultCameraNameKey);
 
             if (cameraModel != null)
             {
@@ -548,7 +475,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
             if (chatBotModel != null)
             {
-                ChatBotSelect = chatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
+                ChatBotSelect = ChatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
             }
 
             var chatGPTModel = await _localSettingsService
@@ -638,8 +565,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         if (await ImageHelper.SaveWriteableBitmapImageFileAsync(croppedImage, storageFile))
         {
             ClockTitleConfig.CustomHw75ImagePath = storageFile.Path;
-            await _localSettingsService
-                .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+            await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
             Hw75ImagePath = storageFile.Path;
         }
     }
@@ -648,8 +574,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     private async Task RemoveHw75Image()
     {
         ClockTitleConfig.CustomHw75ImagePath = "ms-appx:///Assets/Images/Hw75CustomViewDefault.png";
-        await _localSettingsService
-            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+        await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
         Hw75ImagePath = "";
     }
 
@@ -657,8 +582,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     [RelayCommand]
     private async Task Hw75CustomContentFontsize()
     {
-        await _localSettingsService
-                            .SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, _clockTitleConfig);
+        await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
     }
 
     #endregion
