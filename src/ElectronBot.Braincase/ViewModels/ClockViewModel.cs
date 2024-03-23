@@ -5,10 +5,11 @@ using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
+using Models;
 
 namespace ElectronBot.Braincase.ViewModels;
 
-public class ClockViewModel : ObservableRecipient
+public partial class ClockViewModel : ObservableRecipient
 {
     private readonly DispatcherTimer _dispatcherTimer;
 
@@ -42,19 +43,14 @@ public class ClockViewModel : ObservableRecipient
 
     private string _customClockTitle;
 
-    private CustomClockTitleConfig _clockTitleConfig;
-
     public string CustomClockTitle
     {
         get => _customClockTitle;
         set => SetProperty(ref _customClockTitle, value);
     }
 
-    public CustomClockTitleConfig ClockTitleConfig
-    {
-        get => _clockTitleConfig;
-        set => SetProperty(ref _clockTitleConfig, value);
-    }
+    [ObservableProperty]
+    private BotSetting _botSetting;
 
     public ClockDiagnosticInfo ClockDiagnosticInfo
     {
@@ -73,9 +69,9 @@ public class ClockViewModel : ObservableRecipient
     {
         _dispatcherTimer.Start();
 
-        var ret2 = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
+        var botSetting = await _localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
 
-        ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
+        BotSetting = botSetting ?? new BotSetting();
 
         _diagnosticService.ClockDiagnosticInfoResult += DiagnosticService_ClockDiagnosticInfoResult;
     }

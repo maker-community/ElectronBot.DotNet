@@ -66,9 +66,9 @@
                             Margin="0,12,0,12"
                             HorizontalAlignment="Center"
                             FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                            FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
+                            FontSize="{x:Bind ViewModel.BotSetting.CustomClockTitleFontSize, Mode=OneWay}"
                             Foreground="White"
-                            Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}" />
+                            Text="{x:Bind ViewModel.BotSetting.CustomClockTitle, Mode=OneWay}" />
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <Grid VerticalAlignment="Center">
                                 <controls:RadialGauge

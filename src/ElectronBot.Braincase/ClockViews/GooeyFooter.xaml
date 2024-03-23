@@ -8,8 +8,8 @@
     xmlns:local="using:ElectronBot.Braincase.ClockViews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    Unloaded="UserControl_Unloaded"
     Background="Black"
+    Unloaded="UserControl_Unloaded"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
@@ -146,10 +146,10 @@
                             MaxWidth="120"
                             Margin="2"
                             HorizontalAlignment="Right"
-                            FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
+                            FontSize="{x:Bind ViewModel.BotSetting.CustomClockTitleFontSize, Mode=OneWay}"
                             FontWeight="Bold"
                             Foreground="White"
-                            Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}"
+                            Text="{x:Bind ViewModel.BotSetting.CustomClockTitle, Mode=OneWay}"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
