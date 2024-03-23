@@ -27,196 +27,154 @@
         </Style>
     </UserControl.Resources>
     <Grid x:Name="ContentArea">
-        <Rectangle x:Name="Gradient" />
-        <Grid Width="200" Height="200">
+        <Viewbox>
             <Grid
                 x:Name="CompactView"
-                IsHitTestVisible="True"
+                Width="200"
+                Height="200"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Opacity="1">
-                <Viewbox>
-                    <Grid
-                        Width="200"
-                        Height="200"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-
-                        <Grid Margin="4,-7,4,0">
-                            <StackPanel x:Name="FocusTextCompact">
-                                <animations:Implicit.HideAnimations>
-                                    <animations:TranslationAnimation
-                                        DelayBehavior="SetInitialValueBeforeDelay"
-                                        From="0,0,0"
-                                        To="0,-20,0"
-                                        Duration="0:0:0.6" />
-                                    <animations:OpacityAnimation
-                                        DelayBehavior="SetInitialValueBeforeDelay"
-                                        From="1"
-                                        To="0"
-                                        Duration="0:0:0.6" />
-                                </animations:Implicit.HideAnimations>
-                                <animations:Implicit.ShowAnimations>
-                                    <animations:TranslationAnimation
-                                        DelayBehavior="SetInitialValueBeforeDelay"
-                                        From="0,-20,0"
-                                        To="0,0,0"
-                                        Duration="0:0:0.6" />
-                                    <animations:OpacityAnimation
-                                        DelayBehavior="SetInitialValueBeforeDelay"
-                                        From="0"
-                                        To="1"
-                                        Duration="0:0:0.6" />
-                                </animations:Implicit.ShowAnimations>
+                <Rectangle x:Name="Gradient" />
+                <Grid Margin="12">
+                    <StackPanel x:Name="FocusTextCompact">
+                        <animations:Implicit.HideAnimations>
+                            <animations:TranslationAnimation
+                                DelayBehavior="SetInitialValueBeforeDelay"
+                                From="0,0,0"
+                                To="0,-20,0"
+                                Duration="0:0:0.6" />
+                            <animations:OpacityAnimation
+                                DelayBehavior="SetInitialValueBeforeDelay"
+                                From="1"
+                                To="0"
+                                Duration="0:0:0.6" />
+                        </animations:Implicit.HideAnimations>
+                        <animations:Implicit.ShowAnimations>
+                            <animations:TranslationAnimation
+                                DelayBehavior="SetInitialValueBeforeDelay"
+                                From="0,-20,0"
+                                To="0,0,0"
+                                Duration="0:0:0.6" />
+                            <animations:OpacityAnimation
+                                DelayBehavior="SetInitialValueBeforeDelay"
+                                From="0"
+                                To="1"
+                                Duration="0:0:0.6" />
+                        </animations:Implicit.ShowAnimations>
+                        <TextBlock
+                            Margin="0,12,0,12"
+                            HorizontalAlignment="Center"
+                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                            FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
+                            Foreground="White"
+                            Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}" />
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Grid VerticalAlignment="Center">
+                                <controls:RadialGauge
+                                    x:Name="RadialGaugeCPU"
+                                    x:Uid="RadialGaugeCPU"
+                                    Width="72"
+                                    Height="72"
+                                    IsInteractive="False"
+                                    MaxAngle="360"
+                                    Maximum="100"
+                                    MinAngle="0"
+                                    Minimum="0"
+                                    NeedleBrush="Red"
+                                    NeedleLength="100"
+                                    NeedleWidth="5"
+                                    ScalePadding="0"
+                                    ScaleTickBrush="AliceBlue"
+                                    ScaleTickWidth="2"
+                                    ScaleWidth="20"
+                                    StepSize="2"
+                                    TickLength="2"
+                                    TickSpacing="10"
+                                    TickWidth="2"
+                                    TrailBrush="Pink"
+                                    ValueStringFormat="N2"
+                                    Value="{x:Bind ViewModel.ClockDiagnosticInfo.CpuUsage, Mode=OneWay}" />
                                 <TextBlock
-                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                    FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
-                                    Foreground="White"
-                                    Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}" />
-                                <!--<controls:DropShadowPanel
-                                    Margin="0,32,0,0"
+                                    x:Name="CpuTtile"
+                                    x:Uid="CpuTitle"
                                     HorizontalAlignment="Center"
-                                    BlurRadius="8"
-                                    OffsetY="2"
-                                    ShadowOpacity="0.3">
-                                    <TextBlock
-                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                        FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
-                                        Foreground="White"
-                                        Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}" />
-                                </controls:DropShadowPanel>-->
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <Grid VerticalAlignment="Center">
-
-                                        <controls:RadialGauge
-                                            x:Name="RadialGaugeCPU"
-                                            x:Uid="RadialGaugeCPU"
-                                            Width="72"
-                                            Height="72"
-                                            Margin="8"
-                                            IsInteractive="False"
-                                            MaxAngle="360"
-                                            Maximum="100"
-                                            MinAngle="0"
-                                            Minimum="0"
-                                            NeedleBrush="Red"
-                                            NeedleLength="100"
-                                            NeedleWidth="5"
-                                            ScalePadding="0"
-                                            ScaleTickBrush="AliceBlue"
-                                            ScaleTickWidth="2"
-                                            ScaleWidth="20"
-                                            StepSize="2"
-                                            TickLength="2"
-                                            TickSpacing="10"
-                                            TickWidth="2"
-                                            TrailBrush="Pink"
-                                            ValueStringFormat="N2"
-                                            Value="{x:Bind ViewModel.ClockDiagnosticInfo.CpuUsage, Mode=OneWay}" />
-                                        <TextBlock
-                                            x:Name="CpuTtile"
-                                            x:Uid="CpuTitle"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                            FontSize="14"
-                                            Foreground="White" />
-                                    </Grid>
-                                    <Grid VerticalAlignment="Center">
-
-                                        <controls:RadialGauge
-                                            x:Name="RadialGaugeROM"
-                                            x:Uid="RadialGaugeROM"
-                                            Width="60"
-                                            Height="60"
-                                            Margin="8"
-                                            IsInteractive="False"
-                                            MaxAngle="360"
-                                            Maximum="100"
-                                            MinAngle="0"
-                                            Minimum="0"
-                                            NeedleBrush="Red"
-                                            NeedleLength="100"
-                                            NeedleWidth="5"
-                                            ScalePadding="0"
-                                            ScaleTickBrush="AliceBlue"
-                                            ScaleTickWidth="2"
-                                            ScaleWidth="23"
-                                            StepSize="2"
-                                            TickLength="0"
-                                            TickSpacing="10"
-                                            TickWidth="0"
-                                            TrailBrush="Pink"
-                                            ValueStringFormat="N2"
-                                            Value="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsage, Mode=OneWay}" />
-                                        <TextBlock
-                                            x:Name="RomTtile"
-                                            x:Uid="RomTitle"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                            FontSize="14"
-                                            Foreground="White" />
-                                    </Grid>
-
-
-                                </StackPanel>
-                                <TextBlock
+                                    VerticalAlignment="Center"
                                     FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                                     FontSize="14"
-                                    Foreground="White"
-                                    Text="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsageText, Mode=OneWay}"
-                                    TextWrapping="WrapWholeWords" />
-                                <!--<controls:DropShadowPanel
-                                    Margin="0,0,0,4"
-                                    HorizontalAlignment="Center"
-                                    BlurRadius="8"
-                                    OffsetY="2"
-                                    ShadowOpacity="0.3">
-                                    <TextBlock
-                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                        FontSize="14"
-                                        Foreground="White"
-                                        Text="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsageText, Mode=OneWay}"
-                                        TextWrapping="WrapWholeWords" />
-                                </controls:DropShadowPanel>-->
+                                    Foreground="White" />
+                            </Grid>
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <controls:RadialGauge
+                                    x:Name="RadialGaugeROM"
+                                    x:Uid="RadialGaugeROM"
+                                    Width="60"
+                                    Height="60"
+                                    Margin="8"
+                                    IsInteractive="False"
+                                    MaxAngle="360"
+                                    Maximum="100"
+                                    MinAngle="0"
+                                    Minimum="0"
+                                    NeedleBrush="Red"
+                                    NeedleLength="100"
+                                    NeedleWidth="5"
+                                    ScalePadding="0"
+                                    ScaleTickBrush="AliceBlue"
+                                    ScaleTickWidth="2"
+                                    ScaleWidth="23"
+                                    StepSize="2"
+                                    TickLength="0"
+                                    TickSpacing="10"
+                                    TickWidth="0"
+                                    TrailBrush="Pink"
+                                    ValueStringFormat="N2"
+                                    Value="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsage, Mode=OneWay}" />
                                 <TextBlock
+                                    x:Name="RomTtile"
+                                    x:Uid="RomTitle"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                                     FontSize="14"
-                                    Foreground="White"
-                                    Text="{x:Bind ViewModel.ClockDiagnosticInfo.Temperature, Mode=OneWay}" />
-                                <!--<controls:DropShadowPanel
-                                    Margin="0,0,0,0"
-                                    HorizontalAlignment="Center"
-                                    BlurRadius="8"
-                                    OffsetY="2"
-                                    ShadowOpacity="0.3">
-                                    <TextBlock
-                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                        FontSize="14"
-                                        Foreground="White"
-                                        Text="{x:Bind ViewModel.ClockDiagnosticInfo.Temperature, Mode=OneWay}" />
-                                </controls:DropShadowPanel>-->
-                            </StackPanel>
-                        </Grid>
-                        <Grid
-                            Margin="3,9"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom">
-                            <animations:Implicit.ShowAnimations>
-                                <animations:TranslationAnimation
-                                    DelayBehavior="SetInitialValueBeforeDelay"
-                                    From="0,-20,0"
-                                    To="0,0,0"
-                                    Duration="0:0:0.6" />
-                                <animations:OpacityAnimation
-                                    DelayBehavior="SetInitialValueBeforeDelay"
-                                    From="0"
-                                    To="1"
-                                    Duration="0:0:0.6" />
-                            </animations:Implicit.ShowAnimations>
-                        </Grid>
-                    </Grid>
-                </Viewbox>
+                                    Foreground="White" />
+                            </Grid>
+                        </StackPanel>
+                        <TextBlock
+                            Margin="4"
+                            HorizontalAlignment="Center"
+                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="{x:Bind ViewModel.ClockDiagnosticInfo.MemoryUsageText, Mode=OneWay}"
+                            TextWrapping="WrapWholeWords" />
+                        <TextBlock
+                            Margin="4"
+                            HorizontalAlignment="Center"
+                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="{x:Bind ViewModel.ClockDiagnosticInfo.Temperature, Mode=OneWay}" />
+                    </StackPanel>
+                </Grid>
+                <Grid
+                    Margin="3,9"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:TranslationAnimation
+                            DelayBehavior="SetInitialValueBeforeDelay"
+                            From="0,-20,0"
+                            To="0,0,0"
+                            Duration="0:0:0.6" />
+                        <animations:OpacityAnimation
+                            DelayBehavior="SetInitialValueBeforeDelay"
+                            From="0"
+                            To="1"
+                            Duration="0:0:0.6" />
+                    </animations:Implicit.ShowAnimations>
+                </Grid>
             </Grid>
-        </Grid>
+        </Viewbox>
     </Grid>
 </UserControl>
