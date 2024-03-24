@@ -117,7 +117,7 @@ namespace Services
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 _isProcessing = false;
             }

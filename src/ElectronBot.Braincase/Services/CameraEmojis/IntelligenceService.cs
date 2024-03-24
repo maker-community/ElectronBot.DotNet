@@ -43,7 +43,7 @@ public class IntelligenceService
         {
             _faceDetector = await FaceDetector.CreateAsync();
 
-            CameraService.Current.SoftwareBitmapFrameCaptured += Current_SoftwareBitmapFrameCaptured;
+            //CameraFrameService.Current.SoftwareBitmapFrameCaptured += Current_SoftwareBitmapFrameCaptured;
 
             _isInitialized = true;
         }
@@ -118,7 +118,77 @@ public class IntelligenceService
 
     public event EventHandler<EmotionPageGaugeScoreEventArgs> ScoreUpdated;
 
-    private async void Current_SoftwareBitmapFrameCaptured(object sender, SoftwareBitmapEventArgs e)
+
+    public async Task EmotionClassificationAsync(SoftwareBitmap e)
+    {
+        if (_session != null)
+        {
+            Debug.WriteLine("FrameCaptured");
+            Debug.WriteLine($"Frame evaluation started {DateTime.Now}");
+
+            VideoFrame inputFrame = VideoFrame.CreateWithSoftwareBitmap(e);
+
+            ImageFeatureValue imageTensor = ImageFeatureValue.CreateFromVideoFrame(inputFrame);
+
+            _binding = new LearningModelBinding(_session);
+
+            TensorFloat outputTensor = TensorFloat.Create(_outputTensorDescriptor.Shape);
+            List<float> _outputVariableList = new List<float>();
+
+            // Bind inputs + outputs
+            _binding.Bind(_inputImageDescriptor.Name, imageTensor);
+            _binding.Bind(_outputTensorDescriptor.Name, outputTensor);
+
+            // Evaluate results
+            var results = await _session.EvaluateAsync(_binding, new Guid().ToString());
+
+            Debug.WriteLine("ResultsEvaluated: " + results.ToString());
+
+            var outputTensorList = outputTensor.GetAsVectorView();
+            var resultsList = new List<float>(outputTensorList.Count);
+            for (int i = 0; i < outputTensorList.Count; i++)
+            {
+                resultsList.Add(outputTensorList[i]);
+            }
+
+            var softMaxexOutputs = SoftMax(resultsList);
+
+            double maxProb = 0;
+            int maxIndex = 0;
+
+            // Comb through the evaluation results
+            for (int i = 0; i < Constants.POTENTIAL_EMOJI_NAME_LIST.Count(); i++)
+            {
+                // Record the dominant emotion probability & its location
+                if (softMaxexOutputs[i] > maxProb)
+                {
+                    maxIndex = i;
+                    maxProb = softMaxexOutputs[i];
+                }
+            }
+
+            Debug.WriteLine($"Probability = {maxProb}, Threshold set to = {Constants.CLASSIFICATION_CERTAINTY_THRESHOLD}, Emotion = {Constants.POTENTIAL_EMOJI_NAME_LIST[maxIndex]}");
+
+            // For evaluations run on the MainPage, update the emoji carousel
+            if (maxProb >= Constants.CLASSIFICATION_CERTAINTY_THRESHOLD)
+            {
+                Debug.WriteLine("first page emoji should start to update");
+                IntelligenceServiceEmotionClassified?.Invoke(this, new ClassifiedEmojiEventArgs(Models.CurrentEmojis._emojis.Emojis[maxIndex]));
+            }
+
+            // Dispose of resources
+            //if (e != null)
+            //{
+            //    e.Dispose();
+            //    e = null;
+            //}
+            IntelligenceServiceProcessingCompleted?.Invoke(this, null);
+            Debug.WriteLine($"Frame evaluation finished {DateTime.Now}");
+        }
+    }
+
+
+    private async void Current_SoftwareBitmapFrameCaptured(object? sender, SoftwareBitmapEventArgs e)
     {
         Debug.WriteLine("FrameCaptured");
         Debug.WriteLine($"Frame evaluation started {DateTime.Now}");
