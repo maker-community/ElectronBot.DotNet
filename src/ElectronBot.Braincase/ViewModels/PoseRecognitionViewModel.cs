@@ -507,6 +507,11 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
 
     private async Task InitializeScreenAsync()
     {
+
+        CameraBackground = new SolidColorBrush(Colors.Green);
+
+        _faceDetector = await FaceDetector.CreateAsync();
+
         await CameraFrameService.Current.PickNextMediaSourceWorkerAsync(FaceImage);
 
         CameraFrameService.Current.SoftwareBitmapFrameCaptured += Current_SoftwareBitmapFrameCaptured;
@@ -530,9 +535,6 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
 
         _isInitialized = true;
 
-        CameraBackground = new SolidColorBrush(Colors.Green);
-
-        _faceDetector = await FaceDetector.CreateAsync();
     }
 
 
