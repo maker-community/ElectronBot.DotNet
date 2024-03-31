@@ -173,7 +173,7 @@ public class IntelligenceService
             if (maxProb >= Constants.CLASSIFICATION_CERTAINTY_THRESHOLD)
             {
                 Debug.WriteLine("first page emoji should start to update");
-                IntelligenceServiceEmotionClassified?.Invoke(this, new ClassifiedEmojiEventArgs(Models.CurrentEmojis._emojis.Emojis[maxIndex]));
+                IntelligenceServiceEmotionClassified?.Invoke(this, new ClassifiedEmojiEventArgs(CurrentEmojis._emojis.Emojis[maxIndex]));
             }
 
             // Dispose of resources
@@ -273,7 +273,7 @@ public class IntelligenceService
                 if (maxProb >= Constants.CLASSIFICATION_CERTAINTY_THRESHOLD)
                 {
                     Debug.WriteLine("first page emoji should start to update");
-                    IntelligenceServiceEmotionClassified?.Invoke(this, new ClassifiedEmojiEventArgs(Models.CurrentEmojis._emojis.Emojis[maxIndex]));
+                    IntelligenceServiceEmotionClassified?.Invoke(this, new ClassifiedEmojiEventArgs(CurrentEmojis._emojis.Emojis[maxIndex]));
                 }
 
                 // Dispose of resources

@@ -876,4 +876,7 @@
   <data name="IsHelloEnabled.Text" xml:space="preserve">
     <value>是否开启解锁屏互动：</value>
   </data>
+  <data name="Shell_Vision.Content" xml:space="preserve">
+    <value>视觉分析</value>
+  </data>
 </root>

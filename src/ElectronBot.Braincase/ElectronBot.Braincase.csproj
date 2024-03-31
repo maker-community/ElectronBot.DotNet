@@ -139,6 +139,7 @@
     <None Remove="Views\MoviePage.xaml" />
     <None Remove="Views\PoseRecognitionPage.xaml" />
     <None Remove="Views\TodoPage.xaml" />
+    <None Remove="Views\VisionPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\handedness.txt">
@@ -256,7 +257,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.RadialGauge" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.1.240328-rc" />
     <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.17.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
@@ -375,6 +376,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\VisionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Hw75Views\Hw75YellowCalendarView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
