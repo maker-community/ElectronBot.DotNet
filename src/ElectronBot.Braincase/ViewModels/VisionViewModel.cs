@@ -3,6 +3,7 @@ using ElectronBot.Braincase.Contracts.ViewModels;
 using ElectronBot.Braincase.Helpers;
 using HelixToolkit.SharpDX.Core;
 using HelixToolkit.WinUI;
+using Models.ElectronBot;
 using Services.ElectronBot;
 using SharpDX;
 
@@ -53,6 +54,8 @@ public partial class VisionViewModel : ObservableRecipient, INavigationAware
         BaseModel = null;
         EffectsManager = null;
         await VisionService.Current.StopAsync();
+
+        VisionService.Current.SoftwareBitmapFramePoseAndHandsPredictResult -= Current_SoftwareBitmapFramePoseAndHandsPredictResult;
     }
     public async void OnNavigatedTo(object parameter)
     {
@@ -66,5 +69,12 @@ public partial class VisionViewModel : ObservableRecipient, INavigationAware
         ModelCentroidPoint = Bot3DHelper.Instance.ModelCentroidPoint;
         EffectsManager = Bot3DHelper.Instance.EffectsManager;
         await VisionService.Current.StartAsync();
+
+        VisionService.Current.SoftwareBitmapFramePoseAndHandsPredictResult += Current_SoftwareBitmapFramePoseAndHandsPredictResult;
+    }
+
+    private void Current_SoftwareBitmapFramePoseAndHandsPredictResult(object? sender, VisionResult e)
+    {
+
     }
 }

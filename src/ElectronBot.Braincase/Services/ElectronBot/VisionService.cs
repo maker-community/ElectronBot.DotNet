@@ -7,6 +7,7 @@ using ElectronBot.Braincase.Helpers;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
 using Microsoft.AI.MachineLearning;
+using Models.ElectronBot;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -27,7 +28,7 @@ public class VisionService
 
     private bool _isProcessing = false;
 
-
+    public event EventHandler<VisionResult>? SoftwareBitmapFramePoseAndHandsPredictResult;
 
     #region 表情识别
     private LearningModel _model = null;
@@ -77,6 +78,12 @@ public class VisionService
     {
         _cameraHelper.FrameArrived -= CameraHelper_FrameArrived;
         await _cameraHelper.CleanUpAsync();
+
+        _current = null;
+        _model.Dispose();
+        _session.Dispose();
+        _model = null;
+        _session = null;
     }
 
 
@@ -126,6 +133,15 @@ public class VisionService
                 //表情识别
                 var emojis = await EmotionClassificationAsync(latestBitmap);
 
+                var result = new VisionResult
+                {
+                    PoseOutput = poseOutput.Item1,
+                    HandResult = poseOutput.Item2,
+                    Emoji = emojis
+                };
+
+                SoftwareBitmapFramePoseAndHandsPredictResult?.Invoke(this, result);
+
                 latestBitmap.Dispose();
             }
 
@@ -142,7 +158,7 @@ public class VisionService
     /// <returns></returns>
     public async Task<Emoji?> EmotionClassificationAsync(SoftwareBitmap e)
     {
-        if (e != null)
+        if (e != null && _session != null)
         {
             BitmapPixelFormat bpf = e.BitmapPixelFormat;
             var uncroppedBitmap = SoftwareBitmap.Convert(e, BitmapPixelFormat.Nv12);

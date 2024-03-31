@@ -16,6 +16,7 @@
             Camera="{x:Bind Camera, Mode=OneWay}"
             CornerRadius="12"
             EffectsManager="{x:Bind EffectsManager, Mode=OneWay}"
+            EnableDpiScale="True"
             FXAALevel="High"
             FixedRotationPoint="{x:Bind ModelCentroidPoint, Mode=OneWay}"
             FixedRotationPointEnabled="True"
