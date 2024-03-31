@@ -77,6 +77,7 @@
     <None Remove="Controls\CompactOverlay\CompactOverlayWindow.xaml" />
     <None Remove="Controls\CompactOverlay\DefaultCompactOverlayPage.xaml" />
     <None Remove="Controls\CompactOverlay\ModelLoadCompactOverlayPage.xaml" />
+    <None Remove="Controls\ElectronBot3D.xaml" />
     <None Remove="Controls\ElectronBotModelLoad.xaml" />
     <None Remove="Controls\ElectronBotModelLoader.xaml" />
     <None Remove="Controls\EmojisInfoContentDialog.xaml" />
@@ -376,6 +377,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\ElectronBot3D.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\VisionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

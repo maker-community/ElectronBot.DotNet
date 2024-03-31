@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Controls.ElectronBot3D"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hx="using:HelixToolkit.WinUI"
+    xmlns:local="using:Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <hx:Viewport3DX
+            x:Name="Viewport"
+            BackgroundColor="LightBlue"
+            Camera="{x:Bind Camera, Mode=OneWay}"
+            CornerRadius="12"
+            EffectsManager="{x:Bind EffectsManager, Mode=OneWay}"
+            FXAALevel="High"
+            FixedRotationPoint="{x:Bind ModelCentroidPoint, Mode=OneWay}"
+            FixedRotationPointEnabled="True"
+            ManipulationMode="All"
+            ShowCameraInfo="False"
+            ShowCoordinateSystem="False"
+            ShowViewCube="False">
+            <hx:DirectionalLight3D Direction="{x:Bind Camera.LookDirection, Mode=OneWay}" />
+            <hx:Element3DPresenter Content="{x:Bind HeadModel, Mode=OneWay}" />
+            <hx:Element3DPresenter Content="{x:Bind BodyModel, Mode=OneWay}" />
+            <hx:Element3DPresenter Content="{x:Bind RightArmModel, Mode=OneWay}" />
+            <hx:Element3DPresenter Content="{x:Bind LeftArmModel, Mode=OneWay}" />
+            <hx:Element3DPresenter Content="{x:Bind BaseModel, Mode=OneWay}" />
+            <hx:EnvironmentMap3D Texture="{x:Bind EnvironmentMap, Mode=OneWay}" />
+        </hx:Viewport3DX>
+    </Grid>
+</UserControl>

@@ -661,7 +661,7 @@ public class ElectronBotHelper
 
         var isHelloEnabled = botSetting == null || botSetting.IsHelloEnabled;
 
-        if (isHelloEnabled)
+        if (isHelloEnabled && EbConnected)
         {
             switch (e.Reason)
             {
