@@ -18,7 +18,7 @@ using Windows.Storage.Streams;
 namespace Services.ElectronBot;
 public class VisionService
 {
-    private readonly CameraHelper _cameraHelper = new();
+    private CameraHelper _cameraHelper = new();
 
     private bool _taskRunning = false;
 
@@ -47,30 +47,51 @@ public class VisionService
 
     private static VisionService? _current;
     public static VisionService Current => _current ??= new VisionService();
-    public async Task StartAsync()
+
+    public async Task StartAsync(bool onlyLoadModel = true)
     {
-        #region 初始化表情识别
-        var modelLoaded = await LoadModelAsync();
-        if (modelLoaded == true)
+        if (onlyLoadModel)
         {
-            _faceDetector = await FaceDetector.CreateAsync();
-        }
-        #endregion
-
-        var availableFrameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
-        if (availableFrameSourceGroups != null)
-        {
-            _cameraHelper.FrameSourceGroup = availableFrameSourceGroups.First();
-
-            var result = await _cameraHelper.InitializeAndStartCaptureAsync();
-
-            // Camera Initialization succeeded
-            if (result == CameraHelperResult.Success)
+            #region 初始化表情识别
+            var modelLoaded = await LoadModelAsync();
+            if (modelLoaded == true)
             {
-                // Subscribe to get frames as they arrive
-                _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+                _faceDetector = await FaceDetector.CreateAsync();
             }
+            #endregion
         }
+        else
+        {
+            #region 初始化表情识别
+            var modelLoaded = await LoadModelAsync();
+            if (modelLoaded == true)
+            {
+                _faceDetector = await FaceDetector.CreateAsync();
+            }
+            #endregion
+
+            var availableFrameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
+            if (availableFrameSourceGroups != null)
+            {
+                _cameraHelper.FrameSourceGroup = availableFrameSourceGroups.First();
+
+                var result = await _cameraHelper.InitializeAndStartCaptureAsync();
+
+                // Camera Initialization succeeded
+                if (result == CameraHelperResult.Success)
+                {
+                    // Subscribe to get frames as they arrive
+                    _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+                }
+            }
+
+        }
+
+    }
+    public CameraHelper CameraHelper
+    {
+        get => _cameraHelper;
+        set => _cameraHelper = value;
     }
 
 
@@ -92,11 +113,13 @@ public class VisionService
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void CameraHelper_FrameArrived(object? sender, FrameEventArgs e)
+    public async void CameraHelper_FrameArrived(object? sender, FrameEventArgs e)
     {
         Debug.WriteLine($"frame arrived--{DateTime.Now.Ticks}");
         // Gets the current video frame
         var currentVideoFrame = e.VideoFrame;
+
+        var setting = CameraHelper.FrameSourceGroup;
 
         // Gets the software bitmap image
         var softwareBitmap = currentVideoFrame.SoftwareBitmap;
@@ -137,8 +160,15 @@ public class VisionService
                 {
                     PoseOutput = poseOutput.Item1,
                     HandResult = poseOutput.Item2,
-                    Emoji = emojis
+                    Emoji = emojis,
+                    Height = latestBitmap.PixelHeight,
+                    Width = latestBitmap.PixelWidth,
                 };
+
+                if (poseOutput.Item1 != null)
+                {
+                    result.PoseLandmarks = poseOutput.Item1.PoseLandmarks;
+                }
 
                 SoftwareBitmapFramePoseAndHandsPredictResult?.Invoke(this, result);
 
