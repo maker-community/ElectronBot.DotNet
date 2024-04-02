@@ -58,10 +58,10 @@
                                 MaxWidth="120"
                                 Margin="2"
                                 HorizontalAlignment="Right"
-                                FontSize="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitleFontSize, Mode=OneWay}"
+                                FontSize="{x:Bind ViewModel.BotSetting.CustomClockTitleFontSize, Mode=OneWay}"
                                 FontWeight="Bold"
                                 Foreground="White"
-                                Text="{x:Bind ViewModel.ClockTitleConfig.CustomClockTitle, Mode=OneWay}"
+                                Text="{x:Bind ViewModel.BotSetting.CustomClockTitle, Mode=OneWay}"
                                 TextWrapping="Wrap" />
                         </StackPanel>
                     </StackPanel>

@@ -154,6 +154,10 @@ public partial class App : Application
             services.AddTransient<PoseRecognitionPage>();
             services.AddTransient<PoseRecognitionViewModel>();
 
+
+            services.AddTransient<VisionPage>();
+            services.AddTransient<VisionViewModel>();
+
             services.AddTransient<MoviePage>();
             services.AddTransient<MovieViewModel>();
 

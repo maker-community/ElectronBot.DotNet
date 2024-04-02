@@ -6,6 +6,8 @@ using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
+using Models;
 using Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
@@ -109,7 +111,7 @@ public class ElectronBotHelper
 
     public event EventHandler<ModelActionFrame>? ModelActionFrame;
 
-    public event EventHandler<string>? PlayEmojisByNameId; 
+    public event EventHandler<string>? PlayEmojisByNameId;
 
     private MediaPlayer mediaPlayer = new();
 
@@ -150,7 +152,7 @@ public class ElectronBotHelper
 
     public SerialPort SerialPort { get; set; } = new SerialPort();
 
-    public List<Package> AppPackages = new ();
+    public List<Package> AppPackages = new();
 
     private PackageManager PackageManager { get; } = new PackageManager();
 
@@ -174,6 +176,11 @@ public class ElectronBotHelper
         PlayEmojisRandom += ElectronBotHelper_PlayEmojisRandom;
 
         PlayEmojisByNameId += ElectronBotHelper_PlayEmojisByNameId;
+
+        SystemEvents.InvokeOnEventsThread(() =>
+        {
+            SystemEvents.SessionSwitch += new SessionSwitchEventHandler(SystemEvents_SessionSwitch);
+        });
     }
 
     private async void ElectronBotHelper_PlayEmojisByNameId(object? sender, string e)
@@ -186,7 +193,7 @@ public class ElectronBotHelper
         {
             try
             {
-                var emojis = list.FirstOrDefault(i=>i.NameId == e);
+                var emojis = list.FirstOrDefault(i => i.NameId == e);
 
                 if (emojis == null)
                 {
@@ -389,7 +396,7 @@ public class ElectronBotHelper
             await CameraFrameService.Current.CleanupMediaCaptureAsync();
 
             ElectronBot?.Disconnect();
-            
+
             if (SerialPort.IsOpen)
             {
                 SerialPort.Close();
@@ -592,6 +599,30 @@ public class ElectronBotHelper
         }
     }
 
+
+    public void ToPlayEmojisRandom()
+    {
+        PlayEmojisRandom?.Invoke(this, new EventArgs());
+    }
+
+    public void ToPlayEmojisByNameId(string nameId)
+    {
+        PlayEmojisByNameId?.Invoke(this, nameId);
+    }
+
+    public void ModelActionInvoke(ModelActionFrame frame)
+    {
+        frame.Actions = new OnlyAction(_angleList);
+        ModelActionFrame?.Invoke(this, frame);
+    }
+
+    public void LoadAppList()
+    {
+        AppPackages.Clear();
+        AppPackages = PackageManager.FindPackagesForUser(string.Empty)
+           .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
+    }
+
     private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
     {
         try
@@ -622,26 +653,25 @@ public class ElectronBotHelper
         VoiceLock = false;
     }
 
-    public void ToPlayEmojisRandom()
+    private async void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
     {
-        PlayEmojisRandom?.Invoke(this, new EventArgs());
-    }
+        var localSettingsService = App.GetService<ILocalSettingsService>();
 
-    public void ToPlayEmojisByNameId(string nameId)
-    {
-        PlayEmojisByNameId?.Invoke(this, nameId);
-    }
+        var botSetting = await localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
 
-    public void ModelActionInvoke(ModelActionFrame frame)
-    {
-        frame.Actions = new OnlyAction(_angleList);
-        ModelActionFrame?.Invoke(this, frame);
-    }
+        var isHelloEnabled = botSetting == null || botSetting.IsHelloEnabled;
 
-    public void LoadAppList()
-    {
-        AppPackages.Clear();
-        AppPackages = PackageManager.FindPackagesForUser(string.Empty)
-           .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
+        if (isHelloEnabled && EbConnected)
+        {
+            switch (e.Reason)
+            {
+                case SessionSwitchReason.SessionUnlock:
+                    ToPlayEmojisByNameId("hello");
+                    break;
+                case SessionSwitchReason.SessionLock:
+                    ToPlayEmojisByNameId("goodbye");
+                    break;
+            }
+        }
     }
 }

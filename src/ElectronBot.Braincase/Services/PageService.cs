@@ -27,6 +27,7 @@ public class PageService : IPageService
         Configure<GestureClassificationViewModel, GestureClassificationPage>();
         Configure<GestureInteractionViewModel, GestureInteractionPage>();
         Configure<PoseRecognitionViewModel, PoseRecognitionPage>();
+        Configure<VisionViewModel, VisionPage>();
         Configure<MovieViewModel,MoviePage>();
         Configure<GestureAppConfigViewModel, GestureAppConfigPage>();
         Configure<Hw75ViewModel, Hw75Page>();

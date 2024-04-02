@@ -57,6 +57,8 @@ public sealed partial class ShellPage : Page
         ViewModel.Initialize();
         await ElectronBotHelper.Instance.InitAsync();
 
+        //await Bot3DHelper.Instance.LoadModelFileAsync();
+
         //await RegisterTaskAysnc();
     }
 

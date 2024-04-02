@@ -837,4 +837,22 @@
   <data name="ChatGPTVersion.Text" xml:space="preserve">
     <value>ChatGPT-Model:</value>
   </data>
+  <data name="BotSettingDesc.Text" xml:space="preserve">
+    <value>包含表盘设备和语音配置等</value>
+  </data>
+  <data name="BotSettingTitle.Text" xml:space="preserve">
+    <value>BotSetting</value>
+  </data>
+  <data name="GoodbyeName" xml:space="preserve">
+    <value>主人再见呀</value>
+  </data>
+  <data name="HelloName" xml:space="preserve">
+    <value>主人你好呀</value>
+  </data>
+  <data name="IsHelloEnabled.Text" xml:space="preserve">
+    <value>是否开启解锁屏互动：</value>
+  </data>
+  <data name="Shell_Vision.Content" xml:space="preserve">
+    <value>视觉分析</value>
+  </data>
 </root>

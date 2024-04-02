@@ -55,16 +55,16 @@ public sealed partial class CustomClockView : UserControl
 
         var blurAmount = 4.0f;
 
-        if (ViewModel.ClockTitleConfig != null)
+        if (ViewModel.BotSetting != null)
         {
-            if (!string.IsNullOrEmpty(ViewModel.ClockTitleConfig.CustomViewPicturePath))
+            if (!string.IsNullOrEmpty(ViewModel.BotSetting.CustomViewPicturePath))
             {
-                imgPath = ViewModel.ClockTitleConfig.CustomViewPicturePath;
+                imgPath = ViewModel.BotSetting.CustomViewPicturePath;
             }
 
-            blurAmount = ViewModel.ClockTitleConfig.GaussianBlurValue;
+            blurAmount = ViewModel.BotSetting.GaussianBlurValue;
 
-            if (!ViewModel.ClockTitleConfig.CustomViewContentIsVisibility)
+            if (!ViewModel.BotSetting.CustomViewContentIsVisibility)
             {
                 PomodoroPanel.Visibility = Visibility.Collapsed;
             }
