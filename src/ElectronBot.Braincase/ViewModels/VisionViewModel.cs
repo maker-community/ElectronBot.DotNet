@@ -61,7 +61,7 @@ public partial class VisionViewModel : ObservableRecipient, INavigationAware
         //HeadModel = null;
         //BaseModel = null;
         //EffectsManager = null;
-        //await VisionService.Current.StopAsync();
+        await VisionService.Current.StopAsync();
 
         VisionService.Current.SoftwareBitmapFramePoseAndHandsPredictResult -= Current_SoftwareBitmapFramePoseAndHandsPredictResult;
     }

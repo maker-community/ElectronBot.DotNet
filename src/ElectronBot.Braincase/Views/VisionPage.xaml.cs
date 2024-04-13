@@ -32,5 +32,12 @@ public sealed partial class VisionPage : Page
 
         VisionService.Current.CameraHelper = CameraPreviewControl.CameraHelper;
         CameraPreviewControl.CameraHelper.FrameArrived += VisionService.Current.CameraHelper_FrameArrived;
+
+        CameraPreviewControl.PreviewCameraChanged += CameraPreviewControl_PreviewCameraChanged;
+    }
+
+    private void CameraPreviewControl_PreviewCameraChanged(object? sender, CommunityToolkit.WinUI.Controls.PreviewCameraChangedEventArgs e)
+    {
+        CameraPreviewControl.MediaPlayer.PlaybackSession.PlaybackRotation = Windows.Media.MediaProperties.MediaRotation.Clockwise90Degrees;
     }
 }

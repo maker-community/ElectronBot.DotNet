@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using CommunityToolkit.WinUI.Helpers;
+using Vedure.Braincsse.WinUI.Helpers;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Helpers;
 using Mediapipe.Net.Framework.Protobuf;
