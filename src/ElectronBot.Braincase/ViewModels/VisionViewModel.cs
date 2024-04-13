@@ -4,6 +4,7 @@ using ElectronBot.Braincase.Helpers;
 using Models.ElectronBot;
 using Services.ElectronBot;
 using Verdure.ElectronBot.Core.Models;
+using Windows.Graphics.Imaging;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -13,33 +14,6 @@ public partial class VisionViewModel : ObservableRecipient, INavigationAware
     {
         CurrentEmojis._emojis = new EmojiCollection();
     }
-
-    //[ObservableProperty]
-    //private Camera _camera = new OrthographicCamera() { NearPlaneDistance = 1e-2, FarPlaneDistance = 1e4 };
-
-    //[ObservableProperty] private IEffectsManager _effectsManager;
-
-    //[ObservableProperty]
-    //private Vector3 _modelCentroidPoint = default;
-
-    //[ObservableProperty] private TextureModel _environmentMap;
-
-    //[ObservableProperty]
-    //private SceneNodeGroupModel3D _bodyModel;
-
-    //[ObservableProperty]
-    //private SceneNodeGroupModel3D _leftArmModel;
-
-    //[ObservableProperty]
-
-    //private SceneNodeGroupModel3D _rightArmModel;
-
-    //[ObservableProperty]
-
-    //private SceneNodeGroupModel3D _headModel;
-
-    //[ObservableProperty]
-    //private SceneNodeGroupModel3D _baseModel;
 
     [ObservableProperty]
     private string _faceText;
@@ -53,14 +27,6 @@ public partial class VisionViewModel : ObservableRecipient, INavigationAware
     public async void OnNavigatedFrom()
     {
 
-        //Camera = null;
-        //EnvironmentMap = null;
-        //BodyModel = null;
-        //LeftArmModel = null;
-        //RightArmModel = null;
-        //HeadModel = null;
-        //BaseModel = null;
-        //EffectsManager = null;
         await VisionService.Current.StopAsync();
 
         VisionService.Current.SoftwareBitmapFramePoseAndHandsPredictResult -= Current_SoftwareBitmapFramePoseAndHandsPredictResult;
@@ -69,15 +35,6 @@ public partial class VisionViewModel : ObservableRecipient, INavigationAware
 
     public async void OnNavigatedTo(object parameter)
     {
-        //Camera = Bot3DHelper.Instance.Camera;
-        //EnvironmentMap = Bot3DHelper.Instance.EnvironmentMap;
-        //BodyModel = Bot3DHelper.Instance.BodyModel;
-        //LeftArmModel = Bot3DHelper.Instance.LeftArmModel;
-        //RightArmModel = Bot3DHelper.Instance.RightArmModel;
-        //HeadModel = Bot3DHelper.Instance.HeadModel;
-        //BaseModel = Bot3DHelper.Instance.BaseModel;
-        //ModelCentroidPoint = Bot3DHelper.Instance.ModelCentroidPoint;
-        //EffectsManager = Bot3DHelper.Instance.EffectsManager;
         await VisionService.Current.StartAsync();
 
         VisionService.Current.SoftwareBitmapFramePoseAndHandsPredictResult += Current_SoftwareBitmapFramePoseAndHandsPredictResult;
@@ -87,6 +44,16 @@ public partial class VisionViewModel : ObservableRecipient, INavigationAware
     {
         App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
         {
+            if (e.FaceSoftwareBitmap is not null)
+            {
+
+                if (e.FaceSoftwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 ||
+                          e.FaceSoftwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight)
+                {
+                    e.FaceSoftwareBitmap = SoftwareBitmap.Convert(
+                        e.FaceSoftwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+                }
+            }
             if (e.HandResult != null)
             {
                 HandText = e.HandResult;
@@ -159,41 +126,13 @@ public partial class VisionViewModel : ObservableRecipient, INavigationAware
                 {
                     j1 = (headAngle / 180) * 15 * (-1);
                 }
-                //var canvasDevice = App.GetService<CanvasDevice>();
-
-                //if (_canvasImageSource == null)
-                //{
-                //    _canvasImageSource = new CanvasImageSource(canvasDevice, e.Width, e.Height, 96);//96); 
-
-                //    PoseImageSource = _canvasImageSource;
-                //}
-
-                //using (var inputBitmap = CanvasBitmap.CreateFromSoftwareBitmap(canvasDevice, _frameServerDest))
-                //{
-                //    using (var ds = _canvasImageSource.CreateDrawingSession(Microsoft.UI.Colors.Black))
-                //    {
-                //        ds.DrawImage(inputBitmap);
-                //        var poseLineList = e.GetPoseLines(e.Width, e.Height);
-                //        foreach (var postLine in poseLineList)
-                //        {
-                //            ds.DrawLine(postLine.StartVector2, postLine.EndVector2, Microsoft.UI.Colors.Green, 8);
-                //        }
-                //        foreach (var Landmark in e.PoseLandmarks.Landmark)
-                //        {
-
-                //            var x = (int)e.Width * Landmark.X;
-                //            var y = (int)e.Height * Landmark.Y;
-                //            ds.DrawCircle(x, y, 4, Microsoft.UI.Colors.Red, 8);
-                //        }
-                //    }
-                //}
 
                 var data = new byte[240 * 240 * 3];
 
                 var frame = new EmoticonActionFrame(data, true, j1, (rightWaveAngle / 180) * 30, rightUpAngle, (leftWaveAngle / 180) * 30, leftUpAngle, 0);
 
                 //待处理面部数据
-                await EbHelper.ShowDataToDeviceAsync(null, frame);
+                await EbHelper.ShowDataToDeviceAsync(e.FaceSoftwareBitmap, frame);
             }
 
         });
