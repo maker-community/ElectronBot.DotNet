@@ -76,7 +76,7 @@ public class Constants
 
     public static readonly IList<EmoticonAction> EMOJI_ACTION_LIST = new List<EmoticonAction>()
     {
-        new EmoticonAction()
+        new()
         {
             Name ="LeftName".GetLocalized(),
             NameId="left",
@@ -86,7 +86,7 @@ public class Constants
             EmojisActionPath = "left.json",
             HasAction = true
         },
-        new EmoticonAction()
+        new ()
         {
             Name ="RightName".GetLocalized(),
             NameId="right",
@@ -96,7 +96,7 @@ public class Constants
             EmojisActionPath = "right.json",
             HasAction = true
         },
-        new EmoticonAction()
+        new ()
         {
             Name ="NormalName".GetLocalized(),
             NameId="normal",
@@ -106,7 +106,7 @@ public class Constants
             EmojisActionPath = "normal.json",
             HasAction = true
         },
-        new EmoticonAction()
+        new ()
         {
             Name ="NormalName".GetLocalized(),
             NameId="normal",
@@ -116,7 +116,7 @@ public class Constants
             EmojisActionPath = "normal.json",
             HasAction = true
         },
-        new EmoticonAction()
+        new ()
         {
             Name ="AngerName".GetLocalized(),
             NameId="anger",
@@ -126,7 +126,7 @@ public class Constants
             EmojisActionPath = "anger.json",
             HasAction = true
         },
-        new EmoticonAction()
+        new ()
         {
             Name ="DisdainName".GetLocalized(),
             NameId="disdain",
@@ -136,7 +136,7 @@ public class Constants
             EmojisActionPath = "disdain.json",
             HasAction = true
         },
-        new EmoticonAction()
+        new ()
         {
             Name ="ExcitedName".GetLocalized(),
             NameId="excited",
@@ -146,7 +146,7 @@ public class Constants
             EmojisActionPath = "defaultaction.json",
             HasAction = true
         },
-        new EmoticonAction()
+        new ()
         {
             Name ="FearName".GetLocalized(),
             NameId="fear",
@@ -156,7 +156,7 @@ public class Constants
             EmojisActionPath = "defaultaction.json",
             HasAction = true
         },
-        new EmoticonAction()
+        new ()
         {
             Name ="SadName".GetLocalized(),
             NameId="sad",
@@ -166,7 +166,7 @@ public class Constants
             EmojisActionPath = "defaultaction.json",
             HasAction = true
         },
-         new EmoticonAction()
+         new ()
         {
             Name ="HelloName".GetLocalized(),
             NameId="hello",
@@ -176,7 +176,7 @@ public class Constants
             EmojisActionPath = "hello.json",
             HasAction = true
         },
-          new EmoticonAction()
+          new ()
         {
             Name ="GoodbyeName".GetLocalized(),
             NameId="goodbye",
