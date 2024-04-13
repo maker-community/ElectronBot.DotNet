@@ -39,6 +39,9 @@
                 FontSize="120"
                 Glyph="{x:Bind ViewModel.FaceIcon, Mode=OneWay}" />
         </StackPanel>
+
+
+        <bot3D:ElectronBot3D />
         <!--<bot3D:ElectronBot3D
             BaseModel="{x:Bind ViewModel.BaseModel, Mode=OneWay}"
             BodyModel="{x:Bind ViewModel.BodyModel, Mode=OneWay}"
