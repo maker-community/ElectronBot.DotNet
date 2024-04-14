@@ -7,6 +7,7 @@
     xmlns:hx="using:HelixToolkit.WinUI"
     xmlns:local="using:Controls"
     Loading="UserControl_Loading"
+    Unloaded="UserControl_Unload"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 

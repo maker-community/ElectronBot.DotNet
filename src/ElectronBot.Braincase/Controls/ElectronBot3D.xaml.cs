@@ -27,6 +27,11 @@ public sealed partial class ElectronBot3D : UserControl
     }
 
 
+    private void UserControl_Unload(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        ViewModel.UnLoaded();
+    }
+
 
     //public Camera Camera
     //{

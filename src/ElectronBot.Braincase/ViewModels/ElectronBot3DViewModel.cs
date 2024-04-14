@@ -4,17 +4,14 @@ using HelixToolkit.SharpDX.Core;
 using HelixToolkit.SharpDX.Core.Assimp;
 using HelixToolkit.SharpDX.Core.Model.Scene;
 using HelixToolkit.WinUI;
-using Mediapipe.Net.Solutions;
-using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Services;
 using SharpDX;
 using Verdure.ElectronBot.Core.Models;
 using Windows.ApplicationModel;
-using Windows.Graphics.Imaging;
-using Windows.Media.FaceAnalysis;
 using BoundingBox = SharpDX.BoundingBox;
 using Camera = HelixToolkit.WinUI.Camera;
 using Matrix = SharpDX.Matrix;
@@ -341,6 +338,22 @@ public partial class ElectronBot3DViewModel : ObservableRecipient
         });
     }
     #endregion
+
+    public void UnLoaded()
+    {
+        ElectronBotHelper.Instance.ModelActionFrame -= Instance_ModelActionFrame;
+        HeadModel.Dispose();
+        BodyModel.Dispose();
+        RightArmModel.Dispose();
+        LeftArmModel.Dispose();
+        BaseModel.Dispose();
+        EffectsManager.Dispose();
+        _importer.Dispose();
+
+        var service = App.GetService<EmoticonActionFrameService>();
+        service.ClearQueue();
+    }
+
 
     private void Instance_ModelActionFrame(object? sender, ModelActionFrame e)
     {
