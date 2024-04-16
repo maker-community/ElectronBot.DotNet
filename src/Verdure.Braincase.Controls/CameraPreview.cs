@@ -132,10 +132,10 @@ public partial class CameraPreview : Control
         var group = _frameSourceGroups[newIndex];
         _frameSourceGroupButton.IsEnabled = false;
         _cameraHelper.FrameSourceGroup = group;
+        await InitializeAsync();
 
         EventHandler<PreviewCameraChangedEventArgs> handler = PreviewCameraChanged;
         handler?.Invoke(this, new PreviewCameraChangedEventArgs { CameraName = group.DisplayName });
-        await InitializeAsync();
     }
 
     private void InvokePreviewFailed(string error)

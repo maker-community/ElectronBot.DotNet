@@ -115,11 +115,9 @@ public class VisionService
     /// <param name="e"></param>
     public async void CameraHelper_FrameArrived(object? sender, FrameEventArgs e)
     {
-        Debug.WriteLine($"frame arrived--{DateTime.Now.Ticks}");
+        //Debug.WriteLine($"frame arrived--{DateTime.Now.Ticks}");
         // Gets the current video frame
         var currentVideoFrame = e.VideoFrame;
-
-        var setting = CameraHelper.FrameSourceGroup;
 
         // Gets the software bitmap image
         var softwareBitmap = currentVideoFrame.SoftwareBitmap;
@@ -148,13 +146,32 @@ public class VisionService
             SoftwareBitmap latestBitmap;
             while ((latestBitmap = Interlocked.Exchange(ref _backBuffer, null)) != null)
             {
+                using IRandomAccessStream stream = new InMemoryRandomAccessStream();
+
+                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+
+                encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+
+                if (CameraHelper.FrameSourceGroup != null && CameraHelper.FrameSourceGroup.DisplayName.EndsWith("Cam"))
+                {
+                    encoder.BitmapTransform.Rotation = BitmapRotation.Clockwise270Degrees;
+                }
+
+                // Set the software bitmap
+                encoder.SetSoftwareBitmap(latestBitmap);
+
+                await encoder.FlushAsync();
+
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+
+                var softwareBitmapInput = await decoder.GetSoftwareBitmapAsync(latestBitmap.BitmapPixelFormat, latestBitmap.BitmapAlphaMode);
                 ///姿态识别坐标点
-                var poseOutput = await PoseAndHandsPredictResultUnUseQueueAsync(latestBitmap);
+                var poseOutput = await PoseAndHandsPredictResultUnUseQueueAsync(softwareBitmapInput);
 
                 Debug.WriteLine("hands: " + poseOutput.Item2);
 
                 //表情识别
-                var emojis = await EmotionClassificationAsync(latestBitmap);
+                var emojis = await EmotionClassificationAsync(softwareBitmapInput);
 
                 var result = new VisionResult
                 {
@@ -173,7 +190,8 @@ public class VisionService
 
                 SoftwareBitmapFramePoseAndHandsPredictResult?.Invoke(this, result);
 
-                latestBitmap.Dispose();
+                latestBitmap?.Dispose();
+                softwareBitmapInput?.Dispose();
             }
 
             _taskRunning = false;
