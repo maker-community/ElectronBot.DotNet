@@ -6,32 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hx="using:HelixToolkit.WinUI"
     xmlns:local="using:Controls.CompactOverlay"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:bot3D="using:Controls"
     Loaded="ModelLoadCompactOverlayPage_OnLoaded"
     Unloaded="ModelLoadCompactOverlayPage_OnUnloaded"
     mc:Ignorable="d">
 
     <Grid>
-        <hx:Viewport3DX
-            x:Name="Viewport"
-            BackgroundColor="LightBlue"
-            Camera="{x:Bind ViewModel.Camera}"
-            EffectsManager="{x:Bind ViewModel.EffectsManager}"
-            FXAALevel="High"
-            FixedRotationPoint="{x:Bind ViewModel.ModelCentroidPoint}"
-            FixedRotationPointEnabled="True"
-            ManipulationMode="All"
-            ShowCameraInfo="False"
-            ShowCoordinateSystem="False"
-            ShowViewCube="False">
-            <hx:DirectionalLight3D Direction="{x:Bind ViewModel.Camera.LookDirection}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. HeadModel}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. BodyModel}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. RightArmModel}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. LeftArmModel}" />
-            <hx:Element3DPresenter Content="{x:Bind ViewModel. BaseModel}" />
-            <hx:EnvironmentMap3D Texture="{x:Bind ViewModel.EnvironmentMap, Mode=OneWay}" />
-        </hx:Viewport3DX>
+        <bot3D:ElectronBot3D/>
         <StackPanel Margin="8">
             <Button
                 Margin="4"

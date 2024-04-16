@@ -39,13 +39,11 @@ public sealed partial class ModelLoadCompactOverlayPage : Page
 
     private void ModelLoadCompactOverlayPage_OnLoaded(object sender, RoutedEventArgs e)
     {
-        ModelProgressRing.IsActive = true;
         ViewModel.Loaded();
         ElectronBotHelper.Instance.IsEntityFirstEnabled = false;
-        ModelProgressRing.IsActive = false;
     }
 
-    private async void ModelLoadCompactOverlayPage_OnUnloaded(object sender, RoutedEventArgs e)
+    private void ModelLoadCompactOverlayPage_OnUnloaded(object sender, RoutedEventArgs e)
     {
         ViewModel.UnLoaded();
     }
