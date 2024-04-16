@@ -9,6 +9,7 @@
     xmlns:local="using:Hw75Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:ElectronBot.Braincase.Media"
+    Unloaded="UserControl_Unloaded"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">

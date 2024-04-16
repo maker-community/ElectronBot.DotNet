@@ -33,5 +33,10 @@ namespace Hw75Views
 
             ViewModel = App.GetService<Hw75WeatherViewModel>();
         }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OnUnLoaded();
+        }
     }
 }
