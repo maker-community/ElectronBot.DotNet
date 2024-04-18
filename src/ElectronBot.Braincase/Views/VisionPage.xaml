@@ -15,8 +15,17 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1" Margin="8">
+        <controls:CameraPreview
+                x:Name="CameraPreviewControl"
+                Width="400"
+                VerticalAlignment="Top"
+                MaxHeight="400"
+                CornerRadius="8"
+                Margin="8"
+                Loaded="CameraPreviewControl_Loaded" />
+        <StackPanel Grid.Column="1" Margin="8"   VerticalAlignment="Top">
             <TextBlock
                 x:Name="Hand"
                 HorizontalAlignment="Center"
@@ -33,11 +42,8 @@
                 FontFamily="Segoe UI Emoji"
                 FontSize="120"
                 Glyph="{x:Bind ViewModel.FaceIcon, Mode=OneWay}" />
-            <controls:CameraPreview
-                x:Name="CameraPreviewControl"
-                Width="400"
-                Loaded="CameraPreviewControl_Loaded" />
+
         </StackPanel>
-        <bot3D:ElectronBot3D Height="400" />
+        <bot3D:ElectronBot3D Grid.Column="2"   VerticalAlignment="Top" Margin="8" Height="400" Width="300" />
     </Grid>
 </Page>
