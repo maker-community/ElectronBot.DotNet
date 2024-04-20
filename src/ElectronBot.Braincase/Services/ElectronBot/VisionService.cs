@@ -237,8 +237,6 @@ public class VisionService
 
                 ImageFeatureValue imageTensor = ImageFeatureValue.CreateFromVideoFrame(croppedInputImage);
 
-                _binding = new LearningModelBinding(_session);
-
                 TensorFloat outputTensor = TensorFloat.Create(_outputTensorDescriptor.Shape);
 
                 // Bind inputs + outputs
@@ -405,6 +403,7 @@ public class VisionService
         _outputTensorDescriptor =
             outputFeatures.FirstOrDefault(feature => feature.Kind == LearningModelFeatureKind.Tensor) as TensorFeatureDescriptor;
 
+        _binding = new LearningModelBinding(_session);
         return true;
     }
 
