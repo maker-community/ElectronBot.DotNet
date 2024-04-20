@@ -704,6 +704,11 @@ public class ElectronBotHelper
             }
         }
 
-        await SessionHaSwitchAsync(e.Reason);
+        var haSetting = await localSettingsService.ReadSettingAsync<HaSetting>(Constants.HaSettingKey);
+
+        if (haSetting != null && haSetting.IsSessionSwitchEnabled)
+        {
+            await SessionHaSwitchAsync(e.Reason);
+        }
     }
 }

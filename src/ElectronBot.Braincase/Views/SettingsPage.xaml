@@ -945,6 +945,16 @@
                                     </ComboBox>
                                 </StackPanel>
 
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="IsSessionSwitchEnabled"
+                                        Width="160"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        Margin="4"
+                                        IsOn="{x:Bind ViewModel.HaSetting.IsSessionSwitchEnabled, Mode=OneWay}"
+                                        Toggled="{x:Bind ViewModel.IsSessionSwitchToggleSwitch_OnToggled}" />
+                                </StackPanel>
 
                             </StackPanel>
                         </Grid>

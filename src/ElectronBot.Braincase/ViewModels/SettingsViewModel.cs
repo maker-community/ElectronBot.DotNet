@@ -142,6 +142,16 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
     }
 
+    public async void IsSessionSwitchToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var isVisual = toggleSwitch.IsOn;
+            HaSetting.IsSessionSwitchEnabled = isVisual;
+        }
+        await _localSettingsService.SaveSettingAsync(Constants.HaSettingKey, HaSetting);
+    }
+
     public async void Hw75ContentToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)

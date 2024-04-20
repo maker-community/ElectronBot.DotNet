@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Models;
+﻿namespace Models;
 public class HaSetting
 {
     public string BaseUrl
@@ -14,4 +10,10 @@ public class HaSetting
     {
         get; set;
     } = "";
+
+    public bool IsSessionSwitchEnabled
+    {
+        get;
+        set;
+    }
 }

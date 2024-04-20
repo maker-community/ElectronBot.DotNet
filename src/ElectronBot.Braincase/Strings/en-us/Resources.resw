@@ -888,4 +888,7 @@
   <data name="SwitchCB.Header" xml:space="preserve">
     <value>默认的开关设备</value>
   </data>
+  <data name="IsSessionSwitchEnabled.Text" xml:space="preserve">
+    <value>是否开启解锁屏开关场景：</value>
+  </data>
 </root>
