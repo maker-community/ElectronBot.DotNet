@@ -91,6 +91,7 @@ message KnobConfig {
     DAMPED = 4;
     SPIN = 5;
     RATCHET = 6;
+    SWITCH = 7;
   }
 
   message Pref {

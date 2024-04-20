@@ -51,6 +51,30 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
         return data.Version;
     }
 
+
+    public MotorState SetKnobSwitchModeConfig(bool demo)
+    {
+        var switchModeConfig = new KnobConfig()
+        {
+            Demo = demo,
+            Mode = KnobConfig.Types.Mode.Switch
+        };
+        return SetKnobConfig(switchModeConfig);
+    }
+
+    public MotorState SetKnobConfig(KnobConfig config)
+    {
+
+        var setKnobConfig = new MessageH2D()
+        {
+            Action = Action.KnobSetConfig,
+            KnobConfig = config
+        };
+        var data = Call(setKnobConfig);
+
+        return data.MotorState;
+    }
+
     public MotorState GetMotorState()
     {
         var motorGetState = new MessageH2D()

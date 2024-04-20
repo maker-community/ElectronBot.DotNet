@@ -28,6 +28,18 @@ public interface IHw75DynamicDevice
     UsbComm.MotorState GetMotorState();
 
     /// <summary>
+    /// 设置电机为开关模式
+    /// </summary>
+    /// <returns></returns>
+    UsbComm.MotorState SetKnobSwitchModeConfig(bool demo);
+
+    /// <summary>
+    /// 设置电机模式
+    /// </summary>
+    /// <returns></returns>
+    UsbComm.MotorState SetKnobConfig(UsbComm.KnobConfig config);
+
+    /// <summary>
     /// 设置墨水屏数据
     /// </summary>
     /// <param name="imageData"></param>

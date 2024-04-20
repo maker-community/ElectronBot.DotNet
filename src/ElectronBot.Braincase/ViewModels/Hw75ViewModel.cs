@@ -124,6 +124,9 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
             FirmwareVersion = firmwareInfo?.AppVersion;
 
             ZephyrVersion = firmwareInfo?.ZephyrVersion;
+
+            await Task.Delay(1000);
+            var result = Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(true);
         }
         catch (Exception ex)
         {
