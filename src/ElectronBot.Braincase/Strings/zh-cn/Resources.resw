@@ -891,4 +891,13 @@
   <data name="Shell_Vision.Content" xml:space="preserve">
     <value>视觉分析</value>
   </data>
+  <data name="HomeAssistantTitle.Text" xml:space="preserve">
+    <value>Home Assistant智能家居配置</value>
+  </data>
+  <data name="HomeAssistantTitle_Desc.Text" xml:space="preserve">
+    <value>Home Assistant智能家居服务和设备的启动配置</value>
+  </data>
+  <data name="SwitchCB.Header" xml:space="preserve">
+    <value>默认的开关设备</value>
+  </data>
 </root>

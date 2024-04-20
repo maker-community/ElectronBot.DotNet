@@ -28,7 +28,11 @@ public class Constants
 
     public const string BotSettingKey = "BotSettingKeyKey";
 
+    public const string HaSettingKey = "HaSettingKeyKey";
+
     public const string DefaultCameraNameKey = "DefaultCameraNameKey";
+
+    public const string DefaultHaSwitchNameKey = "DefaultHaSwitchNameKey";
 
     public const string DefaultChatBotNameKey = "DefaultChatBotNameKey";
 
