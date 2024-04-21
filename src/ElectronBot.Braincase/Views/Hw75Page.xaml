@@ -48,7 +48,7 @@
                 </i:Interaction.Behaviors>
             </ComboBox>
         </StackPanel>
-        <StackPanel Grid.Column="1">
+        <!--<StackPanel Grid.Column="1">
             <StackPanel
                 Margin="4"
                 HorizontalAlignment="Left"
@@ -61,10 +61,10 @@
                 <ToggleSwitch Margin="4" Toggled="{x:Bind ViewModel.ToggleSwitch_Toggled}" />
             </StackPanel>
 
-        </StackPanel>
+        </StackPanel>-->
 
 
-        <StackPanel Grid.Column="2">
+        <StackPanel Grid.Column="1">
             <TextBlock
                 Margin="8"
                 FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"

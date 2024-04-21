@@ -140,7 +140,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
             _device.Write(result);
         }
 
-        Task.Delay(50);
+        Task.Delay(100);
 
         var byteList = new List<byte>();
 
@@ -154,9 +154,16 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
                 break;
             }
         }
-        var dataResult = MessageD2H.Parser.ParseFrom(byteList.ToArray());
+        try
+        {
+            var dataResult = MessageD2H.Parser.ParseFrom(byteList.ToArray());
 
-        return dataResult;
+            return dataResult;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("数据解析失败", ex);
+        }
     }
 
     /// <summary>
