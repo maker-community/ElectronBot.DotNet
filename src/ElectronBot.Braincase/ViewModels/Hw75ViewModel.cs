@@ -8,6 +8,7 @@ using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using HelloWordKeyboard.DotNet.Models;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Verdure.ElectronBot.Core.Models;
 
 namespace ElectronBot.Braincase.ViewModels;
@@ -95,7 +96,28 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     [RelayCommand]
     private void OnLoaded()
     {
+        // var result = Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(true);
+    }
 
+    public void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var isOn = toggleSwitch.IsOn;
+            Task.Run(() =>
+            {
+                if (isOn)
+                {
+                    Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(true, UsbComm.KnobConfig.Types.Mode.Switch);
+                    //await Task.Delay(50);
+                    //Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(true, UsbComm.KnobConfig.Types.Mode.Switch);
+                }
+                else
+                {
+                    Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(false, UsbComm.KnobConfig.Types.Mode.Encoder);
+                }
+            });
+        }
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -124,9 +146,6 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
             FirmwareVersion = firmwareInfo?.AppVersion;
 
             ZephyrVersion = firmwareInfo?.ZephyrVersion;
-
-            await Task.Delay(1000);
-            var result = Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(true);
         }
         catch (Exception ex)
         {

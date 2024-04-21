@@ -867,4 +867,7 @@
   <data name="IsSessionSwitchEnabled.Text" xml:space="preserve">
     <value>是否开启解锁屏开关场景：</value>
   </data>
+  <data name="IsHw75TestModeEnabled.Text" xml:space="preserve">
+    <value>是否开启瀚文旋钮测试：</value>
+  </data>
 </root>
