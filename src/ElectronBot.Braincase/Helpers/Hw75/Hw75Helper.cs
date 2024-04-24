@@ -141,19 +141,23 @@ public class Hw75Helper
 
                 var tmp = false;
 
-                if (targetDegrees > 190 && Math.Abs(targetDegrees - degrees) < 3)
+                if (degrees > 190 && degrees < 225 && Math.Abs(targetDegrees - degrees) < 3)
                 {
                     tmp = false;
+                    if (tmp != IsHaSwitchOn)
+                    {
+                        IsHaSwitchOn = tmp;
+                        await HaSwitchAsync(IsHaSwitchOn);
+                    }
                 }
-                else if (targetDegrees < 150 && Math.Abs(targetDegrees - degrees) < 3)
+                else if (degrees < 150 && degrees > 135 && Math.Abs(targetDegrees - degrees) < 3)
                 {
                     tmp = true;
-                }
-
-                if (tmp != IsHaSwitchOn)
-                {
-                    IsHaSwitchOn = tmp;
-                    await HaSwitchAsync(IsHaSwitchOn);
+                    if (tmp != IsHaSwitchOn)
+                    {
+                        IsHaSwitchOn = tmp;
+                        await HaSwitchAsync(IsHaSwitchOn);
+                    }
                 }
             }
         }
