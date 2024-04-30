@@ -51,6 +51,30 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
         return data.Version;
     }
 
+
+    public MotorState SetKnobSwitchModeConfig(bool demo, KnobConfig.Types.Mode mode)
+    {
+        var switchModeConfig = new KnobConfig()
+        {
+            Demo = demo,
+            Mode = mode
+        };
+        return SetKnobConfig(switchModeConfig);
+    }
+
+    public MotorState SetKnobConfig(KnobConfig config)
+    {
+
+        var setKnobConfig = new MessageH2D()
+        {
+            Action = Action.KnobSetConfig,
+            KnobConfig = config
+        };
+        var data = Call(setKnobConfig);
+
+        return data.MotorState;
+    }
+
     public MotorState GetMotorState()
     {
         var motorGetState = new MessageH2D()
@@ -116,7 +140,7 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
             _device.Write(result);
         }
 
-        Task.Delay(50);
+        Task.Delay(100);
 
         var byteList = new List<byte>();
 
@@ -130,9 +154,16 @@ public class Hw75DynamicDevice : IHw75DynamicDevice
                 break;
             }
         }
-        var dataResult = MessageD2H.Parser.ParseFrom(byteList.ToArray());
+        try
+        {
+            var dataResult = MessageD2H.Parser.ParseFrom(byteList.ToArray());
 
-        return dataResult;
+            return dataResult;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("数据解析失败", ex);
+        }
     }
 
     /// <summary>

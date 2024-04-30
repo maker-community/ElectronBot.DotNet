@@ -15,13 +15,17 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <controls:CameraPreview
-            x:Name="CameraPreviewControl"
-            Height="200"
-            Loaded="CameraPreviewControl_Loaded" />
-
-        <StackPanel Grid.Column="1" Margin="8">
+                x:Name="CameraPreviewControl"
+                Width="400"
+                VerticalAlignment="Top"
+                MaxHeight="400"
+                CornerRadius="8"
+                Margin="8"
+                Loaded="CameraPreviewControl_Loaded" />
+        <StackPanel Grid.Column="1" Margin="8"   VerticalAlignment="Top">
             <TextBlock
                 x:Name="Hand"
                 HorizontalAlignment="Center"
@@ -38,16 +42,8 @@
                 FontFamily="Segoe UI Emoji"
                 FontSize="120"
                 Glyph="{x:Bind ViewModel.FaceIcon, Mode=OneWay}" />
+
         </StackPanel>
-        <!--<bot3D:ElectronBot3D
-            BaseModel="{x:Bind ViewModel.BaseModel, Mode=OneWay}"
-            BodyModel="{x:Bind ViewModel.BodyModel, Mode=OneWay}"
-            Camera="{x:Bind ViewModel.Camera, Mode=OneWay}"
-            EffectsManager="{x:Bind ViewModel.EffectsManager, Mode=OneWay}"
-            EnvironmentMap="{x:Bind ViewModel.EnvironmentMap, Mode=OneWay}"
-            HeadModel="{x:Bind ViewModel.HeadModel, Mode=OneWay}"
-            LeftArmModel="{x:Bind ViewModel.LeftArmModel, Mode=OneWay}"
-            ModelCentroidPoint="{x:Bind ViewModel.ModelCentroidPoint, Mode=OneWay}"
-            RightArmModel="{x:Bind ViewModel.RightArmModel, Mode=OneWay}" />-->
+        <bot3D:ElectronBot3D Grid.Column="2"   VerticalAlignment="Top" Margin="8" Height="400" Width="300" />
     </Grid>
 </Page>

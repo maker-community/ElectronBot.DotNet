@@ -12,7 +12,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <hx:Viewport3DX
+        <!--<hx:Viewport3DX
             x:Name="Viewport"
             BackgroundColor="LightBlue"
             Camera="{x:Bind ViewModel.Camera}"
@@ -31,7 +31,7 @@
             <hx:Element3DPresenter Content="{x:Bind ViewModel. LeftArmModel}" />
             <hx:Element3DPresenter Content="{x:Bind ViewModel. BaseModel}" />
             <hx:EnvironmentMap3D Texture="{x:Bind ViewModel.EnvironmentMap, Mode=OneWay}" />
-        </hx:Viewport3DX>
+        </hx:Viewport3DX>-->
         <ProgressRing
             x:Name="ModelProgressRing"
             Width="40"

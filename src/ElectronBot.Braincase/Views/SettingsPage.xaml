@@ -534,6 +534,7 @@
                         </Grid>
                     </Expander>
 
+
                     <!--<Expander
                         Width="800"
                         Margin="0,8,0,4"
@@ -836,6 +837,125 @@
                                         </Grid>
                                     </Grid>
                                 </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Expander>
+
+                    <!--  Home Assistant 配置  -->
+                    <Expander
+                        Width="800"
+                        Margin="0,8,0,4"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        ExpandDirection="Down"
+                        IsExpanded="False">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Margin="4,4,12,4">
+                                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE913;" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock
+                                            x:Uid="HomeAssistantTitle"
+                                            Margin="0,4,0,4"
+                                            FontSize="16" />
+                                        <TextBlock
+                                            x:Uid="HomeAssistantTitle_Desc"
+                                            Margin="0,0,0,4"
+                                            FontSize="12" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <Grid>
+                            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="Hame Assistant BaseUrl:" />
+                                        <Grid Grid.Column="1">
+                                            <TextBox
+                                                Width="360"
+                                                HorizontalAlignment="Right"
+                                                Text="{x:Bind ViewModel.HaSetting.BaseUrl, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="LostFocus">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveHaSettingCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="Home Assistant Token:" />
+                                        <Grid Grid.Column="1">
+                                            <TextBox
+                                                Width="360"
+                                                HorizontalAlignment="Right"
+                                                Text="{x:Bind ViewModel.HaSetting.HaToken, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:EventTriggerBehavior EventName="LostFocus">
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveHaSettingCommand}" />
+                                                    </ic:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!--<TextBlock x:Uid="Settings_Theme" />-->
+                                <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                                    <ComboBox
+                                        x:Uid="SwitchCB"
+                                        Width="240"
+                                        Margin="4"
+                                        DisplayMemberPath="DataValue"
+                                        ItemsSource="{x:Bind ViewModel.HaSwitchs, Mode=OneWay}"
+                                        SelectedItem="{x:Bind ViewModel.HaSwitchSelect, Mode=TwoWay}">
+                                        <i:Interaction.Behaviors>
+                                            <ic:EventTriggerBehavior EventName="SelectionChanged">
+                                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.HaSwitchCommand}" />
+                                            </ic:EventTriggerBehavior>
+                                            <ic:EventTriggerBehavior EventName="Loading">
+                                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.HaSwitchLoadingCommand}" />
+                                            </ic:EventTriggerBehavior>
+                                        </i:Interaction.Behaviors>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel Margin="4" Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Uid="IsSessionSwitchEnabled"
+                                        Width="160"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        Margin="4"
+                                        IsOn="{x:Bind ViewModel.HaSetting.IsSessionSwitchEnabled, Mode=OneWay}"
+                                        Toggled="{x:Bind ViewModel.IsSessionSwitchToggleSwitch_OnToggled}" />
+                                </StackPanel>
+
                             </StackPanel>
                         </Grid>
                     </Expander>

@@ -1,9 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
 using Models.Hw75.YellowCalendar;
 using Services.Hw75Services.YellowCalendar;
@@ -15,7 +12,7 @@ public partial class Hw75YellowCalendarViewModel : ObservableRecipient
     [ObservableProperty]
     private YellowCalendarResult? _yellowCalendarResult;
 
-    private readonly DispatcherTimer _dispatcherTimer = new ();
+    private readonly DispatcherTimer _dispatcherTimer = new();
 
     private const string ViewName = "Hw75YellowCalendarView";
 
@@ -28,16 +25,13 @@ public partial class Hw75YellowCalendarViewModel : ObservableRecipient
 
     private async void DispatcherTimer_Tick(object? sender, object e)
     {
-        if (Hw75Helper.Instance.ViewName == ViewName)
-        {
-            YellowCalendarResult = await GetYellowCalendarService.GetYellowCalendarAsync(true);
+        YellowCalendarResult = await GetYellowCalendarService.GetYellowCalendarAsync(true);
 
-            Hw75Helper.Instance.InvokeHandler();
-        }
+        Hw75Helper.Instance.InvokeHandler();
     }
 
     [RelayCommand]
-    private async Task OnLoaded()
+    public async Task OnLoaded()
     {
         _dispatcherTimer.Start();
 
@@ -47,7 +41,7 @@ public partial class Hw75YellowCalendarViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    private void OnUnLoaded()
+    public void OnUnLoaded()
     {
         _dispatcherTimer.Stop();
     }

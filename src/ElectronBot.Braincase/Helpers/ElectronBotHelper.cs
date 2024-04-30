@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using Models;
 using Services;
 using Verdure.ElectronBot.Core.Models;
+using Verdure.IoT.Net;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
@@ -623,6 +624,35 @@ public class ElectronBotHelper
            .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
     }
 
+
+    public async Task SessionHaSwitchAsync(SessionSwitchReason switchReason)
+    {
+        var localSettingsService = App.GetService<ILocalSettingsService>();
+
+        var haSwitchModel = await localSettingsService.ReadSettingAsync<ComboxItemModel>(Constants.DefaultHaSwitchNameKey);
+
+        var haSetting = await localSettingsService.ReadSettingAsync<HaSetting>(Constants.HaSettingKey);
+
+        if (haSwitchModel != null && haSetting != null)
+        {
+            try
+            {
+                var client = new HomeAssistantClient(haSetting.BaseUrl, haSetting.HaToken);
+
+                if (switchReason == SessionSwitchReason.SessionUnlock)
+                {
+                    await client.PostServiceAync(haSwitchModel?.DataKey?.Split('.')[0] ?? "", "turn_on", haSwitchModel?.DataKey ?? "");
+                }
+                else if (switchReason == SessionSwitchReason.SessionLock)
+                {
+                    await client.PostServiceAync(haSwitchModel?.DataKey?.Split('.')[0] ?? "", "turn_off", haSwitchModel?.DataKey ?? "");
+                }
+
+            }
+            catch { }
+        }
+    }
+
     private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
     {
         try
@@ -672,6 +702,13 @@ public class ElectronBotHelper
                     ToPlayEmojisByNameId("goodbye");
                     break;
             }
+        }
+
+        var haSetting = await localSettingsService.ReadSettingAsync<HaSetting>(Constants.HaSettingKey);
+
+        if (haSetting != null && haSetting.IsSessionSwitchEnabled)
+        {
+            await SessionHaSwitchAsync(e.Reason);
         }
     }
 }

@@ -158,6 +158,10 @@ public partial class App : Application
             services.AddTransient<VisionPage>();
             services.AddTransient<VisionViewModel>();
 
+
+            services.AddTransient<ElectronBot3D>();
+            services.AddTransient<ElectronBot3DViewModel>();
+
             services.AddTransient<MoviePage>();
             services.AddTransient<MovieViewModel>();
 

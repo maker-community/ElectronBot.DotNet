@@ -733,7 +733,7 @@ public partial class PoseRecognitionViewModel : ObservableRecipient
         _faceSoftwareBitmap?.Dispose();
     }
 
-    private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
+    private void Instance_ModelActionFrame(object? sender, ModelActionFrame e)
     {
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {

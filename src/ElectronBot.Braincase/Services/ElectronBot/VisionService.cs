@@ -1,13 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using CommunityToolkit.WinUI.Helpers;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Helpers;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
 using Microsoft.AI.MachineLearning;
 using Models.ElectronBot;
+using Vedure.Braincsse.WinUI.Helpers;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -115,11 +115,9 @@ public class VisionService
     /// <param name="e"></param>
     public async void CameraHelper_FrameArrived(object? sender, FrameEventArgs e)
     {
-        Debug.WriteLine($"frame arrived--{DateTime.Now.Ticks}");
+        //Debug.WriteLine($"frame arrived--{DateTime.Now.Ticks}");
         // Gets the current video frame
         var currentVideoFrame = e.VideoFrame;
-
-        var setting = CameraHelper.FrameSourceGroup;
 
         // Gets the software bitmap image
         var softwareBitmap = currentVideoFrame.SoftwareBitmap;
@@ -148,19 +146,39 @@ public class VisionService
             SoftwareBitmap latestBitmap;
             while ((latestBitmap = Interlocked.Exchange(ref _backBuffer, null)) != null)
             {
+                using IRandomAccessStream stream = new InMemoryRandomAccessStream();
+
+                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+
+                encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+
+                if (CameraHelper.FrameSourceGroup != null && CameraHelper.FrameSourceGroup.DisplayName.EndsWith("Cam"))
+                {
+                    encoder.BitmapTransform.Rotation = BitmapRotation.Clockwise270Degrees;
+                }
+
+                // Set the software bitmap
+                encoder.SetSoftwareBitmap(latestBitmap);
+
+                await encoder.FlushAsync();
+
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+
+                var softwareBitmapInput = await decoder.GetSoftwareBitmapAsync(latestBitmap.BitmapPixelFormat, latestBitmap.BitmapAlphaMode);
                 ///姿态识别坐标点
-                var poseOutput = await PoseAndHandsPredictResultUnUseQueueAsync(latestBitmap);
+                var poseOutput = await PoseAndHandsPredictResultUnUseQueueAsync(softwareBitmapInput);
 
                 Debug.WriteLine("hands: " + poseOutput.Item2);
 
                 //表情识别
-                var emojis = await EmotionClassificationAsync(latestBitmap);
+                var emojis = await EmotionClassificationAsync(softwareBitmapInput);
 
                 var result = new VisionResult
                 {
                     PoseOutput = poseOutput.Item1,
                     HandResult = poseOutput.Item2,
-                    Emoji = emojis,
+                    Emoji = emojis.Item1,
+                    FaceSoftwareBitmap = emojis.Item2,
                     Height = latestBitmap.PixelHeight,
                     Width = latestBitmap.PixelWidth,
                 };
@@ -172,7 +190,8 @@ public class VisionService
 
                 SoftwareBitmapFramePoseAndHandsPredictResult?.Invoke(this, result);
 
-                latestBitmap.Dispose();
+                latestBitmap?.Dispose();
+                softwareBitmapInput?.Dispose();
             }
 
             _taskRunning = false;
@@ -186,7 +205,7 @@ public class VisionService
     /// </summary>
     /// <param name="e"></param>
     /// <returns></returns>
-    public async Task<Emoji?> EmotionClassificationAsync(SoftwareBitmap e)
+    public async Task<(Emoji?, SoftwareBitmap?)> EmotionClassificationAsync(SoftwareBitmap e)
     {
         if (e != null && _session != null)
         {
@@ -204,7 +223,7 @@ public class VisionService
 
                 tmp = new VideoFrame(e.BitmapPixelFormat, (int)(faceBox.Width + faceBox.Width % 2) - 2, (int)(faceBox.Height + faceBox.Height % 2) - 2);
 
-                await inputFrame.CopyToAsync(tmp, faceBox, null);
+                await inputFrame.CopyToAsync(tmp, new BitmapBounds(faceBox.X - 25, faceBox.Y - 25, faceBox.Width + 50, faceBox.Height + 50), null);
 
                 //crop image to fit model input requirements
                 VideoFrame croppedInputImage = new VideoFrame(BitmapPixelFormat.Gray8, (int)_inputImageDescriptor.Shape[3], (int)_inputImageDescriptor.Shape[2]);
@@ -216,16 +235,9 @@ public class VisionService
 
                 await tmp.CopyToAsync(croppedInputImage, srcBounds, null);
 
-                //if (tmp.SoftwareBitmap is not null)
-                //{
-                //    //FaceBoxFrameCaptured?.Invoke(this, new SoftwareBitmapEventArgs(tmp.SoftwareBitmap));
-                //}
                 ImageFeatureValue imageTensor = ImageFeatureValue.CreateFromVideoFrame(croppedInputImage);
 
-                _binding = new LearningModelBinding(_session);
-
                 TensorFloat outputTensor = TensorFloat.Create(_outputTensorDescriptor.Shape);
-                List<float> _outputVariableList = new List<float>();
 
                 // Bind inputs + outputs
                 _binding.Bind(_inputImageDescriptor.Name, imageTensor);
@@ -262,12 +274,12 @@ public class VisionService
                 // For evaluations run on the MainPage, update the emoji carousel
                 if (maxProb >= Constants.CLASSIFICATION_CERTAINTY_THRESHOLD)
                 {
-                    return CurrentEmojis._emojis.Emojis[maxIndex];
+                    return (CurrentEmojis._emojis.Emojis[maxIndex], tmp.SoftwareBitmap);
                 }
             }
         }
 
-        return null;
+        return (null, null);
     }
 
     /// <summary>
@@ -391,6 +403,7 @@ public class VisionService
         _outputTensorDescriptor =
             outputFeatures.FirstOrDefault(feature => feature.Kind == LearningModelFeatureKind.Tensor) as TensorFeatureDescriptor;
 
+        _binding = new LearningModelBinding(_session);
         return true;
     }
 

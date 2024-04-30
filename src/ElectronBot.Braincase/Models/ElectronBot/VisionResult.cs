@@ -1,6 +1,7 @@
 ﻿using ElectronBot.Braincase;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
+using Windows.Graphics.Imaging;
 
 namespace Models.ElectronBot;
 
@@ -32,6 +33,10 @@ public class VisionResult
     }
 
     public int Height
+    {
+        get; set;
+    }
+    public SoftwareBitmap? FaceSoftwareBitmap
     {
         get; set;
     }

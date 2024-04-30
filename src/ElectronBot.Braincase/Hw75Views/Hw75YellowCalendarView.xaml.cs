@@ -31,5 +31,10 @@ namespace Hw75Views
             this.InitializeComponent();
             ViewModel = App.GetService<Hw75YellowCalendarViewModel>();
         }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OnUnLoaded();
+        }
     }
 }

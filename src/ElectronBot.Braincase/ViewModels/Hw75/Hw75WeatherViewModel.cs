@@ -45,20 +45,17 @@ public partial class Hw75WeatherViewModel : ObservableRecipient
 
     private async void DispatcherTimer_Tick(object? sender, object e)
     {
-        if (Hw75Helper.Instance.ViewName == ViewName)
-        {
-            var ret2 = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
+        var ret2 = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
 
-            ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
+        ClockTitleConfig = ret2 ?? new CustomClockTitleConfig();
 
-            GpsResult = await GpsGetWeather.GetWeatherIdea();
+        GpsResult = await GpsGetWeather.GetWeatherIdea();
 
-            Hw75Helper.Instance.InvokeHandler();
-        }
+        Hw75Helper.Instance.InvokeHandler();
     }
 
     [RelayCommand]
-    private async Task OnLoaded()
+    public async Task OnLoaded()
     {
         _dispatcherTimer.Start();
 
@@ -72,7 +69,7 @@ public partial class Hw75WeatherViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    private void OnUnLoaded()
+    public void OnUnLoaded()
     {
         _dispatcherTimer.Stop();
     }

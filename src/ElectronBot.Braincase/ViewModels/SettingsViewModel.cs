@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Models;
 using Verdure.ElectronBot.Core.Helpers;
 using Verdure.ElectronBot.Core.Models;
+using Verdure.IoT.Net;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
@@ -68,11 +69,20 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     private ObservableCollection<ComboxItemModel> _audioDevs;
 
+    [ObservableProperty]
+    private ObservableCollection<ComboxItemModel> _haSwitchs = new();
+
     /// <summary>
     /// 选中的相机
     /// </summary>
     [ObservableProperty]
     private ComboxItemModel? _cameraSelect;
+
+    /// <summary>
+    /// 选中的开关设备
+    /// </summary>
+    [ObservableProperty]
+    private ComboxItemModel? _haSwitchSelect;
 
     /// <summary>
     /// 选中的音频设备
@@ -108,6 +118,10 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
     private BotSetting _botSetting = new();
 
+    [ObservableProperty]
+
+    private HaSetting _haSetting = new();
+
     public async void ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
@@ -126,6 +140,16 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             BotSetting.IsHelloEnabled = isVisual;
         }
         await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
+    }
+
+    public async void IsSessionSwitchToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var isVisual = toggleSwitch.IsOn;
+            HaSetting.IsSessionSwitchEnabled = isVisual;
+        }
+        await _localSettingsService.SaveSettingAsync(Constants.HaSettingKey, HaSetting);
     }
 
     public async void Hw75ContentToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -347,6 +371,15 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     }
 
     /// <summary>
+    /// HaSetting
+    /// </summary>
+    [RelayCommand]
+    private async Task SaveHaSetting()
+    {
+        await _localSettingsService.SaveSettingAsync(Constants.HaSettingKey, HaSetting);
+    }
+
+    /// <summary>
     /// 音频切换方法
     /// </summary>
     [RelayCommand]
@@ -370,6 +403,62 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         if (!string.IsNullOrWhiteSpace(cameraName))
         {
             await _localSettingsService.SaveSettingAsync(Constants.DefaultCameraNameKey, CameraSelect);
+        }
+    }
+
+    /// <summary>
+    /// ha开关设备选择方法
+    /// </summary>
+    [RelayCommand]
+    private async Task OnHaSwitchLoading()
+    {
+        if (HaSetting != null && !string.IsNullOrWhiteSpace(HaSetting.HaToken))
+        {
+            try
+            {
+                var client = new HomeAssistantClient(HaSetting.BaseUrl, HaSetting.HaToken);
+
+                var stateAll = await client.GetStateAsync();
+
+                var haSwitchs = stateAll.Where(d => d.entity_id.StartsWith("switch")).ToList();
+
+                if (haSwitchs.Any())
+                {
+                    foreach (var haSwitch in haSwitchs)
+                    {
+                        HaSwitchs.Add(new ComboxItemModel
+                        {
+                            DataKey = haSwitch.entity_id,
+                            DataValue = haSwitch.attributes.friendly_name
+                        });
+                    }
+                }
+
+                var haSwitchModel = await _localSettingsService.ReadSettingAsync<ComboxItemModel>(Constants.DefaultHaSwitchNameKey);
+
+                if (haSwitchModel != null)
+                {
+                    HaSwitchSelect = HaSwitchs.FirstOrDefault(c => c.DataValue == haSwitchModel.DataValue);
+                }
+            }
+            catch (Exception ex)
+            {
+                ToastHelper.SendToast($"home assistant error,{ex.Message}", TimeSpan.FromSeconds(4));
+            }
+        }
+    }
+
+    /// <summary>
+    /// ha开关设备选择方法
+    /// </summary>
+    [RelayCommand]
+    private async Task HaSwitch()
+    {
+        var switchName = HaSwitchSelect?.DataKey;
+
+        if (!string.IsNullOrWhiteSpace(switchName))
+        {
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultHaSwitchNameKey, HaSwitchSelect);
         }
     }
 
@@ -441,6 +530,9 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
             var botSetting = await _localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
             BotSetting = botSetting ?? new BotSetting();
+
+            var haSetting = await _localSettingsService.ReadSettingAsync<HaSetting>(Constants.HaSettingKey);
+            HaSetting = haSetting ?? new HaSetting();
 
             EmojisAvatar = BotSetting.CustomViewPicturePath;
 

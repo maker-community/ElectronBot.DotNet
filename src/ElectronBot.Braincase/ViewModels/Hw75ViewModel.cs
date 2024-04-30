@@ -8,6 +8,7 @@ using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using HelloWordKeyboard.DotNet.Models;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Verdure.ElectronBot.Core.Models;
 
 namespace ElectronBot.Braincase.ViewModels;
@@ -95,7 +96,42 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     [RelayCommand]
     private void OnLoaded()
     {
+        // var result = Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(true);
+    }
 
+    public async void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var isOn = toggleSwitch.IsOn;
+            if (isOn)
+            {
+                Hw75Helper.Instance.StartTimer();
+            }
+            else
+            {
+                Hw75Helper.Instance.StopTimer();
+            }
+            await Task.Run(() =>
+            {
+                try
+                {
+
+                    if (isOn)
+                    {
+                        Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(true, UsbComm.KnobConfig.Types.Mode.Inertia);
+                    }
+                    else
+                    {
+                        Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(false, UsbComm.KnobConfig.Types.Mode.Encoder);
+                    }
+                }
+                catch
+                {
+                }
+
+            });
+        }
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -124,6 +160,8 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
             FirmwareVersion = firmwareInfo?.AppVersion;
 
             ZephyrVersion = firmwareInfo?.ZephyrVersion;
+
+            Hw75Helper.Instance.StartTimer();
         }
         catch (Exception ex)
         {
@@ -153,5 +191,11 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
         Hw75Helper.Instance.IsConnected = false;
         Hw75Helper.Instance.ViewName = "Hw75CustomView";
         Hw75Helper.Instance.UpdateDataToDeviceHandler -= Instance_UpdateDataToDeviceHandler;
+        Hw75Helper.Instance.StopTimer();
+
+        //Task.Run(() =>
+        //{
+        //    Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(false, UsbComm.KnobConfig.Types.Mode.Encoder);
+        //});
     }
 }
