@@ -9,6 +9,8 @@
 <a href="https://github.com/maker-community/ElectronBot.DotNet/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/maker-community/ElectronBot.DotNet?color=2b9348"></a>
 <a href="https://github.com/maker-community/ElectronBot.DotNet/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/maker-community/ElectronBot.DotNet?color=2b9348" alt="License Badge"/></a>
 
+<a href="https://github.com/maker-community/ElectronBot.DotNet/README.en.md"><img src="https://img.shields.io/static/v1?label=&labelColor=505050&message=English README 英文自述文件&color=%230076D6&style=flat&logo=google-chrome&logoColor=green" alt="website"/></a>
+
 <i>喜欢这个项目吗？请考虑给 Star ⭐️ 以帮助改进！</i>
 
 <br/><a href="https://www.microsoft.com/store/productId/9NQWDB4MQV0C"><img src="https://cdn.jsdelivr.net/gh/qishibo/img/microsoft-store.png" height="58" width="180" alt="get from microsoft store"></a>
