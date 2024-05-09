@@ -13,6 +13,7 @@ namespace Services
         private Complex[] fftBuffer;
         private int fftPos;
         private CanvasControl canvas;
+        private DateTime lastDraw = DateTime.Now;
 
         public SpectrumAnalyzer(CanvasControl canvasControl)
         {
@@ -46,13 +47,17 @@ namespace Services
                 {
                     fftPos = 0;
                     FastFourierTransform.FFT(true, (int)Math.Log(fftBuffer.Length, 2.0), fftBuffer);
-                    canvas.Invalidate(); // request a redraw
+                    if ((DateTime.Now - lastDraw).TotalMilliseconds > 100) // 10 FPS
+                    {
+                        canvas.Invalidate(); // request a redraw
+                    }
                 }
             }
         }
 
         private void OnDraw(CanvasControl sender, CanvasDrawEventArgs args)
         {
+            lastDraw = DateTime.Now;
             for (int i = 0; i < fftBuffer.Length / 2; i++)
             {
                 float magnitude = (float)Math.Sqrt(fftBuffer[i].X * fftBuffer[i].X + fftBuffer[i].Y * fftBuffer[i].Y);
