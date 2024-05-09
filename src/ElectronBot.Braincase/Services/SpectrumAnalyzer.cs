@@ -65,5 +65,41 @@ namespace Services
                 args.DrawingSession.FillRectangle(i * 2, (float)canvas.ActualHeight - barHeight, 2, barHeight, Colors.Red);
             }
         }
+
+          private void OnDraw1(CanvasControl sender, CanvasDrawEventArgs args)
+          {
+              lastDraw = DateTime.Now;
+              var canvasWidth = (float)sender.ActualWidth;
+              var canvasHeight = (float)sender.ActualHeight;
+              var barWidth = canvasWidth / fftBuffer.Length;
+        
+              args.DrawingSession.Clear(Colors.Black);
+        
+              using (var pathBuilder = new CanvasPathBuilder(sender))
+              {
+                  for (int i = 0; i < fftBuffer.Length; i++)
+                  {
+                      var c = fftBuffer[i];
+                      var magnitude = (float)Math.Sqrt(c.X * c.X + c.Y * c.Y);
+                      var y = canvasHeight - magnitude / 1 * canvasHeight; // 假设MaxMagnitude是可能的最大幅度
+        
+                      if (i == 0)
+                      {
+                          pathBuilder.BeginFigure(i * barWidth, y);
+                      }
+                      else
+                      {
+                          pathBuilder.AddLine(i * barWidth, y);
+                      }
+                  }
+        
+                  pathBuilder.EndFigure(CanvasFigureLoop.Open);
+        
+                  using (var geometry = CanvasGeometry.CreatePath(pathBuilder))
+                  {
+                      args.DrawingSession.DrawGeometry(geometry, Colors.Blue);
+                  }
+              }
+          }
     }
 }
