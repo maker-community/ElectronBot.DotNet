@@ -272,6 +272,7 @@
     <PackageReference Include="HelixToolkit.SharpDX.Assimp" Version="2.25.0" />
     <PackageReference Include="HelixToolkit.SharpDX.Core" Version="2.25.0" />
     <PackageReference Include="HelixToolkit.WinUI" Version="2.25.0" />
+    <PackageReference Include="NAudio.Wasapi" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>
