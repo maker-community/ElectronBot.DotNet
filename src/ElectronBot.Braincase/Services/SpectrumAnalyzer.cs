@@ -1,3 +1,4 @@
+using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI;
 using NAudio.CoreAudioApi;
