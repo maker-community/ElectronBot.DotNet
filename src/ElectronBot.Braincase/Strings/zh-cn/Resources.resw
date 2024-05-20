@@ -906,4 +906,7 @@
   <data name="IsHw75TestModeEnabled.Text" xml:space="preserve">
     <value>是否开启瀚文旋钮测试：</value>
   </data>
+  <data name="SparkDeskTitle" xml:space="preserve">
+    <value>讯飞星火</value>
+  </data>
 </root>
