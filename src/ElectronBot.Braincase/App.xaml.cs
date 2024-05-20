@@ -246,6 +246,8 @@ public partial class App : Application
 
             services.AddTransient<IChatbotClient, TuringChatbotClient>();
 
+            services.AddTransient<IChatbotClient, SparkDeskChatbotClient>();
+
             services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
 
             services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicTodoViewProvider>();

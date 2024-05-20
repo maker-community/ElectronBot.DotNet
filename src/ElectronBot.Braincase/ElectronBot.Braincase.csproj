@@ -265,6 +265,7 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.9.0.20240103" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.9.0.20240103" />
+    <PackageReference Include="Sdcb.SparkDesk" Version="3.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="WinUIEx" Version="2.3.4" />
