@@ -909,4 +909,10 @@
   <data name="SparkDeskTitle" xml:space="preserve">
     <value>讯飞星火</value>
   </data>
+  <data name="NotificationAreaIconExitText" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="NotificationAreaIconMenuItemText" xml:space="preserve">
+    <value>显示或者隐藏</value>
+  </data>
 </root>

@@ -66,10 +66,10 @@ public sealed partial class ShellPage : Page
     private void InitializeNotificationAreaIcon()
     {
         NotificationAreaIcon.InitializeNotificationAreaMenu();
-        NotificationAreaIcon.AddMenuItemText(1, "显示或者隐藏");
+        NotificationAreaIcon.AddMenuItemText(1, "NotificationAreaIconMenuItemText".GetLocalized());
         //NotificationAreaIcon.AddMenuItemText(2, "设置");
         NotificationAreaIcon.AddMenuItemSeperator();
-        NotificationAreaIcon.AddMenuItemText(3, "退出");
+        NotificationAreaIcon.AddMenuItemText(3, "NotificationAreaIconExitText".GetLocalized());
 
         NotificationAreaIcon.DoubleClick = () =>
         {
