@@ -1040,27 +1040,6 @@
 
                 </StackPanel>
 
-
-
-                <HyperlinkButton
-                    x:Uid="DownloadDebugger"
-                    Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
-                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                    FontSize="24"
-                    FontWeight="Bold"
-                    NavigateUri="https://www.microsoft.com/store/productId/9P9XF62G5R9S" />
-
-                <StackPanel Margin="8">
-                    <TextBlock
-                        x:Name="hlOpenPrivacySettings"
-                        x:Uid="hlOpenPrivacySettings"
-                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                        FontSize="20"
-                        TextWrapping="WrapWholeWords" />
-                    <HyperlinkButton x:Uid="PrivacyHyperLink" Click="OpenPrivacySettings_Click" />
-                </StackPanel>
-
-
                 <StackPanel Margin="8">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -1073,12 +1052,14 @@
                                     <FontIcon
                                         FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
                                         FontSize="80"
+                                        Foreground="Green"
                                         Glyph="&#xE1A8;" />
                                     <TextBlock
                                         x:Uid="FeedBackText"
                                         HorizontalAlignment="Center"
                                         FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
-                                        FontSize="24" />
+                                        FontSize="24"
+                                        Foreground="Red" />
                                 </StackPanel>
 
                             </Button.Content>
@@ -1087,13 +1068,16 @@
                             <TextBlock
                                 Margin="8"
                                 FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                Foreground="Red"
                                 Style="{ThemeResource SubtitleTextBlockStyle}"
                                 Text="如果你觉得本软件对你有帮助，你可以邮件反馈或者打赏作者。" />
                             <Button
                                 x:Uid="DaShang"
                                 Margin="8"
                                 VerticalAlignment="Bottom"
-                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑">
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                FontSize="32"
+                                Foreground="Red">
                                 <Button.Flyout>
                                     <Flyout Placement="BottomEdgeAlignedLeft">
                                         <StackPanel Margin="4" Orientation="Horizontal">
@@ -1128,6 +1112,27 @@
                     </Grid>
 
                 </StackPanel>
+
+                <HyperlinkButton
+                    x:Uid="DownloadDebugger"
+                    Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    NavigateUri="https://www.microsoft.com/store/productId/9P9XF62G5R9S" />
+
+                <StackPanel Margin="8">
+                    <TextBlock
+                        x:Name="hlOpenPrivacySettings"
+                        x:Uid="hlOpenPrivacySettings"
+                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                        FontSize="20"
+                        TextWrapping="WrapWholeWords" />
+                    <HyperlinkButton x:Uid="PrivacyHyperLink" Click="OpenPrivacySettings_Click" />
+                </StackPanel>
+
+
+
 
 
 
