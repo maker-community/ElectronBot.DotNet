@@ -182,6 +182,29 @@ public class ElectronBotHelper
         {
             SystemEvents.SessionSwitch += new SessionSwitchEventHandler(SystemEvents_SessionSwitch);
         });
+        /*
+            // Create the device watcher
+            // Replace VID and PID with your device's Vendor ID and Product ID
+            string aqs = UsbDevice.GetDeviceSelector(0x1001, 0x8023);
+            deviceWatcher = DeviceInformation.CreateWatcher(aqs);
+
+            // Register the device added event
+            deviceWatcher.Added += DeviceWatcher_Added;
+
+            // Start the watcher
+            deviceWatcher.Start();
+
+
+            // Create the HID device watcher
+            hidDeviceWatcher = DeviceInformation.CreateWatcher(HidDevice.GetDeviceSelector(0xff14, 0xff14));//待确定usageid
+            hidDeviceWatcher.Added += DeviceWatcher_Added;
+            hidDeviceWatcher.Start();
+
+            // Create the serial device watcher
+            serialDeviceWatcher = DeviceInformation.CreateWatcher(SerialDevice.GetDeviceSelector());
+            serialDeviceWatcher.Added += DeviceWatcher_Added;
+            serialDeviceWatcher.Start();
+        */
     }
 
     private async void ElectronBotHelper_PlayEmojisByNameId(object? sender, string e)
