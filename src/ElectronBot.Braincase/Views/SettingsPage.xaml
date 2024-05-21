@@ -421,7 +421,7 @@
                                                 Text="{x:Bind ViewModel.BotSetting.ChatGPTSessionKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="LostFocus">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveBotSettingCommand}" />
                                                     </ic:EventTriggerBehavior>
                                                 </i:Interaction.Behaviors>
                                             </TextBox>
@@ -446,7 +446,7 @@
                                                 Text="{x:Bind ViewModel.BotSetting.OpenAIBaseUrl, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="LostFocus">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveBotSettingCommand}" />
                                                     </ic:EventTriggerBehavior>
                                                 </i:Interaction.Behaviors>
                                             </TextBox>
@@ -473,7 +473,7 @@
                                                 Text="{x:Bind ViewModel.BotSetting.SparkDeskAppId, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="LostFocus">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveBotSettingCommand}" />
                                                     </ic:EventTriggerBehavior>
                                                 </i:Interaction.Behaviors>
                                             </TextBox>
@@ -498,7 +498,7 @@
                                                 Text="{x:Bind ViewModel.BotSetting.SparkDeskAPISecret, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="LostFocus">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveBotSettingCommand}" />
                                                     </ic:EventTriggerBehavior>
                                                 </i:Interaction.Behaviors>
                                             </TextBox>
@@ -523,7 +523,7 @@
                                                 Text="{x:Bind ViewModel.BotSetting.SparkDeskAPIKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="LostFocus">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveBotSettingCommand}" />
                                                     </ic:EventTriggerBehavior>
                                                 </i:Interaction.Behaviors>
                                             </TextBox>
@@ -548,7 +548,7 @@
                                                 Text="{x:Bind ViewModel.BotSetting.TuringAppkey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="LostFocus">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveBotSettingCommand}" />
                                                     </ic:EventTriggerBehavior>
                                                 </i:Interaction.Behaviors>
                                             </TextBox>
@@ -573,7 +573,7 @@
                                                 Text="{x:Bind ViewModel.BotSetting.TuringUserId, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="LostFocus">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveBotSettingCommand}" />
                                                     </ic:EventTriggerBehavior>
                                                 </i:Interaction.Behaviors>
                                             </TextBox>
@@ -600,7 +600,7 @@
                                                 Text="{x:Bind ViewModel.BotSetting.AnswerText, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                                 <i:Interaction.Behaviors>
                                                     <ic:EventTriggerBehavior EventName="LostFocus">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveBotSettingCommand}" />
                                                     </ic:EventTriggerBehavior>
                                                 </i:Interaction.Behaviors>
                                             </TextBox>
