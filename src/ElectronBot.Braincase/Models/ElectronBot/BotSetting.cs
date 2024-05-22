@@ -32,6 +32,21 @@ public class BotSetting
         get; set;
     } = "https://api.openai-proxy.com/";
 
+    public string SparkDeskAppId
+    {
+        get; set;
+    } = string.Empty;
+
+    public string SparkDeskAPISecret
+    {
+        get; set;
+    } = string.Empty;
+
+    public string SparkDeskAPIKey
+    {
+        get; set;
+    } = string.Empty;
+
     /// <summary>
     /// 手势识别回复文本
     /// </summary>

@@ -517,7 +517,15 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.7.2 版本更新说明
+    <value>1.7.5 版本更新说明（2024-05-21）
+1. 瀚文键盘旋钮对接智能家居，需要配置Home Assistant的连接密钥使用。
+2. 修复瀚文键盘页面定时BUG。
+3. 重构电子脑壳设置页面。
+4. 对接讯飞星火大语言模型。
+5. 电子配置项增加锁屏和解锁互动。
+6. 修复若干BUG引入新的BUG。
+
+1.7.2 版本更新说明
 1. 添加语音主动触发按钮，以及添加openai代理域名配置。
 
 1.7.1 版本更新说明
@@ -905,5 +913,14 @@
   </data>
   <data name="IsHw75TestModeEnabled.Text" xml:space="preserve">
     <value>是否开启瀚文旋钮测试：</value>
+  </data>
+  <data name="SparkDeskTitle" xml:space="preserve">
+    <value>讯飞星火</value>
+  </data>
+  <data name="NotificationAreaIconExitText" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="NotificationAreaIconMenuItemText" xml:space="preserve">
+    <value>显示或者隐藏</value>
   </data>
 </root>

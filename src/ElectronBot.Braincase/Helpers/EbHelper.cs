@@ -17,7 +17,6 @@ using Windows.Media.Devices;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.VisualBasic.Logging;
 
 namespace ElectronBot.Braincase.Helpers;
 

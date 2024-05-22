@@ -7,6 +7,7 @@ using ElectronBot.Braincase.Models;
 using ElectronBot.Copilot;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Models;
 
 namespace Services;
 public class ChatGPTChatbotCustomClient : IChatbotClient
@@ -22,9 +23,7 @@ public class ChatGPTChatbotCustomClient : IChatbotClient
     }
     public async Task<string> AskQuestionResultAsync(string message)
     {
-        var result = await _localSettingsService
-              .ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
-
+        var result = await _localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
         if (result == null)
         {
             throw new Exception("配置为空");

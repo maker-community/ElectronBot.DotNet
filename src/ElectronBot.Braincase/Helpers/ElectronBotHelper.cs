@@ -18,6 +18,8 @@ using Windows.Foundation;
 using Windows.Management.Deployment;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
+using Windows.Devices.HumanInterfaceDevice;
+using Windows.Devices.Usb;
 
 namespace ElectronBot.Braincase.Helpers;
 
@@ -157,6 +159,10 @@ public class ElectronBotHelper
 
     private PackageManager PackageManager { get; } = new PackageManager();
 
+    //DeviceWatcher _hidDeviceWatcher;
+
+    //DeviceWatcher _usbDeviceWatcher;
+
     public async Task InitAsync()
     {
         // Target all Serial Devices present on the system
@@ -182,7 +188,40 @@ public class ElectronBotHelper
         {
             SystemEvents.SessionSwitch += new SessionSwitchEventHandler(SystemEvents_SessionSwitch);
         });
+
+        // Create the device watcher
+        // Replace VID and PID with your device's Vendor ID and Product ID
+        //var aqs = UsbDevice.GetDeviceSelector(0x1001, 0x8023,new Guid("{00000000-0000-0000-0000-000000000000}"));
+        //_usbDeviceWatcher = DeviceInformation.CreateWatcher(aqs);
+
+        //// Register the device added event
+        //_usbDeviceWatcher.Added += OnUsbDeviceAdded;
+
+        //// Start the watcher
+        //_usbDeviceWatcher.Start();
+
+
+        // Create the HID device watcher
+        //_hidDeviceWatcher = DeviceInformation.CreateWatcher(HidDevice.GetDeviceSelector(0xff14, 0x01));
+        //_hidDeviceWatcher.Added += OnHidDeviceAdded;
+        //_hidDeviceWatcher.Start();
+
+        // Create the serial device watcher
+        //serialDeviceWatcher = DeviceInformation.CreateWatcher(SerialDevice.GetDeviceSelector());
+        //serialDeviceWatcher.Added += DeviceWatcher_Added;
+        //serialDeviceWatcher.Start();
+
     }
+
+    //private async void OnUsbDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+    //{
+
+    //}
+
+    //private async void OnHidDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+    //{
+ 
+    //}
 
     private async void ElectronBotHelper_PlayEmojisByNameId(object? sender, string e)
     {

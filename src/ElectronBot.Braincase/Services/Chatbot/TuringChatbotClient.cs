@@ -5,6 +5,7 @@ using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
+using Models;
 
 namespace Services;
 public class TuringChatbotClient : IChatbotClient
@@ -26,9 +27,7 @@ public class TuringChatbotClient : IChatbotClient
 
     public async Task<string> AskQuestionResultAsync(string message)
     {
-        var result = await _localSettingsService
-            .ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey);
-
+        var result = await _localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
         if (result == null)
         {
             throw new Exception("配置为空");
