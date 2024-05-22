@@ -84,7 +84,7 @@ public partial class Hw75CustomViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    private async Task OnLoaded()
+    public async Task OnLoaded()
     {
         _dispatcherTimer.Start();
 
@@ -101,7 +101,7 @@ public partial class Hw75CustomViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    private void OnUnLoaded()
+    public void OnUnLoaded()
     {
         _dispatcherTimer.Stop();
     }
@@ -116,15 +116,11 @@ public partial class Hw75CustomViewModel : ObservableRecipient
 
     private void DispatcherTimer_Tick(object? sender, object e)
     {
-        if (Hw75Helper.Instance.ViewName == ViewName)
-        {
-            TodayTime = DateTimeOffset.Now.ToString("t");
-            TodayWeek = DateTimeOffset.Now.ToString("ddd");
-            Day = DateTimeOffset.Now.Day.ToString();
+        TodayTime = DateTimeOffset.Now.ToString("t");
+        TodayWeek = DateTimeOffset.Now.ToString("ddd");
+        Day = DateTimeOffset.Now.Day.ToString();
 
-            Hw75Helper.Instance.InvokeHandler();
-        }
-
+        Hw75Helper.Instance.InvokeHandler();
     }
 
 }

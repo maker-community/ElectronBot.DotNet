@@ -1,4 +1,5 @@
 using HelloWordKeyboard.DotNet.Models;
+using UsbComm;
 
 namespace HelloWordKeyboard.DotNet;
 
@@ -26,6 +27,18 @@ public interface IHw75DynamicDevice
     /// </summary>
     /// <returns></returns>
     UsbComm.MotorState GetMotorState();
+
+    /// <summary>
+    /// 设置电机为开关模式
+    /// </summary>
+    /// <returns></returns>
+    UsbComm.MotorState SetKnobSwitchModeConfig(bool demo, KnobConfig.Types.Mode mode);
+
+    /// <summary>
+    /// 设置电机模式
+    /// </summary>
+    /// <returns></returns>
+    UsbComm.MotorState SetKnobConfig(UsbComm.KnobConfig config);
 
     /// <summary>
     /// 设置墨水屏数据

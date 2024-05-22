@@ -276,7 +276,7 @@ public class CameraFrameService
         // This can return null if there is no such frame, or if the reader is not in the
         // "Started" state. The latter can occur if a FrameArrived event was in flight
         // when the reader was stopped.
-        Debug.WriteLine($"1111----in--{DateTime.Now.ToFileTimeUtc()}");
+        //Debug.WriteLine($"1111----in--{DateTime.Now.ToFileTimeUtc()}");
 
         if (_isProcessing)
         {

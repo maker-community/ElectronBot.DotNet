@@ -6,8 +6,11 @@ using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using ElectronBot.DotNet;
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
+using Models;
 using Services;
 using Verdure.ElectronBot.Core.Models;
+using Verdure.IoT.Net;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
@@ -15,6 +18,8 @@ using Windows.Foundation;
 using Windows.Management.Deployment;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
+using Windows.Devices.HumanInterfaceDevice;
+using Windows.Devices.Usb;
 
 namespace ElectronBot.Braincase.Helpers;
 
@@ -109,7 +114,7 @@ public class ElectronBotHelper
 
     public event EventHandler<ModelActionFrame>? ModelActionFrame;
 
-    public event EventHandler<string>? PlayEmojisByNameId; 
+    public event EventHandler<string>? PlayEmojisByNameId;
 
     private MediaPlayer mediaPlayer = new();
 
@@ -150,9 +155,13 @@ public class ElectronBotHelper
 
     public SerialPort SerialPort { get; set; } = new SerialPort();
 
-    public List<Package> AppPackages = new ();
+    public List<Package> AppPackages = new();
 
     private PackageManager PackageManager { get; } = new PackageManager();
+
+    //DeviceWatcher _hidDeviceWatcher;
+
+    //DeviceWatcher _usbDeviceWatcher;
 
     public async Task InitAsync()
     {
@@ -174,7 +183,45 @@ public class ElectronBotHelper
         PlayEmojisRandom += ElectronBotHelper_PlayEmojisRandom;
 
         PlayEmojisByNameId += ElectronBotHelper_PlayEmojisByNameId;
+
+        SystemEvents.InvokeOnEventsThread(() =>
+        {
+            SystemEvents.SessionSwitch += new SessionSwitchEventHandler(SystemEvents_SessionSwitch);
+        });
+
+        // Create the device watcher
+        // Replace VID and PID with your device's Vendor ID and Product ID
+        //var aqs = UsbDevice.GetDeviceSelector(0x1001, 0x8023,new Guid("{00000000-0000-0000-0000-000000000000}"));
+        //_usbDeviceWatcher = DeviceInformation.CreateWatcher(aqs);
+
+        //// Register the device added event
+        //_usbDeviceWatcher.Added += OnUsbDeviceAdded;
+
+        //// Start the watcher
+        //_usbDeviceWatcher.Start();
+
+
+        // Create the HID device watcher
+        //_hidDeviceWatcher = DeviceInformation.CreateWatcher(HidDevice.GetDeviceSelector(0xff14, 0x01));
+        //_hidDeviceWatcher.Added += OnHidDeviceAdded;
+        //_hidDeviceWatcher.Start();
+
+        // Create the serial device watcher
+        //serialDeviceWatcher = DeviceInformation.CreateWatcher(SerialDevice.GetDeviceSelector());
+        //serialDeviceWatcher.Added += DeviceWatcher_Added;
+        //serialDeviceWatcher.Start();
+
     }
+
+    //private async void OnUsbDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+    //{
+
+    //}
+
+    //private async void OnHidDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+    //{
+ 
+    //}
 
     private async void ElectronBotHelper_PlayEmojisByNameId(object? sender, string e)
     {
@@ -186,7 +233,7 @@ public class ElectronBotHelper
         {
             try
             {
-                var emojis = list.FirstOrDefault(i=>i.NameId == e);
+                var emojis = list.FirstOrDefault(i => i.NameId == e);
 
                 if (emojis == null)
                 {
@@ -389,7 +436,7 @@ public class ElectronBotHelper
             await CameraFrameService.Current.CleanupMediaCaptureAsync();
 
             ElectronBot?.Disconnect();
-            
+
             if (SerialPort.IsOpen)
             {
                 SerialPort.Close();
@@ -592,6 +639,59 @@ public class ElectronBotHelper
         }
     }
 
+
+    public void ToPlayEmojisRandom()
+    {
+        PlayEmojisRandom?.Invoke(this, new EventArgs());
+    }
+
+    public void ToPlayEmojisByNameId(string nameId)
+    {
+        PlayEmojisByNameId?.Invoke(this, nameId);
+    }
+
+    public void ModelActionInvoke(ModelActionFrame frame)
+    {
+        frame.Actions = new OnlyAction(_angleList);
+        ModelActionFrame?.Invoke(this, frame);
+    }
+
+    public void LoadAppList()
+    {
+        AppPackages.Clear();
+        AppPackages = PackageManager.FindPackagesForUser(string.Empty)
+           .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
+    }
+
+
+    public async Task SessionHaSwitchAsync(SessionSwitchReason switchReason)
+    {
+        var localSettingsService = App.GetService<ILocalSettingsService>();
+
+        var haSwitchModel = await localSettingsService.ReadSettingAsync<ComboxItemModel>(Constants.DefaultHaSwitchNameKey);
+
+        var haSetting = await localSettingsService.ReadSettingAsync<HaSetting>(Constants.HaSettingKey);
+
+        if (haSwitchModel != null && haSetting != null)
+        {
+            try
+            {
+                var client = new HomeAssistantClient(haSetting.BaseUrl, haSetting.HaToken);
+
+                if (switchReason == SessionSwitchReason.SessionUnlock)
+                {
+                    await client.PostServiceAync(haSwitchModel?.DataKey?.Split('.')[0] ?? "", "turn_on", haSwitchModel?.DataKey ?? "");
+                }
+                else if (switchReason == SessionSwitchReason.SessionLock)
+                {
+                    await client.PostServiceAync(haSwitchModel?.DataKey?.Split('.')[0] ?? "", "turn_off", haSwitchModel?.DataKey ?? "");
+                }
+
+            }
+            catch { }
+        }
+    }
+
     private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
     {
         try
@@ -622,26 +722,32 @@ public class ElectronBotHelper
         VoiceLock = false;
     }
 
-    public void ToPlayEmojisRandom()
+    private async void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
     {
-        PlayEmojisRandom?.Invoke(this, new EventArgs());
-    }
+        var localSettingsService = App.GetService<ILocalSettingsService>();
 
-    public void ToPlayEmojisByNameId(string nameId)
-    {
-        PlayEmojisByNameId?.Invoke(this, nameId);
-    }
+        var botSetting = await localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
 
-    public void ModelActionInvoke(ModelActionFrame frame)
-    {
-        frame.Actions = new OnlyAction(_angleList);
-        ModelActionFrame?.Invoke(this, frame);
-    }
+        var isHelloEnabled = botSetting == null || botSetting.IsHelloEnabled;
 
-    public void LoadAppList()
-    {
-        AppPackages.Clear();
-        AppPackages = PackageManager.FindPackagesForUser(string.Empty)
-           .Where(p => p.IsFramework == false && !string.IsNullOrEmpty(p.DisplayName)).ToList();
+        if (isHelloEnabled && EbConnected)
+        {
+            switch (e.Reason)
+            {
+                case SessionSwitchReason.SessionUnlock:
+                    ToPlayEmojisByNameId("hello");
+                    break;
+                case SessionSwitchReason.SessionLock:
+                    ToPlayEmojisByNameId("goodbye");
+                    break;
+            }
+        }
+
+        var haSetting = await localSettingsService.ReadSettingAsync<HaSetting>(Constants.HaSettingKey);
+
+        if (haSetting != null && haSetting.IsSessionSwitchEnabled)
+        {
+            await SessionHaSwitchAsync(e.Reason);
+        }
     }
 }

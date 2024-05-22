@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using ElectronBot.DotNet;
+using Microsoft.Extensions.Logging;
 using Verdure.ElectronBot.Braincase.Maui.Models;
 
 namespace Verdure.ElectronBot.Braincase.Maui.ViewModels;
 
 public class HomeViewModel : INotifyPropertyChanged
 {
+    private readonly ILogger<ElectronLowLevel> _logger;
     public List<Forecast> Week { get; set; }
 
     public List<Forecast> Hours { get; set; }
@@ -37,9 +40,18 @@ public class HomeViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-
     public HomeViewModel()
     {
+        InitData();
+
+        ToggleModeCommand = new Command(() => {
+            App.Current.UserAppTheme = App.Current.UserAppTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
+        });
+    }
+    
+    public HomeViewModel(ILogger<ElectronLowLevel> logger)
+    {
+        _logger = logger;
         InitData();
 
         ToggleModeCommand = new Command(() => {
@@ -49,6 +61,9 @@ public class HomeViewModel : INotifyPropertyChanged
 
     private void InitData()
     {
+        var electronBot = new ElectronLowLevel(_logger);
+        
+        var electronBotData = electronBot.Connect(0);
         Week = new List<Forecast>
             {
                 new Forecast

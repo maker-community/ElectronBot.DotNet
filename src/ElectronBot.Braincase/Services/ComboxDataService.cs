@@ -36,6 +36,7 @@ public class ComboxDataService
             {
 
                 new ComboxItemModel { DataKey = "Turing", DataValue = "TuringTitle".GetLocalized() },
+                new ComboxItemModel { DataKey = "SparkDesk", DataValue = "SparkDeskTitle".GetLocalized() },
                 new ComboxItemModel { DataKey = "ChatGPT", DataValue ="ChatGPTTitle".GetLocalized() },
                 new ComboxItemModel { DataKey = "ChatGPT-Custom", DataValue ="ChatGPTCustomTitle".GetLocalized() }
             };
@@ -49,7 +50,8 @@ public class ComboxDataService
                 new ComboxItemModel { DataKey = "gpt-3.5-turbo-0301", DataValue = "gpt-3.5-turbo-0301" },
                 new ComboxItemModel { DataKey = "gpt-4", DataValue ="gpt-4" },
                 new ComboxItemModel { DataKey = "gpt-4-0314", DataValue ="gpt-4-0314" },
-                new ComboxItemModel { DataKey = "gpt-4-0613", DataValue ="gpt-4-0613" }
+                new ComboxItemModel { DataKey = "gpt-4-0613", DataValue ="gpt-4-0613" },
+                new ComboxItemModel { DataKey = "gpt-4-turbo-preview", DataValue ="gpt-4-turbo-preview" }
             };
     }
 }

@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.ML" Version="3.0.0" />
-    <PackageReference Include="Microsoft.ML.LightGbm" Version="3.0.0" />
+    <PackageReference Include="Microsoft.ML" Version="3.0.1" />
+    <PackageReference Include="Microsoft.ML.LightGbm" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup Label="MLModel1">
     <None Include="MLModel1.consumption.cs">

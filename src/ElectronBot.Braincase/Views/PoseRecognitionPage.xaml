@@ -45,17 +45,33 @@
         </Grid>
 
         <StackPanel Grid.Column="0" Margin="8">
-            <Border
-                Width="100"
-                Height="100"
-                Margin="4"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="{ThemeResource SystemAccentColor}"
-                BorderThickness="4"
-                CornerRadius="8">
-                <Image x:Name="FaceBox" Source="{x:Bind ViewModel.FaceBoxSource, Mode=OneWay}" />
-            </Border>
+
+            <StackPanel Orientation="Horizontal">
+                <Border
+                    Width="100"
+                    Height="100"
+                    Margin="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    BorderBrush="{ThemeResource SystemAccentColor}"
+                    BorderThickness="4"
+                    CornerRadius="8">
+                    <Image x:Name="FaceBox" Source="{x:Bind ViewModel.FaceBoxSource, Mode=OneWay}" />
+                </Border>
+                <StackPanel Margin="8">
+                    <TextBlock
+                        x:Name="Face"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="24"
+                        Text="{x:Bind ViewModel.FaceText, Mode=OneWay}" />
+                    <FontIcon
+                        FontFamily="Segoe UI Emoji"
+                        FontSize="120"
+                        Glyph="{x:Bind ViewModel.FaceIcon, Mode=OneWay}" />
+                </StackPanel>
+            </StackPanel>
+
             <Border
                 Width="360"
                 Height="240"

@@ -32,5 +32,10 @@ namespace Hw75Views
 
             ViewModel = App.GetService<Hw75CustomViewModel>();
         }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OnUnLoaded();
+        }
     }
 }

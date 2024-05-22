@@ -837,4 +837,46 @@
   <data name="ChatGPTVersion.Text" xml:space="preserve">
     <value>ChatGPT-Model:</value>
   </data>
+  <data name="BotSettingDesc.Text" xml:space="preserve">
+    <value>包含表盘设备和语音配置等</value>
+  </data>
+  <data name="BotSettingTitle.Text" xml:space="preserve">
+    <value>BotSetting</value>
+  </data>
+  <data name="GoodbyeName" xml:space="preserve">
+    <value>主人再见呀</value>
+  </data>
+  <data name="HelloName" xml:space="preserve">
+    <value>主人你好呀</value>
+  </data>
+  <data name="IsHelloEnabled.Text" xml:space="preserve">
+    <value>是否开启解锁屏互动：</value>
+  </data>
+  <data name="Shell_Vision.Content" xml:space="preserve">
+    <value>视觉分析</value>
+  </data>
+  <data name="HomeAssistantTitle.Text" xml:space="preserve">
+    <value>Home Assistant智能家居配置</value>
+  </data>
+  <data name="HomeAssistantTitle_Desc.Text" xml:space="preserve">
+    <value>Home Assistant智能家居服务和设备的启动配置</value>
+  </data>
+  <data name="SwitchCB.Header" xml:space="preserve">
+    <value>默认的开关设备</value>
+  </data>
+  <data name="IsSessionSwitchEnabled.Text" xml:space="preserve">
+    <value>是否开启解锁屏开关场景：</value>
+  </data>
+  <data name="IsHw75TestModeEnabled.Text" xml:space="preserve">
+    <value>是否开启瀚文旋钮测试：</value>
+  </data>
+  <data name="SparkDeskTitle" xml:space="preserve">
+    <value>讯飞星火</value>
+  </data>
+  <data name="NotificationAreaIconExitText" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="NotificationAreaIconMenuItemText" xml:space="preserve">
+    <value>DisplayOrHide</value>
+  </data>
 </root>

@@ -154,6 +154,14 @@ public partial class App : Application
             services.AddTransient<PoseRecognitionPage>();
             services.AddTransient<PoseRecognitionViewModel>();
 
+
+            services.AddTransient<VisionPage>();
+            services.AddTransient<VisionViewModel>();
+
+
+            services.AddTransient<ElectronBot3D>();
+            services.AddTransient<ElectronBot3DViewModel>();
+
             services.AddTransient<MoviePage>();
             services.AddTransient<MovieViewModel>();
 
@@ -237,6 +245,8 @@ public partial class App : Application
             services.AddTransient<IChatbotClient, ChatGPTChatbotClient>();
 
             services.AddTransient<IChatbotClient, TuringChatbotClient>();
+
+            services.AddTransient<IChatbotClient, SparkDeskChatbotClient>();
 
             services.AddTransient<IChatbotClientFactory, ChatbotClientFactory>();
 

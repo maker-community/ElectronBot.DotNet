@@ -18,6 +18,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <StackPanel>
@@ -47,6 +48,21 @@
                 </i:Interaction.Behaviors>
             </ComboBox>
         </StackPanel>
+        <!--<StackPanel Grid.Column="1">
+            <StackPanel
+                Margin="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <TextBlock
+                    x:Uid="IsHw75TestModeEnabled"
+                    Width="160"
+                    VerticalAlignment="Center" />
+                <ToggleSwitch Margin="4" Toggled="{x:Bind ViewModel.ToggleSwitch_Toggled}" />
+            </StackPanel>
+
+        </StackPanel>-->
+
 
         <StackPanel Grid.Column="1">
             <TextBlock
