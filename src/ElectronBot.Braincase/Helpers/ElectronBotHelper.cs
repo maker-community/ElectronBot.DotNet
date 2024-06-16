@@ -161,7 +161,7 @@ public class ElectronBotHelper
 
     //DeviceWatcher _hidDeviceWatcher;
 
-    //DeviceWatcher _usbDeviceWatcher;
+    DeviceWatcher _usbDeviceWatcher;
 
     public async Task InitAsync()
     {
@@ -191,14 +191,14 @@ public class ElectronBotHelper
 
         // Create the device watcher
         // Replace VID and PID with your device's Vendor ID and Product ID
-        //var aqs = UsbDevice.GetDeviceSelector(0x1001, 0x8023,new Guid("{00000000-0000-0000-0000-000000000000}"));
-        //_usbDeviceWatcher = DeviceInformation.CreateWatcher(aqs);
+        var aqs = UsbDevice.GetDeviceSelector(0x1001, 0x8023);
+        _usbDeviceWatcher = DeviceInformation.CreateWatcher(aqs);
 
         //// Register the device added event
-        //_usbDeviceWatcher.Added += OnUsbDeviceAdded;
+        _usbDeviceWatcher.Added += OnUsbDeviceAdded;
 
         //// Start the watcher
-        //_usbDeviceWatcher.Start();
+        _usbDeviceWatcher.Start();
 
 
         // Create the HID device watcher
@@ -213,14 +213,14 @@ public class ElectronBotHelper
 
     }
 
-    //private async void OnUsbDeviceAdded(DeviceWatcher sender, DeviceInformation args)
-    //{
+    private  void OnUsbDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+    {
 
-    //}
+    }
 
     //private async void OnHidDeviceAdded(DeviceWatcher sender, DeviceInformation args)
     //{
- 
+
     //}
 
     private async void ElectronBotHelper_PlayEmojisByNameId(object? sender, string e)

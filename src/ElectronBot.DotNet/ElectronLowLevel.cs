@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using LibUsbDotNet;
+using LibUsbDotNet.LibUsb;
 using LibUsbDotNet.Main;
 using Microsoft.Extensions.Logging;
 
@@ -33,7 +34,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
     private readonly byte[] _usbBuffer200 = new byte[224];
 
-    private UsbDevice? _usbDevice;
+    private IUsbDevice? _usbDevice;
 
     // open read endpoint 1.
     private UsbEndpointReader? _reader;
@@ -44,6 +45,13 @@ public class ElectronLowLevel : IElectronLowLevel
     private IUsbDevice? _wholeUsbDevice;
 
     private readonly ILogger<ElectronLowLevel> _logger;
+
+
+    public static UsbDeviceFinder MyUsbFinder = new()
+    {
+        Vid = 0x1001,
+        Pid = 0x8023
+    };
 
     public ElectronLowLevel(ILogger<ElectronLowLevel> logger)
     {
@@ -61,9 +69,20 @@ public class ElectronLowLevel : IElectronLowLevel
     {
         if (_usbDevice == null)
         {
-            var usbFinder = new UsbDeviceFinder(Vid, Pid);
+           using var context = new UsbContext();
 
-            _usbDevice = UsbDevice.OpenUsbDevice(usbFinder);
+
+            _usbDevice = context.Find(MyUsbFinder);
+
+            //Narrow down the device by vendor and pid
+            //var selectedDevice = usbDeviceCollection.FirstOrDefault(d => d.ProductId == ProductId && d.VendorId == VendorId);
+
+            //Open the device
+            _usbDevice.Open();
+
+            ///var usbFinder = new UsbDeviceFinder(Vid, Pid);
+
+            //_usbDevice = UsbDevice.OpenUsbDevice(usbFinder);
 
             if (_usbDevice != null)
             {
@@ -71,9 +90,9 @@ public class ElectronLowLevel : IElectronLowLevel
 
                 if (_usbDevice.Info != null)
                 {
-                    _logger.LogInformation(_usbDevice.Info.SerialString);
-                    _logger.LogInformation(_usbDevice.Info.ProductString);
-                    _logger.LogInformation(_usbDevice.Info.ManufacturerString);
+                    //_logger.LogInformation(_usbDevice.Info.SerialString);
+                    //_logger.LogInformation(_usbDevice.Info.ProductString);
+                    //_logger.LogInformation(_usbDevice.Info.ManufacturerString);
                 }
                 else
                 {
@@ -88,14 +107,14 @@ public class ElectronLowLevel : IElectronLowLevel
                 {
 
 
-                    if (_wholeUsbDevice.DriverMode == UsbDevice.DriverModeType.MonoLibUsb)
-                    {
-                        _logger.LogInformation("MonoLibUsb DetachKernelDriver");
+                    //if (_wholeUsbDevice.DriverMode == UsbDevice.DriverModeType.MonoLibUsb)
+                    //{
+                    //    _logger.LogInformation("MonoLibUsb DetachKernelDriver");
 
-                        var retDetach = _wholeUsbDevice.SetAutoDetachKernelDriver(true);
+                    //    var retDetach = _wholeUsbDevice.SetAutoDetachKernelDriver(true);
 
-                        _logger.LogInformation(retDetach.ToString());
-                    }
+                    //    _logger.LogInformation(retDetach.ToString());
+                    //}
 
                     // This is a "whole" USB device. Before it can be used, 
                     // the desired configuration and interface must be selected.
@@ -105,7 +124,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
                     _logger.LogInformation("DriverMode");
 
-                    _logger.LogInformation(_wholeUsbDevice.DriverMode.ToString());
+                    //_logger.LogInformation(_wholeUsbDevice.DriverMode.ToString());
                     // Claim interface #0.
                     var ret = _wholeUsbDevice.ClaimInterface(interfaceId);
 
@@ -145,9 +164,9 @@ public class ElectronLowLevel : IElectronLowLevel
         {
             _isConnected = false;
 
-            _writer?.Dispose();
+           // _writer?.Dispose();
 
-            _reader?.Dispose();
+            //_reader?.Dispose();
 
             if (_wholeUsbDevice is not null)
             {
@@ -155,7 +174,9 @@ public class ElectronLowLevel : IElectronLowLevel
                 _wholeUsbDevice.ReleaseInterface(1);
             }
 
-            return _usbDevice.Close();
+            _usbDevice.Close();
+
+            return true;
         }
         else
         {
@@ -174,7 +195,7 @@ public class ElectronLowLevel : IElectronLowLevel
         {
             if (_wholeUsbDevice is not null)
             {
-                ret = _wholeUsbDevice.ResetDevice();
+                //ret = _wholeUsbDevice.ResetDevice();
             }
         }
         return ret;
@@ -295,7 +316,7 @@ public class ElectronLowLevel : IElectronLowLevel
         {
             do
             {
-                ErrorCode ec;
+                Error ec;
                 do
                 {
                     var readBuffer = new byte[packetSize];
@@ -304,7 +325,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
                     _extraDataBufferRx = readBuffer;
 
-                } while (ec != ErrorCode.Success);
+                } while (ec != Error.Success);
 
                 pCount--;
 
@@ -317,7 +338,7 @@ public class ElectronLowLevel : IElectronLowLevel
         }
         catch (Exception)
         {
-            _reader?.Dispose();
+            //_reader?.Dispose();
             // todo:异常处理
         }
 
@@ -337,7 +358,7 @@ public class ElectronLowLevel : IElectronLowLevel
         {
             do
             {
-                ErrorCode ec;
+                Error ec;
                 do
                 {
                     ec = _writer!.Write(buffer, frameBufferOffset + dataOffset, packetSize, 2000, out _);
@@ -347,7 +368,7 @@ public class ElectronLowLevel : IElectronLowLevel
                         ec = _writer.Write(buffer, frameBufferOffset + dataOffset, 0, 2000, out _);
                     }
 
-                } while (ec != ErrorCode.None);
+                } while (ec != Error.Success);
 
                 dataOffset += packetSize;
 
@@ -361,7 +382,7 @@ public class ElectronLowLevel : IElectronLowLevel
         }
         catch (Exception)
         {
-            _writer?.Dispose();
+            //_writer?.Dispose();
             // todo:异常处理
         }
 
