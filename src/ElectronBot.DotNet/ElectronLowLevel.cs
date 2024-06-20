@@ -11,9 +11,9 @@ namespace ElectronBot.DotNet;
 /// </summary>
 public class ElectronLowLevel : IElectronLowLevel
 {
-    private const int Vid = 0x1001;
+    private const int Vid = 0x5241;
 
-    private const int Pid = 0x8023;
+    private const int Pid = 0x5241;
 
     private bool _isConnected = false;
 
@@ -47,10 +47,10 @@ public class ElectronLowLevel : IElectronLowLevel
     private readonly ILogger<ElectronLowLevel> _logger;
 
 
-    public static UsbDeviceFinder MyUsbFinder = new()
+    public static UsbDeviceFinder MyUsbFinder = new()//(0x1001, 0x8023);
     {
-        Vid = 0x1001,
-        Pid = 0x8023
+        Vid = 0x5241,
+        Pid = 0x5241
     };
 
     public ElectronLowLevel(ILogger<ElectronLowLevel> logger)
@@ -69,8 +69,13 @@ public class ElectronLowLevel : IElectronLowLevel
     {
         if (_usbDevice == null)
         {
-           using var context = new UsbContext();
 
+            var context = new UsbContext();
+
+            context.SetDebugLevel(LibUsbDotNet.LogLevel.Info);
+
+            //Get a list of all connected devices
+            //using var usbDeviceCollection = context.List();
 
             _usbDevice = context.Find(MyUsbFinder);
 
@@ -80,79 +85,21 @@ public class ElectronLowLevel : IElectronLowLevel
             //Open the device
             _usbDevice.Open();
 
-            ///var usbFinder = new UsbDeviceFinder(Vid, Pid);
+            //Get the first config number of the interface
+            _usbDevice.ClaimInterface(_usbDevice.Configs[0].Interfaces[0].Number);
 
-            //_usbDevice = UsbDevice.OpenUsbDevice(usbFinder);
+            _reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
 
-            if (_usbDevice != null)
-            {
-                _logger.LogInformation("usb device");
+            _writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 
-                if (_usbDevice.Info != null)
-                {
-                    //_logger.LogInformation(_usbDevice.Info.SerialString);
-                    //_logger.LogInformation(_usbDevice.Info.ProductString);
-                    //_logger.LogInformation(_usbDevice.Info.ManufacturerString);
-                }
-                else
-                {
-                    _logger.LogInformation("usb device info is null");
-                }
+            _isConnected = _usbDevice.IsOpen;
 
-                _wholeUsbDevice = _usbDevice as IUsbDevice;
-
-                _logger.LogInformation("whole usb device");
-
-                if (_wholeUsbDevice is not null)
-                {
-
-
-                    //if (_wholeUsbDevice.DriverMode == UsbDevice.DriverModeType.MonoLibUsb)
-                    //{
-                    //    _logger.LogInformation("MonoLibUsb DetachKernelDriver");
-
-                    //    var retDetach = _wholeUsbDevice.SetAutoDetachKernelDriver(true);
-
-                    //    _logger.LogInformation(retDetach.ToString());
-                    //}
-
-                    // This is a "whole" USB device. Before it can be used, 
-                    // the desired configuration and interface must be selected.
-
-                    // Select config #1
-                    _wholeUsbDevice.SetConfiguration(1);
-
-                    _logger.LogInformation("DriverMode");
-
-                    //_logger.LogInformation(_wholeUsbDevice.DriverMode.ToString());
-                    // Claim interface #0.
-                    var ret = _wholeUsbDevice.ClaimInterface(interfaceId);
-
-                    _logger.LogInformation("ClaimInterface status");
-
-                    _logger.LogInformation(ret.ToString());
-                }
-
-
-                _reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
-
-                _writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
-
-                _isConnected = _usbDevice.IsOpen;
-
-                return _usbDevice.IsOpen;
-            }
-            else
-            {
-                _logger.LogInformation("usb device is null");
-                return false;
-            }
+            return _usbDevice.IsOpen;
         }
         else
         {
             return _isConnected;
         }
-
     }
     /// <summary>
     /// 断开电子
@@ -164,7 +111,7 @@ public class ElectronLowLevel : IElectronLowLevel
         {
             _isConnected = false;
 
-           // _writer?.Dispose();
+            // _writer?.Dispose();
 
             //_reader?.Dispose();
 
