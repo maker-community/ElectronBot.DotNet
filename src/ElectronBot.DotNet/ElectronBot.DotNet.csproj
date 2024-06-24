@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LibUsbDotNet\LibUsbDotNet.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="libusb-1.0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

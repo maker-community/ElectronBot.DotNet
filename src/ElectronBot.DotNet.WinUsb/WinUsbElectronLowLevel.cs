@@ -1,15 +1,17 @@
-﻿using System.Diagnostics;
-using LibUsbDotNet;
-using LibUsbDotNet.LibUsb;
-using LibUsbDotNet.Main;
+﻿extern alias ElectronBotWinUsb;
+
+using System.Diagnostics;
+using ElectronBotWinUsb::LibUsbDotNet;
+using ElectronBotWinUsb::LibUsbDotNet.LibUsb;
+using ElectronBotWinUsb::LibUsbDotNet.Main;
 using Microsoft.Extensions.Logging;
 
-namespace ElectronBot.DotNet;
+namespace ElectronBot.DotNet.WinUsb;
 
 /// <summary>
 /// 电子SDK接口
 /// </summary>
-public class ElectronLowLevel : IElectronLowLevel
+public class WinUsbElectronLowLevel : IElectronLowLevel
 {
     private const int Vid = 0x5241;
 
@@ -44,7 +46,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
     private IUsbDevice? _wholeUsbDevice;
 
-    private readonly ILogger<ElectronLowLevel> _logger;
+    private readonly ILogger<WinUsbElectronLowLevel> _logger;
 
 
     public static UsbDeviceFinder MyUsbFinder = new()//(0x1001, 0x8023);
@@ -53,7 +55,7 @@ public class ElectronLowLevel : IElectronLowLevel
         Pid = 0x5241
     };
 
-    public ElectronLowLevel(ILogger<ElectronLowLevel> logger)
+    public WinUsbElectronLowLevel(ILogger<WinUsbElectronLowLevel> logger)
     {
         _logger = logger;
     }
@@ -72,7 +74,7 @@ public class ElectronLowLevel : IElectronLowLevel
 
             var context = new UsbContext();
 
-            context.SetDebugLevel(LibUsbDotNet.LogLevel.Info);
+            //context.SetDebugLevel(LibUsbDotNet.LogLevel.Info);
 
             //Get a list of all connected devices
             //using var usbDeviceCollection = context.List();

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	 <VersionPrefix>1.0.3</VersionPrefix>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LibUsbDotNet" Version="2.2.44">
+      <Aliases>ElectronBotLibUsb</Aliases>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ElectronBot.DotNet\ElectronBot.DotNet.csproj" />
+  </ItemGroup>
+
+</Project>

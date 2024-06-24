@@ -20,6 +20,7 @@ using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 using Windows.Devices.HumanInterfaceDevice;
 using Windows.Devices.Usb;
+using ElectronBot.DotNet.LibUsb;
 
 namespace ElectronBot.Braincase.Helpers;
 
@@ -504,7 +505,7 @@ public class ElectronBotHelper
 
                 Thread.Sleep(5000);
 
-                ElectronBot = new ElectronLowLevel(App.GetService<ILogger<ElectronLowLevel>>());
+                ElectronBot = new LibUsbElectronLowLevel(App.GetService<ILogger<LibUsbElectronLowLevel>>());
 
                 EbConnected = ElectronBot.Connect();
 
