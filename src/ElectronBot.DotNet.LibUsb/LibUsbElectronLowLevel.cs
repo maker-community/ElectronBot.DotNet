@@ -1,8 +1,6 @@
-﻿extern alias ElectronBotLibUsb;
-
-using System.Diagnostics;
-using ElectronBotLibUsb::LibUsbDotNet;
-using ElectronBotLibUsb::LibUsbDotNet.Main;
+﻿using System.Diagnostics;
+using LibUsbDotNet;
+using LibUsbDotNet.Main;
 using Microsoft.Extensions.Logging;
 
 namespace ElectronBot.DotNet.LibUsb;

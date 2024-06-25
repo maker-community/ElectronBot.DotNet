@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="LibUsbDotNet" Version="3.0.156-alpha-g43700ffc41">
-      <Aliases>ElectronBotWinUsb</Aliases>
+      <Aliases></Aliases>
     </PackageReference>
   </ItemGroup>
 
