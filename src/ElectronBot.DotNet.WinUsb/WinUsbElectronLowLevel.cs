@@ -73,7 +73,7 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
 
             var context = new UsbContext();
 
-            //context.SetDebugLevel(LibUsbDotNet.LogLevel.Info);
+            context.SetDebugLevel(LibUsbDotNet.LogLevel.Info);
 
             //Get a list of all connected devices
             //using var usbDeviceCollection = context.List();
