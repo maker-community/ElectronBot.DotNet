@@ -220,22 +220,22 @@
     <value>重置动作</value>
   </data>
   <data name="Sd_Bottom.Header" xml:space="preserve">
-    <value>底盘转动(J6)</value>
+    <value>底盘转动ID12(J6)</value>
   </data>
   <data name="Sd_Head.Header" xml:space="preserve">
-    <value>头部(J1)</value>
+    <value>头部ID2(J1)</value>
   </data>
   <data name="Sd_LeftArm.Header" xml:space="preserve">
-    <value>左臂旋转(J3)</value>
+    <value>左臂旋转ID6(J3)</value>
   </data>
   <data name="Sd_LeftArmExpansion.Header" xml:space="preserve">
-    <value>左臂展开(J2)</value>
+    <value>左臂展开ID4(J2)</value>
   </data>
   <data name="Sd_RightArm.Header" xml:space="preserve">
-    <value>右臂旋转(J5)</value>
+    <value>右臂旋转ID10(J5)</value>
   </data>
   <data name="Sd_RightArmExpansion.Header" xml:space="preserve">
-    <value>右臂展开(J4)</value>
+    <value>右臂展开ID8(J4)</value>
   </data>
   <data name="StopBtn.Content" xml:space="preserve">
     <value>停止动作</value>
@@ -517,7 +517,10 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.7.5 版本更新说明（2024-05-21）
+    <value>1.7.6 版本更新说明（2024-06-30）
+1. 针对精英版winusb免驱固件的兼容。
+
+1.7.5 版本更新说明（2024-05-21）
 1. 瀚文键盘旋钮对接智能家居，需要配置Home Assistant的连接密钥使用。
 2. 修复瀚文键盘页面定时BUG。
 3. 重构电子脑壳设置页面。
