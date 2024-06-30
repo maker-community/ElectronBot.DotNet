@@ -43,7 +43,9 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
     // open write endpoint 1.
     private UsbEndpointWriter? _writer;
 
-    private IUsbDevice? _wholeUsbDevice;
+    private readonly IUsbDevice? _wholeUsbDevice;
+
+    private readonly UsbContext _context = new ();
 
     private readonly ILogger<WinUsbElectronLowLevel> _logger;
 
@@ -70,15 +72,12 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
     {
         if (_usbDevice == null)
         {
-
-            var context = new UsbContext();
-
-            context.SetDebugLevel(LibUsbDotNet.LogLevel.Info);
+            _context.SetDebugLevel(LibUsbDotNet.LogLevel.Info);
 
             //Get a list of all connected devices
             //using var usbDeviceCollection = context.List();
 
-            _usbDevice = context.Find(MyUsbFinder);
+            _usbDevice = _context.Find(MyUsbFinder);
 
             //Narrow down the device by vendor and pid
             //var selectedDevice = usbDeviceCollection.FirstOrDefault(d => d.ProductId == ProductId && d.VendorId == VendorId);
@@ -112,10 +111,6 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         {
             _isConnected = false;
 
-            // _writer?.Dispose();
-
-            //_reader?.Dispose();
-
             if (_wholeUsbDevice is not null)
             {
                 // Release interface #0.
@@ -123,6 +118,8 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
             }
 
             _usbDevice.Close();
+
+            _context.Dispose();
 
             return true;
         }
@@ -330,7 +327,6 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         }
         catch (Exception)
         {
-            //_writer?.Dispose();
             // todo:异常处理
         }
 
