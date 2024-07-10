@@ -5,6 +5,8 @@ using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using ElectronBot.DotNet;
+using ElectronBot.DotNet.LibUsb;
+using ElectronBot.DotNet.WinUsb;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Models;
@@ -14,14 +16,11 @@ using Verdure.IoT.Net;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
+using Windows.Devices.Usb;
 using Windows.Foundation;
 using Windows.Management.Deployment;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
-using Windows.Devices.HumanInterfaceDevice;
-using Windows.Devices.Usb;
-using ElectronBot.DotNet.LibUsb;
-using ElectronBot.DotNet.WinUsb;
 
 namespace ElectronBot.Braincase.Helpers;
 
@@ -99,6 +98,12 @@ public class ElectronBotHelper
         get;
         set;
     }
+
+    public bool IsLibUsbFW
+    {
+        get;
+        set;
+    } = true;
 
     private static ElectronBotHelper? _instance;
     public static ElectronBotHelper Instance => _instance ??= new ElectronBotHelper();
@@ -241,7 +246,6 @@ public class ElectronBotHelper
             {
                 SerialPort.Close();
             }
-
         }
         catch (Exception)
         {
@@ -263,6 +267,8 @@ public class ElectronBotHelper
 
                 ElectronBot = null;
             }
+
+            IsLibUsbFW = false;
 
             Thread.Sleep(5000);
 
@@ -489,26 +495,31 @@ public class ElectronBotHelper
     {
         try
         {
-            //InvokeClockCanvasStop();
-
-            var service = App.GetService<EmoticonActionFrameService>();
-
-            service.ClearQueue();
-
-            Thread.Sleep(1000);
-
-            IntelligenceService.Current.CleanUp();
-
-            await CameraService.Current.CleanupMediaCaptureAsync();
-
-            await CameraFrameService.Current.CleanupMediaCaptureAsync();
-
-            ElectronBot?.Disconnect();
-
-            if (SerialPort.IsOpen)
+            if (IsLibUsbFW)
             {
-                SerialPort.Close();
+                //InvokeClockCanvasStop();
+
+                var service = App.GetService<EmoticonActionFrameService>();
+
+                service.ClearQueue();
+
+                Thread.Sleep(1000);
+
+                IntelligenceService.Current.CleanUp();
+
+                await CameraService.Current.CleanupMediaCaptureAsync();
+
+                await CameraFrameService.Current.CleanupMediaCaptureAsync();
+
+                ElectronBot?.Disconnect();
+
+                if (SerialPort.IsOpen)
+                {
+                    SerialPort.Close();
+                }
+
             }
+            IsLibUsbFW = true;
 
         }
         catch (Exception)
@@ -563,22 +574,25 @@ public class ElectronBotHelper
 
             try
             {
-                if (ElectronBot is not null)
+                if (IsLibUsbFW)
                 {
-                    ElectronBot.Disconnect();
+                    if (ElectronBot is not null)
+                    {
+                        ElectronBot.Disconnect();
 
-                    ElectronBot = null;
+                        ElectronBot = null;
+                    }
+
+                    Thread.Sleep(5000);
+
+                    ElectronBot = new LibUsbElectronLowLevel(App.GetService<ILogger<LibUsbElectronLowLevel>>());
+
+                    EbConnected = ElectronBot.Connect();
+
+                    //InvokeClockCanvasStart();
+
+                    await ConnectDeviceAsync();
                 }
-
-                Thread.Sleep(5000);
-
-                ElectronBot = new LibUsbElectronLowLevel(App.GetService<ILogger<LibUsbElectronLowLevel>>());
-
-                EbConnected = ElectronBot.Connect();
-
-                //InvokeClockCanvasStart();
-
-                await ConnectDeviceAsync();
             }
             catch (Exception ex)
             {

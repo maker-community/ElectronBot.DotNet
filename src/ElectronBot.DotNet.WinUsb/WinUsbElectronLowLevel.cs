@@ -117,8 +117,8 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
                 _wholeUsbDevice.ReleaseInterface(1);
             }
 
-            _usbDevice.Close();
-
+            //_usbDevice.Close();
+            _usbDevice.Dispose();
             _context.Dispose();
 
             return true;
@@ -281,9 +281,9 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
             Console.WriteLine($"time- ReceivePacket time{stopwatch.ElapsedMilliseconds}");
 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //_reader?.Dispose();
+            _reader?.Device.Dispose();
             // todo:异常处理
         }
 
@@ -325,8 +325,9 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
 
             Console.WriteLine($"time- TransmitPacket time{stopwatch.ElapsedMilliseconds}");
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _writer?.Device.Dispose();
             // todo:异常处理
         }
 
