@@ -13,7 +13,7 @@
   <Identity
     Name="37619DC86D31F.44602C779CD56"
     Publisher="CN=829B8DD1-2BF4-465F-8663-BB54D1109ED6"
-    Version="1.7.6.0" />
+    Version="1.7.7.0" />
 
   <Properties>
     <DisplayName>电子脑壳</DisplayName>
