@@ -517,7 +517,11 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.7.6 版本更新说明（2024-06-30）
+    <value>1.7.7 版本更新说明（2024-07-11）
+1. 修复精英版winusb免驱固件电子脑壳闪退问题。
+2. 修复1.7.6发版导致瀚文键盘天气故障bug。
+
+1.7.6 版本更新说明（2024-06-30）
 1. 针对精英版winusb免驱固件的兼容。
 
 1.7.5 版本更新说明（2024-05-21）
