@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <VersionPrefix>1.0.3</VersionPrefix>
+	  <VersionPrefix>1.0.6</VersionPrefix>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>绿荫阿广</Authors>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
