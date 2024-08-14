@@ -1,5 +1,6 @@
 ﻿using Contracts.Services;
 using Controls;
+using Controls.CompactOverlay;
 using ElectronBot.Braincase.Activation;
 using ElectronBot.Braincase.ClockViews;
 using ElectronBot.Braincase.Contracts.Services;
@@ -11,6 +12,11 @@ using ElectronBot.Braincase.Services;
 using ElectronBot.Braincase.ViewModels;
 using ElectronBot.Braincase.Views;
 using ElectronBot.DotNet;
+using ElectronBot.DotNet.LibUsb;
+using ElectronBot.DotNet.WinUsb;
+using HelixToolkit.SharpDX.Core;
+using HidApi;
+using Hw75Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Graphics.Canvas;
@@ -22,16 +28,9 @@ using Services;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
 using Verdure.ElectronBot.GrpcService;
-using Views;
-using Windows.ApplicationModel.Background;
-using Windows.Media.Playback;
-using Windows.UI.Popups;
-using Controls.CompactOverlay;
-using HelixToolkit.SharpDX.Core;
 using ViewModels;
-using HelloWordKeyboard.DotNet;
-using HidApi;
-using Hw75Views;
+using Views;
+using Windows.Media.Playback;
 
 namespace ElectronBot.Braincase;
 
@@ -114,7 +113,9 @@ public partial class App : Application
 
             services.AddTransient<IEmojiseShopService, EmojiseShopService>();
 
-            services.AddTransient<IElectronLowLevel, ElectronLowLevel>();
+            services.AddTransient<IElectronLowLevel, WinUsbElectronLowLevel>();
+
+            services.AddTransient<IElectronLowLevel, LibUsbElectronLowLevel>();
 
             services.AddTransient<MediaPlayer>();
 
@@ -359,7 +360,7 @@ public partial class App : Application
             MainWindow.Close();
             Hid.Exit();
         }
-        else if(result == ContentDialogResult.Secondary)
+        else if (result == ContentDialogResult.Secondary)
         {
             MainWindow.Hide();
         }
