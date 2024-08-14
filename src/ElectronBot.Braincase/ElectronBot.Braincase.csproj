@@ -280,6 +280,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ElectronBot.Braincase.Core\Verdure.ElectronBot.Core.csproj" />
     <ProjectReference Include="..\ElectronBot.Copilot\ElectronBot.Copilot.csproj" />
+    <ProjectReference Include="..\ElectronBot.DotNet.LibUsb\ElectronBot.DotNet.LibUsb.csproj" />
+    <ProjectReference Include="..\ElectronBot.DotNet.WinUsb\ElectronBot.DotNet.WinUsb.csproj" />
     <ProjectReference Include="..\GestureClassification\GestureClassification.csproj" />
     <ProjectReference Include="..\HelloWordKeyboard.DotNet\HelloWordKeyboard.DotNet.csproj" />
     <ProjectReference Include="..\Mediapipe.Net\Mediapipe.Net.csproj" />
