@@ -3,12 +3,12 @@ using LibUsbDotNet;
 using LibUsbDotNet.Main;
 using Microsoft.Extensions.Logging;
 
-namespace ElectronBot.DotNet;
+namespace ElectronBot.DotNet.LibUsb;
 
 /// <summary>
 /// 电子SDK接口
 /// </summary>
-public class ElectronLowLevel : IElectronLowLevel
+public class LibUsbElectronLowLevel : IElectronLowLevel
 {
     private const int Vid = 0x1001;
 
@@ -43,9 +43,9 @@ public class ElectronLowLevel : IElectronLowLevel
 
     private IUsbDevice? _wholeUsbDevice;
 
-    private readonly ILogger<ElectronLowLevel> _logger;
+    private readonly ILogger<LibUsbElectronLowLevel> _logger;
 
-    public ElectronLowLevel(ILogger<ElectronLowLevel> logger)
+    public LibUsbElectronLowLevel(ILogger<LibUsbElectronLowLevel> logger)
     {
         _logger = logger;
     }

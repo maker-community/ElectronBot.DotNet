@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<VersionPrefix>1.0.6</VersionPrefix>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<RepositoryUrl>https://github.com/maker-community/ElectronBot.DotNet</RepositoryUrl>
+	<Description>这是一个C#实现的稚晖君的电子(ElectronBot)SDK，封装了一些简单的数据操作,主要为C#开发上位机提供了Usb数据读写的功能。</Description>
+	<Authors>绿荫阿广</Authors>
+	<PackageIcon>package-icon.png</PackageIcon>
+	<Title>ElectronBot LibUsb SDK</Title>
+	<PackageProjectUrl>https://github.com/maker-community/ElectronBot.DotNet</PackageProjectUrl>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\..\Pictures\package-icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Verdure.LibUsbDotNet" Version="2.3.0-gadab08d270" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ElectronBot.DotNet\ElectronBot.DotNet.csproj" />
+  </ItemGroup>
+
+</Project>

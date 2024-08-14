@@ -5,6 +5,8 @@ using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using ElectronBot.DotNet;
+using ElectronBot.DotNet.LibUsb;
+using ElectronBot.DotNet.WinUsb;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Models;
@@ -14,12 +16,11 @@ using Verdure.IoT.Net;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
+using Windows.Devices.Usb;
 using Windows.Foundation;
 using Windows.Management.Deployment;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
-using Windows.Devices.HumanInterfaceDevice;
-using Windows.Devices.Usb;
 
 namespace ElectronBot.Braincase.Helpers;
 
@@ -98,6 +99,12 @@ public class ElectronBotHelper
         set;
     }
 
+    public bool IsLibUsbFW
+    {
+        get;
+        set;
+    } = true;
+
     private static ElectronBotHelper? _instance;
     public static ElectronBotHelper Instance => _instance ??= new ElectronBotHelper();
 
@@ -161,7 +168,7 @@ public class ElectronBotHelper
 
     //DeviceWatcher _hidDeviceWatcher;
 
-    //DeviceWatcher _usbDeviceWatcher;
+    DeviceWatcher _usbDeviceWatcher;
 
     public async Task InitAsync()
     {
@@ -191,14 +198,16 @@ public class ElectronBotHelper
 
         // Create the device watcher
         // Replace VID and PID with your device's Vendor ID and Product ID
-        //var aqs = UsbDevice.GetDeviceSelector(0x1001, 0x8023,new Guid("{00000000-0000-0000-0000-000000000000}"));
-        //_usbDeviceWatcher = DeviceInformation.CreateWatcher(aqs);
+        var aqs = UsbDevice.GetDeviceSelector(0x5241, 0x5241);
+        _usbDeviceWatcher = DeviceInformation.CreateWatcher(aqs);
 
         //// Register the device added event
-        //_usbDeviceWatcher.Added += OnUsbDeviceAdded;
+        _usbDeviceWatcher.Added += OnUsbDeviceAdded;
+
+        _usbDeviceWatcher.Removed += OnUsbDeviceWatcher_Removed;
 
         //// Start the watcher
-        //_usbDeviceWatcher.Start();
+        _usbDeviceWatcher.Start();
 
 
         // Create the HID device watcher
@@ -213,14 +222,79 @@ public class ElectronBotHelper
 
     }
 
-    //private async void OnUsbDeviceAdded(DeviceWatcher sender, DeviceInformation args)
-    //{
+    private async void OnUsbDeviceWatcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
+    {
+        try
+        {
+            //InvokeClockCanvasStop();
 
-    //}
+            var service = App.GetService<EmoticonActionFrameService>();
+
+            service.ClearQueue();
+
+            Thread.Sleep(1000);
+
+            IntelligenceService.Current.CleanUp();
+
+            await CameraService.Current.CleanupMediaCaptureAsync();
+
+            await CameraFrameService.Current.CleanupMediaCaptureAsync();
+
+            ElectronBot?.Disconnect();
+
+            if (SerialPort.IsOpen)
+            {
+                SerialPort.Close();
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+
+        EbConnected = false;
+
+        await DisconnectDeviceAsync();
+    }
+
+    private async void OnUsbDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+    {
+        try
+        {
+            if (ElectronBot is not null)
+            {
+                ElectronBot.Disconnect();
+
+                ElectronBot = null;
+            }
+
+            IsLibUsbFW = false;
+
+            Thread.Sleep(5000);
+
+            ElectronBot = new WinUsbElectronLowLevel(App.GetService<ILogger<WinUsbElectronLowLevel>>());
+
+            EbConnected = ElectronBot.Connect();
+
+            //InvokeClockCanvasStart();
+
+            await ConnectDeviceAsync();
+        }
+        catch (Exception ex)
+        {
+            _context?.Post(async _ =>
+            {
+                ToastHelper.SendToast($"{ex.Message}", TimeSpan.FromSeconds(3));
+                await Task.Delay(500);
+            }, null);
+
+            return;
+        }
+    }
 
     //private async void OnHidDeviceAdded(DeviceWatcher sender, DeviceInformation args)
     //{
- 
+
     //}
 
     private async void ElectronBotHelper_PlayEmojisByNameId(object? sender, string e)
@@ -421,26 +495,31 @@ public class ElectronBotHelper
     {
         try
         {
-            //InvokeClockCanvasStop();
-
-            var service = App.GetService<EmoticonActionFrameService>();
-
-            service.ClearQueue();
-
-            Thread.Sleep(1000);
-
-            IntelligenceService.Current.CleanUp();
-
-            await CameraService.Current.CleanupMediaCaptureAsync();
-
-            await CameraFrameService.Current.CleanupMediaCaptureAsync();
-
-            ElectronBot?.Disconnect();
-
-            if (SerialPort.IsOpen)
+            if (IsLibUsbFW)
             {
-                SerialPort.Close();
+                //InvokeClockCanvasStop();
+
+                var service = App.GetService<EmoticonActionFrameService>();
+
+                service.ClearQueue();
+
+                Thread.Sleep(1000);
+
+                IntelligenceService.Current.CleanUp();
+
+                await CameraService.Current.CleanupMediaCaptureAsync();
+
+                await CameraFrameService.Current.CleanupMediaCaptureAsync();
+
+                ElectronBot?.Disconnect();
+
+                if (SerialPort.IsOpen)
+                {
+                    SerialPort.Close();
+                }
+
             }
+            IsLibUsbFW = true;
 
         }
         catch (Exception)
@@ -495,22 +574,25 @@ public class ElectronBotHelper
 
             try
             {
-                if (ElectronBot is not null)
+                if (IsLibUsbFW)
                 {
-                    ElectronBot.Disconnect();
+                    if (ElectronBot is not null)
+                    {
+                        ElectronBot.Disconnect();
 
-                    ElectronBot = null;
+                        ElectronBot = null;
+                    }
+
+                    Thread.Sleep(5000);
+
+                    ElectronBot = new LibUsbElectronLowLevel(App.GetService<ILogger<LibUsbElectronLowLevel>>());
+
+                    EbConnected = ElectronBot.Connect();
+
+                    //InvokeClockCanvasStart();
+
+                    await ConnectDeviceAsync();
                 }
-
-                Thread.Sleep(5000);
-
-                ElectronBot = new ElectronLowLevel(App.GetService<ILogger<ElectronLowLevel>>());
-
-                EbConnected = ElectronBot.Connect();
-
-                //InvokeClockCanvasStart();
-
-                await ConnectDeviceAsync();
             }
             catch (Exception ex)
             {
