@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Package References">
-    <PackageReference Include="Google.Protobuf" Version="3.26.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.27.3" />
     <PackageReference Include="Mediapipe.Net.Framework.Protobuf" Version="0.9.1" />
   </ItemGroup>
 
