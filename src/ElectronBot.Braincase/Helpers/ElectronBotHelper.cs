@@ -170,7 +170,7 @@ public class ElectronBotHelper
 
     private DeviceWatcher? _hidDeviceWatcher;
 
-    DeviceWatcher _usbDeviceWatcher;
+    private DeviceWatcher? _usbDeviceWatcher;
 
     public async Task InitAsync()
     {
