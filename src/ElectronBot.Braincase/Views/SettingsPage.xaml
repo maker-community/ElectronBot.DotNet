@@ -851,9 +851,9 @@
                                         <Grid Grid.Column="1">
                                             <NumberBox
                                                 LargeChange="4"
-                                                Maximum="40"
+                                                Maximum="48"
                                                 Minimum="12"
-                                                SmallChange="2"
+                                                SmallChange="6"
                                                 SpinButtonPlacementMode="Inline"
                                                 Value="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontSize, Mode=TwoWay}">
                                                 <i:Interaction.Behaviors>

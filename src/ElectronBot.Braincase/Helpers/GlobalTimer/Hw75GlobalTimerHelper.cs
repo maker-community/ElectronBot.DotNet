@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using HelloWordKeyboard.DotNet;
 using Microsoft.UI.Xaml;
@@ -54,7 +55,7 @@ public class Hw75GlobalTimerHelper
                     byteArray = await GetHw75YellowCalendarImageAsync(config);
                 }
 
-                //_ = Hw75Helper.Instance.Hw75DynamicDevice?.SetEInkImage(byteArray, 0, 0, 128, 296, false);
+                _ = Hw75Helper.Instance.Hw75DynamicDevice?.SetEInkImage(byteArray, 0, 0, 128, 296, false);
             }
             catch (Exception ex)
             {
@@ -101,14 +102,17 @@ public class Hw75GlobalTimerHelper
 
             if (config.Hw75CustomContentIsVisibility)
             {
+                var textPosition = new PointF((128 - textSize.Width) / 2, 296 - textSize.Height - 8);
+                x.DrawText(config.Hw75CustomContent, font, Color.Black, textPosition);
+            }
+            if (config.Hw75TimeIsVisibility)
+            {
                 var datePosition = new PointF((128 - dateTextSize.Width) / 2, 2);
                 x.DrawText(date, dateFont, Color.Black, datePosition);
 
                 var todayTimePosition = new PointF((128 - todayTimeTextSize.Width) / 2, dateTextSize.Height + 2 + 2);
                 x.DrawText(todayTime, todyTimeFont, Color.Black, todayTimePosition);
 
-                var textPosition = new PointF((128 - textSize.Width) / 2, 296 - textSize.Height - 4);
-                x.DrawText(config.Hw75CustomContent, font, Color.Black, textPosition);
             }
         });
 
@@ -165,9 +169,9 @@ public class Hw75GlobalTimerHelper
 
             var ji = yellowCalendar.Ji;
 
-            var bigFont = await GetFontAsync(20);
+            var bigFont = await GetFontAsync(24);
 
-            var mediumFont = await GetFontAsync(16);
+            var mediumFont = await GetFontAsync(18);
 
             var smallFont = await GetFontAsync(12);
 
@@ -345,10 +349,10 @@ public class Hw75GlobalTimerHelper
             //    x.DrawText(config.Hw75CustomContent, font, Color.Black, new Vector2(textSize.X, textSize.Y));
             //});
 
-            var destinationFolder = await KnownFolders.PicturesLibrary
-                .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
+            //var destinationFolder = await KnownFolders.PicturesLibrary
+            //    .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
 
-            image.Save($"{destinationFolder.Path}\\" + ".yellow.jpg");
+            //image.Save($"{destinationFolder.Path}\\" + ".yellow.jpg");
             var byteArray = image.EnCodeImageToBytes();
             return byteArray;
         }
