@@ -1,10 +1,12 @@
 ﻿using System.Numerics;
+using System.Windows.Forms;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using HelloWordKeyboard.DotNet;
 using Microsoft.UI.Xaml;
+using Models;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -37,28 +39,20 @@ public class Hw75GlobalTimerHelper
                 var _localSettingsService = App.GetService<ILocalSettingsService>();
                 var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
 
-                using var image = await LoadImageAsync(config.CustomHw75ImagePath);
+                var byteArray = Array.Empty<byte>();
 
-                var font = await GetFontAsync(config.Hw75CustomContentFontSize);
-
-                // 计算文本尺寸
-                TextOptions textOptions = new TextOptions(font)
+                if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75CustomViewName)
                 {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                var textSize = TextMeasurer.MeasureSize(config.Hw75CustomContent, textOptions);
-
-                // 计算文本居中位置
-                PointF center = new PointF(128 / 2, 296 / 2);
-
-
-                image.Mutate(x =>
+                    byteArray = await GetHw75CustomImageAsync(config);
+                }
+                else if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75WeatherViewName)
                 {
-                    x.Resize(128, 296);
-                    x.DrawText(config.Hw75CustomContent, font, Color.Black, new Vector2(textSize.X, textSize.Y));
-                });
-                var byteArray = image.EnCodeImageToBytes();
+                    byteArray = await GetHw75WeatherImageAsync(config);
+                }
+                else if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75YellowCalendarViewName)
+                {
+                    byteArray = await GetHw75YellowCalendarImageAsync(config);
+                }
 
                 _ = Hw75Helper.Instance.Hw75DynamicDevice?.SetEInkImage(byteArray, 0, 0, 128, 296, false);
             }
@@ -76,6 +70,100 @@ public class Hw75GlobalTimerHelper
     public void StopTimer()
     {
         timer.Stop();
+    }
+
+    private async Task<byte[]> GetHw75CustomImageAsync(CustomClockTitleConfig config)
+    {
+        using var image = await LoadImageAsync(config.CustomHw75ImagePath);
+
+        var font = await GetFontAsync(config.Hw75CustomContentFontSize);
+
+        // 计算文本尺寸
+        var textOptions = new TextOptions(font)
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        var textSize = TextMeasurer.MeasureSize(config.Hw75CustomContent, textOptions);
+
+        var todayTime = DateTimeOffset.Now.ToString("t");
+        var date = $"{DateTimeOffset.Now.Day}{DateTimeOffset.Now:ddd}";
+
+        var dateFont = await GetFontAsync(24);
+        var todyTimeFont = await GetFontAsync(36);
+
+        var dateTextSize = TextMeasurer.MeasureSize(date, new TextOptions(dateFont));
+        var todayTimeTextSize = TextMeasurer.MeasureSize(todayTime, new TextOptions(todyTimeFont));
+
+        image.Mutate(x =>
+        {
+            x.Resize(128, 296);
+
+            var textPosition = new PointF((128 - textSize.Width) / 2, 296 - textSize.Height - 2);
+            x.DrawText(config.Hw75CustomContent, font, Color.Black, textPosition);
+
+            var datePosition = new PointF((128 - dateTextSize.Width) / 2, textPosition.Y - dateTextSize.Height - 2);
+            x.DrawText(date, dateFont, Color.Black, datePosition);
+
+            var todayTimePosition = new PointF((128 - todayTimeTextSize.Width) / 2, datePosition.Y - todayTimeTextSize.Height - 2);
+            x.DrawText(todayTime, todyTimeFont, Color.Black, todayTimePosition);
+        });
+        var byteArray = image.EnCodeImageToBytes();
+        return byteArray;
+    }
+
+    private async Task<byte[]> GetHw75WeatherImageAsync(CustomClockTitleConfig config)
+    {
+        using var image = await LoadImageAsync(config.CustomHw75ImagePath);
+
+        var font = await GetFontAsync(config.Hw75CustomContentFontSize);
+
+        // 计算文本尺寸
+        TextOptions textOptions = new TextOptions(font)
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        var textSize = TextMeasurer.MeasureSize(config.Hw75CustomContent, textOptions);
+
+        // 计算文本居中位置
+        PointF center = new PointF(128 / 2, 296 / 2);
+
+
+        image.Mutate(x =>
+        {
+            x.Resize(128, 296);
+            x.DrawText(config.Hw75CustomContent, font, Color.Black, new Vector2(textSize.X, textSize.Y));
+        });
+        var byteArray = image.EnCodeImageToBytes();
+        return byteArray;
+    }
+
+    private async Task<byte[]> GetHw75YellowCalendarImageAsync(CustomClockTitleConfig config)
+    {
+        using var image = await LoadImageAsync(config.CustomHw75ImagePath);
+
+        var font = await GetFontAsync(config.Hw75CustomContentFontSize);
+
+        // 计算文本尺寸
+        TextOptions textOptions = new TextOptions(font)
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        var textSize = TextMeasurer.MeasureSize(config.Hw75CustomContent, textOptions);
+
+        // 计算文本居中位置
+        PointF center = new PointF(128 / 2, 296 / 2);
+
+
+        image.Mutate(x =>
+        {
+            x.Resize(128, 296);
+            x.DrawText(config.Hw75CustomContent, font, Color.Black, new Vector2(textSize.X, textSize.Y));
+        });
+        var byteArray = image.EnCodeImageToBytes();
+        return byteArray;
     }
 
     private async Task<Font> GetFontAsync(float size, string fontName = "fusion-pixel-12px-monospaced-zh_hans.ttf")

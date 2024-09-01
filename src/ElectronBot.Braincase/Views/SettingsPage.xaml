@@ -852,7 +852,7 @@
                                             <NumberBox
                                                 LargeChange="4"
                                                 Maximum="40"
-                                                Minimum="16"
+                                                Minimum="12"
                                                 SmallChange="2"
                                                 SpinButtonPlacementMode="Inline"
                                                 Value="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontSize, Mode=TwoWay}">
