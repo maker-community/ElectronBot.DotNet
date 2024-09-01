@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using HelloWordKeyboard.DotNet;
 using Microsoft.UI.Xaml;
@@ -55,7 +54,7 @@ public class Hw75GlobalTimerHelper
                     byteArray = await GetHw75YellowCalendarImageAsync(config);
                 }
 
-                _ = Hw75Helper.Instance.Hw75DynamicDevice?.SetEInkImage(byteArray, 0, 0, 128, 296, false);
+                //_ = Hw75Helper.Instance.Hw75DynamicDevice?.SetEInkImage(byteArray, 0, 0, 128, 296, false);
             }
             catch (Exception ex)
             {
@@ -150,31 +149,213 @@ public class Hw75GlobalTimerHelper
 
     private async Task<byte[]> GetHw75YellowCalendarImageAsync(CustomClockTitleConfig config)
     {
-        var yellowCalendar = await GetYellowCalendarService.GetYellowCalendarAsync();
-
-        using var image = await LoadImageAsync(config.CustomHw75ImagePath);
-
-        var font = await GetFontAsync(config.Hw75CustomContentFontSize);
-
-        // 计算文本尺寸
-        TextOptions textOptions = new TextOptions(font)
+        try
         {
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        var textSize = TextMeasurer.MeasureSize(config.Hw75CustomContent, textOptions);
+            var yellowCalendar = await GetYellowCalendarService.GetYellowCalendarAsync();
 
-        // 计算文本居中位置
-        PointF center = new PointF(128 / 2, 296 / 2);
+            var yangLi = yellowCalendar.Yangli;
+
+            var yinLi = yellowCalendar.Yinli;
+
+            var wuXing = yellowCalendar.Wuxing;
+
+            var chongSha = yellowCalendar.Chongsha;
+
+            var xiongShen = yellowCalendar.Xiongshen;
+
+            var ji = yellowCalendar.Ji;
+
+            var bigFont = await GetFontAsync(20);
+
+            var mediumFont = await GetFontAsync(16);
+
+            var smallFont = await GetFontAsync(12);
+
+            var bigTextOptions = new TextOptions(bigFont)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                WrappingLength = 128
+            };
+
+            var mediumTextOptions = new TextOptions(mediumFont)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                WrappingLength = 128
+            };
+
+            var smallTextOptions = new TextOptions(smallFont)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                WrappingLength = 128
+            };
+
+            // 创建一个新的图像，背景为白色
+            using var image = new Image<Rgba32>(128, 296, Color.White);
+
+            float yOffset = 2;
+
+            var yangLiLines = WrapText(yangLi, bigFont, 128);
+
+            var yangLiTotalHeight = yangLiLines.Sum(line => TextMeasurer.MeasureSize(line, bigTextOptions).Height);
+
+            var yinLiLines = WrapText(yinLi, smallFont, 128);
+
+            var yinLiTotalHeight = yinLiLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+
+            var wuXingTitleLines = WrapText("五行", smallFont, 128);
+
+            var wuXingTitleTotalHeight = wuXingTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+
+            var wuXingLines = WrapText(wuXing, mediumFont, 128);
+
+            var wuXingTotalHeight = wuXingLines.Sum(line => TextMeasurer.MeasureSize(line, mediumTextOptions).Height);
+
+            var chongShaTitleLines = WrapText("冲煞", smallFont, 128);
+
+            var chongShaTitleTotalHeight = chongShaTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
 
 
-        image.Mutate(x =>
+            var chongShaLines = WrapText(chongSha, smallFont, 128);
+
+            var chongShaTotalHeight = chongShaLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+
+
+            var xiongShenTitleLines = WrapText("凶神宜忌", smallFont, 128);
+
+            var xiongShenTitleTotalHeight = xiongShenTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+
+            var xiongShenLines = WrapText(xiongShen, mediumFont, 128);
+
+            var xiongShenTotalHeight = xiongShenLines.Sum(line => TextMeasurer.MeasureSize(line, mediumTextOptions).Height);
+
+            var jiTitleLines = WrapText("忌", smallFont, 128);
+
+            var jiTitleTotalHeight = jiTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+
+            var jiLines = WrapText(ji, smallFont, 128);
+
+            var jiTotalHeight = jiLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+
+
+            image.Mutate(ctx =>
+            {
+                foreach (var yangLiLine in yangLiLines)
+                {
+                    var size = TextMeasurer.MeasureSize(yangLiLine, bigTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(yangLiLine, bigFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var yinLiLine in yinLiLines)
+                {
+                    var size = TextMeasurer.MeasureSize(yinLiLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(yinLiLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var wuXingTitleLine in wuXingTitleLines)
+                {
+                    var size = TextMeasurer.MeasureSize(wuXingTitleLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(wuXingTitleLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var wuXingLine in wuXingLines)
+                {
+                    var size = TextMeasurer.MeasureSize(wuXingLine, mediumTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(wuXingLine, mediumFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var chongShaTitleLine in chongShaTitleLines)
+                {
+                    var size = TextMeasurer.MeasureSize(chongShaTitleLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(chongShaTitleLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var chongShaLine in chongShaLines)
+                {
+                    var size = TextMeasurer.MeasureSize(chongShaLine, mediumTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(chongShaLine, mediumFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var xiongShenTitleLine in xiongShenTitleLines)
+                {
+                    var size = TextMeasurer.MeasureSize(xiongShenTitleLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(xiongShenTitleLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 4;
+                }
+
+                foreach (var xiongShenLine in xiongShenLines)
+                {
+                    var size = TextMeasurer.MeasureSize(xiongShenLine, mediumTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(xiongShenLine, mediumFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var jiTitleLine in jiTitleLines)
+                {
+                    var size = TextMeasurer.MeasureSize(jiTitleLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(jiTitleLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var jiLine in jiLines)
+                {
+                    var size = TextMeasurer.MeasureSize(jiLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(jiLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+            });
+
+            //using var image = await LoadImageAsync(config.CustomHw75ImagePath);
+
+            //var font = await GetFontAsync(config.Hw75CustomContentFontSize);
+
+            //// 计算文本尺寸
+            //TextOptions textOptions = new TextOptions(font)
+            //{
+            //    HorizontalAlignment = HorizontalAlignment.Center,
+            //    VerticalAlignment = VerticalAlignment.Center
+            //};
+            //var textSize = TextMeasurer.MeasureSize(config.Hw75CustomContent, textOptions);
+
+            //// 计算文本居中位置
+            //PointF center = new PointF(128 / 2, 296 / 2);
+
+
+            //image.Mutate(x =>
+            //{
+            //    x.Resize(128, 296);
+            //    x.DrawText(config.Hw75CustomContent, font, Color.Black, new Vector2(textSize.X, textSize.Y));
+            //});
+
+            var destinationFolder = await KnownFolders.PicturesLibrary
+                .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
+
+            image.Save($"{destinationFolder.Path}\\" + ".yellow.jpg");
+            var byteArray = image.EnCodeImageToBytes();
+            return byteArray;
+        }
+        catch (Exception ex)
         {
-            x.Resize(128, 296);
-            x.DrawText(config.Hw75CustomContent, font, Color.Black, new Vector2(textSize.X, textSize.Y));
-        });
-        var byteArray = image.EnCodeImageToBytes();
-        return byteArray;
+            return Array.Empty<byte>();
+        }
     }
 
     private async Task<Font> GetFontAsync(float size, string fontName = "fusion-pixel-12px-monospaced-zh_hans.ttf")
@@ -205,5 +386,35 @@ public class Hw75GlobalTimerHelper
         var storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(filePath));
         var randomAccessStream = await storageFile.OpenAsync(FileAccessMode.Read);
         return randomAccessStream.AsStreamForRead();
+    }
+
+    private static List<string> WrapText(string text, Font font, int maxWidth)
+    {
+        var words = text.Split(' ');
+        var lines = new List<string>();
+        var currentLine = string.Empty;
+
+        foreach (var word in words)
+        {
+            var testLine = string.IsNullOrEmpty(currentLine) ? word : $"{currentLine} {word}";
+            var size = TextMeasurer.MeasureSize(testLine, new TextOptions(font));
+
+            if (size.Width > maxWidth)
+            {
+                lines.Add(currentLine);
+                currentLine = word;
+            }
+            else
+            {
+                currentLine = testLine;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(currentLine))
+        {
+            lines.Add(currentLine);
+        }
+
+        return lines;
     }
 }
