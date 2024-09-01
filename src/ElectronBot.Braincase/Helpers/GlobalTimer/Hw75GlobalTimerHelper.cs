@@ -7,6 +7,7 @@ using ElectronBot.Braincase.Models;
 using HelloWordKeyboard.DotNet;
 using Microsoft.UI.Xaml;
 using Models;
+using Services.Hw75Services.YellowCalendar;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -99,15 +100,23 @@ public class Hw75GlobalTimerHelper
         {
             x.Resize(128, 296);
 
-            var textPosition = new PointF((128 - textSize.Width) / 2, 296 - textSize.Height - 2);
-            x.DrawText(config.Hw75CustomContent, font, Color.Black, textPosition);
+            if (config.Hw75CustomContentIsVisibility)
+            {
+                var datePosition = new PointF((128 - dateTextSize.Width) / 2, 2);
+                x.DrawText(date, dateFont, Color.Black, datePosition);
 
-            var datePosition = new PointF((128 - dateTextSize.Width) / 2, textPosition.Y - dateTextSize.Height - 2);
-            x.DrawText(date, dateFont, Color.Black, datePosition);
+                var todayTimePosition = new PointF((128 - todayTimeTextSize.Width) / 2, dateTextSize.Height + 2 + 2);
+                x.DrawText(todayTime, todyTimeFont, Color.Black, todayTimePosition);
 
-            var todayTimePosition = new PointF((128 - todayTimeTextSize.Width) / 2, datePosition.Y - todayTimeTextSize.Height - 2);
-            x.DrawText(todayTime, todyTimeFont, Color.Black, todayTimePosition);
+                var textPosition = new PointF((128 - textSize.Width) / 2, 296 - textSize.Height - 4);
+                x.DrawText(config.Hw75CustomContent, font, Color.Black, textPosition);
+            }
         });
+
+        //var destinationFolder = await KnownFolders.PicturesLibrary
+        //    .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
+
+        //image.Save($"{destinationFolder.Path}\\" + ".test.jpg");
         var byteArray = image.EnCodeImageToBytes();
         return byteArray;
     }
@@ -141,6 +150,8 @@ public class Hw75GlobalTimerHelper
 
     private async Task<byte[]> GetHw75YellowCalendarImageAsync(CustomClockTitleConfig config)
     {
+        var yellowCalendar = await GetYellowCalendarService.GetYellowCalendarAsync();
+
         using var image = await LoadImageAsync(config.CustomHw75ImagePath);
 
         var font = await GetFontAsync(config.Hw75CustomContentFontSize);
