@@ -16,6 +16,11 @@ public class CustomClockTitleConfig
         get; set;
     } = string.Empty;
 
+    public string Hw75WeatherAppCode
+    {
+        get; set;
+    } = string.Empty;
+
     public int CustomClockTitleFontSize
     {
         get; set;

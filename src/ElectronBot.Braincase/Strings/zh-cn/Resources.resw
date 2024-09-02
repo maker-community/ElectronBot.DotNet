@@ -936,4 +936,10 @@
   <data name="Hw75DisconnectedText" xml:space="preserve">
     <value>瀚文已断开</value>
   </data>
+  <data name="Hw75WeatherAppCode.Text" xml:space="preserve">
+    <value>天气预报AppCode:</value>
+  </data>
+  <data name="WeatherBuyAppCodeBtn.Content" xml:space="preserve">
+    <value>天气AppCode获取链接</value>
+  </data>
 </root>

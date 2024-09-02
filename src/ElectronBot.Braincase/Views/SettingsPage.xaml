@@ -898,6 +898,34 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
+                                            x:Uid="Hw75WeatherAppCode"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                        <Grid Grid.Column="1">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox
+                                                    Width="240"
+                                                    HorizontalAlignment="Right"
+                                                    Text="{x:Bind ViewModel.ClockTitleConfig.Hw75WeatherAppCode, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                                    <i:Interaction.Behaviors>
+                                                        <ic:EventTriggerBehavior EventName="LostFocus">
+                                                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        </ic:EventTriggerBehavior>
+                                                    </i:Interaction.Behaviors>
+                                                </TextBox>
+                                                <HyperlinkButton x:Uid="WeatherBuyAppCodeBtn" NavigateUri="https://market.aliyun.com/apimarket/detail/cmapi010812#sku=yuncode4812000017" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Margin="8" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
                                             x:Uid="Hw75YellowCalendarKey"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Center" />

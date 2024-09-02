@@ -1,4 +1,5 @@
-﻿using ElectronBot.Braincase.Helpers;
+﻿using ElectronBot.Braincase.Contracts.Services;
+using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Models.Gps;
 using ElectronBot.Braincase.Models.Name24;
@@ -47,6 +48,14 @@ public class GpsGetWeather
             var resultJson = string.Empty;
 
             var appCode = App.GetService<IOptions<LocalSettingsOptions>>().Value.Hw75AppCode;
+
+            var _localSettingsService = App.GetService<ILocalSettingsService>();
+            var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
+
+            if (string.IsNullOrWhiteSpace(config.Hw75WeatherAppCode))
+            {
+                appCode = config.Hw75WeatherAppCode;
+            }
 
             using (var httpClient = new HttpClient())
             {
