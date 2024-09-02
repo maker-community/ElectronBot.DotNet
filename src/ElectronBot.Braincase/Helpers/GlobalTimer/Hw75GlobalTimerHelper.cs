@@ -1,8 +1,8 @@
-﻿using System.Numerics;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Models;
+using ElectronBot.Braincase.Services;
 using HelloWordKeyboard.DotNet;
 using Models;
 using Services.Hw75Services.YellowCalendar;
@@ -74,7 +74,7 @@ public class Hw75GlobalTimerHelper
     {
         using var image = await LoadImageAsync(config.CustomHw75ImagePath);
 
-        var font = await GetFontAsync(config.Hw75CustomContentFontSize);
+        var font = await GetFontAsync(config.Hw75CustomContentFontSize, "SmileySans-Oblique.ttf");
 
         // 计算文本尺寸
         var textOptions = new TextOptions(font)
@@ -123,29 +123,183 @@ public class Hw75GlobalTimerHelper
 
     private async Task<byte[]> GetHw75WeatherImageAsync(CustomClockTitleConfig config)
     {
-        using var image = await LoadImageAsync(config.CustomHw75ImagePath);
-
-        var font = await GetFontAsync(config.Hw75CustomContentFontSize);
-
-        // 计算文本尺寸
-        TextOptions textOptions = new TextOptions(font)
+        try
         {
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        var textSize = TextMeasurer.MeasureSize(config.Hw75CustomContent, textOptions);
+            var gpsResult = await GpsGetWeather.GetWeatherIdea();
 
-        // 计算文本居中位置
-        PointF center = new PointF(128 / 2, 296 / 2);
+            var proviceAndCity = $"{gpsResult.Now.Province} {gpsResult.Now.City}";
+
+            var temperature = gpsResult.Now.Temperature;
+
+            var skycon = gpsResult.Now.Skycon;
+
+            var time = gpsResult.Now.Time;
+
+            var wind = gpsResult.Now.Wind;
+
+            var windSd = gpsResult.Now.Wind_sd;
+
+            var sunSet = gpsResult.Now.SunSet;
+
+            var sunRise = gpsResult.Now.SunRise;
+
+            var pressure = gpsResult.Now.Pressure;
+
+            var tempFont = await GetFontAsync(24, "SmileySans-Oblique.ttf");
+
+            var bigFont = await GetFontAsync(24);
+
+            var smallFont = await GetFontAsync(12);
+
+            var tempTextOptions = new TextOptions(tempFont)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                WrappingLength = 128
+            };
+
+            var bigTextOptions = new TextOptions(bigFont)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                WrappingLength = 128
+            };
+
+            var smallTextOptions = new TextOptions(smallFont)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                WrappingLength = 128
+            };
+
+            // 创建一个新的图像，背景为白色
+            using var image = new Image<Rgba32>(128, 296, Color.White);
+
+            float yOffset = 2;
+
+            var proviceAndCityLines = WrapText(proviceAndCity, bigFont, 128);
+
+            var temperatureLines = WrapText(temperature, tempFont, 128);
+
+            var temperatureTotalWidth = temperatureLines.Sum(line => TextMeasurer.MeasureSize(line, tempTextOptions).Width);
+
+            var width = temperatureTotalWidth + 40 + 8;
+
+            var margin = (int)(128 - width) / 2;
+
+            using var weatherIcon = await LoadImageAsync(gpsResult.Now.Icon);
+
+            weatherIcon.Mutate(x =>
+            {
+                x.Resize(new Size(50, 50));
+            });
+
+            var skyconLines = WrapText(skycon, bigFont, 128);
+
+            var timeLines = WrapText(time, smallFont, 128);
+
+            var windLines = WrapText(wind, smallFont, 128);
+
+            var windSdLines = WrapText(windSd, smallFont, 128);
+
+            var sunSetLines = WrapText(sunSet, smallFont, 128);
+
+            var sunRiseLines = WrapText(sunRise, smallFont, 128);
+
+            var pressureLines = WrapText(pressure, smallFont, 128);
+
+            image.Mutate(ctx =>
+            {
+                foreach (var proviceAndCityLine in proviceAndCityLines)
+                {
+                    var size = TextMeasurer.MeasureSize(proviceAndCityLine, bigTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(proviceAndCityLine, bigFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                ctx.DrawImage(weatherIcon, new Point(margin, (int)yOffset), opacity: 1);
+
+                foreach (var temperatureLine in temperatureLines)
+                {
+                    var size = TextMeasurer.MeasureSize(temperatureLine, tempTextOptions);
+                    var position = new PointF(margin + 40 + 8, yOffset);
+                    ctx.DrawText(temperatureLine, tempFont, Color.Black, position);
+                    yOffset += size.Height + +40 + 8;
+                }
+
+                foreach (var skyconLine in skyconLines)
+                {
+                    var size = TextMeasurer.MeasureSize(skyconLine, bigTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(skyconLine, bigFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var timeLine in timeLines)
+                {
+                    var size = TextMeasurer.MeasureSize(timeLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(timeLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var windLine in windLines)
+                {
+                    var size = TextMeasurer.MeasureSize(windLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(windLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var windSdLine in windSdLines)
+                {
+                    var size = TextMeasurer.MeasureSize(windSd, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(windSd, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var sunSetLine in sunSetLines)
+                {
+                    var size = TextMeasurer.MeasureSize(sunSetLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(sunSetLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 4;
+                }
+
+                foreach (var sunRiseLine in sunRiseLines)
+                {
+                    var size = TextMeasurer.MeasureSize(sunRiseLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(sunRiseLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+
+                foreach (var pressureLine in pressureLines)
+                {
+                    var size = TextMeasurer.MeasureSize(pressureLine, smallTextOptions);
+                    var position = new PointF((image.Width - size.Width) / 2, yOffset);
+                    ctx.DrawText(pressureLine, smallFont, Color.Black, position);
+                    yOffset += size.Height + 8;
+                }
+            });
+
+            //var destinationFolder = await KnownFolders.PicturesLibrary
+            //    .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
+
+            //image.Save($"{destinationFolder.Path}\\" + ".weather.jpg");
+
+            var byteArray = image.EnCodeImageToBytes();
+            return byteArray;
 
 
-        image.Mutate(x =>
+
+        }
+        catch (Exception ex)
         {
-            x.Resize(128, 296);
-            x.DrawText(config.Hw75CustomContent, font, Color.Black, new Vector2(textSize.X, textSize.Y));
-        });
-        var byteArray = image.EnCodeImageToBytes();
-        return byteArray;
+            return Array.Empty<byte>();
+        }
     }
 
     private async Task<byte[]> GetHw75YellowCalendarImageAsync(CustomClockTitleConfig config)

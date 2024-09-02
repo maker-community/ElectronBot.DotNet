@@ -7,8 +7,8 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Hw75Views"
-    Unloaded="UserControl_Unloaded"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Unloaded="UserControl_Unloaded"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
@@ -75,7 +75,7 @@
                         VerticalAlignment="Center"
                         Source="{x:Bind ViewModel.GpsResult.Now.Icon, Mode=OneWay}" />
                     <TextBlock
-                        FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                         FontSize="24"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.GpsResult.Now.Temperature, Mode=OneWay}" />
