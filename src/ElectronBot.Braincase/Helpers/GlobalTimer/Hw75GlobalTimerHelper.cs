@@ -200,7 +200,7 @@ public class Hw75GlobalTimerHelper
 
             var yangLiLines = WrapText(yangLi, bigFont, 128);
 
-            var yangLiTotalHeight = yangLiLines.Sum(line => TextMeasurer.MeasureSize(line, bigTextOptions).Height);
+            //var yangLiTotalHeight = yangLiLines.Sum(line => TextMeasurer.MeasureSize(line, bigTextOptions).Height);
 
             var yinLiLines = WrapText(yinLi, smallFont, 128);
 
@@ -208,7 +208,7 @@ public class Hw75GlobalTimerHelper
 
             var wuXingTitleLines = WrapText("五行", smallFont, 128);
 
-            var wuXingTitleTotalHeight = wuXingTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+            //var wuXingTitleTotalHeight = wuXingTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
 
             var wuXingLines = WrapText(wuXing, mediumFont, 128);
 
@@ -216,29 +216,27 @@ public class Hw75GlobalTimerHelper
 
             var chongShaTitleLines = WrapText("冲煞", smallFont, 128);
 
-            var chongShaTitleTotalHeight = chongShaTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
-
+            //var chongShaTitleTotalHeight = chongShaTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
 
             var chongShaLines = WrapText(chongSha, smallFont, 128);
 
             var chongShaTotalHeight = chongShaLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
 
-
             var xiongShenTitleLines = WrapText("凶神宜忌", smallFont, 128);
 
-            var xiongShenTitleTotalHeight = xiongShenTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+            //var xiongShenTitleTotalHeight = xiongShenTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
 
             var xiongShenLines = WrapText(xiongShen, mediumFont, 128);
 
-            var xiongShenTotalHeight = xiongShenLines.Sum(line => TextMeasurer.MeasureSize(line, mediumTextOptions).Height);
+            //var xiongShenTotalHeight = xiongShenLines.Sum(line => TextMeasurer.MeasureSize(line, mediumTextOptions).Height);
 
             var jiTitleLines = WrapText("忌", smallFont, 128);
 
-            var jiTitleTotalHeight = jiTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+            //var jiTitleTotalHeight = jiTitleLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
 
             var jiLines = WrapText(ji, smallFont, 128);
 
-            var jiTotalHeight = jiLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
+            //var jiTotalHeight = jiLines.Sum(line => TextMeasurer.MeasureSize(line, smallTextOptions).Height);
 
 
             image.Mutate(ctx =>
@@ -323,28 +321,6 @@ public class Hw75GlobalTimerHelper
                     yOffset += size.Height + 8;
                 }
             });
-
-            //using var image = await LoadImageAsync(config.CustomHw75ImagePath);
-
-            //var font = await GetFontAsync(config.Hw75CustomContentFontSize);
-
-            //// 计算文本尺寸
-            //TextOptions textOptions = new TextOptions(font)
-            //{
-            //    HorizontalAlignment = HorizontalAlignment.Center,
-            //    VerticalAlignment = VerticalAlignment.Center
-            //};
-            //var textSize = TextMeasurer.MeasureSize(config.Hw75CustomContent, textOptions);
-
-            //// 计算文本居中位置
-            //PointF center = new PointF(128 / 2, 296 / 2);
-
-
-            //image.Mutate(x =>
-            //{
-            //    x.Resize(128, 296);
-            //    x.DrawText(config.Hw75CustomContent, font, Color.Black, new Vector2(textSize.X, textSize.Y));
-            //});
 
             //var destinationFolder = await KnownFolders.PicturesLibrary
             //    .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
