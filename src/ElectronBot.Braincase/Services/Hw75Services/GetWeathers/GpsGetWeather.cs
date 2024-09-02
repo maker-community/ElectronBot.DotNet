@@ -52,7 +52,7 @@ public class GpsGetWeather
             var _localSettingsService = App.GetService<ILocalSettingsService>();
             var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
 
-            if (string.IsNullOrWhiteSpace(config.Hw75WeatherAppCode))
+            if (!string.IsNullOrWhiteSpace(config.Hw75WeatherAppCode))
             {
                 appCode = config.Hw75WeatherAppCode;
             }
