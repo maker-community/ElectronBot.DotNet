@@ -2,10 +2,8 @@
 using System.Windows.Forms;
 using ElectronBot.Braincase;
 using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using HelloWordKeyboard.DotNet;
-using Microsoft.UI.Xaml;
 using Models;
 using Services.Hw75Services.YellowCalendar;
 using SixLabors.Fonts;
@@ -20,47 +18,46 @@ using VerticalAlignment = SixLabors.Fonts.VerticalAlignment;
 namespace Helpers;
 public class Hw75GlobalTimerHelper
 {
-    private readonly DispatcherTimer timer = new();
+    private readonly System.Timers.Timer timer = new();
 
     private static Hw75GlobalTimerHelper? _instance;
     public static Hw75GlobalTimerHelper Instance => _instance ??= new Hw75GlobalTimerHelper();
 
     public Hw75GlobalTimerHelper()
     {
-        timer.Interval = TimeSpan.FromSeconds(6);
-        timer.Tick += Timer_Tick;
+        timer.Interval = TimeSpan.FromSeconds(6).TotalMilliseconds;
+        timer.Elapsed += Timer_Tick;
     }
 
-    private void Timer_Tick(object? sender, object e)
+    private async void Timer_Tick(object? sender, object e)
     {
-        App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
+        try
         {
-            try
+            var _localSettingsService = App.GetService<ILocalSettingsService>();
+            var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
+
+            var byteArray = Array.Empty<byte>();
+
+            if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75CustomViewName)
             {
-                var _localSettingsService = App.GetService<ILocalSettingsService>();
-                var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
-
-                var byteArray = Array.Empty<byte>();
-
-                if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75CustomViewName)
-                {
-                    byteArray = await GetHw75CustomImageAsync(config);
-                }
-                else if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75WeatherViewName)
-                {
-                    byteArray = await GetHw75WeatherImageAsync(config);
-                }
-                else if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75YellowCalendarViewName)
-                {
-                    byteArray = await GetHw75YellowCalendarImageAsync(config);
-                }
-
-                _ = Hw75Helper.Instance.Hw75DynamicDevice?.SetEInkImage(byteArray, 0, 0, 128, 296, false);
+                byteArray = await GetHw75CustomImageAsync(config);
             }
-            catch (Exception ex)
+            else if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75WeatherViewName)
             {
+                byteArray = await GetHw75WeatherImageAsync(config);
             }
-        });
+            else if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75YellowCalendarViewName)
+            {
+                byteArray = await GetHw75YellowCalendarImageAsync(config);
+            }
+
+            var device = App.GetService<IHw75DynamicDevice>();
+
+            _ = device.SetEInkImage(byteArray, 0, 0, 128, 296, false);
+        }
+        catch (Exception ex)
+        {
+        }
     }
 
     public void StartTimer()

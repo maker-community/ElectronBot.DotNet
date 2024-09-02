@@ -300,15 +300,7 @@ public class ElectronBotHelper
 
             //InvokeClockCanvasStart();
 
-            await ConnectDeviceAsync();
-
-            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-            {
-                //ToastHelper.SendToast("Hw75DisconnectedText".GetLocalized(), TimeSpan.FromSeconds(3));
-                Hw75GlobalTimerHelper.Instance.StartTimer();
-            });
-
-            
+            await ConnectDeviceAsync();            
         }
         catch (Exception ex)
         {
