@@ -225,22 +225,27 @@ public class ElectronBotHelper
 
     }
 
-    private void OnHidDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+    private async void OnHidDeviceAdded(DeviceWatcher sender, DeviceInformation args)
     {
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            ToastHelper.SendToast("Hw75ConnectedText".GetLocalized(), TimeSpan.FromSeconds(3));
+            ToastHelper.SendToast("Hw75ConnectedText".GetLocalized(), TimeSpan.FromSeconds(3));  
+        });
+        await Task.Run(async () =>
+        {
+            await Hw75GlobalTimerHelper.Instance.UpdateTimerIntervalAsync();
+            await Hw75GlobalTimerHelper.Instance.UpdateHwViewAsync();
             Hw75GlobalTimerHelper.Instance.StartTimer();
-        });      
+        });        
     }
 
     private void OnHidDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
     {
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            ToastHelper.SendToast("Hw75DisconnectedText".GetLocalized(), TimeSpan.FromSeconds(3));
-            Hw75GlobalTimerHelper.Instance.StopTimer();
+            ToastHelper.SendToast("Hw75DisconnectedText".GetLocalized(), TimeSpan.FromSeconds(3));   
         });
+        Hw75GlobalTimerHelper.Instance.StopTimer();
     }
 
 

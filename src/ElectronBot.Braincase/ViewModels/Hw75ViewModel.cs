@@ -8,8 +8,8 @@ using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
 using HelloWordKeyboard.DotNet;
 using HelloWordKeyboard.DotNet.Models;
+using Helpers;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Verdure.ElectronBot.Core.Models;
 
 namespace ElectronBot.Braincase.ViewModels;
@@ -82,8 +82,6 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
         if (!string.IsNullOrWhiteSpace(clockName))
         {
-            Hw75Helper.Instance.ViewName = clockName;
-
             var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider(clockName);
 
             Element = viewProvider.CreateHw75DynamickView(clockName);
@@ -91,6 +89,13 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
             ClockTitleConfig!.Hw75ViewName = clockName;
 
             await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
+
+            await Task.Run(async () =>
+            {
+                await Hw75GlobalTimerHelper.Instance.UpdateTimerIntervalAsync();
+                await Hw75GlobalTimerHelper.Instance.UpdateHwViewAsync();
+            });
+
         }
     }
 

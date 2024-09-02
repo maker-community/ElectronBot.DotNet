@@ -25,11 +25,35 @@ public class Hw75GlobalTimerHelper
 
     public Hw75GlobalTimerHelper()
     {
-        timer.Interval = TimeSpan.FromSeconds(6).TotalMilliseconds;
+        timer.Interval = TimeSpan.FromSeconds(60).TotalMilliseconds;
         timer.Elapsed += Timer_Tick;
     }
 
     private async void Timer_Tick(object? sender, object e)
+    {
+        await UpdateHwViewAsync();
+    }
+
+    public async Task UpdateTimerIntervalAsync()
+    {
+        var _localSettingsService = App.GetService<ILocalSettingsService>();
+        var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
+
+        if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75CustomViewName)
+        {
+            timer.Interval = TimeSpan.FromSeconds(60).TotalMilliseconds;
+        }
+        else if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75WeatherViewName)
+        {
+            timer.Interval = TimeSpan.FromMinutes(30).TotalMilliseconds;
+        }
+        else if (config.Hw75ViewName == Hw75ViewNameEnum.Hw75YellowCalendarViewName)
+        {
+            timer.Interval = TimeSpan.FromMinutes(60).TotalMilliseconds;
+        }
+    }
+
+    public async Task UpdateHwViewAsync()
     {
         try
         {
