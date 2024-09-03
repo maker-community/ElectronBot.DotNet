@@ -517,7 +517,11 @@
     <value>删除</value>
   </data>
   <data name="Settings_AboutUpdate.Text" xml:space="preserve">
-    <value>1.7.7 版本更新说明（2024-07-11）
+    <value>1.7.8 版本更新说明（2024-09-04）
+1. 重构瀚文键盘刷图逻辑，逻辑单独运行。
+2. 修复图片剪切bug。
+
+1.7.7 版本更新说明（2024-07-11）
 1. 修复精英版winusb免驱固件电子脑壳闪退问题。
 2. 修复1.7.6发版导致瀚文键盘天气故障bug。
 
