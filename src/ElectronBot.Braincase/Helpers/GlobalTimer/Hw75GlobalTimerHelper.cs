@@ -119,9 +119,9 @@ public class Hw75GlobalTimerHelper
 
         image.Mutate(x =>
         {
-            
+            x.Grayscale();
             x.Resize(128, 296);
-
+            
             if (config.Hw75CustomContentIsVisibility)
             {
                 var textPosition = new PointF((128 - textSize.Width) / 2, 296 - textSize.Height - 8);
@@ -136,7 +136,6 @@ public class Hw75GlobalTimerHelper
                 x.DrawText(todayTime, todyTimeFont, Color.Black, todayTimePosition);
 
             }
-            x.Grayscale();
         });
 
         //var destinationFolder = await KnownFolders.PicturesLibrary
@@ -236,6 +235,7 @@ public class Hw75GlobalTimerHelper
 
             image.Mutate(ctx =>
             {
+                ctx.Grayscale();
                 foreach (var proviceAndCityLine in proviceAndCityLines)
                 {
                     var size = TextMeasurer.MeasureSize(proviceAndCityLine, bigTextOptions);
@@ -309,7 +309,6 @@ public class Hw75GlobalTimerHelper
                     ctx.DrawText(pressureLine, smallFont, Color.Black, position);
                     yOffset += size.Height + 8;
                 }
-                ctx.Grayscale();
             });
 
             //var destinationFolder = await KnownFolders.PicturesLibrary
@@ -422,6 +421,7 @@ public class Hw75GlobalTimerHelper
 
             image.Mutate(ctx =>
             {
+                ctx.Grayscale();
                 foreach (var yangLiLine in yangLiLines)
                 {
                     var size = TextMeasurer.MeasureSize(yangLiLine, bigTextOptions);
@@ -501,7 +501,6 @@ public class Hw75GlobalTimerHelper
                     ctx.DrawText(jiLine, smallFont, Color.Black, position);
                     yOffset += size.Height + 8;
                 }
-                ctx.Grayscale();
             });
 
             //var destinationFolder = await KnownFolders.PicturesLibrary

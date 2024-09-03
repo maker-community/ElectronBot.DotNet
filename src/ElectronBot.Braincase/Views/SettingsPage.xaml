@@ -930,16 +930,20 @@
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Center" />
                                         <Grid Grid.Column="1">
-                                            <TextBox
-                                                Width="240"
-                                                HorizontalAlignment="Right"
-                                                Text="{x:Bind ViewModel.ClockTitleConfig.Hw75YellowCalendarKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
-                                                <i:Interaction.Behaviors>
-                                                    <ic:EventTriggerBehavior EventName="LostFocus">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
-                                                    </ic:EventTriggerBehavior>
-                                                </i:Interaction.Behaviors>
-                                            </TextBox>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox
+                                                    Width="240"
+                                                    HorizontalAlignment="Right"
+                                                    Text="{x:Bind ViewModel.ClockTitleConfig.Hw75YellowCalendarKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                                    <i:Interaction.Behaviors>
+                                                        <ic:EventTriggerBehavior EventName="LostFocus">
+                                                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedCommand}" />
+                                                        </ic:EventTriggerBehavior>
+                                                    </i:Interaction.Behaviors>
+                                                </TextBox>
+                                                <HyperlinkButton x:Uid="YellowCalendarBuyAppKeyBtn" NavigateUri="https://www.juhe.cn/docs/api/id/65" />
+                                            </StackPanel>
+
                                         </Grid>
                                     </Grid>
                                 </StackPanel>

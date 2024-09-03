@@ -255,9 +255,10 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.1.240821" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.1.240904" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.RadialGauge" Version="8.1.240821" />
     <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.1.240904" />
     <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.19.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
