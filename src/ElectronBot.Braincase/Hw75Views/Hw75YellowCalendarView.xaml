@@ -7,8 +7,8 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Hw75Views"
-    Unloaded="UserControl_Unloaded"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Unloaded="UserControl_Unloaded"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
@@ -57,7 +57,7 @@
                     <TextBlock
                         Margin="0,4,0,4"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
-                        FontSize="18"
+                        FontSize="16"
                         FontWeight="Bold"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.YellowCalendarResult.Wuxing, Mode=OneWay}"
@@ -128,7 +128,7 @@
                     <TextBlock
                         Margin="0,4,0,4"
                         FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
-                        FontSize="16"
+                        FontSize="12"
                         FontWeight="Bold"
                         Foreground="Black"
                         Text="{x:Bind ViewModel.YellowCalendarResult.Ji, Mode=OneWay}"

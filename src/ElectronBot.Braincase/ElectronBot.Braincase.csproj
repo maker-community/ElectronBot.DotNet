@@ -254,20 +254,21 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.RadialGauge" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.240109" />
-    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.18.0" />
+    <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.1.240904" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.RadialGauge" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.1.240904" />
+    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.19.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240802000" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
-    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.9.0.20240103" />
-    <PackageReference Include="OpenCvSharp4.Windows" Version="4.9.0.20240103" />
+    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.10.0.20240616" />
+    <PackageReference Include="OpenCvSharp4.Windows" Version="4.10.0.20240616" />
     <PackageReference Include="Sdcb.SparkDesk" Version="3.0.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.5" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="WinUIEx" Version="2.3.4" />
     <PackageReference Include="HelixToolkit" Version="2.25.0" />

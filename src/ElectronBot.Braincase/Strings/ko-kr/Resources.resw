@@ -879,4 +879,19 @@
   <data name="NotificationAreaIconMenuItemText" xml:space="preserve">
     <value>DisplayOrHide</value>
   </data>
+  <data name="Hw75ConnectedText" xml:space="preserve">
+    <value>瀚文已连接</value>
+  </data>
+  <data name="Hw75DisconnectedText" xml:space="preserve">
+    <value>瀚文已断开</value>
+  </data>
+  <data name="Hw75WeatherAppCode.Text" xml:space="preserve">
+    <value>天气预报AppCode:</value>
+  </data>
+  <data name="WeatherBuyAppCodeBtn.Content" xml:space="preserve">
+    <value>天气AppCode获取链接</value>
+  </data>
+  <data name="YellowCalendarBuyAppKeyBtn.Content" xml:space="preserve">
+    <value>老黄历AppKey获取链接</value>
+  </data>
 </root>
