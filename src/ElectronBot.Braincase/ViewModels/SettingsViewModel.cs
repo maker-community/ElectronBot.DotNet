@@ -611,6 +611,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         picker.FileTypeFilter.Add(".png");
         picker.FileTypeFilter.Add(".jpg");
         picker.FileTypeFilter.Add(".jpeg");
+        picker.FileTypeFilter.Add(".bmp");
 
         WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
 

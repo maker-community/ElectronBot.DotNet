@@ -6,9 +6,10 @@ using ElectronBot.Braincase.Contracts.ViewModels;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Services;
+using HelloWordKeyboard.DotNet;
 using HelloWordKeyboard.DotNet.Models;
+using Helpers;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Verdure.ElectronBot.Core.Models;
 
 namespace ElectronBot.Braincase.ViewModels;
@@ -19,46 +20,46 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
     /// eink content
     /// </summary>
     [ObservableProperty]
-    UIElement? _element;
+    private UIElement? _element;
 
     /// <summary>
     /// 时钟选中数据
     /// </summary>
     [ObservableProperty]
-    ComboxItemModel? clockComBoxSelect;
+    private ComboxItemModel? _clockComBoxSelect;
 
     /// <summary>
     /// 瀚文设备信息
     /// </summary>
     [ObservableProperty]
-    DeviceInfo? _deviceInfo;
+    private DeviceInfo? _deviceInfo;
 
     /// <summary>
     /// 固件版本
     /// </summary>
     [ObservableProperty]
-    string? _firmwareVersion;
+    private string? _firmwareVersion;
 
     /// <summary>
     /// ZMK版本
     /// </summary>
     [ObservableProperty]
-    string? _zmkVersion;
+    private string? _zmkVersion;
 
     /// <summary>
     /// Zephyr版本
     /// </summary>
     [ObservableProperty]
-    string? _zephyrVersion;
+    private string? _zephyrVersion;
 
     /// <summary>
     /// 瀚文界面列表
     /// </summary>
     [ObservableProperty]
-    public ObservableCollection<ComboxItemModel> clockComboxModels;
+    public ObservableCollection<ComboxItemModel>? clockComboxModels;
 
     [ObservableProperty]
-    private CustomClockTitleConfig _clockTitleConfig;
+    private CustomClockTitleConfig? _clockTitleConfig;
 
     private readonly IHw75DynamicViewProviderFactory _viewProviderFactory;
 
@@ -81,56 +82,20 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
         if (!string.IsNullOrWhiteSpace(clockName))
         {
-            Hw75Helper.Instance.ViewName = clockName;
-
             var viewProvider = _viewProviderFactory.CreateHw75DynamicViewProvider(clockName);
 
             Element = viewProvider.CreateHw75DynamickView(clockName);
 
-            ClockTitleConfig.Hw75ViewName = clockName;
+            ClockTitleConfig!.Hw75ViewName = clockName;
 
-            await _localSettingsService.SaveSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
-        }
-    }
+            await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
 
-    [RelayCommand]
-    private void OnLoaded()
-    {
-        // var result = Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(true);
-    }
-
-    public async void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var isOn = toggleSwitch.IsOn;
-            if (isOn)
+            await Task.Run(async () =>
             {
-                Hw75Helper.Instance.StartTimer();
-            }
-            else
-            {
-                Hw75Helper.Instance.StopTimer();
-            }
-            await Task.Run(() =>
-            {
-                try
-                {
-
-                    if (isOn)
-                    {
-                        Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(true, UsbComm.KnobConfig.Types.Mode.Inertia);
-                    }
-                    else
-                    {
-                        Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(false, UsbComm.KnobConfig.Types.Mode.Encoder);
-                    }
-                }
-                catch
-                {
-                }
-
+                await Hw75GlobalTimerHelper.Instance.UpdateTimerIntervalAsync();
+                await Hw75GlobalTimerHelper.Instance.UpdateHwViewAsync();
             });
+
         }
     }
 
@@ -145,23 +110,18 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 
         Element = viewProvider.CreateHw75DynamickView(ClockTitleConfig.Hw75ViewName);
 
-        Hw75Helper.Instance.UpdateDataToDeviceHandler += Instance_UpdateDataToDeviceHandler;
-
         try
         {
-            DeviceInfo = Hw75Helper.Instance.Hw75DynamicDevice?.Open();
+            var device = App.GetService<IHw75DynamicDevice>();
+            DeviceInfo = device.Open();
 
-            Hw75Helper.Instance.IsConnected = true;
-
-            var firmwareInfo = Hw75Helper.Instance.Hw75DynamicDevice?.GetVersion();
+            var firmwareInfo = device.GetVersion();
 
             ZmkVersion = firmwareInfo?.ZmkVersion;
 
             FirmwareVersion = firmwareInfo?.AppVersion;
 
             ZephyrVersion = firmwareInfo?.ZephyrVersion;
-
-            Hw75Helper.Instance.StartTimer();
         }
         catch (Exception ex)
         {
@@ -174,28 +134,11 @@ public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
             {
                 DeviceName = ex.Message
             };
-
-            Hw75Helper.Instance.IsConnected = false;
         }
-    }
-
-    private async void Instance_UpdateDataToDeviceHandler(object? sender, EventArgs e)
-    {
-        await Task.Delay(1000);
-        await Hw75Helper.Instance.SyncDataToDeviceAsync(Element);
     }
 
     public void OnNavigatedFrom()
     {
-        Hw75Helper.Instance.Hw75DynamicDevice?.Close();
-        Hw75Helper.Instance.IsConnected = false;
-        Hw75Helper.Instance.ViewName = "Hw75CustomView";
-        Hw75Helper.Instance.UpdateDataToDeviceHandler -= Instance_UpdateDataToDeviceHandler;
-        Hw75Helper.Instance.StopTimer();
 
-        //Task.Run(() =>
-        //{
-        //    Hw75Helper.Instance.Hw75DynamicDevice?.SetKnobSwitchModeConfig(false, UsbComm.KnobConfig.Types.Mode.Encoder);
-        //});
     }
 }

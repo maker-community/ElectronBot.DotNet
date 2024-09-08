@@ -15,6 +15,7 @@ using ElectronBot.DotNet;
 using ElectronBot.DotNet.LibUsb;
 using ElectronBot.DotNet.WinUsb;
 using HelixToolkit.SharpDX.Core;
+using HelloWordKeyboard.DotNet;
 using HidApi;
 using Hw75Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -260,6 +261,8 @@ public partial class App : Application
             services.AddTransient<IHw75DynamicViewProvider, Hw75DynamicYellowCalendarViewProvider>();
 
             services.AddTransient<IHw75DynamicViewProviderFactory, Hw75DynamicViewProviderFactory>();
+
+            services.AddTransient<IHw75DynamicDevice,Hw75DynamicDevice>();
 
             services.AddGrpcClient<ElectronBotActionGrpc.ElectronBotActionGrpcClient>(o =>
             {
