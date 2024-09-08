@@ -20,7 +20,10 @@
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Grid x:Name="LayoutRoot" Background="White">
-        <Image Width="128" Height="296" Source="{x:Bind ViewModel.ClockTitleConfig.CustomHw75ImagePath, Mode=OneWay}" />
+        <Image
+            Width="128"
+            Height="296"
+            Source="{x:Bind ViewModel.ClockTitleConfig.CustomHw75ImagePath, Mode=OneWay}" />
         <Viewbox>
             <Grid Width="128" Height="296">
                 <Grid.RowDefinitions>
@@ -66,7 +69,7 @@
                     Margin="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
-                    FontFamily="/Assets/Font/fusion-pixel-12px-monospaced-zh_hans.ttf#Fusion Pixel 12px Monospaced zh_hans"
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                     FontSize="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContentFontSize, Mode=OneWay}"
                     Foreground="Black"
                     Text="{x:Bind ViewModel.ClockTitleConfig.Hw75CustomContent, Mode=OneWay}"

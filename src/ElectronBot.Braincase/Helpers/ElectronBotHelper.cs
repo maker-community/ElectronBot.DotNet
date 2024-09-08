@@ -7,6 +7,7 @@ using ElectronBot.Braincase.Services;
 using ElectronBot.DotNet;
 using ElectronBot.DotNet.LibUsb;
 using ElectronBot.DotNet.WinUsb;
+using Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Models;
@@ -15,6 +16,7 @@ using Verdure.ElectronBot.Core.Models;
 using Verdure.IoT.Net;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
+using Windows.Devices.HumanInterfaceDevice;
 using Windows.Devices.SerialCommunication;
 using Windows.Devices.Usb;
 using Windows.Foundation;
@@ -166,9 +168,9 @@ public class ElectronBotHelper
 
     private PackageManager PackageManager { get; } = new PackageManager();
 
-    //DeviceWatcher _hidDeviceWatcher;
+    private DeviceWatcher? _hidDeviceWatcher;
 
-    DeviceWatcher _usbDeviceWatcher;
+    private DeviceWatcher? _usbDeviceWatcher;
 
     public async Task InitAsync()
     {
@@ -210,10 +212,11 @@ public class ElectronBotHelper
         _usbDeviceWatcher.Start();
 
 
-        // Create the HID device watcher
-        //_hidDeviceWatcher = DeviceInformation.CreateWatcher(HidDevice.GetDeviceSelector(0xff14, 0x01));
-        //_hidDeviceWatcher.Added += OnHidDeviceAdded;
-        //_hidDeviceWatcher.Start();
+        //Create the HID device watcher
+        _hidDeviceWatcher = DeviceInformation.CreateWatcher(HidDevice.GetDeviceSelector(0xff14, 0x01));
+        _hidDeviceWatcher.Added += OnHidDeviceAdded;
+        _hidDeviceWatcher.Removed += OnHidDeviceRemoved;
+        _hidDeviceWatcher.Start();
 
         // Create the serial device watcher
         //serialDeviceWatcher = DeviceInformation.CreateWatcher(SerialDevice.GetDeviceSelector());
@@ -221,6 +224,30 @@ public class ElectronBotHelper
         //serialDeviceWatcher.Start();
 
     }
+
+    private async void OnHidDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            ToastHelper.SendToast("Hw75ConnectedText".GetLocalized(), TimeSpan.FromSeconds(3));  
+        });
+        await Task.Run(async () =>
+        {
+            await Hw75GlobalTimerHelper.Instance.UpdateTimerIntervalAsync();
+            await Hw75GlobalTimerHelper.Instance.UpdateHwViewAsync();
+            Hw75GlobalTimerHelper.Instance.StartTimer();
+        });        
+    }
+
+    private void OnHidDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            ToastHelper.SendToast("Hw75DisconnectedText".GetLocalized(), TimeSpan.FromSeconds(3));   
+        });
+        Hw75GlobalTimerHelper.Instance.StopTimer();
+    }
+
 
     private async void OnUsbDeviceWatcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
     {
@@ -278,7 +305,7 @@ public class ElectronBotHelper
 
             //InvokeClockCanvasStart();
 
-            await ConnectDeviceAsync();
+            await ConnectDeviceAsync();            
         }
         catch (Exception ex)
         {
@@ -291,11 +318,6 @@ public class ElectronBotHelper
             return;
         }
     }
-
-    //private async void OnHidDeviceAdded(DeviceWatcher sender, DeviceInformation args)
-    //{
-
-    //}
 
     private async void ElectronBotHelper_PlayEmojisByNameId(object? sender, string e)
     {
