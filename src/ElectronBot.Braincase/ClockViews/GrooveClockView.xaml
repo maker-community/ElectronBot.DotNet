@@ -24,9 +24,7 @@
                 <xaml:CanvasControl
                     x:Name="canvas"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    CreateResources="Canvas_CreateResources"
-                    Draw="Canvas_Draw" />
+                    VerticalAlignment="Stretch" />
                 <StackPanel
                     x:Name="PomodoroPanel"
                     HorizontalAlignment="Center"
