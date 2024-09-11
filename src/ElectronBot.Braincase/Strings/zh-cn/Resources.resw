@@ -949,4 +949,7 @@
   <data name="YellowCalendarBuyAppKeyBtn.Content" xml:space="preserve">
     <value>老黄历AppKey获取链接</value>
   </data>
+  <data name="GrooveView" xml:space="preserve">
+    <value>律动表盘</value>
+  </data>
 </root>
