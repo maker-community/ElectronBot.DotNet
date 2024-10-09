@@ -36,7 +36,7 @@ namespace Services
             capture.StartRecording();
         }
 
-        private void OnDataAvailable(object sender, WaveInEventArgs e)
+        private void OnDataAvailable(object? sender, WaveInEventArgs e)
         {
             for (int i = 0; i < e.BytesRecorded; i += 4)
             {

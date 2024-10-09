@@ -701,7 +701,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
             var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockName);
 
-            if (clockName == "GooeyFooter" || clockName == "CustomView")
+            if (clockName == "GooeyFooter" || clockName == "CustomView" || clockName == "GrooveView")
             {
                 _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 40);
             }
