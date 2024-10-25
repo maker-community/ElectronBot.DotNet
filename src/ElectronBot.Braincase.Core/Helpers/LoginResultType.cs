@@ -1,11 +1,10 @@
-﻿namespace Verdure.ElectronBot.Core.Helpers
+﻿namespace Verdure.ElectronBot.Core.Helpers;
+
+public enum LoginResultType
 {
-    public enum LoginResultType
-    {
-        Success,
-        Unauthorized,
-        CancelledByUser,
-        NoNetworkAvailable,
-        UnknownError
-    }
+    Success,
+    Unauthorized,
+    CancelledByUser,
+    NoNetworkAvailable,
+    UnknownError
 }

@@ -32,6 +32,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
+using Verdure.IoT.Net.Services;
 using Verdure.WinUI.Common;
 using Verdure.WinUI.Common.Players;
 using Verdure.WinUI.Common.Services;
@@ -267,6 +268,8 @@ public static class ConfigureServicesExtensions
             })
             .AddHttpContextAccessor()
             .AddScoped<IUserIdentity, BotUserIdentity>()
+            .AddScoped<IBotToolService, BotToolService>()
+            .AddScoped<IBotIotService, BotIotService>()
             .AddBotSharpLogger(config)
             // Configuration
             .BuildServiceProvider());

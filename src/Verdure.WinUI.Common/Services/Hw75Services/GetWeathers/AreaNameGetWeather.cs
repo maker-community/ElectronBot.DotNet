@@ -1,4 +1,5 @@
-﻿using ElectronBot.Braincase.Models;
+﻿using System.Text.Json;
+using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Models.Name;
 using ElectronBot.Braincase.Models.Name24;
 using Microsoft.Extensions.Options;
@@ -31,7 +32,7 @@ namespace ElectronBot.Braincase.Services
                 httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
                 resultJson = await httpClient.GetStringAsync(uri);
             }
-            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<NameWeatherData>(resultJson);
+            var data = JsonSerializer.Deserialize<NameWeatherData>(resultJson) ?? new NameWeatherData();
             var weatherDisplayed = new Weather_Displayed();
             var hour24 = await NameGet24Weather.NameGet24WeatherIdea(name);
             OrganizeWeatherData(weatherDisplayed, data, hour24);

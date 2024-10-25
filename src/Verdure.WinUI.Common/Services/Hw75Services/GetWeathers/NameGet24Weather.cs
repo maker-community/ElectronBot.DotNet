@@ -1,8 +1,9 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
+﻿using System.Text.Json;
+using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Models.Name24;
 using Microsoft.Extensions.Options;
-using Windows.Web.Http;
+using Verdure.WinUI.Common;
 
 namespace ElectronBot.Braincase.Services
 {
@@ -28,7 +29,7 @@ namespace ElectronBot.Braincase.Services
             var appCode = Ioc.Default.GetRequiredService<IOptions<LocalSettingsOptions>>().Value.Hw75AppCode;
 
             var _localSettingsService = Ioc.Default.GetRequiredService<ILocalSettingsService>();
-            var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
+            var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(CommonConstants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
 
             if (!string.IsNullOrWhiteSpace(config.Hw75WeatherAppCode))
             {
@@ -42,7 +43,7 @@ namespace ElectronBot.Braincase.Services
                 httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
                 resultJson = await httpClient.GetStringAsync(uri);
             }
-            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<NameWeather24Data>(resultJson);
+            var data = JsonSerializer.Deserialize<NameWeather24Data>(resultJson) ?? new NameWeather24Data();
             return data;
         }
     }

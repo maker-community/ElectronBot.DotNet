@@ -1,9 +1,12 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
+﻿using System.Net.Http;
+using System.Text.Json;
+using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.Models.Gps;
 using ElectronBot.Braincase.Models.Name24;
 using Microsoft.Extensions.Options;
+using Microsoft.UI.Dispatching;
+using Verdure.WinUI.Common;
 using Windows.Devices.Geolocation;
 
 namespace ElectronBot.Braincase.Services;
@@ -32,10 +35,10 @@ public class GpsGetWeather
             var geolocator = new Geolocator();
             if (accessStatus != GeolocationAccessStatus.Allowed)
             {
-                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-                {
-                    ToastHelper.SendToast($"请检查系统设置是否开启系统定位权限。", TimeSpan.FromSeconds(5));
-                });
+                //DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+                //{
+                //    ToastHelper.SendToast($"请检查系统设置是否开启系统定位权限。", TimeSpan.FromSeconds(5));
+                //});
                 return weatherDisplayed;
             };
             var pos = await geolocator.GetGeopositionAsync();
@@ -50,7 +53,7 @@ public class GpsGetWeather
             var appCode = Ioc.Default.GetRequiredService<IOptions<LocalSettingsOptions>>().Value.Hw75AppCode;
 
             var _localSettingsService = Ioc.Default.GetRequiredService<ILocalSettingsService>();
-            var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(Constants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
+            var config = await _localSettingsService.ReadSettingAsync<CustomClockTitleConfig>(CommonConstants.CustomClockTitleConfigKey) ?? new CustomClockTitleConfig();
 
             if (!string.IsNullOrWhiteSpace(config.Hw75WeatherAppCode))
             {
@@ -63,20 +66,22 @@ public class GpsGetWeather
                 httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
                 resultJson = await httpClient.GetStringAsync(uri);
             }
-            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<GpsWeatherData>(resultJson);
+            var data = JsonSerializer.Deserialize<GpsWeatherData>(resultJson) ?? new GpsWeatherData();
 
             var hour24 = await NameGet24Weather.NameGet24WeatherIdea(System.Web.HttpUtility.UrlEncode(data.showapi_res_body.cityInfo.c3, System.Text.Encoding.UTF8));
             //var hour24 = await NameGet24Weather.NameGet24WeatherIdea(TransCoding.UrlCode(data.showapi_res_body.cityInfo.c3, "utf-8"));
             OrganizeWeatherData(weatherDisplayed, data, hour24);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-            {
-                ToastHelper.SendToast($"天气获取错误。{ex.Message}", TimeSpan.FromSeconds(5));
-            });
+            throw new Exception($"天气获取错误。{ex.Message}");
+            //DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+            //{
+            //    throw new Exception($"天气获取错误。{ex.Message}");
+            //    //ToastHelper.SendToast($"天气获取错误。{ex.Message}", TimeSpan.FromSeconds(5));
+            //});
         }
-      
+
         return weatherDisplayed;
     }
 
