@@ -30,9 +30,9 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
-
+using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.EbotGrpcService;
 using Verdure.ElectronBot.Core.Contracts.Services;
-using Verdure.ElectronBot.Core.Services;
 using Verdure.IoT.Net.Services;
 using Verdure.WinUI.Common;
 using Verdure.WinUI.Common.Players;
