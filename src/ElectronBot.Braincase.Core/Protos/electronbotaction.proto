@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "Verdure.ElectronBot.GrpcService";
+option csharp_namespace = "Verdure.Braincase.Core.GrpcService";
 
 package electronbotactiongrpc;
 

@@ -4,7 +4,7 @@ using ElectronBot.Braincase.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using Services.ElectronBot;
 using Vedure.Braincsse.WinUI.Helpers;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Windows.Media.Capture.Frames;
 
 // To learn more about WinUI, the WinUI project structure,

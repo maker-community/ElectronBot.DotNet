@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Models;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Verdure.IoT.Net;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;

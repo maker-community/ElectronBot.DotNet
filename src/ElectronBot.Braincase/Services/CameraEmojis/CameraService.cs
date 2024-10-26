@@ -4,7 +4,7 @@
 using System.Diagnostics;
 using CommunityToolkit.WinUI.Helpers;
 using ElectronBot.Braincase.Contracts.Services;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using ElectronBot.Braincase.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics.Imaging;

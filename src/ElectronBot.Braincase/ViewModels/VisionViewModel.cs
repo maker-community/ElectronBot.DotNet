@@ -3,7 +3,7 @@ using ElectronBot.Braincase.Contracts.ViewModels;
 using ElectronBot.Braincase.Helpers;
 using Models.ElectronBot;
 using Services.ElectronBot;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Windows.Graphics.Imaging;
 
 namespace ElectronBot.Braincase.ViewModels;

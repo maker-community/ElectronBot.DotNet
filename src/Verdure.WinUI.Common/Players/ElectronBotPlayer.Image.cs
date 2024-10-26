@@ -1,7 +1,7 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Windows.Storage;
 
 namespace Verdure.WinUI.Common.Players;

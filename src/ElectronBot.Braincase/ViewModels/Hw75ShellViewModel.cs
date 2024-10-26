@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using Controls.CompactOverlay;
 using ElectronBot.Braincase.Contracts.Services;
-using Verdure.ElectronBot.Core.Helpers;
-using Verdure.ElectronBot.Core.Services;
+using Verdure.Braincase.Core.Helpers;
+using Verdure.Braincase.Core.Services;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Services;
 using ElectronBot.Braincase.Views;

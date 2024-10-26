@@ -6,7 +6,7 @@ using ElectronBot.Braincase;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using Models;
-using Verdure.ElectronBot.Core.Helpers;
+using Verdure.Braincase.Core.Helpers;
 using Verdure.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Storage;

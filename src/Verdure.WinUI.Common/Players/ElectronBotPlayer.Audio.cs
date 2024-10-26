@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using ElectronBot.Braincase.Contracts.Services;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Verdure.WinUI.Common.Services;
 using Windows.Devices.Enumeration;
 

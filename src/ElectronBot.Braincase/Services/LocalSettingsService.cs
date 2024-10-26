@@ -1,6 +1,6 @@
 ﻿using ElectronBot.Braincase.Contracts.Services;
-using Verdure.ElectronBot.Core.Contracts.Services;
-using Verdure.ElectronBot.Core.Helpers;
+using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Helpers;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 
@@ -54,7 +54,7 @@ public class LocalSettingsService : ILocalSettingsService
         {
             if (ApplicationData.Current.LocalSettings.Values.TryGetValue(key, out var obj))
             {
-                return await Verdure.ElectronBot.Core.Helpers.Json.ToObjectAsync<T>((string)obj);
+                return await Verdure.Braincase.Core.Helpers.Json.ToObjectAsync<T>((string)obj);
             }
         }
         else
@@ -63,7 +63,7 @@ public class LocalSettingsService : ILocalSettingsService
 
             if (_settings != null && _settings.TryGetValue(key, out var obj))
             {
-                return await Verdure.ElectronBot.Core.Helpers.Json.ToObjectAsync<T>((string)obj);
+                return await Verdure.Braincase.Core.Helpers.Json.ToObjectAsync<T>((string)obj);
             }
         }
 
@@ -74,13 +74,13 @@ public class LocalSettingsService : ILocalSettingsService
     {
         if (RuntimeHelper.IsMSIX)
         {
-            ApplicationData.Current.LocalSettings.Values[key] = await Verdure.ElectronBot.Core.Helpers.Json.StringifyAsync(value);
+            ApplicationData.Current.LocalSettings.Values[key] = await Verdure.Braincase.Core.Helpers.Json.StringifyAsync(value);
         }
         else
         {
             await InitializeAsync();
 
-            _settings[key] = await Verdure.ElectronBot.Core.Helpers.Json.StringifyAsync(value);
+            _settings[key] = await Verdure.Braincase.Core.Helpers.Json.StringifyAsync(value);
 
             await Task.Run(() => _fileService.Save(_applicationDataFolder, _localsettingsFile, _settings));
         }

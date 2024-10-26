@@ -21,7 +21,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Services;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Verdure.WinUI.Common.Helpers;
 using Verdure.WinUI.Common.Models;
 using Verdure.WinUI.Common.Services;

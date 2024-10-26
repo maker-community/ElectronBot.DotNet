@@ -10,7 +10,7 @@ using HelloWordKeyboard.DotNet;
 using HelloWordKeyboard.DotNet.Models;
 using Helpers;
 using Microsoft.UI.Xaml;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 
 namespace ElectronBot.Braincase.ViewModels;
 

@@ -14,7 +14,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Win32;
 using Models;
 using SixLabors.ImageSharp.Processing;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Verdure.IoT.Net;
 using Verdure.WinUI.Common.Helpers;
 using Verdure.WinUI.Common.Models;

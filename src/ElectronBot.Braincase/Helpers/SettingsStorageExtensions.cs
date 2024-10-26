@@ -1,4 +1,4 @@
-﻿using Verdure.ElectronBot.Core.Helpers;
+﻿using Verdure.Braincase.Core.Helpers;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -18,7 +18,7 @@ public static class SettingsStorageExtensions
     public static async Task SaveAsync<T>(this StorageFolder folder, string name, T content)
     {
         var file = await folder.CreateFileAsync(GetFileName(name), CreationCollisionOption.ReplaceExisting);
-        var fileContent = await Verdure.ElectronBot.Core.Helpers.Json.StringifyAsync(content);
+        var fileContent = await Verdure.Braincase.Core.Helpers.Json.StringifyAsync(content);
 
         await FileIO.WriteTextAsync(file, fileContent);
     }
@@ -33,12 +33,12 @@ public static class SettingsStorageExtensions
         var file = await folder.GetFileAsync($"{name}.json");
         var fileContent = await FileIO.ReadTextAsync(file);
 
-        return await Verdure.ElectronBot.Core.Helpers.Json.ToObjectAsync<T>(fileContent);
+        return await Verdure.Braincase.Core.Helpers.Json.ToObjectAsync<T>(fileContent);
     }
 
     public static async Task SaveAsync<T>(this ApplicationDataContainer settings, string key, T value)
     {
-        settings.SaveString(key, await Verdure.ElectronBot.Core.Helpers.Json.StringifyAsync(value));
+        settings.SaveString(key, await Verdure.Braincase.Core.Helpers.Json.StringifyAsync(value));
     }
 
     public static void SaveString(this ApplicationDataContainer settings, string key, string value)
@@ -52,7 +52,7 @@ public static class SettingsStorageExtensions
 
         if (settings.Values.TryGetValue(key, out obj))
         {
-            return await Verdure.ElectronBot.Core.Helpers.Json.ToObjectAsync<T>((string)obj);
+            return await Verdure.Braincase.Core.Helpers.Json.ToObjectAsync<T>((string)obj);
         }
 
         return default;

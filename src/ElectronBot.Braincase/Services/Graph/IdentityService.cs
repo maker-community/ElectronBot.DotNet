@@ -3,7 +3,7 @@ using System.Net.NetworkInformation;
 using ElectronBot.Braincase.Contracts.Services;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
-using Verdure.ElectronBot.Core.Helpers;
+using Verdure.Braincase.Core.Helpers;
 
 namespace ElectronBot.Braincase.Services;
 

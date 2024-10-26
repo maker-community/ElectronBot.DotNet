@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
-using Verdure.ElectronBot.Core.Contracts.Services;
-using Verdure.ElectronBot.Core.Helpers;
+using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Helpers;
 using Microsoft.Graph;
 
 namespace ElectronBot.Braincase.Services;

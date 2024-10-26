@@ -12,7 +12,7 @@ using Windows.Media.FaceAnalysis;
 using Windows.Media;
 using Windows.Storage.Streams;
 using Microsoft.Graphics.Canvas;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Windows.Graphics;
 using System.Text;
 using System.IO;

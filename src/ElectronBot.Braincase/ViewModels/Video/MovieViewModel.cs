@@ -36,7 +36,7 @@ using Microsoft.Graphics.Canvas;
 using Windows.Media.Playback;
 using ElectronBot.Braincase.Extensions;
 using Vector3 = SharpDX.Vector3;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Media.FaceAnalysis;
 using Windows.Media;
@@ -683,7 +683,7 @@ public partial class MovieViewModel : ObservableRecipient
         StopCapture();
     }
 
-    private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
+    private void Instance_ModelActionFrame(object? sender, Verdure.Braincase.Core.Models.ModelActionFrame e)
     {
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {

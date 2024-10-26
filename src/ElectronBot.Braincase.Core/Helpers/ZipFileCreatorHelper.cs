@@ -1,6 +1,6 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 
-namespace Verdure.ElectronBot.Core.Helpers;
+namespace Verdure.Braincase.Core.Helpers;
 public static class ZipFileCreatorHelper
 {
     /// <summary>

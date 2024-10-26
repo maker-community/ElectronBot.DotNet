@@ -1,6 +1,6 @@
-﻿using Verdure.ElectronBot.Core.Models;
+﻿using Verdure.Braincase.Core.Models;
 
-namespace Verdure.ElectronBot.Core.Contracts.Services;
+namespace Verdure.Braincase.Core.Contracts.Services;
 /// <summary>
 /// 网络表情文件管理器
 /// </summary>

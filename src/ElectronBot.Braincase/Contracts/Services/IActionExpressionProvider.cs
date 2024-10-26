@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ElectronBot.Braincase.Models;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Verdure.WinUI.Common.Models;
 
 namespace ElectronBot.Braincase.Contracts.Services;

@@ -10,7 +10,7 @@ using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Models;
-using Verdure.ElectronBot.Core.Helpers;
+using Verdure.Braincase.Core.Helpers;
 using Verdure.WinUI.Common;
 using Verdure.WinUI.Common.Helpers;
 using Verdure.WinUI.Common.Models;

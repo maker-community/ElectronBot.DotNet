@@ -1,4 +1,4 @@
-﻿using Verdure.ElectronBot.Core.Helpers;
+﻿using Verdure.Braincase.Core.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.WinUI.Common.Helpers;
 

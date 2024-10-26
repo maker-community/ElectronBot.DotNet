@@ -7,7 +7,6 @@ using CommunityToolkit.Mvvm.Input;
 using Controls;
 using ElectronBot.Braincase.Contracts.Services;
 using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Core.Models;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Services;
 using Mediapipe.Net.Framework.Format;

@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using System.Text.Json;
-using Verdure.ElectronBot.Core.Contracts.Services;
+using Verdure.Braincase.Core.Contracts.Services;
 
-namespace Verdure.ElectronBot.Core.Services;
+namespace Verdure.Braincase.Core.Services;
 
 public class FileService : IFileService
 {

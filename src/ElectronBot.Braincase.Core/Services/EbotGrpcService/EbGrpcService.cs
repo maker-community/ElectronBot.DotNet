@@ -1,11 +1,9 @@
-﻿using ElectronBot.Braincase.Core.Models;
-using Google.Protobuf;
+﻿using Google.Protobuf;
 using Google.Protobuf.Collections;
-using Microsoft.Graph;
-using Verdure.ElectronBot.Core.Models;
-using Verdure.ElectronBot.GrpcService;
+using Verdure.Braincase.Core.GrpcService;
+using Verdure.Braincase.Core.Models;
 
-namespace ElectronBot.Braincase.Services.EbotGrpcService;
+namespace Verdure.Braincase.Core.EbotGrpcService;
 public class EbGrpcService
 {
     private readonly ElectronBotActionGrpc.ElectronBotActionGrpcClient _client;

@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using ElectronBot.Braincase.Services;
 using Microsoft.Graph;
 using Microsoft.UI.Xaml;
-using Verdure.ElectronBot.Core.Contracts.Services;
+using Verdure.Braincase.Core.Contracts.Services;
 
 namespace ViewModels;
 public partial class Hw75DynamicViewModel : ObservableRecipient

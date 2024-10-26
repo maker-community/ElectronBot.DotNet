@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using ElectronBot.Braincase.Helpers;
-using Verdure.ElectronBot.Core.Contracts.Services;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Models;
 
 namespace ElectronBot.Braincase.Services;
 public class EmoticonActionFrameService : IEmoticonActionFrameService

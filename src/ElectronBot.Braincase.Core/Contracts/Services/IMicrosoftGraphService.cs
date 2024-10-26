@@ -1,6 +1,6 @@
 ﻿using Microsoft.Graph;
 
-namespace Verdure.ElectronBot.Core.Contracts.Services;
+namespace Verdure.Braincase.Core.Contracts.Services;
 /// <summary>
 /// 微软Graph相关的操作
 /// </summary>

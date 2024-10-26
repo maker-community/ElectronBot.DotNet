@@ -6,7 +6,7 @@ using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using SixLabors.ImageSharp.Processing;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Verdure.WinUI.Common.Models;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;

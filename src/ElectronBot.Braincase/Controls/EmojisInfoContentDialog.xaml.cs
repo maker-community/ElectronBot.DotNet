@@ -14,7 +14,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using ElectronBot.Braincase.ViewModels;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using ElectronBot.Braincase.Models;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板

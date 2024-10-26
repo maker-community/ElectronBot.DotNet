@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Graphics.Canvas;
 using SixLabors.ImageSharp.Processing;
-using Verdure.ElectronBot.Core.Contracts.Services;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Models;
 using Verdure.WinUI.Common.Models;
 using Windows.Media.Playback;
 

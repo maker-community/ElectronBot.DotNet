@@ -30,6 +30,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
+
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Services;
 using Verdure.IoT.Net.Services;
@@ -253,7 +254,7 @@ public static class ConfigureServicesExtensions
             //    //o.Address = new Uri("http://localhost:5241")
             //})
 
-            .AddSingleton<Services.EbotGrpcService.EbGrpcService>()
+            .AddSingleton<EbGrpcService>()
 
             // add botsharp
             .AddTransient<AgentViewModel>()

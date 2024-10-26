@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Verdure.ElectronBot.Core.Models;
+using Verdure.Braincase.Core.Models;
 using Verdure.WinUI.Common.Helpers;
 
 namespace ElectronBot.Braincase.Services;

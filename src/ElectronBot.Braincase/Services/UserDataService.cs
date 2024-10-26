@@ -1,5 +1,5 @@
-﻿using Verdure.ElectronBot.Core.Contracts.Services;
-using Verdure.ElectronBot.Core.Services;
+﻿using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Services;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using ElectronBot.Braincase.ViewModels;

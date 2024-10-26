@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Verdure.ElectronBot.Core.Models;
+namespace Verdure.Braincase.Core.Models;
 public class CatalogItemRequest
 {
     [Required]

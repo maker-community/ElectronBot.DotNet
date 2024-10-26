@@ -1,4 +1,4 @@
-﻿namespace Verdure.ElectronBot.Core.Models;
+﻿namespace Verdure.Braincase.Core.Models;
 public class EmoticonActionFrame
 {
     public byte[] FrameBuffer

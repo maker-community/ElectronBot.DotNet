@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronBot.Braincase.Core.Models;
+namespace Verdure.Braincase.Core.Models;
 public class MotorControlRequestModel
 {
     public int Init1

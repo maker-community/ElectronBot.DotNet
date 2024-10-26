@@ -27,6 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ElectronBot.Braincase.Core\Verdure.ElectronBot.Core.csproj" />
+    <ProjectReference Include="..\ElectronBot.Braincase.Core\Verdure.Braincase.Core.csproj" />
   </ItemGroup>
 </Project>

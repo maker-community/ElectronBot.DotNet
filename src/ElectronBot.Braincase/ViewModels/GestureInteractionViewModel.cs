@@ -815,7 +815,7 @@ public partial class GestureInteractionViewModel : ObservableRecipient
         await CleanUpAsync();
     }
 
-    private void Instance_ModelActionFrame(object? sender, Verdure.ElectronBot.Core.Models.ModelActionFrame e)
+    private void Instance_ModelActionFrame(object? sender, Verdure.Braincase.Core.Models.ModelActionFrame e)
     {
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
