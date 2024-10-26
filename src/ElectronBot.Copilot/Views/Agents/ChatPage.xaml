@@ -87,7 +87,7 @@
                     ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Column="2">
+        <!--<StackPanel Grid.Column="2">
             <ItemsView
                 Width="220"
                 Height="400"
@@ -95,6 +95,6 @@
                 IsItemInvokedEnabled="True"
                 ItemInvoked="BasicItemsView_ItemInvoked"
                 ItemTemplate="{StaticResource ImageTemplate}" />
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Page>
