@@ -1,14 +1,16 @@
-﻿using System.Configuration;
-using System.Net.NetworkInformation;
-using ElectronBot.Braincase.Contracts.Services;
+﻿using System.Net.NetworkInformation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
-using Verdure.Braincase.Core.Helpers;
 
 namespace ElectronBot.Braincase.Services;
 
 public class IdentityService
 {
+    public IdentityService(IConfiguration configuration)
+    {
+        _clientId = configuration["MicrosoftGraph:IdentityClientId"] ?? "";
+    }
     // For more information about using Identity, see
     // https://github.com/microsoft/TemplateStudio/blob/main/docs/UWP/services/identity.md
     //
@@ -18,7 +20,7 @@ public class IdentityService
 
     // TODO: Please create a ClientID following these steps and update the app.config IdentityClientId.
     // https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-    private readonly string _clientId = ConfigurationManager.AppSettings["IdentityClientId"];
+    private readonly string _clientId;
 
     private readonly string _redirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
 
@@ -27,6 +29,7 @@ public class IdentityService
     private bool _integratedAuthAvailable;
 
     private IPublicClientApplication _client;
+
     private AuthenticationResult _authenticationResult;
 
     public event EventHandler LoggedIn;

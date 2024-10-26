@@ -260,13 +260,13 @@ public static class ConfigureServicesExtensions
             .AddTransient<AgentViewModel>()
             .AddTransient<AgentPage>()
             .AddTransient<ChatViewModel>()
-            .AddTransient<ChatPage>()
-            .AddSingleton(dbSettings)
+            .AddTransient<ChatPage>()           
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());
                 options.JsonSerializerOptions.Converters.Add(new TemplateMessageJsonConverter());
             })
+            .AddSingleton(dbSettings)
             .AddHttpContextAccessor()
             .AddScoped<IUserIdentity, BotUserIdentity>()
             .AddScoped<IBotToolService, BotToolService>()
