@@ -1,4 +1,4 @@
-﻿using Microsoft.Graph;
+﻿using Microsoft.Graph.Models;
 
 namespace Verdure.Braincase.Core.Contracts.Services;
 /// <summary>

@@ -8,6 +8,7 @@ using Verdure.Braincase.Core.Services;
 using Microsoft.Graph;
 using Controls.CompactOverlay;
 using Microsoft.UI.Windowing;
+using Microsoft.Graph.Models;
 
 namespace ElectronBot.Braincase.ViewModels;
 

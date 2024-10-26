@@ -7,16 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Graph" Version="4.45.0" />
-    <PackageReference Include="Microsoft.Identity.Client.Broker" Version="4.53.0" />
-    <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.29.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
-	  <PackageReference Include="Google.Protobuf" Version="3.26.1" />
-	  <PackageReference Include="Grpc.Net.Client" Version="2.62.0" />
-	  <PackageReference Include="Grpc.Net.ClientFactory" Version="2.62.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.61.0" />
+    <PackageReference Include="Microsoft.Identity.Client.Broker" Version="4.66.1" />
+    <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.66.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
+	  <PackageReference Include="Google.Protobuf" Version="3.28.3" />
+	  <PackageReference Include="Grpc.Net.Client" Version="2.66.0" />
+	  <PackageReference Include="Grpc.Net.ClientFactory" Version="2.66.0" />
 	  <PackageReference Include="System.IO.Ports" Version="8.0.0" />
 	  <PackageReference Include="SharpZipLib" Version="1.4.2" />
-	  <PackageReference Include="Grpc.Tools" Version="2.63.0">
+	  <PackageReference Include="Grpc.Tools" Version="2.67.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>

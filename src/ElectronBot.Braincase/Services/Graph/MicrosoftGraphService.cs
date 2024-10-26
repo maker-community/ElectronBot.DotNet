@@ -1,7 +1,7 @@
-﻿using System.Net.Http.Headers;
-using Verdure.Braincase.Core.Contracts.Services;
-using Verdure.Braincase.Core.Helpers;
+﻿using Azure.Identity;
 using Microsoft.Graph;
+using Microsoft.Graph.Models;
+using Verdure.Braincase.Core.Contracts.Services;
 
 namespace ElectronBot.Braincase.Services;
 
@@ -21,25 +21,20 @@ public class MicrosoftGraphService : IMicrosoftGraphService
     public MicrosoftGraphService(IdentityService identityService)
     {
         _identityService = identityService;
-        _graphServiceClient = new GraphServiceClient(_graphAPIEndpoint,
-            new DelegateAuthenticationProvider(async (requestMessage) =>
-            {
-                var accessToken = await _identityService.GetAccessTokenForGraphAsync();
-
-                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
-            }));
+        var credential = new ClientSecretCredential("TenantId", "ClientId", "ClientSecret");
+        _graphServiceClient = new GraphServiceClient(credential);
     }
 
     public Task PrepareGraphAsync()
     {
-      
+
 
         return Task.CompletedTask;
     }
 
     public async Task<User> GetUserInfoAsync()
     {
-        var graphUser = await _graphServiceClient.Me.Request().GetAsync();
+        var graphUser = await _graphServiceClient.Me.GetAsync();
 
         return graphUser;
     }
@@ -47,17 +42,18 @@ public class MicrosoftGraphService : IMicrosoftGraphService
     public async Task<string> GetUserPhotoAsync()
     {
         var stream = await _graphServiceClient.Me.Photo.Content
-            .Request()
             .GetAsync();
         return stream.ToBase64String();
     }
 
     public async Task<IList<TodoTaskList>> GetTodoTaskListAsync()
     {
-        return await _graphServiceClient.Me.Todo.Lists.Request().GetAsync();
+        var todoTaskLists = await _graphServiceClient.Me.Todo.Lists.GetAsync();
+        return todoTaskLists?.Value ?? new List<TodoTaskList>();
     }
     public async Task<IList<TodoTask>> GetTodoTaskListByTaskIdAsync(string id)
     {
-        return await _graphServiceClient.Me.Todo.Lists[id].Tasks.Request().GetAsync();
+        var tasksResponse = await _graphServiceClient.Me.Todo.Lists[id].Tasks.GetAsync();
+        return tasksResponse?.Value ?? new List<TodoTask>();
     }
 }

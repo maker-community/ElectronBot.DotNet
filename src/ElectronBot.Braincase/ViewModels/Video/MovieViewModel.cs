@@ -1,58 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using Windows.ApplicationModel;
+﻿using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Controls.CompactOverlay;
-using ElectronBot.Braincase;
 using ElectronBot.Braincase.Helpers;
+using ElectronBot.Braincase.Services;
 using HelixToolkit.SharpDX.Core;
-using HelixToolkit.WinUI;
-using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using Models;
-using SharpDX;
-using Assimp;
 using HelixToolkit.SharpDX.Core.Assimp;
 using HelixToolkit.SharpDX.Core.Model.Scene;
-using Microsoft.UI.Xaml.Media;
-using BoundingBox = SharpDX.BoundingBox;
-using Camera = HelixToolkit.WinUI.Camera;
-using Matrix = SharpDX.Matrix;
-using Microsoft.UI.Xaml.Controls;
-using ElectronBot.Braincase.Services;
-using Services;
-using System.Diagnostics;
-using System.Numerics;
-using Windows.Foundation;
-using Windows.Graphics.Imaging;
+using HelixToolkit.WinUI;
 using Mediapipe.Net.Solutions;
-using Microsoft.UI;
-using Constants = ElectronBot.Braincase.Constants;
-using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
-using Windows.Media.Playback;
-using ElectronBot.Braincase.Extensions;
-using Vector3 = SharpDX.Vector3;
-using Verdure.Braincase.Core.Models;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Media.FaceAnalysis;
-using Windows.Media;
-using Windows.Graphics.Capture;
-using WinRT.Interop;
-using Microsoft.Graph.CallRecords;
 using Microsoft.Graphics.Canvas.UI.Composition;
-using Windows.Graphics;
 using Microsoft.Graphics.DirectX;
+using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
+using Services;
+using SharpDX;
+using Windows.ApplicationModel;
+using Windows.Foundation;
+using Windows.Graphics;
+using Windows.Graphics.Capture;
+using Windows.Graphics.Imaging;
+using Windows.Media;
+using Windows.Media.FaceAnalysis;
 using Windows.Storage.Streams;
-using System.Runtime.InteropServices;
-using Mediapipe.Net.Framework.Format;
-using Mediapipe.Net.Framework.Protobuf;
+using WinRT.Interop;
+using BoundingBox = SharpDX.BoundingBox;
+using Camera = HelixToolkit.WinUI.Camera;
 using Color = SharpDX.Color;
+using Matrix = SharpDX.Matrix;
+using Vector3 = SharpDX.Vector3;
 
 namespace ElectronBot.Braincase.ViewModels;
 
@@ -999,8 +977,8 @@ public partial class MovieViewModel : ObservableRecipient
                     using var inputFrame = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
 
 
-                   using  var tmp = new VideoFrame(softwareBitmap.BitmapPixelFormat, (int)(faceBox.Width + faceBox.Width % 2) - 2,
-                        (int)(faceBox.Height + faceBox.Height % 2) - 2);
+                    using var tmp = new VideoFrame(softwareBitmap.BitmapPixelFormat, (int)(faceBox.Width + faceBox.Width % 2) - 2,
+                         (int)(faceBox.Height + faceBox.Height % 2) - 2);
 
                     await inputFrame.CopyToAsync(tmp, new BitmapBounds(faceBox.X - 20, faceBox.Y - 20, faceBox.Width + 40, faceBox.Height + 40), null);
 

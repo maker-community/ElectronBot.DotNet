@@ -5,6 +5,7 @@ using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ElectronBot.Braincase.Services;
 using Microsoft.Graph;
+using Microsoft.Graph.Models;
 using Microsoft.UI.Xaml;
 using Verdure.Braincase.Core.Contracts.Services;
 
