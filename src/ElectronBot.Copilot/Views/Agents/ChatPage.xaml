@@ -34,12 +34,27 @@
             </Grid>
         </DataTemplate>
         <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
+        <!--<DataTemplate x:Key="ImageTemplate" x:DataType="models:Conversation">
+            <ItemContainer
+                Width="200"
+                Height="140"
+                HorizontalAlignment="Left">
+                <Image
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    AutomationProperties.AccessibilityView="Raw"
+                    Source="{x:Bind ImageLocation}"
+                    Stretch="UniformToFill" />
+            </ItemContainer>
+        </DataTemplate>-->
 
     </Page.Resources>
     <Grid x:Name="ContentArea">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <ListView
             x:Name="ConvList"
@@ -71,6 +86,15 @@
                     MinHeight="220"
                     ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
             </Grid>
+        </StackPanel>
+        <StackPanel Grid.Column="2">
+            <ItemsView
+                Width="220"
+                Height="400"
+                HorizontalAlignment="Left"
+                IsItemInvokedEnabled="True"
+                ItemInvoked="BasicItemsView_ItemInvoked"
+                ItemTemplate="{StaticResource ImageTemplate}" />
         </StackPanel>
     </Grid>
 </Page>
