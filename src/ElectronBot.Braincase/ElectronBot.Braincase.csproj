@@ -282,6 +282,7 @@
     <ProjectReference Include="..\HelloWordKeyboard.DotNet\HelloWordKeyboard.DotNet.csproj" />
     <ProjectReference Include="..\Mediapipe.Net\Mediapipe.Net.csproj" />
     <ProjectReference Include="..\Verdure.Braincase.Controls\Verdure.Braincase.Controls.csproj" />
+    <ProjectReference Include="..\Verdure.Braincase.DataStorage\Verdure.Braincase.DataStorage.csproj" />
     <ProjectReference Include="..\Verdure.IoT.Net\Verdure.IoT.Net.csproj" />
     <ProjectReference Include="..\Verdure.NotificationArea\Verdure.NotificationArea.csproj" />
     <ProjectReference Include="..\Verdure.WinUI.Common\Verdure.WinUI.Common.csproj" />
