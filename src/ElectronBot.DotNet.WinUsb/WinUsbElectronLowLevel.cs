@@ -8,49 +8,51 @@ using Microsoft.Extensions.Logging;
 namespace ElectronBot.DotNet.WinUsb;
 
 /// <summary>
-/// 电子SDK接口
+/// 电子SDK接口 / Electron SDK Interface
 /// </summary>
 public class WinUsbElectronLowLevel : IElectronLowLevel
 {
-    private const int Vid = 0x5241;
+    public string Name => "WinUsb";
 
-    private const int Pid = 0x5241;
+    private const int Vid = 0x5241; // Vendor ID
 
-    private bool _isConnected = false;
+    private const int Pid = 0x5241; // Product ID
 
-    private readonly List<byte[]> _extraDataBufferTx = new()
-    {
-        new byte[32],
-        new byte[32]
-    };
+    private bool _isConnected = false; // Connection status
 
-    private readonly List<byte[]> _frameBufferTx = new()
-    {
-        new byte[240 * 240 * 3],
-        new byte[240 * 240 * 3]
-    };
-    private byte[] _extraDataBufferRx = new byte[32];
+    private readonly List<byte[]> _extraDataBufferTx = new() // Transmit buffer for extra data
+        {
+            new byte[32],
+            new byte[32]
+        };
 
-    private int _pingPongWriteIndex = 0;
+    private readonly List<byte[]> _frameBufferTx = new() // Transmit buffer for frame data
+        {
+            new byte[240 * 240 * 3],
+            new byte[240 * 240 * 3]
+        };
+    private byte[] _extraDataBufferRx = new byte[32]; // Receive buffer for extra data
 
-    private readonly byte[] _usbBuffer200 = new byte[224];
+    private int _pingPongWriteIndex = 0; // Ping-pong buffer index
 
-    private IUsbDevice? _usbDevice;
+    private readonly byte[] _usbBuffer200 = new byte[224]; // USB buffer
+
+    private IUsbDevice? _usbDevice; // USB device
 
     // open read endpoint 1.
-    private UsbEndpointReader? _reader;
+    private UsbEndpointReader? _reader; // USB endpoint reader
 
     // open write endpoint 1.
-    private UsbEndpointWriter? _writer;
+    private UsbEndpointWriter? _writer; // USB endpoint writer
 
-    private readonly IUsbDevice? _wholeUsbDevice;
+    private readonly IUsbDevice? _wholeUsbDevice; // Whole USB device
 
-    private readonly UsbContext _context = new ();
+    private readonly UsbContext _context = new(); // USB context
 
-    private readonly ILogger<WinUsbElectronLowLevel> _logger;
+    private readonly ILogger<WinUsbElectronLowLevel> _logger; // Logger
 
 
-    public static UsbDeviceFinder MyUsbFinder = new()//(0x1001, 0x8023);
+    public static UsbDeviceFinder MyUsbFinder = new() // USB device finder
     {
         Vid = 0x5241,
         Pid = 0x5241
@@ -61,13 +63,13 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         _logger = logger;
     }
 
-    public bool IsConnected => _isConnected;
+    public bool IsConnected => _isConnected; // Connection status property
 
     /// <summary>
-    /// 连接电子
+    /// 连接电子 / Connect Electron
     /// </summary>
-    /// <param name="interfaceId">接口id 默认为0可不传</param>
-    /// <returns>返回是否成功</returns>
+    /// <param name="interfaceId">接口id 默认为0可不传 / Interface ID, default is 0</param>
+    /// <returns>返回是否成功 / Returns whether the connection was successful</returns>
     public bool Connect(int interfaceId)
     {
         if (_usbDevice == null)
@@ -102,9 +104,9 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         }
     }
     /// <summary>
-    /// 断开电子
+    /// 断开电子 / Disconnect Electron
     /// </summary>
-    /// <returns>返回是否成功</returns>
+    /// <returns>返回是否成功 / Returns whether the disconnection was successful</returns>
     public bool Disconnect()
     {
         if (_usbDevice != null && _usbDevice.IsOpen)
@@ -129,9 +131,9 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         }
     }
     /// <summary>
-    /// 重置设备
+    /// 重置设备 / Reset Device
     /// </summary>
-    /// <returns></returns>
+    /// <returns>返回是否成功 / Returns whether the reset was successful</returns>
     public bool ResetDevice()
     {
         var ret = false;
@@ -146,9 +148,9 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         return ret;
     }
     /// <summary>
-    /// 获取额外的数据
+    /// 获取额外的数据 / Get Extra Data
     /// </summary>
-    /// <returns>额外数据的结果</returns>
+    /// <returns>额外数据的结果 / Extra data result</returns>
     public byte[] GetExtraData()
     {
         var data = new byte[32];
@@ -158,9 +160,9 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         return data;
     }
     /// <summary>
-    /// 返回舵机的角度列表
+    /// 返回舵机的角度列表 / Get Joint Angles
     /// </summary>
-    /// <returns>角度列表结果</returns>
+    /// <returns>角度列表结果 / List of joint angles</returns>
     public List<float> GetJointAngles()
     {
         var list = new List<float>();
@@ -184,33 +186,32 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         return list;
     }
     /// <summary>
-    /// 设置额外的数据
+    /// 设置额外的数据 / Set Extra Data
     /// </summary>
-    /// <param name="data">数据</param>
-    /// <param name="len">数据的长度</param>
-
+    /// <param name="data">数据 / Data</param>
+    /// <param name="len">数据的长度 / Length of the data</param>
     public void SetExtraData(byte[] data, int len = 32)
     {
         Array.Copy(data, 0, _extraDataBufferTx[_pingPongWriteIndex], 0, len);
     }
     /// <summary>
-    /// 设置图片数据
+    /// 设置图片数据 / Set Image Data
     /// </summary>
-    /// <param name="data">图片的字节数据</param>
+    /// <param name="data">图片的字节数据 / Byte data of the image</param>
     public void SetImageSrc(byte[] data)
     {
         data.CopyTo(_frameBufferTx[_pingPongWriteIndex], 0);
     }
     /// <summary>
-    /// 设置舵机角度
+    /// 设置舵机角度 / Set Joint Angles
     /// </summary>
-    /// <param name="j1">二号舵机角度</param>
-    /// <param name="j2">四号舵机角度</param>
-    /// <param name="j3">六号舵机角度</param>
-    /// <param name="j4">八号舵机角度</param>
-    /// <param name="j5">十号舵机角度</param>
-    /// <param name="j6">十二号舵机角度</param>
-    /// <param name="enable">是否使能舵机</param>
+    /// <param name="j1">二号舵机角度 / Angle of joint 2</param>
+    /// <param name="j2">四号舵机角度 / Angle of joint 4</param>
+    /// <param name="j3">六号舵机角度 / Angle of joint 6</param>
+    /// <param name="j4">八号舵机角度 / Angle of joint 8</param>
+    /// <param name="j5">十号舵机角度 / Angle of joint 10</param>
+    /// <param name="j6">十二号舵机角度 / Angle of joint 12</param>
+    /// <param name="enable">是否使能舵机 / Whether to enable the joint</param>
     public void SetJointAngles(float j1, float j2, float j3, float j4, float j5, float j6, bool enable = false)
     {
         var jointAngleSetPoints = new float[6];
@@ -236,9 +237,9 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
 
     }
     /// <summary>
-    /// 同步操作数据到电子
+    /// 同步操作数据到电子 / Sync Data to Electron
     /// </summary>
-    /// <returns>返回是否成功</returns>
+    /// <returns>返回是否成功 / Returns whether the sync was successful</returns>
     public bool Sync()
     {
         if (_isConnected)
@@ -284,7 +285,7 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         catch (Exception ex)
         {
             _reader?.Device.Dispose();
-            // todo:异常处理
+            // todo:异常处理 / TODO: Exception handling
         }
 
         return pCount == 0;
@@ -328,7 +329,7 @@ public class WinUsbElectronLowLevel : IElectronLowLevel
         catch (Exception ex)
         {
             _writer?.Device.Dispose();
-            // todo:异常处理
+            // todo:异常处理 / TODO: Exception handling
         }
 
         return pCount == 0;

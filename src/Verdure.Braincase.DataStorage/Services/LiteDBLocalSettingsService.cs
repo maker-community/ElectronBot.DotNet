@@ -1,13 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ElectronBot.Braincase.Contracts.Services;
+﻿using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.Core.Helpers;
+using Verdure.Braincase.DataStorage.Collections;
 
 namespace Verdure.Braincase.DataStorage.Services;
 public class LiteDBLocalSettingsService : ILocalSettingsService
 {
-    public Task<T?> ReadSettingAsync<T>(string key) => throw new NotImplementedException();
-    public Task SaveSettingAsync<T>(string key, T value) => throw new NotImplementedException();
+    private readonly BraincaseLiteDBContext _db;
+    public LiteDBLocalSettingsService(BraincaseLiteDBContext db)
+    {
+        _db = db;
+    }
+    public async Task<T?> ReadSettingAsync<T>(string key)
+    {
+        var setting = _db.LocalSettings.FindOne(x => x.Key == key);
+        return await Json.ToObjectAsync<T>(setting.Value);
+    }
+    public async Task SaveSettingAsync<T>(string key, T value)
+    {
+        var setting = _db.LocalSettings.FindOne(x => x.Key == key);
+
+        if (setting == null)
+        {
+            _db.LocalSettings.Insert(new LocalSettingDocument { Key = key, Value = await Json.StringifyAsync(value) });
+        }
+        else
+        {
+            setting.Value = await Json.StringifyAsync(value);
+            _db.LocalSettings.Update(setting);
+        }
+    }
 }

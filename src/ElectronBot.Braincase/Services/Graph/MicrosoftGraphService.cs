@@ -1,6 +1,6 @@
-﻿using Azure.Identity;
-using Microsoft.Graph;
+﻿using Microsoft.Graph;
 using Microsoft.Graph.Models;
+using Microsoft.Kiota.Abstractions.Authentication;
 using Verdure.Braincase.Core.Contracts.Services;
 
 namespace ElectronBot.Braincase.Services;
@@ -14,21 +14,15 @@ public class MicrosoftGraphService : IMicrosoftGraphService
 
     private const string _graphAPIEndpoint = "https://graph.microsoft.com/v1.0/";
 
-    private readonly IdentityService _identityService;
-
     private readonly GraphServiceClient _graphServiceClient;
 
-    public MicrosoftGraphService(IdentityService identityService)
+    public MicrosoftGraphService(IAuthenticationProvider authenticationProvider)
     {
-        _identityService = identityService;
-        var credential = new ClientSecretCredential("TenantId", "ClientId", "ClientSecret");
-        _graphServiceClient = new GraphServiceClient(credential);
+        _graphServiceClient = new GraphServiceClient(authenticationProvider, _graphAPIEndpoint);
     }
 
     public Task PrepareGraphAsync()
     {
-
-
         return Task.CompletedTask;
     }
 

@@ -10,6 +10,8 @@ namespace ElectronBot.DotNet.LibUsb;
 /// </summary>
 public class LibUsbElectronLowLevel : IElectronLowLevel
 {
+    public string Name => "LibUsb";
+
     private const int Vid = 0x1001;
 
     private const int Pid = 0x8023;

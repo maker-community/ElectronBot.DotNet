@@ -2,6 +2,7 @@
 using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Collections;
 using Contracts.Services;
 using Controls;
 using ElectronBot.Braincase.Contracts.Services;
@@ -10,10 +11,10 @@ using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Models;
-using Verdure.Braincase.Core.Helpers;
 using Verdure.WinUI.Common;
 using Verdure.WinUI.Common.Helpers;
 using Verdure.WinUI.Common.Models;
+using Verdure.WinUI.Common.ViewDataSource;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -620,57 +621,11 @@ public partial class EmojisEditViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    public async Task OnLoadedAsync()
+    public Task OnLoadedAsync()
     {
         Actions.Clear();
-        var list = (await _localSettingsService
-            .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
-
-        if (!list.Any(a => a.EmojisType == EmojisType.Default))
-        {
-            var emoticonActions = Constants.EMOJI_ACTION_LIST;
-            Actions = new ObservableCollection<EmoticonAction>(emoticonActions);
-
-
-            await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, emoticonActions.ToList());
-        }
-        else
-        {
-            var isShouldUpdate = false;
-
-            var emoticonActions = Constants.EMOJI_ACTION_LIST;
-
-            foreach (var emotion in emoticonActions)
-            {
-                var emotionData = list.FirstOrDefault(e => e.NameId == emotion.NameId);
-
-                if (emotionData != null)
-                {
-                    if (emotionData.EmojisActionPath != emotion.EmojisActionPath)
-                    {
-                        emotionData.EmojisActionPath = emotion.EmojisActionPath;
-                        isShouldUpdate = true;
-                    }
-                }
-                else
-                {
-                    list.Add(emotion);
-                    isShouldUpdate = true;
-                }
-            }
-
-            if (isShouldUpdate)
-            {
-                await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, list);
-            }
-        }
-
-
-        await Task.Delay(TimeSpan.FromMilliseconds(500));
-
-        foreach (var item in list)
-        {
-            Actions.Add(item);
-        }
+        // IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
+        Actions = new IncrementalLoadingCollection<EmojisSource, EmoticonAction>(Ioc.Default.GetRequiredService<EmojisSource>());
+        return Task.CompletedTask;
     }
 }

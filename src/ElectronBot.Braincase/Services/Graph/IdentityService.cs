@@ -7,9 +7,28 @@ namespace ElectronBot.Braincase.Services;
 
 public class IdentityService
 {
+
+    // TODO: Please create a ClientID following these steps and update the app.config IdentityClientId.
+    // https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+    private readonly string _clientId;
+
+    private readonly string _redirectUri = "http://localhost:5241";
+
+    private readonly string[] _graphScopes = ["user.read", "Tasks.ReadWrite"];
+
+    private bool _integratedAuthAvailable;
+
+    private IPublicClientApplication _client;
+
+    private AuthenticationResult? _authenticationResult;
     public IdentityService(IConfiguration configuration)
     {
         _clientId = configuration["MicrosoftGraph:IdentityClientId"] ?? "";
+        _integratedAuthAvailable = false;
+        _client = PublicClientApplicationBuilder.Create(_clientId)
+                                                .WithAuthority(AadAuthorityAudience.AzureAdAndPersonalMicrosoftAccount)
+                                                .WithRedirectUri(_redirectUri)
+                                                .Build();
     }
     // For more information about using Identity, see
     // https://github.com/microsoft/TemplateStudio/blob/main/docs/UWP/services/identity.md
@@ -18,32 +37,18 @@ public class IdentityService
     // https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki
     // https://docs.microsoft.com/azure/active-directory/develop/v2-overview
 
-    // TODO: Please create a ClientID following these steps and update the app.config IdentityClientId.
-    // https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-    private readonly string _clientId;
+    public event EventHandler? LoggedIn;
 
-    private readonly string _redirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
-
-    private readonly string[] _graphScopes = new string[] { "user.read", "Tasks.ReadWrite" };
-
-    private bool _integratedAuthAvailable;
-
-    private IPublicClientApplication _client;
-
-    private AuthenticationResult _authenticationResult;
-
-    public event EventHandler LoggedIn;
-
-    public event EventHandler LoggedOut;
+    public event EventHandler? LoggedOut;
 
 
     public void InitializeWithAadAndPersonalMsAccounts()
     {
-        _integratedAuthAvailable = false;
-        _client = PublicClientApplicationBuilder.Create(_clientId)
-                                                .WithAuthority(AadAuthorityAudience.AzureAdAndPersonalMicrosoftAccount)
-                                                .WithRedirectUri(_redirectUri)
-                                                .Build();
+        //_integratedAuthAvailable = false;
+        //_client = PublicClientApplicationBuilder.Create(_clientId)
+        //                                        .WithAuthority(AadAuthorityAudience.AzureAdAndPersonalMicrosoftAccount)
+        //                                        .WithRedirectUri(_redirectUri)
+        //                                        .Build();
     }
 
     /// <summary>

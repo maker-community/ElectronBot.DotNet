@@ -27,16 +27,20 @@ using Hw75Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graphics.Canvas;
+using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
+using Services.Graph;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.EbotGrpcService;
+using Verdure.Braincase.DataStorage.Services;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.IoT.Net.Services;
 using Verdure.WinUI.Common;
 using Verdure.WinUI.Common.Players;
 using Verdure.WinUI.Common.Services;
+using Verdure.WinUI.Common.ViewDataSource;
 using ViewModels;
 using Views;
 using Windows.Media.Playback;
@@ -82,6 +86,7 @@ public static class ConfigureServicesExtensions
 
             .AddSingleton<IdentityService>()
             .AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>()
+            .AddSingleton<IAuthenticationProvider, CustomAuthenticationProvider>()
 
             .AddSingleton<UserDataService>()
 
@@ -89,7 +94,8 @@ public static class ConfigureServicesExtensions
             .AddSingleton<IFileService, FileService>()
 
             .AddTransient<IEmojisFileService, EmojisFileService>()
-
+            .AddTransient<IEmojisFileService, LiteDBEmojisFileService>()
+            .AddTransient<EmojisSource>()
             .AddTransient<IEmojiseShopService, EmojiseShopService>()
 
             .AddTransient<IElectronLowLevel, WinUsbElectronLowLevel>()

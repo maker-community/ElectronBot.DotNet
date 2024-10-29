@@ -45,4 +45,12 @@ public class BraincaseLiteDBContext : IDisposable
 
     public ILiteCollection<LingxiSpaceDocument> LingxiSpaces
         => Database.GetCollection<LingxiSpaceDocument>($"{_collectionPrefix}_LingxiSpaces");
+
+    public ILiteCollection<LocalSettingDocument> LocalSettings
+        => Database.GetCollection<LocalSettingDocument>($"{_collectionPrefix}_LocalSettings");
+
+    public ILiteCollection<EmojisDocument> Emojis
+        => Database.GetCollection<EmojisDocument>($"{_collectionPrefix}_Emojis");
+
+    public ILiteStorage<string> FileStorage => _liteDBClient.FileStorage;
 }

@@ -6,7 +6,6 @@ using ElectronBot.Braincase;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using Models;
-using Verdure.Braincase.Core.Helpers;
 using Verdure.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -162,4 +161,13 @@ public class EmojisFileService : IEmojisFileService
             return (string.Empty, string.Empty);
         }
     }
+
+    public Task<List<EmoticonAction>> GetEmojisFileListAsync()
+    {
+        return Task.FromResult(new List<EmoticonAction>());
+    }
+
+    public Task<List<EmoticonAction>> GetEmojisFileListAsync(int pageIndex, int pageSize) => throw new NotImplementedException();
+    public Task<EmoticonAction> SaveEmojisAsync(EmoticonAction emoticonAction) => throw new NotImplementedException();
+    public Task<string> SaveEmojisFileAsync(Stream stream, string fileName, string fileType = ".mp4") => throw new NotImplementedException();
 }
