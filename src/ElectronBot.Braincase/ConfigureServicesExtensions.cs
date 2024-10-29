@@ -34,6 +34,7 @@ using Services;
 using Services.Graph;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.EbotGrpcService;
+using Verdure.Braincase.DataStorage;
 using Verdure.Braincase.DataStorage.Services;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.IoT.Net.Services;
@@ -55,10 +56,14 @@ public static class ConfigureServicesExtensions
         config.Bind("Database", dbSettings);
 
         var destinationFolder = KnownFolders.PicturesLibrary
-            .CreateFolderAsync("ElectronBot", CreationCollisionOption.OpenIfExists).GetAwaiter().GetResult();
+            .CreateFolderAsync("ElectronBot\\data", CreationCollisionOption.OpenIfExists).GetAwaiter().GetResult();
 
-        dbSettings.BotSharpLiteDB = Path.Combine(destinationFolder.Path, "ElectronBot.db");
+        dbSettings.BotSharpLiteDB = Path.Combine(destinationFolder.Path, "copilot.db");
 
+        var brainSettings = new BraincaseDatabaseSettings();
+        config.Bind("Database", brainSettings);
+
+        brainSettings.BraincaseLiteDB = Path.Combine(destinationFolder.Path, "braincase.db");
 
         var canvasDevice = CanvasDevice.GetSharedDevice();
         services.Configure<LocalSettingsOptions>(config.GetSection(nameof(LocalSettingsOptions)));
@@ -261,12 +266,14 @@ public static class ConfigureServicesExtensions
             //})
 
             .AddSingleton<EbGrpcService>()
+            .AddSingleton(brainSettings)
+            .AddTransient<BraincaseLiteDBContext>()
 
             // add botsharp
             .AddTransient<AgentViewModel>()
             .AddTransient<AgentPage>()
             .AddTransient<ChatViewModel>()
-            .AddTransient<ChatPage>()           
+            .AddTransient<ChatPage>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());

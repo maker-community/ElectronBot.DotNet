@@ -26,13 +26,13 @@
                 BorderThickness="1"
                 CornerRadius="8">
                 <StackPanel Orientation="Vertical">
-                    <Grid>
-                        <Image
+                    <Grid Width="120">
+                        <!--<Image
                             Width="120"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Source="{x:Bind Avatar}"
-                            Stretch="UniformToFill" />
+                            Stretch="UniformToFill" />-->
                         <Border
                             Width="24"
                             Height="24"

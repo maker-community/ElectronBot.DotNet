@@ -36,6 +36,16 @@ public interface IEmojisFileService
     Task<string> SaveEmojisFileAsync(Stream stream, string fileName, string fileType = ".mp4");
 
     /// <summary>
+    /// 保存表情文件
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="fileName"></param>
+    /// <param name="fileType"></param>
+    /// <returns></returns>
+
+    Task<string> SaveEmojisFileAsync(string path, string fileName, string fileType = ".mp4");
+
+    /// <summary>
     /// 保存表情信息
     /// </summary>
     /// <param name="emoticonAction"></param>

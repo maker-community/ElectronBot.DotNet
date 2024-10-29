@@ -170,4 +170,5 @@ public class EmojisFileService : IEmojisFileService
     public Task<List<EmoticonAction>> GetEmojisFileListAsync(int pageIndex, int pageSize) => throw new NotImplementedException();
     public Task<EmoticonAction> SaveEmojisAsync(EmoticonAction emoticonAction) => throw new NotImplementedException();
     public Task<string> SaveEmojisFileAsync(Stream stream, string fileName, string fileType = ".mp4") => throw new NotImplementedException();
+    public Task<string> SaveEmojisFileAsync(string path, string fileName, string fileType = ".mp4") => throw new NotImplementedException();
 }

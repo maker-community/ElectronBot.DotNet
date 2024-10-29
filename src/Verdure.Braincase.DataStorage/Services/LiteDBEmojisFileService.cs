@@ -49,4 +49,21 @@ public class LiteDBEmojisFileService : IEmojisFileService
         }
         return Task.FromResult(result);
     }
+
+    public Task<string> SaveEmojisFileAsync(string path, string fileName, string fileType = ".mp4")
+    {
+        var fileStorage = _db.FileStorage;
+        string? result;
+        if (fileType == ".mp4")
+        {
+            // 从流上传一个文件
+            result = fileStorage.Upload($"$/video/{fileName}", path).Id;
+        }
+        else
+        {
+            // 从流上传一个文件
+            result = fileStorage.Upload($"$/image/{fileName}", path).Id;
+        }
+        return Task.FromResult(result);
+    }
 }
