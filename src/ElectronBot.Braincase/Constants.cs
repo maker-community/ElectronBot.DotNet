@@ -86,7 +86,7 @@ public class Constants
             NameId="left",
             Avatar = "ms-appx:///Assets/Emoji/left.png",
             Desc ="LeftName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "left.json",
             HasAction = true
         },
@@ -96,7 +96,7 @@ public class Constants
             NameId="right",
             Avatar = "ms-appx:///Assets/Emoji/right.png",
             Desc ="RightName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "right.json",
             HasAction = true
         },
@@ -106,7 +106,7 @@ public class Constants
             NameId="normal",
             Avatar = "ms-appx:///Assets/Emoji/normal.png",
             Desc ="NormalName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "normal.json",
             HasAction = true
         },
@@ -116,7 +116,7 @@ public class Constants
             NameId="normal",
             Avatar = "ms-appx:///Assets/Emoji/normal.png",
             Desc ="NormalName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "normal.json",
             HasAction = true
         },
@@ -126,7 +126,7 @@ public class Constants
             NameId="anger",
             Avatar = "ms-appx:///Assets/Emoji/anger.png",
             Desc ="AngerName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "anger.json",
             HasAction = true
         },
@@ -136,7 +136,7 @@ public class Constants
             NameId="disdain",
             Avatar = "ms-appx:///Assets/Emoji/disdain.png",
             Desc ="DisdainName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "disdain.json",
             HasAction = true
         },
@@ -146,7 +146,7 @@ public class Constants
             NameId="excited",
             Avatar = "ms-appx:///Assets/Emoji/excited.png",
             Desc ="ExcitedName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "defaultaction.json",
             HasAction = true
         },
@@ -156,7 +156,7 @@ public class Constants
             NameId="fear",
             Avatar = "ms-appx:///Assets/Emoji/fear.png",
             Desc ="FearName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "defaultaction.json",
             HasAction = true
         },
@@ -166,7 +166,7 @@ public class Constants
             NameId="sad",
             Avatar = "ms-appx:///Assets/Emoji/sad.png",
             Desc ="SadName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "defaultaction.json",
             HasAction = true
         },
@@ -176,7 +176,7 @@ public class Constants
             NameId="hello",
             Avatar = "ms-appx:///Assets/Emoji/hello.jpg",
             Desc ="HelloName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "hello.json",
             HasAction = true
         },
@@ -186,7 +186,7 @@ public class Constants
             NameId="goodbye",
             Avatar = "ms-appx:///Assets/Emoji/Goodbye.jpg",
             Desc ="GoodbyeName".GetLocalized(),
-            EmojisType = EmojisType.Default,
+            Type = EmojisFileType.Default,
             EmojisActionPath = "goodbye.json",
             HasAction = true
         }

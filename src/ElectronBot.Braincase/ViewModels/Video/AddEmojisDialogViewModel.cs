@@ -89,7 +89,7 @@ public partial class AddEmojisDialogViewModel : ObservableRecipient
             Name = EmojisName,
             NameId = EmojisNameId,
             EmojisVideoPath = EmojisVideoUrl,
-            EmojisType = EmojisType.Custom,
+            Type = EmojisFileType.Custom,
             EmojisActionPath = EmojisActionPath,
             EmojisAuthor = EmojisAuthor
         };

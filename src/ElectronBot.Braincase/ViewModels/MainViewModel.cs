@@ -22,6 +22,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Services;
 using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.Core.Models.Emojis.Enums;
 using Verdure.WinUI.Common.Helpers;
 using Verdure.WinUI.Common.Models;
 using Verdure.WinUI.Common.Services;
@@ -310,7 +311,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         var list = (await _localSettingsService
             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
 
-        if (!list.Any(a => a.EmojisType == EmojisType.Default))
+        if (!list.Any(a => a.Type == EmojisFileType.Default))
         {
             var emoticonActions = Constants.EMOJI_ACTION_LIST;
             await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, emoticonActions.ToList());
@@ -333,7 +334,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                         {
                             var path = string.Empty;
 
-                            if (emojis.EmojisType == EmojisType.Default)
+                            if (emojis.Type == EmojisFileType.Default)
                             {
                                 path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
                             }
@@ -362,7 +363,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
                 string? videoPath;
 
-                if (emojis.EmojisType == EmojisType.Default)
+                if (emojis.Type == EmojisFileType.Default)
                 {
                     videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
                 }
@@ -399,7 +400,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         var list = (await _localSettingsService
             .ReadSettingAsync<List<EmoticonAction>>(Constants.EmojisActionListKey)) ?? new List<EmoticonAction>();
 
-        if (!list.Any(a => a.EmojisType == EmojisType.Default))
+        if (!list.Any(a => a.Type == EmojisFileType.Default))
         {
             var emoticonActions = Constants.EMOJI_ACTION_LIST;
             await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, emoticonActions.ToList());
@@ -422,7 +423,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
                         {
                             var path = string.Empty;
 
-                            if (emojis.EmojisType == EmojisType.Default)
+                            if (emojis.Type == EmojisFileType.Default)
                             {
                                 path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
                             }
@@ -451,7 +452,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
                 string? videoPath;
 
-                if (emojis.EmojisType == EmojisType.Default)
+                if (emojis.Type == EmojisFileType.Default)
                 {
                     videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
                 }

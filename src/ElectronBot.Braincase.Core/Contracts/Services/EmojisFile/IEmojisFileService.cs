@@ -23,7 +23,7 @@ public interface IEmojisFileService
     /// <param name="pageIndex"></param>
     /// <param name="pageSize"></param>
     /// <returns></returns>
-    Task<List<EmoticonAction>> GetEmojisFileListAsync(int pageIndex, int pageSize);
+    Task<List<EmoticonActionModel>> GetEmojisFileListAsync(int pageIndex, int pageSize);
 
     /// <summary>
     /// 保存表情文件
@@ -50,5 +50,5 @@ public interface IEmojisFileService
     /// </summary>
     /// <param name="emoticonAction"></param>
     /// <returns></returns>
-    Task<EmoticonAction> SaveEmojisAsync(EmoticonAction emoticonAction);
+    Task<EmoticonActionModel> SaveEmojisAsync(EmoticonAction emoticonAction);
 }

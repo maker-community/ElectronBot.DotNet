@@ -207,7 +207,7 @@ public class GamepadViewModel : ObservableRecipient, INavigationAware
 
                     string? videoPath;
 
-                    if (action.EmojisType == EmojisType.Default)
+                    if (action.Type == EmojisFileType.Default)
                     {
                         videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{action.NameId}.mp4";
                     }

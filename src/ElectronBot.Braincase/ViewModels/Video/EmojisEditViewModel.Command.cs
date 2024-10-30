@@ -6,6 +6,7 @@ using Controls;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Models;
 using Verdure.WinUI.Common.Helpers;
 using Verdure.WinUI.Common.Models;
@@ -31,7 +32,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
         {
             try
             {
-                if (emojis.EmojisType == EmojisType.Default)
+                if (emojis.Type == EmojisFileType.Default)
                 {
                     ToastHelper.SendToast("默认表情禁止导出", TimeSpan.FromSeconds(3));
                     return;
@@ -113,7 +114,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
                             action.Name = emojisFileInfo.Name;
                             action.NameId = emojisFileInfo.NameId;
                             action.Desc = emojisFileInfo.Description;
-                            action.EmojisType = emojisFileInfo.EmojisType;
+                            action.Type = emojisFileInfo.Type;
                             action.HasAction = emojisFileInfo.HasAction;
                         }
                         else
@@ -143,10 +144,33 @@ public partial class EmojisEditViewModel : ObservableRecipient
                         }
                     }
 
-                    await _emojisFileService.SaveEmojisAsync(action);
+                    var emojiModel = await _emojisFileService.SaveEmojisAsync(action);
 
+                    if (emojiModel != null)
+                    {
+                        var data = new EmoticonActionUIModel
+                        {
+                            Name = emojiModel.Name,
+                            NameId = emojiModel.NameId,
+                            Desc = emojiModel.Desc,
+                            EmojisActionPath = emojiModel.EmojisActionPath,
+                            EmojisAuthor = emojiModel.EmojisAuthor,
+                            EmojisVideoPath = emojiModel.EmojisVideoPath,
+                            HasAction = emojiModel.HasAction,
+                            Type = emojiModel.Type
+                        };
 
-                    Actions.Add(action);
+                        if (emojiModel.Avatar != null)
+                        {
+                            var bitmapImage = new BitmapImage();
+
+                            await bitmapImage.SetSourceAsync(emojiModel.Avatar.AsRandomAccessStream());
+
+                            data.Avatar = bitmapImage;
+                        }
+
+                        Emojis.Add(data);
+                    }
 
                     await storageFolder.DeleteAsync();
                 }
@@ -212,7 +236,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
         {
             try
             {
-                if (emojis.EmojisType == EmojisType.Default)
+                if (emojis.Type == EmojisFileType.Default)
                 {
                     ToastHelper.SendToast("默认表情禁止删除", TimeSpan.FromSeconds(3));
                     return;
@@ -275,7 +299,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
                         {
                             var path = string.Empty;
 
-                            if (emojis.EmojisType == EmojisType.Default)
+                            if (emojis.Type == EmojisFileType.Default)
                             {
                                 path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
                             }
@@ -304,7 +328,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
                 string? videoPath;
 
-                if (emojis.EmojisType == EmojisType.Default)
+                if (emojis.Type == EmojisFileType.Default)
                 {
                     videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
                 }
@@ -360,7 +384,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
         {
             if (obj is EmoticonAction emojis)
             {
-                if (emojis.EmojisType == EmojisType.Default)
+                if (emojis.Type == EmojisFileType.Default)
                 {
                     ToastHelper.SendToast("默认表情不能分享", TimeSpan.FromSeconds(3));
                     return;
@@ -415,7 +439,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
             Desc = EmojisDesc,
             Name = EmojisName,
             NameId = EmojisNameId,
-            EmojisType = EmojisType.Custom
+            Type = EmojisFileType.Custom
         });
     }
 

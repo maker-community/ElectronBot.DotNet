@@ -4,12 +4,17 @@ using System.Collections.ObjectModel;
 using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ElectronBot.Braincase.Models;
+using Verdure.WinUI.Common.Models;
 
 namespace ElectronBot.Braincase.ViewModels;
 public partial class EmojisEditViewModel : ObservableRecipient
 {
     [ObservableProperty]
     private ObservableCollection<EmoticonAction> _actions = new();
+
+    [ObservableProperty]
+    private ObservableCollection<EmoticonActionUIModel> _emojis = new();
+
     /// <summary>
     /// 表情名称
     /// </summary>

@@ -82,7 +82,7 @@ public class EmojiseShopService : IEmojiseShopService
                                 action.Name = emojisFileInfo.Name;
                                 action.NameId = emojisFileInfo.NameId;
                                 action.Desc = emojisFileInfo.Description;
-                                action.EmojisType = emojisFileInfo.EmojisType;
+                                action.Type = emojisFileInfo.Type;
                                 action.HasAction = emojisFileInfo.HasAction;
                             }
                             else

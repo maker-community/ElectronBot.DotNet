@@ -359,7 +359,7 @@ public class ElectronBotHelper
                         {
                             var path = string.Empty;
 
-                            if (emojis.EmojisType == EmojisType.Default)
+                            if (emojis.Type == EmojisFileType.Default)
                             {
                                 path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
                             }
@@ -388,7 +388,7 @@ public class ElectronBotHelper
 
                 string? videoPath;
 
-                if (emojis.EmojisType == EmojisType.Default)
+                if (emojis.Type == EmojisFileType.Default)
                 {
                     videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
                 }
@@ -431,7 +431,7 @@ public class ElectronBotHelper
                         {
                             var path = string.Empty;
 
-                            if (emojis.EmojisType == EmojisType.Default)
+                            if (emojis.Type == EmojisFileType.Default)
                             {
                                 path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
                             }
@@ -460,7 +460,7 @@ public class ElectronBotHelper
 
                 string? videoPath;
 
-                if (emojis.EmojisType == EmojisType.Default)
+                if (emojis.Type == EmojisFileType.Default)
                 {
                     videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.NameId}.mp4";
                 }

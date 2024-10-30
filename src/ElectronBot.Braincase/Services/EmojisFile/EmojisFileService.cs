@@ -6,6 +6,7 @@ using ElectronBot.Braincase;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using Models;
+using Verdure.Braincase.Core.Models.Emojis.Enums;
 using Verdure.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -40,7 +41,7 @@ public class EmojisFileService : IEmojisFileService
                 NameId = emoticonAction.NameId,
                 Description = emoticonAction.Desc,
                 HasAction = emoticonAction.HasAction,
-                EmojisType = emoticonAction.EmojisType
+                Type = emoticonAction.Type
             };
 
 
@@ -61,7 +62,7 @@ public class EmojisFileService : IEmojisFileService
         var destinationFile = await destinationFolder
             .CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
 
-        if (emoticonAction != null && emoticonAction.EmojisType == EmojisType.Default)
+        if (emoticonAction != null && emoticonAction.Type == EmojisFileType.Default)
         {
             var videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emoticonAction.NameId}.mp4";
             filePaths.Add(videoPath);
@@ -70,7 +71,7 @@ public class EmojisFileService : IEmojisFileService
             var actionPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\defaultaction.json";
             filePaths.Add(actionPath);
         }
-        else if (emoticonAction != null && emoticonAction.EmojisType == EmojisType.Custom)
+        else if (emoticonAction != null && emoticonAction.Type == EmojisFileType.Custom)
         {
             filePaths.Add(emoticonAction.Avatar);
             filePaths.Add(emoticonAction.EmojisVideoPath);
@@ -113,7 +114,7 @@ public class EmojisFileService : IEmojisFileService
                 NameId = emoticonAction.NameId,
                 Description = emoticonAction.Desc,
                 HasAction = emoticonAction.HasAction,
-                EmojisType = emoticonAction.EmojisType
+                Type = emoticonAction.Type
             };
 
 
@@ -130,7 +131,7 @@ public class EmojisFileService : IEmojisFileService
             var destinationFile = await destinationFolder
                 .CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
 
-            if (emoticonAction != null && emoticonAction.EmojisType == EmojisType.Default)
+            if (emoticonAction != null && emoticonAction.Type == EmojisFileType.Default)
             {
                 var videoPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emoticonAction.NameId}.mp4";
                 filePaths.Add(videoPath);
@@ -139,7 +140,7 @@ public class EmojisFileService : IEmojisFileService
                 var actionPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\defaultaction.json";
                 filePaths.Add(actionPath);
             }
-            else if (emoticonAction != null && emoticonAction.EmojisType == EmojisType.Custom)
+            else if (emoticonAction != null && emoticonAction.Type == EmojisFileType.Custom)
             {
                 filePaths.Add(emoticonAction.Avatar);
                 filePaths.Add(emoticonAction.EmojisVideoPath);
@@ -168,7 +169,8 @@ public class EmojisFileService : IEmojisFileService
     }
 
     public Task<List<EmoticonAction>> GetEmojisFileListAsync(int pageIndex, int pageSize) => throw new NotImplementedException();
-    public Task<EmoticonAction> SaveEmojisAsync(EmoticonAction emoticonAction) => throw new NotImplementedException();
+    public Task<EmoticonActionModel> SaveEmojisAsync(EmoticonAction emoticonAction) => throw new NotImplementedException();
     public Task<string> SaveEmojisFileAsync(Stream stream, string fileName, string fileType = ".mp4") => throw new NotImplementedException();
     public Task<string> SaveEmojisFileAsync(string path, string fileName, string fileType = ".mp4") => throw new NotImplementedException();
+    Task<List<EmoticonActionModel>> IEmojisFileService.GetEmojisFileListAsync(int pageIndex, int pageSize) => throw new NotImplementedException();
 }

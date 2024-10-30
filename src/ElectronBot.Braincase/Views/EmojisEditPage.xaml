@@ -9,6 +9,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:ElectronBot.Braincase.Models"
+    xmlns:uiModels="using:Verdure.WinUI.Common.Models"
     mc:Ignorable="d">
 
     <i:Interaction.Behaviors>
@@ -19,7 +20,7 @@
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-        <DataTemplate x:Key="PhotosTemplate" x:DataType="models:EmoticonAction">
+        <DataTemplate x:Key="PhotosTemplate" x:DataType="uiModels:EmoticonActionUIModel">
             <Grid
                 Margin="8"
                 BorderBrush="{ThemeResource SystemAccentColor}"
@@ -27,12 +28,12 @@
                 CornerRadius="8">
                 <StackPanel Orientation="Vertical">
                     <Grid Width="120">
-                        <!--<Image
+                        <Image
                             Width="120"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Source="{x:Bind Avatar}"
-                            Stretch="UniformToFill" />-->
+                            Stretch="UniformToFill" />
                         <Border
                             Width="24"
                             Height="24"
@@ -109,7 +110,7 @@
             IsEnabled="True"
             IsItemClickEnabled="True"
             ItemTemplate="{StaticResource PhotosTemplate}"
-            ItemsSource="{x:Bind ViewModel.Actions, Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.Emojis, Mode=OneWay}"
             SelectionMode="Single">
             <GridView.ContextFlyout>
                 <MenuFlyout>

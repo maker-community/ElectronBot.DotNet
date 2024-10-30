@@ -1,4 +1,4 @@
-﻿using ElectronBot.Braincase.Models;
+﻿using Verdure.Braincase.Core.Models.Emojis.Enums;
 
 namespace Models;
 public class EmojisFileManifest
@@ -23,9 +23,15 @@ public class EmojisFileManifest
         get;
         set;
     }
-    public EmojisType EmojisType
+    public int EmojisType
     {
         get;
         set;
     }
+
+    public string Type
+    {
+        get;
+        set;
+    } = EmojisFileType.Custom;
 }
