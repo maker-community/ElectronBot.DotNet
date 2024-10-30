@@ -7,7 +7,7 @@ using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Models;
+using Verdure.Braincase.Core.Models.Emojis;
 using Verdure.WinUI.Common.Helpers;
 using Verdure.WinUI.Common.Models;
 using Windows.ApplicationModel;
@@ -28,7 +28,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
             ToastHelper.SendToast("请选中一个表情", TimeSpan.FromSeconds(3));
             return;
         }
-        if (obj is EmoticonAction emojis)
+        if (obj is EmoticonActionUIModel emojis)
         {
             try
             {
@@ -37,7 +37,17 @@ public partial class EmojisEditViewModel : ObservableRecipient
                     ToastHelper.SendToast("默认表情禁止导出", TimeSpan.FromSeconds(3));
                     return;
                 }
-                await _emojisFileService.ExportEmojisFileToLocalAsync(emojis);
+
+                var destinationFolder = await KnownFolders.PicturesLibrary
+                     .CreateFolderAsync("ElectronBot\\EmojisFiles", CreationCollisionOption.OpenIfExists);
+
+                var emojiData = await _emojisFileService.GetEmojisAsync(emojis.NameId);
+
+                var path = await _emojisFileService.ExportEmojisFileToLocalAsync(emojiData, destinationFolder.Path);
+                var text = "ExportToastText".GetLocalized();
+
+                ToastHelper.SendToast($"{text}-{path}", TimeSpan.FromSeconds(5));
+
             }
             catch (Exception ex)
             {
@@ -139,7 +149,9 @@ public partial class EmojisEditViewModel : ObservableRecipient
                             }
                             else if (storageFile.FileType == ".json")
                             {
+                                var acitonContent = await FileIO.ReadTextAsync(fileItem);
                                 action.EmojisActionPath = storageFile.Path;
+                                action.EmojisActionContent = acitonContent;
                             }
                         }
                     }

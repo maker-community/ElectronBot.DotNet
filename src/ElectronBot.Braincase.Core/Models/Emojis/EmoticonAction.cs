@@ -38,6 +38,11 @@ public class EmoticonAction : ObservableRecipient
         get; set;
     } = "";
 
+    public string EmojisActionContent
+    {
+        get; set;
+    } = "";
+
     public string EmojisAuthor
     {
         get;

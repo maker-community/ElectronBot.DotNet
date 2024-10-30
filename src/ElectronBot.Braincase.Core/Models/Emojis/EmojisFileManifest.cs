@@ -1,6 +1,6 @@
 ﻿using Verdure.Braincase.Core.Models.Emojis.Enums;
 
-namespace Models;
+namespace Verdure.Braincase.Core.Models.Emojis;
 public class EmojisFileManifest
 {
     public string Name

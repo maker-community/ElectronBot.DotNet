@@ -15,7 +15,7 @@ public static class EmojisMappers
             Avatar = model.Avatar,
             EmojisVideoPath = model.EmojisVideoPath,
             Type = model.Type,
-            EmojisActionJson = model.EmojisActionPath,
+            EmojisActionJson = model.EmojisActionContent,
             EmojisAuthor = model.EmojisAuthor,
             HasAction = model.HasAction
 
@@ -33,6 +33,7 @@ public static class EmojisMappers
             EmojisVideoPath = doc.EmojisVideoPath,
             Type = doc.Type,
             EmojisActionPath = doc.EmojisActionJson,
+            EmojisActionContent = doc.EmojisActionJson,
             EmojisAuthor = doc.EmojisAuthor,
             HasAction = doc.HasAction
         };

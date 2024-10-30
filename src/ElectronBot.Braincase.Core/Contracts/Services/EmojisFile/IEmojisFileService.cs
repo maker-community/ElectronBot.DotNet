@@ -7,8 +7,9 @@ public interface IEmojisFileService
     /// 导出表情文件到本地
     /// </summary>
     /// <param name="emoticonAction">表情对象</param>
+    /// <param name="targetPath">目标路径</param>
     /// <returns></returns>
-    Task ExportEmojisFileToLocalAsync(EmoticonAction emoticonAction);
+    Task<string> ExportEmojisFileToLocalAsync(EmoticonAction emoticonAction, string? targetPath = null);
 
     /// <summary>
     /// 导出表情文件到临时目录准备上传
@@ -51,4 +52,11 @@ public interface IEmojisFileService
     /// <param name="emoticonAction"></param>
     /// <returns></returns>
     Task<EmoticonActionModel> SaveEmojisAsync(EmoticonAction emoticonAction);
+
+    /// <summary>
+    /// 获取表情信息
+    /// </summary>
+    /// <param name="nameId"></param>
+    /// <returns></returns>
+    Task<EmoticonAction> GetEmojisAsync(string nameId);
 }

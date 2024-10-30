@@ -7,6 +7,7 @@ using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using Models;
 using Verdure.Braincase.Core.Helpers;
+using Verdure.Braincase.Core.Models.Emojis;
 using Verdure.WinUI.Common.Helpers;
 using Windows.Storage;
 

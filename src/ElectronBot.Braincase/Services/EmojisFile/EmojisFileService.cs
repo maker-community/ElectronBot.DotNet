@@ -6,7 +6,7 @@ using ElectronBot.Braincase;
 using ElectronBot.Braincase.Helpers;
 using ElectronBot.Braincase.Models;
 using Models;
-using Verdure.Braincase.Core.Models.Emojis.Enums;
+using Verdure.Braincase.Core.Models.Emojis;
 using Verdure.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -18,7 +18,7 @@ public class EmojisFileService : IEmojisFileService
     {
 
     }
-    public async Task ExportEmojisFileToLocalAsync(EmoticonAction emoticonAction)
+    public async Task<string> ExportEmojisFileToLocalAsync(EmoticonAction emoticonAction, string? targetPath)
     {
         StorageFolder? destinationFolder;
 
@@ -54,7 +54,7 @@ public class EmojisFileService : IEmojisFileService
         }
         catch (Exception)
         {
-            return;
+            return string.Empty;
         }
 
         var fileName = $"{emoticonAction.NameId}-{DateTime.Now:yyyyMMddhhmmss}.zip";
@@ -89,6 +89,8 @@ public class EmojisFileService : IEmojisFileService
         var text = "ExportToastText".GetLocalized();
 
         ToastHelper.SendToast($"{text}-{destinationFile.Path}", TimeSpan.FromSeconds(5));
+
+        return destinationFile.Path;
     }
 
     public async Task<(string path, string name)> ExportEmojisFileToTempAsync(EmoticonAction emoticonAction)
@@ -162,6 +164,8 @@ public class EmojisFileService : IEmojisFileService
             return (string.Empty, string.Empty);
         }
     }
+
+    public Task<EmoticonAction> GetEmojisAsync(string nameId) => throw new NotImplementedException();
 
     public Task<List<EmoticonAction>> GetEmojisFileListAsync()
     {

@@ -1,8 +1,46 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
+using Verdure.Braincase.Core.Models;
 
 namespace Verdure.Braincase.Core.Helpers;
 public static class ZipFileCreatorHelper
 {
+    /// <summary>
+    /// Create a ZIP file from the provided file entries.
+    /// </summary>
+    /// <param name="fileEntries">The file entries to add to the ZIP file.</param>
+    /// <param name="zipPath">The path of the ZIP file to create.</param>
+    /// <param name="password">The password for the ZIP file (optional).</param>
+    public static void CreateZipFileFromEntries(IEnumerable<FileEntry> fileEntries, string zipPath, string password = null)
+    {
+        // Create a zip output stream
+        using (var zipStream = new ZipOutputStream(File.Create(zipPath)))
+        {
+            // Set password
+            if (!string.IsNullOrWhiteSpace(password))
+            {
+                zipStream.Password = password;
+            }
+
+            // Loop through file entries
+            foreach (var fileEntry in fileEntries)
+            {
+                // Create a zip entry for each file
+                var entry = new ZipEntry(fileEntry.FileName);
+                entry.DateTime = DateTime.Now;
+                zipStream.PutNextEntry(entry);
+
+                // Copy file content to zip stream
+                fileEntry.FileStream.CopyTo(zipStream);
+            }
+        }
+
+        // Dispose file streams
+        foreach (var fileEntry in fileEntries)
+        {
+            fileEntry.Dispose();
+        }
+    }
+
     /// <summary>
     /// Create a ZIP file of the files provided.
     /// </summary>
