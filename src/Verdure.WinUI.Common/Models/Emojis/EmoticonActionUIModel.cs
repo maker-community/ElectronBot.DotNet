@@ -39,6 +39,11 @@ public class EmoticonActionUIModel
         get; set;
     } = string.Empty;
 
+    public string EmojisActionJson
+    {
+        get; set;
+    } = string.Empty;
+
     public string EmojisAuthor
     {
         get;

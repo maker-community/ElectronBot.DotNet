@@ -1,15 +1,57 @@
 ﻿using System.Linq;
-using CommunityToolkit.Mvvm.DependencyInjection;
+using System.Text.Json;
+using Contracts.Services;
 using ElectronBot.Braincase.Contracts.Services;
 using Verdure.Braincase.Core.Models;
 using Verdure.WinUI.Common.Models;
 using Windows.Devices.Enumeration;
 using Windows.Media.Devices;
+using Windows.Storage.Streams;
 
 namespace Verdure.WinUI.Common.Players;
 public partial class ElectronBotPlayer
 {
-    public Task PlayVideoByNameIdAsync(string nameId) => throw new NotImplementedException();
+    public async Task PlayVideoByNameIdAsync(string nameId)
+    {
+        if (!string.IsNullOrWhiteSpace(nameId))
+        {
+            try
+            {
+                var emojisFileService = Ioc.Default.GetRequiredService<IEmojisFileService>();
+
+                var emotion = await emojisFileService.GetEmojisFileWithVideoStreamAsync(nameId);
+
+
+                _actions = JsonSerializer.Deserialize<List<ElectronBotAction>>(emotion.EmojisActionJson);
+
+                var localSettingsService = Ioc.Default.GetRequiredService<ILocalSettingsService>();
+
+                var audioModel = await localSettingsService.ReadSettingAsync<ComboxItemModel>(CommonConstants.DefaultAudioNameKey);
+
+                var audioDevs = await FindAudioDeviceListAsync();
+
+                if (audioModel != null)
+                {
+                    var audioSelect = audioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue) ?? new ComboxItemModel();
+
+                    var selectedDevice = (DeviceInformation)audioSelect.Tag!;
+
+                    if (selectedDevice != null)
+                    {
+                        _player.AudioDevice = selectedDevice;
+                    }
+                }
+                IRandomAccessStream randomAccessStream = emotion.EmojisVideo.AsRandomAccessStream();
+
+                _player.SetStreamSource(randomAccessStream);
+                _player.Play();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+    }
     public async Task PlayVideoByPathAsync(string path, List<ElectronBotAction>? actions = null)
     {
         if (!string.IsNullOrWhiteSpace(path))

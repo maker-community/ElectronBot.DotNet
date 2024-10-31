@@ -59,4 +59,25 @@ public interface IEmojisFileService
     /// <param name="nameId"></param>
     /// <returns></returns>
     Task<EmoticonAction> GetEmojisAsync(string nameId);
+
+    /// <summary>
+    /// 获取表情视频流
+    /// </summary>
+    /// <param name="nameId"></param>
+    /// <returns></returns>
+    Task<EmoticonActionModel> GetEmojisFileWithVideoStreamAsync(string nameId);
+
+    /// <summary>
+    /// 删除表情信息
+    /// </summary>
+    /// <param name="nameId"></param>
+    /// <returns></returns>
+    Task<bool> RemoveEmojisAsync(string nameId);
+
+    /// <summary>
+    /// 是否存在表情
+    /// </summary>
+    /// <param name="nameId"></param>
+    /// <returns></returns>
+    Task<bool> ExistEmojisAsync(string nameId);
 }

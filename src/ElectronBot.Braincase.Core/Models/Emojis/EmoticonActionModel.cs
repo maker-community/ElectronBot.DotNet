@@ -27,12 +27,22 @@ public class EmoticonActionModel : IDisposable
     {
         get; set;
     } = string.Empty;
+
+    public Stream? EmojisVideo
+    {
+        get; set;
+    }
     public string Type
     {
         get; set;
     } = EmojisFileType.Default;
 
     public string EmojisActionPath
+    {
+        get; set;
+    } = string.Empty;
+
+    public string EmojisActionJson
     {
         get; set;
     } = string.Empty;
@@ -52,5 +62,6 @@ public class EmoticonActionModel : IDisposable
     public void Dispose()
     {
         Avatar?.Dispose();
+        EmojisVideo?.Dispose();
     }
 }

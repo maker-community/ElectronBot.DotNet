@@ -48,6 +48,7 @@ public static class EmojisMappers
             Desc = doc.Desc,
             EmojisVideoPath = doc.EmojisVideoPath,
             Type = doc.Type,
+            EmojisActionJson = doc.EmojisActionJson,
             EmojisActionPath = doc.EmojisActionJson,
             EmojisAuthor = doc.EmojisAuthor,
             HasAction = doc.HasAction

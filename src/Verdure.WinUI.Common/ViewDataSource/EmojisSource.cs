@@ -25,6 +25,7 @@ public class EmojisSource : IIncrementalSource<EmoticonActionUIModel>
                 Name = item.Name,
                 NameId = item.NameId,
                 Desc = item.Desc,
+                EmojisActionJson = item.EmojisActionJson,
                 EmojisActionPath = item.EmojisActionPath,
                 EmojisAuthor = item.EmojisAuthor,
                 EmojisVideoPath = item.EmojisVideoPath,

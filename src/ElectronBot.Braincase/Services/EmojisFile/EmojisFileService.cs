@@ -18,6 +18,9 @@ public class EmojisFileService : IEmojisFileService
     {
 
     }
+
+    public Task<bool> ExistEmojisAsync(string nameId) => throw new NotImplementedException();
+
     public async Task<string> ExportEmojisFileToLocalAsync(EmoticonAction emoticonAction, string? targetPath)
     {
         StorageFolder? destinationFolder;
@@ -173,6 +176,8 @@ public class EmojisFileService : IEmojisFileService
     }
 
     public Task<List<EmoticonAction>> GetEmojisFileListAsync(int pageIndex, int pageSize) => throw new NotImplementedException();
+    public Task<EmoticonActionModel> GetEmojisFileWithVideoStreamAsync(string nameId) => throw new NotImplementedException();
+    public Task<bool> RemoveEmojisAsync(string nameId) => throw new NotImplementedException();
     public Task<EmoticonActionModel> SaveEmojisAsync(EmoticonAction emoticonAction) => throw new NotImplementedException();
     public Task<string> SaveEmojisFileAsync(Stream stream, string fileName, string fileType = ".mp4") => throw new NotImplementedException();
     public Task<string> SaveEmojisFileAsync(string path, string fileName, string fileType = ".mp4") => throw new NotImplementedException();

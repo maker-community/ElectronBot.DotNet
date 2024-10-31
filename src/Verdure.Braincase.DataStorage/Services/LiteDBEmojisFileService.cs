@@ -25,6 +25,7 @@ public class LiteDBEmojisFileService : IEmojisFileService
             WriteIndented = true
         };
     }
+
     public Task<string> ExportEmojisFileToLocalAsync(EmoticonAction emoticonAction, string? targetPath = null)
     {
 
@@ -79,7 +80,7 @@ public class LiteDBEmojisFileService : IEmojisFileService
                     FileStream = actionJsonStream
                 });
             }
-  
+
             if (emoticonAction != null && emoticonAction.Type == EmojisFileType.Custom)
             {
                 var avatarFile = _db.FileStorage.FindById(emoticonAction.Avatar);
@@ -148,6 +149,7 @@ public class LiteDBEmojisFileService : IEmojisFileService
         }
         return Task.FromResult(list);
     }
+
     public Task<EmoticonActionModel> SaveEmojisAsync(EmoticonAction emoticonAction)
     {
         var doc = emoticonAction.ToDoc();
@@ -208,5 +210,37 @@ public class LiteDBEmojisFileService : IEmojisFileService
             result = fileStorage.Upload($"$/image/{fileName}", path).Id;
         }
         return Task.FromResult(result);
+    }
+
+
+    public Task<bool> RemoveEmojisAsync(string nameId)
+    {
+        var result = false;
+        var emojisDoc = _db.Emojis.FindOne(x => x.NameId == nameId);
+
+        if (emojisDoc != null)
+        {
+            result = _db.Emojis.Delete(emojisDoc.Id);
+        }
+        return Task.FromResult(result);
+    }
+
+    public Task<bool> ExistEmojisAsync(string nameId)
+    {
+        var result = _db.Emojis.Exists(x => x.NameId == nameId);
+        return Task.FromResult(result);
+    }
+
+    public Task<EmoticonActionModel> GetEmojisFileWithVideoStreamAsync(string nameId)
+    {
+        var emoticonDoc = _db.Emojis.FindOne(x => x.NameId == nameId);
+        var emoticon = emoticonDoc.ToModel();
+        var videoFile = _db.FileStorage.FindById(emoticon.EmojisVideoPath);
+        var stream = new MemoryStream();
+        _db.FileStorage.Download(videoFile.Id, stream);
+        stream.Seek(0, SeekOrigin.Begin);
+
+        emoticon.EmojisVideo = stream;
+        return Task.FromResult(emoticon);
     }
 }

@@ -165,6 +165,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
                             Name = emojiModel.Name,
                             NameId = emojiModel.NameId,
                             Desc = emojiModel.Desc,
+                            EmojisActionJson = emojiModel.EmojisActionJson,
                             EmojisActionPath = emojiModel.EmojisActionPath,
                             EmojisAuthor = emojiModel.EmojisAuthor,
                             EmojisVideoPath = emojiModel.EmojisVideoPath,
@@ -244,7 +245,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
             ToastHelper.SendToast("请选中一个表情", TimeSpan.FromSeconds(3));
             return;
         }
-        if (obj is EmoticonAction emojis)
+        if (obj is EmoticonActionUIModel emojis)
         {
             try
             {
@@ -253,34 +254,9 @@ public partial class EmojisEditViewModel : ObservableRecipient
                     ToastHelper.SendToast("默认表情禁止删除", TimeSpan.FromSeconds(3));
                     return;
                 }
-                Actions.Remove(emojis);
+                Emojis.Remove(emojis);
 
-                await _localSettingsService.SaveSettingAsync(Constants.EmojisActionListKey, Actions.ToList());
-
-                var folder = ApplicationData.Current.LocalFolder;
-
-                var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
-
-                var avatarName = Path.GetFileName(emojis.Avatar);
-
-                var avatarFile = await storageFolder.GetFileAsync(avatarName);
-
-                await avatarFile.DeleteAsync();
-
-                var videoName = Path.GetFileName(emojis.EmojisVideoPath);
-
-                var videoFile = await storageFolder.GetFileAsync(videoName);
-
-                await videoFile.DeleteAsync();
-
-                if (emojis.HasAction)
-                {
-                    var actionName = Path.GetFileName(emojis.EmojisActionPath);
-
-                    var actionFile = await storageFolder.GetFileAsync(actionName);
-
-                    await actionFile.DeleteAsync();
-                }
+                await _emojisFileService.RemoveEmojisAsync(emojis.NameId);
             }
             catch (Exception ex)
             {
@@ -297,7 +273,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
             ToastHelper.SendToast("请选中一个表情播放", TimeSpan.FromSeconds(3));
             return;
         }
-        if (obj is EmoticonAction emojis)
+        if (obj is EmoticonActionUIModel emojis)
         {
             try
             {
@@ -305,26 +281,11 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
                 if (emojis.HasAction)
                 {
-                    if (!string.IsNullOrWhiteSpace(emojis.EmojisActionPath))
+                    if (!string.IsNullOrWhiteSpace(emojis.EmojisActionJson))
                     {
                         try
-                        {
-                            var path = string.Empty;
-
-                            if (emojis.Type == EmojisFileType.Default)
-                            {
-                                path = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{emojis.EmojisActionPath}";
-                            }
-                            else
-                            {
-                                path = emojis.EmojisActionPath;
-                            }
-
-
-                            var json = File.ReadAllText(path);
-
-
-                            var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(json);
+                        {       
+                            var actionList = JsonSerializer.Deserialize<List<ElectronBotAction>>(emojis.EmojisActionJson);
 
                             if (actionList != null && actionList.Count > 0)
                             {
