@@ -1,9 +1,9 @@
-﻿using ElectronBot.Braincase.ClockViews;
-using ElectronBot.Braincase.Contracts.Services;
+﻿using Verdure.Braincase.ClockViews;
+using Verdure.Braincase.Contracts.Services;
 using Hw75Views;
 using Microsoft.UI.Xaml;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class Hw75DynamicTodoViewProvider : IHw75DynamicViewProvider
 {
     private readonly string _name = "TodoView";

@@ -1,18 +1,15 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
 using HelloWordKeyboard.DotNet;
 using HelloWordKeyboard.DotNet.Models;
 using Helpers;
 using Microsoft.UI.Xaml;
-using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Services;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class Hw75ViewModel : ObservableRecipient, INavigationAware
 {

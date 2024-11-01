@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.System.Diagnostics;
 using System.Diagnostics;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 
 internal class CpuUtil
 {

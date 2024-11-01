@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Page
-    x:Class="ElectronBot.Copilot.Views.Agents.ChatPage"
+    x:Class="Verdure.Braincase.Copilot.Views.Agents.ChatPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:chat="using:ElectronBot.Copilot.Controls.Chat"
+    xmlns:chat="using:Verdure.Braincase.Copilot.Controls.Chat"
     xmlns:community="using:CommunityToolkit.WinUI.Controls"
-    xmlns:controls="using:ElectronBot.Copilot.Controls"
+    xmlns:controls="using:Verdure.Braincase.Copilot.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
-    xmlns:myconverters="using:Verdure.WinUI.Common.Converters">
+    xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters">
     <Page.Resources>
         <DataTemplate x:Key="ContactListViewTemplate" x:DataType="models:Conversation">
             <Grid Padding="12,8" ColumnSpacing="8">

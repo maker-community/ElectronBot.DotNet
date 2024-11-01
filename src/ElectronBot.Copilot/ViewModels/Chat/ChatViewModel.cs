@@ -11,11 +11,11 @@ using BotSharp.Abstraction.Users.Enums;
 using BotSharp.Abstraction.Utilities;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using ElectronBot.Braincase.Contracts.ViewModels;
 using Microsoft.UI.Dispatching;
+using Verdure.Braincase.WinUI.Common.Contracts.ViewModels;
 
 
-namespace ElectronBot.Copilot.ViewModels;
+namespace Verdure.Braincase.Copilot.ViewModels;
 
 public partial class ChatViewModel : ObservableRecipient, INavigationAware
 {
@@ -24,8 +24,8 @@ public partial class ChatViewModel : ObservableRecipient, INavigationAware
     private readonly IUserService _userService;
     private readonly IServiceProvider _services;
     private readonly DispatcherQueue _dispatcherQueue;
-    public ChatViewModel(IConversationService conversationService, 
-        IUserIdentity userIdentity, 
+    public ChatViewModel(IConversationService conversationService,
+        IUserIdentity userIdentity,
         IUserService userService, IServiceProvider services)
     {
         _conversationService = conversationService;

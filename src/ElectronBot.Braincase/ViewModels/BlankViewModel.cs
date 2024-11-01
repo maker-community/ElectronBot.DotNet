@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public class BlankViewModel : ObservableRecipient
 {

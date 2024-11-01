@@ -1,4 +1,4 @@
-﻿using ElectronBot.Braincase.Models;
+﻿using Verdure.Braincase.Models;
 using Models;
 
 namespace Contracts.Services;

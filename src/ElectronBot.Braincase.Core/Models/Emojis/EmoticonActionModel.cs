@@ -1,6 +1,6 @@
 ﻿using Verdure.Braincase.Core.Models.Emojis.Enums;
 
-namespace ElectronBot.Braincase.Models;
+namespace Verdure.Braincase.Core.Models;
 public class EmoticonActionModel : IDisposable
 {
     public string NameId

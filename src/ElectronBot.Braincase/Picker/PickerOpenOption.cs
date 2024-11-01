@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.UI;
 
-namespace ElectronBot.Braincase.Picker
+namespace Verdure.Braincase.Picker
 {
     public class PickerOpenOption
     {

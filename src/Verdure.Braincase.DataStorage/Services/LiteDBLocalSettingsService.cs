@@ -1,4 +1,4 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
+﻿using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.Helpers;
 using Verdure.Braincase.DataStorage.Collections;
 

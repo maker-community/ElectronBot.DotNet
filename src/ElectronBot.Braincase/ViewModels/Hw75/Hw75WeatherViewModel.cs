@@ -1,20 +1,16 @@
-﻿using System.Windows.Forms;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
+using Verdure.Braincase.Helpers;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class Hw75WeatherViewModel : ObservableRecipient
 {
     [ObservableProperty]
     private Weather_Displayed? _gpsResult;
 
-    private readonly DispatcherTimer _dispatcherTimer =new ();
+    private readonly DispatcherTimer _dispatcherTimer = new();
 
     private readonly ILocalSettingsService _localSettingsService;
 

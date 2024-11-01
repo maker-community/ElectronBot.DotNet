@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using CommunityToolkit.WinUI.Collections;
-using Contracts.Services;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Verdure.WinUI.Common.Models;
+using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
+using Verdure.Braincase.WinUI.Common.Models;
 
-namespace Verdure.WinUI.Common.ViewDataSource;
+namespace Verdure.Braincase.WinUI.Common.ViewDataSource;
 public class EmojisSource : IIncrementalSource<EmoticonActionUIModel>
 {
     private readonly IEmojisFileService _emojisFileService;

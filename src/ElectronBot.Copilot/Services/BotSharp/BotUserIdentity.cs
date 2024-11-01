@@ -1,6 +1,6 @@
 ﻿using BotSharp.Abstraction.Users;
 
-namespace ElectronBot.Copilot.Services.BotSharp;
+namespace Verdure.Braincase.Copilot.Services.BotSharp;
 public class BotUserIdentity : IUserIdentity
 {
     public string Id => "3b4e681a-b6af-40d0-abff-3261c735c1ec";

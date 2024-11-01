@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.Braincase.Contracts.Services;
+﻿namespace Verdure.Braincase.Core.Contracts.Services;
 
 public interface ILocalSettingsService
 {

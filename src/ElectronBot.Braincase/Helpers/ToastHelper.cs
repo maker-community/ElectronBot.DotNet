@@ -1,4 +1,4 @@
-﻿using ElectronBot.Braincase.Controls;
+﻿using Verdure.Braincase.Controls;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -7,28 +7,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace ElectronBot.Braincase.Helpers
+namespace Verdure.Braincase.Helpers;
+
+public class ToastHelper
 {
-    public class ToastHelper
+    public static void SendToast(string content, TimeSpan? duration = null)
     {
-        public static void SendToast(string content, TimeSpan? duration = null)
+        var toast = new Toast(content);
+        if (duration.HasValue)
         {
-            var toast = new Toast(content);
-            if (duration.HasValue)
-            {
-                toast.Duration = duration.Value;
-            }
-            toast.Show();
+            toast.Duration = duration.Value;
         }
-        public static void SendFavoriteToast(string content, TimeSpan? duration = null)
+        toast.Show();
+    }
+    public static void SendFavoriteToast(string content, TimeSpan? duration = null)
+    {
+        var toast = new Toast(content);
+        toast.Style = App.Current.Resources["FavoriteToastStyle"] as Style;
+        if (duration.HasValue)
         {
-            var toast = new Toast(content);
-            toast.Style = App.Current.Resources["FavoriteToastStyle"] as Style;
-            if (duration.HasValue)
-            {
-                toast.Duration = duration.Value;
-            }
-            toast.Show();
+            toast.Duration = duration.Value;
         }
+        toast.Show();
     }
 }

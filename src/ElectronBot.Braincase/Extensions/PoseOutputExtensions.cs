@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Mediapipe.Net.Solutions;
 
-namespace ElectronBot.Braincase.Extensions;
+namespace Verdure.Braincase.Extensions;
 public static class PoseOutputExtensions
 {
     public static List<PoseLine> GetPoseLines(this PoseOutput poseOutput, double x, double y)

@@ -2,19 +2,19 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
-using ElectronBot.Braincase.Services;
+using Verdure.Braincase.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using SixLabors.ImageSharp.Processing;
 using Verdure.Braincase.Core.Models;
-using Verdure.WinUI.Common.Models;
+using Verdure.Braincase.WinUI.Common.Models;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
 using Windows.Media.Devices;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 
 public class EbHelper
 {

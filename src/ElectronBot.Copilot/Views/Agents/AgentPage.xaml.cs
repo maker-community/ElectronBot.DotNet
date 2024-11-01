@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using ElectronBot.Copilot.ViewModels;
+using Verdure.Braincase.Copilot.ViewModels;
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace ElectronBot.Braincase.Views;
+namespace Verdure.Braincase.Copilot.Views;
 
 public sealed partial class AgentPage : Page
 {

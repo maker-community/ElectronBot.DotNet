@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase.Models;
 using Microsoft.Identity.Client.Extensions.Msal;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 
-namespace ElectronBot.Braincase;
+namespace Verdure.Braincase;
 public class Constants
 {
     public const string CacheFileName = "braincase_msal_cache.txt";

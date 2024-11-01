@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Extensions;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
+using Verdure.Braincase.Extensions;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.Services;
 using HelixToolkit.SharpDX.Core;
 using HelixToolkit.SharpDX.Core.Assimp;
 using HelixToolkit.SharpDX.Core.Model.Scene;
@@ -19,7 +19,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
 using SharpDX;
 using Verdure.Braincase.Core.Models;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -29,7 +29,7 @@ using Camera = HelixToolkit.WinUI.Camera;
 using Matrix = SharpDX.Matrix;
 using Vector3 = SharpDX.Vector3;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class PoseRecognitionViewModel : ObservableRecipient
 {

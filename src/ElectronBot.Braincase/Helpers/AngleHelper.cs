@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 
 public static class AngleHelper
 {

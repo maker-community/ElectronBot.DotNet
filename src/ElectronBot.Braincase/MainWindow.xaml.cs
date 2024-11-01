@@ -1,8 +1,8 @@
-﻿using ElectronBot.Braincase.Helpers;
-using Verdure.WinUI.Common.Helpers;
+﻿using Verdure.Braincase.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.UI.ViewManagement;
 
-namespace ElectronBot.Braincase;
+namespace Verdure.Braincase;
 
 public sealed partial class MainWindow : WindowEx
 {

@@ -1,7 +1,4 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
-using Models;
-using Verdure.ElectronBot.Core.Contracts.Services;
-using Verdure.ElectronBot.Core.Models.Iot;
+﻿using Verdure.Braincase.Core.Contracts.Services;
 
 namespace Verdure.IoT.Net.Services;
 public class BotIotService : IBotIotService

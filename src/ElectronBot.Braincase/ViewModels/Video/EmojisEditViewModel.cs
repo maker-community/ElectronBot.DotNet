@@ -3,22 +3,22 @@ using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Collections;
-using Contracts.Services;
 using Controls;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Models;
-using Verdure.WinUI.Common;
-using Verdure.WinUI.Common.Helpers;
-using Verdure.WinUI.Common.Models;
-using Verdure.WinUI.Common.ViewDataSource;
+using Verdure.Braincase.WinUI.Common;
+using Verdure.Braincase.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Models;
+using Verdure.Braincase.WinUI.Common.ViewDataSource;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class EmojisEditViewModel : ObservableRecipient
 {

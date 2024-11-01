@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Verdure.Braincase.Core.Models;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class ComboxDataService
 {
     public ObservableCollection<ComboxItemModel> GetClockViewComboxList()

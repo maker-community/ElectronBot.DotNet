@@ -1,15 +1,15 @@
 ﻿using Controls;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Services;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Services;
 using HidApi;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 
-namespace ElectronBot.Braincase;
+namespace Verdure.Braincase;
 
 // To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application

@@ -1,15 +1,16 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
 using Contracts.Services;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
 using Models;
 using Verdure.Braincase.Core.Helpers;
 using Verdure.Braincase.Core.Models.Emojis;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.Storage;
+using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 
 namespace Services;
 public class EmojiseShopService : IEmojiseShopService

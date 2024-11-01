@@ -1,8 +1,8 @@
 ﻿using Contracts.Services;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Models;

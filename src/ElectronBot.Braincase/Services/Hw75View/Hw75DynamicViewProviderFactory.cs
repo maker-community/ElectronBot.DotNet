@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.Contracts.Services;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class Hw75DynamicViewProviderFactory : IHw75DynamicViewProviderFactory
 {
     private readonly Dictionary<string, IHw75DynamicViewProvider> _providers = new(StringComparer.Ordinal);

@@ -2,10 +2,10 @@
 // Licensed under the MIT license. 
 
 using System;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase.Models;
 using Windows.Graphics.Imaging;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 
 //used to update success gauge on EmotionPage
 public class EmotionPageGaugeScoreEventArgs : EventArgs

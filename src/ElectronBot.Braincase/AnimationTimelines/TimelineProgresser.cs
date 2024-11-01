@@ -2,7 +2,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 
-namespace ElectronBot.Braincase.AnimationTimelines;
+namespace Verdure.Braincase.AnimationTimelines;
 
 public class TimelineProgresser
 {

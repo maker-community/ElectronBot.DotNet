@@ -1,10 +1,8 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
-using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Verdure.Braincase.Helpers;
 
-namespace ElectronBot.Braincase.Activation;
+namespace Verdure.Braincase.Activation;
 
 public class StartupTaskActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
 {

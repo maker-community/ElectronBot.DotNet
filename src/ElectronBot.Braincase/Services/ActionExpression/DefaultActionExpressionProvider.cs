@@ -1,8 +1,8 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Models;
-using Verdure.WinUI.Common.Models;
+﻿using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.WinUI.Common.Models;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class DefaultActionExpressionProvider : IActionExpressionProvider
 {
     public string Name => "Default";

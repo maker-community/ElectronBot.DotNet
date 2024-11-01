@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ElectronBot.Braincase.Services;
-using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using Microsoft.UI.Xaml;
-using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Services;
 
 namespace ViewModels;
 public partial class Hw75DynamicViewModel : ObservableRecipient

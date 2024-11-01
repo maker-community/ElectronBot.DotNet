@@ -1,15 +1,15 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Models.Gps;
-using ElectronBot.Braincase.Models.Name24;
+using Verdure.Braincase.WinUI.Common.Contracts.Services;
+using Verdure.Braincase.WinUI.Common.Models;
+using Verdure.Braincase.WinUI.Common.Models.Gps;
+using Verdure.Braincase.WinUI.Common.Models.Name24;
 using Microsoft.Extensions.Options;
 using Microsoft.UI.Dispatching;
-using Verdure.WinUI.Common;
+using Verdure.Braincase.WinUI.Common;
 using Windows.Devices.Geolocation;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.WinUI.Common.Services;
 
 public class GpsGetWeather
 {

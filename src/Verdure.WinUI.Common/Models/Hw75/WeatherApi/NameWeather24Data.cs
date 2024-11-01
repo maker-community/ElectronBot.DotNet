@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ElectronBot.Braincase.Models.Name24
+namespace Verdure.Braincase.WinUI.Common.Models.Name24
 {
     [DataContract]
     public class NameWeather24Data

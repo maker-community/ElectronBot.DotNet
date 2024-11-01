@@ -1,9 +1,7 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
+﻿using Microsoft.UI.Xaml;
+using Verdure.Braincase.Helpers;
 
-using Microsoft.UI.Xaml;
-
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 
 public class ThemeSelectorService : IThemeSelectorService
 {

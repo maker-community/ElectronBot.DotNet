@@ -1,12 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.ViewModels;
-
 using Microsoft.UI.Xaml.Controls;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.ViewModels;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 
 public class NavigationViewService : INavigationViewService
 {

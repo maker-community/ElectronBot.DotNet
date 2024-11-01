@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml.Data;
 
-namespace Verdure.WinUI.Common.Converters;
+namespace Verdure.Braincase.WinUI.Common.Converters;
 
 public class UtcToLocalTimeConverter : IValueConverter
 {

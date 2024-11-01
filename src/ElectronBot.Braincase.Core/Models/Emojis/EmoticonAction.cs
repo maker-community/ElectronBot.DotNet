@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Verdure.Braincase.Core.Models.Emojis.Enums;
 
-namespace ElectronBot.Braincase.Models;
+namespace Verdure.Braincase.Core.Models;
 public class EmoticonAction : ObservableRecipient
 {
     private bool _hasAction;

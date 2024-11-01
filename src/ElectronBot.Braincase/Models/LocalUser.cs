@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ElectronBot.Braincase.Models;
+namespace Verdure.Braincase.Models;
 
 // This class contains user members to download user information from Microsoft Graph
 // https://docs.microsoft.com/graph/api/resources/user?view=graph-rest-1.0

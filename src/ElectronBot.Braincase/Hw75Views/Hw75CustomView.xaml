@@ -8,7 +8,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Hw75Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:media="using:ElectronBot.Braincase.Media"
+    xmlns:media="using:Verdure.Braincase.Media"
     Unloaded="UserControl_Unloaded"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>

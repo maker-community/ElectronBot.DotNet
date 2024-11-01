@@ -1,11 +1,7 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
-using ElectronBot.Braincase.ViewModels;
+﻿using Microsoft.UI.Xaml;
+using Verdure.Braincase.ViewModels;
 
-using Microsoft.UI.Xaml;
-
-namespace ElectronBot.Braincase.Activation;
+namespace Verdure.Braincase.Activation;
 
 public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
 {

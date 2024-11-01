@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Rodel. All rights reserved.
 
-namespace ElectronBot.Copilot.Controls;
+namespace Verdure.Braincase.Copilot.Controls;
 
 /// <summary>
 /// 空白占位符.

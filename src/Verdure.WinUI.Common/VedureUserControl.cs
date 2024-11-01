@@ -2,17 +2,17 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Verdure.WinUI.Common;
-public class VedureUserControl<TViewModel> : UserControl
+namespace Verdure.Braincase.WinUI.Common;
+public class VerdureUserControl<TViewModel> : UserControl
     where TViewModel : class
 {
     /// <summary>
     /// Dependency property for <see cref="ViewModel"/>.
     /// </summary>
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty
-            .Register(nameof(ViewModel), typeof(TViewModel), typeof(VedureUserControl<TViewModel>), new PropertyMetadata(default, new PropertyChangedCallback((dp, args) =>
+            .Register(nameof(ViewModel), typeof(TViewModel), typeof(VerdureUserControl<TViewModel>), new PropertyMetadata(default, new PropertyChangedCallback((dp, args) =>
             {
-                var instance = dp as VedureUserControl<TViewModel>;
+                var instance = dp as VerdureUserControl<TViewModel>;
                 instance?.OnViewModelChanged(args);
             })));
 

@@ -2,9 +2,9 @@
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 using System.Threading.Tasks;
-using ElectronBot.Copilot.ViewModels;
+using Verdure.Braincase.Copilot.ViewModels;
 
-namespace ElectronBot.Copilot.Controls.Chat;
+namespace Verdure.Braincase.Copilot.Controls.Chat;
 public sealed partial class ChatModuleMsgList : ChatModuleControl
 {
     public ChatModuleMsgList()

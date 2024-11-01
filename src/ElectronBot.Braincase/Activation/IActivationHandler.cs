@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.Braincase.Activation;
+﻿namespace Verdure.Braincase.Activation;
 
 public interface IActivationHandler
 {

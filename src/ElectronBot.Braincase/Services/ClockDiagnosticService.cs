@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Management;
 using System.Runtime.InteropServices;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
 using Microsoft.Win32;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class ClockDiagnosticService
 {
     public event EventHandler<ClockDiagnosticInfo>? ClockDiagnosticInfoResult;

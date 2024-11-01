@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <local:ChatModuleControl
-    x:Class="ElectronBot.Copilot.Controls.Chat.ChatModuleMsgList"
+    x:Class="Verdure.Braincase.Copilot.Controls.Chat.ChatModuleMsgList"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:ElectronBot.Copilot.Controls"
+    xmlns:controls="using:Verdure.Braincase.Copilot.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:local="using:ElectronBot.Copilot.Controls.Chat"
+    xmlns:local="using:Verdure.Braincase.Copilot.Controls.Chat"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
-    xmlns:myconverters="using:Verdure.WinUI.Common.Converters"
+    xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
     mc:Ignorable="d">
     <local:ChatModuleControl.Resources>
         <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />

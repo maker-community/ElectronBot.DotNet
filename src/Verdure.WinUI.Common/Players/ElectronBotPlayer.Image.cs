@@ -4,7 +4,7 @@ using SixLabors.ImageSharp.Processing;
 using Verdure.Braincase.Core.Models;
 using Windows.Storage;
 
-namespace Verdure.WinUI.Common.Players;
+namespace Verdure.Braincase.WinUI.Common.Players;
 public partial class ElectronBotPlayer
 {
     public async Task PlayImageAsync(string path)

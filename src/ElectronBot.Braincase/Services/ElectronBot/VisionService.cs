@@ -1,13 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Helpers;
+using Verdure.Braincase;
+using Verdure.Braincase.Helpers;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
 using Microsoft.AI.MachineLearning;
 using Models.ElectronBot;
-using Vedure.Braincsse.WinUI.Helpers;
+using Verdure.Braincsse.WinUI.Helpers;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;

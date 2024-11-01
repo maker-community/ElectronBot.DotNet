@@ -5,7 +5,7 @@ using Microsoft.UI.Input;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace ElectronBot.Copilot.Controls.Chat;
+namespace Verdure.Braincase.Copilot.Controls.Chat;
 public sealed partial class ChatModuleInput : ChatModuleControl
 {
     public ChatModuleInput()

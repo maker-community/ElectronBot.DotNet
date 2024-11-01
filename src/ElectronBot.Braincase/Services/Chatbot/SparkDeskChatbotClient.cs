@@ -1,9 +1,9 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using Contracts.Services;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
+using Verdure.Braincase;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
 using Models;
 using Sdcb.SparkDesk;
 

@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.WinUI.Common.Contracts.Services;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Xaml.Interactivity;
 
-namespace ElectronBot.Braincase.Behaviors;
+namespace Verdure.Braincase.WinUI.Common.Behaviors;
 
 public class NavigationViewHeaderBehavior : Behavior<NavigationView>
 {

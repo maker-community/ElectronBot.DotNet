@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.Braincase.Contracts.ViewModels;
+﻿namespace Verdure.Braincase.WinUI.Common.Contracts.ViewModels;
 
 public interface INavigationAware
 {

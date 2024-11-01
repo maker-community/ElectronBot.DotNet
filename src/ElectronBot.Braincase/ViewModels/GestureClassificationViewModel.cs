@@ -1,28 +1,23 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using ClockViews;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Controls;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Services;
-using Mediapipe.Net.Framework.Format;
-using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Services;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Image = Microsoft.UI.Xaml.Controls.Image;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class GestureClassificationViewModel : ObservableRecipient, INavigationAware
 {

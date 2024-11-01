@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ElectronBot.Braincase.Models;
+namespace Verdure.Braincase.Models;
 public class GestureAppConfig
 {
     /// <summary>

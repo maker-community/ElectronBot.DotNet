@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using CommunityToolkit.WinUI;
-using ElectronBot.Braincase.ViewModels;
+using Verdure.Braincase.ViewModels;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas.UI;
@@ -18,7 +18,7 @@ using Windows.Foundation;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace ElectronBot.Braincase.ClockViews;
+namespace Verdure.Braincase.ClockViews;
 public sealed partial class CustomClockView : UserControl
 {
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 
 // Helper class to set the navigation target for a NavigationViewItem.
 //

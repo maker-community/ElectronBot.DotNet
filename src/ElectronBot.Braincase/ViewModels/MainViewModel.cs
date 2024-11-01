@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO.Ports;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
 using System.Windows.Input;
@@ -9,11 +8,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Contracts.Services;
 using Controls.CompactOverlay;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
 using Mediapipe.Net.Solutions;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
@@ -21,11 +15,11 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Services;
-using Verdure.Braincase.Core.Models;
-using Verdure.Braincase.Core.Models.Emojis.Enums;
-using Verdure.WinUI.Common.Helpers;
-using Verdure.WinUI.Common.Models;
-using Verdure.WinUI.Common.Services;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.Services;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
@@ -33,7 +27,7 @@ using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 using Windows.Storage;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class MainViewModel : ObservableRecipient, INavigationAware
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.Contracts.Services;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class ClockCanvasFactory : IClockCanvasFactory
 {
     private readonly Dictionary<string, IClockCanvas> _canvasList = new Dictionary<string, IClockCanvas>(StringComparer.Ordinal);

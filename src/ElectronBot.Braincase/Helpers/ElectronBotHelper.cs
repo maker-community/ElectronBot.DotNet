@@ -2,9 +2,6 @@
 using System.IO.Ports;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
 using ElectronBot.DotNet;
 using ElectronBot.DotNet.LibUsb;
 using ElectronBot.DotNet.WinUsb;
@@ -14,11 +11,9 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Win32;
 using Models;
 using SixLabors.ImageSharp.Processing;
-using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.Services;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Verdure.IoT.Net;
-using Verdure.WinUI.Common.Helpers;
-using Verdure.WinUI.Common.Models;
-using Verdure.WinUI.Common.Services;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.HumanInterfaceDevice;
@@ -29,7 +24,7 @@ using Windows.Management.Deployment;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 
 public class ElectronBotHelper
 {

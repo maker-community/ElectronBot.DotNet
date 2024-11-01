@@ -1,8 +1,8 @@
 ﻿using Verdure.Braincase.Core.Helpers;
 using Microsoft.UI.Xaml.Controls;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 
 internal static class AuthenticationHelper
 {

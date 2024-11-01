@@ -20,7 +20,7 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace ElectronBot.Braincase.Controls;
+namespace Verdure.Braincase.Controls;
 public sealed partial class GestureAppConfigItems : ItemsControl
 {
     public static readonly DependencyProperty GestureLabelsProperty = DependencyProperty.Register(

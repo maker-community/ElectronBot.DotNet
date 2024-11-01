@@ -1,4 +1,4 @@
-﻿namespace Verdure.ElectronBot.Core.Models.Iot;
+﻿namespace Verdure.Braincase.Core.Models;
 public class IotRequest
 {
     public string Domain

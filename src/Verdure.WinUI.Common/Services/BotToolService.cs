@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using System.Threading;
-using ElectronBot.Braincase.Services;
+using Verdure.Braincase.WinUI.Common.Services;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -11,7 +11,7 @@ using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
 
-namespace Verdure.WinUI.Common.Services;
+namespace Verdure.Braincase.WinUI.Common.Services;
 public class BotToolService : IBotToolService
 {
     private readonly IBotIotService _botIotService;

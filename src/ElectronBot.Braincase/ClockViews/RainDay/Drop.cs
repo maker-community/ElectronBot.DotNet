@@ -4,7 +4,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.UI;
 
-namespace ElectronBot.Braincase.ClockViews;
+namespace Verdure.Braincase.ClockViews;
 
 public class Drop
 {

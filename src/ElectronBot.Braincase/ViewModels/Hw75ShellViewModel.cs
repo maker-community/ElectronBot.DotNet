@@ -1,17 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Controls.CompactOverlay;
-using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.Contracts.Services;
 using Verdure.Braincase.Core.Helpers;
 using Verdure.Braincase.Core.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Services;
-using ElectronBot.Braincase.Views;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Services;
+using Verdure.Braincase.Views;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Windowing;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class Hw75ShellViewModel : ObservableRecipient
 {

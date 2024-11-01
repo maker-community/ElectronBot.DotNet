@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ElectronBot.Braincase.Models.Name
+namespace Verdure.Braincase.WinUI.Common.Models.Name
 {
     #region 序列化
     [DataContract]

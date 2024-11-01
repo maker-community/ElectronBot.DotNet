@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Rodel. All rights reserved.
 
-using ElectronBot.Copilot.ViewModels;
+using Verdure.Braincase.Copilot.ViewModels;
 
-namespace ElectronBot.Copilot.Controls.Chat;
+namespace Verdure.Braincase.Copilot.Controls.Chat;
 
 /// <summary>
 /// 聊天会话列表面板.

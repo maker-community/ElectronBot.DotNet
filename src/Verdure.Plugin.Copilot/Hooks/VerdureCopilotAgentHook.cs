@@ -1,7 +1,7 @@
 using BotSharp.Abstraction.Agents;
 using BotSharp.Abstraction.Agents.Enums;
 
-namespace Verdure.Plugin.Copilot.Hooks;
+namespace Verdure.Braincase.Copilot.Plugin.Hooks;
 
 public class VerdureCopilotAgentHook : AgentHookBase
 {

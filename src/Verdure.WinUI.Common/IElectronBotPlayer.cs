@@ -1,6 +1,6 @@
-﻿using Verdure.WinUI.Common.Models;
+﻿using Verdure.Braincase.WinUI.Common.Models;
 
-namespace Verdure.WinUI.Common;
+namespace Verdure.Braincase.WinUI.Common;
 public interface IElectronBotPlayer
 {
     Task PlayVideoByPathAsync(string path, List<ElectronBotAction>? actions = null);

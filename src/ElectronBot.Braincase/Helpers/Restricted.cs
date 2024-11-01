@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 
 internal class Restricted : Attribute
 {

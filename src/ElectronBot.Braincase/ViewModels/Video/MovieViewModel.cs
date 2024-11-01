@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Services;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Services;
 using HelixToolkit.SharpDX.Core;
 using HelixToolkit.SharpDX.Core.Assimp;
 using HelixToolkit.SharpDX.Core.Model.Scene;
@@ -32,7 +32,7 @@ using Color = SharpDX.Color;
 using Matrix = SharpDX.Matrix;
 using Vector3 = SharpDX.Vector3;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class MovieViewModel : ObservableRecipient
 {

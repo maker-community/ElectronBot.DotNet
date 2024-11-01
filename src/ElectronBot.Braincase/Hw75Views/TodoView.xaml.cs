@@ -1,4 +1,4 @@
-using ElectronBot.Braincase;
+using Verdure.Braincase;
 using Microsoft.UI.Xaml.Controls;
 using ViewModels;
 

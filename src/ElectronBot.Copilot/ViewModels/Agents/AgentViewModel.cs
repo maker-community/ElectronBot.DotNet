@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BotSharp.Abstraction.Agents;
 using BotSharp.Abstraction.Agents.Models;
@@ -12,9 +11,9 @@ using BotSharp.Abstraction.Utilities;
 using BotSharp.Core.Plugins;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using ElectronBot.Braincase.Contracts.ViewModels;
+using ElectronBot.Copilot.Enums;
 
-namespace ElectronBot.Copilot.ViewModels;
+namespace Verdure.Braincase.Copilot.ViewModels;
 
 public partial class AgentViewModel : ObservableRecipient, INavigationAware
 {
@@ -77,7 +76,7 @@ public partial class AgentViewModel : ObservableRecipient, INavigationAware
 
         var result = await _conversationService.NewConversation(new BotSharp.Abstraction.Conversations.Models.Conversation
         {
-            AgentId = Verdure.Plugin.Copilot.Enums.VerdureAgentId.VerdureId,
+            AgentId = VerdureAgentId.VerdureId,
             UserId = _userIdentity.Id
         });
 

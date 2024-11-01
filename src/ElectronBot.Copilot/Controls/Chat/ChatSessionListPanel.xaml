@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <chat:ChatModuleControl
-    x:Class="ElectronBot.Copilot.Controls.Chat.ChatSessionListPanel"
+    x:Class="Verdure.Braincase.Copilot.Controls.Chat.ChatSessionListPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:chat="using:ElectronBot.Copilot.Controls.Chat"
-    xmlns:controls="using:ElectronBot.Copilot.Controls"
+    xmlns:chat="using:Verdure.Braincase.Copilot.Controls.Chat"
+    xmlns:controls="using:Verdure.Braincase.Copilot.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:ic1="using:FluentIcons.WinUI"
-    xmlns:items="using:ElectronBot.Copilot.Controls"
+    xmlns:items="using:Verdure.Braincase.Copilot.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
     mc:Ignorable="d">

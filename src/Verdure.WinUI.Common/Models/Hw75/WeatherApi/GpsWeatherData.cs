@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ElectronBot.Braincase.Models.Gps
+namespace Verdure.Braincase.WinUI.Common.Models.Gps
 {
     #region 序列化
     [DataContract]

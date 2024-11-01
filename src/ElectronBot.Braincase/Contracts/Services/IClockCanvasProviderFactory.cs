@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronBot.Braincase.Contracts.Services;
+namespace Verdure.Braincase.Contracts.Services;
 public interface IClockCanvasProviderFactory
 {
     IClockCanvasProvider CreateClockCanvasProvider(string canvasName);

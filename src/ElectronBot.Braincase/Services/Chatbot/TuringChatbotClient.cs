@@ -1,10 +1,10 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using Contracts.Services;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
 using Models;
 
 namespace Services;

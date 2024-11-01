@@ -1,17 +1,14 @@
 ﻿using System.Runtime.InteropServices.WindowsRuntime;
-using ElectronBot.Braincase.Contracts.Services;
 using HelloWordKeyboard.DotNet;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Models;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using Verdure.Braincase.Core.Models;
 using Verdure.IoT.Net;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 
 public class Hw75Helper
 {

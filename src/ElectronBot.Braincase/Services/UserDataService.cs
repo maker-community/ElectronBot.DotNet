@@ -1,11 +1,9 @@
-﻿using Verdure.Braincase.Core.Contracts.Services;
-using Verdure.Braincase.Core.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.ViewModels;
+﻿using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.ViewModels;
 using Windows.Storage;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 
 public class UserDataService
 {

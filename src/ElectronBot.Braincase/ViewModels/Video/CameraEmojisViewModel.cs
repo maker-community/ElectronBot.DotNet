@@ -1,15 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Services;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.Graphics.Imaging;
-using CommunityToolkit.Mvvm.Input;
-using Verdure.WinUI.Common.Helpers;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class CameraEmojisViewModel : ObservableRecipient, INavigationAware
 {

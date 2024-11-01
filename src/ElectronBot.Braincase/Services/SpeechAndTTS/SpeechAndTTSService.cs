@@ -1,17 +1,17 @@
 ﻿using System.Diagnostics;
 using Contracts.Services;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
 using Models;
 using Verdure.Braincase.Core.Models;
-using Verdure.WinUI.Common.Services;
+using Verdure.Braincase.WinUI.Common.Services;
 using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
 using Windows.Media.SpeechSynthesis;
 using Windows.Storage.Streams;
 using Windows.System;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class SpeechAndTTSService : ISpeechAndTTSService
 {
 

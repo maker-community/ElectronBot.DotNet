@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.Braincase.Contracts.Services;
+﻿namespace Verdure.Braincase.Contracts.Services;
 public interface IActionExpressionProviderFactory
 {
     IActionExpressionProvider CreateActionExpressionProvider(string actionName);

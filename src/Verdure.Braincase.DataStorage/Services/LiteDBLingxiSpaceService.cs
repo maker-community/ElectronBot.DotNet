@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Verdure.Braincase.Core.Contracts.Services;
+﻿using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.Models.Lingxi;
 using Verdure.Braincase.Core.Models.Lingxi.Filters;
 

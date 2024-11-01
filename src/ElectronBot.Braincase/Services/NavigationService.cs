@@ -1,13 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
-
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Verdure.Braincase.Helpers;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 
 // For more information on navigation between pages see
 // https://github.com/microsoft/TemplateStudio/blob/main/docs/WinUI/navigation.md

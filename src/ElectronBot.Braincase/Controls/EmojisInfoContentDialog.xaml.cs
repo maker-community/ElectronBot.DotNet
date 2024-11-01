@@ -13,13 +13,13 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using ElectronBot.Braincase.ViewModels;
+using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.Core.Models;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase.Models;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板
 
-namespace ElectronBot.Braincase.Controls;
+namespace Verdure.Braincase.Controls;
 
 public sealed partial class EmojisInfoContentDialog : ContentDialog
 {

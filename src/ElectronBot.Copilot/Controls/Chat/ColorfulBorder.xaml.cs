@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Rodel. All rights reserved.
 
-using ElectronBot.Copilot.Controls.Chat;
+using Verdure.Braincase.Copilot.Controls.Chat;
 
-namespace ElectronBot.Copilot.Controls;
+namespace Verdure.Braincase.Copilot.Controls;
 
 /// <summary>
 /// 彩色边框.

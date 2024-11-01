@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ElectronBot.Copilot;
+namespace Verdure.Braincase.Copilot;
 
 public class ProxyOpenAIHttpClientHandler : HttpClientHandler
 {

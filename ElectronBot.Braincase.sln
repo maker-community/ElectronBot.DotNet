@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronBot.DotNet", "src\ElectronBot.DotNet\ElectronBot.DotNet.csproj", "{8FD16BB5-D953-44CB-8709-A79998337A1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronBot.Braincase", "src\ElectronBot.Braincase\ElectronBot.Braincase.csproj", "{66DA4526-14E4-4CCA-A7CE-F4566061E38C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase", "src\ElectronBot.Braincase\Verdure.Braincase.csproj", "{66DA4526-14E4-4CCA-A7CE-F4566061E38C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.Core", "src\ElectronBot.Braincase.Core\Verdure.Braincase.Core.csproj", "{DF6F2FCC-F99A-4F3B-A7D1-B793FF477F1A}"
 EndProject
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestureClassification", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.NotificationArea", "src\Verdure.NotificationArea\Verdure.NotificationArea.csproj", "{2DD1EED6-1778-41DF-9E0D-EC23C99416B4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronBot.Copilot", "src\ElectronBot.Copilot\ElectronBot.Copilot.csproj", "{066FC203-FAD3-46D9-95A9-30FB6AE41583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.Copilot", "src\ElectronBot.Copilot\Verdure.Braincase.Copilot.csproj", "{066FC203-FAD3-46D9-95A9-30FB6AE41583}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWordKeyboard.DotNet", "src\HelloWordKeyboard.DotNet\HelloWordKeyboard.DotNet.csproj", "{D416CD59-E9AC-4726-9CDE-1D8A4F256A9B}"
 EndProject
@@ -31,13 +31,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronBot.DotNet.WinUsb",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronBot.DotNet.LibUsb", "src\ElectronBot.DotNet.LibUsb\ElectronBot.DotNet.LibUsb.csproj", "{4A9E0A47-6386-45F2-84FF-3ACEC37B6A8E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.WinUI.Common", "src\Verdure.WinUI.Common\Verdure.WinUI.Common.csproj", "{6085A146-AAB7-4CC5-8A5D-17A9FD1D495B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.WinUI.Common", "src\Verdure.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj", "{6085A146-AAB7-4CC5-8A5D-17A9FD1D495B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Devices", "Devices", "{B93FAB57-EB95-4516-9132-A584BA674458}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copilot", "Copilot", "{239CCEB2-7AA4-4250-BDE5-2120D3832DBF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Plugin.Copilot", "src\Verdure.Plugin.Copilot\Verdure.Plugin.Copilot.csproj", "{0958CE17-DFF9-4AF8-8B25-8D9B9708BA8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.Copilot.Plugin", "src\Verdure.Plugin.Copilot\Verdure.Braincase.Copilot.Plugin.csproj", "{0958CE17-DFF9-4AF8-8B25-8D9B9708BA8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8EF77FC4-6C54-4F46-8957-E23E5E58E847}"
 EndProject

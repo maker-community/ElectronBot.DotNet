@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 
-namespace ElectronBot.Braincase.Extensions;
+namespace Verdure.Braincase.Extensions;
 public class PoseLine3D
 {
     public Vector3 StartVector3

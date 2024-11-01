@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace Verdure.WinUI.Common.Models;
+namespace Verdure.Braincase.WinUI.Common.Models;
 
 public class ElectronBotAction : ObservableRecipient
 {

@@ -3,7 +3,7 @@
 using BotSharp.Abstraction.Conversations.Models;
 using Microsoft.UI.Xaml.Input;
 
-namespace ElectronBot.Copilot.Controls.Chat;
+namespace Verdure.Braincase.Copilot.Controls.Chat;
 
 /// <summary>
 /// 聊天消息.

@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.Braincase.Behaviors;
+﻿namespace Verdure.Braincase.WinUI.Common.Behaviors;
 
 public enum NavigationViewHeaderMode
 {

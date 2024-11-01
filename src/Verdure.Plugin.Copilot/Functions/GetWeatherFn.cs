@@ -1,7 +1,7 @@
 using BotSharp.Abstraction.Conversations.Models;
 using Verdure.ElectronBot.Core.Contracts.Services;
 
-namespace Verdure.Plugin.Copilot.Functions;
+namespace Verdure.Braincase.Copilot.Plugin.Functions;
 
 public class GetWeatherFn : IFunctionCallback
 {

@@ -1,4 +1,4 @@
-﻿namespace Models;
+﻿namespace Verdure.Braincase.Core.Models;
 public class HaSetting
 {
     public string BaseUrl

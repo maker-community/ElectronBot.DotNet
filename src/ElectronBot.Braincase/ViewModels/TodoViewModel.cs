@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Services;
+using Verdure.Braincase.Services;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.Services;
 using Microsoft.Graph;
@@ -10,7 +10,7 @@ using Controls.CompactOverlay;
 using Microsoft.UI.Windowing;
 using Microsoft.Graph.Models;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class TodoViewModel : ObservableRecipient
 {

@@ -1,4 +1,4 @@
-﻿using ElectronBot.Braincase.Models;
+﻿using Verdure.Braincase.Core.Models;
 using Verdure.Braincase.DataStorage.Collections;
 
 namespace Verdure.Braincase.DataStorage.Mappers;

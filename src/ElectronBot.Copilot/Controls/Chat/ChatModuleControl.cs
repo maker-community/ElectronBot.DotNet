@@ -1,7 +1,7 @@
-﻿using ElectronBot.Copilot.ViewModels;
-using Verdure.WinUI.Common;
+﻿using Verdure.Braincase.Copilot.ViewModels;
+using Verdure.Braincase.WinUI.Common;
 
-namespace ElectronBot.Copilot.Controls.Chat;
-public abstract class ChatModuleControl : VedureUserControl<ChatViewModel>
+namespace Verdure.Braincase.Copilot.Controls.Chat;
+public abstract class ChatModuleControl : VerdureUserControl<ChatViewModel>
 {
 }

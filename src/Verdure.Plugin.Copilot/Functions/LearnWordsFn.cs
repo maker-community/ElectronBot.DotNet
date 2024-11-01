@@ -3,9 +3,9 @@ using System.Text.Json;
 using BotSharp.Abstraction.Conversations.Models;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Models;
-using Verdure.Plugin.Copilot.Models;
+using Verdure.Braincase.Copilot.Plugin.Models;
 
-namespace Verdure.Plugin.Copilot.Functions;
+namespace Verdure.Braincase.Copilot.Plugin.Functions;
 
 public class LearnWordsFn : IFunctionCallback
 {

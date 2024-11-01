@@ -1,6 +1,6 @@
-﻿using ElectronBot.Braincase.Picker;
+﻿using Verdure.Braincase.Picker;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class ObjectPickerService
 {
     private readonly Dictionary<string, Dictionary<string, Type>> _pages =

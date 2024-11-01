@@ -7,7 +7,7 @@
 //using System.Text;
 //using System.Threading.Tasks;
 
-//namespace ElectronBot.Copilot
+//namespace Verdure.Braincase.Copilot
 //{
 //    public class VerdureChatKernel
 //    {

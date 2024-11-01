@@ -1,15 +1,15 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
-using Contracts.Services;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
 using Models;
 using Verdure.Braincase.Core.Models.Emojis;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 
 namespace Services;
 public class EmojisFileService : IEmojisFileService

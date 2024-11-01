@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.WinUI.Common.Contracts.Services;
 using Verdure.Braincase.Core.Models;
-using Verdure.WinUI.Common.Services;
+using Verdure.Braincase.WinUI.Common.Services;
 using Windows.Devices.Enumeration;
 
-namespace Verdure.WinUI.Common.Players;
+namespace Verdure.Braincase.WinUI.Common.Players;
 public partial class ElectronBotPlayer
 {
     public async Task PlayAudioByTextAsync(string text)

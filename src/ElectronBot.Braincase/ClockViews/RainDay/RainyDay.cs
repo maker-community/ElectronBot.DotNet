@@ -12,7 +12,7 @@ using Windows.UI;
 using Microsoft.Graphics.Canvas.Brushes;
 using Windows.Foundation;
 
-namespace ElectronBot.Braincase.ClockViews;
+namespace Verdure.Braincase.ClockViews;
 
 public class RainyDay
 {

@@ -6,10 +6,11 @@ using BotSharp.Abstraction.Conversations.Models;
 using BotSharp.Abstraction.Models;
 using BotSharp.Abstraction.Routing;
 using CommunityToolkit.Mvvm.Input;
+using ElectronBot.Copilot.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace ElectronBot.Copilot.ViewModels;
+namespace Verdure.Braincase.Copilot.ViewModels;
 public partial class ChatViewModel
 {
     [RelayCommand]
@@ -79,7 +80,7 @@ public partial class ChatViewModel
     {
         var result = await _conversationService.NewConversation(new Conversation
         {
-            AgentId = Verdure.Plugin.Copilot.Enums.VerdureAgentId.VerdureId,
+            AgentId = VerdureAgentId.VerdureId,
             UserId = _userIdentity.Id
         });
 

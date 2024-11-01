@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using System.Text.Json;
-using Contracts.Services;
-using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.WinUI.Common.Contracts.Services;
 using Verdure.Braincase.Core.Models;
-using Verdure.WinUI.Common.Models;
+using Verdure.Braincase.WinUI.Common.Models;
 using Windows.Devices.Enumeration;
 using Windows.Media.Devices;
 using Windows.Storage.Streams;
+using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 
-namespace Verdure.WinUI.Common.Players;
+namespace Verdure.Braincase.WinUI.Common.Players;
 public partial class ElectronBotPlayer
 {
     public async Task PlayVideoByNameIdAsync(string nameId)

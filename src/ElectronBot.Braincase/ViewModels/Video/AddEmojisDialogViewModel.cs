@@ -3,16 +3,15 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Controls;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.Controls;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.Storage;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class AddEmojisDialogViewModel : ObservableRecipient
 {

@@ -8,7 +8,7 @@ using BotSharp.Abstraction.Agents.Models;
 using BotSharp.Abstraction.Conversations.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace ElectronBot.Copilot.ViewModels;
+namespace Verdure.Braincase.Copilot.ViewModels;
 public partial class ChatViewModel
 {
 

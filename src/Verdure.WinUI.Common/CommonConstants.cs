@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 
-namespace Verdure.WinUI.Common;
+namespace Verdure.Braincase.WinUI.Common;
 public class CommonConstants
 {
     public const string CacheFileName = "braincase_msal_cache.txt";

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase.Models;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 public class WindowHelper
 {
     [DllImport("User32.dll")]

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Specialized;
 using System.Web;
 
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.ViewModels;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.ViewModels;
 
 using Microsoft.Windows.AppNotifications;
 
-namespace ElectronBot.Braincase.Notifications;
+namespace Verdure.Braincase.Notifications;
 
 public class AppNotificationService : IAppNotificationService
 {

@@ -5,7 +5,7 @@ using HelixToolkit.WinUI;
 using SharpDX;
 using Windows.ApplicationModel;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 public class Bot3DHelper
 {
 

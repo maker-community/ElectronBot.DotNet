@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using ElectronBot.Braincase;
+using Verdure.Braincase;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -18,7 +18,7 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace ElectronBot.Braincase.Controls;
+namespace Verdure.Braincase.Controls;
 public sealed partial class ElectronBotModelLoader : UserControl
 {
     public ModelLoadCompactOverlayViewModel ViewModel

@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Models.Name;
-using ElectronBot.Braincase.Models.Name24;
+using Verdure.Braincase.WinUI.Common.Models;
+using Verdure.Braincase.WinUI.Common.Models.Name;
+using Verdure.Braincase.WinUI.Common.Models.Name24;
 using Microsoft.Extensions.Options;
 
-namespace ElectronBot.Braincase.Services
+namespace Verdure.Braincase.WinUI.Common.Services
 {
     public class AreaNameGetWeather
     {

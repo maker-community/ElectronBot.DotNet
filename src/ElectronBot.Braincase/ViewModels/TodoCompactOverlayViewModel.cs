@@ -4,7 +4,7 @@ using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Controls.CompactOverlay;
-using ElectronBot.Braincase;
+using Verdure.Braincase;
 using Microsoft.UI.Windowing;
 
 namespace ViewModels;

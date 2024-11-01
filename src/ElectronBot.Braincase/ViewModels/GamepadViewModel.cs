@@ -3,16 +3,12 @@ using System.Diagnostics;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml;
-using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.Helpers;
 using Windows.ApplicationModel;
 using Windows.Gaming.Input;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public class GamepadViewModel : ObservableRecipient, INavigationAware
 {

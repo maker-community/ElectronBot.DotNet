@@ -1,8 +1,8 @@
-﻿using ElectronBot.Braincase.ViewModels;
+﻿using Verdure.Braincase.ViewModels;
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace ElectronBot.Braincase.Views;
+namespace Verdure.Braincase.Views;
 
 public sealed partial class BlankPage : Page
 {

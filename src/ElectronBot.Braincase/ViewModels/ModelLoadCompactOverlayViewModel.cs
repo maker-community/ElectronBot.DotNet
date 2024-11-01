@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Helpers;
+using Verdure.Braincase;
+using Verdure.Braincase.Helpers;
 using HelixToolkit.SharpDX.Core;
 using Microsoft.UI.Xaml;
 

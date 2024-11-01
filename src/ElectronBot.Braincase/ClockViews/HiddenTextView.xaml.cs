@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using CommunityToolkit.WinUI;
-using ElectronBot.Braincase.ViewModels;
+using Verdure.Braincase.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
@@ -12,7 +12,7 @@ using Windows.UI;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace ElectronBot.Braincase.ClockViews;
+namespace Verdure.Braincase.ClockViews;
 public sealed partial class HiddenTextView : UserControl
 {
 

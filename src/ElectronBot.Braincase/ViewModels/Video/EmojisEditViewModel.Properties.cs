@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ElectronBot.Braincase.Models;
-using Verdure.WinUI.Common.Models;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.WinUI.Common.Models;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 public partial class EmojisEditViewModel : ObservableRecipient
 {
     [ObservableProperty]

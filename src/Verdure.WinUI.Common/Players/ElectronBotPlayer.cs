@@ -4,10 +4,10 @@ using Microsoft.Graphics.Canvas;
 using SixLabors.ImageSharp.Processing;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.Models;
-using Verdure.WinUI.Common.Models;
+using Verdure.Braincase.WinUI.Common.Models;
 using Windows.Media.Playback;
 
-namespace Verdure.WinUI.Common.Players;
+namespace Verdure.Braincase.WinUI.Common.Players;
 public partial class ElectronBotPlayer : IElectronBotPlayer, IDisposable
 {
     private readonly IEmoticonActionFrameService _actionFrameService;

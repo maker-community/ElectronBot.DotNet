@@ -1,13 +1,13 @@
 ﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.Services;
 using Microsoft.UI.Xaml;
 using Models;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class ClockViewModel : ObservableRecipient
 {

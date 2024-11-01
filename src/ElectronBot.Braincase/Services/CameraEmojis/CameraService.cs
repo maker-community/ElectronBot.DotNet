@@ -3,18 +3,18 @@
 
 using System.Diagnostics;
 using CommunityToolkit.WinUI.Helpers;
-using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.Contracts.Services;
 using Verdure.Braincase.Core.Models;
-using ElectronBot.Braincase.Helpers;
+using Verdure.Braincase.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 using Windows.Storage.Streams;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 
 class CameraService
 {

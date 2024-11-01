@@ -1,9 +1,9 @@
 ﻿using ClockViews;
-using ElectronBot.Braincase.ClockViews;
-using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.ClockViews;
+using Verdure.Braincase.Contracts.Services;
 using Microsoft.UI.Xaml;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class GradientsWithBlendClockViewProvider : IClockViewProvider
 {
     private readonly string _name = "GradientsWithBlend";

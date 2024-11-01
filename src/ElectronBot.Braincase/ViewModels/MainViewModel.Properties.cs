@@ -5,10 +5,10 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Verdure.Braincase.Core.Models;
-using Verdure.WinUI.Common.Models;
+using Verdure.Braincase.WinUI.Common.Models;
 using Image = Microsoft.UI.Xaml.Controls.Image;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class MainViewModel : ObservableRecipient
 {

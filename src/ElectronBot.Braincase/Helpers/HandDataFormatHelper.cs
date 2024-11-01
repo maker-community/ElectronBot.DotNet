@@ -6,7 +6,7 @@ using System.Diagnostics;
 using GestureClassification;
 using Mediapipe.Net.Framework.Protobuf;
 
-namespace ElectronBot.Braincase.Helpers;
+namespace Verdure.Braincase.Helpers;
 
 public static class HandDataFormatHelper
 {

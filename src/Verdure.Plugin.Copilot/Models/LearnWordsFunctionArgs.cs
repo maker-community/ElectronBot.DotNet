@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Verdure.Plugin.Copilot.Models;
+namespace Verdure.Braincase.Copilot.Plugin.Models;
 
 public class LearnWordsFunctionArgs
 {

@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.Braincase.Contracts.Services;
+﻿namespace Verdure.Braincase.WinUI.Common.Contracts.Services;
 
 public interface IPageService
 {

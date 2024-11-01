@@ -1,36 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using Windows.ApplicationModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Controls.CompactOverlay;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Helpers;
 using HelixToolkit.SharpDX.Core;
-using HelixToolkit.WinUI;
-using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using Models;
-using SharpDX;
-using Assimp;
 using HelixToolkit.SharpDX.Core.Assimp;
 using HelixToolkit.SharpDX.Core.Model.Scene;
+using HelixToolkit.WinUI;
+using Mediapipe.Net.Solutions;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Services;
+using SharpDX;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Services;
+using Windows.ApplicationModel;
+using Windows.Graphics.Imaging;
 using BoundingBox = SharpDX.BoundingBox;
 using Camera = HelixToolkit.WinUI.Camera;
 using Matrix = SharpDX.Matrix;
-using Microsoft.UI.Xaml.Controls;
-using ElectronBot.Braincase.Services;
-using Services;
-using System.Diagnostics;
-using Windows.Graphics.Imaging;
-using Mediapipe.Net.Solutions;
-using Microsoft.UI;
-using Constants = ElectronBot.Braincase.Constants;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 public partial class GestureInteractionViewModel : ObservableRecipient
 {
     public IEffectsManager EffectsManager

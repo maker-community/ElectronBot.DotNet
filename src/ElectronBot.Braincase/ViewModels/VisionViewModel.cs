@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
 using Models.ElectronBot;
 using Services.ElectronBot;
-using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.Helpers;
 using Windows.Graphics.Imaging;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class VisionViewModel : ObservableRecipient, INavigationAware
 {

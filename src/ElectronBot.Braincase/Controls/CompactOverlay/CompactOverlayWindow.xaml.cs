@@ -15,8 +15,8 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using ElectronBot.Braincase;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase;
+using Verdure.Braincase.WinUI.Common.Helpers;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

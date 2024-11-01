@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Helpers;
+using Verdure.Braincase.Helpers;
 using Microsoft.UI.Xaml;
 using Models.Hw75.YellowCalendar;
 using Services.Hw75Services.YellowCalendar;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class Hw75YellowCalendarViewModel : ObservableRecipient
 {

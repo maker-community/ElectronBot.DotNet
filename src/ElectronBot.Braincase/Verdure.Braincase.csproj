@@ -275,7 +275,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ElectronBot.Braincase.Core\Verdure.Braincase.Core.csproj" />
-    <ProjectReference Include="..\ElectronBot.Copilot\ElectronBot.Copilot.csproj" />
+    <ProjectReference Include="..\ElectronBot.Copilot\Verdure.Braincase.Copilot.csproj" />
     <ProjectReference Include="..\ElectronBot.DotNet.LibUsb\ElectronBot.DotNet.LibUsb.csproj" />
     <ProjectReference Include="..\ElectronBot.DotNet.WinUsb\ElectronBot.DotNet.WinUsb.csproj" />
     <ProjectReference Include="..\GestureClassification\GestureClassification.csproj" />
@@ -285,7 +285,8 @@
     <ProjectReference Include="..\Verdure.Braincase.DataStorage\Verdure.Braincase.DataStorage.csproj" />
     <ProjectReference Include="..\Verdure.IoT.Net\Verdure.IoT.Net.csproj" />
     <ProjectReference Include="..\Verdure.NotificationArea\Verdure.NotificationArea.csproj" />
-    <ProjectReference Include="..\Verdure.WinUI.Common\Verdure.WinUI.Common.csproj" />
+    <ProjectReference Include="..\Verdure.Plugin.Copilot\Verdure.Braincase.Copilot.Plugin.csproj" />
+    <ProjectReference Include="..\Verdure.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

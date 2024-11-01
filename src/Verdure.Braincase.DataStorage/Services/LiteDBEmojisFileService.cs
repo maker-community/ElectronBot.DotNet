@@ -1,9 +1,8 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
-using Contracts.Services;
-using ElectronBot.Braincase.Models;
 using LiteDB;
+using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 using Verdure.Braincase.Core.Helpers;
 using Verdure.Braincase.Core.Models;
 using Verdure.Braincase.Core.Models.Emojis;

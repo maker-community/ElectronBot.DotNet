@@ -1,15 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.ViewModels;
-using ElectronBot.Braincase.Views;
-using ElectronBot.Copilot.ViewModels;
-using ElectronBot.Copilot.Views.Agents;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.ViewModels;
+using Verdure.Braincase.Views;
+using Verdure.Braincase.Copilot.ViewModels;
+using Verdure.Braincase.Copilot.Views.Agents;
 using Microsoft.UI.Xaml.Controls;
 using ViewModels;
 using Views;
+using Verdure.Braincase.Copilot.Views;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 
 public class PageService : IPageService
 {

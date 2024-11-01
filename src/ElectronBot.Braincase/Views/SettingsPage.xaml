@@ -1,10 +1,10 @@
 ﻿<Page
-    x:Class="ElectronBot.Braincase.Views.SettingsPage"
+    x:Class="Verdure.Braincase.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:ElectronBot.Braincase.Helpers"
+    xmlns:helpers="using:Verdure.Braincase.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -1209,7 +1209,7 @@
                     <HyperlinkButton
                         x:Uid="ElectronBotInfo"
                         Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"
-                        NavigateUri="https://github.com/maker-community/ElectronBot.Braincase" />
+                        NavigateUri="https://github.com/maker-community/Verdure.Braincase" />
                     <HyperlinkButton
                         x:Uid="ElectronBotCode"
                         Margin="{StaticResource SettingsPageHyperlinkButtonMargin}"

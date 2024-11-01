@@ -1,9 +1,9 @@
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.ViewModels;
+using Verdure.Braincase;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using Services.ElectronBot;
-using Vedure.Braincsse.WinUI.Helpers;
+using Verdure.Braincsse.WinUI.Helpers;
 using Verdure.Braincase.Core.Models;
 using Windows.Media.Capture.Frames;
 

@@ -1,4 +1,4 @@
-﻿namespace Verdure.Plugin.Copilot.Enums;
+﻿namespace Verdure.Braincase.Copilot.Plugin.Enums;
 public class VerdureAgentId
 {
     public const string VerdureId = "c8167f5f-323e-faf5-d715-a6240ac5465f";

@@ -34,8 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Verdure.Plugin.Copilot\Verdure.Plugin.Copilot.csproj" />
-    <ProjectReference Include="..\Verdure.WinUI.Common\Verdure.WinUI.Common.csproj" />
+    <ProjectReference Include="..\Verdure.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

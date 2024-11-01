@@ -1,11 +1,11 @@
 ﻿<Page
-    x:Class="ElectronBot.Braincase.Views.Hw75ShellPage"
+    x:Class="Verdure.Braincase.Views.Hw75ShellPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="using:ElectronBot.Braincase.Behaviors"
+    xmlns:behaviors="using:Verdure.Braincase.WinUI.Common.Behaviors"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:ElectronBot.Braincase.Helpers"
+    xmlns:helpers="using:Verdure.Braincase.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="OnLoaded">
@@ -48,7 +48,7 @@
             IsSettingsVisible="True"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}">
             <NavigationView.MenuItems>
-                <NavigationViewItem x:Uid="Hw75Page" helpers:NavigationHelper.NavigateTo="ElectronBot.Braincase.ViewModels.Hw75ViewModel">
+                <NavigationViewItem x:Uid="Hw75Page" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.Hw75ViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE92E;" />
                     </NavigationViewItem.Icon>

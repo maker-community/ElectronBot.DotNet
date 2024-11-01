@@ -1,9 +1,9 @@
 using BotSharp.Abstraction.Conversations.Models;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using Verdure.Plugin.Copilot.Models;
+using Verdure.Braincase.Copilot.Plugin.Models;
 
-namespace Verdure.Plugin.Copilot.Functions;
+namespace Verdure.Braincase.Copilot.Plugin.Functions;
 
 public class ControlTheLightsFn : IFunctionCallback
 {

@@ -1,4 +1,4 @@
-﻿using ElectronBot.Braincase;
+﻿using Verdure.Braincase;
 using Mediapipe.Net.Framework.Protobuf;
 using Mediapipe.Net.Solutions;
 using Windows.Graphics.Imaging;

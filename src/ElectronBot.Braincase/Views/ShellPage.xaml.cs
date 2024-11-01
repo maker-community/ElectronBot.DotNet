@@ -1,19 +1,19 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.ViewModels;
+﻿using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.ViewModels;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Verdure.NotificationArea;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.System;
 using Windows.UI.Popups;
 
-namespace ElectronBot.Braincase.Views;
+namespace Verdure.Braincase.Views;
 
 // TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
 public sealed partial class ShellPage : Page
@@ -170,7 +170,7 @@ public sealed partial class ShellPage : Page
                 var builder = new BackgroundTaskBuilder
                 {
                     Name = "EbToastBgTask",
-                    TaskEntryPoint = "ElectronBot.Braincase.BgTaskComponent.ToastBgTask"
+                    TaskEntryPoint = "Verdure.Braincase.BgTaskComponent.ToastBgTask"
                 };
                 builder.SetTrigger(new TimeTrigger(15, false));
 

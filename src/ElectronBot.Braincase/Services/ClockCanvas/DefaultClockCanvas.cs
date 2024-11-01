@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ElectronBot.Braincase.Contracts.Services;
+using Verdure.Braincase.Contracts.Services;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.Text;
@@ -9,7 +9,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Foundation;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 public class DefaultClockCanvas : IClockCanvas
 {
     private readonly string _name;

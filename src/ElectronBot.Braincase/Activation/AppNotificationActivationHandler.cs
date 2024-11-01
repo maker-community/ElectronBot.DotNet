@@ -1,12 +1,8 @@
-﻿using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.ViewModels;
-
-using Microsoft.UI.Dispatching;
+﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using Microsoft.Windows.AppNotifications;
 
-namespace ElectronBot.Braincase.Activation;
+namespace Verdure.Braincase.Activation;
 
 public class AppNotificationActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
 {

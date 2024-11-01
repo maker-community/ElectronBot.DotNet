@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace ElectronBot.Braincase.Models
+namespace Verdure.Braincase.Models
 {
     public class ImageCropperConfig
     {

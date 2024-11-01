@@ -1,6 +1,6 @@
 ﻿using Microsoft.Windows.ApplicationModel.Resources;
 
-namespace Verdure.WinUI.Common.Helpers;
+namespace Verdure.Braincase.WinUI.Common.Helpers;
 
 public static class ResourceExtensions
 {

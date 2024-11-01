@@ -1,6 +1,6 @@
-﻿using ElectronBot.Braincase.Models;
+﻿using Verdure.Braincase.Core.Models;
 
-namespace Contracts.Services;
+namespace Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 public interface IEmojisFileService
 {
     /// <summary>

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using ElectronBot.Braincase.ViewModels;
+using Verdure.Braincase.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -17,7 +17,7 @@ using Microsoft.UI.Xaml.Navigation;
 using ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using ElectronBot.Braincase;
+using Verdure.Braincase;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

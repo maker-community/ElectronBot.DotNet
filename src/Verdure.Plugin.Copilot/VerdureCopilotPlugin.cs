@@ -1,8 +1,8 @@
 using BotSharp.Abstraction.Agents;
-using Verdure.Plugin.Copilot.Enums;
-using Verdure.Plugin.Copilot.Hooks;
+using Verdure.Braincase.Copilot.Plugin.Enums;
+using Verdure.Braincase.Copilot.Plugin.Hooks;
 
-namespace Verdure.Plugin.Copilot;
+namespace Verdure.Braincase.Copilot.Plugin;
 
 public class VerdureCopilotPlugin : IBotSharpPlugin
 {

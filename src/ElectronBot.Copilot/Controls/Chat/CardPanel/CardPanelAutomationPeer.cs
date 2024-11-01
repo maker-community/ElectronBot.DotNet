@@ -2,7 +2,7 @@
 
 using Microsoft.UI.Xaml.Automation.Peers;
 
-namespace ElectronBot.Copilot.Controls;
+namespace Verdure.Braincase.Copilot.Controls;
 
 /// <summary>
 /// <see cref="CardPanel"/>的自动化公开属性.

@@ -11,7 +11,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:ElectronBot.Braincase.Models"
+    xmlns:models="using:Verdure.Braincase.Models"
     xmlns:models1="using:Models"
     MinWidth="400"
     MinHeight="400"

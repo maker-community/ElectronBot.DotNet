@@ -3,18 +3,15 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Controls;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
 using Microsoft.UI.Xaml.Controls;
 using Models;
-using Verdure.WinUI.Common.Helpers;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
-using Windows.Storage;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class GestureAppConfigViewModel : ObservableRecipient, INavigationAware
 {
@@ -218,7 +215,7 @@ public partial class GestureAppConfigViewModel : ObservableRecipient, INavigatio
         }
     }
 
-    private  void LaunchAppDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    private void LaunchAppDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
 
     }

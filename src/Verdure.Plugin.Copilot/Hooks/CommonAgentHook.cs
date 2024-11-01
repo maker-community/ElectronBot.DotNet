@@ -1,6 +1,6 @@
 using BotSharp.Abstraction.Agents;
 
-namespace Verdure.Plugin.Copilot.Hooks;
+namespace Verdure.Braincase.Copilot.Plugin.Hooks;
 
 public class CommonAgentHook : AgentHookBase
 {

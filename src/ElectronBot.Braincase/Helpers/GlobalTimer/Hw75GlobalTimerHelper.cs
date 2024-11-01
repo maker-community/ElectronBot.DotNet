@@ -1,8 +1,8 @@
 ﻿using System.Windows.Forms;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
+using Verdure.Braincase;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.Services;
 using HelloWordKeyboard.DotNet;
 using Models;
 using Services.Hw75Services.YellowCalendar;

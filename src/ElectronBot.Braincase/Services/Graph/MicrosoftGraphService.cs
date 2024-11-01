@@ -3,7 +3,7 @@ using Microsoft.Graph.Models;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Verdure.Braincase.Core.Contracts.Services;
 
-namespace ElectronBot.Braincase.Services;
+namespace Verdure.Braincase.Services;
 
 public class MicrosoftGraphService : IMicrosoftGraphService
 {

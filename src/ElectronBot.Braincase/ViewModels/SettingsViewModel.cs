@@ -1,25 +1,21 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ElectronBot.Braincase.Contracts.Services;
-using ElectronBot.Braincase.Contracts.ViewModels;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Models;
-using ElectronBot.Braincase.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Models;
-using Verdure.Braincase.Core.Helpers;
-using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Models;
+using Verdure.Braincase.Services;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Verdure.IoT.Net;
-using Verdure.WinUI.Common.Helpers;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
 
-namespace ElectronBot.Braincase.ViewModels;
+namespace Verdure.Braincase.ViewModels;
 
 public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 {

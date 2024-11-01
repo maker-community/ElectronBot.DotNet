@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using ElectronBot.Braincase.Models;
+using Verdure.Braincase.Models;
 using Verdure.Braincase.Core.Models;
-using Verdure.WinUI.Common.Models;
+using Verdure.Braincase.WinUI.Common.Models;
 
-namespace ElectronBot.Braincase.Contracts.Services;
+namespace Verdure.Braincase.Contracts.Services;
 public interface IActionExpressionProvider
 {
     public string Name

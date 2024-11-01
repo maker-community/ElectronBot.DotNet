@@ -1,4 +1,4 @@
-﻿namespace ElectronBot.Braincase.Models;
+﻿namespace Verdure.Braincase.WinUI.Common.Models;
 public class CustomClockTitleConfig
 {
     public string CustomClockTitle

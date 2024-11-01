@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Vedure.Braincsse.WinUI.Helpers;
+namespace Verdure.Braincsse.WinUI.Helpers;
 
 /// <summary>
 /// Enum indicating result of <see cref="CameraHelper"/> initialization.

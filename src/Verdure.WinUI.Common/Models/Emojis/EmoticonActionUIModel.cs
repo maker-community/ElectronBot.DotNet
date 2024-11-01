@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Media.Imaging;
 using Verdure.Braincase.Core.Models.Emojis.Enums;
 
-namespace Verdure.WinUI.Common.Models;
+namespace Verdure.Braincase.WinUI.Common.Models;
 
 public class EmoticonActionUIModel
 {

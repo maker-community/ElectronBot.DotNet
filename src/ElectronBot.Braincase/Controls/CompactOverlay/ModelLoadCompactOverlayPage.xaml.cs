@@ -13,9 +13,9 @@ using Microsoft.UI.Xaml.Navigation;
 using ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using ElectronBot.Braincase;
-using ElectronBot.Braincase.Helpers;
-using ElectronBot.Braincase.Services;
+using Verdure.Braincase;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Services;
 using Services;
 
 // To learn more about WinUI, the WinUI project structure,

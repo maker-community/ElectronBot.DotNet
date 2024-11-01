@@ -13,7 +13,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.Media.Capture;
 
-namespace ElectronBot.Braincase.Helpers
+namespace Verdure.Braincase.Helpers
 {
     public class AudioCapturePermissions
     {
