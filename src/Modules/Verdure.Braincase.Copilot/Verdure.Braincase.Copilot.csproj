@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <RootNamespace>Verdure.Braincase.Copilot</RootNamespace>
+	<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &gt;= 8">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+	<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &lt; 8">win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+	<UseWinUI>true</UseWinUI>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Controls\Chat\ChatModuleInput.xaml" />
+    <None Remove="Controls\Chat\ChatModuleMsgItemControl.xaml" />
+    <None Remove="Controls\Chat\ChatModuleMsgList.xaml" />
+    <None Remove="Controls\Chat\ChatSessionListPanel.xaml" />
+    <None Remove="Controls\Chat\ColorfulBorder.xaml" />
+    <None Remove="Controls\Chat\PresetAvatar.xaml" />
+    <None Remove="Styles\Overwrites.xaml" />
+    <None Remove="Views\Agents\AgentPage.xaml" />
+    <None Remove="Views\Agents\ChatPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+      <PackageReference Include="BotSharp.Abstraction" Version="3.0.0-verdure4" />
+      <PackageReference Include="BotSharp.Core" Version="3.0.0-verdure4" />
+      <PackageReference Include="BotSharp.Logger" Version="3.0.0-verdure4" />
+      <PackageReference Include="BotSharp.Plugin.AzureOpenAI" Version="3.0.0-verdure4" />
+      <PackageReference Include="BotSharp.Plugin.LiteDBStorage" Version="3.0.0-verdure4" />
+      <PackageReference Include="BotSharp.Plugin.MetaGLM" Version="3.0.0-verdure4" />
+      <PackageReference Include="BotSharp.Plugin.OpenAI" Version="3.0.0-verdure4" />
+      <PackageReference Include="Microsoft.SemanticKernel" Version="1.22.0" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
+      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Verdure.Braincase.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Chat\ChatSessionListPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Chat\ColorfulBorder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Chat\ChatModuleMsgItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Chat\PresetAvatar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Chat\ChatModuleMsgList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Agents\ChatPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Agents\AgentPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Chat\ChatModuleInput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\Overwrites.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>
