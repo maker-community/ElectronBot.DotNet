@@ -8,6 +8,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.Braincase.WinUI.Common.Helpers;
+using Verdure.Braincase.HelloWordKeyboard.Helpers;
 
 namespace Verdure.Braincase;
 

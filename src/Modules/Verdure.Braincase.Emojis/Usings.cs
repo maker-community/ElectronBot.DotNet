@@ -12,8 +12,3 @@ global using Verdure.Braincase.WinUI.Common;
 global using Verdure.Braincase.WinUI.Common.Models;
 global using Verdure.Braincase.WinUI.Common.Contracts.Services;
 global using Verdure.Braincase.WinUI.Common.Services;
-global using Verdure.Braincase.HelloWordKeyboard.Services.Hw75View;
-global using Verdure.Braincase.HelloWordKeyboard.Hw75Views;
-global using Verdure.Braincase.HelloWordKeyboard.ViewModels;
-global using Verdure.Braincase.HelloWordKeyboard.Contracts.Services;
-global using Verdure.Braincase.Core.Services.Graph;

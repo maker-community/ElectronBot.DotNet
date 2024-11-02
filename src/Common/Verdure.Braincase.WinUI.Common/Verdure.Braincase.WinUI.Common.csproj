@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="WinUIEx" Version="2.4.2" />
       <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.1.240916" />
       <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240916" />
       <PackageReference Include="FluentIcons.WinUI" Version="1.1.261" />

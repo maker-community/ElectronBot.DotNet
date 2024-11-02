@@ -7,7 +7,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Verdure.Braincase.ClockViews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:media="using:Verdure.Braincase.Media"
+    xmlns:media="using:Verdure.Braincase.WinUI.Common.Media"
     xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>

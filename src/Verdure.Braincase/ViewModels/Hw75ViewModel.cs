@@ -3,9 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HelloWordKeyboard.DotNet;
 using HelloWordKeyboard.DotNet.Models;
-using Helpers;
 using Microsoft.UI.Xaml;
-using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.HelloWordKeyboard.Helpers.GlobalTimer;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.Services;
 

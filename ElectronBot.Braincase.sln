@@ -45,6 +45,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.WinUI.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.Copilot", "src\Modules\Verdure.Braincase.Copilot\Verdure.Braincase.Copilot.csproj", "{DB03A520-6BCA-4DCF-AD4B-35CB0293BADF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verdure.Braincase.Emojis", "src\Modules\Verdure.Braincase.Emojis\Verdure.Braincase.Emojis.csproj", "{3852280F-4C32-4546-8577-B4A195D2C998}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verdure.Braincase.HelloWordKeyboard", "src\Modules\Verdure.Braincase.HelloWordKeyboard\Verdure.Braincase.HelloWordKeyboard.csproj", "{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -321,6 +325,38 @@ Global
 		{DB03A520-6BCA-4DCF-AD4B-35CB0293BADF}.Release|x64.Build.0 = Release|Any CPU
 		{DB03A520-6BCA-4DCF-AD4B-35CB0293BADF}.Release|x86.ActiveCfg = Release|Any CPU
 		{DB03A520-6BCA-4DCF-AD4B-35CB0293BADF}.Release|x86.Build.0 = Release|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Debug|arm64.Build.0 = Debug|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Debug|x64.Build.0 = Debug|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Debug|x86.Build.0 = Debug|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Release|arm64.ActiveCfg = Release|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Release|arm64.Build.0 = Release|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Release|x64.ActiveCfg = Release|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Release|x64.Build.0 = Release|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Release|x86.ActiveCfg = Release|Any CPU
+		{3852280F-4C32-4546-8577-B4A195D2C998}.Release|x86.Build.0 = Release|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Debug|arm64.Build.0 = Debug|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Debug|x64.Build.0 = Debug|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Debug|x86.Build.0 = Debug|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|arm64.ActiveCfg = Release|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|arm64.Build.0 = Release|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|x64.ActiveCfg = Release|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|x64.Build.0 = Release|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|x86.ActiveCfg = Release|Any CPU
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -343,6 +379,8 @@ Global
 		{7FE94090-5A43-44A1-BE77-D125D52FE5BA} = {9F74F31F-8D9D-4E35-82A9-50D16B1B5EA3}
 		{F9CEB12D-E83C-4BE8-83E3-5DE633442ED4} = {8EF77FC4-6C54-4F46-8957-E23E5E58E847}
 		{DB03A520-6BCA-4DCF-AD4B-35CB0293BADF} = {239CCEB2-7AA4-4250-BDE5-2120D3832DBF}
+		{3852280F-4C32-4546-8577-B4A195D2C998} = {2D27EB5D-BA3F-437E-89F7-C26DDD00F441}
+		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5} = {2D27EB5D-BA3F-437E-89F7-C26DDD00F441}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0EBF82F3-30A6-4BCC-950A-360C126FC118}

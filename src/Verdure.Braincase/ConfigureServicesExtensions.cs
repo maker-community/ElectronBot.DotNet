@@ -23,7 +23,6 @@ using ElectronBot.DotNet.LibUsb;
 using ElectronBot.DotNet.WinUsb;
 using HelixToolkit.SharpDX.Core;
 using HelloWordKeyboard.DotNet;
-using Hw75Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graphics.Canvas;
@@ -31,7 +30,6 @@ using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
-using Services.Graph;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.EbotGrpcService;
 using Verdure.Braincase.DataStorage;
@@ -270,7 +268,7 @@ public static class ConfigureServicesExtensions
             .AddSingleton<EbGrpcService>()
             .AddSingleton(brainSettings)
             .AddTransient<BraincaseLiteDBContext>()
-
+            .AddSingleton(App.MainWindow.Compositor)
             // add botsharp
             .AddTransient<AgentViewModel>()
             .AddTransient<AgentPage>()
