@@ -45,9 +45,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.WinUI.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.Copilot", "src\Modules\Verdure.Braincase.Copilot\Verdure.Braincase.Copilot.csproj", "{DB03A520-6BCA-4DCF-AD4B-35CB0293BADF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verdure.Braincase.Emojis", "src\Modules\Verdure.Braincase.Emojis\Verdure.Braincase.Emojis.csproj", "{3852280F-4C32-4546-8577-B4A195D2C998}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.Emojis", "src\Modules\Verdure.Braincase.Emojis\Verdure.Braincase.Emojis.csproj", "{3852280F-4C32-4546-8577-B4A195D2C998}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verdure.Braincase.HelloWordKeyboard", "src\Modules\Verdure.Braincase.HelloWordKeyboard\Verdure.Braincase.HelloWordKeyboard.csproj", "{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.HelloWordKeyboard", "src\Modules\Verdure.Braincase.HelloWordKeyboard\Verdure.Braincase.HelloWordKeyboard.csproj", "{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verdure.Braincase.EbScreen", "src\Modules\Verdure.Braincase.EbScreen\Verdure.Braincase.EbScreen.csproj", "{905A6E9E-E305-4050-A421-EB6AE13A1483}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -357,6 +359,22 @@ Global
 		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|x64.Build.0 = Release|Any CPU
 		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|x86.ActiveCfg = Release|Any CPU
 		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5}.Release|x86.Build.0 = Release|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Debug|arm64.Build.0 = Debug|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Debug|x64.Build.0 = Debug|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Debug|x86.Build.0 = Debug|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|arm64.ActiveCfg = Release|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|arm64.Build.0 = Release|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|x64.ActiveCfg = Release|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|x64.Build.0 = Release|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|x86.ActiveCfg = Release|Any CPU
+		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -381,6 +399,7 @@ Global
 		{DB03A520-6BCA-4DCF-AD4B-35CB0293BADF} = {239CCEB2-7AA4-4250-BDE5-2120D3832DBF}
 		{3852280F-4C32-4546-8577-B4A195D2C998} = {2D27EB5D-BA3F-437E-89F7-C26DDD00F441}
 		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5} = {2D27EB5D-BA3F-437E-89F7-C26DDD00F441}
+		{905A6E9E-E305-4050-A421-EB6AE13A1483} = {2D27EB5D-BA3F-437E-89F7-C26DDD00F441}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0EBF82F3-30A6-4BCC-950A-360C126FC118}
