@@ -80,6 +80,7 @@ public static class ConfigureServicesExtensions
 
             .AddHttpClient()
             // Services
+            .AddSingleton<ICompositorProvider,CompositorProvider>()
             .AddSingleton<IAppNotificationService, AppNotificationService>()
             .AddSingleton<ILocalSettingsService, LocalSettingsService>()
             .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
@@ -268,7 +269,6 @@ public static class ConfigureServicesExtensions
             .AddSingleton<EbGrpcService>()
             .AddSingleton(brainSettings)
             .AddTransient<BraincaseLiteDBContext>()
-            .AddSingleton(App.MainWindow.Compositor)
             // add botsharp
             .AddTransient<AgentViewModel>()
             .AddTransient<AgentPage>()

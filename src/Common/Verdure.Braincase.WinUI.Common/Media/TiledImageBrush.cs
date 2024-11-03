@@ -4,6 +4,7 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Verdure.Braincase.WinUI.Common.Contracts.Services;
 
 namespace Verdure.Braincase.WinUI.Common.Media;
 
@@ -15,7 +16,7 @@ public class TiledImageBrush : XamlCompositionBrushBase
     private CompositionSurfaceBrush _surfaceBrush;
     private LoadedImageSurface _surface;
 
-    private Compositor Compositor => Ioc.Default.GetRequiredService<Compositor>(); //Ioc.Default.GetRequiredService<MainWindow>().MainWindow.Compositor;
+    private Compositor Compositor => Ioc.Default.GetRequiredService<ICompositorProvider>().GetCompositor(); //Ioc.Default.GetRequiredService<MainWindow>().MainWindow.Compositor;
 
     /// <summary>
     /// 获取或设置ImageSourceUri的值
