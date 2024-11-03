@@ -11,7 +11,6 @@ using Verdure.Braincase.ClockViews;
 using Verdure.Braincase.Contracts.Services;
 using Verdure.Braincase.Models;
 using Verdure.Braincase.Notifications;
-using Verdure.Braincase.Picker;
 using Verdure.Braincase.Services;
 using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.Views;
@@ -38,7 +37,6 @@ using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.IoT.Net.Services;
 using Verdure.Braincase.WinUI.Common;
 using Verdure.Braincase.WinUI.Common.Players;
-using Verdure.Braincase.WinUI.Common.Services;
 using Verdure.Braincase.WinUI.Common.ViewDataSource;
 using ViewModels;
 using Views;
@@ -46,6 +44,10 @@ using Windows.Media.Playback;
 using Windows.Storage;
 using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 using Verdure.Braincase.Copilot.Views;
+using Verdure.Braincase.WinUI.Common.Services.Picker;
+using Verdure.Braincase.WinUI.Common.ViewModels;
+using Verdure.Braincase.Emojis.eShop;
+using Verdure.Braincase.Emojis.ViewModels;
 
 namespace Verdure.Braincase;
 public static class ConfigureServicesExtensions

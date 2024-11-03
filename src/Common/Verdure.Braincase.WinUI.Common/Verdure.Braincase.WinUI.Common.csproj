@@ -9,7 +9,10 @@
 	<Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Controls\Shadow.xaml" />
+    <None Remove="Styles\Toast.xaml" />
     <None Remove="Themes\Generic.xaml" />
+    <None Remove="Views\ImageCropperPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +39,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\Shadow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\Toast.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Themes\Generic.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Views\ImageCropperPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>

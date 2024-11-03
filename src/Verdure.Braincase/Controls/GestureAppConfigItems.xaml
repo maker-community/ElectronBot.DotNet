@@ -40,7 +40,10 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock x:Uid="GestureAppConfigTree_AppPath" VerticalAlignment="Center" />
-                                            <TextBlock Margin="3,0,0,0" VerticalAlignment="Center" Text=":" />
+                                            <TextBlock
+                                                Margin="3,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text=":" />
                                         </StackPanel>
                                         <TextBox
                                             Grid.Column="1"
@@ -56,7 +59,10 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock x:Uid="GestureAppConfigTree_Text" VerticalAlignment="Center" />
-                                            <TextBlock Margin="3,0,0,0" VerticalAlignment="Center" Text=":" />
+                                            <TextBlock
+                                                Margin="3,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text=":" />
                                         </StackPanel>
                                         <TextBox
                                             Grid.Column="1"
@@ -72,7 +78,10 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock x:Uid="GestureAppConfigTree_GestureLabel" VerticalAlignment="Center" />
-                                            <TextBlock Margin="3,0,0,0" VerticalAlignment="Center" Text=":" />
+                                            <TextBlock
+                                                Margin="3,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text=":" />
                                         </StackPanel>
                                         <ComboBox
                                             Grid.Column="1"
@@ -84,7 +93,11 @@
                                     </Grid>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <Button x:Uid="GestureAppConfigTree_DeleteButton" VerticalAlignment="Center" Click="DeleteButton_Click" Tag="{Binding Path=Id}" />
+                                    <Button
+                                        x:Uid="GestureAppConfigTree_DeleteButton"
+                                        VerticalAlignment="Center"
+                                        Click="DeleteButton_Click"
+                                        Tag="{Binding Path=Id}" />
                                 </StackPanel>
                             </Grid>
                         </Border>

@@ -11,6 +11,8 @@ using Verdure.Braincase.Core.Models.Emojis;
 using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.Storage;
 using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
+using Verdure.Braincase.Emojis.eShop;
+using Verdure.Braincase.Emojis.Models.eShop;
 
 namespace Services;
 public class EmojiseShopService : IEmojiseShopService

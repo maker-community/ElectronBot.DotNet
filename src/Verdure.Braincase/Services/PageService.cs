@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using ViewModels;
 using Views;
 using Verdure.Braincase.Copilot.Views;
+using Verdure.Braincase.WinUI.Common.ViewModels;
 
 namespace Verdure.Braincase.Services;
 
