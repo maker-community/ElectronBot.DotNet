@@ -1,15 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Animation;
+using Verdure.Braincase.WinUI.Common.Contracts.Services;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Verdure.Braincase.Controls;
-public class Toast : Control
+public partial class Toast : Control
 {
     // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ContentProperty =
@@ -24,13 +23,13 @@ public class Toast : Control
     {
         DefaultStyleKey = typeof(Toast);
         Content = content;
-        Width = App.MainWindow.Bounds.Width;
-        Height = App.MainWindow.Bounds.Height;
+        Width = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().Bounds.Width;
+        Height = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().Bounds.Height;
         Transitions = new TransitionCollection
             {
                 new EntranceThemeTransition()
             };
-        App.MainWindow.SizeChanged += Current_SizeChanged;
+        Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().SizeChanged += Current_SizeChanged;
     }
 
     public TimeSpan Duration
@@ -47,8 +46,8 @@ public class Toast : Control
 
     private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
     {
-        Width = App.MainWindow.Bounds.Width;
-        Height = App.MainWindow.Bounds.Height;
+        Width = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().Bounds.Width;
+        Height = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().Bounds.Height;
     }
 
     public async void Show()
@@ -56,7 +55,7 @@ public class Toast : Control
         var popup = new Popup
         {
             IsOpen = true,
-            XamlRoot = App.MainWindow.Content.XamlRoot
+            XamlRoot = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().Content.XamlRoot
         };
 
         popup.Child = this;
@@ -67,6 +66,6 @@ public class Toast : Control
 
         popup.Child = null;
         popup.IsOpen = false;
-        App.MainWindow.SizeChanged -= Current_SizeChanged;
+        Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().SizeChanged -= Current_SizeChanged;
     }
 }

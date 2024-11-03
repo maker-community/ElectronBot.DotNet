@@ -3,27 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Verdure.Braincase.Controls">
 
-    <Style TargetType="local:Toast">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:Toast">
-                    <Border
-                        Margin="0,0,0,60"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Background="#af000000"
-                        CornerRadius="4">
-                        <TextBlock
-                            Margin="30,15"
-                            FontSize="14"
-                            Foreground="White"
-                            Text="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style TargetType="local:WaitingDialog">
         <Setter Property="Template">
             <Setter.Value>

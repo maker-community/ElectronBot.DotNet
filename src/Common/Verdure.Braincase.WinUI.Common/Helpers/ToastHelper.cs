@@ -1,11 +1,5 @@
-﻿using Verdure.Braincase.Controls;
-using Microsoft.UI.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
+using Verdure.Braincase.Controls;
 
 namespace Verdure.Braincase.Helpers;
 
@@ -23,7 +17,7 @@ public class ToastHelper
     public static void SendFavoriteToast(string content, TimeSpan? duration = null)
     {
         var toast = new Toast(content);
-        toast.Style = App.Current.Resources["FavoriteToastStyle"] as Style;
+        toast.Style = Application.Current.Resources["FavoriteToastStyle"] as Style;
         if (duration.HasValue)
         {
             toast.Duration = duration.Value;

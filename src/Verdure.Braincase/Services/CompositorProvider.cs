@@ -8,4 +8,9 @@ internal class CompositorProvider : ICompositorProvider
     {
         return App.MainWindow.Compositor;
     }
+
+    public WindowEx GetWindow()
+    {
+        return App.MainWindow;
+    }
 }

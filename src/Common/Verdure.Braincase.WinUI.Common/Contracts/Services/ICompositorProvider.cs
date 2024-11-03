@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.UI.Composition;
+﻿using Microsoft.UI.Composition;
+using WinUIEx;
 
 namespace Verdure.Braincase.WinUI.Common.Contracts.Services;
 public interface ICompositorProvider
 {
     Compositor GetCompositor();
+    WindowEx GetWindow();
 }

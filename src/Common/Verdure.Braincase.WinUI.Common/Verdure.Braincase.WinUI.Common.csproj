@@ -8,6 +8,9 @@
     <UseWinUI>true</UseWinUI>
 	<Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Themes\Generic.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
 	  <PackageReference Include="WinUIEx" Version="2.4.2" />
@@ -30,5 +33,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Verdure.Braincase.Core\Verdure.Braincase.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Themes\Generic.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 </Project>
