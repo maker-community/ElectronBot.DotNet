@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Verdure.Braincase.WinUI.Common.Contracts.Services;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -117,7 +118,7 @@ public sealed class FlipSide : Control
         s1Visual = ElementCompositionPreview.GetElementVisual(Side1Content);
         s2Visual = ElementCompositionPreview.GetElementVisual(Side2Content);
 
-        var compositor = App.MainWindow.Compositor;
+        var compositor = Ioc.Default.GetRequiredService<ICompositorProvider>().GetCompositor();
 
         var opacity1Animation = compositor.CreateExpressionAnimation("this.Target.RotationAngleInDegrees > 90 ? 0f : 1f");
         var opacity2Animation = compositor.CreateExpressionAnimation("(this.Target.RotationAngleInDegrees - 180) > 90 ? 1f : 0f");

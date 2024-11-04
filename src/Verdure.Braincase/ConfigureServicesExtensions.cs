@@ -143,9 +143,6 @@ public static class ConfigureServicesExtensions
             .AddTransient<MarketplacePage>()
             .AddTransient<MarketplaceViewModel>()
 
-            .AddTransient<GestureClassificationPage>()
-            .AddTransient<GestureClassificationViewModel>()
-
             .AddTransient<GestureInteractionPage>()
             .AddTransient<GestureInteractionViewModel>()
 

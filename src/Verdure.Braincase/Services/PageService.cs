@@ -27,7 +27,6 @@ public class PageService : IPageService
         Configure<SettingsViewModel, SettingsPage>();
         Configure<ImageCropperPickerViewModel, ImageCropperPage>();
         Configure<GamepadViewModel, GamepadPage>();
-        Configure<GestureClassificationViewModel, GestureClassificationPage>();
         Configure<GestureInteractionViewModel, GestureInteractionPage>();
         Configure<PoseRecognitionViewModel, PoseRecognitionPage>();
         Configure<VisionViewModel, VisionPage>();

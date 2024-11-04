@@ -1,9 +1,4 @@
-﻿using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Verdure.Braincase.Contracts.Services;
-using Verdure.Braincase.Models;
-using Verdure.Braincase.Services;
+﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Models;
 
@@ -28,6 +23,9 @@ public partial class ClockViewModel : ObservableRecipient
 
     private bool isProcessing = false;
 
+    public ClockViewModel()
+    {
+    }
 
     public string TodayWeek
     {
@@ -78,10 +76,11 @@ public partial class ClockViewModel : ObservableRecipient
 
     private void DiagnosticService_ClockDiagnosticInfoResult(object? sender, ClockDiagnosticInfo e)
     {
-        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        var dispatcherQueue = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().DispatcherQueue;
+        dispatcherQueue.TryEnqueue(() =>
         {
             ClockDiagnosticInfo = e ?? new ClockDiagnosticInfo();
-        });    
+        });
     }
 
     private async void DispatcherTimer_Tick(object? sender, object e)

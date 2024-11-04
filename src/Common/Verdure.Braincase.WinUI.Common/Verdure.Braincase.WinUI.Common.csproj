@@ -32,6 +32,7 @@
 	  <PackageReference Include="SixLabors.Fonts" Version="2.0.4" />
 	  <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
 	  <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.4" />
+	  <PackageReference Include="NAudio.Wasapi" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>
