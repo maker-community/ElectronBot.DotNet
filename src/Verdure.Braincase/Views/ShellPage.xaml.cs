@@ -1,13 +1,13 @@
-﻿using Verdure.Braincase.Contracts.Services;
-using Verdure.Braincase.Helpers;
-using Verdure.Braincase.ViewModels;
-
+﻿using Controls.CompactOverlay;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Verdure.NotificationArea;
+using Verdure.Braincase.Helpers;
+using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.WinUI.Common.Helpers;
+using Verdure.NotificationArea;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.System;
@@ -61,6 +61,22 @@ public sealed partial class ShellPage : Page
         //await Bot3DHelper.Instance.LoadModelFileAsync();
 
         //await RegisterTaskAysnc();
+
+        WindowEx compactOverlay = new CompactOverlayWindow();
+
+        compactOverlay.Content = Ioc.Default.GetRequiredService<ModelLoadCompactOverlayPage>();
+
+        var appWindow = compactOverlay.AppWindow;
+
+        appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+
+
+
+        var displayArea = DisplayArea.GetFromWindowId(appWindow.Id, DisplayAreaFallback.Primary);
+        var workArea = displayArea.WorkArea;
+        appWindow.MoveAndResize(new Windows.Graphics.RectInt32(workArea.Width - appWindow.Size.Width, 0, appWindow.Size.Width, appWindow.Size.Height));
+        appWindow.Show();
+        //App.MainWindow.Hide();
     }
 
 

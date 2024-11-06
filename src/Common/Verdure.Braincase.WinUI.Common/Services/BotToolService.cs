@@ -6,6 +6,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using Verdure.Braincase.Core.Models;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
@@ -155,10 +156,32 @@ public class BotToolService : IBotToolService
                 }
             });
 
-            var destinationFolder = await KnownFolders.PicturesLibrary
-                .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
+            //var destinationFolder = await KnownFolders.PicturesLibrary
+            //    .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
 
-            image.Save($"{destinationFolder.Path}\\" + ".weather.jpg");
+            //image.Save($"{destinationFolder.Path}\\" + ".weather.jpg");
+
+            // 获取转换后的数据
+            var rgbData = new byte[image.Width * image.Height * 3];
+
+            // 遍历每个像素，将Rgba32转换为Bgr24
+            for (var y = 0; y < image.Height; y++)
+            {
+                for (var x = 0; x < image.Width; x++)
+                {
+                    var rgbaPixel = image[x, y];
+                    var rgbIndex = (y * image.Width + x) * 3;
+                    rgbData[rgbIndex] = rgbaPixel.B;
+                    rgbData[rgbIndex + 1] = rgbaPixel.G;
+                    rgbData[rgbIndex + 2] = rgbaPixel.R;
+                }
+            }
+
+            var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
+
+            var frameData = new EmoticonActionFrame(rgbData);
+
+            _ = await service.SendToUsbDeviceAsync(frameData);
         }
         catch (Exception ex)
         {
@@ -217,10 +240,32 @@ public class BotToolService : IBotToolService
                 }
             });
 
-            var destinationFolder = await KnownFolders.PicturesLibrary
-                .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
+            //var destinationFolder = await KnownFolders.PicturesLibrary
+            //    .CreateFolderAsync("ElectronBot\\Hw75View", CreationCollisionOption.OpenIfExists);
 
-            image.Save($"{destinationFolder.Path}\\" + "word.jpg");
+            //image.Save($"{destinationFolder.Path}\\" + "word.jpg");
+
+            // 获取转换后的数据
+            var rgbData = new byte[image.Width * image.Height * 3];
+
+            // 遍历每个像素，将Rgba32转换为Bgr24
+            for (var y = 0; y < image.Height; y++)
+            {
+                for (var x = 0; x < image.Width; x++)
+                {
+                    var rgbaPixel = image[x, y];
+                    var rgbIndex = (y * image.Width + x) * 3;
+                    rgbData[rgbIndex] = rgbaPixel.B;
+                    rgbData[rgbIndex + 1] = rgbaPixel.G;
+                    rgbData[rgbIndex + 2] = rgbaPixel.R;
+                }
+            }
+
+            var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
+
+            var frameData = new EmoticonActionFrame(rgbData);
+
+            _ = await service.SendToUsbDeviceAsync(frameData);
         }
         catch (Exception ex)
         {

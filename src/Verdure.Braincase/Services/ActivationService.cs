@@ -66,8 +66,9 @@ public class ActivationService : IActivationService
             }
         }
 
+        App.MainWindow.Hide();
         // Activate the MainWindow.
-        App.MainWindow.Activate();
+        //App.MainWindow.Activate();
 
         // Handle activation via ActivationHandlers.
         await HandleActivationAsync(activationArgs);
