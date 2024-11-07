@@ -14,6 +14,7 @@
     <None Remove="ClockViews\GrooveClockView.xaml" />
     <None Remove="ClockViews\HiddenTextView.xaml" />
     <None Remove="ClockViews\LongShadow.xaml" />
+    <None Remove="Views\MiniModePage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,12 @@
     </Page>
     <Page Update="ClockViews\LongShadow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\MiniModePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
 </Project>

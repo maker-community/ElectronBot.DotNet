@@ -48,6 +48,7 @@ using Verdure.Braincase.WinUI.Common.Services.Picker;
 using Verdure.Braincase.WinUI.Common.ViewModels;
 using Verdure.Braincase.Emojis.eShop;
 using Verdure.Braincase.Emojis.ViewModels;
+using Verdure.Braincase.EbScreen.Views;
 
 namespace Verdure.Braincase;
 public static class ConfigureServicesExtensions
@@ -192,6 +193,9 @@ public static class ConfigureServicesExtensions
             .AddTransient<ModelLoadCompactOverlayPage>()
             .AddTransient<IEffectsManager, DefaultEffectsManager>()
 
+
+            .AddTransient<MiniModePage>()
+            .AddTransient<MiniModeViewModel>()
 
             .AddTransient<Hw75ViewModel>()
 

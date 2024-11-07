@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Verdure.Braincase.EbScreen.Views;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.WinUI.Common.Helpers;
@@ -64,7 +65,7 @@ public sealed partial class ShellPage : Page
 
         WindowEx compactOverlay = new CompactOverlayWindow();
 
-        compactOverlay.Content = Ioc.Default.GetRequiredService<ModelLoadCompactOverlayPage>();
+        compactOverlay.Content = Ioc.Default.GetRequiredService<MiniModePage>();
 
         var appWindow = compactOverlay.AppWindow;
 
