@@ -42,6 +42,11 @@ public partial class MiniModeViewModel : ObservableRecipient
         var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
         Element = viewProvider.CreateClockView("DefautView");
         _timer.Start();
+        if (Element is UserControl userControl)
+        {
+            var viewModel = userControl.DataContext as ClockViewModel;
+            viewModel?.LoadedCommand.Execute(null);
+        }
     }
     [RelayCommand]
     public void OnUnLoaded()

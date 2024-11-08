@@ -75,7 +75,7 @@ public partial class ClockViewModel : ObservableRecipient
     [RelayCommand]
     public void OnUnLoaded()
     {
-        _dispatcherTimer.Tick -= DispatcherTimer_Tick;
+        //_dispatcherTimer.Tick -= DispatcherTimer_Tick;
         _dispatcherTimer.Stop();
     }
 
