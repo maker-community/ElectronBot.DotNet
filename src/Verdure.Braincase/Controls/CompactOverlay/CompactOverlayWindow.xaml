@@ -9,10 +9,31 @@
     xmlns:local="using:Controls.CompactOverlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:windowex="using:WinUIEx"
+    MinWidth="40"
+    MinHeight="40"
+    Activated="WindowEx_Activated"
     Closed="CompactOverlayWindow_OnClosed"
     PersistenceId="CompactOverlayWindow"
     mc:Ignorable="d">
+    <Grid
+        x:Name="AppTitleBar"
+        Height="48"
+        VerticalAlignment="Top"
+        Canvas.ZIndex="1"
+        IsHitTestVisible="True">
+        <Image
+            Width="16"
+            Height="16"
+            HorizontalAlignment="Left"
+            Source="/Assets/WindowIcon.ico" />
+        <TextBlock
+            x:Name="AppTitleBarText"
+            Margin="28,0,0,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource CaptionTextBlockStyle}"
+            TextWrapping="NoWrap" />
+    </Grid>
     <Window.SystemBackdrop>
-        <MicaBackdrop/>
+        <DesktopAcrylicBackdrop />
     </Window.SystemBackdrop>
 </windowex:WindowEx>

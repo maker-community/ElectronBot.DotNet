@@ -8,7 +8,6 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Verdure.Braincase.EbScreen.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
@@ -19,30 +18,42 @@
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="12" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
             <Button
-                Margin="4"
+                Width="100"
+                Height="100"
+                Margin="12"
                 BorderBrush="{ThemeResource SystemAccentColor}"
                 BorderThickness="2"
+                CornerRadius="50"
                 Foreground="{ThemeResource SystemAccentColor}">
-                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE720;" />
+                <FontIcon
+                    FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                    FontSize="60"
+                    Glyph="&#xE720;" />
             </Button>
         </StackPanel>
         <Border
             x:Name="BorderGrid"
+            Grid.Row="1"
             Grid.Column="1"
-            Width="160"
-            Height="160"
-            Margin="4"
+            Margin="24"
             HorizontalAlignment="Left"
-            VerticalAlignment="Top"
+            VerticalAlignment="Center"
             BorderBrush="{ThemeResource SystemAccentColor}"
             BorderThickness="2"
             Child="{x:Bind ViewModel.Element, Mode=OneWay}"
-            CornerRadius="8" />
+            CornerRadius="24" />
     </Grid>
 </Page>

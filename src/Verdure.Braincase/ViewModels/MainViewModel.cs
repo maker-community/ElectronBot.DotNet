@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Services;
 using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.EbScreen.Views;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.Models;
 using Verdure.Braincase.Services;
@@ -513,7 +514,7 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
         {
             WindowEx compactOverlay = new CompactOverlayWindow();
 
-            compactOverlay.Content = Ioc.Default.GetRequiredService<ModelLoadCompactOverlayPage>();
+            compactOverlay.Content = Ioc.Default.GetRequiredService<MiniModePage>();
 
             var appWindow = compactOverlay.AppWindow;
 
