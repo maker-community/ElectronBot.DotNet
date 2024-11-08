@@ -1,5 +1,4 @@
-﻿using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Models;
 
 namespace Verdure.Braincase.ViewModels;
@@ -10,9 +9,6 @@ public partial class ClockViewModel : ObservableRecipient
 
     private readonly ILocalSettingsService _localSettingsService;
 
-    private ICommand _loadedCommand;
-    public ICommand LoadedCommand => _loadedCommand ??= new RelayCommand(OnLoaded);
-
     private string _todayWeek = DateTimeOffset.Now.ToString("ddd");
 
     private ClockDiagnosticInfo _clockDiagnosticInfo = new();
@@ -21,7 +17,7 @@ public partial class ClockViewModel : ObservableRecipient
 
     private readonly ClockDiagnosticService _diagnosticService;
 
-    private bool isProcessing = false;
+    private readonly bool isProcessing = false;
 
     public ClockViewModel()
     {
@@ -63,7 +59,9 @@ public partial class ClockViewModel : ObservableRecipient
         get => _todayTime;
         set => SetProperty(ref _todayTime, value);
     }
-    private async void OnLoaded()
+
+    [RelayCommand]
+    private async Task OnLoaded()
     {
         _dispatcherTimer.Start();
 
@@ -74,7 +72,14 @@ public partial class ClockViewModel : ObservableRecipient
         _diagnosticService.ClockDiagnosticInfoResult += DiagnosticService_ClockDiagnosticInfoResult;
     }
 
-    private void DiagnosticService_ClockDiagnosticInfoResult(object? sender, ClockDiagnosticInfo e)
+    [RelayCommand]
+    public void OnUnLoaded()
+    {
+        _dispatcherTimer.Tick -= DispatcherTimer_Tick;
+        _dispatcherTimer.Stop();
+    }
+
+    private void DiagnosticService_ClockDiagnosticInfoResult(object sender, ClockDiagnosticInfo e)
     {
         var dispatcherQueue = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().DispatcherQueue;
         dispatcherQueue.TryEnqueue(() =>
@@ -83,13 +88,13 @@ public partial class ClockViewModel : ObservableRecipient
         });
     }
 
-    private async void DispatcherTimer_Tick(object? sender, object e)
+    private async void DispatcherTimer_Tick(object sender, object e)
     {
         TodayTime = DateTimeOffset.Now.ToString("T");
         TodayWeek = DateTimeOffset.Now.ToString("ddd");
         Day = DateTimeOffset.Now.Day.ToString();
 
-        _ = await _diagnosticService.InvokeClockViewAsync(sender!);
+        _ = await _diagnosticService.InvokeClockViewAsync(sender);
     }
 
     public ClockViewModel(DispatcherTimer dispatcherTimer,

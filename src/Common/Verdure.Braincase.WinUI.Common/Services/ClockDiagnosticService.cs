@@ -24,7 +24,7 @@ public class ClockDiagnosticService
 
         _queue.Enqueue((data, tcs, cancellationToken));
 
-        if (System.Threading.Interlocked.CompareExchange(ref _isSending, 1, 0) == 0)
+        if (Interlocked.CompareExchange(ref _isSending, 1, 0) == 0)
         {
             _ = Task.Run(InvokeClockViewDataAsync, CancellationToken.None);
         }
@@ -65,7 +65,7 @@ public class ClockDiagnosticService
     }
     public ClockDiagnosticInfo GetClockDiagnosticInfo()
     {
-        ClockDiagnosticInfo info = new ClockDiagnosticInfo();
+        var info = new ClockDiagnosticInfo();
         var temp = RefreshTempInfos();
         var cpuUsage = RefreshCpuInfos();
         var memoryUsageText = RefreshRamInfos();
@@ -75,8 +75,6 @@ public class ClockDiagnosticService
         info.CpuUsage = cpuUsage;
         info.MemoryUsage = Math.Round(memoryUsageText.Item2, 2);
         info.MemoryUsageText = memoryUsageText.Item1;
-
-
         return info;
     }
 

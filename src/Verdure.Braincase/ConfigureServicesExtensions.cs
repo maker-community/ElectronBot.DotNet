@@ -193,7 +193,7 @@ public static class ConfigureServicesExtensions
             .AddTransient<ModelLoadCompactOverlayPage>()
             .AddTransient<IEffectsManager, DefaultEffectsManager>()
 
-
+            .AddSingleton<CompactOverlayWindow>()
             .AddTransient<MiniModePage>()
             .AddTransient<MiniModeViewModel>()
 

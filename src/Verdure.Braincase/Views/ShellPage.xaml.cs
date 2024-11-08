@@ -63,7 +63,7 @@ public sealed partial class ShellPage : Page
 
         //await RegisterTaskAysnc();
 
-        WindowEx compactOverlay = new CompactOverlayWindow();
+        WindowEx compactOverlay = Ioc.Default.GetRequiredService<CompactOverlayWindow>();
 
         compactOverlay.Content = Ioc.Default.GetRequiredService<MiniModePage>();
 

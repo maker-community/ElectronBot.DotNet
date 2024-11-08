@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
+using Verdure.Braincase.ViewModels;
 
 namespace ViewModels;
 public partial class MiniModeViewModel : ObservableRecipient
@@ -22,7 +23,7 @@ public partial class MiniModeViewModel : ObservableRecipient
     [ObservableProperty]
     UIElement _element;
 
-    private async void Timer_Tick(object? sender, object e)
+    private async void Timer_Tick(object sender, object e)
     {
 
     }
@@ -39,12 +40,20 @@ public partial class MiniModeViewModel : ObservableRecipient
     {
         var _viewProviderFactory = Ioc.Default.GetRequiredService<IClockViewProviderFactory>();
         var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
-
         Element = viewProvider.CreateClockView("DefautView");
+        _timer.Start();
     }
     [RelayCommand]
     public void OnUnLoaded()
     {
+        _timer.Tick -= Timer_Tick;
+        _timer.Stop();
+
+        if(Element is UserControl userControl)
+        {
+            var viewModel = userControl.DataContext as ClockViewModel;
+            viewModel?.UnLoadedCommand.Execute(null);
+        }
 
     }
 

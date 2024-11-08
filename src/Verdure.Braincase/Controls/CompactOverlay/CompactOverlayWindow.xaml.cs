@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Verdure.Braincase;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.WinUI.Common.Helpers;
+using ViewModels;
 using Windows.UI.ViewManagement;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -37,6 +39,11 @@ public sealed partial class CompactOverlayWindow : WindowEx
 
     private void CompactOverlayWindow_OnClosed(object sender, WindowEventArgs args)
     {
+        if (this.Content is UserControl userControl)
+        {
+            var viewModel = userControl.DataContext as MiniModeViewModel;
+            viewModel?.UnLoadedCommand.Execute(null);
+        }
         App.MainWindow.Show();
     }
 

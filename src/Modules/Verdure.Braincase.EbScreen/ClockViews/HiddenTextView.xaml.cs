@@ -1,12 +1,9 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using CommunityToolkit.WinUI;
-using Verdure.Braincase.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
+using Verdure.Braincase.ViewModels;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -26,17 +23,14 @@ public sealed partial class HiddenTextView : UserControl
     private Color _lightRedColor = Color.FromArgb(255, 247, 97, 163);
     private Color _lightBlueColor = Color.FromArgb(255, 80, 107, 251);
 
-    public ClockViewModel ViewModel
-    {
-        get;
-    }
+    public ClockViewModel ViewModel => (ClockViewModel)DataContext;
+
 
     public HiddenTextView()
     {
         this.InitializeComponent();
         //this.Loaded += HiddenTextView_Loaded;
-
-        ViewModel = Ioc.Default.GetRequiredService<ClockViewModel>();
+        DataContext = Ioc.Default.GetRequiredService<ClockViewModel>();
 
         ShowTextShimmingAsync();
         CreateBackgroundLight();
