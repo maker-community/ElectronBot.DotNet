@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.Graphics.Canvas;
+using Microsoft.UI.Xaml;
 using SixLabors.ImageSharp.Processing;
 using Verdure.Braincase.Core.Models;
 using Verdure.Braincase.WinUI.Common.Models;

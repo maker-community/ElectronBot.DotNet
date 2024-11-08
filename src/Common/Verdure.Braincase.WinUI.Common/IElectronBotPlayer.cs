@@ -1,4 +1,5 @@
-﻿using Verdure.Braincase.WinUI.Common.Models;
+﻿using Microsoft.UI.Xaml;
+using Verdure.Braincase.WinUI.Common.Models;
 
 namespace Verdure.Braincase.WinUI.Common;
 public interface IElectronBotPlayer
@@ -11,4 +12,5 @@ public interface IElectronBotPlayer
     Task PlayImageAsync(string path);
     Task PlayImageAsync(Stream stream);
     Task PlayImageAsync(byte[] bytes);
+    Task PlayImageAsync(UIElement element);
 }

@@ -4,6 +4,7 @@ using Verdure.Braincase.ViewModels;
 namespace ViewModels;
 public partial class MiniModeViewModel : ObservableRecipient
 {
+    private readonly IElectronBotPlayer _electronBotPlayer;
     private readonly DispatcherTimer _timer = new()
     {
         Interval = TimeSpan.FromMilliseconds(200)
@@ -11,10 +12,11 @@ public partial class MiniModeViewModel : ObservableRecipient
 
     [ObservableProperty] private string _voiceResult = string.Empty;
 
-    public MiniModeViewModel()
+    public MiniModeViewModel(IElectronBotPlayer electronBotPlayer)
     {
 
         _timer.Tick += Timer_Tick;
+        _electronBotPlayer = electronBotPlayer;
     }
 
     /// <summary>
@@ -25,7 +27,7 @@ public partial class MiniModeViewModel : ObservableRecipient
 
     private async void Timer_Tick(object sender, object e)
     {
-
+        await _electronBotPlayer.PlayImageAsync(Element);
     }
 
     [RelayCommand]
@@ -54,7 +56,7 @@ public partial class MiniModeViewModel : ObservableRecipient
         _timer.Tick -= Timer_Tick;
         _timer.Stop();
 
-        if(Element is UserControl userControl)
+        if (Element is UserControl userControl)
         {
             var viewModel = userControl.DataContext as ClockViewModel;
             viewModel?.UnLoadedCommand.Execute(null);
