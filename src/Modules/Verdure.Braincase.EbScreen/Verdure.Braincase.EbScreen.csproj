@@ -8,13 +8,13 @@
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="ClockViews\Bubble.xaml" />
     <None Remove="ClockViews\CustomClockView.xaml" />
     <None Remove="ClockViews\GooeyFooter.xaml" />
     <None Remove="ClockViews\GradientsWithBlend.xaml" />
     <None Remove="ClockViews\GrooveClockView.xaml" />
     <None Remove="ClockViews\HiddenTextView.xaml" />
     <None Remove="ClockViews\LongShadow.xaml" />
-    <None Remove="Views\MiniModePage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +25,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Verdure.Braincase.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
     <ProjectReference Include="..\Mediapipe.Net\Mediapipe.Net.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ClockViews\Bubble.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
@@ -48,12 +54,6 @@
     </Page>
     <Page Update="ClockViews\LongShadow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Views\MiniModePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
 </Project>

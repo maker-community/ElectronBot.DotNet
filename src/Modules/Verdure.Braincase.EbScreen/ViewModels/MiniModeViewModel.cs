@@ -41,8 +41,8 @@ public partial class MiniModeViewModel : ObservableRecipient
     public void OnLoaded()
     {
         var _viewProviderFactory = Ioc.Default.GetRequiredService<IClockViewProviderFactory>();
-        var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
-        Element = viewProvider.CreateClockView("DefautView");
+        var viewProvider = _viewProviderFactory.CreateClockViewProvider("BubbleView");
+        Element = viewProvider.CreateClockView("BubbleView");
         _timer.Start();
         if (Element is UserControl userControl)
         {

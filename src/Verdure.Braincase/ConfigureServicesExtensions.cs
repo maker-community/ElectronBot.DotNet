@@ -217,6 +217,8 @@ public static class ConfigureServicesExtensions
 
             .AddTransient<IClockViewProvider, DefaultClockViewProvider>()
 
+            .AddTransient<IClockViewProvider, BubbleClockViewProvider>()
+
             .AddTransient<IClockViewProvider, CustomClockViewProvider>()
 
             .AddTransient<IClockViewProvider, GrooveClockViewProvider>()

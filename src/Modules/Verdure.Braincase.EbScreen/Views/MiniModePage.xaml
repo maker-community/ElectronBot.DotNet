@@ -23,24 +23,24 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <Button
-                Width="100"
-                Height="100"
-                Margin="12"
+                Width="80"
+                Height="80"
+                Margin="24"
                 BorderBrush="{ThemeResource SystemAccentColor}"
                 BorderThickness="2"
-                CornerRadius="50"
+                CornerRadius="40"
                 Foreground="{ThemeResource SystemAccentColor}">
                 <FontIcon
                     FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
-                    FontSize="60"
+                    FontSize="40"
                     Glyph="&#xE720;" />
             </Button>
         </StackPanel>
