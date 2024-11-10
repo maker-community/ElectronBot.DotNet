@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ChatModuleControl
+    x:Class="Verdure.Braincase.Copilot.Controls.Chat.ChatModulePanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chat="using:Verdure.Braincase.Copilot.Controls.Chat"
+    xmlns:community="using:CommunityToolkit.WinUI.Controls"
+    xmlns:controlLocal="using:Verdure.Braincase.Controls"
+    xmlns:controls="using:Verdure.Braincase.Copilot.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Verdure.Braincase.Copilot.Controls.Chat"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Verdure.Braincase.WinUI.Common.Models"
+    xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
+    xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <chat:ChatModuleHeader Grid.Row="0" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+        <chat:ChatModuleMsgList
+            Grid.Row="1"
+            Height="300"
+            MinHeight="200"
+            MaxHeight="600"
+            ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+        <chat:ChatModuleInput
+            Grid.Row="2"
+            MinHeight="140"
+            ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+    </Grid>
+</local:ChatModuleControl>

@@ -58,13 +58,12 @@
                 Orientation="Horizontal">
                 <RadioButtons
                     x:Uid="ModeRadioBtn"
-                    MaxColumns="3"
+                    MaxColumns="2"
                     SelectedIndex="0"
                     SelectionChanged="{x:Bind ViewModel.RadioButtons_SelectionChanged}">
                     <RadioButton x:Uid="DisableModeRb" />
                     <RadioButton x:Uid="ControlMode" />
                     <RadioButton x:Uid="ClockModeRb" />
-                    <RadioButton x:Uid="EntitySchemaRb" />
                     <RadioButton x:Uid="NeedleModeRb" />
                 </RadioButtons>
             </StackPanel>
@@ -72,8 +71,8 @@
                 <StackPanel Orientation="Horizontal">
                     <Border
                         x:Name="BorderGrid"
-                        Width="160"
-                        Height="160"
+                        Width="200"
+                        Height="200"
                         Margin="4"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
@@ -82,28 +81,35 @@
                         Child="{x:Bind ViewModel.Element, Mode=OneWay}"
                         CornerRadius="8" />
                 </StackPanel>
-
             </StackPanel>
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="0"
             VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical">
                 <Button
                     x:Name="Reset"
                     x:Uid="ResetBtn"
-                    Margin="0,0,8,0"
+                    Width="120"
+                    Margin="8"
                     Command="{x:Bind ViewModel.ResetCommand}" />
                 <Button
                     x:Name="RebootElectron"
                     x:Uid="RebootElectron"
-                    Margin="0,0,8,0"
+                    Width="120"
+                    Margin="8"
                     Command="{x:Bind ViewModel.RebootElectronCommand}" />
+                <Button
+                    x:Name="ElectronEmulation"
+                    x:Uid="ElectronEmulation"
+                    Width="120"
+                    Margin="8"
+                    Command="{x:Bind ViewModel.ElectronEmulationCommand}" />
                 <ComboBox
                     x:Uid="ChangeClockViewCB"
                     Width="120"
-                    Margin="0,0,8,0"
+                    Margin="8"
                     VerticalAlignment="Center"
                     DisplayMemberPath="DataValue"
                     ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
@@ -114,30 +120,14 @@
                         </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </ComboBox>
-                <Button
-                    x:Name="ElectronEmulation"
-                    x:Uid="ElectronEmulation"
-                    Margin="0,0,8,0"
-                    Command="{x:Bind ViewModel.ElectronEmulationCommand}" />
             </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.RowSpan="2" Grid.Column="1">
-            <Grid Background="{ThemeResource LayerFillColorDefaultBrush}">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <chat:ChatModuleMsgList
-                    Grid.Row="0"
-                    MinHeight="200"
-                    MaxHeight="600"
-                    ViewModel="{x:Bind ChatViewModel, Mode=OneWay}" />
-                <chat:ChatModuleInput
-                    Grid.Row="1"
-                    MinHeight="220"
-                    ViewModel="{x:Bind ChatViewModel, Mode=OneWay}" />
-            </Grid>
+            <chat:ChatModulePanel
+                Width="400"
+                HorizontalAlignment="Left"
+                ViewModel="{x:Bind ChatViewModel, Mode=OneWay}" />
         </StackPanel>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

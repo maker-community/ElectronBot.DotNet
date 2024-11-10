@@ -22,7 +22,7 @@
         <!--  输入框  -->
         <TextBox
             x:Name="InputBox"
-            MaxHeight="400"
+            MaxHeight="200"
             Padding="12,8,12,12"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"

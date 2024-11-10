@@ -9,9 +9,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Controls\Chat\ChatModuleHeader.xaml" />
     <None Remove="Controls\Chat\ChatModuleInput.xaml" />
     <None Remove="Controls\Chat\ChatModuleMsgItemControl.xaml" />
     <None Remove="Controls\Chat\ChatModuleMsgList.xaml" />
+    <None Remove="Controls\Chat\ChatModulePanel.xaml" />
     <None Remove="Controls\Chat\ChatSessionListPanel.xaml" />
     <None Remove="Controls\Chat\ColorfulBorder.xaml" />
     <None Remove="Controls\Chat\PresetAvatar.xaml" />
@@ -35,6 +37,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Verdure.Braincase.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Chat\ChatModulePanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Chat\ChatModuleHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
