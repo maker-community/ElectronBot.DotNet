@@ -4,6 +4,7 @@ using Verdure.Braincase.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel.Core;
+using Verdure.Braincase.Copilot.ViewModels;
 
 namespace Verdure.Braincase.Views;
 
@@ -14,10 +15,14 @@ public sealed partial class HomePage : Page
         get;
     }
 
+    public ChatViewModel ChatViewModel
+    {
+        get;
+    }
     public HomePage()
     {
         ViewModel = Ioc.Default.GetRequiredService<HomeViewModel>();
-
+        ChatViewModel = Ioc.Default.GetRequiredService<ChatViewModel>();
         InitializeComponent();
     }
 }
