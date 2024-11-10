@@ -134,6 +134,8 @@ public static class ConfigureServicesExtensions
             .AddTransient<BlankPage>()
             .AddTransient<MainViewModel>()
             .AddTransient<MainPage>()
+            .AddTransient<HomeViewModel>()
+            .AddTransient<HomePage>()
             .AddTransient<ShellPage>()
             .AddTransient<ShellViewModel>()
             .AddTransient<EmojisEditPage>()

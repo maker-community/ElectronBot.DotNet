@@ -372,6 +372,10 @@
     <Page Update="Controls\ElectronBot3D.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="Views\HomePage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\VisionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -34,7 +34,7 @@ public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventAr
         }
         else
         {
-            _navigationService.NavigateTo(typeof(MainViewModel).FullName!, args.Arguments);
+            _navigationService.NavigateTo(typeof(HomeViewModel).FullName!, args.Arguments);
 
         }
 
