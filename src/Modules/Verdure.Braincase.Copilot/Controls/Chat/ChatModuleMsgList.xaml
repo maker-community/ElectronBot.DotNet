@@ -56,7 +56,6 @@
                             Margin="0,0,8,0"
                             VerticalAlignment="Top"
                             CornerRadius="18"
-                            DefaultSymbol="Person"
                             FontSize="16" />
                         <controls:ColorfulBorder
                             Grid.Column="1"

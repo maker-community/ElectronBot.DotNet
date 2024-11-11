@@ -6,7 +6,6 @@
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:Verdure.Braincase.Copilot.Controls.Chat"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">

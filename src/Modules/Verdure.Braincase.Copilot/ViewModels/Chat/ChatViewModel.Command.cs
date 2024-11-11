@@ -51,7 +51,7 @@ public partial class ChatViewModel
 
         ChatMessageList.Add(inputMsg);
 
-        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+        //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
 
         var routing = _services.GetRequiredService<IRoutingService>();
         routing.Context.SetMessageId(SelectedConversation.Id, inputMsg.MessageId);
@@ -70,7 +70,7 @@ public partial class ChatViewModel
                     {
                         ChatMessageList.Add(msg);
                         IsResponding = false;
-                        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+                        //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
                     });
                 });
         });
@@ -104,7 +104,7 @@ public partial class ChatViewModel
 
 
     [RelayCommand]
-    private async Task OnLoaded()
+    public async Task OnLoaded()
     {
         var user = await _userService.GetUser(_userIdentity.Id);
 
@@ -122,16 +122,16 @@ public partial class ChatViewModel
             });
         }
 
-        var agentService = Ioc.Default.GetRequiredService<IAgentService>();
+        //var agentService = Ioc.Default.GetRequiredService<IAgentService>();
 
-        Agents = (await agentService.GetAgents(new AgentFilter
-        {
-            Pager = new Pagination
-            {
-                Page = 1,
-                Size = 200
-            }
-        })).Items.ToList();
+        //Agents = (await agentService.GetAgents(new AgentFilter
+        //{
+        //    Pager = new Pagination
+        //    {
+        //        Page = 1,
+        //        Size = 200
+        //    }
+        //})).Items.ToList();
 
         var convList = (await _conversationService.GetConversations(new ConversationFilter
         {
@@ -143,14 +143,17 @@ public partial class ChatViewModel
         })).Items.ToList();
 
         SelectedConversation = convList.FirstOrDefault();
-        ConversationList = new ObservableCollection<Conversation>(convList);
+        //ConversationList = new ObservableCollection<Conversation>(convList);
 
         if (SelectedConversation == null) return;
         _conversationService.SetConversationId(SelectedConversation.Id, new List<MessageState>());
-        var history = _conversationService.GetDialogHistory(fromBreakpoint: false);
-        ChatMessageList = new ObservableCollection<RoleDialogModel>(history);
+        var historys = _conversationService.GetDialogHistory(fromBreakpoint: false);
 
-        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+        foreach (var history in historys)
+        {
+            ChatMessageList.Add(history);
+        }
+        //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
     }
 
 

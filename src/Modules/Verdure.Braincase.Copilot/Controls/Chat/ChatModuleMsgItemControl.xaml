@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Verdure.Braincase.Copilot.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:Verdure.Braincase.Copilot.Controls.Chat"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
@@ -52,7 +51,6 @@
                         Margin="0,0,8,0"
                         VerticalAlignment="Top"
                         CornerRadius="18"
-                        DefaultSymbol="Person"
                         FontSize="16"
                         PresetId="{x:Bind ViewModel.CurrentAgentId, Mode=OneWay}" />
                     <Rectangle
@@ -103,11 +101,6 @@
                                 Click="OnEditorConfirmButtonClick"
                                 Style="{StaticResource AccentButtonStyle}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <ic:SymbolIcon
-                                        Margin="0,2,0,0"
-                                        VerticalAlignment="Center"
-                                        FontSize="14"
-                                        Symbol="Checkmark" />
                                     <TextBlock VerticalAlignment="Center" Text="Confirm" />
                                 </StackPanel>
                             </Button>
@@ -116,11 +109,6 @@
                                 HorizontalAlignment="Stretch"
                                 Click="OnEditorCancelButtonClick">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <ic:SymbolIcon
-                                        Margin="0,2,0,0"
-                                        VerticalAlignment="Center"
-                                        FontSize="14"
-                                        Symbol="Dismiss" />
                                     <TextBlock VerticalAlignment="Center" Text="Cancel" />
                                 </StackPanel>
                             </Button>
@@ -162,21 +150,12 @@
                     CornerRadius="{StaticResource ControlCornerRadius}"
                     Orientation="Horizontal"
                     Visibility="Collapsed">
-                    <Button x:Name="CopyButton" Style="{StaticResource MiniIconButtonStyle}">
-                        <ic:SymbolIcon FontSize="12" Symbol="Copy" />
-                    </Button>
+                    <Button x:Name="CopyButton" Style="{StaticResource MiniIconButtonStyle}" />
                     <Button
                         x:Name="EditButton"
                         Click="OnEditButtonClick"
-                        Style="{StaticResource MiniIconButtonStyle}">
-                        <ic:SymbolIcon FontSize="12" Symbol="Edit" />
-                    </Button>
-                    <Button x:Name="DeleteButton" Style="{StaticResource MiniIconButtonStyle}">
-                        <ic:SymbolIcon
-                            FontSize="12"
-                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            Symbol="Delete" />
-                    </Button>
+                        Style="{StaticResource MiniIconButtonStyle}" />
+                    <Button x:Name="DeleteButton" Style="{StaticResource MiniIconButtonStyle}" />
                 </StackPanel>
             </Grid>
 

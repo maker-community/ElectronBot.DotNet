@@ -8,7 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:ic1="using:FluentIcons.WinUI"
     xmlns:items="using:Verdure.Braincase.Copilot.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
@@ -37,12 +36,7 @@
                 <Button.Flyout>
                     <MenuFlyout Placement="Bottom">
                         <MenuFlyoutItem MinWidth="160" Text="RemoveAllSessions">
-                            <MenuFlyoutItem.Icon>
-                                <ic1:SymbolIcon
-                                    FontSize="14"
-                                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                    Symbol="Delete" />
-                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.Icon />
                         </MenuFlyoutItem>
                     </MenuFlyout>
                 </Button.Flyout>
@@ -91,28 +85,16 @@
                             x:Name="RenameItem"
                             MinWidth="140"
                             Click="OnRenameItemClickAsync"
-                            Text="Rename">
-                            <MenuFlyoutItem.Icon>
-                                <ic1:SymbolIcon Symbol="Rename" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
+                            Text="Rename" />
                         <MenuFlyoutItem
                             x:Name="SmartRenameItem"
                             MinWidth="140"
-                            Text="SmartRename">
-                            <MenuFlyoutItem.Icon>
-                                <ic1:SymbolIcon Symbol="PenSparkle" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
+                            Text="SmartRename" />
                         <MenuFlyoutItem
                             x:Name="DeleteItem"
                             MinWidth="140"
                             Click="OnDeleteItemClick"
-                            Text="Delete">
-                            <MenuFlyoutItem.Icon>
-                                <ic1:SymbolIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
+                            Text="Delete" />
                     </MenuFlyout>
                 </ItemsRepeater.ContextFlyout>
             </ItemsRepeater>
