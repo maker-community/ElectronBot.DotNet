@@ -51,8 +51,7 @@
                         Margin="0,0,8,0"
                         VerticalAlignment="Top"
                         CornerRadius="18"
-                        FontSize="16"
-                        PresetId="{x:Bind ViewModel.CurrentAgentId, Mode=OneWay}" />
+                        FontSize="16" />
                     <Rectangle
                         x:Name="MessageBackground"
                         Grid.Column="1"

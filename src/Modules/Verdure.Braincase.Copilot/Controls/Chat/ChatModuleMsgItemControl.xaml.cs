@@ -10,20 +10,20 @@ namespace Verdure.Braincase.Copilot.Controls.Chat;
 /// </summary>
 public sealed partial class ChatModuleMsgItemControl : UserControl
 {
+    public static readonly DependencyProperty ViewModelProperty =
+        DependencyProperty.Register(nameof(ViewModel), typeof(RoleDialogModel), typeof(ChatModuleMsgItemControl), new PropertyMetadata(null));
+
     public RoleDialogModel? ViewModel
     {
-        get; set;
+        get => (RoleDialogModel?)GetValue(ViewModelProperty);
+        set => SetValue(ViewModelProperty, value);
     }
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ChatMessageItemControl"/> class.
-    /// </summary>
+
     public ChatModuleMsgItemControl() => InitializeComponent();
 
     private void OnEditorConfirmButtonClick(object sender, RoutedEventArgs e)
     {
-        //var text = Editor.Text;
         ExitEditor();
-        //ViewModel.EditCommand.Execute(default);
     }
 
     private void OnEditorCancelButtonClick(object sender, RoutedEventArgs e)
@@ -31,26 +31,11 @@ public sealed partial class ChatModuleMsgItemControl : UserControl
 
     private void ExitEditor()
     {
-        //ViewModel.IsEditing = false;
         Editor.Text = string.Empty;
     }
 
     private void ShowTools()
     {
-        //if (ViewModel.IsEditing || RootCard.ActualWidth < 90)
-        //{
-        //    return;
-        //}
-
-        //OptionsContainer.Visibility = Visibility.Visible;
-        //var offset = MessageBackground.ActualWidth + Avatar.ActualWidth + 16;
-        //var verticalOffset = TimeBlock.ActualHeight + 12;
-        //if (RootCard.ActualWidth - offset < 90)
-        //{
-        //    offset = RootCard.ActualWidth - 90;
-        //}
-
-        //OptionsContainer.Margin = ViewModel.IsUser ? new Thickness(0, 0, offset, verticalOffset) : new Thickness(offset, 0, 0, verticalOffset);
     }
 
     private void HideTools()
@@ -64,18 +49,11 @@ public sealed partial class ChatModuleMsgItemControl : UserControl
 
     private void OnEditButtonClick(object sender, RoutedEventArgs e)
     {
-        //Editor.Text = ViewModel.Content;
-        //ViewModel.IsEditing = true;
         HideTools();
     }
 
     private void OnCardPointerMoved(object sender, PointerRoutedEventArgs e)
     {
-        //if (OptionsContainer.Visibility == Visibility.Collapsed
-        //    && !ViewModel.IsEditing)
-        //{
-        //    ShowTools();
-        //}
     }
 
     private void UserControl_Loading(FrameworkElement sender, object args)

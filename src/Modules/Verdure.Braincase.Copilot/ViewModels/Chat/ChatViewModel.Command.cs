@@ -30,7 +30,7 @@ public partial class ChatViewModel
         var history = _conversationService.GetDialogHistory(fromBreakpoint: false);
         ChatMessageList = new ObservableCollection<RoleDialogModel>(history);
         SelectedConversation = conv;
-        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+        //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
         return Task.CompletedTask;
     }
 
