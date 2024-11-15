@@ -22,6 +22,9 @@ public partial class ChatViewModel
     ObservableCollection<RoleDialogModel> _chatMessageList = new();
 
     [ObservableProperty]
+    ObservableCollection<ChatMessageItemViewModel> _MessageList = new();
+
+    [ObservableProperty]
     Conversation? _selectedConversation;
 
     [ObservableProperty]

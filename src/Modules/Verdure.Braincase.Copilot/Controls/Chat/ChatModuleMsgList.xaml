@@ -9,6 +9,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Verdure.Braincase.Copilot.Controls.Chat"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Verdure.Braincase.Copilot.ViewModels"
     xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
     xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
     mc:Ignorable="d">
@@ -28,14 +29,14 @@
             UseLayoutRounding="False">
             <Grid Margin="0,12,0,0">
                 <StackPanel>
-                    <ItemsControl Margin="0,0,0,20" ItemsSource="{x:Bind ViewModel.ChatMessageList, Mode=OneWay}">
+                    <ItemsControl Margin="0,0,0,20" ItemsSource="{x:Bind ViewModel.MessageList, Mode=OneWay}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="models:RoleDialogModel">
+                            <DataTemplate x:DataType="model:ChatMessageItemViewModel">
                                 <local:ChatModuleMsgItemControl Margin="0,4" ViewModel="{x:Bind}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

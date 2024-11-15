@@ -1,29 +1,37 @@
 ﻿// Copyright (c) Rodel. All rights reserved.
 
-using BotSharp.Abstraction.Conversations.Models;
 using Microsoft.UI.Xaml.Input;
+using Verdure.Braincase.Copilot.ViewModels;
 
 namespace Verdure.Braincase.Copilot.Controls.Chat;
 
 /// <summary>
 /// 聊天消息.
 /// </summary>
-public sealed partial class ChatModuleMsgItemControl : UserControl
+public sealed partial class ChatModuleMsgItemControl : ChatModuleMsgControl
 {
-    public static readonly DependencyProperty ViewModelProperty =
-        DependencyProperty.Register(nameof(ViewModel), typeof(RoleDialogModel), typeof(ChatModuleMsgItemControl), new PropertyMetadata(null));
-
-    public RoleDialogModel? ViewModel
-    {
-        get => (RoleDialogModel?)GetValue(ViewModelProperty);
-        set => SetValue(ViewModelProperty, value);
-    }
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChatMessageItemControl"/> class.
+    /// </summary>
     public ChatModuleMsgItemControl() => InitializeComponent();
+
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(DependencyPropertyChangedEventArgs e)
+    {
+        if (e.NewValue is ChatMessageItemViewModel vm)
+        {
+            _ = vm.IsUser
+                ? VisualStateManager.GoToState(this, nameof(MyState), false)
+                : VisualStateManager.GoToState(this, nameof(AssistantState), false);
+        }
+    }
 
     private void OnEditorConfirmButtonClick(object sender, RoutedEventArgs e)
     {
+        var text = Editor.Text;
+        ViewModel.Content = text;
         ExitEditor();
+        ViewModel.EditCommand.Execute(default);
     }
 
     private void OnEditorCancelButtonClick(object sender, RoutedEventArgs e)
@@ -31,11 +39,26 @@ public sealed partial class ChatModuleMsgItemControl : UserControl
 
     private void ExitEditor()
     {
+        ViewModel.IsEditing = false;
         Editor.Text = string.Empty;
     }
 
     private void ShowTools()
     {
+        if (ViewModel.IsEditing || RootCard.ActualWidth < 90)
+        {
+            return;
+        }
+
+        OptionsContainer.Visibility = Visibility.Visible;
+        var offset = MessageBackground.ActualWidth + Avatar.ActualWidth + 16;
+        var verticalOffset = TimeBlock.ActualHeight + 12;
+        if (RootCard.ActualWidth - offset < 90)
+        {
+            offset = RootCard.ActualWidth - 90;
+        }
+
+        OptionsContainer.Margin = ViewModel.IsUser ? new Thickness(0, 0, offset, verticalOffset) : new Thickness(offset, 0, 0, verticalOffset);
     }
 
     private void HideTools()
@@ -49,18 +72,18 @@ public sealed partial class ChatModuleMsgItemControl : UserControl
 
     private void OnEditButtonClick(object sender, RoutedEventArgs e)
     {
+        Editor.Text = ViewModel.Content;
+        ViewModel.IsEditing = true;
         HideTools();
     }
 
     private void OnCardPointerMoved(object sender, PointerRoutedEventArgs e)
     {
-    }
-
-    private void UserControl_Loading(FrameworkElement sender, object args)
-    {
-        _ = ViewModel?.Role == "user"
-             ? VisualStateManager.GoToState(this, nameof(MyState), false)
-             : VisualStateManager.GoToState(this, nameof(AssistantState), false);
+        if (OptionsContainer.Visibility == Visibility.Collapsed
+            && !ViewModel.IsEditing)
+        {
+            ShowTools();
+        }
     }
 }
 

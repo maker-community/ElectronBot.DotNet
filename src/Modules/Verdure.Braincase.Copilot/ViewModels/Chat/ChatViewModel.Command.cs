@@ -16,6 +16,7 @@ using ElectronBot.Copilot.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Models;
+using NetTopologySuite.Index.HPRtree;
 using Verdure.Braincase.Core.Contracts.Services;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -28,7 +29,14 @@ public partial class ChatViewModel
         if (conv == null) return Task.CompletedTask;
         _conversationService.SetConversationId(conv.Id, new List<MessageState>());
         var history = _conversationService.GetDialogHistory(fromBreakpoint: false);
+
         ChatMessageList = new ObservableCollection<RoleDialogModel>(history);
+
+        foreach (var item in history)
+        {
+            var msgItem = new ChatMessageItemViewModel(item, null, null);
+            MessageList.Add(msgItem);
+        }
         SelectedConversation = conv;
         //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
         return Task.CompletedTask;
@@ -49,6 +57,9 @@ public partial class ChatViewModel
 
         IsResponding = true;
 
+        var msgItem = new ChatMessageItemViewModel(inputMsg, null, null);
+        MessageList.Add(msgItem);
+
         ChatMessageList.Add(inputMsg);
 
         //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
@@ -68,6 +79,8 @@ public partial class ChatViewModel
                 {
                     _dispatcherQueue.TryEnqueue(() =>
                     {
+                        var msgItem = new ChatMessageItemViewModel(msg, null, null);
+                        MessageList.Add(msgItem);
                         ChatMessageList.Add(msg);
                         IsResponding = false;
                         //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
@@ -151,6 +164,8 @@ public partial class ChatViewModel
 
         foreach (var history in historys)
         {
+            var msgItem = new ChatMessageItemViewModel(history, null, null);
+            MessageList.Add(msgItem);
             ChatMessageList.Add(history);
         }
         //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
