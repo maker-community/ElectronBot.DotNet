@@ -18,11 +18,10 @@
     </local:ChatModuleControl.Resources>
     <Grid>
         <controls:EmptyHolder
-            Title="NoMessage"
-            Description="NoMessageDescription"
+            x:Uid="HomeChatHeader"
             Emoji="&#x1F37B;"
             Style="{StaticResource BasicEmptyHolderStyle}"
-            Visibility="Collapsed" />
+            Visibility="{x:Bind ViewModel.IsChatEmpty, Mode=OneWay}" />
         <ScrollViewer
             x:Name="MessageViewer"
             Style="{StaticResource PageScrollViewerStyle}"

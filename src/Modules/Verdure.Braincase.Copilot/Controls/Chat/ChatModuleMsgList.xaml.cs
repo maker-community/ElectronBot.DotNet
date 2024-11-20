@@ -37,10 +37,10 @@ public sealed partial class ChatModuleMsgList : ChatModuleControl
 
     private async void OnRequestScrollToBottomAsync(object? sender, EventArgs e)
     {
-        //if (MessageViewer is not null)
-        //{
-        //    await Task.Delay(500);
-        //    MessageViewer.ChangeView(0, MessageViewer.ScrollableHeight + MessageViewer.ActualHeight + MessageViewer.VerticalOffset, default);
-        //}
+        if (MessageViewer is not null)
+        {
+            await Task.Delay(500);
+            MessageViewer.ChangeView(0, MessageViewer.ScrollableHeight + MessageViewer.ActualHeight + MessageViewer.VerticalOffset, default);
+        }
     }
 }

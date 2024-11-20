@@ -70,12 +70,6 @@
                 Orientation="Horizontal"
                 Spacing="12">
                 <!--<controls:EnterWrapTip IsEnterSend="{x:Bind ViewModel.IsEnterSend, Mode=OneWay}" />-->
-                <Button
-                    Command="{x:Bind ViewModel.NewSessionCommand, Mode=OneWay}"
-                    IsEnabled="True"
-                    Style="{StaticResource IconButtonStyle}">
-                    <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE8F2;" />
-                </Button>
                 <!--<Button
                   x:Name="CleanMessageButton"
                   Click="OnCleanMessageButtonClick"
@@ -88,12 +82,12 @@
                 </Button>-->
                 <Grid>
                     <SplitButton
+                        x:Uid="HomeSendBtn"
                         MinWidth="120"
                         Command="{x:Bind ViewModel.SendChatCommand, Mode=OneWay}"
-                        Content="Send"
                         Style="{StaticResource AccentSplitButtonStyle}"
                         Visibility="Visible">
-                        <SplitButton.Flyout>
+                        <!--<SplitButton.Flyout>
                             <MenuFlyout>
                                 <ToggleMenuFlyoutItem
                                     x:Name="EnterSendItem"
@@ -105,13 +99,15 @@
                                     MinWidth="140"
                                     Click="OnCtrlEnterSendItemClick"
                                     Text="PressCtrlEnterSend" />
-                                <!--<MenuFlyoutSeparator />
+                        -->
+                        <!--<MenuFlyoutSeparator />
                                 <MenuFlyoutItem
                                   Command="{x:Bind ViewModel.AddUserInputCommand, Mode=OneWay}"
                                   Text="{ext:Locale Name=JustAddMessage}"
                                   ToolTipService.ToolTip="{ext:Locale Name=JustAddMessageDescription}" />-->
+                        <!--
                             </MenuFlyout>
-                        </SplitButton.Flyout>
+                        </SplitButton.Flyout>-->
                     </SplitButton>
                     <!--<Button
                       MinWidth="120"

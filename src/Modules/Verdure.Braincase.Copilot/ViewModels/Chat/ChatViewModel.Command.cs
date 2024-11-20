@@ -168,6 +168,8 @@ public partial class ChatViewModel
             MessageList.Add(msgItem);
             ChatMessageList.Add(history);
         }
+        CheckChatEmpty();
+        CheckLastMessageTime();
         //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
     }
 

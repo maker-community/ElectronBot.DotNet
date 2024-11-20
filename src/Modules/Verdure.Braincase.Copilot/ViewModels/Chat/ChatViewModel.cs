@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using BotSharp.Abstraction.Agents;
 using BotSharp.Abstraction.Conversations;
@@ -33,8 +34,28 @@ public partial class ChatViewModel : ObservableRecipient, INavigationAware
         _userService = userService;
         _services = services;
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        ChatMessageList.CollectionChanged += OnMessageCountChanged;
     }
 
+    private void OnMessageCountChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+            RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+        }
+
+        CheckChatEmpty();
+        CheckLastMessageTime();
+    }
+
+    private void CheckChatEmpty()
+    => IsChatEmpty = ChatMessageList.Count == 0;
+
+    private void CheckLastMessageTime()
+    {
+        var lastMsg = ChatMessageList.LastOrDefault();
+        LastMessageTime = lastMsg is not null ? lastMsg.CreatedAt.ToLocalTime().ToString("MM/dd") ?? string.Empty : string.Empty;
+    }
     public void OnNavigatedFrom()
     {
 

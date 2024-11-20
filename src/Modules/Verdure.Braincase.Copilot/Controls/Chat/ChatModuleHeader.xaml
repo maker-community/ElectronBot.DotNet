@@ -10,7 +10,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <TextBlock
@@ -18,10 +18,19 @@
             Margin="8"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            FontSize="24"
+            FontSize="20"
             Text="{x:Bind ViewModel.SelectedConversation.Title, Mode=OneWay}" />
-        <Button Grid.Column="1" HorizontalAlignment="Right">
-            <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE712;" />
-        </Button>
+        <StackPanel
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button Command="{x:Bind ViewModel.NewSessionCommand, Mode=OneWay}" Style="{StaticResource IconButtonStyle}">
+                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE710;" />
+            </Button>
+            <Button Style="{StaticResource IconButtonStyle}">
+                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE712;" />
+            </Button>
+        </StackPanel>
+
     </Grid>
 </local:ChatModuleControl>
