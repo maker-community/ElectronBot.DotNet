@@ -34,7 +34,7 @@ public partial class ChatViewModel : ObservableRecipient, INavigationAware
         _userService = userService;
         _services = services;
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        ChatMessageList.CollectionChanged += OnMessageCountChanged;
+        MessageList.CollectionChanged += OnMessageCountChanged;
     }
 
     private void OnMessageCountChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -49,7 +49,7 @@ public partial class ChatViewModel : ObservableRecipient, INavigationAware
     }
 
     private void CheckChatEmpty()
-    => IsChatEmpty = ChatMessageList.Count == 0;
+    => IsChatEmpty = MessageList.Count == 0;
 
     private void CheckLastMessageTime()
     {

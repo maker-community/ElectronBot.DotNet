@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using BotSharp.Abstraction.Agents;
 using BotSharp.Abstraction.Agents.Enums;
 using BotSharp.Abstraction.Conversations.Models;
 using BotSharp.Abstraction.Models;
@@ -10,14 +9,8 @@ using BotSharp.Abstraction.Repositories.Filters;
 using BotSharp.Abstraction.Routing;
 using BotSharp.Abstraction.Users.Enums;
 using BotSharp.Abstraction.Utilities;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using ElectronBot.Copilot.Enums;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
-using Models;
-using NetTopologySuite.Index.HPRtree;
-using Verdure.Braincase.Core.Contracts.Services;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Verdure.Braincase.Copilot.ViewModels;
@@ -43,9 +36,29 @@ public partial class ChatViewModel
     }
 
     [RelayCommand]
+    public Task ConvViewModelSelectAsync(ConversationViewModel? conv)
+    {
+        if (conv == null) return Task.CompletedTask;
+        _conversationService.SetConversationId(conv.Id, new List<MessageState>());
+        var history = _conversationService.GetDialogHistory(fromBreakpoint: false);
+
+        //ChatMessageList = new ObservableCollection<RoleDialogModel>(history);
+        MessageList.Clear();
+        foreach (var item in history)
+        {
+            var msgItem = new ChatMessageItemViewModel(item, null, null);
+            MessageList.Add(msgItem);
+        }
+        SelectedConv = conv;
+        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+        return Task.CompletedTask;
+    }
+
+
+    [RelayCommand]
     public async Task SendChatAsync()
     {
-        if (SelectedConversation == null) return;
+        if (SelectedConv == null) return;
 
         if (string.IsNullOrEmpty(SendText)) return;
 
@@ -65,15 +78,15 @@ public partial class ChatViewModel
         //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
 
         var routing = _services.GetRequiredService<IRoutingService>();
-        routing.Context.SetMessageId(SelectedConversation.Id, inputMsg.MessageId);
+        routing.Context.SetMessageId(SelectedConv.Id, inputMsg.MessageId);
 
-        _conversationService.SetConversationId(SelectedConversation.Id, new());
+        _conversationService.SetConversationId(SelectedConv.Id, new());
 
         SendText = string.Empty;
 
         await Task.Run(async () =>
         {
-            await _conversationService.SendMessage(SelectedConversation.AgentId, inputMsg,
+            await _conversationService.SendMessage(SelectedConv.AgentId, inputMsg,
                 replyMessage: null,
                 async msg =>
                 {
@@ -110,8 +123,13 @@ public partial class ChatViewModel
 
         if (result != null)
         {
+            var conv = new ConversationViewModel(result, null, null);
             ConversationList.Insert(0, result);
+            ConvList.Add(conv);
             SelectedConversation = result;
+            SelectedConv = conv;
+
+            await ConvViewModelSelectAsync(conv);
         }
     }
 
@@ -155,13 +173,20 @@ public partial class ChatViewModel
             }
         })).Items.ToList();
 
+        foreach (var conv in convList)
+        {
+            var convVm = new ConversationViewModel(conv, null, null);
+            ConvList.Add(convVm);
+        }
+
         SelectedConversation = convList.FirstOrDefault();
+
+        SelectedConv = new ConversationViewModel(convList.FirstOrDefault() ?? new Conversation(), null, null);
         //ConversationList = new ObservableCollection<Conversation>(convList);
 
-        if (SelectedConversation == null) return;
-        _conversationService.SetConversationId(SelectedConversation.Id, new List<MessageState>());
+        if (SelectedConv == null) return;
+        _conversationService.SetConversationId(SelectedConv.Id, new List<MessageState>());
         var historys = _conversationService.GetDialogHistory(fromBreakpoint: false);
-
         foreach (var history in historys)
         {
             var msgItem = new ChatMessageItemViewModel(history, null, null);

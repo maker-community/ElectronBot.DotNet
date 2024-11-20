@@ -6,12 +6,39 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Verdure.Braincase.Copilot.Controls.Chat"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Verdure.Braincase.Copilot.ViewModels"
+    xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
+    xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
     mc:Ignorable="d">
+
+
+    <local:ChatModuleControl.Resources>
+        <DataTemplate x:Key="ContactListViewTemplate" x:DataType="model:ConversationViewModel">
+            <Grid Padding="12,8" ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    MaxLines="1"
+                    Text="{x:Bind Title}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap" />
+                <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='MM-dd'}" />
+            </Grid>
+        </DataTemplate>
+        <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
+    </local:ChatModuleControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Column="0"
@@ -29,6 +56,22 @@
             </Button>
             <Button Style="{StaticResource IconButtonStyle}">
                 <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE712;" />
+                <Button.Flyout>
+                    <Flyout Placement="BottomEdgeAlignedLeft">
+                        <StackPanel Margin="4" Orientation="Horizontal">
+                            <ListView
+                                x:Name="ConvList"
+                                Width="240"
+                                Height="480"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                IsItemClickEnabled="True"
+                                ItemClick="ConvList_ItemClick"
+                                ItemTemplate="{StaticResource ContactListViewTemplate}"
+                                ItemsSource="{x:Bind ViewModel.ConvList, Mode=OneWay}" />
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
             </Button>
         </StackPanel>
 

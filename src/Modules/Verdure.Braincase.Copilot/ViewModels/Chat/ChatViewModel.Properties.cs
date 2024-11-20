@@ -19,6 +19,9 @@ public partial class ChatViewModel
     ObservableCollection<Conversation> _conversationList = new();
 
     [ObservableProperty]
+    ObservableCollection<ConversationViewModel> _convList = new();
+
+    [ObservableProperty]
     ObservableCollection<RoleDialogModel> _chatMessageList = new();
 
     [ObservableProperty]
@@ -26,6 +29,9 @@ public partial class ChatViewModel
 
     [ObservableProperty]
     Conversation? _selectedConversation;
+
+    [ObservableProperty]
+    ConversationViewModel? _selectedConv;
 
     [ObservableProperty]
     string? _sendText;
