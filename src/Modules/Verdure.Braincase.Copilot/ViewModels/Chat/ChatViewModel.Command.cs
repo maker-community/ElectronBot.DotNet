@@ -184,7 +184,7 @@ public partial class ChatViewModel
         SelectedConv = new ConversationViewModel(convList.FirstOrDefault() ?? new Conversation(), null, null);
         //ConversationList = new ObservableCollection<Conversation>(convList);
 
-        if (SelectedConv == null) return;
+        if (SelectedConv == null || string.IsNullOrEmpty(SelectedConv.Id)) return;
         _conversationService.SetConversationId(SelectedConv.Id, new List<MessageState>());
         var historys = _conversationService.GetDialogHistory(fromBreakpoint: false);
         foreach (var history in historys)
@@ -216,7 +216,13 @@ public partial class ChatViewModel
     }
 
     [RelayCommand]
-    private void Delete()
+    private async Task DeleteConvAsync(ConversationViewModel? conv)
     {
+        if (conv != null)
+        {
+            ConvList.Remove(conv);
+            MessageList.Clear();
+            await _conversationService.DeleteConversations(new List<string> { conv.Id });
+        }
     }
 }

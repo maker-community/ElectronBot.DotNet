@@ -4,14 +4,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Verdure.Braincase.Copilot.Controls.Chat"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:Verdure.Braincase.Copilot.ViewModels"
     xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
     xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
     mc:Ignorable="d">
-
-
     <local:ChatModuleControl.Resources>
         <DataTemplate x:Key="ContactListViewTemplate" x:DataType="model:ConversationViewModel">
             <Grid Padding="12,8" ColumnSpacing="8">
@@ -29,7 +29,7 @@
                     VerticalAlignment="Center"
                     Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='MM-dd'}" />
+                    Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='MM-dd HH:mm:ss'}" />
             </Grid>
         </DataTemplate>
         <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
@@ -46,7 +46,8 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             FontSize="20"
-            Text="{x:Bind ViewModel.SelectedConversation.Title, Mode=OneWay}" />
+            Text="{x:Bind ViewModel.SelectedConversation.Title, Mode=OneWay}"
+            TextTrimming="CharacterEllipsis" />
         <StackPanel
             Grid.Column="1"
             HorizontalAlignment="Right"
@@ -68,12 +69,26 @@
                                 IsItemClickEnabled="True"
                                 ItemClick="ConvList_ItemClick"
                                 ItemTemplate="{StaticResource ContactListViewTemplate}"
-                                ItemsSource="{x:Bind ViewModel.ConvList, Mode=OneWay}" />
+                                ItemsSource="{x:Bind ViewModel.ConvList, Mode=OneWay}">
+                                <ListView.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            x:Name="DelConv"
+                                            x:Uid="DelConvMenu"
+                                            Foreground="Red">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="Click">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.DeleteConvCommand}" CommandParameter="{x:Bind ConvList.SelectedItem, Mode=TwoWay}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </ListView.ContextFlyout>
+                            </ListView>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
             </Button>
         </StackPanel>
-
     </Grid>
 </local:ChatModuleControl>

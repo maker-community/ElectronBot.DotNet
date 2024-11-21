@@ -912,4 +912,7 @@
   <data name="HomeChatHeader.Description" xml:space="preserve">
     <value>请在输入框愉快的和我聊天吧！</value>
   </data>
+  <data name="DelConvMenu.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>
