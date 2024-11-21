@@ -30,6 +30,6 @@ public sealed partial class ChatSessionListPanel : ChatModuleControl
     private async void RootCard_Click(object sender, RoutedEventArgs e)
     {
         var context = (sender as FrameworkElement)?.DataContext as ChatViewModel;
-        await ViewModel.ConvSelectCommand.ExecuteAsync(context?.SelectedConversation);
+        await ViewModel.ConvSelectCommand.ExecuteAsync(context?.SelectedConv);
     }
 }

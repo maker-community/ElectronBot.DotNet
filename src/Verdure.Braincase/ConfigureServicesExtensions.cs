@@ -6,17 +6,6 @@ using BotSharp.Logger;
 using Contracts.Services;
 using Controls;
 using Controls.CompactOverlay;
-using Verdure.Braincase.Activation;
-using Verdure.Braincase.ClockViews;
-using Verdure.Braincase.Contracts.Services;
-using Verdure.Braincase.Models;
-using Verdure.Braincase.Notifications;
-using Verdure.Braincase.Services;
-using Verdure.Braincase.ViewModels;
-using Verdure.Braincase.Views;
-using Verdure.Braincase.Copilot.Services.BotSharp;
-using Verdure.Braincase.Copilot.ViewModels;
-using Verdure.Braincase.Copilot.Views.Agents;
 using ElectronBot.DotNet;
 using ElectronBot.DotNet.LibUsb;
 using ElectronBot.DotNet.WinUsb;
@@ -29,26 +18,33 @@ using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Services;
-using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Activation;
+using Verdure.Braincase.ClockViews;
+using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Copilot.Services.BotSharp;
+using Verdure.Braincase.Copilot.ViewModels;
+using Verdure.Braincase.Copilot.Views;
+using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 using Verdure.Braincase.Core.EbotGrpcService;
 using Verdure.Braincase.DataStorage;
 using Verdure.Braincase.DataStorage.Services;
+using Verdure.Braincase.EbScreen.Views;
+using Verdure.Braincase.Emojis.eShop;
+using Verdure.Braincase.Emojis.ViewModels;
+using Verdure.Braincase.Notifications;
+using Verdure.Braincase.Services;
+using Verdure.Braincase.ViewModels;
+using Verdure.Braincase.Views;
+using Verdure.Braincase.WinUI.Common.Players;
+using Verdure.Braincase.WinUI.Common.Services.Picker;
+using Verdure.Braincase.WinUI.Common.ViewDataSource;
+using Verdure.Braincase.WinUI.Common.ViewModels;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.IoT.Net.Services;
-using Verdure.Braincase.WinUI.Common;
-using Verdure.Braincase.WinUI.Common.Players;
-using Verdure.Braincase.WinUI.Common.ViewDataSource;
 using ViewModels;
 using Views;
 using Windows.Media.Playback;
 using Windows.Storage;
-using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
-using Verdure.Braincase.Copilot.Views;
-using Verdure.Braincase.WinUI.Common.Services.Picker;
-using Verdure.Braincase.WinUI.Common.ViewModels;
-using Verdure.Braincase.Emojis.eShop;
-using Verdure.Braincase.Emojis.ViewModels;
-using Verdure.Braincase.EbScreen.Views;
 
 namespace Verdure.Braincase;
 public static class ConfigureServicesExtensions
@@ -83,7 +79,7 @@ public static class ConfigureServicesExtensions
 
             .AddHttpClient()
             // Services
-            .AddSingleton<ICompositorProvider,CompositorProvider>()
+            .AddSingleton<ICompositorProvider, CompositorProvider>()
             .AddSingleton<IAppNotificationService, AppNotificationService>()
             .AddSingleton<ILocalSettingsService, LocalSettingsService>()
             .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
@@ -280,7 +276,6 @@ public static class ConfigureServicesExtensions
             .AddTransient<AgentViewModel>()
             .AddTransient<AgentPage>()
             .AddTransient<ChatViewModel>()
-            .AddTransient<ChatPage>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());

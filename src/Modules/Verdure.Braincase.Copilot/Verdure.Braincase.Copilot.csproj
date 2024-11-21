@@ -19,7 +19,6 @@
     <None Remove="Controls\Chat\PresetAvatar.xaml" />
     <None Remove="Styles\Overwrites.xaml" />
     <None Remove="Views\Agents\AgentPage.xaml" />
-    <None Remove="Views\Agents\ChatPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,12 +73,6 @@
 
   <ItemGroup>
     <Page Update="Controls\Chat\ChatModuleMsgList.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Views\Agents\ChatPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

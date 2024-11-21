@@ -1,15 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-
-using Verdure.Braincase.Contracts.Services;
+using Microsoft.UI.Xaml.Controls;
+using Verdure.Braincase.Copilot.ViewModels;
+using Verdure.Braincase.Copilot.Views;
 using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.Views;
-using Verdure.Braincase.Copilot.ViewModels;
-using Verdure.Braincase.Copilot.Views.Agents;
-using Microsoft.UI.Xaml.Controls;
-using ViewModels;
-using Views;
-using Verdure.Braincase.Copilot.Views;
 using Verdure.Braincase.WinUI.Common.ViewModels;
+using Views;
 
 namespace Verdure.Braincase.Services;
 
@@ -31,12 +27,11 @@ public class PageService : IPageService
         Configure<GestureInteractionViewModel, GestureInteractionPage>();
         Configure<PoseRecognitionViewModel, PoseRecognitionPage>();
         Configure<VisionViewModel, VisionPage>();
-        Configure<MovieViewModel,MoviePage>();
+        Configure<MovieViewModel, MoviePage>();
         Configure<GestureAppConfigViewModel, GestureAppConfigPage>();
         Configure<Hw75ViewModel, Hw75Page>();
 
         Configure<AgentViewModel, AgentPage>();
-        Configure<ChatViewModel, ChatPage>();
     }
 
     public Type GetPageType(string key)

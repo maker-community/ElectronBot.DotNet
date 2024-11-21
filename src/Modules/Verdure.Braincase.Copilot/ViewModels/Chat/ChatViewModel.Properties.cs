@@ -16,20 +16,10 @@ public partial class ChatViewModel
     List<Agent> _agents = new();
 
     [ObservableProperty]
-    ObservableCollection<Conversation> _conversationList = new();
-
-    [ObservableProperty]
     ObservableCollection<ConversationViewModel> _convList = new();
 
     [ObservableProperty]
-    ObservableCollection<RoleDialogModel> _chatMessageList = new();
-
-    [ObservableProperty]
     ObservableCollection<ChatMessageItemViewModel> _MessageList = new();
-
-    [ObservableProperty]
-    Conversation? _selectedConversation;
-
     [ObservableProperty]
     ConversationViewModel? _selectedConv;
 

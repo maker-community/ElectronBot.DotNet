@@ -87,7 +87,7 @@
             Grid.Row="1"
             Grid.Column="0"
             VerticalAlignment="Top">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
                 <Button
                     x:Name="Reset"
                     x:Uid="ResetBtn"
@@ -100,6 +100,9 @@
                     Width="120"
                     Margin="8"
                     Command="{x:Bind ViewModel.RebootElectronCommand}" />
+
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <Button
                     x:Name="ElectronEmulation"
                     x:Uid="ElectronEmulation"

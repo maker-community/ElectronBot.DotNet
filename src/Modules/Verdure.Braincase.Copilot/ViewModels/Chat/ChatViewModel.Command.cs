@@ -23,15 +23,15 @@ public partial class ChatViewModel
         _conversationService.SetConversationId(conv.Id, new List<MessageState>());
         var history = _conversationService.GetDialogHistory(fromBreakpoint: false);
 
-        ChatMessageList = new ObservableCollection<RoleDialogModel>(history);
-
         foreach (var item in history)
         {
             var msgItem = new ChatMessageItemViewModel(item, null, null);
             MessageList.Add(msgItem);
         }
-        SelectedConversation = conv;
-        //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+
+        var selectConv = new ConversationViewModel(conv, null, null);
+        SelectedConv = selectConv;
+        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
         return Task.CompletedTask;
     }
 
@@ -41,8 +41,6 @@ public partial class ChatViewModel
         if (conv == null) return Task.CompletedTask;
         _conversationService.SetConversationId(conv.Id, new List<MessageState>());
         var history = _conversationService.GetDialogHistory(fromBreakpoint: false);
-
-        //ChatMessageList = new ObservableCollection<RoleDialogModel>(history);
         MessageList.Clear();
         foreach (var item in history)
         {
@@ -73,9 +71,7 @@ public partial class ChatViewModel
         var msgItem = new ChatMessageItemViewModel(inputMsg, null, null);
         MessageList.Add(msgItem);
 
-        ChatMessageList.Add(inputMsg);
-
-        //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
 
         var routing = _services.GetRequiredService<IRoutingService>();
         routing.Context.SetMessageId(SelectedConv.Id, inputMsg.MessageId);
@@ -94,9 +90,8 @@ public partial class ChatViewModel
                     {
                         var msgItem = new ChatMessageItemViewModel(msg, null, null);
                         MessageList.Add(msgItem);
-                        ChatMessageList.Add(msg);
                         IsResponding = false;
-                        //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+                        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
                     });
                 });
         });
@@ -124,9 +119,7 @@ public partial class ChatViewModel
         if (result != null)
         {
             var conv = new ConversationViewModel(result, null, null);
-            ConversationList.Insert(0, result);
             ConvList.Add(conv);
-            SelectedConversation = result;
             SelectedConv = conv;
 
             await ConvViewModelSelectAsync(conv);
@@ -153,17 +146,6 @@ public partial class ChatViewModel
             });
         }
 
-        //var agentService = Ioc.Default.GetRequiredService<IAgentService>();
-
-        //Agents = (await agentService.GetAgents(new AgentFilter
-        //{
-        //    Pager = new Pagination
-        //    {
-        //        Page = 1,
-        //        Size = 200
-        //    }
-        //})).Items.ToList();
-
         var convList = (await _conversationService.GetConversations(new ConversationFilter
         {
             Pager = new Pagination
@@ -179,33 +161,32 @@ public partial class ChatViewModel
             ConvList.Add(convVm);
         }
 
-        SelectedConversation = convList.FirstOrDefault();
-
-        SelectedConv = new ConversationViewModel(convList.FirstOrDefault() ?? new Conversation(), null, null);
-        //ConversationList = new ObservableCollection<Conversation>(convList);
-
-        if (SelectedConv == null || string.IsNullOrEmpty(SelectedConv.Id)) return;
-        _conversationService.SetConversationId(SelectedConv.Id, new List<MessageState>());
-        var historys = _conversationService.GetDialogHistory(fromBreakpoint: false);
-        foreach (var history in historys)
+        var selectConv = convList.FirstOrDefault();
+        if (selectConv != null)
         {
-            var msgItem = new ChatMessageItemViewModel(history, null, null);
-            MessageList.Add(msgItem);
-            ChatMessageList.Add(history);
+            SelectedConv = new ConversationViewModel(selectConv, null, null);
+
+            _conversationService.SetConversationId(SelectedConv.Id, new List<MessageState>());
+            var historys = _conversationService.GetDialogHistory(fromBreakpoint: false);
+            foreach (var history in historys)
+            {
+                var msgItem = new ChatMessageItemViewModel(history, null, null);
+                MessageList.Add(msgItem);
+            }
         }
+
+       
         CheckChatEmpty();
         CheckLastMessageTime();
-        //RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
     }
-
-
 
 
     [RelayCommand]
     private void Copy()
     {
         var dp = new DataPackage();
-        //dp.SetText(Content);
+        dp.SetText(Content);
         Clipboard.SetContent(dp);
     }
 

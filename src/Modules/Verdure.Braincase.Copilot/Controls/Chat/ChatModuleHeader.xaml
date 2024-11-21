@@ -46,7 +46,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             FontSize="20"
-            Text="{x:Bind ViewModel.SelectedConversation.Title, Mode=OneWay}"
+            Text="{x:Bind ViewModel.SelectedConv.Title, Mode=OneWay}"
             TextTrimming="CharacterEllipsis" />
         <StackPanel
             Grid.Column="1"
@@ -62,7 +62,7 @@
                         <StackPanel Margin="4" Orientation="Horizontal">
                             <ListView
                                 x:Name="ConvList"
-                                Width="240"
+                                Width="260"
                                 Height="480"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
