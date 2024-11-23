@@ -9,6 +9,7 @@ using BotSharp.Abstraction.Routing;
 using BotSharp.Abstraction.Users.Enums;
 using BotSharp.Abstraction.Utilities;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using ElectronBot.Copilot.Enums;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -34,6 +35,8 @@ public partial class ChatViewModel
         var convData = await _conversationService.GetConversation(conv.Id);
         await _localSettingsService
             .SaveSettingAsync(Constants.CurrentConversationKey, convData);
+
+        WeakReferenceMessenger.Default.Send(convData);
     }
 
 
