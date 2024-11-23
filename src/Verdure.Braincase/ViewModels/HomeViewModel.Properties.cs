@@ -10,7 +10,7 @@ using Image = Microsoft.UI.Xaml.Controls.Image;
 
 namespace Verdure.Braincase.ViewModels;
 
-public partial class HomeViewModel : ObservableRecipient
+public partial class HomeViewModel
 {
 
     [ObservableProperty]
@@ -23,7 +23,7 @@ public partial class HomeViewModel : ObservableRecipient
     /// 时钟选中数据
     /// </summary>
     [ObservableProperty]
-    ComboxItemModel clockComBoxSelect;
+    ComboxItemModel? _clockComBoxSelect;
 
     /// <summary>
     /// 表盘列表

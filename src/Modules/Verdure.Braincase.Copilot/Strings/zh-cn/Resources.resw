@@ -746,7 +746,7 @@
     <value>高斯模糊值：</value>
   </data>
   <data name="ElectronEmulation.Content" xml:space="preserve">
-    <value>电子仿真</value>
+    <value>小窗模式</value>
   </data>
   <data name="OpenEntityFirstSwitch.OffContent" xml:space="preserve">
     <value>打开机器人动作优先</value>

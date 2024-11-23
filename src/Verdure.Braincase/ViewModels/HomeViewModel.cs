@@ -1,7 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO.Ports;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -26,7 +24,6 @@ using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechRecognition;
-using Windows.Storage;
 
 namespace Verdure.Braincase.ViewModels;
 
@@ -529,53 +526,6 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    [RelayCommand]
-    private async void TestVoice()
-    {
-        var textList = new List<string>()
-        {
-            "哥哥你好啊",
-            "哥哥在干嘛",
-            "哥哥想我没",
-            "哥哥最好啦",
-            "最喜欢哥哥啦",
-            "人家好想哥哥",
-            "哥哥喜欢妹妹不"
-        };
-
-        var r = new Random().Next(textList.Count);
-
-        var text = textList[r];
-
-        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-        {
-            ToastHelper.SendToast(text, TimeSpan.FromSeconds(2));
-        });
-
-        await ElectronBotHelper.Instance.MediaPlayerPlaySoundByTtsAsync(text);
-
-
-        //var stream = await _speechAndTTSService.TextToSpeechAsync(text);
-
-        //_mediaPlayer.SetStreamSource(stream);
-
-        //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
-
-        //if (selectedDevice != null)
-        //{
-        //    _mediaPlayer.AudioDevice = selectedDevice;
-        //}
-
-        //_mediaPlayer.Play();
-
-        //var ret = RuntimeHelper.IsAdminRun();
-
-        //App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-        //{
-        //    ToastHelper.SendToast($"是否在管理权权限运行：{ret}", TimeSpan.FromSeconds(2));
-        //});
-    }
-
 
     private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
@@ -610,32 +560,6 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
         await _speechAndTTSService.InitializeRecognizerAsync(SpeechRecognizer.SystemSpeechLanguage);
 
         await _speechAndTTSService.StartAsync();
-    }
-
-    [RelayCommand]
-    private void TestPlayEmoji()
-    {
-        try
-        {
-            _dispatcherTimer.Stop();
-
-            var r = new Random().Next(Constants.POTENTIAL_EMOJI_LIST.Count);
-
-            _mediaPlayer.Source = MediaSource.CreateFromUri(new Uri($"ms-appx:///Assets/Emoji/{Constants.POTENTIAL_EMOJI_LIST[r]}.mp4"));
-
-            //var selectedDevice = (DeviceInformation)AudioSelect?.Tag;
-
-            //if (selectedDevice != null)
-            //{
-            //    _mediaPlayer.AudioDevice = selectedDevice;
-            //}
-            _mediaPlayer.Play();
-
-        }
-        catch (Exception)
-        {
-
-        }
     }
 
     /// <summary>
@@ -679,35 +603,6 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
 
             }
         });
-    }
-
-    /// <summary>
-    /// 表盘切换方法
-    /// </summary>
-    [RelayCommand]
-    private void ClockChanged()
-    {
-        var clockName = clockComBoxSelect?.DataKey;
-
-        if (!string.IsNullOrWhiteSpace(clockName))
-        {
-            var service = Ioc.Default.GetRequiredService<EmoticonActionFrameService>();
-
-            service.ClearQueue();
-
-            var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockName);
-
-            if (clockName == "GooeyFooter" || clockName == "CustomView" || clockName == "GrooveView")
-            {
-                _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 30);
-            }
-            else
-            {
-                _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-            }
-
-            Element = viewProvider.CreateClockView(clockName);
-        }
     }
 
 
@@ -847,7 +742,7 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
             {
                 await ResetActionAsync();
 
-                var clockName = clockComBoxSelect?.DataKey;
+                var clockName = ClockComBoxSelect?.DataKey;
 
                 if (clockName != "GooeyFooter" && clockName != "CustomView")
                 {
@@ -902,101 +797,6 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-
-    /// <summary>
-    /// 导入动作列表
-    /// </summary>
-    [RelayCommand]
-    public async Task ImportAsync()
-    {
-        var list = await EbHelper.ImportActionListAsync(_hwnd);
-
-        Actions = new ObservableCollection<ElectronBotAction>(list);
-    }
-
-    [RelayCommand]
-    public async Task PlayAsync()
-    {
-        if (modeNo == 1)
-        {
-            if (actions.Count > 0)
-            {
-                await ResetActionAsync();
-
-                await EbHelper.PlayActionListAsync(Actions.ToList(), Interval);
-
-            }
-            else
-            {
-                ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-            }
-
-        }
-        else
-        {
-            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-        }
-    }
-
-    [RelayCommand]
-    public void Stop()
-    {
-        _dispatcherTimer.Stop();
-    }
-
-    [RelayCommand]
-    public void Clear()
-    {
-        actions.Clear();
-
-        count = 0;
-
-        actionCount = 0;
-
-        ToastHelper.SendToast("PlayClearToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-    }
-
-    [RelayCommand]
-    public void Reconnect()
-    {
-        try
-        {
-            _dispatcherTimer.Stop();
-            //ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
-            ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
-        }
-        catch (Exception)
-        {
-
-        }
-
-
-        ToastHelper.SendToast("ReconnectText".GetLocalized(), TimeSpan.FromSeconds(3));
-    }
-
-    [RelayCommand]
-    public async Task ResetAsync()
-    {
-        if (modeNo == 1)
-        {
-            if (ElectronBotHelper.Instance.EbConnected)
-            {
-                await ResetActionAsync();
-
-                ToastHelper.SendToast("PlayResetToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-            }
-            else
-            {
-                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-            }
-
-        }
-        else
-        {
-            ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-        }
-    }
-
     private ICommand _pauseCommand;
 
     public ICommand PauseCommand
@@ -1010,147 +810,6 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
                     });
 
             return _pauseCommand;
-        }
-    }
-
-    [RelayCommand]
-    public async Task ExportAsync()
-    {
-        StorageFolder destinationFolder = null;
-
-        try
-        {
-            destinationFolder = await KnownFolders.PicturesLibrary
-            .CreateFolderAsync("ElectronBot", CreationCollisionOption.OpenIfExists);
-        }
-        catch (Exception ex)
-        {
-            return;
-        }
-
-        if (Actions != null && Actions.Count > 0)
-        {
-            var fileName = $"electronbot-action-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.json";
-
-            var destinationFile = await destinationFolder
-                .CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-
-            var content = JsonSerializer
-                .Serialize(Actions, options: new JsonSerializerOptions { WriteIndented = true });
-
-            await FileIO.WriteTextAsync(destinationFile, content);
-
-            var text = "ExportToastText".GetLocalized();
-
-            ToastHelper.SendToast($"{text}-{destinationFile.Path}", TimeSpan.FromSeconds(5));
-        }
-        else
-        {
-            ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-        }
-    }
-
-    [RelayCommand]
-    public void Add()
-    {
-        if (SelectIndex < 0)
-        {
-            SelectIndex = 0;
-        }
-        else if (SelectIndex > Actions.Count)
-        {
-            SelectIndex = Actions.Count;
-        }
-
-        if (Actions.Count > 0)
-        {
-            Actions.Insert(SelectIndex + 1, new ElectronBotAction
-            {
-                J1 = J1,
-                J2 = J2,
-                J3 = J3,
-                J4 = J4,
-                J5 = J5,
-                J6 = J6
-            });
-        }
-        else
-        {
-            Actions.Add(new ElectronBotAction
-            {
-                J1 = J1,
-                J2 = J2,
-                J3 = J3,
-                J4 = J4,
-                J5 = J5,
-                J6 = J6
-            });
-        }
-    }
-
-    [RelayCommand]
-    public void RemoveAction()
-    {
-        if (SelectIndex < 0)
-        {
-            SelectIndex = 0;
-        }
-        else if (SelectIndex > Actions.Count)
-        {
-            SelectIndex = Actions.Count;
-        }
-
-        Actions.RemoveAt(SelectIndex);
-    }
-
-    [RelayCommand]
-    public async Task AddPictureAsync()
-    {
-        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
-
-        var picker = new Windows.Storage.Pickers.FileOpenPicker
-        {
-            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
-
-            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
-        };
-
-        picker.FileTypeFilter.Add(".png");
-        picker.FileTypeFilter.Add(".jpg");
-        picker.FileTypeFilter.Add(".jpeg");
-
-        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
-
-        var file = await picker.PickSingleFileAsync();
-
-        if (file != null)
-        {
-            var config = new ImageCropperConfig
-            {
-                ImageFile = file,
-                AspectRatio = 1
-            };
-
-            var croppedImage = await ImageHelper.CropImage(config);
-
-            if (croppedImage != null)
-            {
-                SelectdAction.BitmapImageData = croppedImage;
-
-                var act = Actions.Where(i => i.Id == selectdAction.Id).FirstOrDefault();
-
-                if (act != null)
-                {
-                    var bytes = croppedImage.PixelBuffer.ToArray();
-
-                    var imageData = await EbHelper.ToBase64Async(
-                        bytes, (uint)croppedImage.PixelWidth, (uint)croppedImage.PixelWidth);
-
-                    act.ImageData = $"data:image/png;base64,{imageData}";
-
-                    act.BitmapImageData = croppedImage;
-                }
-            }
         }
     }
 
@@ -1183,11 +842,15 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
         });
     }
 
-    public void OnNavigatedTo(object parameter)
+    public async void OnNavigatedTo(object parameter)
     {
-        var viewProvider = _viewProviderFactory.CreateClockViewProvider("DefautView");
+        var saveClockView = await _localSettingsService
+            .ReadSettingAsync<string>(Constants.CurrentClockViewKey);
 
-        Element = viewProvider.CreateClockView("DefautView");
+        var clockView = string.IsNullOrEmpty(saveClockView) ? "DefautView" : saveClockView;
+        var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockView);
+
+        Element = viewProvider.CreateClockView(clockView);
 
         if (modeNo == 3)
         {
@@ -1198,21 +861,8 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public async void OnNavigatedFrom()
+    public void OnNavigatedFrom()
     {
-        try
-        {
-            _isInitialized = false;
-            CameraFrameService.Current.SoftwareBitmapFrameCaptured -= Current_SoftwareBitmapFrameCaptured;
-
-            CameraFrameService.Current.SoftwareBitmapFrameHandPredictResult -= Current_SoftwareBitmapFrameHandPredictResult;
-
-            await CameraFrameService.Current.CleanupMediaCaptureAsync();
-        }
-        catch (Exception)
-        {
-
-        }
         _dispatcherTimer.Stop();
     }
 }
