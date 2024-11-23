@@ -13,6 +13,11 @@
     xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
     xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <local:LingxiSpaceControl.Resources>
         <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
     </local:LingxiSpaceControl.Resources>

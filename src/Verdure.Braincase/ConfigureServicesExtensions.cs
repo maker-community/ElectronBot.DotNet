@@ -24,6 +24,7 @@ using Verdure.Braincase.Contracts.Services;
 using Verdure.Braincase.Copilot.Services.BotSharp;
 using Verdure.Braincase.Copilot.ViewModels;
 using Verdure.Braincase.Copilot.Views;
+using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 using Verdure.Braincase.Core.EbotGrpcService;
 using Verdure.Braincase.DataStorage;
@@ -276,6 +277,8 @@ public static class ConfigureServicesExtensions
             .AddTransient<AgentViewModel>()
             .AddTransient<AgentPage>()
             .AddTransient<ChatViewModel>()
+        .AddTransient<LingxiSpaceViewModel>()
+            .AddTransient<ILingxiSpaceService, LiteDBLingxiSpaceService>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());

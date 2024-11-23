@@ -6,7 +6,10 @@ namespace Verdure.Braincase.DataStorage.Services;
 public class LiteDBLingxiSpaceService : ILingxiSpaceService
 {
     public Task<LingxiSpace> AddAsync(LingxiSpace space) => throw new NotImplementedException();
-    public Task<List<LingxiSpace>> GetAllAsync(LingxiSpaceFilter filter) => throw new NotImplementedException();
+    public Task<List<LingxiSpace>> GetAllAsync(LingxiSpaceFilter filter)
+    {
+        return Task.FromResult(new List<LingxiSpace>());
+    }
     public Task<LingxiSpace> GetAsync(string id) => throw new NotImplementedException();
     public Task<bool> RemoveAsync(string id) => throw new NotImplementedException();
     public Task<LingxiSpace> UpdateAsync(LingxiSpace space) => throw new NotImplementedException();

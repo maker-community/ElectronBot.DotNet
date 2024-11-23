@@ -19,10 +19,16 @@ public sealed partial class HomePage : Page
     {
         get;
     }
+
+    public LingxiSpaceViewModel LingxiSpaceViewModel
+    {
+        get;
+    }
     public HomePage()
     {
         ViewModel = Ioc.Default.GetRequiredService<HomeViewModel>();
         ChatViewModel = Ioc.Default.GetRequiredService<ChatViewModel>();
+        LingxiSpaceViewModel = Ioc.Default.GetRequiredService<LingxiSpaceViewModel>();
         InitializeComponent();
     }
 }
