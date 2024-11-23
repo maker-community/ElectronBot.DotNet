@@ -6,6 +6,10 @@ using Verdure.Braincase.WinUI.Common.Helpers;
 namespace Verdure.Braincase.WinUI.Common;
 public class Constants
 {
+    public const string CurrentConversationKey = "CurrentConversationKey";
+
+    public const string CurrentClockViewKey = "CurrentClockViewKey";
+
     public const string CacheFileName = "braincase_msal_cache.txt";
 
     public const string AuthDataKey = "AuthDataKey";

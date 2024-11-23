@@ -69,7 +69,8 @@
                                 IsItemClickEnabled="True"
                                 ItemClick="ConvList_ItemClick"
                                 ItemTemplate="{StaticResource ContactListViewTemplate}"
-                                ItemsSource="{x:Bind ViewModel.ConvList, Mode=OneWay}">
+                                ItemsSource="{x:Bind ViewModel.ConvList, Mode=OneWay}"
+                                SelectedItem="{x:Bind ViewModel.SelectedConv, Mode=OneWay}">
                                 <ListView.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem

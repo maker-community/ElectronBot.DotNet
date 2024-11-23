@@ -16,28 +16,10 @@ namespace Verdure.Braincase.Copilot.ViewModels;
 public partial class ChatViewModel
 {
     [RelayCommand]
-    public Task ConvSelectAsync(Conversation? conv)
+    public async Task ConvViewModelSelectAsync(ConversationViewModel? conv)
     {
-        if (conv == null) return Task.CompletedTask;
-        _conversationService.SetConversationId(conv.Id, new List<MessageState>());
-        var history = _conversationService.GetDialogHistory(fromBreakpoint: false);
+        if (conv == null) return;
 
-        foreach (var item in history)
-        {
-            var msgItem = new ChatMessageItemViewModel(item, null, null);
-            MessageList.Add(msgItem);
-        }
-
-        var selectConv = new ConversationViewModel(conv, null, null);
-        SelectedConv = selectConv;
-        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
-        return Task.CompletedTask;
-    }
-
-    [RelayCommand]
-    public Task ConvViewModelSelectAsync(ConversationViewModel? conv)
-    {
-        if (conv == null) return Task.CompletedTask;
         _conversationService.SetConversationId(conv.Id, new List<MessageState>());
         var history = _conversationService.GetDialogHistory(fromBreakpoint: false);
         MessageList.Clear();
@@ -48,7 +30,10 @@ public partial class ChatViewModel
         }
         SelectedConv = conv;
         RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
-        return Task.CompletedTask;
+
+        var convData = await _conversationService.GetConversation(conv.Id);
+        await _localSettingsService
+            .SaveSettingAsync(Constants.CurrentConversationKey, convData);
     }
 
 
@@ -118,7 +103,7 @@ public partial class ChatViewModel
         if (result != null)
         {
             var conv = new ConversationViewModel(result, null, null);
-            ConvList.Add(conv);
+            ConvList.Insert(0, conv);
             SelectedConv = conv;
 
             await ConvViewModelSelectAsync(conv);
@@ -161,19 +146,30 @@ public partial class ChatViewModel
         }
 
         var selectConv = convList.FirstOrDefault();
+
         if (selectConv != null)
         {
-            SelectedConv = new ConversationViewModel(selectConv, null, null);
+            var currentConv = await _localSettingsService
+                .ReadSettingAsync<Conversation>(Constants.CurrentConversationKey);
+
+            Conversation? saveConv = null;
+
+            if (currentConv != null)
+            {
+                saveConv = convList.Where(c => c.Id == currentConv.Id).FirstOrDefault();
+            }
+
+            SelectedConv = new ConversationViewModel(saveConv ?? selectConv, null, null);
 
             _conversationService.SetConversationId(SelectedConv.Id, new List<MessageState>());
             var historys = _conversationService.GetDialogHistory(fromBreakpoint: false);
+
             foreach (var history in historys)
             {
                 var msgItem = new ChatMessageItemViewModel(history, null, null);
                 MessageList.Add(msgItem);
             }
         }
-
 
         CheckChatEmpty();
         CheckLastMessageTime();

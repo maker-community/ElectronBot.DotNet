@@ -5,4 +5,5 @@ global using Microsoft.UI.Xaml.Automation.Peers;
 global using Microsoft.UI.Xaml.Controls;
 global using Microsoft.UI.Xaml.Controls.Primitives;
 global using Microsoft.UI.Xaml.Media;
+global using Verdure.Braincase.WinUI.Common;
 global using Verdure.Braincase.WinUI.Common.Contracts.ViewModels;

@@ -4,6 +4,7 @@ using BotSharp.Abstraction.Conversations;
 using BotSharp.Abstraction.Users;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
+using Verdure.Braincase.Core.Contracts.Services;
 
 
 namespace Verdure.Braincase.Copilot.ViewModels;
@@ -15,9 +16,11 @@ public partial class ChatViewModel : ObservableRecipient
     private readonly IUserService _userService;
     private readonly IServiceProvider _services;
     private readonly DispatcherQueue _dispatcherQueue;
+
+    private readonly ILocalSettingsService _localSettingsService;
     public ChatViewModel(IConversationService conversationService,
         IUserIdentity userIdentity,
-        IUserService userService, IServiceProvider services)
+        IUserService userService, IServiceProvider services, ILocalSettingsService localSettingsService)
     {
         _conversationService = conversationService;
         _userIdentity = userIdentity;
@@ -25,6 +28,7 @@ public partial class ChatViewModel : ObservableRecipient
         _services = services;
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         MessageList.CollectionChanged += OnMessageCountChanged;
+        _localSettingsService = localSettingsService;
     }
 
     private void OnMessageCountChanged(object? sender, NotifyCollectionChangedEventArgs e)

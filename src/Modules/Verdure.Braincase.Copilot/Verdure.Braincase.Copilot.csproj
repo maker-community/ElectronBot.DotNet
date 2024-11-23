@@ -14,7 +14,6 @@
     <None Remove="Controls\Chat\ChatModuleMsgItemControl.xaml" />
     <None Remove="Controls\Chat\ChatModuleMsgList.xaml" />
     <None Remove="Controls\Chat\ChatModulePanel.xaml" />
-    <None Remove="Controls\Chat\ChatSessionListPanel.xaml" />
     <None Remove="Controls\Chat\ColorfulBorder.xaml" />
     <None Remove="Controls\Chat\PresetAvatar.xaml" />
     <None Remove="Controls\LingxiSpace\LingxiSpaceHeader.xaml" />
@@ -49,12 +48,6 @@
 
   <ItemGroup>
     <Page Update="Controls\Chat\ChatModuleHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Controls\Chat\ChatSessionListPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
