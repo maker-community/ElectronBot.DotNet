@@ -93,13 +93,13 @@
                 <Button
                     x:Name="Reset"
                     x:Uid="ResetBtn"
-                    Width="120"
+                    Width="100"
                     Margin="8"
                     Command="{x:Bind ViewModel.ResetCommand}" />
                 <Button
                     x:Name="RebootElectron"
                     x:Uid="RebootElectron"
-                    Width="120"
+                    Width="100"
                     Margin="8"
                     Command="{x:Bind ViewModel.RebootElectronCommand}" />
 
@@ -108,12 +108,12 @@
                 <Button
                     x:Name="ElectronEmulation"
                     x:Uid="ElectronEmulation"
-                    Width="120"
+                    Width="100"
                     Margin="8"
                     Command="{x:Bind ViewModel.ElectronEmulationCommand}" />
                 <ComboBox
                     x:Uid="ChangeClockViewCB"
-                    Width="120"
+                    Width="100"
                     Margin="8"
                     VerticalAlignment="Center"
                     DisplayMemberPath="DataValue"
@@ -130,7 +130,7 @@
 
         <StackPanel Grid.RowSpan="2" Grid.Column="1">
             <chat:ChatModulePanel
-                Width="400"
+                Width="360"
                 HorizontalAlignment="Left"
                 ViewModel="{x:Bind ChatViewModel, Mode=OneWay}" />
         </StackPanel>
