@@ -82,7 +82,8 @@ public static class ConfigureServicesExtensions
             // Services
             .AddSingleton<ICompositorProvider, CompositorProvider>()
             .AddSingleton<IAppNotificationService, AppNotificationService>()
-            .AddSingleton<ILocalSettingsService, LocalSettingsService>()
+            //.AddSingleton<ILocalSettingsService, LocalSettingsService>()
+            .AddSingleton<ILocalSettingsService,LiteDBLocalSettingsService>()
             .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
             .AddTransient<INavigationViewService, NavigationViewService>()
             .AddSingleton<ISpeechAndTTSService, SpeechAndTTSService>()

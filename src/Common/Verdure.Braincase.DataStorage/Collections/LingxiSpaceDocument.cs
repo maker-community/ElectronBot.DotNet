@@ -18,10 +18,10 @@ public class LingxiSpaceDocument : LiteDBBase
         get; set;
     } = string.Empty;
 
-    public JsonDocument? Content
+    public string Content
     {
         get; set;
-    }
+    } = string.Empty;
 
     public DateTime CreatedTime
     {

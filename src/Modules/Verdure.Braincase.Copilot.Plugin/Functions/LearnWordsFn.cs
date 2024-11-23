@@ -1,9 +1,13 @@
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using BotSharp.Abstraction.Conversations;
 using BotSharp.Abstraction.Conversations.Models;
+using CommunityToolkit.Mvvm.Messaging;
+using Verdure.Braincase.Copilot.Plugin.Models;
+using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Models.Lingxi;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Models;
-using Verdure.Braincase.Copilot.Plugin.Models;
 
 namespace Verdure.Braincase.Copilot.Plugin.Functions;
 
@@ -14,7 +18,12 @@ public class LearnWordsFn : IFunctionCallback
     private readonly IServiceProvider _service;
     private readonly IBotToolService _botToolService;
     private readonly JsonSerializerOptions _options;
-    public LearnWordsFn(IServiceProvider service, IBotToolService botToolService)
+    private readonly ILingxiSpaceService _lingxiSpaceService;
+    private readonly IConversationService _conversationService;
+    public LearnWordsFn(IServiceProvider service,
+        IBotToolService botToolService,
+        ILingxiSpaceService lingxiSpaceService,
+        IConversationService conversationService)
     {
         _service = service;
         _options = new JsonSerializerOptions
@@ -26,6 +35,8 @@ public class LearnWordsFn : IFunctionCallback
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
         _botToolService = botToolService;
+        _lingxiSpaceService = lingxiSpaceService;
+        _conversationService = conversationService;
     }
 
     public async Task<bool> Execute(RoleDialogModel message)
@@ -43,7 +54,20 @@ public class LearnWordsFn : IFunctionCallback
         strBuilder.AppendLine($"µ•¥ √˚◊÷£∫{args.Word}");
         strBuilder.AppendLine($"µ•¥ ΩÈ…‹£∫{args.WordDescription}");
         message.Content = strBuilder.ToString();
+        message.StopCompletion = true;
 
+        var lingxiSpace = await _lingxiSpaceService.AddAsync(new LingxiSpace
+        {
+            Id = Guid.NewGuid().ToString(),
+            ConversationId = _conversationService.ConversationId,
+            Content = JsonSerializer.SerializeToDocument(wordContent, _options),
+            Name = args.Word,
+            Desc = args.WordDescription,
+            Type = LingxiSpaceType.Word,
+            CreatedTime = DateTime.UtcNow
+        });
+
+        WeakReferenceMessenger.Default.Send(lingxiSpace);
         return true;
     }
 }

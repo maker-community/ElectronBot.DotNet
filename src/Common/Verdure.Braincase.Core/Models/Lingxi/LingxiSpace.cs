@@ -19,7 +19,7 @@ public class LingxiSpace
     {
         get; set;
     }
-    public JsonDocument Content
+    public JsonDocument? Content
     {
         get; set;
     }

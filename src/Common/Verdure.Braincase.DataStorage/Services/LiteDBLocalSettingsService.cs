@@ -13,6 +13,10 @@ public class LiteDBLocalSettingsService : ILocalSettingsService
     public async Task<T?> ReadSettingAsync<T>(string key)
     {
         var setting = _db.LocalSettings.FindOne(x => x.Key == key);
+        if (setting == null)
+        {
+            return default;
+        }
         return await Json.ToObjectAsync<T>(setting.Value);
     }
     public async Task SaveSettingAsync<T>(string key, T value)
