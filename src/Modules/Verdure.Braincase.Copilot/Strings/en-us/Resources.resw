@@ -948,4 +948,7 @@
   <data name="HomeLingxiHeader.Description" xml:space="preserve">
     <value>Please Chat to Make Lingxi Content</value>
   </data>
+  <data name="LingxiSpaceHeader.Text" xml:space="preserve">
+    <value>Lingxi Space</value>
+  </data>
 </root>

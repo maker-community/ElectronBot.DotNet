@@ -20,6 +20,7 @@ public partial class ChatViewModel
 
     [ObservableProperty]
     ObservableCollection<ChatMessageItemViewModel> _MessageList = new();
+    
     [ObservableProperty]
     ConversationViewModel? _selectedConv;
 

@@ -979,4 +979,7 @@
   <data name="HomeLingxiHeader.Description" xml:space="preserve">
     <value>快聊天生成灵犀碎片吧！</value>
   </data>
+  <data name="LingxiSpaceHeader.Text" xml:space="preserve">
+    <value>灵犀空间</value>
+  </data>
 </root>

@@ -135,7 +135,7 @@
                 ViewModel="{x:Bind ChatViewModel, Mode=OneWay}" />
         </StackPanel>
         <StackPanel Grid.RowSpan="2" Grid.Column="2">
-            <lingxiSpace:LingxiSpaceList ViewModel="{x:Bind LingxiSpaceViewModel, Mode=OneWay}" />
+            <lingxiSpace:LingxiSpacePanel ViewModel="{x:Bind LingxiSpaceViewModel, Mode=OneWay}" />
         </StackPanel>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

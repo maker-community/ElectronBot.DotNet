@@ -17,7 +17,9 @@
     <None Remove="Controls\Chat\ChatSessionListPanel.xaml" />
     <None Remove="Controls\Chat\ColorfulBorder.xaml" />
     <None Remove="Controls\Chat\PresetAvatar.xaml" />
+    <None Remove="Controls\LingxiSpace\LingxiSpaceHeader.xaml" />
     <None Remove="Controls\LingxiSpace\LingxiSpaceList.xaml" />
+    <None Remove="Controls\LingxiSpace\LingxiSpacePanel.xaml" />
     <None Remove="Styles\Overwrites.xaml" />
     <None Remove="Views\Agents\AgentPage.xaml" />
   </ItemGroup>
@@ -75,6 +77,14 @@
   <ItemGroup>
     <Page Update="Controls\Chat\ChatModuleMsgList.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\LingxiSpace\LingxiSpacePanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LingxiSpace\LingxiSpaceHeader.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\LingxiSpace\LingxiSpaceList.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

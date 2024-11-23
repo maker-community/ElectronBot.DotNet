@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using BotSharp.Abstraction.Agents.Enums;
@@ -175,7 +174,7 @@ public partial class ChatViewModel
             }
         }
 
-       
+
         CheckChatEmpty();
         CheckLastMessageTime();
         RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
@@ -204,6 +203,11 @@ public partial class ChatViewModel
             ConvList.Remove(conv);
             MessageList.Clear();
             await _conversationService.DeleteConversations(new List<string> { conv.Id });
+            if (ConvList.IsNullOrEmpty() && SelectedConv != null)
+            {
+                SelectedConv.Title = string.Empty;
+                SelectedConv = null;
+            }
         }
     }
 }
