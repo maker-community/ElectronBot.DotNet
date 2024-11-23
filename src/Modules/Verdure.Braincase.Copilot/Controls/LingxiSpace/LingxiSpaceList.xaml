@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:LingxiSpaceControl
+    x:Class="Verdure.Braincase.Copilot.Controls.LingxiSpace.LingxiSpaceList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Verdure.Braincase.Copilot.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Verdure.Braincase.Copilot.Controls.LingxiSpace"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Verdure.Braincase.Copilot.ViewModels"
+    xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
+    xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
+    mc:Ignorable="d">
+    <local:LingxiSpaceControl.Resources>
+        <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
+    </local:LingxiSpaceControl.Resources>
+    <Grid>
+        <controls:EmptyHolder
+            x:Uid="HomeLingxiHeader"
+            Emoji="&#x1F3A8;"
+            Style="{StaticResource BasicEmptyHolderStyle}"
+            Visibility="{x:Bind ViewModel.IsLingxiEmpty, Mode=OneWay}" />
+        <ScrollViewer
+            x:Name="MessageViewer"
+            Style="{StaticResource PageScrollViewerStyle}"
+            UseLayoutRounding="False">
+            <Grid Margin="0,12,0,0">
+                <StackPanel>
+                    <ItemsControl Margin="0,0,0,20" ItemsSource="{x:Bind ViewModel.LingxiSpaceList, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <!--<ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="model:LingxiSpaceItemViewModel">
+                                <local:ChatModuleMsgItemControl Margin="0,4" ViewModel="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>-->
+                    </ItemsControl>
+
+                    <StackPanel
+                        Margin="0,0,0,12"
+                        Padding="20,12"
+                        HorizontalAlignment="Center"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource SystemFillColorCriticalBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Spacing="8"
+                        Visibility="Collapsed">
+                        <TextBlock
+                            x:Name="ErrorBlock"
+                            MaxWidth="240"
+                            HorizontalAlignment="Center"
+                            MaxLines="3"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="ErrorText"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</local:LingxiSpaceControl>
