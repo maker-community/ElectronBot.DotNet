@@ -918,4 +918,10 @@
   <data name="ChatLoading.Text" xml:space="preserve">
     <value>Loading</value>
   </data>
+  <data name="HomeLingxiHeader.Title" xml:space="preserve">
+    <value>No lingxi Content</value>
+  </data>
+  <data name="HomeLingxiHeader.Description" xml:space="preserve">
+    <value>Please Chat to Make Lingxi Content</value>
+  </data>
 </root>
