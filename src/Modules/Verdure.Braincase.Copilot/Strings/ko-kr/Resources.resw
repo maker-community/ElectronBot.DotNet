@@ -915,4 +915,7 @@
   <data name="DelConvMenu.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="ChatLoading.Text" xml:space="preserve">
+    <value>Loading</value>
+  </data>
 </root>

@@ -51,7 +51,7 @@
                     Width="16"
                     VerticalAlignment="Center"
                     IsIndeterminate="True" />
-                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="loading" />
+                <TextBlock x:Uid="ChatLoading" Style="{StaticResource CaptionTextBlockStyle}" />
                 <animations:Implicit.ShowAnimations>
                     <animations:OpacityAnimation
                         From="0"
