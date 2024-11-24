@@ -27,6 +27,7 @@
     <None Remove="data\agents\1048dcd3-9f70-daa2-7dcc-40314ae81473\instructions\instruction.liquid" />
     <None Remove="data\agents\2e54c75b-03e1-06db-53d9-d86a073675e2\agent.json" />
     <None Remove="data\agents\2e54c75b-03e1-06db-53d9-d86a073675e2\functions\control_the_lights.json" />
+    <None Remove="data\agents\2e54c75b-03e1-06db-53d9-d86a073675e2\functions\custom_generate_image.json" />
     <None Remove="data\agents\2e54c75b-03e1-06db-53d9-d86a073675e2\functions\get_weather.json" />
     <None Remove="data\agents\2e54c75b-03e1-06db-53d9-d86a073675e2\instructions\instruction.liquid" />
     <None Remove="data\agents\2e54c75b-03e1-06db-53d9-d86a073675e2\responses\func.control_the_lights.0.liquid" />
@@ -50,6 +51,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\agents\2e54c75b-03e1-06db-53d9-d86a073675e2\functions\control_the_lights.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\2e54c75b-03e1-06db-53d9-d86a073675e2\functions\custom_generate_image.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\agents\2e54c75b-03e1-06db-53d9-d86a073675e2\functions\get_weather.json">

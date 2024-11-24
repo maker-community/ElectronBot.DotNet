@@ -29,18 +29,33 @@
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="ImageTemplate" x:DataType="model:LingxiSpaceItemViewModel">
-            <StackPanel>
-                <TextBlock
-                    Margin="12,6,0,0"
-                    x:Phase="1"
-                    Style="{ThemeResource BaseTextBlockStyle}"
-                    Text="{x:Bind Name}" />
-                <TextBlock
-                    Margin="12,0,0,6"
-                    x:Phase="2"
-                    Style="{ThemeResource BodyTextBlockStyle}"
-                    Text="{x:Bind Desc}" />
-            </StackPanel>
+            <Grid Margin="0,12,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image MaxHeight="100" Source="{x:Bind Desc}" />
+
+                <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        HorizontalAlignment="Left"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        LineHeight="20"
+                        Style="{ThemeResource BaseTextBlockStyle}"
+                        Text="{x:Bind Name}" />
+                    <TextBlock
+                        Width="350"
+                        FontFamily="Segoe UI"
+                        FontWeight="Normal"
+                        MaxLines="1"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind Name}"
+                        TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+            </Grid>
+
         </DataTemplate>
         <local:LingxiSpaceItemTemplateSelector
             x:Key="LingxiSpaceItemTemplateSelector"

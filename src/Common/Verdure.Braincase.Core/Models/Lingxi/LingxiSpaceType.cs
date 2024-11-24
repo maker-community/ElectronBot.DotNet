@@ -11,5 +11,7 @@ public class LingxiSpaceType
 
     public const string Word = "word";
 
+    public const string Image = "image";
+
     public const string Weather = "weather";
 }
