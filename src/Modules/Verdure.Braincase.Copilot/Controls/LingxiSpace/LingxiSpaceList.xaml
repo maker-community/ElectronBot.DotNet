@@ -26,6 +26,7 @@
                     x:Phase="2"
                     Style="{ThemeResource BodyTextBlockStyle}"
                     Text="{x:Bind Desc}" />
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="ImageTemplate" x:DataType="model:LingxiSpaceItemViewModel">
@@ -34,7 +35,7 @@
                     <ColumnDefinition Width="Auto" MinWidth="150" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image MaxHeight="100" Source="{x:Bind Desc}" />
+                <Image MaxHeight="100" Source="{x:Bind ImageData, Converter={StaticResource Base64ToBitmapImageConverter}}" />
 
                 <StackPanel Grid.Column="1" Margin="12,0,0,0">
                     <TextBlock
@@ -51,8 +52,9 @@
                         FontWeight="Normal"
                         MaxLines="1"
                         Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="{x:Bind Name}"
+                        Text="{x:Bind Desc}"
                         TextTrimming="CharacterEllipsis" />
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
                 </StackPanel>
             </Grid>
 
@@ -61,6 +63,8 @@
             x:Key="LingxiSpaceItemTemplateSelector"
             ImageTemplate="{StaticResource ImageTemplate}"
             TextTemplate="{StaticResource TextTemplate}" />
+        <!--  其他资源  -->
+        <myconverters:Base64ToBitmapImageConverter x:Key="Base64ToBitmapImageConverter" />
         <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
     </local:LingxiSpaceControl.Resources>
     <Grid>

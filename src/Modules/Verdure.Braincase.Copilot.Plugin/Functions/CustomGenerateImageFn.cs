@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Net.Mime;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using BotSharp.Abstraction.Conversations;
@@ -10,6 +11,7 @@ using Verdure.Braincase.Copilot.Plugin.Models;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.Models.Lingxi;
 using Verdure.ElectronBot.Core.Contracts.Services;
+using Verdure.ElectronBot.Core.Models;
 
 namespace Verdure.Braincase.Copilot.Plugin.Functions;
 
@@ -98,13 +100,30 @@ public class CustomGenerateImageFn : IFunctionCallback
             var taskResponse = JsonSerializer.Deserialize<ImageTaskResponse>(taskResultContent, _options);
             if (taskResponse?.Output.TaskStatus == "SUCCEEDED")
             {
+                var url = taskResponse?.Output.Results.FirstOrDefault()?.Url;
+
+                if (string.IsNullOrEmpty(url))
+                {
+                    return false;
+                }
+
+                // 下载图片并转换为Base64
+                var imageBytes = await httpClient.GetByteArrayAsync(url);
+                var base64Image = Convert.ToBase64String(imageBytes);
+
+                var generateImageContent = new GenerateImageContent
+                {
+                    Name = args.ImageName,
+                    Description = args.ImageDescription,
+                    ImageData = $"data:{MediaTypeNames.Image.Png};base64,{base64Image}"
+                };
                 var lingxiSpace = await _lingxiSpaceService.AddAsync(new LingxiSpace
                 {
                     Id = Guid.NewGuid().ToString(),
                     ConversationId = _conversationService.ConversationId,
-                    //Content = JsonSerializer.SerializeToDocument(wordContent, _options),
+                    Content = JsonSerializer.SerializeToDocument(generateImageContent, _options),
                     Name = args.ImageName,
-                    Desc = taskResponse?.Output.Results.FirstOrDefault()?.Url,
+                    Desc = args.ImageDescription,
                     Type = LingxiSpaceType.Image,
                     CreatedTime = DateTime.UtcNow
                 });

@@ -22,6 +22,9 @@ public partial class LingxiSpaceItemViewModel: ObservableRecipient
     private string _type;
 
     [ObservableProperty]
+    private string? _imageData;
+
+    [ObservableProperty]
 
     private DateTime _createdTime;
 
