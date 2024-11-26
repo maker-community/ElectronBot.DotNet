@@ -1,0 +1,14 @@
+﻿{
+  "name": "工具助手",
+  "description": "可以控制家电，查询天气，生成图片等一些功能。",
+  "createdDateTime": "2023-07-26T02:29:25.123224Z",
+  "updatedDateTime": "2023-07-26T02:29:25.123274Z",
+  "id": "2e54c75b-03e1-06db-53d9-d86a073675e2",
+  "disabled": false,
+  "isPublic": true,
+  "llmConfig": {
+    "provider": "openai",
+    "model": "qwen2-72b-instruct"
+  },
+  "profiles": [ "verdure" ]
+}

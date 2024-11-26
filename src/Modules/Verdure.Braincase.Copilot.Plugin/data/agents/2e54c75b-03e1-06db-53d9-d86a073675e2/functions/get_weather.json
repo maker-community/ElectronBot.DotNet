@@ -1,0 +1,9 @@
+﻿{
+  "name": "get_weather",
+  "description": "执行这个方法获取天气情况",
+  "parameters": {
+    "type": "object",
+    "properties": {},
+    "required": []
+  }
+}

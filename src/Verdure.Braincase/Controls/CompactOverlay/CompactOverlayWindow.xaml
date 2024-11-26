@@ -1,0 +1,39 @@
+<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<windowex:WindowEx
+    x:Class="Controls.CompactOverlay.CompactOverlayWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Controls.CompactOverlay"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:windowex="using:WinUIEx"
+    Width="140"
+    Height="40"
+    Activated="WindowEx_Activated"
+    Closed="CompactOverlayWindow_OnClosed"
+    PersistenceId="CompactOverlayWindow"
+    mc:Ignorable="d">
+    <Grid
+        x:Name="AppTitleBar"
+        Height="48"
+        VerticalAlignment="Top"
+        Canvas.ZIndex="1"
+        IsHitTestVisible="True">
+        <Image
+            Width="16"
+            Height="16"
+            HorizontalAlignment="Left"
+            Source="/Assets/WindowIcon.ico" />
+        <TextBlock
+            x:Name="AppTitleBarText"
+            Margin="28,0,0,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource CaptionTextBlockStyle}"
+            TextWrapping="NoWrap" />
+    </Grid>
+    <Window.SystemBackdrop>
+        <DesktopAcrylicBackdrop />
+    </Window.SystemBackdrop>
+</windowex:WindowEx>

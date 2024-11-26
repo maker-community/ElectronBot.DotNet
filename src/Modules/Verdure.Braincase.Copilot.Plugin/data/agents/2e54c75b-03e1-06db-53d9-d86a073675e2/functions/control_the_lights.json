@@ -1,0 +1,14 @@
+﻿{
+  "name": "control_the_lights",
+  "description": "控制灯的方法",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "light_status": {
+        "type": "boolean",
+        "description": "灯的状态，true表示开启，false表示关闭"
+      }
+    },
+    "required": [ "light_status" ]
+  }
+}

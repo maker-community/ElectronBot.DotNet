@@ -1,0 +1,14 @@
+﻿{
+  "name": "闲聊助手",
+  "description": "可以和主人进行一些闲聊。",
+  "createdDateTime": "2023-08-18T14:39:32.2349685Z",
+  "updatedDateTime": "2023-08-18T14:39:32.2349686Z",
+  "id": "fc7a69ad-af94-9a75-6e97-d9ea44bf4e48",
+  "disabled": false,
+  "isPublic": true,
+  "llmConfig": {
+    "provider": "openai",
+    "model": "qwen2-72b-instruct"
+  },
+  "profiles": [ "verdure" ]
+}

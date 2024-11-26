@@ -1,0 +1,14 @@
+﻿{
+  "name": "学习助手",
+  "description": "你可以帮助主人学习一些文化知识，或者是一些日常常识性的知识。",
+  "createdDateTime": "2023-07-26T02:29:25.123224Z",
+  "updatedDateTime": "2023-07-26T02:29:25.123274Z",
+  "id": "1048dcd3-9f70-daa2-7dcc-40314ae81473",
+  "disabled": false,
+  "isPublic": true,
+  "profiles": [ "verdure" ],
+  "llmConfig": {
+    "provider": "openai",
+    "model": "qwen2-72b-instruct"
+  }
+}

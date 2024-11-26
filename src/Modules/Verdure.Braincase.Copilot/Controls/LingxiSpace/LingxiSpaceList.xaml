@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:LingxiSpaceControl
+    x:Class="Verdure.Braincase.Copilot.Controls.LingxiSpace.LingxiSpaceList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Verdure.Braincase.Copilot.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Verdure.Braincase.Copilot.Controls.LingxiSpace"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Verdure.Braincase.Copilot.ViewModels"
+    xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
+    xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
+    mc:Ignorable="d">
+    <local:LingxiSpaceControl.Resources>
+        <DataTemplate x:Key="TextTemplate" x:DataType="model:LingxiSpaceItemViewModel">
+            <StackPanel>
+                <TextBlock
+                    Margin="12,6,0,0"
+                    x:Phase="1"
+                    Style="{ThemeResource BaseTextBlockStyle}"
+                    Text="{x:Bind Name}" />
+                <TextBlock
+                    Margin="12,0,0,6"
+                    x:Phase="2"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="{x:Bind Desc}" />
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ImageTemplate" x:DataType="model:LingxiSpaceItemViewModel">
+            <Grid Margin="0,12,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image MaxHeight="100" Source="{x:Bind ImageData, Converter={StaticResource Base64ToBitmapImageConverter}}" />
+
+                <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        HorizontalAlignment="Left"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        LineHeight="20"
+                        Style="{ThemeResource BaseTextBlockStyle}"
+                        Text="{x:Bind Name}" />
+                    <TextBlock
+                        Width="350"
+                        FontFamily="Segoe UI"
+                        FontWeight="Normal"
+                        MaxLines="1"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind Desc}"
+                        TextTrimming="CharacterEllipsis" />
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
+                </StackPanel>
+            </Grid>
+
+        </DataTemplate>
+        <local:LingxiSpaceItemTemplateSelector
+            x:Key="LingxiSpaceItemTemplateSelector"
+            ImageTemplate="{StaticResource ImageTemplate}"
+            TextTemplate="{StaticResource TextTemplate}" />
+        <!--  其他资源  -->
+        <myconverters:Base64ToBitmapImageConverter x:Key="Base64ToBitmapImageConverter" />
+        <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
+    </local:LingxiSpaceControl.Resources>
+    <Grid>
+        <controls:EmptyHolder
+            x:Uid="HomeLingxiHeader"
+            Emoji="&#x1F3A8;"
+            Style="{StaticResource BasicEmptyHolderStyle}"
+            Visibility="{x:Bind ViewModel.IsLingxiEmpty, Mode=OneWay}" />
+        <ScrollViewer
+            x:Name="MessageViewer"
+            Style="{StaticResource PageScrollViewerStyle}"
+            UseLayoutRounding="False">
+            <Grid Margin="0,12,0,0">
+                <StackPanel>
+                    <ItemsControl
+                        Margin="0,0,0,20"
+                        ItemTemplateSelector="{StaticResource LingxiSpaceItemTemplateSelector}"
+                        ItemsSource="{x:Bind ViewModel.LingxiSpaceList, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <!--<ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="model:LingxiSpaceItemViewModel">
+                                <local:ChatModuleMsgItemControl Margin="0,4" ViewModel="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>-->
+                    </ItemsControl>
+
+                    <StackPanel
+                        Margin="0,0,0,12"
+                        Padding="20,12"
+                        HorizontalAlignment="Center"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource SystemFillColorCriticalBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Spacing="8"
+                        Visibility="Collapsed">
+                        <TextBlock
+                            x:Name="ErrorBlock"
+                            MaxWidth="240"
+                            HorizontalAlignment="Center"
+                            MaxLines="3"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="ErrorText"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</local:LingxiSpaceControl>

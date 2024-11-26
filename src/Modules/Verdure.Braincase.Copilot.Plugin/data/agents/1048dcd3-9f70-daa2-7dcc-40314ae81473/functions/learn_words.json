@@ -1,0 +1,18 @@
+﻿{
+  "name": "learn_words",
+  "description": "学习单词",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "word": {
+        "type": "string",
+        "description": "单词."
+      },
+      "word_description": {
+        "type": "string",
+        "description": "单词介绍."
+      }
+    },
+    "required": [ "word", "word_description" ]
+  }
+}

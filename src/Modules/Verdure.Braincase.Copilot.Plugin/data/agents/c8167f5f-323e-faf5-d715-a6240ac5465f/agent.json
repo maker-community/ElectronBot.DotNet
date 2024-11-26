@@ -1,0 +1,23 @@
+﻿{
+  "id": "c8167f5f-323e-faf5-d715-a6240ac5465f",
+  "name": "脑壳助手",
+  "description": "为电子脑壳用户提供诸多功能服务，可以开灯控制家电，也可以查天气之类的。",
+  "type": "routing",
+  "inheritAgentId": "01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a",
+  "createdDateTime": "2023-08-18T10:39:32.2349685Z",
+  "updatedDateTime": "2023-08-18T14:39:32.2349686Z",
+  "iconUrl": "https://cdn-icons-png.flaticon.com/512/6978/6978255.png",
+  "disabled": false,
+  "isPublic": true,
+  "profiles": [ "verdure" ],
+  "llmConfig": {
+    "provider": "openai",
+    "model": "qwen2-72b-instruct"
+  },
+  "routingRules": [
+    {
+      "type": "planner",
+      "field": "NaivePlanner"
+    }
+  ]
+}

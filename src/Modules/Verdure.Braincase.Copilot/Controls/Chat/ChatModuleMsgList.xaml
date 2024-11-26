@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ChatModuleControl
+    x:Class="Verdure.Braincase.Copilot.Controls.Chat.ChatModuleMsgList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Verdure.Braincase.Copilot.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Verdure.Braincase.Copilot.Controls.Chat"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Verdure.Braincase.Copilot.ViewModels"
+    xmlns:models="using:BotSharp.Abstraction.Conversations.Models"
+    xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
+    mc:Ignorable="d">
+    <local:ChatModuleControl.Resources>
+        <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
+    </local:ChatModuleControl.Resources>
+    <Grid>
+        <controls:EmptyHolder
+            x:Uid="HomeChatHeader"
+            Emoji="&#x1F37B;"
+            Style="{StaticResource BasicEmptyHolderStyle}"
+            Visibility="{x:Bind ViewModel.IsChatEmpty, Mode=OneWay}" />
+        <ScrollViewer
+            x:Name="MessageViewer"
+            Style="{StaticResource PageScrollViewerStyle}"
+            UseLayoutRounding="False">
+            <Grid Margin="0,12,0,0">
+                <StackPanel>
+                    <ItemsControl Margin="0,0,0,20" ItemsSource="{x:Bind ViewModel.MessageList, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="model:ChatMessageItemViewModel">
+                                <local:ChatModuleMsgItemControl Margin="0,4" ViewModel="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <Grid
+                        Margin="0,0,0,20"
+                        HorizontalAlignment="Left"
+                        Visibility="{x:Bind ViewModel.IsResponding, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <controls:PresetAvatar
+                            x:Name="Avatar"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Top"
+                            CornerRadius="18"
+                            FontSize="16" />
+                        <controls:ColorfulBorder
+                            Grid.Column="1"
+                            MinWidth="240"
+                            MinHeight="40"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            IsLoading="{x:Bind ViewModel.IsResponding, Mode=OneWay}" />
+                        <Grid
+                            Grid.Column="1"
+                            Margin="1"
+                            HorizontalAlignment="Stretch"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            CornerRadius="{StaticResource ControlCornerRadius}">
+                            <TextBlock Margin="12,8" Text="{x:Bind ViewModel.TempMessage, Mode=OneWay}" />
+                        </Grid>
+                    </Grid>
+
+
+                    <StackPanel
+                        Margin="0,0,0,12"
+                        Padding="20,12"
+                        HorizontalAlignment="Center"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource SystemFillColorCriticalBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Spacing="8"
+                        Visibility="Collapsed">
+                        <TextBlock
+                            x:Name="ErrorBlock"
+                            MaxWidth="240"
+                            HorizontalAlignment="Center"
+                            MaxLines="3"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="ErrorText"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+    <!--<local:ChatModuleControl.Resources>
+        <DataTemplate x:Key="UserMsgListViewTemplate" x:DataType="models:RoleDialogModel">
+            <TextBlock
+                Margin="0,8,0,8"
+                x:Phase="1"
+                Text="{x:Bind Content}"
+                TextWrapping="WrapWholeWords" />
+        </DataTemplate>
+    </local:ChatModuleControl.Resources>
+    <Grid>
+        <ListView
+            x:Name="ChatList"
+            Width="560"
+            Height="440"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            BorderThickness="1"
+            IsItemClickEnabled="False"
+            ItemTemplate="{StaticResource UserMsgListViewTemplate}"
+            ItemsSource="{x:Bind ViewModel.ChatMessageList, Mode=OneWay}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+    </Grid>-->
+</local:ChatModuleControl>

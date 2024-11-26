@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ChatModuleMsgControl
+    x:Class="Verdure.Braincase.Copilot.Controls.Chat.ChatModuleMsgItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Verdure.Braincase.Copilot.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Verdure.Braincase.Copilot.Controls.Chat"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:myconverters="using:Verdure.Braincase.WinUI.Common.Converters"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <myconverters:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
+    </UserControl.Resources>
+    <Grid ColumnSpacing="8">
+        <controls:CardPanel
+            x:Name="RootCard"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Background="Transparent"
+            DisabledBackground="Transparent"
+            PointerOverBackground="Transparent"
+            PressedBackground="Transparent">
+
+            <!--
+                编辑能力
+                PointerEntered="OnCardPointerEntered"
+                PointerExited="OnCardPointerExited"
+                PointerMoved="OnCardPointerMoved"
+            -->
+            <Grid Background="{ThemeResource ControlFillColorTransparentBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="LeftColumn" Width="*" />
+                    <ColumnDefinition x:Name="RightColumn" Width="0.2*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    x:Name="MessageContainer"
+                    HorizontalAlignment="Left"
+                    RowSpacing="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <controls:PresetAvatar
+                        x:Name="Avatar"
+                        Width="32"
+                        Height="32"
+                        Margin="0,0,8,0"
+                        VerticalAlignment="Top"
+                        CornerRadius="18"
+                        FontSize="16" />
+                    <Rectangle
+                        x:Name="MessageBackground"
+                        Grid.Column="1"
+                        Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        RadiusX="4"
+                        RadiusY="4"
+                        Stroke="{ThemeResource ControlStrokeColorDefaultBrush}"
+                        StrokeThickness="1" />
+                    <Grid
+                        x:Name="TextContainer"
+                        Grid.Column="1"
+                        Padding="12,8">
+                        <TextBlock
+                            x:Name="MarkdownMessageBlock"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.Content, Mode=OneWay}"
+                            TextWrapping="WrapWholeWords" />
+                    </Grid>
+
+                    <Grid
+                        x:Name="EditContainer"
+                        Grid.Column="1"
+                        Padding="12"
+                        Background="{ThemeResource ControlSolidFillColorDefaultBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        RowSpacing="12"
+                        Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBox
+                            x:Name="Editor"
+                            MaxHeight="500"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap" />
+                        <Grid Grid.Row="1" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Click="OnEditorConfirmButtonClick"
+                                Style="{StaticResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock VerticalAlignment="Center" Text="Confirm" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="OnEditorCancelButtonClick">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock VerticalAlignment="Center" Text="Cancel" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Grid>
+
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,0,0,8"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="SenderBlock"
+                            Margin="0,0,8,0"
+                            FontSize="12"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}">
+                            <Run Text="{x:Bind ViewModel.Author, Mode=OneWay}" />
+                        </TextBlock>
+                        <TextBlock
+                            x:Name="TimeBlock"
+                            FontSize="12"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.TimeStr, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss', Mode=OneWay}" />
+                    </StackPanel>
+
+                </Grid>
+
+                <StackPanel
+                    x:Name="OptionsContainer"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+                    <Button x:Name="CopyButton" Style="{StaticResource MiniIconButtonStyle}" />
+                    <Button
+                        x:Name="EditButton"
+                        Click="OnEditButtonClick"
+                        Style="{StaticResource MiniIconButtonStyle}" />
+                    <Button x:Name="DeleteButton" Style="{StaticResource MiniIconButtonStyle}" />
+                </StackPanel>
+            </Grid>
+
+        </controls:CardPanel>
+
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LayoutGroup">
+                <VisualStateGroup.States>
+                    <VisualState x:Name="AssistantState" />
+                    <VisualState x:Name="MyState">
+                        <VisualState.Setters>
+                            <Setter Target="MessageBackground.Fill" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                            <Setter Target="MessageBackground.Stroke" Value="{ThemeResource ControlStrokeColorOnAccentDefaultBrush}" />
+                            <Setter Target="MarkdownMessageBlock.Foreground" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                            <Setter Target="LeftColumn.Width" Value="0.2*" />
+                            <Setter Target="RightColumn.Width" Value="*" />
+                            <Setter Target="LeftColumn.MinWidth" Value="20" />
+                            <Setter Target="RightColumn.MinWidth" Value="0" />
+                            <Setter Target="MessageContainer.(Grid.Column)" Value="1" />
+                            <Setter Target="MessageContainer.HorizontalAlignment" Value="Right" />
+                            <Setter Target="TimeBlock.HorizontalAlignment" Value="Right" />
+                            <Setter Target="OptionsContainer.HorizontalAlignment" Value="Right" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup.States>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</local:ChatModuleMsgControl>
