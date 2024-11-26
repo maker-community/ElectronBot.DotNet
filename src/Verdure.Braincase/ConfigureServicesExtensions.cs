@@ -278,7 +278,7 @@ public static class ConfigureServicesExtensions
             .AddTransient<AgentViewModel>()
             .AddTransient<AgentPage>()
             .AddTransient<ChatViewModel>()
-        .AddTransient<LingxiSpaceViewModel>()
+            .AddTransient<LingxiSpaceViewModel>()
             .AddTransient<ILingxiSpaceService, LiteDBLingxiSpaceService>()
             .AddBotSharpCore(config, options =>
             {

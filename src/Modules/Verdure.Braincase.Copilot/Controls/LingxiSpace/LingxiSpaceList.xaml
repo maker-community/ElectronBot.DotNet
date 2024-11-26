@@ -17,27 +17,38 @@
         <DataTemplate x:Key="TextTemplate" x:DataType="model:LingxiSpaceItemViewModel">
             <StackPanel>
                 <TextBlock
-                    Margin="12,6,0,0"
-                    x:Phase="1"
+                    Margin="0,0,0,6"
+                    HorizontalAlignment="Left"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    LineHeight="20"
                     Style="{ThemeResource BaseTextBlockStyle}"
                     Text="{x:Bind Name}" />
                 <TextBlock
-                    Margin="12,0,0,6"
-                    x:Phase="2"
+                    Width="350"
+                    HorizontalAlignment="Left"
+                    FontFamily="Segoe UI"
+                    FontWeight="Normal"
+                    MaxLines="1"
                     Style="{ThemeResource BodyTextBlockStyle}"
-                    Text="{x:Bind Desc}" />
-                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
+                    Text="{x:Bind Desc}"
+                    TextTrimming="CharacterEllipsis" />
+                <TextBlock
+                    Width="350"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="ImageTemplate" x:DataType="model:LingxiSpaceItemViewModel">
             <Grid Margin="0,12,0,12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="150" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Image MaxHeight="100" Source="{x:Bind ImageData, Converter={StaticResource Base64ToBitmapImageConverter}}" />
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image MaxHeight="400" Source="{x:Bind ImageData, Converter={StaticResource Base64ToBitmapImageConverter}}" />
 
-                <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                <StackPanel Grid.Row="1" Margin="12,0,0,0">
                     <TextBlock
                         Margin="0,0,0,6"
                         HorizontalAlignment="Left"
@@ -48,13 +59,18 @@
                         Text="{x:Bind Name}" />
                     <TextBlock
                         Width="350"
+                        HorizontalAlignment="Left"
                         FontFamily="Segoe UI"
                         FontWeight="Normal"
                         MaxLines="1"
                         Style="{ThemeResource BodyTextBlockStyle}"
                         Text="{x:Bind Desc}"
                         TextTrimming="CharacterEllipsis" />
-                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
+                    <TextBlock
+                        Width="350"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
                 </StackPanel>
             </Grid>
 
@@ -88,11 +104,6 @@
                                 <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
-                        <!--<ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="model:LingxiSpaceItemViewModel">
-                                <local:ChatModuleMsgItemControl Margin="0,4" ViewModel="{x:Bind}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>-->
                     </ItemsControl>
 
                     <StackPanel
