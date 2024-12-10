@@ -15,61 +15,82 @@
     mc:Ignorable="d">
     <local:LingxiSpaceControl.Resources>
         <DataTemplate x:Key="TextTemplate" x:DataType="model:LingxiSpaceItemViewModel">
-            <StackPanel>
+            <StackPanel Margin="12">
                 <TextBlock
-                    Margin="0,0,0,6"
+                    Margin="0,0,0,8"
                     HorizontalAlignment="Left"
-                    FontSize="14"
-                    FontWeight="SemiBold"
-                    LineHeight="20"
-                    Style="{ThemeResource BaseTextBlockStyle}"
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    FontSize="24"
+                    LineHeight="12"
                     Text="{x:Bind Name}" />
                 <TextBlock
-                    Width="350"
+                    Margin="0,0,0,8"
                     HorizontalAlignment="Left"
-                    FontFamily="Segoe UI"
-                    FontWeight="Normal"
-                    MaxLines="1"
-                    Style="{ThemeResource BodyTextBlockStyle}"
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                    FontSize="20"
+                    LineHeight="12"
+                    MaxLines="3"
                     Text="{x:Bind Desc}"
-                    TextTrimming="CharacterEllipsis" />
+                    TextWrapping="Wrap" />
                 <TextBlock
-                    Width="350"
+                    Margin="0,0,0,8"
                     HorizontalAlignment="Left"
-                    Style="{StaticResource BodyTextBlockStyle}"
+                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                     Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="ImageTemplate" x:DataType="model:LingxiSpaceItemViewModel">
-            <Grid Margin="0,12,0,12">
+            <Grid Margin="12">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Image MaxHeight="400" Source="{x:Bind ImageData, Converter={StaticResource Base64ToBitmapImageConverter}}" />
-
-                <StackPanel Grid.Row="1" Margin="12,0,0,0">
+                <Border
+                    x:Name="ImageBorder"
+                    MaxHeight="400"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    BorderBrush="{ThemeResource SystemAccentColor}"
+                    BorderThickness="2"
+                    CornerRadius="8">
+                    <Image Source="{x:Bind ImageData, Converter={StaticResource Base64ToBitmapImageConverter}}">
+                        <Image.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Name="ViewInfo" x:Uid="SetClockViewImageMenu">
+                                    <i:Interaction.Behaviors>
+                                        <ic:EventTriggerBehavior EventName="Click">
+                                            <ic:InvokeCommandAction Command="{x:Bind LingxiItemClickCommand}" CommandParameter="{x:Bind}" />
+                                        </ic:EventTriggerBehavior>
+                                    </i:Interaction.Behaviors>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Image.ContextFlyout>
+                    </Image>
+                </Border>
+                <Border />
+                <StackPanel Grid.Row="1">
                     <TextBlock
-                        Margin="0,0,0,6"
+                        Margin="0,0,0,8"
                         HorizontalAlignment="Left"
-                        FontSize="14"
+                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                        FontSize="24"
                         FontWeight="SemiBold"
-                        LineHeight="20"
-                        Style="{ThemeResource BaseTextBlockStyle}"
+                        LineHeight="12"
                         Text="{x:Bind Name}" />
                     <TextBlock
-                        Width="350"
+                        Margin="0,0,0,8"
                         HorizontalAlignment="Left"
-                        FontFamily="Segoe UI"
+                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                        FontSize="20"
                         FontWeight="Normal"
-                        MaxLines="1"
-                        Style="{ThemeResource BodyTextBlockStyle}"
+                        LineHeight="12"
+                        MaxLines="3"
                         Text="{x:Bind Desc}"
-                        TextTrimming="CharacterEllipsis" />
+                        TextWrapping="Wrap" />
                     <TextBlock
-                        Width="350"
+                        Margin="0,0,0,8"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource BodyTextBlockStyle}"
+                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                         Text="{x:Bind CreatedTime, Converter={StaticResource UtcToLocalTimeConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}" />
                 </StackPanel>
             </Grid>
@@ -96,7 +117,9 @@
             <Grid Margin="0,12,0,0">
                 <StackPanel>
                     <ItemsControl
+                        x:Name="LinxiList"
                         Margin="0,0,0,20"
+                        IsTapEnabled="True"
                         ItemTemplateSelector="{StaticResource LingxiSpaceItemTemplateSelector}"
                         ItemsSource="{x:Bind ViewModel.LingxiSpaceList, Mode=OneWay}">
                         <ItemsControl.ItemsPanel>

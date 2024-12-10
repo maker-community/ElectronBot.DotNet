@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Windows.UI;
 using Windows.Foundation;
+using Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -54,17 +55,19 @@ public sealed partial class CustomClockView : UserControl
         var imgPath = Path.Combine(AppContext.BaseDirectory, $"Assets/Images/CustomViewDefault.jpg");
 
         var blurAmount = 4.0f;
+        var localSettingsService = Ioc.Default.GetRequiredService<ILocalSettingsService>();
 
-        if (ViewModel.BotSetting != null)
+        var botSetting = await localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
+        if (botSetting != null)
         {
-            if (!string.IsNullOrEmpty(ViewModel.BotSetting.CustomViewPicturePath))
+            if (!string.IsNullOrEmpty(botSetting.CustomViewPicturePath))
             {
-                imgPath = ViewModel.BotSetting.CustomViewPicturePath;
+                imgPath = botSetting.CustomViewPicturePath;
             }
 
-            blurAmount = ViewModel.BotSetting.GaussianBlurValue;
+            blurAmount = botSetting.GaussianBlurValue;
 
-            if (!ViewModel.BotSetting.CustomViewContentIsVisibility)
+            if (!botSetting.CustomViewContentIsVisibility)
             {
                 PomodoroPanel.Visibility = Visibility.Collapsed;
             }
