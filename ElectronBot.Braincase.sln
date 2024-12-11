@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verdure.Braincase.HelloWord
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verdure.Braincase.EbScreen", "src\Modules\Verdure.Braincase.EbScreen\Verdure.Braincase.EbScreen.csproj", "{905A6E9E-E305-4050-A421-EB6AE13A1483}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verdure.Braincase.EBConfiguration", "src\Modules\Verdure.Braincase.EBConfiguration\Verdure.Braincase.EBConfiguration.csproj", "{70528F24-30C7-4B36-9522-62DCA0F38E8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -375,6 +377,22 @@ Global
 		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|x64.Build.0 = Release|Any CPU
 		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|x86.ActiveCfg = Release|Any CPU
 		{905A6E9E-E305-4050-A421-EB6AE13A1483}.Release|x86.Build.0 = Release|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Debug|arm64.Build.0 = Debug|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Debug|x64.Build.0 = Debug|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Debug|x86.Build.0 = Debug|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Release|arm64.ActiveCfg = Release|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Release|arm64.Build.0 = Release|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Release|x64.ActiveCfg = Release|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Release|x64.Build.0 = Release|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Release|x86.ActiveCfg = Release|Any CPU
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -400,6 +418,7 @@ Global
 		{3852280F-4C32-4546-8577-B4A195D2C998} = {2D27EB5D-BA3F-437E-89F7-C26DDD00F441}
 		{618DC3D5-E29B-44FC-A282-F5CEE4B394C5} = {2D27EB5D-BA3F-437E-89F7-C26DDD00F441}
 		{905A6E9E-E305-4050-A421-EB6AE13A1483} = {2D27EB5D-BA3F-437E-89F7-C26DDD00F441}
+		{70528F24-30C7-4B36-9522-62DCA0F38E8C} = {2D27EB5D-BA3F-437E-89F7-C26DDD00F441}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0EBF82F3-30A6-4BCC-950A-360C126FC118}

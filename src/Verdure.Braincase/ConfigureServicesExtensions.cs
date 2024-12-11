@@ -29,6 +29,8 @@ using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 using Verdure.Braincase.Core.EbotGrpcService;
 using Verdure.Braincase.DataStorage;
 using Verdure.Braincase.DataStorage.Services;
+using Verdure.Braincase.EBConfiguration.ViewModels;
+using Verdure.Braincase.EBConfiguration.Views;
 using Verdure.Braincase.EbScreen.Views;
 using Verdure.Braincase.Emojis.eShop;
 using Verdure.Braincase.Emojis.ViewModels;
@@ -280,6 +282,8 @@ public static class ConfigureServicesExtensions
             .AddTransient<ChatViewModel>()
             .AddTransient<LingxiSpaceViewModel>()
             .AddTransient<ILingxiSpaceService, LiteDBLingxiSpaceService>()
+            .AddTransient<EBDebugPage>()
+            .AddTransient<EBDebugViewModel>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());

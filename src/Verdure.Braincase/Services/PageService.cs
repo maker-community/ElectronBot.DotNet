@@ -2,6 +2,8 @@
 using Microsoft.UI.Xaml.Controls;
 using Verdure.Braincase.Copilot.ViewModels;
 using Verdure.Braincase.Copilot.Views;
+using Verdure.Braincase.EBConfiguration.ViewModels;
+using Verdure.Braincase.EBConfiguration.Views;
 using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.Views;
 using Verdure.Braincase.WinUI.Common.ViewModels;
@@ -32,6 +34,7 @@ public class PageService : IPageService
         Configure<Hw75ViewModel, Hw75Page>();
 
         Configure<AgentViewModel, AgentPage>();
+        Configure<EBDebugViewModel, EBDebugPage>();
     }
 
     public Type GetPageType(string key)

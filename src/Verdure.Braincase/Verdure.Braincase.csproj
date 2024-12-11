@@ -270,6 +270,7 @@
     <ProjectReference Include="..\Modules\Verdure.Braincase.Controls\Verdure.Braincase.Controls.csproj" />
     <ProjectReference Include="..\Modules\Verdure.Braincase.Copilot.Plugin\Verdure.Braincase.Copilot.Plugin.csproj" />
     <ProjectReference Include="..\Modules\Verdure.Braincase.Copilot\Verdure.Braincase.Copilot.csproj" />
+    <ProjectReference Include="..\Modules\Verdure.Braincase.EBConfiguration\Verdure.Braincase.EBConfiguration.csproj" />
     <ProjectReference Include="..\Modules\Verdure.Braincase.EbScreen\Verdure.Braincase.EbScreen.csproj" />
     <ProjectReference Include="..\Modules\Verdure.Braincase.Emojis\Verdure.Braincase.Emojis.csproj" />
     <ProjectReference Include="..\Modules\Verdure.Braincase.HelloWordKeyboard\Verdure.Braincase.HelloWordKeyboard.csproj" />
