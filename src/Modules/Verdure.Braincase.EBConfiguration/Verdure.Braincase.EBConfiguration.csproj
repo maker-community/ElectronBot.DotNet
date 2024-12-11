@@ -7,6 +7,7 @@
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Controls\Action\GamepadAction.xaml" />
     <None Remove="Views\EBDebugPage.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -15,6 +16,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Verdure.Braincase.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Action\GamepadAction.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\EBDebugPage.xaml">

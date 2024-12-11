@@ -284,6 +284,7 @@ public static class ConfigureServicesExtensions
             .AddTransient<ILingxiSpaceService, LiteDBLingxiSpaceService>()
             .AddTransient<EBDebugPage>()
             .AddTransient<EBDebugViewModel>()
+            .AddTransient<GamepadActionViewModel>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());

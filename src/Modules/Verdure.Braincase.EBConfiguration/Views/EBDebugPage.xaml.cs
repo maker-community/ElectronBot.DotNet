@@ -13,9 +13,15 @@ namespace Verdure.Braincase.EBConfiguration.Views;
 public sealed partial class EBDebugPage : Page
 {
     public EBDebugViewModel ViewModel => (EBDebugViewModel)DataContext;
+
+    public GamepadActionViewModel GamepadActionViewModel
+    {
+        get;
+    }
     public EBDebugPage()
     {
         this.InitializeComponent();
         DataContext = Ioc.Default.GetRequiredService<EBDebugViewModel>();
+        GamepadActionViewModel = Ioc.Default.GetService<GamepadActionViewModel>();
     }
 }

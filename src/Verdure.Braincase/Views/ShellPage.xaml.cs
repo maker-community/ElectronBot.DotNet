@@ -73,9 +73,9 @@ public sealed partial class ShellPage : Page
 
 
 
-        var displayArea = DisplayArea.GetFromWindowId(appWindow.Id, DisplayAreaFallback.Primary);
-        var workArea = displayArea.WorkArea;
-        appWindow.MoveAndResize(new Windows.Graphics.RectInt32(workArea.Width - appWindow.Size.Width, 0, appWindow.Size.Width, appWindow.Size.Height));
+        //var displayArea = DisplayArea.GetFromWindowId(appWindow.Id, DisplayAreaFallback.Primary);
+        //var workArea = displayArea.WorkArea;
+        //appWindow.MoveAndResize(new Windows.Graphics.RectInt32(workArea.Width - appWindow.Size.Width, 0, appWindow.Size.Width, appWindow.Size.Height));
         appWindow.Show();
         //App.MainWindow.Hide();
     }

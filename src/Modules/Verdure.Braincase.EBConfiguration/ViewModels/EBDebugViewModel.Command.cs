@@ -1,13 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.UI.Xaml;
+using Verdure.Braincase.Core.Models;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.WinUI.Common.Helpers;
 using Verdure.Braincase.WinUI.Common.Models;
@@ -16,6 +12,23 @@ using Windows.Storage;
 namespace Verdure.Braincase.EBConfiguration.ViewModels;
 public partial class EBDebugViewModel : ObservableRecipient
 {
+    public void Head_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+    {
+        //if (ElectronBotHelper.Instance.EbConnected && modeNo == 1)
+        //{
+        //    Task.Run(() =>
+        //    {
+        //        if (ElectronBotHelper.Instance.EbConnected)
+        //        {
+        //            var data = new byte[240 * 240 * 3];
+
+        //            var frame = new EmoticonActionFrame(data, true, j1, j2, j3, j4, j5, j6);
+
+        //            ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
+        //        }
+        //    });
+        //}
+    }
     /// <summary>
     /// 导入动作列表
     /// </summary>

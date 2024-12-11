@@ -6,9 +6,9 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Verdure.Braincase.Controls;
-public sealed partial class ActionEdit : UserControl
+public sealed partial class EBActionEdit : UserControl
 {
-    public ActionEdit()
+    public EBActionEdit()
     {
         InitializeComponent();
     }
@@ -22,7 +22,7 @@ public sealed partial class ActionEdit : UserControl
 
     // Using a DependencyProperty as the backing store for J1.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty J1Property =
-        DependencyProperty.Register("J1", typeof(float), typeof(ActionEdit), new PropertyMetadata(0));
+        DependencyProperty.Register("J1", typeof(float), typeof(EBActionEdit), new PropertyMetadata(0));
 
     public float J2
     {
@@ -32,7 +32,7 @@ public sealed partial class ActionEdit : UserControl
 
     // Using a DependencyProperty as the backing store for J2.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty J2Property =
-        DependencyProperty.Register("J2", typeof(float), typeof(ActionEdit), new PropertyMetadata(0));
+        DependencyProperty.Register("J2", typeof(float), typeof(EBActionEdit), new PropertyMetadata(0));
 
 
     public float J3
@@ -43,7 +43,7 @@ public sealed partial class ActionEdit : UserControl
 
     // Using a DependencyProperty as the backing store for J3.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty J3Property =
-        DependencyProperty.Register("J3", typeof(float), typeof(ActionEdit), new PropertyMetadata(0));
+        DependencyProperty.Register("J3", typeof(float), typeof(EBActionEdit), new PropertyMetadata(0));
 
 
     public float J4
@@ -54,7 +54,7 @@ public sealed partial class ActionEdit : UserControl
 
     // Using a DependencyProperty as the backing store for J4.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty J4Property =
-        DependencyProperty.Register("J4", typeof(float), typeof(ActionEdit), new PropertyMetadata(0));
+        DependencyProperty.Register("J4", typeof(float), typeof(EBActionEdit), new PropertyMetadata(0));
 
 
 
@@ -66,7 +66,7 @@ public sealed partial class ActionEdit : UserControl
 
     // Using a DependencyProperty as the backing store for J5.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty J5Property =
-        DependencyProperty.Register("J5", typeof(float), typeof(ActionEdit), new PropertyMetadata(0));
+        DependencyProperty.Register("J5", typeof(float), typeof(EBActionEdit), new PropertyMetadata(0));
 
 
 
@@ -78,7 +78,7 @@ public sealed partial class ActionEdit : UserControl
 
     // Using a DependencyProperty as the backing store for J6.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty J6Property =
-        DependencyProperty.Register("J6", typeof(float), typeof(ActionEdit), new PropertyMetadata(0));
+        DependencyProperty.Register("J6", typeof(float), typeof(EBActionEdit), new PropertyMetadata(0));
 
     private void Head_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {
