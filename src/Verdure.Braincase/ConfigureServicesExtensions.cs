@@ -281,6 +281,8 @@ public static class ConfigureServicesExtensions
             .AddTransient<AgentPage>()
             .AddTransient<ChatViewModel>()
             .AddTransient<LingxiSpaceViewModel>()
+            .AddTransient<EBLaunchAppPage>()
+            .AddTransient<EBLaunchAppViewModel>()
             .AddTransient<ILingxiSpaceService, LiteDBLingxiSpaceService>()
             .AddTransient<EBDebugPage>()
             .AddTransient<EBDebugViewModel>()
@@ -295,6 +297,7 @@ public static class ConfigureServicesExtensions
             .AddScoped<IUserIdentity, BotUserIdentity>()
             .AddScoped<IBotToolService, BotToolService>()
             .AddScoped<IBotIotService, BotIotService>()
+            .AddScoped<IDialogService, DialogService>()
             .AddBotSharpLogger(config)
             // Configuration
             .BuildServiceProvider());

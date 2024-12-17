@@ -12,8 +12,9 @@
 
     <Grid x:Name="ContentArea">
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -22,7 +23,7 @@
         <StackPanel
             Grid.Row="0"
             Grid.Column="0"
-            Margin="8,0,8,0"
+            Margin="12"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <controlLocal:EBActionEdit
@@ -39,7 +40,7 @@
         <StackPanel
             Grid.Row="0"
             Grid.Column="1"
-            Margin="8,0,8,0"
+            Margin="12"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <controlAction:GamepadAction
@@ -50,12 +51,36 @@
         <StackPanel
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            Margin="8,0,8,0"
+            Margin="12"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <controlLocal:EBActionTimeline
                 x:Name="EBActionTimeline"
                 MinWidth="340"
+                ViewModel="{x:Bind ViewModel}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Margin="12"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <Button
+                x:Name="LaunchApp"
+                x:Uid="LaunchApp"
+                Width="40"
+                Height="40"
+                Margin="4"
+                BorderBrush="{ThemeResource SystemAccentColor}"
+                BorderThickness="2"
+                Command="{x:Bind ViewModel.AddLaunchAppCommand}"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE8F1;" />
+            </Button>
+            <controlLocal:EBLaunchAppList
+                MinWidth="340"
+                Margin="4"
                 ViewModel="{x:Bind ViewModel}" />
         </StackPanel>
     </Grid>

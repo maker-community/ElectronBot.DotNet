@@ -85,11 +85,11 @@
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE8B2;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_Todo" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.TodoViewModel">
+                <!--<NavigationViewItem x:Uid="Shell_Todo" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.TodoViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xF78C;" />
                     </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                </NavigationViewItem>-->
                 <NavigationViewItem x:Uid="Shell_EmojisEdit" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.EmojisEditViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEA86;" />
@@ -105,11 +105,11 @@
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE7FC;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_GestureAppConfig" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.GestureAppConfigViewModel">
+                <!--<NavigationViewItem x:Uid="Shell_GestureAppConfig" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.GestureAppConfigViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE720;" />
                     </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                </NavigationViewItem>-->
                 <NavigationViewItem x:Uid="Hw75Page" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.Hw75ViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE92E;" />

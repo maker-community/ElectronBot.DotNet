@@ -1,12 +1,8 @@
-﻿using System;
-using System.Text.Json;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Verdure.Braincase.Core.Models;
+﻿using System.Text.Json;
+using Verdure.Braincase.EBConfiguration.Views;
 using Verdure.Braincase.Helpers;
+using Verdure.Braincase.WinUI.Common.Contracts.Services;
 using Verdure.Braincase.WinUI.Common.Helpers;
-using Verdure.Braincase.WinUI.Common.Models;
 using Windows.Storage;
 
 namespace Verdure.Braincase.EBConfiguration.ViewModels;
@@ -262,5 +258,23 @@ public partial class EBDebugViewModel : ObservableRecipient
         //        }
         //    }
         //}
+    }
+
+    [RelayCommand]
+    public async Task AddLaunchAppAsync()
+    {
+        try
+        {
+            var lanchPage = Ioc.Default.GetRequiredService<EBLaunchAppPage>();
+            var dialog = Ioc.Default.GetRequiredService<IDialogService>();
+            var result = await dialog.ShowDialogAsync
+                ("AddAppStartConfigTitle".GetLocalized(),
+                "AddEmojisOkBtnContent".GetLocalized(),
+                "AddEmojisCancelBtnContent".GetLocalized(), lanchPage);
+        }
+        catch
+        {
+
+        }
     }
 }

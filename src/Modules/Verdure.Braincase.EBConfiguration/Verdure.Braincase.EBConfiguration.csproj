@@ -18,12 +18,19 @@
     <ProjectReference Include="..\..\Common\Verdure.Braincase.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Action\EBLaunchAppList.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Action\GamepadAction.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\EBDebugPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\EBLaunchAppPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
