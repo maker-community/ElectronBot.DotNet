@@ -16,8 +16,8 @@
   },
   "routingRules": [
     {
-      "type": "planner",
-      "field": "NaivePlanner"
+      "type": "reasoner",
+      "field": "NaiveReasoner"
     }
   ]
 }

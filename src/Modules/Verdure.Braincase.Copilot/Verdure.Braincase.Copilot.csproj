@@ -24,13 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="BotSharp.Abstraction" Version="3.0.0-verdure4" />
-      <PackageReference Include="BotSharp.Core" Version="3.0.0-verdure4" />
-      <PackageReference Include="BotSharp.Logger" Version="3.0.0-verdure4" />
-      <PackageReference Include="BotSharp.Plugin.AzureOpenAI" Version="3.0.0-verdure4" />
-      <PackageReference Include="BotSharp.Plugin.LiteDBStorage" Version="3.0.0-verdure4" />
-      <PackageReference Include="BotSharp.Plugin.MetaGLM" Version="3.0.0-verdure4" />
-      <PackageReference Include="BotSharp.Plugin.OpenAI" Version="3.0.0-verdure4" />
+      <PackageReference Include="BotSharp.Abstraction" Version="4.0.0-verdure1" />
+      <PackageReference Include="BotSharp.Core" Version="4.0.0-verdure1" />
+      <PackageReference Include="BotSharp.Logger" Version="4.0.0-verdure1" />
+      <PackageReference Include="BotSharp.Plugin.AzureOpenAI" Version="4.0.0-verdure1" />
+      <PackageReference Include="BotSharp.Plugin.LiteDBStorage" Version="4.0.0-verdure1" />
+      <PackageReference Include="BotSharp.Plugin.MetaGLM" Version="4.0.0-verdure1" />
+      <PackageReference Include="BotSharp.Plugin.OpenAI" Version="4.0.0-verdure1" />
       <PackageReference Include="Microsoft.SemanticKernel" Version="1.32.0" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />

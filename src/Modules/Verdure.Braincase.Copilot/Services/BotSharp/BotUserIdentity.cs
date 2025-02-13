@@ -20,4 +20,10 @@ public class BotUserIdentity : IUserIdentity
     public string? Phone => null;
 
     public string? AffiliateId => null;
+
+    public string Type => "client";
+
+    public string Role => "admin";
+
+    public string? RegionCode => "CN";
 }

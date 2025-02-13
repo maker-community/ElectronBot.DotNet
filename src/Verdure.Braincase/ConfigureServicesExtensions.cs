@@ -1,4 +1,5 @@
-﻿using BotSharp.Abstraction.Messaging.JsonConverters;
+﻿using BotSharp.Abstraction.Conversations;
+using BotSharp.Abstraction.Messaging.JsonConverters;
 using BotSharp.Abstraction.Repositories;
 using BotSharp.Abstraction.Users;
 using BotSharp.Core;
@@ -287,6 +288,7 @@ public static class ConfigureServicesExtensions
             .AddTransient<EBDebugPage>()
             .AddTransient<EBDebugViewModel>()
             .AddTransient<GamepadActionViewModel>()
+            .AddScoped<ConversationHookProvider>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());
