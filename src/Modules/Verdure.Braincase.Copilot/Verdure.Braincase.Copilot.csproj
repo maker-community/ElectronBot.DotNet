@@ -32,7 +32,7 @@
       <PackageReference Include="BotSharp.Plugin.MetaGLM" Version="3.0.0-verdure4" />
       <PackageReference Include="BotSharp.Plugin.OpenAI" Version="3.0.0-verdure4" />
       <PackageReference Include="Microsoft.SemanticKernel" Version="1.32.0" />
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
   </ItemGroup>
 
