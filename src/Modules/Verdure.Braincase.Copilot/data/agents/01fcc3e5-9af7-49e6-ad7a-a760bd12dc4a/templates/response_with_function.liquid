@@ -1,0 +1,14 @@
+{% if functions and functions != empty %}
+[FUNCTIONS]
+{% for fn in functions -%}
+{{ fn.name }}: {{ fn.description }}
+{{ fn.parameters }}
+{{ "\r\n" }}
+{%- endfor %}
+response_to_user: response to user directly without using any function.
+{"type": "object", "properties": {"content":{"type": "string", "description": "The content responsed to user"}}, "required":["content"]}
+
+[RESPONSE OUTPUT REQUIREMENTS]
+* Pick the appropriate function and populate the arguments defined in properties.
+* Output the JSON {"function": "", "args":{}} without other text
+{% endif %}

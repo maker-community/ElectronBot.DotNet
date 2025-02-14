@@ -19,8 +19,112 @@
     <None Remove="Controls\LingxiSpace\LingxiSpaceHeader.xaml" />
     <None Remove="Controls\LingxiSpace\LingxiSpaceList.xaml" />
     <None Remove="Controls\LingxiSpace\LingxiSpacePanel.xaml" />
+    <None Remove="data\agents\01dcc3e5-0af7-49e6-ad7a-a760bd12dc4b\agent.json" />
+    <None Remove="data\agents\01dcc3e5-0af7-49e6-ad7a-a760bd12dc4b\functions\human_intervention_needed.json" />
+    <None Remove="data\agents\01dcc3e5-0af7-49e6-ad7a-a760bd12dc4b\instructions\instruction.liquid" />
+    <None Remove="data\agents\01e2fc5c-2c89-4ec7-8470-7688608b496c\agent.json" />
+    <None Remove="data\agents\01e2fc5c-2c89-4ec7-8470-7688608b496c\instructions\instruction.liquid" />
+    <None Remove="data\agents\01fcc3e5-0af7-49e6-ad7a-a760bd12dc4d\agent.json" />
+    <None Remove="data\agents\01fcc3e5-0af7-49e6-ad7a-a760bd12dc4d\instructions\instruction.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\agent.json" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\instructions\instruction.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\.welcome.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\database_knowledge.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.naive.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.sequential.get_remaining_task.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.sequential.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\response_with_function.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\translation_prompt.liquid" />
+    <None Remove="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\agent.json" />
+    <None Remove="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\instructions\instruction.liquid" />
+    <None Remove="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\templates\select_file_prompt.liquid" />
+    <None Remove="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\agent.json" />
+    <None Remove="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\instructions\instruction.liquid" />
+    <None Remove="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.executor.liquid" />
+    <None Remove="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.reviewer.liquid" />
+    <None Remove="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.simulator.liquid" />
+    <None Remove="data\plugins\config.json" />
     <None Remove="Styles\Overwrites.xaml" />
     <None Remove="Views\Agents\AgentPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="data\agents\01fcc3e5-0af7-49e6-ad7a-a760bd12dc4d\agent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="data\agents\01dcc3e5-0af7-49e6-ad7a-a760bd12dc4b\agent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01dcc3e5-0af7-49e6-ad7a-a760bd12dc4b\functions\human_intervention_needed.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01dcc3e5-0af7-49e6-ad7a-a760bd12dc4b\instructions\instruction.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01e2fc5c-2c89-4ec7-8470-7688608b496c\agent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01e2fc5c-2c89-4ec7-8470-7688608b496c\instructions\instruction.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-0af7-49e6-ad7a-a760bd12dc4d\instructions\instruction.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\agent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\instructions\instruction.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\.welcome.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\database_knowledge.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.naive.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.sequential.get_remaining_task.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.sequential.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\response_with_function.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\translation_prompt.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\agent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\instructions\instruction.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\templates\select_file_prompt.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\agent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\instructions\instruction.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.executor.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.reviewer.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.simulator.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\plugins\config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

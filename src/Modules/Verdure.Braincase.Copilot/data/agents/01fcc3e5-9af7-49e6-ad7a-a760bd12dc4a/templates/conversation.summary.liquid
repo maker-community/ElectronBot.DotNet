@@ -1,0 +1,16 @@
+Please read each conversation in the [CONVERSATIONS] section by the same user and provide a summary.
+
+*** Super Important! Please consider every conversation. Do not only consider the recent sentences. ***
+** Please do not respond to the latest conversation.
+** Please summarize all conversations in one sentence.
+** Please do not exceed 900 characters when summarizing the conversations.
+* Please do not contain general information in the summary.
+* Please include some but not excessive details in the summary.
+
+
+[CONVERSATIONS]
+
+{% for text in texts -%}
+[CONVERSATION]
+{{ text }}{{ "\r\n" }}
+{%- endfor %}
