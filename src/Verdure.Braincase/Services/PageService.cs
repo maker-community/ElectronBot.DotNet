@@ -4,6 +4,8 @@ using Verdure.Braincase.Copilot.ViewModels;
 using Verdure.Braincase.Copilot.Views;
 using Verdure.Braincase.EBConfiguration.ViewModels;
 using Verdure.Braincase.EBConfiguration.Views;
+using Verdure.Braincase.Settings.ViewModels;
+using Verdure.Braincase.Settings.Views;
 using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.Views;
 using Verdure.Braincase.WinUI.Common.ViewModels;
@@ -35,6 +37,7 @@ public class PageService : IPageService
 
         Configure<AgentViewModel, AgentPage>();
         Configure<EBDebugViewModel, EBDebugPage>();
+        Configure<AppSettingsViewModel, AppSettingsPage>();
     }
 
     public Type GetPageType(string key)

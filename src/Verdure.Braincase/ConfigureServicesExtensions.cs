@@ -37,6 +37,8 @@ using Verdure.Braincase.Emojis.eShop;
 using Verdure.Braincase.Emojis.ViewModels;
 using Verdure.Braincase.Notifications;
 using Verdure.Braincase.Services;
+using Verdure.Braincase.Settings.ViewModels;
+using Verdure.Braincase.Settings.Views;
 using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.Views;
 using Verdure.Braincase.WinUI.Common.Players;
@@ -289,6 +291,8 @@ public static class ConfigureServicesExtensions
             .AddTransient<EBDebugViewModel>()
             .AddTransient<GamepadActionViewModel>()
             .AddScoped<ConversationHookProvider>()
+            .AddTransient<AppSettingsPage>()
+            .AddTransient<AppSettingsViewModel>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());

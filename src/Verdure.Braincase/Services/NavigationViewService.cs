@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.Braincase.Helpers;
+using Verdure.Braincase.Settings.ViewModels;
 using Verdure.Braincase.ViewModels;
 
 namespace Verdure.Braincase.Services;
@@ -56,7 +57,7 @@ public class NavigationViewService : INavigationViewService
     {
         if (args.IsSettingsInvoked)
         {
-            _navigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
+            _navigationService.NavigateTo(typeof(AppSettingsViewModel).FullName!);
         }
         else
         {

@@ -89,7 +89,7 @@ public partial class ElectronBotPlayer
     /// 获取音频设备列表
     /// </summary>
     /// <returns></returns>
-    private static async Task<List<ComboxItemModel>> FindAudioDeviceListAsync()
+    public static async Task<List<ComboxItemModel>> FindAudioDeviceListAsync()
     {
         List<ComboxItemModel> ret = new();
 
@@ -108,6 +108,36 @@ public partial class ElectronBotPlayer
                     Tag = dev,
                     DataKey = devList.IndexOf(dev).ToString(),
                     DataValue = dev.Name
+                };
+
+                ret.Add(combox);
+            }
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// 获取相机设备列表
+    /// </summary>
+    /// <returns></returns>
+    public static async Task<List<ComboxItemModel>> FindCameraDeviceListAsync()
+    {
+        List<ComboxItemModel> ret = new();
+        // Get available devices for capturing pictures
+        var allVideoDevices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
+
+        if (allVideoDevices != null && allVideoDevices.Count > 0)
+        {
+            var devList = allVideoDevices.ToList();
+
+            foreach (var dev in devList)
+            {
+                ComboxItemModel combox = new()
+                {
+                    DataKey = devList.IndexOf(dev).ToString(),
+                    DataValue = dev.Name,
+                    Tag = dev
                 };
 
                 ret.Add(combox);

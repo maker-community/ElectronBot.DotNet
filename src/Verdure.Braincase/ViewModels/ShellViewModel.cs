@@ -4,6 +4,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.Services;
+using Verdure.Braincase.Settings.ViewModels;
+using Verdure.Braincase.Settings.Views;
 using Verdure.Braincase.Views;
 
 namespace Verdure.Braincase.ViewModels;
@@ -187,7 +189,7 @@ public partial class ShellViewModel : ObservableRecipient
     {
         if (IsLoggedIn)
         {
-            NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
+            NavigationService.NavigateTo(typeof(AppSettingsViewModel).FullName!);
         }
         else
         {
@@ -204,7 +206,7 @@ public partial class ShellViewModel : ObservableRecipient
     {
         IsBackEnabled = NavigationService.CanGoBack;
 
-        if (e.SourcePageType == typeof(SettingsPage))
+        if (e.SourcePageType == typeof(AppSettingsPage))
         {
             Selected = NavigationViewService.SettingsItem;
             return;

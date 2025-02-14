@@ -10,6 +10,7 @@ using Verdure.Braincase.Views;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Windowing;
+using Verdure.Braincase.Settings.ViewModels;
 
 namespace Verdure.Braincase.ViewModels;
 

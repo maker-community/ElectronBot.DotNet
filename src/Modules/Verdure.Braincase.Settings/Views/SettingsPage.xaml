@@ -20,9 +20,8 @@
     <Grid>
         <ScrollViewer>
             <StackPanel x:Name="ContentArea">
-
                 <StackPanel>
-                    <StackPanel>
+                    <!--<StackPanel>
                         <StackPanel
                             Margin="{StaticResource SmallTopMargin}"
                             Orientation="Horizontal"
@@ -51,7 +50,7 @@
                             Margin="{StaticResource XSmallTopMargin}"
                             Command="{x:Bind ViewModel.LogInCommand}"
                             Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay, Converter={StaticResource ReverseBoolToVisibility}}" />
-                    </StackPanel>
+                    </StackPanel>-->
                     <Expander
                         Width="800"
                         Margin="0,8,0,4"

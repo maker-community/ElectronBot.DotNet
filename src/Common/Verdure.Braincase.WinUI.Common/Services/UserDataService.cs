@@ -1,4 +1,6 @@
-﻿using Verdure.Braincase.Models;
+﻿using System.Linq;
+using Verdure.Braincase.Core.Services;
+using Verdure.Braincase.Models;
 using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.WinUI.Common.Helpers;
 using Windows.Storage;

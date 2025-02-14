@@ -1,23 +1,15 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Models;
-using Verdure.Braincase.Helpers;
-using Verdure.Braincase.Models;
 using Verdure.Braincase.Services;
-using Verdure.Braincase.WinUI.Common.Helpers;
-using Verdure.IoT.Net;
+using Verdure.Braincase.ViewModels;
+using Verdure.Braincase.WinUI.Common.Players;
 using Windows.ApplicationModel;
-using Windows.Storage;
 using Windows.System;
 
-namespace Verdure.Braincase.ViewModels;
+namespace Verdure.Braincase.Settings.ViewModels;
 
-public partial class SettingsViewModel : ObservableRecipient, INavigationAware
+public partial class AppSettingsViewModel : ObservableRecipient, INavigationAware
 {
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly ILocalSettingsService _localSettingsService;
@@ -29,8 +21,9 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     private RelayCommand _logInCommand;
     private RelayCommand _logOutCommand;
 
+    private readonly WindowEx _windowEx;
 
-    public SettingsViewModel(
+    public AppSettingsViewModel(
     IThemeSelectorService themeSelectorService,
     ILocalSettingsService localSettingsService,
     ComboxDataService comboxDataService,
@@ -45,6 +38,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         _userDataService = userDataService;
         _chatBotComboxModels = comboxDataService.GetChatBotClientComboxList();
         _chatGPTVersionomboxModels = comboxDataService.GetChatGPTVersionComboxList();
+        _windowEx = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow();
     }
 
 
@@ -73,20 +67,20 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     /// 选中的相机
     /// </summary>
     [ObservableProperty]
-    private ComboxItemModel? _cameraSelect;
+    private ComboxItemModel _cameraSelect;
 
     /// <summary>
     /// 选中的开关设备
     /// </summary>
     [ObservableProperty]
-    private ComboxItemModel? _haSwitchSelect;
+    private ComboxItemModel _haSwitchSelect;
 
     /// <summary>
     /// 选中的音频设备
     /// </summary>
 
     [ObservableProperty]
-    private ComboxItemModel? _audioSelect;
+    private ComboxItemModel _audioSelect;
 
     [ObservableProperty]
     private WriteableBitmap _emojisAvatarBitMap;
@@ -193,7 +187,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     /// 聊天机器人选中数据
     /// </summary>
     [ObservableProperty]
-    ComboxItemModel? chatBotSelect;
+    ComboxItemModel chatBotSelect;
 
     /// <summary>
     /// 聊天机器人列表
@@ -205,13 +199,13 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     /// CHatGPTVersion选中数据
     /// </summary>
     [ObservableProperty]
-    private ComboxItemModel? _chatGPTVersionSelect;
+    private ComboxItemModel _chatGPTVersionSelect;
 
     /// <summary>
     /// CHatGPTVersion列表
     /// </summary>
     [ObservableProperty]
-    private ObservableCollection<ComboxItemModel>? _chatGPTVersionomboxModels;
+    private ObservableCollection<ComboxItemModel> _chatGPTVersionomboxModels;
 
 
     [ObservableProperty]
@@ -221,7 +215,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     [RelayCommand]
     private async Task AddEmojisAvatar()
     {
-        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowEx);
 
         var picker = new Windows.Storage.Pickers.FileOpenPicker
         {
@@ -411,37 +405,37 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     {
         if (HaSetting != null && !string.IsNullOrWhiteSpace(HaSetting.HaToken))
         {
-            try
-            {
-                var client = new HomeAssistantClient(HaSetting.BaseUrl, HaSetting.HaToken);
+            //try
+            //{
+            //    var client = new HomeAssistantClient(HaSetting.BaseUrl, HaSetting.HaToken);
 
-                var stateAll = await client.GetStateAsync();
+            //    var stateAll = await client.GetStateAsync();
 
-                var haSwitchs = stateAll.Where(d => d.entity_id.StartsWith("switch")).ToList();
+            //    var haSwitchs = stateAll.Where(d => d.entity_id.StartsWith("switch")).ToList();
 
-                if (haSwitchs.Any())
-                {
-                    foreach (var haSwitch in haSwitchs)
-                    {
-                        HaSwitchs.Add(new ComboxItemModel
-                        {
-                            DataKey = haSwitch.entity_id,
-                            DataValue = haSwitch.attributes.friendly_name
-                        });
-                    }
-                }
+            //    if (haSwitchs.Any())
+            //    {
+            //        foreach (var haSwitch in haSwitchs)
+            //        {
+            //            HaSwitchs.Add(new ComboxItemModel
+            //            {
+            //                DataKey = haSwitch.entity_id,
+            //                DataValue = haSwitch.attributes.friendly_name
+            //            });
+            //        }
+            //    }
 
-                var haSwitchModel = await _localSettingsService.ReadSettingAsync<ComboxItemModel>(Constants.DefaultHaSwitchNameKey);
+            //    var haSwitchModel = await _localSettingsService.ReadSettingAsync<ComboxItemModel>(Constants.DefaultHaSwitchNameKey);
 
-                if (haSwitchModel != null)
-                {
-                    HaSwitchSelect = HaSwitchs.FirstOrDefault(c => c.DataValue == haSwitchModel.DataValue);
-                }
-            }
-            catch (Exception ex)
-            {
-                ToastHelper.SendToast($"home assistant error,{ex.Message}", TimeSpan.FromSeconds(4));
-            }
+            //    if (haSwitchModel != null)
+            //    {
+            //        HaSwitchSelect = HaSwitchs.FirstOrDefault(c => c.DataValue == haSwitchModel.DataValue);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ToastHelper.SendToast($"home assistant error,{ex.Message}", TimeSpan.FromSeconds(4));
+            //}
         }
     }
 
@@ -482,7 +476,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         _userDataService.UserDataUpdated -= OnUserDataUpdated;
     }
 
-    private void OnUserDataUpdated(object? sender, UserViewModel userData)
+    private void OnUserDataUpdated(object sender, UserViewModel userData)
     {
         User = userData;
     }
@@ -504,13 +498,13 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         await _identityService.LogoutAsync();
     }
 
-    private void OnLoggedIn(object? sender, EventArgs e)
+    private void OnLoggedIn(object sender, EventArgs e)
     {
         IsLoggedIn = true;
         IsBusy = false;
     }
 
-    private void OnLoggedOut(object? sender, EventArgs e)
+    private void OnLoggedOut(object sender, EventArgs e)
     {
         User = null;
         IsLoggedIn = false;
@@ -535,11 +529,11 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
             Hw75ImagePath = ClockTitleConfig.CustomHw75ImagePath;
 
-            var camera = await EbHelper.FindCameraDeviceListAsync();
+            var camera = await ElectronBotPlayer.FindCameraDeviceListAsync();
 
             Cameras = new ObservableCollection<ComboxItemModel>(camera);
 
-            var audioDevs = await EbHelper.FindAudioDeviceListAsync();
+            var audioDevs = await ElectronBotPlayer.FindAudioDeviceListAsync();
 
             AudioDevs = new ObservableCollection<ComboxItemModel>(audioDevs);
 
@@ -596,7 +590,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     [RelayCommand]
     private async Task AddHw75Image()
     {
-        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowEx);
 
         var picker = new Windows.Storage.Pickers.FileOpenPicker
         {

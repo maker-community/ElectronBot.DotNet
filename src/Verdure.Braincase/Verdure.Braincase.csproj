@@ -42,6 +42,11 @@
     <Content Remove="Assets\hand.png" />
     <Content Remove="Assets\MLModel1.zip" />
     <Content Remove="Assets\model.onnx" />
+    <Content Remove="Assets\Providers\azure-ai.svg" />
+    <Content Remove="Assets\Providers\deepseek-color.png" />
+    <Content Remove="Assets\Providers\OpenAI-black-monoblossom.svg" />
+    <Content Remove="Assets\Providers\OpenAI-white-monoblossom.svg" />
+    <Content Remove="Assets\Providers\tongyi.png" />
     <Content Remove="Assets\wechat.JPG" />
     <Content Remove="Assets\xbox-one-controller.png" />
   </ItemGroup>
@@ -274,6 +279,7 @@
     <ProjectReference Include="..\Modules\Verdure.Braincase.EbScreen\Verdure.Braincase.EbScreen.csproj" />
     <ProjectReference Include="..\Modules\Verdure.Braincase.Emojis\Verdure.Braincase.Emojis.csproj" />
     <ProjectReference Include="..\Modules\Verdure.Braincase.HelloWordKeyboard\Verdure.Braincase.HelloWordKeyboard.csproj" />
+    <ProjectReference Include="..\Modules\Verdure.Braincase.Settings\Verdure.Braincase.Settings.csproj" />
     <ProjectReference Include="..\Modules\Verdure.IoT.Net\Verdure.IoT.Net.csproj" />
   </ItemGroup>
 
@@ -362,6 +368,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Update="Assets\MLModel1.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Providers\azure-ai.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Providers\deepseek-color.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Providers\OpenAI-black-monoblossom.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Providers\OpenAI-white-monoblossom.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Providers\tongyi.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\wechat.JPG">
