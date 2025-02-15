@@ -6,20 +6,22 @@
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Verdure.Braincase.Helpers"
-    xmlns:helpers1="using:Verdure.Braincase.Settings.Converters"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Verdure.Braincase.Settings.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xaml="using:Microsoft.UI.Xaml"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <converters:BoolToVisibilityConverter
             x:Name="ReverseBoolToVisibility"
             FalseValue="Visible"
             TrueValue="Collapsed" />
-        <helpers1:ThemeToImageConverter x:Key="ThemeToImageConverter" />
     </Page.Resources>
     <Grid>
         <ScrollViewer>
@@ -58,7 +60,82 @@
                                 </Grid>
                             </DataTemplate>
                         </Expander.HeaderTemplate>
-                        <Grid />
+                        <StackPanel>
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPTVersion"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.OpenAILlmModelSetting.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPT-SessionKey"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.OpenAILlmModelSetting.ApiKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Text="OpenAI BaseUrl:" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.OpenAILlmModelSetting.Endpoint, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
                     </Expander>
                     <Expander
                         Width="800"
@@ -93,7 +170,82 @@
                                 </Grid>
                             </DataTemplate>
                         </Expander.HeaderTemplate>
-                        <Grid />
+                        <StackPanel>
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPTVersion"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.AzureOpenAILlmModelSetting.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPT-SessionKey"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.AzureOpenAILlmModelSetting.ApiKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Text="OpenAI BaseUrl:" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.AzureOpenAILlmModelSetting.Endpoint, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
                     </Expander>
                     <Expander
                         Width="800"
@@ -128,7 +280,57 @@
                                 </Grid>
                             </DataTemplate>
                         </Expander.HeaderTemplate>
-                        <Grid />
+                        <StackPanel>
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPTVersion"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.DeepSeekILlmModelSetting.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPT-SessionKey"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.DeepSeekILlmModelSetting.ApiKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
                     </Expander>
                     <Expander
                         Width="800"
@@ -163,7 +365,57 @@
                                 </Grid>
                             </DataTemplate>
                         </Expander.HeaderTemplate>
-                        <Grid />
+                        <StackPanel>
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPTVersion"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.TongyiILlmModelSetting.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPT-SessionKey"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.AzureOpenAILlmModelSetting.ApiKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
                     </Expander>
                 </StackPanel>
             </Grid>

@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Verdure.Braincase.Settings.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -22,8 +23,10 @@ namespace Verdure.Braincase.Settings.Views;
 /// </summary>
 public sealed partial class VoiceSettingsPage : Page
 {
+    public VoiceSettingsViewModel ViewModel => (VoiceSettingsViewModel)DataContext;
     public VoiceSettingsPage()
     {
         this.InitializeComponent();
+        DataContext = Ioc.Default.GetRequiredService<VoiceSettingsViewModel>();
     }
 }

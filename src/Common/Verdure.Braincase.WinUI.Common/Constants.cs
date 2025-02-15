@@ -6,6 +6,7 @@ using Verdure.Braincase.WinUI.Common.Helpers;
 namespace Verdure.Braincase.WinUI.Common;
 public class Constants
 {
+    public const string LlmProviders = "LlmProviders";
     public const string CurrentConversationKey = "CurrentConversationKey";
 
     public const string CurrentClockViewKey = "CurrentClockViewKey";

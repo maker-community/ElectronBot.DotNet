@@ -1,34 +1,110 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml;
+﻿using BotSharp.Abstraction.MLTasks.Settings;
 
 namespace Verdure.Braincase.Settings.ViewModels;
 
 public partial class DialogueSettingsViewModel : ObservableRecipient
 {
-    private readonly IThemeSelectorService _themeSelectorService;
-    
-
-    public DialogueSettingsViewModel(IThemeSelectorService themeSelectorService)
+    private readonly ILocalSettingsService _localSettingsService;
+    public DialogueSettingsViewModel(ILocalSettingsService localSettingsService)
     {
-        _themeSelectorService = themeSelectorService;
-        UpdateOpenAiLogo();
+        _localSettingsService = localSettingsService;
     }
-    [ObservableProperty]
-    private string _openAiLogo;
 
-    private void UpdateOpenAiLogo()
+    [ObservableProperty]
+    private LlmModelSetting _openAILlmModelSetting = new()
     {
-        switch (_themeSelectorService.Theme)
+        Endpoint = "https://api.openai.com/v1",
+        Name = "gpt-4o-mini"
+    };
+
+    [ObservableProperty]
+    private LlmModelSetting _azureOpenAILlmModelSetting = new()
+    {
+        Name = "gpt-4o-mini"
+    };
+
+    [ObservableProperty]
+    private LlmModelSetting _deepSeekILlmModelSetting = new()
+    {
+        Endpoint = "https://api.deepseek.com/v1",
+        Name = "deepseek-chat"
+    };
+
+    [ObservableProperty]
+    private LlmModelSetting _tongyiILlmModelSetting = new()
+    {
+        Endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        Name = "qwen2.5-72b-instruct"
+    };
+
+    [RelayCommand]
+    public async Task OnLoadedAsync()
+    {
+        var modelList = await _localSettingsService.ReadSettingAsync<List<LlmProviderSetting>>(Constants.LlmProviders);
+
+        if (modelList != null)
         {
-            case ElementTheme.Dark:
-                OpenAiLogo = "ms-appx:///Assets/Providers/OpenAI-black-monoblossom.svg";
-                break;
-            case ElementTheme.Light:
-                OpenAiLogo = "ms-appx:///Assets/Providers/OpenAI-white-monoblossom.svg";
-                break;
-            default:
-                OpenAiLogo = "ms-appx:///Assets/Providers/OpenAI-black-monoblossom.svg";
-                break;
+            var azureOpenAILlmModelSetting =
+                modelList.FirstOrDefault(x => x.Provider == "azure-openai")?.Models.FirstOrDefault();
+            if (azureOpenAILlmModelSetting != null)
+            {
+                AzureOpenAILlmModelSetting = azureOpenAILlmModelSetting;
+            }
+
+            var openAILlmModelSetting =
+                modelList.FirstOrDefault(x => x.Provider == "openai")?.Models.FirstOrDefault(x => x.Name.StartsWith("gpt"));
+            if (openAILlmModelSetting != null)
+            {
+                OpenAILlmModelSetting = openAILlmModelSetting;
+            }
+
+            var deepSeekILlmModelSetting =
+                modelList.FirstOrDefault(x => x.Provider == "deepseek-ai")?.Models.FirstOrDefault();
+            if (deepSeekILlmModelSetting != null)
+            {
+                DeepSeekILlmModelSetting = deepSeekILlmModelSetting;
+            }
+
+            var tongyiILlmModelSetting =
+                modelList.FirstOrDefault(x => x.Provider == "openai")?.Models.FirstOrDefault(x => x.Name.StartsWith("qwen"));
+            if (tongyiILlmModelSetting != null)
+            {
+                TongyiILlmModelSetting = tongyiILlmModelSetting;
+            }
         }
+    }
+
+    [RelayCommand]
+    private async Task OnSaveLlmModelSettingAsync()
+    {
+        var modelList = new List<LlmProviderSetting>()
+        {
+            new()
+            {
+                Provider = "azure-openai",
+                Models =
+                [
+                    AzureOpenAILlmModelSetting
+                ]
+            },
+            new()
+            {
+                Provider = "openai",
+                Models =
+                [
+                    OpenAILlmModelSetting,
+                    TongyiILlmModelSetting
+                ]
+            },
+            new()
+            {
+                Provider = "deepseek-ai",
+                Models =
+                [
+                    DeepSeekILlmModelSetting
+                ]
+            },
+        };
+        await _localSettingsService.SaveSettingAsync(Constants.LlmProviders, modelList);
     }
 }

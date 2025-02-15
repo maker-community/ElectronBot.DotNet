@@ -3,10 +3,62 @@
     x:Class="Verdure.Braincase.Settings.Views.DrawingSettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Verdure.Braincase.Helpers"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Verdure.Braincase.Settings.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid />
+    <Page.Resources>
+        <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <converters:BoolToVisibilityConverter
+            x:Name="ReverseBoolToVisibility"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
+    </Page.Resources>
+    <Grid>
+        <ScrollViewer>
+            <Grid x:Name="ContentArea">
+                <StackPanel>
+                    <Expander
+                        Width="800"
+                        Margin="0,8,0,4"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        ExpandDirection="Down"
+                        IsExpanded="False">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Margin="12">
+                                        <Image
+                                            Width="56"
+                                            Height="56"
+                                            Source="/Assets/Providers/tongyi.png" />
+                                    </Border>
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            x:Uid="TongyiTitle"
+                                            Margin="12"
+                                            FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                            FontSize="32" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <Grid />
+                    </Expander>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
 </Page>

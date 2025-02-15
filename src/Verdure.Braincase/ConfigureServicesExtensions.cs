@@ -293,6 +293,12 @@ public static class ConfigureServicesExtensions
             .AddScoped<ConversationHookProvider>()
             .AddTransient<AppSettingsPage>()
             .AddTransient<AppSettingsViewModel>()
+            .AddTransient<DialogueSettingsPage>()
+            .AddTransient<DialogueSettingsViewModel>()
+            .AddTransient<DrawingSettingsPage>()
+            .AddTransient<DrawingSettingsViewModel>()
+            .AddTransient<VoiceSettingsPage>()
+            .AddTransient<VoiceSettingsViewModel>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());

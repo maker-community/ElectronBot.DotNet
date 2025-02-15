@@ -23,10 +23,10 @@ namespace Verdure.Braincase.Settings.Views;
 /// </summary>
 public sealed partial class DialogueSettingsPage : Page
 {
-    //public DialogueSettingsViewModel ViewModel => (DialogueSettingsViewModel)DataContext;
+    public DialogueSettingsViewModel ViewModel => (DialogueSettingsViewModel)DataContext;
     public DialogueSettingsPage()
     {
         this.InitializeComponent();
-        //DataContext = Ioc.Default.GetRequiredService<DialogueSettingsViewModel>();
+        DataContext = Ioc.Default.GetRequiredService<DialogueSettingsViewModel>();
     }
 }
