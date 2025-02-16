@@ -31,18 +31,6 @@ public class ComboxDataService
             };
     }
 
-    public ObservableCollection<ComboxItemModel> GetChatBotClientComboxList()
-    {
-        return new ObservableCollection<ComboxItemModel>
-            {
-
-                new ComboxItemModel { DataKey = "Turing", DataValue = "TuringTitle".GetLocalized() },
-                new ComboxItemModel { DataKey = "SparkDesk", DataValue = "SparkDeskTitle".GetLocalized() },
-                new ComboxItemModel { DataKey = "ChatGPT", DataValue ="ChatGPTTitle".GetLocalized() },
-                new ComboxItemModel { DataKey = "ChatGPT-Custom", DataValue ="ChatGPTCustomTitle".GetLocalized() }
-            };
-    }
-
     public ObservableCollection<ComboxItemModel> GetChatGPTVersionComboxList()
     {
         return new ObservableCollection<ComboxItemModel>

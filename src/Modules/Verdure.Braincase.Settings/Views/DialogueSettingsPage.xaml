@@ -405,7 +405,7 @@
                                         <TextBox
                                             Width="360"
                                             HorizontalAlignment="Right"
-                                            Text="{x:Bind ViewModel.AzureOpenAILlmModelSetting.ApiKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            Text="{x:Bind ViewModel.TongyiILlmModelSetting.ApiKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                                             <i:Interaction.Behaviors>
                                                 <ic:EventTriggerBehavior EventName="LostFocus">
                                                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />

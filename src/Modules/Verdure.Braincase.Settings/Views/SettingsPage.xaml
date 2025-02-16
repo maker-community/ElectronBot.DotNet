@@ -10,6 +10,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xaml="using:Microsoft.UI.Xaml"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <converters:BoolToVisibilityConverter
@@ -303,6 +308,19 @@
                                             </ic:EventTriggerBehavior>
                                         </i:Interaction.Behaviors>
                                     </ComboBox>
+                                    <ComboBox
+                                        x:Uid="LlmTextCB"
+                                        Width="240"
+                                        Margin="4"
+                                        DisplayMemberPath="DataValue"
+                                        ItemsSource="{x:Bind ViewModel.ChatBotComboxModels}"
+                                        SelectedItem="{x:Bind ViewModel.ChatBotSelect, Mode=TwoWay}">
+                                        <i:Interaction.Behaviors>
+                                            <ic:EventTriggerBehavior EventName="SelectionChanged">
+                                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ChatBotChangedCommand}" />
+                                            </ic:EventTriggerBehavior>
+                                        </i:Interaction.Behaviors>
+                                    </ComboBox>
                                 </StackPanel>
                                 <Line
                                     Margin="8"
@@ -312,36 +330,6 @@
                                     X2="600"
                                     Y1="0"
                                     Y2="0" />
-
-                                <StackPanel Margin="8" Orientation="Horizontal">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="180" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            x:Uid="CHatBotType"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center" />
-                                        <Grid Grid.Column="1">
-                                            <ComboBox
-                                                x:Uid="ChangeChatBotCB"
-                                                Width="120"
-                                                Margin="0,0,8,0"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                DisplayMemberPath="DataValue"
-                                                ItemsSource="{x:Bind ViewModel.ChatBotComboxModels}"
-                                                SelectedItem="{x:Bind ViewModel.ChatBotSelect, Mode=TwoWay}">
-                                                <i:Interaction.Behaviors>
-                                                    <ic:EventTriggerBehavior EventName="SelectionChanged">
-                                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.ChatBotChangedCommand}" />
-                                                    </ic:EventTriggerBehavior>
-                                                </i:Interaction.Behaviors>
-                                            </ComboBox>
-                                        </Grid>
-                                    </Grid>
-                                </StackPanel>
 
 
                                 <StackPanel Margin="8" Orientation="Horizontal">

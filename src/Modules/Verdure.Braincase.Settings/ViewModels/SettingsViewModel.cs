@@ -1,7 +1,12 @@
-﻿using Microsoft.UI.Xaml;
+﻿using BotSharp.Abstraction.Agents;
+using BotSharp.Abstraction.Agents.Enums;
+using BotSharp.Abstraction.Repositories.Filters;
+using BotSharp.Abstraction.Utilities;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Models;
 using Verdure.Braincase.Services;
+using Verdure.Braincase.Settings.Models;
 using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.WinUI.Common.Players;
 using Windows.ApplicationModel;
@@ -36,7 +41,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         VersionDescription = GetVersionDescription();
         _identityService = identityService;
         _userDataService = userDataService;
-        _chatBotComboxModels = comboxDataService.GetChatBotClientComboxList();
+        _chatBotComboxModels = GetChatBotClientComboxList();
         _chatGPTVersionomboxModels = comboxDataService.GetChatGPTVersionComboxList();
         _windowEx = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow();
     }
@@ -293,7 +298,54 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
         if (!string.IsNullOrWhiteSpace(chatBotName))
         {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, ChatBotSelect);
+            var modelList = await _localSettingsService.ReadSettingAsync<List<CustomLlmProviderSetting>>(Constants.LlmProviders);
+
+            if (modelList != null)
+            {
+                CustomLlmModelSetting model = null;
+                var models = modelList.FirstOrDefault(m => m.Provider == chatBotName);
+                if (models != null)
+                {
+                    model = models.Models.FirstOrDefault();
+                }
+                else
+                {
+                    models = modelList.Where(m => m.Provider == "openai").FirstOrDefault();
+                    if (models != null)
+                    {
+                        model = models.Models.FirstOrDefault(m => m.Provider == chatBotName);
+                    }
+                }
+                if (model != null && !string.IsNullOrEmpty(model.ApiKey))
+                {
+                    var agentService = Ioc.Default.GetRequiredService<IAgentService>();
+
+                    var agents = (await agentService.GetAgents(new AgentFilter
+                    {
+                        Pager = new Pagination
+                        {
+                            Page = 1,
+                            Size = 100
+                        }
+                    })).Items.ToList();
+
+                    foreach (var agent in agents)
+                    {
+                        agent.LlmConfig.Provider = model.Provider
+                            .Replace("tongyi","openai").Replace("deepseek-ai","openai");
+
+                        agent.LlmConfig.Model = model.Name;
+
+                        await agentService.UpdateAgent(agent, AgentField.LlmConfig);
+                    }
+                    await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, ChatBotSelect);
+                }
+                else
+                {
+                    ChatBotSelect = null;
+                    ToastHelper.SendToast("ApiKey is null", TimeSpan.FromSeconds(3));
+                }
+            }
         }
     }
 
@@ -457,6 +509,11 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
     public RelayCommand LogOutCommand => _logOutCommand ??= new RelayCommand(OnLogOut, () => !IsBusy);
 
+    [RelayCommand]
+    public async Task OnLoadedAsync()
+    {
+        await InitAsync();
+    }
 
     //public bool IsBusy
     //{
@@ -687,5 +744,16 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     public void OnNavigatedFrom()
     {
         UnregisterEvents();
+    }
+    private ObservableCollection<ComboxItemModel> GetChatBotClientComboxList()
+    {
+        return new ObservableCollection<ComboxItemModel>
+            {
+
+                new() { DataKey = "azure-openai", DataValue = "AzureOpenai" },
+                new() { DataKey = "openai", DataValue = "Openai" },
+                new() { DataKey = "deepseek-ai", DataValue ="DeepseekAi" },
+                new() { DataKey = "tongyi", DataValue ="Tongyi" }
+            };
     }
 }

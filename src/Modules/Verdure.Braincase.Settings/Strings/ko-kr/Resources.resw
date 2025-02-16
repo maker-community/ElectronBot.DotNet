@@ -954,4 +954,22 @@
   <data name="DeepSeekTitle.Text" xml:space="preserve">
     <value>DeepSeek</value>
   </data>
+  <data name="LlmTextCB.Header" xml:space="preserve">
+    <value>Default LLM Chat</value>
+  </data>
+  <data name="LlmTextCB.PlaceholderText" xml:space="preserve">
+    <value>Default LLM Chat</value>
+  </data>
+  <data name="AzureOpenai" xml:space="preserve">
+    <value>Microsoft Azure</value>
+  </data>
+  <data name="Openai" xml:space="preserve">
+    <value>OpenAI</value>
+  </data>
+  <data name="DeepseekAi" xml:space="preserve">
+    <value>DeepSeek</value>
+  </data>
+  <data name="Tongyi" xml:space="preserve">
+    <value>Tongyi</value>
+  </data>
 </root>

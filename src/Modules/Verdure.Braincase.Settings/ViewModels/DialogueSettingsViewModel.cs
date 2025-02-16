@@ -1,4 +1,4 @@
-﻿using BotSharp.Abstraction.MLTasks.Settings;
+﻿using Verdure.Braincase.Settings.Models;
 
 namespace Verdure.Braincase.Settings.ViewModels;
 
@@ -11,28 +11,32 @@ public partial class DialogueSettingsViewModel : ObservableRecipient
     }
 
     [ObservableProperty]
-    private LlmModelSetting _openAILlmModelSetting = new()
+    private CustomLlmModelSetting _openAILlmModelSetting = new()
     {
+        Provider = "openai",
         Endpoint = "https://api.openai.com/v1",
         Name = "gpt-4o-mini"
     };
 
     [ObservableProperty]
-    private LlmModelSetting _azureOpenAILlmModelSetting = new()
+    private CustomLlmModelSetting _azureOpenAILlmModelSetting = new()
     {
+        Provider = "azure-openai",
         Name = "gpt-4o-mini"
     };
 
     [ObservableProperty]
-    private LlmModelSetting _deepSeekILlmModelSetting = new()
+    private CustomLlmModelSetting _deepSeekILlmModelSetting = new()
     {
+        Provider = "deepseek-ai",
         Endpoint = "https://api.deepseek.com/v1",
         Name = "deepseek-chat"
     };
 
     [ObservableProperty]
-    private LlmModelSetting _tongyiILlmModelSetting = new()
+    private CustomLlmModelSetting _tongyiILlmModelSetting = new()
     {
+        Provider = "tongyi",
         Endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
         Name = "qwen2.5-72b-instruct"
     };
@@ -40,7 +44,7 @@ public partial class DialogueSettingsViewModel : ObservableRecipient
     [RelayCommand]
     public async Task OnLoadedAsync()
     {
-        var modelList = await _localSettingsService.ReadSettingAsync<List<LlmProviderSetting>>(Constants.LlmProviders);
+        var modelList = await _localSettingsService.ReadSettingAsync<List<CustomLlmProviderSetting>>(Constants.LlmProviders);
 
         if (modelList != null)
         {
@@ -77,7 +81,11 @@ public partial class DialogueSettingsViewModel : ObservableRecipient
     [RelayCommand]
     private async Task OnSaveLlmModelSettingAsync()
     {
-        var modelList = new List<LlmProviderSetting>()
+        AzureOpenAILlmModelSetting.Provider = "azure-openai";
+        OpenAILlmModelSetting.Provider = "openai";
+        TongyiILlmModelSetting.Provider = "tongyi";
+        DeepSeekILlmModelSetting.Provider = "deepseek-ai"; 
+        var modelList = new List<CustomLlmProviderSetting>()
         {
             new()
             {

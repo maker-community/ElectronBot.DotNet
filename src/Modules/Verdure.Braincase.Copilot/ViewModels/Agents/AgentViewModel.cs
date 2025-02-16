@@ -85,7 +85,7 @@ public partial class AgentViewModel : ObservableRecipient, INavigationAware
             Pager = new Pagination
             {
                 Page = 1,
-                Size = 10
+                Size = 100
             }
         })).Items.ToList();
     }

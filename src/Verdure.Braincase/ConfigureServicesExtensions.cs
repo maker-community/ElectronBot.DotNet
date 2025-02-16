@@ -1,8 +1,10 @@
 ﻿using BotSharp.Abstraction.Conversations;
 using BotSharp.Abstraction.Messaging.JsonConverters;
+using BotSharp.Abstraction.MLTasks;
 using BotSharp.Abstraction.Repositories;
 using BotSharp.Abstraction.Users;
 using BotSharp.Core;
+using BotSharp.Core.Infrastructures;
 using BotSharp.Logger;
 using Contracts.Services;
 using Controls;
@@ -311,6 +313,7 @@ public static class ConfigureServicesExtensions
             .AddScoped<IBotIotService, BotIotService>()
             .AddScoped<IDialogService, DialogService>()
             .AddBotSharpLogger(config)
+            .AddTransient<ILlmProviderService, LocalSettingLlmProviderService>()
             // Configuration
             .BuildServiceProvider());
     }

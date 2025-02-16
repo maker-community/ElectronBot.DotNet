@@ -36,7 +36,6 @@ public partial class AppSettingsViewModel : ObservableRecipient, INavigationAwar
         VersionDescription = GetVersionDescription();
         _identityService = identityService;
         _userDataService = userDataService;
-        _chatBotComboxModels = comboxDataService.GetChatBotClientComboxList();
         _chatGPTVersionomboxModels = comboxDataService.GetChatGPTVersionComboxList();
         _windowEx = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow();
     }
@@ -551,26 +550,6 @@ public partial class AppSettingsViewModel : ObservableRecipient, INavigationAwar
             if (audioModel != null)
             {
                 AudioSelect = AudioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
-            }
-
-            var chatBotModel = await _localSettingsService
-                .ReadSettingAsync<ComboxItemModel>(Constants.DefaultChatBotNameKey);
-
-            if (chatBotModel != null)
-            {
-                ChatBotSelect = ChatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
-            }
-
-            var chatGPTModel = await _localSettingsService
-                .ReadSettingAsync<string>(Constants.DefaultChatGPTNameKey);
-
-            if (!string.IsNullOrWhiteSpace(chatGPTModel))
-            {
-                ChatGPTVersionSelect = ChatGPTVersionomboxModels?.FirstOrDefault(c => c.DataKey == chatGPTModel);
-            }
-            else
-            {
-                ChatGPTVersionSelect = ChatGPTVersionomboxModels?.FirstOrDefault(c => c.DataKey == ClockTitleConfig.ChatGPTVersion);
             }
 
             _identityService.LoggedIn += OnLoggedIn;
