@@ -52,7 +52,7 @@ public class CustomGenerateImageFn : IFunctionCallback
         var clientFactory = _service.GetRequiredService<IHttpClientFactory>();
         using var httpClient = clientFactory.CreateClient();
         var llmProviderService = _service.GetRequiredService<ILlmProviderService>();
-        var model = llmProviderService.GetSetting("tongyi", "wanx-v1");
+        var model = llmProviderService.GetSetting("openai", "wanx-v1");
         if (model == null)
         {
             return false;
