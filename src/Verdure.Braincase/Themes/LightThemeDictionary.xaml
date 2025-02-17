@@ -29,4 +29,5 @@
     <Thickness x:Key="SearchBoxBorderThickness">0</Thickness>
     <Thickness x:Key="ControlExampleDisplayBorderThickness">0</Thickness>
     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+    <SvgImageSource x:Key="OpenAILogo" UriSource="ms-appx:///Assets/Providers/OpenAI-black-monoblossom.svg" />
 </ResourceDictionary>

@@ -1,0 +1,945 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>ElectronBot Braincase</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>This is a host computer software developed by windows app sdk. It is mainly developed for the open source project ElectronBot robot. It mainly provides action arrangement and action playback and display.</value>
+  </data>
+  <data name="Shell_Main.Content" xml:space="preserve">
+    <value>ElectronBot Control</value>
+  </data>
+  <data name="ReloadButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="ReloadButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="Settings_Personalization.Text" xml:space="preserve">
+    <value>Personalise</value>
+  </data>
+  <data name="Settings_Theme.Text" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Settings_Theme_Light.Content" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Settings_Theme_Default.Content" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>About this software</value>
+  </data>
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
+    <value>This is a host computer software developed by windows app sdk. It is mainly developed for the open source project ElectronBot robot. It mainly provides action arrangement and action playback and display.</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>Privacy policy</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://blog.csdn.net/weixin_43500426/article/details/83315983</value>
+  </data>
+  <data name="ElectronBotAddTip" xml:space="preserve">
+    <value>ElectronBot connected</value>
+  </data>
+  <data name="ElectronBotRemoveTip" xml:space="preserve">
+    <value>Electron removed</value>
+  </data>
+  <data name="ExportToastText" xml:space="preserve">
+    <value>Action exported successfully</value>
+  </data>
+  <data name="PlayEmptyToastText" xml:space="preserve">
+    <value>Please add or import action</value>
+  </data>
+  <data name="PlayErrorToastText" xml:space="preserve">
+    <value>Please switch to control mode</value>
+  </data>
+  <data name="PlayClearToastText" xml:space="preserve">
+    <value>List is cleared</value>
+  </data>
+  <data name="PlayResetToastText" xml:space="preserve">
+    <value>Action reset</value>
+  </data>
+  <data name="ChangeClockViewCB.PlaceholderText" xml:space="preserve">
+    <value>switch dial</value>
+  </data>
+  <data name="ClearBtn.Content" xml:space="preserve">
+    <value>Clear list</value>
+  </data>
+  <data name="ControlMode.Content" xml:space="preserve">
+    <value>Control mode</value>
+  </data>
+  <data name="DefautView" xml:space="preserve">
+    <value>Default effect</value>
+  </data>
+  <data name="DisableModeRb.Content" xml:space="preserve">
+    <value>Disable mode</value>
+  </data>
+  <data name="EntitySchemaRb.Content" xml:space="preserve">
+    <value>Recording mode</value>
+  </data>
+  <data name="ExportBtn.Content" xml:space="preserve">
+    <value>Export action</value>
+  </data>
+  <data name="ImportBtn.Content" xml:space="preserve">
+    <value>Import action</value>
+  </data>
+  <data name="LongShadowView" xml:space="preserve">
+    <value>Long shadow</value>
+  </data>
+  <data name="ModeRadioBtn.Header" xml:space="preserve">
+    <value>Select mode</value>
+  </data>
+  <data name="PlayBtn.Content" xml:space="preserve">
+    <value>Play action</value>
+  </data>
+  <data name="PleaseConnectToastText" xml:space="preserve">
+    <value>Please connect the electronics (please check the drive for the first use)</value>
+  </data>
+  <data name="ResetBtn.Content" xml:space="preserve">
+    <value>Reset action</value>
+  </data>
+  <data name="Sd_Bottom.Header" xml:space="preserve">
+    <value>Chassis rotation (J6)</value>
+  </data>
+  <data name="Sd_Head.Header" xml:space="preserve">
+    <value>Head (J1)</value>
+  </data>
+  <data name="Sd_LeftArm.Header" xml:space="preserve">
+    <value>Left arm rotation (J3)</value>
+  </data>
+  <data name="Sd_LeftArmExpansion.Header" xml:space="preserve">
+    <value>Left Arm Extended (J2)</value>
+  </data>
+  <data name="Sd_RightArm.Header" xml:space="preserve">
+    <value>Right arm rotation (J5)</value>
+  </data>
+  <data name="Sd_RightArmExpansion.Header" xml:space="preserve">
+    <value>Right Arm Extended (J4)</value>
+  </data>
+  <data name="StopBtn.Content" xml:space="preserve">
+    <value>Stop motion</value>
+  </data>
+  <data name="AddPic.Text" xml:space="preserve">
+    <value>Add picture</value>
+  </data>
+  <data name="ImageCropperAcceptBtn.Label" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ImageCropperCancelBtn.Label" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CameraHelperResultFailed" xml:space="preserve">
+    <value>🤷 Unable to continue...</value>
+  </data>
+  <data name="EmotionAnger" xml:space="preserve">
+    <value>Anger</value>
+  </data>
+  <data name="EmotionContempt" xml:space="preserve">
+    <value>Contempt</value>
+  </data>
+  <data name="EmotionDisgust" xml:space="preserve">
+    <value>Disgust</value>
+  </data>
+  <data name="EmotionFear" xml:space="preserve">
+    <value>Fear</value>
+  </data>
+  <data name="EmotionHappiness" xml:space="preserve">
+    <value>Hapiness</value>
+  </data>
+  <data name="EmotionNeutral" xml:space="preserve">
+    <value>Neutral</value>
+  </data>
+  <data name="EmotionSadness" xml:space="preserve">
+    <value>Sad</value>
+  </data>
+  <data name="EmotionSurprise" xml:space="preserve">
+    <value>Surprise</value>
+  </data>
+  <data name="ModelLoadedFailed" xml:space="preserve">
+    <value>The machine learning model did not load successfully. 🤔 Unable to continue...</value>
+  </data>
+  <data name="Shell_CameraEmojis.Content" xml:space="preserve">
+    <value>Facial expression recognition</value>
+  </data>
+  <data name="RemoveAction.Text" xml:space="preserve">
+    <value>Remove action</value>
+  </data>
+  <data name="CameraErrorText" xml:space="preserve">
+    <value>Failed to open camera</value>
+  </data>
+  <data name="DialogAuthenticationTitle" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="DialogNoNetworkAvailableContent" xml:space="preserve">
+    <value>ApplicatioThere is no internet connection, please connect to the internet and try again.</value>
+  </data>
+  <data name="DialogStatusUnknownErrorContent" xml:space="preserve">
+    <value>Something went wrong during the login, please try again.</value>
+  </data>
+  <data name="GooeyFooter" xml:space="preserve">
+    <value>Fusion effect</value>
+  </data>
+  <data name="Shell_LogIn.Text" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="Shell_Todo.Content" xml:space="preserve">
+    <value>Microsoft to do</value>
+  </data>
+  <data name="CameraLoadedFailed" xml:space="preserve">
+    <value>No camera found yet</value>
+  </data>
+  <data name="Settings_Thank.Text" xml:space="preserve">
+    <value>Thanks list</value>
+  </data>
+  <data name="Shell_EmojisEdit.Content" xml:space="preserve">
+    <value>Facial expressions</value>
+  </data>
+  <data name="AddEmojisCancelBtnContent" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddEmojisOkBtnContent" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="AddEmojisTitle" xml:space="preserve">
+    <value>Add emoji</value>
+  </data>
+  <data name="AngerName" xml:space="preserve">
+    <value>Anger</value>
+  </data>
+  <data name="DisdainName" xml:space="preserve">
+    <value>Disdain</value>
+  </data>
+  <data name="EmojisAvatar.Text" xml:space="preserve">
+    <value>The map's address:</value>
+  </data>
+  <data name="EmojisDesc.Text" xml:space="preserve">
+    <value>describe:</value>
+  </data>
+  <data name="EmojisNameId.Text" xml:space="preserve">
+    <value>ID:</value>
+  </data>
+  <data name="EmojisNameTitle.Text" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="EmojisVideoUrl.Text" xml:space="preserve">
+    <value>Video address:</value>
+  </data>
+  <data name="ExcitedName" xml:space="preserve">
+    <value>Excited</value>
+  </data>
+  <data name="FearName" xml:space="preserve">
+    <value>Frightened</value>
+  </data>
+  <data name="PlayEmojis.Text" xml:space="preserve">
+    <value>Play emoji</value>
+  </data>
+  <data name="SadName" xml:space="preserve">
+    <value>Sad</value>
+  </data>
+  <data name="Shell_Gamepad.Content" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add action frame</value>
+  </data>
+  <data name="AddEmojisBtn.Label" xml:space="preserve">
+    <value>Add new emoji</value>
+  </data>
+  <data name="AppLogoAuthor.Content" xml:space="preserve">
+    <value>Application LOGO author (oooooohmygosh) station B address</value>
+  </data>
+  <data name="AppTheme.Text" xml:space="preserve">
+    <value>Apply theme</value>
+  </data>
+  <data name="AudioCB.Header" xml:space="preserve">
+    <value>Default audio device</value>
+  </data>
+  <data name="AudioCB.PlaceholderText" xml:space="preserve">
+    <value>Default audio device</value>
+  </data>
+  <data name="CameraCB.Header" xml:space="preserve">
+    <value>Default camera</value>
+  </data>
+  <data name="CameraCB.PlaceholderText" xml:space="preserve">
+    <value>Default camera</value>
+  </data>
+  <data name="ClockAuthor.Content" xml:space="preserve">
+    <value>Dial project reference author (DinoChan) Github address</value>
+  </data>
+  <data name="ClockConfig.Text" xml:space="preserve">
+    <value>Dial configuration</value>
+  </data>
+  <data name="ClockCumstomWords.Text" xml:space="preserve">
+    <value>Dial custom text:</value>
+  </data>
+  <data name="ClockCustomFontSize.Text" xml:space="preserve">
+    <value>Dial custom text font size:</value>
+  </data>
+  <data name="ClockParameter.Text" xml:space="preserve">
+    <value>Set dial parameters</value>
+  </data>
+  <data name="DefaultDeviceConfig.Text" xml:space="preserve">
+    <value>Default device settings</value>
+  </data>
+  <data name="ElectronBotInfo.Content" xml:space="preserve">
+    <value>Introduction address of ElectronBot Braincase</value>
+  </data>
+  <data name="EmojisInfoTitle" xml:space="preserve">
+    <value>Emoticon details</value>
+  </data>
+  <data name="Export.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Export action</value>
+  </data>
+  <data name="GamepadViewCB.PlaceholderText" xml:space="preserve">
+    <value>Select handle</value>
+  </data>
+  <data name="Import.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Import action</value>
+  </data>
+  <data name="Reference.Text" xml:space="preserve">
+    <value>Referenced projects and links to some resources</value>
+  </data>
+  <data name="SelectAppTheme.Text" xml:space="preserve">
+    <value>Select App Themes to Display</value>
+  </data>
+  <data name="SettingDefaultDevice.Text" xml:space="preserve">
+    <value>Set related default devices</value>
+  </data>
+  <data name="TestEmoji.Content" xml:space="preserve">
+    <value>Test expression</value>
+  </data>
+  <data name="TestVoice.Content" xml:space="preserve">
+    <value>Test voice</value>
+  </data>
+  <data name="ViewEmojisInfo.Text" xml:space="preserve">
+    <value>Check the details</value>
+  </data>
+  <data name="ClockModeRb.Content" xml:space="preserve">
+    <value>Clock mode</value>
+  </data>
+  <data name="EmojisEmpty" xml:space="preserve">
+    <value>Emoticons cannot be empty</value>
+  </data>
+  <data name="EmojisListEmpty" xml:space="preserve">
+    <value>Action list cannot be empty</value>
+  </data>
+  <data name="EmojisActionAddTB.Text" xml:space="preserve">
+    <value>Import action buttons:</value>
+  </data>
+  <data name="EmojisActionFileSize" xml:space="preserve">
+    <value>The file should be less than 5 megabytes</value>
+  </data>
+  <data name="EmojisActionPath.Text" xml:space="preserve">
+    <value>Action address:</value>
+  </data>
+  <data name="EmojisAvatarBtn.Text" xml:space="preserve">
+    <value>Add image button:</value>
+  </data>
+  <data name="EmojisFileSize" xml:space="preserve">
+    <value>The file should be less than 1 MB</value>
+  </data>
+  <data name="EmojisNameIdAlreadyExists" xml:space="preserve">
+    <value>This emoticon ID already exists</value>
+  </data>
+  <data name="EmojisNameIdOnlyEn" xml:space="preserve">
+    <value>Emoticons only support English letters and numbers</value>
+  </data>
+  <data name="EmojisVideoAddTB.Text" xml:space="preserve">
+    <value>Add video button:</value>
+  </data>
+  <data name="SetEmojisName" xml:space="preserve">
+    <value>Please set emoticon name</value>
+  </data>
+  <data name="ReconnectBtn.Content" xml:space="preserve">
+    <value>Reconnect ElectronBot</value>
+  </data>
+  <data name="ReconnectText" xml:space="preserve">
+    <value>Reconnect ElectronBot</value>
+  </data>
+  <data name="RebootElectron.Content" xml:space="preserve">
+    <value>Reset ElectronBot</value>
+  </data>
+  <data name="Shell_GestureClassification.Content" xml:space="preserve">
+    <value>Gesture Recognition</value>
+  </data>
+  <data name="GradientsWithBlend" xml:space="preserve">
+    <value>Resource monitoring</value>
+  </data>
+  <data name="CpuTitle.Text" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="RadialGaugeCPU.Unit" xml:space="preserve">
+    <value>Percentage</value>
+  </data>
+  <data name="RadialGaugeROM.Unit" xml:space="preserve">
+    <value>Percentage</value>
+  </data>
+  <data name="RomTitle.Text" xml:space="preserve">
+    <value>ROM</value>
+  </data>
+  <data name="AddRandomContentBtn.Label" xml:space="preserve">
+    <value>Add random content</value>
+  </data>
+  <data name="AddRandomContentTitle" xml:space="preserve">
+    <value>Add random content</value>
+  </data>
+  <data name="ContentAlreadyExists" xml:space="preserve">
+    <value>Content already exists</value>
+  </data>
+  <data name="DelEmojis.Text" xml:space="preserve">
+    <value>Delete emoticon</value>
+  </data>
+  <data name="DelRandomContent.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Settings_AboutUpdate.Text" xml:space="preserve">
+    <value>1.6.3 Version Update Instructions
+1. Add gesture recognition and synchronize gesture actions to the model.
+
+1.6.2 Version Update Instructions
+1. Add a gesture interaction page and update some emoticon files.
+
+1.6.1 Version Update Instructions
+1. Optimize the facial expression recognition page, add model synchronization robot entity action.
+2. Add Korean interface resource files.
+
+1.6.0 Version Update Instructions
+1. Add electronic simulation to independently demonstrate the choreographed action.
+
+1.5.4 Version Update Instructions
+1. To add a custom watch face function, you can set your own watch face by configuring text in the settings interface.
+
+1.5.3 Version Update Instructions
+1. Fix the Microsoft account login can not persist to save the login status.
+2. Add ElectronBot Braincase to increase English translation.
+
+1.5.2 Version update instructions
+1. Adjust the source code directory naming.
+2. Add the pin-pointing mode, that is, control the electronics through the mouse pointer, and press the scroll wheel to trigger the random expression playback function, provided that it is in the pin-pointing mode.
+
+1.5.1 Version update instructions
+1. Refactor the code and upgrade the framework to .net7 and windows app sdk 1.3.
+2. Optimize the electronic connection, you can open the electronic head, and then insert the electronic, hot-swapping is also repaired, laying a stable foundation for later functions.
+
+1.5.0 version update instructions
+1. Add online emoticon sharing function, similar to the emoticon mall function, you can share and download emoticon files.
+2. Adjust the UI display and optimize the light and dark theme colors of the pop-up window.
+
+1.4.4 Version Update Instructions
+1. Add the registration of the electronic brain case that starts automatically after booting, and select the emoticon that will play the emoticon list three times randomly. If you don't like to boot automatically, please go to System Settings =&gt; Application =&gt; Start to disable.
+
+1.4.3 Version Update Instructions
+1. Adjust the ChatGPT docking to ApiKey docking, which is more user-friendly.
+2. Open the handle control page, currently supports Xbox handle control electronics.
+
+1.4.2 Version update instructions
+1. Add the import and export function of emoticons
+2. Add an email feedback link, you can directly click to make function suggestions and BUG feedback.
+
+1.4.1 Version update instructions
+1. Adjust the theme color of the electronic brain case to return to the color before reconstruction.
+2. Add ChatGPT and Turing robot configuration, Turing robot please apply on the Turing robot official website and then put the AppKey into the electronic brain case configuration.
+3. Optimize the UI style.
+
+1.4 Version Update Instructions
+1. Gesture recognition is added to the homepage, including opening Bilibili for testing, and playing emoticons randomly. Currently, voice recognition is triggered by heart-to-heart triggering.
+2. Select the gesture trigger of the difficult page as the action of clenching a fist and touching the fist as the trigger, and ok as the stop.
+3. Added the deletion of emoticons on the emoticon creation page, fixed the problem of color difference in video playback, and the problem that the video cannot play sound.</value>
+  </data>
+  <data name="Settings_Update.Text" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="ChatGPT-SessionKey.Text" xml:space="preserve">
+    <value>ChatGPT AppKey：</value>
+  </data>
+  <data name="AnswerText.Text" xml:space="preserve">
+    <value>Gesture Recognition Voice Response Text:</value>
+  </data>
+  <data name="ChatBotSecurityData.Text" xml:space="preserve">
+    <value>Speech dialog provider configuration</value>
+  </data>
+  <data name="ChatBotSecurityDataDesc.Text" xml:space="preserve">
+    <value>Provides key configuration and program switching</value>
+  </data>
+  <data name="ChatBotType.Text" xml:space="preserve">
+    <value>Default speech provider:</value>
+  </data>
+  <data name="ChatGPTTitle" xml:space="preserve">
+    <value>ChatGPT</value>
+  </data>
+  <data name="Turing-AppKey.Text" xml:space="preserve">
+    <value>Turing Robot AppKey:</value>
+  </data>
+  <data name="Turing-UserId.Text" xml:space="preserve">
+    <value>Turing Robot UserId:</value>
+  </data>
+  <data name="TuringTitle" xml:space="preserve">
+    <value>Turing robot</value>
+  </data>
+  <data name="CameraPreviewImage.Text" xml:space="preserve">
+    <value>Camera Screen Preview</value>
+  </data>
+  <data name="ActionEditTitle.Text" xml:space="preserve">
+    <value>Action Timeline</value>
+  </data>
+  <data name="ExportEmojis.Text" xml:space="preserve">
+    <value>Export emoticon file</value>
+  </data>
+  <data name="ImportEmojisFileBtn.Label" xml:space="preserve">
+    <value>Import emoticons</value>
+  </data>
+  <data name="ElectronBotCode.Content" xml:space="preserve">
+    <value>Source code address of ElectronBot Braincase</value>
+  </data>
+  <data name="MarketplaceBtn.Label" xml:space="preserve">
+    <value>Emoji Mall</value>
+  </data>
+  <data name="UploadEmojis.Text" xml:space="preserve">
+    <value>Share emoticons</value>
+  </data>
+  <data name="DownLoadEmojis.Text" xml:space="preserve">
+    <value>Download emoticons</value>
+  </data>
+  <data name="MarketplaceDialogClose" xml:space="preserve">
+    <value>Closure</value>
+  </data>
+  <data name="MarketplaceDialogTitle" xml:space="preserve">
+    <value>Emoji Mall</value>
+  </data>
+  <data name="UploadEmojisAuthorTitle.Text" xml:space="preserve">
+    <value>Author:</value>
+  </data>
+  <data name="UploadEmojisCreateTimeTitle.Text" xml:space="preserve">
+    <value>Creation time:</value>
+  </data>
+  <data name="UploadEmojisDescTitle.Text" xml:space="preserve">
+    <value>Describe:</value>
+  </data>
+  <data name="UploadEmojisNameIdTitle.Text" xml:space="preserve">
+    <value>ID：</value>
+  </data>
+  <data name="UploadEmojisNameTitle.Text" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="UploadEmojisOKBtn" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="UploadEmojisTitle" xml:space="preserve">
+    <value>Emoticon sharing</value>
+  </data>
+  <data name="DownloadDebugger.Content" xml:space="preserve">
+    <value>Click the text to download the electronic commissioning assistant</value>
+  </data>
+  <data name="FeedBackText.Text" xml:space="preserve">
+    <value>Give me feedback</value>
+  </data>
+  <data name="hlOpenPrivacySettings.Text" xml:space="preserve">
+    <value>If the speech recognition is abnormal, please confirm whether the speech recognition policy is enabled, and the policy is enabled to allow personalization.</value>
+  </data>
+  <data name="OpenGestureSwitch.OffContent" xml:space="preserve">
+    <value>Turn on gesture</value>
+  </data>
+  <data name="OpenGestureSwitch.OnContent" xml:space="preserve">
+    <value>Turn off gesture</value>
+  </data>
+  <data name="PrivacyHyperLink.Content" xml:space="preserve">
+    <value>Click on the text to enter the policy setting page</value>
+  </data>
+  <data name="NeedleModeRb.Content" xml:space="preserve">
+    <value>Pin mode</value>
+  </data>
+  <data name="ExitBtn_CloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ExitBtn_PrimaryButtonText" xml:space="preserve">
+    <value>Sure</value>
+  </data>
+  <data name="ExitBtn_SecondaryButtonText" xml:space="preserve">
+    <value>Palletization</value>
+  </data>
+  <data name="ExitBtn_Title" xml:space="preserve">
+    <value>Do you want to close the application?</value>
+  </data>
+  <data name="Settings_LogIn.Content" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="Settings_LogOut.Content" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="Settings_NoUserLoggedIn.Text" xml:space="preserve">
+    <value>There is no user logged in, please click "Log In" to log in.</value>
+  </data>
+  <data name="AppQuit_Content.Text" xml:space="preserve">
+    <value>This option is to prevent accidental closing of the application</value>
+  </data>
+  <data name="ElectronSourceCode.Content" xml:space="preserve">
+    <value>The open source address of the ElectronBot robot</value>
+  </data>
+  <data name="CustomView" xml:space="preserve">
+    <value>CustomView</value>
+  </data>
+  <data name="CustomClockViewConfig.Text" xml:space="preserve">
+    <value>Custom Dial configuration</value>
+  </data>
+  <data name="CustomViewContentIsVisibility.Text" xml:space="preserve">
+    <value>Content is visible:</value>
+  </data>
+  <data name="CustomViewGaussianBlurValue.Text" xml:space="preserve">
+    <value>GaussianBlur Value:</value>
+  </data>
+  <data name="ElectronEmulation.Content" xml:space="preserve">
+    <value>Emulation</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OffContent" xml:space="preserve">
+    <value>Turn on the robot action first</value>
+  </data>
+  <data name="OpenEntityFirstSwitch.OnContent" xml:space="preserve">
+    <value>Turn off the robot action first</value>
+  </data>
+  <data name="Shell_GestureInteraction.Content" xml:space="preserve">
+    <value>Gesture interaction</value>
+  </data>
+  <data name="LeftName" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="NormalName" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="RightName" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="Shell_PoseRecognition.Content" xml:space="preserve">
+    <value>Pose recognition</value>
+  </data>
+  <data name="Shell_Movie.Content" xml:space="preserve">
+    <value>Viewing Mode</value>
+  </data>
+  <data name="GestureAppConfigTree_AppPath.Text" xml:space="preserve">
+    <value>App Path</value>
+  </data>
+  <data name="GestureAppConfigTree_DeleteButton.Content" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="GestureAppConfigTree_GestureLabel.Text" xml:space="preserve">
+    <value>Start Gesture</value>
+  </data>
+  <data name="GestureAppConfigTree_Text.Text" xml:space="preserve">
+    <value>Speech Text</value>
+  </data>
+  <data name="GestureAppConfig_Add.Content" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="GestureAppConfig_Save.Content" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Shell_GestureAppConfig.Content" xml:space="preserve">
+    <value>Gesture App Config</value>
+  </data>
+  <data name="AddAppStartConfigBtn.Label" xml:space="preserve">
+    <value>添加应用启动配置</value>
+  </data>
+  <data name="AddAppStartConfigBtnCB.PlaceholderText" xml:space="preserve">
+    <value>选择应用</value>
+  </data>
+  <data name="AddAppStartConfigTitle" xml:space="preserve">
+    <value>添加应用启动配置</value>
+  </data>
+  <data name="AppLaunchListHeader.Text" xml:space="preserve">
+    <value>语音启动应用列表</value>
+  </data>
+  <data name="AppNameNullText" xml:space="preserve">
+    <value>应用名不能为空</value>
+  </data>
+  <data name="AppNameText.Text" xml:space="preserve">
+    <value>应用名称：</value>
+  </data>
+  <data name="DelLaunchApp.Text" xml:space="preserve">
+    <value>删除应用</value>
+  </data>
+  <data name="IsMsix.Text" xml:space="preserve">
+    <value>是否为Msix：</value>
+  </data>
+  <data name="VoiceNullText" xml:space="preserve">
+    <value>唤醒词不能为空</value>
+  </data>
+  <data name="VoiceText.Text" xml:space="preserve">
+    <value>唤醒文本：</value>
+  </data>
+  <data name="Win32Path.Text" xml:space="preserve">
+    <value>Win32文件路径：</value>
+  </data>
+  <data name="Hw75Config.Text" xml:space="preserve">
+    <value>瀚文键盘拓展配置</value>
+  </data>
+  <data name="Hw75ConfigDesc.Text" xml:space="preserve">
+    <value>电子脑壳瀚文键盘相关配置</value>
+  </data>
+  <data name="Hw75ModeIsOpen.Text" xml:space="preserve">
+    <value>软件是否开启瀚文模式：</value>
+  </data>
+  <data name="Hw75Page.Content" xml:space="preserve">
+    <value>瀚文键盘拓展</value>
+  </data>
+  <data name="ChangeHw75ViewCB.PlaceholderText" xml:space="preserve">
+    <value>切换墨水屏显示</value>
+  </data>
+  <data name="Hw75AddImageBtnTitle.Text" xml:space="preserve">
+    <value>添加自定义页面图片</value>
+  </data>
+  <data name="Hw75CumstomWords.Text" xml:space="preserve">
+    <value>瀚文自定义内容：</value>
+  </data>
+  <data name="Hw75CustomContentIsVisibility.Text" xml:space="preserve">
+    <value>是否显示自定义文本：</value>
+  </data>
+  <data name="Hw75CustomFontSize.Text" xml:space="preserve">
+    <value>自定义文字大小：</value>
+  </data>
+  <data name="Hw75CustomView" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="Hw75ImagePath.Text" xml:space="preserve">
+    <value>自定义图片路径：</value>
+  </data>
+  <data name="Hw75WeatherView" xml:space="preserve">
+    <value>天气</value>
+  </data>
+  <data name="Hw75YellowCalendarView" xml:space="preserve">
+    <value>黄历</value>
+  </data>
+  <data name="TodoView" xml:space="preserve">
+    <value>微软待办</value>
+  </data>
+  <data name="Hw75TimeIsVisibility.Text" xml:space="preserve">
+    <value>是否显示日期时间:</value>
+  </data>
+  <data name="Hw75YellowCalendarKey.Text" xml:space="preserve">
+    <value>聚合数据老黄历Key：</value>
+  </data>
+  <data name="alipay.Text" xml:space="preserve">
+    <value>支付宝</value>
+  </data>
+  <data name="DaShang.Content" xml:space="preserve">
+    <value>点击扫码打赏作者</value>
+  </data>
+  <data name="wechat.Text" xml:space="preserve">
+    <value>微信</value>
+  </data>
+  <data name="VerdureBilibili.Content" xml:space="preserve">
+    <value>点击关注我B站获取最新消息</value>
+  </data>
+  <data name="ChatGPTCustomTitle" xml:space="preserve">
+    <value>ChatGPTCustom</value>
+  </data>
+  <data name="ChatGPTVersion.Text" xml:space="preserve">
+    <value>ChatGPT-Model:</value>
+  </data>
+  <data name="BotSettingDesc.Text" xml:space="preserve">
+    <value>包含表盘设备和语音配置等</value>
+  </data>
+  <data name="BotSettingTitle.Text" xml:space="preserve">
+    <value>BotSetting</value>
+  </data>
+  <data name="GoodbyeName" xml:space="preserve">
+    <value>主人再见呀</value>
+  </data>
+  <data name="HelloName" xml:space="preserve">
+    <value>主人你好呀</value>
+  </data>
+  <data name="IsHelloEnabled.Text" xml:space="preserve">
+    <value>是否开启解锁屏互动：</value>
+  </data>
+  <data name="Shell_Vision.Content" xml:space="preserve">
+    <value>视觉分析</value>
+  </data>
+  <data name="HomeAssistantTitle.Text" xml:space="preserve">
+    <value>Home Assistant智能家居配置</value>
+  </data>
+  <data name="HomeAssistantTitle_Desc.Text" xml:space="preserve">
+    <value>Home Assistant智能家居服务和设备的启动配置</value>
+  </data>
+  <data name="SwitchCB.Header" xml:space="preserve">
+    <value>默认的开关设备</value>
+  </data>
+  <data name="IsSessionSwitchEnabled.Text" xml:space="preserve">
+    <value>是否开启解锁屏开关场景：</value>
+  </data>
+  <data name="IsHw75TestModeEnabled.Text" xml:space="preserve">
+    <value>是否开启瀚文旋钮测试：</value>
+  </data>
+  <data name="SparkDeskTitle" xml:space="preserve">
+    <value>讯飞星火</value>
+  </data>
+  <data name="NotificationAreaIconExitText" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="NotificationAreaIconMenuItemText" xml:space="preserve">
+    <value>DisplayOrHide</value>
+  </data>
+  <data name="Hw75ConnectedText" xml:space="preserve">
+    <value>瀚文已连接</value>
+  </data>
+  <data name="Hw75DisconnectedText" xml:space="preserve">
+    <value>瀚文已断开</value>
+  </data>
+  <data name="Hw75WeatherAppCode.Text" xml:space="preserve">
+    <value>天气预报AppCode:</value>
+  </data>
+  <data name="WeatherBuyAppCodeBtn.Content" xml:space="preserve">
+    <value>天气AppCode获取链接</value>
+  </data>
+  <data name="YellowCalendarBuyAppKeyBtn.Content" xml:space="preserve">
+    <value>老黄历AppKey获取链接</value>
+  </data>
+  <data name="GrooveView" xml:space="preserve">
+    <value>律动表盘</value>
+  </data>
+  <data name="AgentPage.Content" xml:space="preserve">
+    <value>智能体</value>
+  </data>
+  <data name="ChatPage.Content" xml:space="preserve">
+    <value>聊天</value>
+  </data>
+  <data name="HomeSendBtn.Content" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="HomeChatHeader.Title" xml:space="preserve">
+    <value>开始唠嗑吧！</value>
+  </data>
+  <data name="HomeChatHeader.Description" xml:space="preserve">
+    <value>请在输入框愉快的和我聊天吧！</value>
+  </data>
+  <data name="DelConvMenu.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ChatLoading.Text" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+</root>

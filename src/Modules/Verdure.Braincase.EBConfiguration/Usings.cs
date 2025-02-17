@@ -1,0 +1,17 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Collections.ObjectModel;
+global using System.Diagnostics;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using System.Windows.Input;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.DependencyInjection;
+global using CommunityToolkit.Mvvm.Input;
+global using Microsoft.UI.Xaml;
+global using Verdure.Braincase.Core.Contracts.Services;
+global using Verdure.Braincase.Core.Models;
+global using Verdure.Braincase.Core.Models.Emojis.Enums;
+global using Verdure.Braincase.WinUI.Common;
+global using Verdure.Braincase.WinUI.Common.Contracts.ViewModels;
+global using Verdure.Braincase.WinUI.Common.Models;

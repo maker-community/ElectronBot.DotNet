@@ -1,0 +1,14 @@
+﻿{
+  "name": "change_clock_view",
+  "description": "更换表盘的函数",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "clock_view": {
+        "type": "string",
+        "description": "表盘标识名称"
+      }
+    },
+    "required": [ "clock_view" ]
+  }
+}

@@ -927,4 +927,7 @@
   <data name="LingxiSpaceHeader.Text" xml:space="preserve">
     <value>Lingxi Space</value>
   </data>
+  <data name="SetClockViewImageMenu.Text" xml:space="preserve">
+    <value>设为表盘图片</value>
+  </data>
 </root>

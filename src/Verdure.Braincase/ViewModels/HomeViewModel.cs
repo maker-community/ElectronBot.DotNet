@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Contracts.Services;
 using Controls.CompactOverlay;
 using Mediapipe.Net.Solutions;
@@ -14,6 +15,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Services;
 using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.Core.Models.Lingxi;
 using Verdure.Braincase.EbScreen.Views;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.Models;
@@ -27,7 +30,7 @@ using Windows.Media.SpeechRecognition;
 
 namespace Verdure.Braincase.ViewModels;
 
-public partial class HomeViewModel : ObservableRecipient, INavigationAware
+public partial class HomeViewModel : ObservableRecipient, INavigationAware,IRecipient<ChangeClockView>
 {
     private readonly DispatcherTimer _dispatcherTimer;
 
@@ -108,6 +111,8 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
         ElectronBotHelper.Instance.ClockCanvasStop += Instance_ClockCanvasStop;
         ElectronBotHelper.Instance.ClockCanvasStart += Instance_ClockCanvasStart;
         _elementTheme = elementTheme.Theme;
+
+        WeakReferenceMessenger.Default.Register<ChangeClockView>(this);
     }
 
     private void Instance_ClockCanvasStart(object? sender, EventArgs e)
@@ -864,5 +869,35 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware
     public void OnNavigatedFrom()
     {
         _dispatcherTimer.Stop();
+    }
+
+    public  void Receive(ChangeClockView view)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(async() =>
+        {
+            var clockName = view.ClockViewName;
+            if (!string.IsNullOrWhiteSpace(clockName))
+            {
+                var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
+
+                service.ClearQueue();
+
+                var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockName);
+
+                if (clockName == "GooeyFooter" || clockName == "CustomView" || clockName == "GrooveView")
+                {
+                    _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 30);
+                }
+                else
+                {
+                    _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                }
+
+                Element = viewProvider.CreateClockView(clockName);
+
+                await _localSettingsService
+                    .SaveSettingAsync(Constants.CurrentClockViewKey, clockName);
+            }
+        });
     }
 }

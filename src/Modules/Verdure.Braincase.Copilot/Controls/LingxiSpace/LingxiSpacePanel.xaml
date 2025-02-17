@@ -30,8 +30,7 @@
         <lingxiSpace:LingxiSpaceHeader Grid.Row="0" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
         <lingxiSpace:LingxiSpaceList
             Grid.Row="1"
-            Height="300"
-            MinHeight="200"
+            Height="400"
             MaxHeight="600"
             ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
     </Grid>

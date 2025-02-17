@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <LangVersion>12.0</LangVersion>
-        <BotSharpVersion>3.0.0-verdure4</BotSharpVersion>
+        <BotSharpVersion>4.0.0-verdure1</BotSharpVersion>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
     </PropertyGroup>

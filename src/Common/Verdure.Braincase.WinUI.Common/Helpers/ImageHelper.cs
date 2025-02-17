@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System.Net.Mime;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Verdure.Braincase.WinUI.Common.Models;
@@ -104,5 +105,18 @@ public static class ImageHelper
             result = true;
         }
         return result;
+    }
+    public static async Task<WriteableBitmap> WriteableBitmapFromBase64StringAsync(string base64String, int width = 1024, int height = 1024)
+    {
+        var writeableBitmap = new WriteableBitmap(width, height);
+        if (base64String != null)
+        {
+            var byteArray = Convert.FromBase64String(base64String.Replace($"data:{MediaTypeNames.Image.Png};base64,", ""));
+            using var stream = new InMemoryRandomAccessStream();
+            await stream.WriteAsync(byteArray.AsBuffer());
+            stream.Seek(0);
+            await writeableBitmap.SetSourceAsync(stream);
+        }
+        return writeableBitmap;
     }
 }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Verdure.Braincase.EBConfiguration.Views.EBDebugPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controlAction="using:Verdure.Braincase.EBConfiguration.Controls.Action"
+    xmlns:controlLocal="using:Verdure.Braincase.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Verdure.Braincase.EBConfiguration.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="ContentArea">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="12"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <controlLocal:EBActionEdit
+                x:Name="ActionEdit"
+                MinWidth="340"
+                J1="{x:Bind ViewModel.J1, Mode=TwoWay}"
+                J2="{x:Bind ViewModel.J2, Mode=TwoWay}"
+                J3="{x:Bind ViewModel.J3, Mode=TwoWay}"
+                J4="{x:Bind ViewModel.J4, Mode=TwoWay}"
+                J5="{x:Bind ViewModel.J5, Mode=TwoWay}"
+                J6="{x:Bind ViewModel.J6, Mode=TwoWay}"
+                ValueChanged="{x:Bind ViewModel.Head_ValueChanged}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="12"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <controlAction:GamepadAction
+                x:Name="GamepadAction"
+                MinWidth="340"
+                ViewModel="{x:Bind GamepadActionViewModel}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Margin="12"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <controlLocal:EBActionTimeline
+                x:Name="EBActionTimeline"
+                MinWidth="340"
+                ViewModel="{x:Bind ViewModel}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Margin="12"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <Button
+                x:Name="LaunchApp"
+                x:Uid="LaunchApp"
+                Width="40"
+                Height="40"
+                Margin="4"
+                BorderBrush="{ThemeResource SystemAccentColor}"
+                BorderThickness="2"
+                Command="{x:Bind ViewModel.AddLaunchAppCommand}"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE8F1;" />
+            </Button>
+            <controlLocal:EBLaunchAppList
+                MinWidth="340"
+                Margin="4"
+                ViewModel="{x:Bind ViewModel}" />
+        </StackPanel>
+    </Grid>
+</Page>

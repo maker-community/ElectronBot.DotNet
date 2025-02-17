@@ -1,7 +1,10 @@
-﻿using BotSharp.Abstraction.Messaging.JsonConverters;
+﻿using BotSharp.Abstraction.Conversations;
+using BotSharp.Abstraction.Messaging.JsonConverters;
+using BotSharp.Abstraction.MLTasks;
 using BotSharp.Abstraction.Repositories;
 using BotSharp.Abstraction.Users;
 using BotSharp.Core;
+using BotSharp.Core.Infrastructures;
 using BotSharp.Logger;
 using Contracts.Services;
 using Controls;
@@ -29,11 +32,15 @@ using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 using Verdure.Braincase.Core.EbotGrpcService;
 using Verdure.Braincase.DataStorage;
 using Verdure.Braincase.DataStorage.Services;
+using Verdure.Braincase.EBConfiguration.ViewModels;
+using Verdure.Braincase.EBConfiguration.Views;
 using Verdure.Braincase.EbScreen.Views;
 using Verdure.Braincase.Emojis.eShop;
 using Verdure.Braincase.Emojis.ViewModels;
 using Verdure.Braincase.Notifications;
 using Verdure.Braincase.Services;
+using Verdure.Braincase.Settings.ViewModels;
+using Verdure.Braincase.Settings.Views;
 using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.Views;
 using Verdure.Braincase.WinUI.Common.Players;
@@ -278,8 +285,22 @@ public static class ConfigureServicesExtensions
             .AddTransient<AgentViewModel>()
             .AddTransient<AgentPage>()
             .AddTransient<ChatViewModel>()
-        .AddTransient<LingxiSpaceViewModel>()
+            .AddTransient<LingxiSpaceViewModel>()
+            .AddTransient<EBLaunchAppPage>()
+            .AddTransient<EBLaunchAppViewModel>()
             .AddTransient<ILingxiSpaceService, LiteDBLingxiSpaceService>()
+            .AddTransient<EBDebugPage>()
+            .AddTransient<EBDebugViewModel>()
+            .AddTransient<GamepadActionViewModel>()
+            .AddScoped<ConversationHookProvider>()
+            .AddTransient<AppSettingsPage>()
+            .AddTransient<AppSettingsViewModel>()
+            .AddTransient<DialogueSettingsPage>()
+            .AddTransient<DialogueSettingsViewModel>()
+            .AddTransient<DrawingSettingsPage>()
+            .AddTransient<DrawingSettingsViewModel>()
+            .AddTransient<VoiceSettingsPage>()
+            .AddTransient<VoiceSettingsViewModel>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());
@@ -290,7 +311,9 @@ public static class ConfigureServicesExtensions
             .AddScoped<IUserIdentity, BotUserIdentity>()
             .AddScoped<IBotToolService, BotToolService>()
             .AddScoped<IBotIotService, BotIotService>()
+            .AddScoped<IDialogService, DialogService>()
             .AddBotSharpLogger(config)
+            .AddTransient<ILlmProviderService, LocalSettingLlmProviderService>()
             // Configuration
             .BuildServiceProvider());
     }

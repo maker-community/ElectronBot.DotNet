@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.Braincase.WinUI.Common.Helpers;
 using Verdure.Braincase.HelloWordKeyboard.Helpers;
+using BotSharp.Core.Infrastructures;
 
 namespace Verdure.Braincase;
 
@@ -64,6 +65,9 @@ public partial class App : Application
         Build();
 
         Ioc.Default.GetRequiredService<IAppNotificationService>().Initialize();
+
+        // Set root services for SharpCacheAttribute
+        SharpCacheAttribute.Services = Ioc.Default.GetRequiredService<IServiceProvider>();
 
         UnhandledException += App_UnhandledException;
     }
