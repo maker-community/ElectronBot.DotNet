@@ -654,7 +654,7 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
                 }
             }
         }
-        else if (modeNo == 4)
+        else if (modeNo == 3)
         {
             var (x, y) = EbHelper.GetScreenCursorPos();
 
@@ -692,29 +692,11 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
         }
     }
 
-    public void Head_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-    {
-        if (ElectronBotHelper.Instance.EbConnected && modeNo == 1)
-        {
-            Task.Run(() =>
-            {
-                if (ElectronBotHelper.Instance.EbConnected)
-                {
-                    var data = new byte[240 * 240 * 3];
-
-                    var frame = new EmoticonActionFrame(data, true, j1, j2, j3, j4, j5, j6);
-
-                    ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
-                }
-            });
-        }
-    }
-
     public async void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var radioButtons = (RadioButtons)sender;
 
-        var service = Ioc.Default.GetRequiredService<EmoticonActionFrameService>();
+        var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
 
         service.ClearQueue();
 
@@ -766,19 +748,6 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
             else
             {
                 await ResetActionAsync();
-                _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(Interval);
-                _dispatcherTimer.Start();
-            }
-        }
-        else if (index == 4)
-        {
-            if (!ElectronBotHelper.Instance.EbConnected)
-            {
-                ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-            }
-            else
-            {
-                await ResetActionAsync();
 
                 //var matData = new OpenCvSharp.Mat(Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\Pic\\eyes-closed.png");
 
@@ -799,22 +768,6 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
         else
         {
             _dispatcherTimer.Stop();
-        }
-    }
-
-    private ICommand _pauseCommand;
-
-    public ICommand PauseCommand
-    {
-        get
-        {
-            _pauseCommand ??= new RelayCommand(
-                    () =>
-                    {
-
-                    });
-
-            return _pauseCommand;
         }
     }
 

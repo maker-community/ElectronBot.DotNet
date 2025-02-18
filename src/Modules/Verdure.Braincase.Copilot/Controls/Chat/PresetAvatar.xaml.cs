@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Rodel. All rights reserved.
 
+using BotSharp.Abstraction.Agents.Enums;
+using Microsoft.UI.Xaml.Media.Imaging;
+
 namespace Verdure.Braincase.Copilot.Controls;
 
 /// <summary>
@@ -12,6 +15,27 @@ public sealed partial class PresetAvatar : UserControl
     /// </summary>
     public static readonly DependencyProperty PresetIdProperty =
         DependencyProperty.Register(nameof(PresetId), typeof(string), typeof(PresetAvatar), new PropertyMetadata(default, new PropertyChangedCallback(OnPresetIdChanged)));
+
+    /// <summary>
+    /// Dependency property of <see cref="AvatarUrl"/>.
+    /// </summary>
+    public static readonly DependencyProperty AvatarUrlProperty =
+        DependencyProperty.Register(
+            nameof(AvatarUrl),
+            typeof(string),
+            typeof(PresetAvatar),
+            new PropertyMetadata(default));
+
+    /// <summary>
+    /// Dependency property of <see cref="AvatarBitmap"/>.
+    /// </summary>
+    public static readonly DependencyProperty AvatarBitmapProperty =
+        DependencyProperty.Register(
+            nameof(AvatarBitmap),
+            typeof(ImageSource),
+            typeof(PresetAvatar),
+            new PropertyMetadata(default));
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PresetAvatar"/> class.
     /// </summary>
@@ -34,6 +58,24 @@ public sealed partial class PresetAvatar : UserControl
     {
         get => (string)GetValue(PresetIdProperty);
         set => SetValue(PresetIdProperty, value);
+    }
+
+    /// <summary>
+    /// AvatarUrl
+    /// </summary>
+    public string AvatarUrl
+    {
+        get => (string)GetValue(AvatarUrlProperty);
+        set => SetValue(AvatarUrlProperty, value);
+    }
+
+    /// <summary>
+    /// AvatarBitmap
+    /// </summary>
+    public ImageSource AvatarBitmap
+    {
+        get => (ImageSource)GetValue(AvatarBitmapProperty);
+        set => SetValue(AvatarBitmapProperty, value);
     }
 
     private static void OnPresetIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -61,5 +103,15 @@ public sealed partial class PresetAvatar : UserControl
 
     private void CheckAvatarAsync()
     {
+        if (PresetId == AgentRole.User)
+        {
+            AvatarUrl = "ms-appx:///Assets/DefaultIcon.png";
+            AvatarBitmap = new BitmapImage(new Uri("ms-appx:///Assets/DefaultIcon.png"));
+        }
+        else
+        {
+            AvatarUrl = "ms-appx:///Assets/Square44x44Logo.scale-100.png";
+            AvatarBitmap = new BitmapImage(new Uri("ms-appx:///Assets/Square44x44Logo.scale-100.png"));
+        }
     }
 }

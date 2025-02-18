@@ -357,8 +357,8 @@
   <data name="SadName" xml:space="preserve">
     <value>难过</value>
   </data>
-  <data name="Shell_EBDebug.Content" xml:space="preserve">
-    <value>电子调试</value>
+  <data name="Shell_Gamepad.Content" xml:space="preserve">
+    <value>手柄控制器</value>
   </data>
   <data name="Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>添加动作帧</value>
@@ -981,8 +981,5 @@
   </data>
   <data name="Shell_Sponsor_QrCodeTB.Text" xml:space="preserve">
     <value>或扫二维码赞助</value>
-  </data>
-  <data name="NaturalModeRb.Content" xml:space="preserve">
-    <value>互动模式</value>
   </data>
 </root>

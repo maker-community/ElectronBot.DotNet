@@ -68,6 +68,7 @@
                 Margin="8"
                 HorizontalAlignment="Right"
                 Command="{x:Bind ViewModel.MarketplaceCommand}"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                 Foreground="{ThemeResource SystemAccentColor}">
                 <AppBarButton.Icon>
                     <FontIcon
@@ -81,6 +82,7 @@
                 Margin="8"
                 HorizontalAlignment="Right"
                 Command="{x:Bind ViewModel.ImportEmojisFileCommand}"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                 Foreground="{ThemeResource SystemAccentColor}">
                 <AppBarButton.Icon>
                     <FontIcon
@@ -94,6 +96,7 @@
                 Margin="8"
                 HorizontalAlignment="Right"
                 Command="{x:Bind ViewModel.OpenEmojisEditDialogCommand}"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                 Foreground="{ThemeResource SystemAccentColor}">
                 <AppBarButton.Icon>
                     <FontIcon

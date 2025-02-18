@@ -930,4 +930,7 @@
   <data name="SetClockViewImageMenu.Text" xml:space="preserve">
     <value>设为表盘图片</value>
   </data>
+  <data name="ResetAgentBtn.Label" xml:space="preserve">
+    <value>Reset Agent</value>
+  </data>
 </root>

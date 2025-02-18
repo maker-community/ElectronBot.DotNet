@@ -357,7 +357,7 @@
   <data name="SadName" xml:space="preserve">
     <value>슬퍼</value>
   </data>
-  <data name="Shell_Gamepad.Content" xml:space="preserve">
+  <data name="Shell_EBDebug.Content" xml:space="preserve">
     <value>제어 장치</value>
   </data>
   <data name="Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
@@ -917,5 +917,17 @@
   </data>
   <data name="ChatLoading.Text" xml:space="preserve">
     <value>Loading</value>
+  </data>
+  <data name="Shell_SponsorTB.Text" xml:space="preserve">
+    <value>Sponsor Braincase</value>
+  </data>
+  <data name="Shell_Sponsor_CodeTB.Text" xml:space="preserve">
+    <value>Become a braincase contributor</value>
+  </data>
+  <data name="Shell_Sponsor_QrCodeTB.Text" xml:space="preserve">
+    <value>Or scan the QR code to sponsor</value>
+  </data>
+  <data name="NaturalModeRb.Content" xml:space="preserve">
+    <value>Natural Mode</value>
   </data>
 </root>

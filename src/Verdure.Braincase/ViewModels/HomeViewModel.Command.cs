@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Controls;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.WinUI.Common.Helpers;
 
@@ -94,6 +95,89 @@ public partial class HomeViewModel
         else
         {
             ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+        }
+    }
+
+    [RelayCommand]
+    public async Task OnRadioButtonSelectionChangedAsync(object parameter)
+    {
+        // 处理切换事件的逻辑
+        var selectedRadioButton = parameter as RadioButton;
+        if (selectedRadioButton != null)
+        {
+            // 根据选中的RadioButton执行相应的逻辑
+            var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
+
+            service.ClearQueue();
+            if (selectedRadioButton.Name == "NaturalMode")
+            {
+                if (!ElectronBotHelper.Instance.EbConnected)
+                {
+                    ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+                }
+                else
+                {
+                    await ResetActionAsync();
+
+                    var clockName = ClockComBoxSelect?.DataKey;
+
+                    if (clockName != "GooeyFooter" && clockName != "CustomView")
+                    {
+                        _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                    }
+                    _dispatcherTimer.Start();
+                }
+            }
+            else if (selectedRadioButton.Name == "ClockMode")
+            {
+                if (!ElectronBotHelper.Instance.EbConnected)
+                {
+                    ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+                }
+                else
+                {
+                    await ResetActionAsync();
+
+                    var clockName = ClockComBoxSelect?.DataKey;
+
+                    if (clockName != "GooeyFooter" && clockName != "CustomView")
+                    {
+                        _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                    }
+
+                    _dispatcherTimer.Start();
+                }
+            }
+            else if (selectedRadioButton.Name == "NeedleMode")
+            {
+                if (!ElectronBotHelper.Instance.EbConnected)
+                {
+                    ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+                }
+                else
+                {
+                    await ResetActionAsync();
+
+                    //var matData = new OpenCvSharp.Mat(Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\Pic\\eyes-closed.png");
+
+                    //var mat2 = matData.CvtColor(OpenCvSharp.ColorConversionCodes.RGBA2BGR);
+
+                    //var dataMeta = mat2.Data;
+
+                    //var data = new byte[240 * 240 * 3];
+
+                    //Marshal.Copy(dataMeta, data, 0, 240 * 240 * 3);
+
+                    //EbHelper.FaceData = data;
+
+                    _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(50);
+                    _dispatcherTimer.Start();
+                }
+            }
+            else
+            {
+                _dispatcherTimer.Stop();
+            }
         }
     }
 }

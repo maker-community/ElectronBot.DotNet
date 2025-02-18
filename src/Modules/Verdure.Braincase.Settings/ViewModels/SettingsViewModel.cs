@@ -332,7 +332,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
                     foreach (var agent in agents)
                     {
                         agent.LlmConfig.Provider = model.Provider
-                            .Replace("tongyi","openai").Replace("deepseek-ai","openai");
+                            .Replace("tongyi", "openai");
 
                         agent.LlmConfig.Model = model.Name;
 
@@ -393,7 +393,6 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-
     /// <summary>
     /// TextChanged
     /// </summary>
@@ -402,7 +401,6 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     {
         await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
     }
-
 
     /// <summary>
     /// BotSetting

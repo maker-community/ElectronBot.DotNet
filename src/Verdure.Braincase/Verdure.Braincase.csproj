@@ -24,6 +24,13 @@
     <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Assets\MenuIcons\**" />
+    <Content Remove="Assets\MenuIcons\**" />
+    <EmbeddedResource Remove="Assets\MenuIcons\**" />
+    <None Remove="Assets\MenuIcons\**" />
+    <Page Remove="Assets\MenuIcons\**" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -471,10 +478,6 @@
     <Page Update="Controls\AddEmojisContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Views\EmojisEditPage.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Update="Views\Hw75ShellPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -512,6 +515,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Assets\MenuIcons\" />
+    <PRIResource Remove="Assets\MenuIcons\**" />
   </ItemGroup>
 </Project>

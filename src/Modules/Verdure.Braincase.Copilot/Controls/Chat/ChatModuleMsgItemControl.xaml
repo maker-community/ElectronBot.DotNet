@@ -33,7 +33,6 @@
                     <ColumnDefinition x:Name="LeftColumn" Width="*" />
                     <ColumnDefinition x:Name="RightColumn" Width="0.2*" />
                 </Grid.ColumnDefinitions>
-
                 <Grid
                     x:Name="MessageContainer"
                     HorizontalAlignment="Left"
@@ -53,7 +52,8 @@
                         Margin="0,0,8,0"
                         VerticalAlignment="Top"
                         CornerRadius="18"
-                        FontSize="16" />
+                        FontSize="16"
+                        PresetId="{x:Bind ViewModel.Author, Mode=OneWay}" />
                     <Rectangle
                         x:Name="MessageBackground"
                         Grid.Column="1"

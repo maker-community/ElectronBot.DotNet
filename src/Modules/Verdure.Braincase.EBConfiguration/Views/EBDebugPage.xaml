@@ -59,7 +59,7 @@
                 MinWidth="340"
                 ViewModel="{x:Bind ViewModel}" />
         </StackPanel>
-        <StackPanel
+        <!--<StackPanel
             Grid.Row="2"
             Grid.ColumnSpan="2"
             Margin="12"
@@ -82,6 +82,6 @@
                 MinWidth="340"
                 Margin="4"
                 ViewModel="{x:Bind ViewModel}" />
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Page>

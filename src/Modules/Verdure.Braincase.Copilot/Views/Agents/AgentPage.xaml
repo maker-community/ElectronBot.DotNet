@@ -16,34 +16,52 @@
             <Grid
                 Height="200"
                 Margin="8"
-                BorderBrush="{ThemeResource SystemAccentColor}"
-                BorderThickness="1"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 CornerRadius="8">
                 <StackPanel Orientation="Vertical">
                     <Grid>
-                        <!--<Image
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Source="{x:Bind IconUrl}"
-                            Stretch="UniformToFill" />-->
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0" Height="120">
+                        <StackPanel
+                            Grid.Row="0"
+                            Height="80"
+                            Margin="8">
                             <TextBlock
                                 Margin="4"
                                 HorizontalAlignment="Left"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                                 FontSize="20"
                                 Text="{x:Bind Name}" />
                             <TextBlock
                                 Margin="4"
                                 HorizontalAlignment="Left"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                                 FontSize="16"
                                 Text="{x:Bind Description}"
                                 TextWrapping="WrapWholeWords" />
                         </StackPanel>
-                        <StackPanel Grid.Row="1">
+                        <StackPanel
+                            Grid.Row="1"
+                            Margin="8"
+                            Orientation="Horizontal">
+                            <!--<TextBlock
+                                Margin="4"
+                                HorizontalAlignment="Left"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                FontSize="20"
+                                Text="{x:Bind LlmConfig.Provider}" />-->
+                            <TextBlock
+                                Margin="4"
+                                HorizontalAlignment="Left"
+                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                FontSize="16"
+                                Text="{x:Bind LlmConfig.Model}"
+                                TextWrapping="WrapWholeWords" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="2">
                             <Line
                                 Margin="8"
                                 Stroke="{ThemeResource SystemAccentColor}"
@@ -53,7 +71,7 @@
                                 Y1="0"
                                 Y2="0" />
                             <StackPanel Orientation="Horizontal">
-                                <CommandBar
+                                <!--<CommandBar
                                     HorizontalAlignment="Left"
                                     Background="Transparent"
                                     DefaultLabelPosition="Right"
@@ -61,33 +79,39 @@
                                     <AppBarButton Icon="Add" Label="Add" />
                                     <AppBarButton Icon="Edit" Label="Edit" />
                                     <AppBarButton Icon="Share" Label="Share" />
-                                </CommandBar>
-                                <TextBlock VerticalAlignment="Center" Text="{x:Bind Type}" />
+                                </CommandBar>-->
+                                <TextBlock
+                                    Margin="12"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind Type}" />
                             </StackPanel>
-
-
                         </StackPanel>
-
-                        <!--<Border
-                            Grid.Row="2"
-                            Width="24"
-                            Height="24"
-                            Margin="2"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            Visibility="{x:Bind IsPublic, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <FontIcon
-                                FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
-                                Foreground="Red"
-                                Glyph="&#xE776;" />
-                        </Border>-->
                     </Grid>
                 </StackPanel>
             </Grid>
         </DataTemplate>
     </Page.Resources>
-
     <Grid x:Name="ContentArea">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <AppBarButton
+                x:Uid="ResetAgentBtn"
+                Margin="8"
+                HorizontalAlignment="Right"
+                Command="{x:Bind ViewModel.ResetAgentCommand}"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                        FontWeight="Bold"
+                        Glyph="&#xEBC4;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </StackPanel>
         <GridView
             x:Name="AdaptiveGridViewControl"
             Grid.Row="1"
@@ -97,19 +121,17 @@
             ItemTemplate="{StaticResource AgentTemplate}"
             ItemsSource="{x:Bind ViewModel.Agents, Mode=OneWay}"
             SelectionMode="Single">
-
             <!--<GridView.ContextFlyout>
-                <MenuFlyout>
-                    <MenuFlyoutItem x:Name="ViewInfo" x:Uid="ViewEmojisInfo">
-                        <i:Interaction.Behaviors>
-                            <ic:EventTriggerBehavior EventName="Click">
-                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.EmojisInfoCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
-                            </ic:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                    </MenuFlyoutItem>
-                </MenuFlyout>
-            </GridView.ContextFlyout>-->
-
+          <MenuFlyout>
+              <MenuFlyoutItem x:Name="ViewInfo" x:Uid="ViewEmojisInfo">
+                  <i:Interaction.Behaviors>
+                      <ic:EventTriggerBehavior EventName="Click">
+                          <ic:InvokeCommandAction Command="{x:Bind ViewModel.EmojisInfoCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
+                      </ic:EventTriggerBehavior>
+                  </i:Interaction.Behaviors>
+              </MenuFlyoutItem>
+          </MenuFlyout>
+      </GridView.ContextFlyout>-->
         </GridView>
     </Grid>
 </Page>

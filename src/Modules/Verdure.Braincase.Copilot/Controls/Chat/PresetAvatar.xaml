@@ -15,17 +15,21 @@
             CornerRadius="{x:Bind CornerRadius, Mode=OneWay}" />
         <PersonPicture
             x:Name="AgentAvatar"
+            Width="32"
+            Height="32"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             CornerRadius="{x:Bind CornerRadius, Mode=OneWay}"
-            Visibility="Collapsed" />
-        <TextBlock
+            ProfilePicture="{x:Bind AvatarBitmap, Mode=OneWay}"
+            Visibility="Visible" />
+        <!--<TextBlock
             x:Name="EmojiAvatar"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontFamily="Segoe UI Emoji"
             FontSize="28"
+            Text="{x:Bind PresetId, Mode=OneWay}"
             TextLineBounds="Tight"
-            Visibility="Collapsed" />
+            Visibility="Visible" />-->
     </Grid>
 </UserControl>
