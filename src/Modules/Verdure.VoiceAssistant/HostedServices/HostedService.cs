@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using NetCoreAudio;
 using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Helpers;
 using Windows.ApplicationModel;
 
 namespace Verdure.VoiceAssistant.HostedServices;
@@ -14,6 +17,8 @@ public class HostedService : IHostedService, IDisposable
     private readonly ILogger<HostedService> _logger;
 
     private readonly IWakeWordListener _wakeWordListener;
+
+    private readonly DispatcherQueue _dispatcherQueue;
 
     private Task _executeTask;
     private readonly CancellationTokenSource _cancelToken = new();
@@ -32,6 +37,7 @@ public class HostedService : IHostedService, IDisposable
         _wakeWordListener = wakeWordListener;
         _notificationSoundFilePath = Package.Current.InstalledLocation.Path + $"\\Assets\\Keyword\\bing.mp3";
         _player = new Player();
+        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
     }
 
     /// <summary>
@@ -69,11 +75,22 @@ public class HostedService : IHostedService, IDisposable
                 // Listen to the user
                 var userSpoke = string.Empty;//context.Result;
 
+                // Wait for wake word or phrase
+                if (!await _wakeWordListener.WaitForWakeWordAsync(cancellationToken))
+                {
+                    //continue;
+                }
+
+                await _player.Play(_notificationSoundFilePath);
                 // Get a reply from the AI and add it to the chat history.
                 var reply = string.Empty;
                 try
                 {
+                    _dispatcherQueue.TryEnqueue(() =>
+                    {
+                        ToastHelper.SendToast("keyword is ok", TimeSpan.FromSeconds(3));
 
+                    });
                 }
                 catch (Exception aiex)
                 {

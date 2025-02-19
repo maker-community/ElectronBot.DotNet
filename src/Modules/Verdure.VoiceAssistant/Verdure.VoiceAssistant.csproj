@@ -17,6 +17,7 @@
     </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Verdure.Braincase.Core\Verdure.Braincase.Core.csproj" />
+    <ProjectReference Include="..\..\Common\Verdure.Braincase.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
   </ItemGroup>
 
 </Project>
