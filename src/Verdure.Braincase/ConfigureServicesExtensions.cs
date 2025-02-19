@@ -16,6 +16,7 @@ using HelixToolkit.SharpDX.Core;
 using HelloWordKeyboard.DotNet;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.UI.Xaml;
@@ -49,6 +50,9 @@ using Verdure.Braincase.WinUI.Common.ViewDataSource;
 using Verdure.Braincase.WinUI.Common.ViewModels;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.IoT.Net.Services;
+using Verdure.VoiceAssistant.Configuration;
+using Verdure.VoiceAssistant.Handlers;
+using Verdure.VoiceAssistant.HostedServices;
 using ViewModels;
 using Views;
 using Windows.Media.Playback;
@@ -74,6 +78,8 @@ public static class ConfigureServicesExtensions
 
         var canvasDevice = CanvasDevice.GetSharedDevice();
         services.Configure<LocalSettingsOptions>(config.GetSection(nameof(LocalSettingsOptions)));
+
+        services.Configure<AzureCognitiveServicesOptions>(config.GetSection("AzureCognitiveServices"));
         // Register 
         Ioc.Default.ConfigureServices(
             services.AddSingleton(canvasDevice)
@@ -314,6 +320,12 @@ public static class ConfigureServicesExtensions
             .AddScoped<IDialogService, DialogService>()
             .AddBotSharpLogger(config)
             .AddTransient<ILlmProviderService, LocalSettingLlmProviderService>()
+
+            // Add wake phrase listener
+            .AddSingleton<IWakeWordListener, AzCognitiveServicesWakeWordListener>()
+
+            // Add the primary hosted service to start the loop.
+            .AddHostedService<HostedService>()
             // Configuration
             .BuildServiceProvider());
     }

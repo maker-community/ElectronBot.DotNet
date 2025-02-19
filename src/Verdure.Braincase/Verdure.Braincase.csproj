@@ -47,6 +47,8 @@
     <Content Remove="Assets\Emoji\pic\eyes-closed.png" />
     <Content Remove="Assets\Emoji\sad.png" />
     <Content Remove="Assets\hand.png" />
+    <Content Remove="Assets\keyword\bing.mp3" />
+    <Content Remove="Assets\keyword\keyword_cortana.table" />
     <Content Remove="Assets\MLModel1.zip" />
     <Content Remove="Assets\model.onnx" />
     <Content Remove="Assets\Providers\azure-ai.svg" />
@@ -288,6 +290,7 @@
     <ProjectReference Include="..\Modules\Verdure.Braincase.HelloWordKeyboard\Verdure.Braincase.HelloWordKeyboard.csproj" />
     <ProjectReference Include="..\Modules\Verdure.Braincase.Settings\Verdure.Braincase.Settings.csproj" />
     <ProjectReference Include="..\Modules\Verdure.IoT.Net\Verdure.IoT.Net.csproj" />
+    <ProjectReference Include="..\Modules\Verdure.VoiceAssistant\Verdure.VoiceAssistant.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -374,6 +377,12 @@
     <Content Update="Assets\Images\Hw75CustomViewDefault.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Update="Assets\keyword\bing.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\keyword\keyword_cortana.table">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\MLModel1.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
