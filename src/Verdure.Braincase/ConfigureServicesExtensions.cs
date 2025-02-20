@@ -16,7 +16,6 @@ using HelixToolkit.SharpDX.Core;
 using HelloWordKeyboard.DotNet;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.UI.Xaml;
@@ -28,7 +27,6 @@ using Verdure.Braincase.Contracts.Services;
 using Verdure.Braincase.Copilot.Services.BotSharp;
 using Verdure.Braincase.Copilot.ViewModels;
 using Verdure.Braincase.Copilot.Views;
-using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 using Verdure.Braincase.Core.EbotGrpcService;
 using Verdure.Braincase.DataStorage;
@@ -96,7 +94,7 @@ public static class ConfigureServicesExtensions
             .AddSingleton<ICompositorProvider, CompositorProvider>()
             .AddSingleton<IAppNotificationService, AppNotificationService>()
             //.AddSingleton<ILocalSettingsService, LocalSettingsService>()
-            .AddSingleton<ILocalSettingsService,LiteDBLocalSettingsService>()
+            .AddSingleton<ILocalSettingsService, LiteDBLocalSettingsService>()
             .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
             .AddTransient<INavigationViewService, NavigationViewService>()
             .AddSingleton<ISpeechAndTTSService, SpeechAndTTSService>()
@@ -323,7 +321,7 @@ public static class ConfigureServicesExtensions
 
             // Add wake phrase listener
             .AddSingleton<IWakeWordListener, AzCognitiveServicesWakeWordListener>()
-
+            .AddSingleton<IBotSpeech, AzBotSpeech>()
             // Add the primary hosted service to start the loop.
             .AddHostedService<HostedService>()
             // Configuration

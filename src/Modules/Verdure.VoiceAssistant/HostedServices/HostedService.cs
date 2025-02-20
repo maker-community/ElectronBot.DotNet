@@ -1,10 +1,16 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using BotSharp.Abstraction.Agents.Enums;
+using BotSharp.Abstraction.Conversations;
+using BotSharp.Abstraction.Conversations.Models;
+using BotSharp.Abstraction.Routing;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using NetCoreAudio;
 using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Models.Lingxi;
 using Verdure.Braincase.Helpers;
+using Verdure.Braincase.WinUI.Common;
 using Windows.ApplicationModel;
 
 namespace Verdure.VoiceAssistant.HostedServices;
@@ -17,6 +23,14 @@ public class HostedService : IHostedService, IDisposable
     private readonly ILogger<HostedService> _logger;
 
     private readonly IWakeWordListener _wakeWordListener;
+
+    private readonly IBotSpeech _botSpeech;
+
+    private readonly ILocalSettingsService _localSettingsService;
+
+    private readonly IConversationService _conversationService;
+
+    private readonly IRoutingService _routing;
 
     private readonly DispatcherQueue _dispatcherQueue;
 
@@ -31,13 +45,21 @@ public class HostedService : IHostedService, IDisposable
     /// Constructor
     /// </summary>
     public HostedService(IWakeWordListener wakeWordListener,
-        ILogger<HostedService> logger)
+        ILogger<HostedService> logger,
+        IBotSpeech botSpeech,
+        ILocalSettingsService localSettingsService,
+        IConversationService conversationService,
+        IRoutingService routing)
     {
         _logger = logger;
         _wakeWordListener = wakeWordListener;
         _notificationSoundFilePath = Package.Current.InstalledLocation.Path + $"\\Assets\\Keyword\\bing.mp3";
         _player = new Player();
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        _botSpeech = botSpeech;
+        _localSettingsService = localSettingsService;
+        _conversationService = conversationService;
+        _routing = routing;
     }
 
     /// <summary>
@@ -68,29 +90,59 @@ public class HostedService : IHostedService, IDisposable
             await _player.Play(_notificationSoundFilePath);
 
             // Say hello on startup
-
+            await _botSpeech.SpeakAsync("Hello!");
             // Start listening
             while (!cancellationToken.IsCancellationRequested)
             {
                 // Listen to the user
-                var userSpoke = string.Empty;//context.Result;
+                var userSpoke = await _botSpeech.ListenAsync();
 
-                // Wait for wake word or phrase
-                if (!await _wakeWordListener.WaitForWakeWordAsync(cancellationToken))
+                _dispatcherQueue.TryEnqueue(() =>
                 {
-                    //continue;
-                }
-
-                await _player.Play(_notificationSoundFilePath);
+                    ToastHelper.SendToast($"用户的问题:{userSpoke}", TimeSpan.FromSeconds(3));
+                });
                 // Get a reply from the AI and add it to the chat history.
                 var reply = string.Empty;
                 try
                 {
-                    _dispatcherQueue.TryEnqueue(() =>
-                    {
-                        ToastHelper.SendToast("keyword is ok", TimeSpan.FromSeconds(3));
 
+                    var saveConv = await _localSettingsService
+                        .ReadSettingAsync<Conversation>(Constants.CurrentConversationKey);
+
+                    if (saveConv == null)
+                    {
+                        _logger.LogError("No conversation ID found.");
+                        return;
+                    }
+
+                    var inputMsg = new RoleDialogModel(AgentRole.User, userSpoke)
+                    {
+                        MessageId = Guid.NewGuid().ToString(),
+                        CreatedAt = DateTime.UtcNow
+                    };
+
+                    WeakReferenceMessenger.Default.Send(inputMsg);
+
+                    _routing.Context.SetMessageId(saveConv.Id, inputMsg.MessageId);
+
+                    _conversationService.SetConversationId(saveConv.Id, new());
+
+                    await Task.Run(async () =>
+                    {
+                        await _conversationService.SendMessage(saveConv.AgentId, inputMsg,
+                            replyMessage: null,
+                            async msg =>
+                            {
+                                reply = msg.Content;
+                                _dispatcherQueue.TryEnqueue(() =>
+                                {
+                                    WeakReferenceMessenger.Default.Send(msg);
+                                    ToastHelper.SendToast($"result:{msg.Content}", TimeSpan.FromSeconds(3));
+                                });
+                            });
                     });
+                   
+
                 }
                 catch (Exception aiex)
                 {
@@ -99,6 +151,7 @@ public class HostedService : IHostedService, IDisposable
                 }
 
                 // Speak the AI's reply
+                await _botSpeech.SpeakAsync(reply);
 
                 // If the user said "Goodbye" - stop listening and wait for the wake work again.
                 if (userSpoke.StartsWith("goodbye", StringComparison.InvariantCultureIgnoreCase))

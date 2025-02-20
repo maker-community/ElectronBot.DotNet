@@ -1,15 +1,18 @@
 ﻿using System.Collections.Specialized;
 using System.Linq;
 using BotSharp.Abstraction.Conversations;
+using BotSharp.Abstraction.Conversations.Models;
 using BotSharp.Abstraction.Users;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Dispatching;
 using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Models.Lingxi;
 
 
 namespace Verdure.Braincase.Copilot.ViewModels;
 
-public partial class ChatViewModel : ObservableRecipient
+public partial class ChatViewModel : ObservableRecipient, IRecipient<RoleDialogModel>
 {
     private readonly IConversationService _conversationService;
     private readonly IUserIdentity _userIdentity;
@@ -26,9 +29,19 @@ public partial class ChatViewModel : ObservableRecipient
         _userIdentity = userIdentity;
         _userService = userService;
         _services = services;
+        WeakReferenceMessenger.Default.Register<RoleDialogModel>(this);
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         MessageList.CollectionChanged += OnMessageCountChanged;
         _localSettingsService = localSettingsService;
+    }
+
+    public void Receive(RoleDialogModel message)
+    {
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            var msgItem = new ChatMessageItemViewModel(message, null, null);
+            MessageList.Add(msgItem);
+        });
     }
 
     private void OnMessageCountChanged(object? sender, NotifyCollectionChangedEventArgs e)
