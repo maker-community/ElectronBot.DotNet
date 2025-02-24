@@ -20,10 +20,15 @@ public class DefaultBotSpeech : IBotSpeech
         _speechRecognizer = new SpeechRecognizer(SpeechRecognizer.SystemSpeechLanguage);
         var webSearchGrammar = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.WebSearch, "webSearch");
         _speechRecognizer.Constraints.Add(webSearchGrammar);
+        //var dictationConstraint = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.Dictation, "dictation");
+        //_speechRecognizer.Constraints.Add(dictationConstraint);
+
     }
-    public Task InitAsync(CancellationToken cancellationToken = default)
+    public async Task InitAsync(CancellationToken cancellationToken = default)
     {
-        return Task.CompletedTask;
+        var compilation = await _speechRecognizer.CompileConstraintsAsync();
+        if (compilation.Status != SpeechRecognitionResultStatus.Success)
+            throw new Exception(compilation.Status.ToString());
     }
     public async Task<string> ListenAsync(CancellationToken cancellationToken = default)
     {
