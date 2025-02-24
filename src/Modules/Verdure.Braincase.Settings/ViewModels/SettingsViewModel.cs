@@ -43,6 +43,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         _userDataService = userDataService;
         _chatBotComboxModels = GetChatBotClientComboxList();
         _chatGPTVersionomboxModels = comboxDataService.GetChatGPTVersionComboxList();
+        _llmVoiceComboxModels = comboxDataService.GetLlmVoiceComboxList();
         _windowEx = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow();
     }
 
@@ -201,6 +202,18 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
     public ObservableCollection<ComboxItemModel> _chatBotComboxModels;
 
     /// <summary>
+    /// 语音服务列表
+    /// </summary>
+    [ObservableProperty]
+    public ObservableCollection<ComboxItemModel> _llmVoiceComboxModels;
+
+    /// <summary>
+    /// 聊天机器人选中数据
+    /// </summary>
+    [ObservableProperty]
+    ComboxItemModel _llmVoiceSelect;
+
+    /// <summary>
     /// CHatGPTVersion选中数据
     /// </summary>
     [ObservableProperty]
@@ -339,6 +352,7 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
                         await agentService.UpdateAgent(agent, AgentField.LlmConfig);
                     }
                     await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, ChatBotSelect);
+                    ToastHelper.SendToast("Save Ok", TimeSpan.FromSeconds(3));
                 }
                 else
                 {
@@ -356,10 +370,23 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
         if (!string.IsNullOrWhiteSpace(chatGPTName))
         {
+            var modelList = await _localSettingsService.ReadSettingAsync<List<CustomLlmProviderSetting>>(Constants.LlmProviders);
+
             BotSetting.ChatGPTVersion = chatGPTName;
             await _localSettingsService.SaveSettingAsync(Constants.DefaultChatGPTNameKey, chatGPTName);
 
             await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
+        }
+    }
+
+    [RelayCommand]
+    public async Task LlmVoiceChangedAsync()
+    {
+        var llmVoiceName = LlmVoiceSelect?.DataKey;
+
+        if (!string.IsNullOrWhiteSpace(llmVoiceName))
+        {
+            await _localSettingsService.SaveSettingAsync(Constants.DefaultLlmVoiceNameKey, LlmVoiceSelect);
         }
     }
 
@@ -614,6 +641,14 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
             if (chatBotModel != null)
             {
                 ChatBotSelect = ChatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
+            }
+
+            var llmVoiceModel = await _localSettingsService
+                .ReadSettingAsync<ComboxItemModel>(Constants.DefaultLlmVoiceNameKey);
+
+            if (llmVoiceModel != null)
+            {
+                LlmVoiceSelect = LlmVoiceComboxModels.FirstOrDefault(c => c.DataValue == llmVoiceModel.DataValue);
             }
 
             var chatGPTModel = await _localSettingsService

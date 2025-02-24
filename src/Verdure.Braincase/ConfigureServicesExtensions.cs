@@ -27,6 +27,7 @@ using Verdure.Braincase.Contracts.Services;
 using Verdure.Braincase.Copilot.Services.BotSharp;
 using Verdure.Braincase.Copilot.ViewModels;
 using Verdure.Braincase.Copilot.Views;
+using Verdure.Braincase.Core.Configuration;
 using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 using Verdure.Braincase.Core.EbotGrpcService;
 using Verdure.Braincase.DataStorage;
@@ -48,7 +49,6 @@ using Verdure.Braincase.WinUI.Common.ViewDataSource;
 using Verdure.Braincase.WinUI.Common.ViewModels;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.IoT.Net.Services;
-using Verdure.VoiceAssistant.Configuration;
 using Verdure.VoiceAssistant.Handlers;
 using Verdure.VoiceAssistant.HostedServices;
 using ViewModels;
@@ -321,7 +321,8 @@ public static class ConfigureServicesExtensions
 
             // Add wake phrase listener
             .AddSingleton<IWakeWordListener, AzCognitiveServicesWakeWordListener>()
-            .AddSingleton<IBotSpeech, AzBotSpeech>()
+            .AddSingleton<IBotSpeech, DefaultBotSpeech>()
+            .AddSingleton<IBotSpeech, AzBotSpeech>() 
             // Add the primary hosted service to start the loop.
             .AddHostedService<HostedService>()
             // Configuration

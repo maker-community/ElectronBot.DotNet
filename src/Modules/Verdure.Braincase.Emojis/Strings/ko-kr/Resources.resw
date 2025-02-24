@@ -927,4 +927,7 @@
   <data name="Shell_Sponsor_QrCodeTB.Text" xml:space="preserve">
     <value>Or scan the QR code to sponsor</value>
   </data>
+  <data name="ResetEmojisBtn.Label" xml:space="preserve">
+    <value>Reset Emojis</value>
+  </data>
 </root>

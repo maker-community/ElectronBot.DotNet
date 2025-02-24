@@ -105,6 +105,20 @@
                         Glyph="&#xE104;" />
                 </AppBarButton.Icon>
             </AppBarButton>
+            <AppBarButton
+                x:Uid="ResetEmojisBtn"
+                Margin="8"
+                HorizontalAlignment="Right"
+                Command="{x:Bind ViewModel.ResetEmojisFileCommand}"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                Foreground="{ThemeResource SystemAccentColor}">
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                        FontWeight="Bold"
+                        Glyph="&#xEBC4;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
         </StackPanel>
         <GridView
             x:Name="AdaptiveGridViewControl"

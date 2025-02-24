@@ -2,8 +2,8 @@
 using Microsoft.CognitiveServices.Speech.Audio;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Verdure.Braincase.Core.Configuration;
 using Verdure.Braincase.Core.Contracts.Services;
-using Verdure.VoiceAssistant.Configuration;
 using Windows.ApplicationModel;
 
 namespace Verdure.VoiceAssistant.Handlers;

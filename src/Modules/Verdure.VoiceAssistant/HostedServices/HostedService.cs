@@ -11,6 +11,7 @@ using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.Models.Lingxi;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.WinUI.Common;
+using Verdure.VoiceAssistant.Services;
 using Windows.ApplicationModel;
 
 namespace Verdure.VoiceAssistant.HostedServices;
@@ -24,13 +25,13 @@ public class HostedService : IHostedService, IDisposable
 
     private readonly IWakeWordListener _wakeWordListener;
 
-    private readonly IBotSpeech _botSpeech;
-
     private readonly ILocalSettingsService _localSettingsService;
 
     private readonly IConversationService _conversationService;
 
     private readonly IRoutingService _routing;
+
+    private readonly IServiceProvider _serviceProvider;
 
     private readonly DispatcherQueue _dispatcherQueue;
 
@@ -49,17 +50,18 @@ public class HostedService : IHostedService, IDisposable
         IBotSpeech botSpeech,
         ILocalSettingsService localSettingsService,
         IConversationService conversationService,
-        IRoutingService routing)
+        IRoutingService routing,
+        IServiceProvider serviceProvider)
     {
         _logger = logger;
         _wakeWordListener = wakeWordListener;
         _notificationSoundFilePath = Package.Current.InstalledLocation.Path + $"\\Assets\\Keyword\\bing.mp3";
         _player = new Player();
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        _botSpeech = botSpeech;
         _localSettingsService = localSettingsService;
         _conversationService = conversationService;
         _routing = routing;
+        _serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -81,21 +83,27 @@ public class HostedService : IHostedService, IDisposable
             // Play a notification to let the user know we have started listening for the wake phrase.
             await _player.Play(_notificationSoundFilePath);
 
+            var botSpeech = await BotSpeechProvider.GetBotSpeechAsync(_serviceProvider);
+
             // Wait for wake word or phrase
             if (!await _wakeWordListener.WaitForWakeWordAsync(cancellationToken))
             {
                 continue;
             }
 
+            //var botSpeech = await BotSpeechProvider.GetBotSpeechAsync(_serviceProvider);
+
+            await botSpeech.InitAsync();
+
             await _player.Play(_notificationSoundFilePath);
 
             // Say hello on startup
-            await _botSpeech.SpeakAsync("Hello!");
+            await botSpeech.SpeakAsync("Hello!");
             // Start listening
             while (!cancellationToken.IsCancellationRequested)
             {
                 // Listen to the user
-                var userSpoke = await _botSpeech.ListenAsync();
+                var userSpoke = await botSpeech.ListenAsync();
 
                 _dispatcherQueue.TryEnqueue(() =>
                 {
@@ -151,7 +159,7 @@ public class HostedService : IHostedService, IDisposable
                 }
 
                 // Speak the AI's reply
-                await _botSpeech.SpeakAsync(reply);
+                await botSpeech.SpeakAsync(reply);
 
                 // If the user said "Goodbye" - stop listening and wait for the wake work again.
                 if (userSpoke.StartsWith("goodbye", StringComparison.InvariantCultureIgnoreCase))

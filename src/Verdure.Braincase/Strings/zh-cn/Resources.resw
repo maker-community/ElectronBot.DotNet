@@ -985,4 +985,10 @@
   <data name="NaturalModeRb.Content" xml:space="preserve">
     <value>互动模式</value>
   </data>
+  <data name="DefaultVoice" xml:space="preserve">
+    <value>默认语音</value>
+  </data>
+  <data name="AzureVoice" xml:space="preserve">
+    <value>Azure语音</value>
+  </data>
 </root>

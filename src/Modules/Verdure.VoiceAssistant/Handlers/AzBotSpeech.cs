@@ -1,42 +1,52 @@
 ﻿using System.Text.RegularExpressions;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Verdure.Braincase.Core.Configuration;
 using Verdure.Braincase.Core.Contracts.Services;
-using Verdure.VoiceAssistant.Configuration;
+using Verdure.Braincase.WinUI.Common;
 
 namespace Verdure.VoiceAssistant.Handlers;
 public class AzBotSpeech : IBotSpeech
 {
     private readonly ILogger _logger;
-    private readonly AzureCognitiveServicesOptions _options;
-    private readonly AudioConfig _audioConfig;
-    private readonly SpeechRecognizer _speechRecognizer;
-    private readonly SpeechSynthesizer _speechSynthesizer;
-
+    private AzureCognitiveServicesOptions _options;
+    private AudioConfig _audioConfig;
+    private SpeechRecognizer _speechRecognizer;
+    private SpeechSynthesizer _speechSynthesizer;
+    private readonly ILocalSettingsService _localSettingsService;
     /// <summary>
     /// Regex for extracting style cues from OpenAI responses.
     /// (not currently supported after the migrations to ChatGPT models)
     /// </summary>
     private static readonly Regex _styleRegex = new Regex(@"(~~(.+)~~)");
 
-    public AzBotSpeech(IOptions<AzureCognitiveServicesOptions> options,
-            ILogger<AzBotSpeech> logger)
+    public string Provider => "AzureVoice";
+
+    public AzBotSpeech(ILogger<AzBotSpeech> logger, ILocalSettingsService localSettingsService)
     {
         _logger = logger;
-        _options = options.Value;
-        _options.Validate();
+        _localSettingsService = localSettingsService;
+    }
 
-        _audioConfig = AudioConfig.FromDefaultMicrophoneInput();
+    public async Task InitAsync(CancellationToken cancellationToken = default)
+    {
+        var options = await _localSettingsService.ReadSettingAsync<AzureCognitiveServicesOptions>(Constants.AzureLlmVoiceConfigKey);
+        if (options != null)
+        {
+            _options = options;
+            options.Validate();
+            _audioConfig = AudioConfig.FromDefaultMicrophoneInput();
+            SpeechConfig speechConfig = SpeechConfig.FromSubscription(options.Key, options.Region);
+            speechConfig.SpeechRecognitionLanguage = options.SpeechRecognitionLanguage;
+            speechConfig.SetProperty(PropertyId.SpeechServiceResponse_PostProcessingOption, "TrueText");
+            speechConfig.SpeechSynthesisVoiceName = options.SpeechSynthesisVoiceName;
 
-        SpeechConfig speechConfig = SpeechConfig.FromSubscription(_options.Key, _options.Region);
-        speechConfig.SpeechRecognitionLanguage = _options.SpeechRecognitionLanguage;
-        speechConfig.SetProperty(PropertyId.SpeechServiceResponse_PostProcessingOption, "TrueText");
-        speechConfig.SpeechSynthesisVoiceName = _options.SpeechSynthesisVoiceName;
-
-        _speechRecognizer = new SpeechRecognizer(speechConfig, _audioConfig);
-        _speechSynthesizer = new SpeechSynthesizer(speechConfig);
+            _speechRecognizer = new SpeechRecognizer(speechConfig, _audioConfig);
+            _speechSynthesizer = new SpeechSynthesizer(speechConfig);
+        }
     }
     public async Task<string> ListenAsync(CancellationToken cancellationToken)
     {
@@ -115,7 +125,7 @@ public class AzBotSpeech : IBotSpeech
 
     public void Dispose()
     {
-        _speechRecognizer.Dispose();
-        _audioConfig.Dispose();
-    }
+        _speechRecognizer?.Dispose();
+        _audioConfig?.Dispose();
+    }  
 }

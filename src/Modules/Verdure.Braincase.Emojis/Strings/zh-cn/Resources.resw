@@ -982,4 +982,7 @@
   <data name="Shell_Sponsor_QrCodeTB.Text" xml:space="preserve">
     <value>或扫二维码赞助</value>
   </data>
+  <data name="ResetEmojisBtn.Label" xml:space="preserve">
+    <value>重置表情</value>
+  </data>
 </root>

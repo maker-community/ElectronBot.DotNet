@@ -954,4 +954,10 @@
   <data name="NaturalModeRb.Content" xml:space="preserve">
     <value>Natural Mode</value>
   </data>
+  <data name="DefaultVoice" xml:space="preserve">
+    <value>Default Voice</value>
+  </data>
+  <data name="AzureVoice" xml:space="preserve">
+    <value>Azure Voice</value>
+  </data>
 </root>

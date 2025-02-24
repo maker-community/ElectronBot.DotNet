@@ -1027,4 +1027,22 @@
   <data name="Tongyi" xml:space="preserve">
     <value>通义</value>
   </data>
+  <data name="LlmVoiceCB.Header" xml:space="preserve">
+    <value>默认语音服务</value>
+  </data>
+  <data name="LlmVoiceCB.PlaceholderText" xml:space="preserve">
+    <value>默认语音服务</value>
+  </data>
+  <data name="LlmVoiceRegion.Text" xml:space="preserve">
+    <value>语音区域</value>
+  </data>
+  <data name="LlmVoiceLanguage.Text" xml:space="preserve">
+    <value>语音语言</value>
+  </data>
+  <data name="LlmVoiceVoiceName.Text" xml:space="preserve">
+    <value>语音名称</value>
+  </data>
+  <data name="LlmVoiceKey.Text" xml:space="preserve">
+    <value>语音ApiKey</value>
+  </data>
 </root>

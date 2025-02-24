@@ -11,7 +11,11 @@
     xmlns:local="using:Verdure.Braincase.Settings.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <converters:BoolToVisibilityConverter
@@ -56,7 +60,107 @@
                                 </Grid>
                             </DataTemplate>
                         </Expander.HeaderTemplate>
-                        <Grid />
+                        <StackPanel>
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="LlmVoiceRegion"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.AzureLlmVoiceSetting.Region, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveAzureLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="LlmVoiceLanguage"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.AzureLlmVoiceSetting.SpeechRecognitionLanguage, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveAzureLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="LlmVoiceVoiceName"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.AzureLlmVoiceSetting.SpeechSynthesisVoiceName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveAzureLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="LlmVoiceKey"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.AzureLlmVoiceSetting.Key, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveAzureLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
                     </Expander>
                 </StackPanel>
             </Grid>

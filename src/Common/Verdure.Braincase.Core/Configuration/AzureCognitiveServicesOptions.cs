@@ -1,4 +1,4 @@
-﻿namespace Verdure.VoiceAssistant.Configuration;
+﻿namespace Verdure.Braincase.Core.Configuration;
 
 /// <summary>
 /// Configuration options class for interacting with Azure Cognitive Services.

@@ -31,6 +31,16 @@ public class ComboxDataService
             };
     }
 
+    public ObservableCollection<ComboxItemModel> GetLlmVoiceComboxList()
+    {
+        return new ObservableCollection<ComboxItemModel>
+            {
+
+                new ComboxItemModel { DataKey = "DefaultVoice", DataValue = "DefaultVoice".GetLocalized() },
+                new ComboxItemModel { DataKey = "AzureVoice", DataValue ="AzureVoice".GetLocalized() }
+            };
+    }
+
     public ObservableCollection<ComboxItemModel> GetChatGPTVersionComboxList()
     {
         return new ObservableCollection<ComboxItemModel>
