@@ -16,10 +16,8 @@ public class DefaultBotSpeech : IBotSpeech
         _logger = logger;
         _speechSynthesizer = new SpeechSynthesizer();
         _speechRecognizer = new SpeechRecognitionEngine();
-        var webSearchGrammar = new Grammar(new GrammarBuilder("webSearch"));
-        _speechRecognizer.LoadGrammar(webSearchGrammar);
-        //var dictationGrammar = new DictationGrammar();
-        //_speechRecognizer.LoadGrammar(dictationGrammar);
+        var dictationGrammar = new DictationGrammar();
+        _speechRecognizer.LoadGrammar(dictationGrammar);
     }
     public async Task InitAsync(CancellationToken cancellationToken = default)
     {
