@@ -21,7 +21,8 @@ public class BotSpeechProvider
         {
             var logger = services.GetRequiredService<ILogger<BotSpeechProvider>>();
             logger.LogError($"Can't resolve botSpeech provider by {provider}");
+            botSpeech = botSpeechs.First();
         }
-        return botSpeechs.First();
+        return botSpeech;
     }
 }

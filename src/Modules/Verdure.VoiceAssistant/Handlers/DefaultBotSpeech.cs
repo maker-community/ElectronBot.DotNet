@@ -1,49 +1,44 @@
 ﻿
+using System.Speech.Recognition;
+using System.Speech.Synthesis;
 using Microsoft.Extensions.Logging;
 using Verdure.Braincase.Core.Contracts.Services;
-using Windows.Media.Playback;
-using Windows.Media.SpeechRecognition;
-using Windows.Media.SpeechSynthesis;
 
 namespace Verdure.VoiceAssistant.Handlers;
 public class DefaultBotSpeech : IBotSpeech
 {
     public string Provider => "DefaultVoice";
-    private readonly SpeechRecognizer _speechRecognizer;
+    private readonly SpeechRecognitionEngine _speechRecognizer;
     private readonly SpeechSynthesizer _speechSynthesizer;
-    private readonly MediaPlayer _mediaPlayer = new();
     private readonly ILogger _logger;
     public DefaultBotSpeech(ILogger<DefaultBotSpeech> logger)
     {
         _logger = logger;
         _speechSynthesizer = new SpeechSynthesizer();
-        _speechRecognizer = new SpeechRecognizer(SpeechRecognizer.SystemSpeechLanguage);
-        var webSearchGrammar = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.WebSearch, "webSearch");
-        _speechRecognizer.Constraints.Add(webSearchGrammar);
-        //var dictationConstraint = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.Dictation, "dictation");
-        //_speechRecognizer.Constraints.Add(dictationConstraint);
-
+        _speechRecognizer = new SpeechRecognitionEngine();
+        var webSearchGrammar = new Grammar(new GrammarBuilder("webSearch"));
+        _speechRecognizer.LoadGrammar(webSearchGrammar);
+        //var dictationGrammar = new DictationGrammar();
+        //_speechRecognizer.LoadGrammar(dictationGrammar);
     }
     public async Task InitAsync(CancellationToken cancellationToken = default)
     {
-        var compilation = await _speechRecognizer.CompileConstraintsAsync();
-        if (compilation.Status != SpeechRecognitionResultStatus.Success)
-            throw new Exception(compilation.Status.ToString());
+        await Task.Run(() => _speechRecognizer.SetInputToDefaultAudioDevice(), cancellationToken);
     }
     public async Task<string> ListenAsync(CancellationToken cancellationToken = default)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
             _logger.LogInformation("Listening...");
-            SpeechRecognitionResult result = await _speechRecognizer.RecognizeAsync();
-            switch (result.Status)
+            var result = await Task.Run(() => _speechRecognizer.Recognize(), cancellationToken);
+            if (result != null)
             {
-                case SpeechRecognitionResultStatus.Success:
-                    _logger.LogInformation($"Recognized: {result.Text}");
-                    return result.Text;
-                case SpeechRecognitionResultStatus.UserCanceled:
-                    _logger.LogWarning($"Speech recognizer session canceled.");
-                    break;
+                _logger.LogInformation($"Recognized: {result.Text}");
+                return result.Text;
+            }
+            else
+            {
+                _logger.LogWarning("Speech recognizer session canceled.");
             }
         }
         return string.Empty;
@@ -52,10 +47,7 @@ public class DefaultBotSpeech : IBotSpeech
     {
         if (!string.IsNullOrEmpty(text))
         {
-            // Create a stream from the text. This will be played using a media element.
-            var synthesisStream = await _speechSynthesizer.SynthesizeTextToStreamAsync(text);
-            _mediaPlayer.SetStreamSource(synthesisStream);
-            _mediaPlayer.Play();
+            await Task.Run(() => _speechSynthesizer.Speak(text), cancellationToken);
         }
     }
 
@@ -63,6 +55,5 @@ public class DefaultBotSpeech : IBotSpeech
     {
         _speechSynthesizer.Dispose();
         _speechRecognizer.Dispose();
-        _mediaPlayer.Dispose();
     }
 }

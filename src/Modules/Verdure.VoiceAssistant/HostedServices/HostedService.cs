@@ -35,6 +35,8 @@ public class HostedService : IHostedService, IDisposable
 
     private readonly DispatcherQueue _dispatcherQueue;
 
+    private readonly IElectronBotPlayer _electronBotPlayer;
+
     private Task _executeTask;
     private readonly CancellationTokenSource _cancelToken = new();
 
@@ -51,7 +53,8 @@ public class HostedService : IHostedService, IDisposable
         ILocalSettingsService localSettingsService,
         IConversationService conversationService,
         IRoutingService routing,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        IElectronBotPlayer electronBotPlayer)
     {
         _logger = logger;
         _wakeWordListener = wakeWordListener;
@@ -62,6 +65,7 @@ public class HostedService : IHostedService, IDisposable
         _conversationService = conversationService;
         _routing = routing;
         _serviceProvider = serviceProvider;
+        _electronBotPlayer = electronBotPlayer;
     }
 
     /// <summary>
