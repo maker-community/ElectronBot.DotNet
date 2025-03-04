@@ -1,9 +1,11 @@
 ﻿using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Verdure.Braincase.Core.Configuration;
 using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.WinUI.Common;
 using Windows.ApplicationModel;
 
 namespace Verdure.VoiceAssistant.Handlers;
@@ -18,10 +20,15 @@ public class AzCognitiveServicesWakeWordListener : IWakeWordListener
     private readonly AudioConfig _audioConfig;
     private readonly KeywordRecognizer _keywordRecognizer;
     private readonly KeywordRecognitionModel _keywordModel;
-
+    private readonly IElectronBotPlayer _electronBotPlayer;
+    private readonly IMemoryCache _memoryCache;
+    private readonly ILocalSettingsService _localSettingsService;
     public AzCognitiveServicesWakeWordListener(
         IOptions<AzureCognitiveServicesOptions> options,
-        ILogger<AzCognitiveServicesWakeWordListener> logger)
+        ILogger<AzCognitiveServicesWakeWordListener> logger,
+        IElectronBotPlayer electronBotPlayer,
+        IMemoryCache memoryCache,
+        ILocalSettingsService localSettingsService)
     {
         _logger = logger;
         _options = options.Value;
@@ -29,6 +36,9 @@ public class AzCognitiveServicesWakeWordListener : IWakeWordListener
         _keywordModel = KeywordRecognitionModel.FromFile(keywordModelPath);
         _audioConfig = AudioConfig.FromDefaultMicrophoneInput();
         _keywordRecognizer = new KeywordRecognizer(_audioConfig);
+        _electronBotPlayer = electronBotPlayer;
+        _memoryCache = memoryCache;
+        _localSettingsService = localSettingsService;
     }
 
     /// <summary>
@@ -39,6 +49,11 @@ public class AzCognitiveServicesWakeWordListener : IWakeWordListener
         KeywordRecognitionResult result;
         do
         {
+            var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+            if (name != "ClockMode")
+            {
+                _ = _electronBotPlayer.PlayLottieByNameIdAsync("look");
+            }
             _logger.LogInformation($"Waiting for wake phrase...");
             result = await _keywordRecognizer.RecognizeOnceAsync(_keywordModel);
             _logger.LogInformation("Wake phrase detected.");

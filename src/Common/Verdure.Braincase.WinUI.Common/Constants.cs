@@ -11,6 +11,8 @@ public class Constants
 
     public const string CurrentClockViewKey = "CurrentClockViewKey";
 
+    public const string CurrentModeKey = "CurrentModeKey";
+
     public const string CacheFileName = "braincase_msal_cache.txt";
 
     public const string AuthDataKey = "AuthDataKey";

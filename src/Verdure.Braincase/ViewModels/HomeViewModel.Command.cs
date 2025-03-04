@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml.Controls;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.WinUI.Common.Helpers;
@@ -109,6 +110,9 @@ public partial class HomeViewModel
             var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
 
             service.ClearQueue();
+
+            await _localSettingsService.SaveSettingAsync(Constants.CurrentModeKey, selectedRadioButton.Name);
+
             if (selectedRadioButton.Name == "NaturalMode")
             {
                 if (!ElectronBotHelper.Instance.EbConnected)

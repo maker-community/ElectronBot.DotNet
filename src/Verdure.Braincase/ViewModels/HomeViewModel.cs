@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Contracts.Services;
 using Controls.CompactOverlay;
 using Mediapipe.Net.Solutions;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Windowing;
@@ -68,6 +69,8 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
 
     private GestureAppService _gestureAppService = new();
 
+    private readonly IMemoryCache _memoryCache;
+
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
     public HomeViewModel(
         ILocalSettingsService localSettingsService,
@@ -78,7 +81,8 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
         MediaPlayer mediaPlayer,
         IActionExpressionProviderFactory actionExpressionProviderFactory,
         ISpeechAndTTSService speechAndTTSService,
-        IThemeSelectorService elementTheme)
+        IThemeSelectorService elementTheme,
+        IMemoryCache memoryCache)
     {
         _localSettingsService = localSettingsService;
 
@@ -113,6 +117,7 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
         _elementTheme = elementTheme.Theme;
 
         WeakReferenceMessenger.Default.Register<ChangeClockView>(this);
+        _memoryCache = memoryCache;
     }
 
     private void Instance_ClockCanvasStart(object? sender, EventArgs e)
@@ -618,14 +623,15 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
     /// <param name="e"></param>
     private async void DispatcherTimer_Tick(object? sender, object e)
     {
-        if (modeNo == 2)
+        var clockName = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+        if (clockName == "ClockMode")
         {
             if (ElectronBotHelper.Instance.EbConnected)
             {
                 await EbHelper.ShowClockCanvasToDeviceAsync(Element);
             }
         }
-        else if (modeNo == 3)
+        else if (clockName == "")
         {
             if (ElectronBotHelper.Instance.EbConnected)
             {
@@ -654,7 +660,7 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
                 }
             }
         }
-        else if (modeNo == 3)
+        else if (clockName == "NeedleMode")
         {
             var (x, y) = EbHelper.GetScreenCursorPos();
 

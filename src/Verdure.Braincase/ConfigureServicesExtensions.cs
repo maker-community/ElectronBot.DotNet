@@ -321,10 +321,11 @@ public static class ConfigureServicesExtensions
 
             // Add wake phrase listener
             .AddSingleton<IWakeWordListener, AzCognitiveServicesWakeWordListener>()
-            .AddSingleton<IBotSpeech, DefaultBotSpeech>()
+            //.AddSingleton<IBotSpeech, DefaultBotSpeech>()
             .AddSingleton<IBotSpeech, AzBotSpeech>() 
             // Add the primary hosted service to start the loop.
             .AddHostedService<HostedService>()
+            .AddMemoryCache()
             // Configuration
             .BuildServiceProvider());
     }

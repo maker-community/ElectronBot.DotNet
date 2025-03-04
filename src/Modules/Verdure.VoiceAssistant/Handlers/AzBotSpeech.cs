@@ -1,9 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Verdure.Braincase.Core.Configuration;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.WinUI.Common;
@@ -17,6 +16,8 @@ public class AzBotSpeech : IBotSpeech
     private SpeechRecognizer _speechRecognizer;
     private SpeechSynthesizer _speechSynthesizer;
     private readonly ILocalSettingsService _localSettingsService;
+    private readonly IElectronBotPlayer _electronBotPlayer;
+    private readonly IMemoryCache _memoryCache;
     /// <summary>
     /// Regex for extracting style cues from OpenAI responses.
     /// (not currently supported after the migrations to ChatGPT models)
@@ -25,10 +26,12 @@ public class AzBotSpeech : IBotSpeech
 
     public string Provider => "AzureVoice";
 
-    public AzBotSpeech(ILogger<AzBotSpeech> logger, ILocalSettingsService localSettingsService)
+    public AzBotSpeech(ILogger<AzBotSpeech> logger, ILocalSettingsService localSettingsService, IElectronBotPlayer electronBotPlayer, IMemoryCache memoryCache)
     {
         _logger = logger;
         _localSettingsService = localSettingsService;
+        _electronBotPlayer = electronBotPlayer;
+        _memoryCache = memoryCache;
     }
 
     public async Task InitAsync(CancellationToken cancellationToken = default)
@@ -53,6 +56,13 @@ public class AzBotSpeech : IBotSpeech
         while (!cancellationToken.IsCancellationRequested)
         {
             _logger.LogInformation("Listening...");
+
+            var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+            if (name != "ClockMode")
+            {
+                _ = _electronBotPlayer.PlayLottieByNameIdAsync("think");
+            }
+
             SpeechRecognitionResult result = await _speechRecognizer.RecognizeOnceAsync();
             switch (result.Reason)
             {
@@ -85,12 +95,17 @@ public class AzBotSpeech : IBotSpeech
                 _logger.LogInformation($"Speaking ({style}): {text}");
             }
 
-            var ssml = GenerateSsml(
+            var ssml = GenerateCoquettishSsml(
                 text,
-                _options.EnableSpeechStyle ? style : string.Empty,
                 _options.SpeechSynthesisVoiceName);
 
             _logger.LogDebug(ssml);
+            var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+            if (name != "ClockMode")
+            {
+                _ = _electronBotPlayer.PlayLottieByNameIdAsync("speak", 2);
+            }
+
             await _speechSynthesizer.SpeakSsmlAsync(ssml);
         }
     }
@@ -112,20 +127,20 @@ public class AzBotSpeech : IBotSpeech
     /// <summary>
     /// Generate speech synthesis markup language (SSML) from a message.
     /// </summary>
-    private string GenerateSsml(string message, string style, string voiceName)
-        => "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"en-US\">" +
+    private string GenerateCoquettishSsml(string message, string voiceName)
+        => "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"zh-CN\">" +
             $"<voice name=\"{voiceName}\">" +
-                $"<prosody rate=\"{_options.Rate}\">" +
-                    $"<mstts:express-as style=\"{style}\">" +
+                "<prosody rate=\"1.1\" pitch=\"high\">" +
+                    "<mstts:express-as style=\"cheerful\">" +
                         $"{message}" +
                     "</mstts:express-as>" +
                 "</prosody>" +
-                "</voice>" +
-            "</speak>";
+            "</voice>" +
+        "</speak>";
 
     public void Dispose()
     {
         _speechRecognizer?.Dispose();
         _audioConfig?.Dispose();
-    }  
+    }
 }
