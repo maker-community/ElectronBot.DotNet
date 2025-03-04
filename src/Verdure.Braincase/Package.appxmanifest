@@ -85,8 +85,8 @@
 
 	<Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <DeviceCapability Name="microphone"/>
   </Capabilities>
-
   <genTemplate:Metadata>
     <genTemplate:Item Name="generator" Value="Template Studio"/>
     <genTemplate:Item Name="wizardVersion" Version="v5.2.1" />

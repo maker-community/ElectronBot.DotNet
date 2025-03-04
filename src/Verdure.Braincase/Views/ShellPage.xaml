@@ -100,9 +100,9 @@
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE19D;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>-->
-                <NavigationViewItem x:Uid="Shell_Gamepad" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.EBConfiguration.ViewModels.EBDebugViewModel">
+                <NavigationViewItem x:Uid="Shell_EBDebug" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.EBConfiguration.ViewModels.EBDebugViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE7FC;" />
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xEC7A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--<NavigationViewItem x:Uid="Shell_GestureAppConfig" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.GestureAppConfigViewModel">
@@ -110,36 +110,155 @@
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE720;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>-->
-                <NavigationViewItem x:Uid="Hw75Page" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.Hw75ViewModel">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE92E;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
                 <NavigationViewItem x:Uid="AgentPage" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.Copilot.ViewModels.AgentViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE99A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem x:Uid="Hw75Page" helpers:NavigationHelper.NavigateTo="Verdure.Braincase.ViewModels.Hw75ViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE92E;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
             </NavigationView.MenuItems>
-            <NavigationView.HeaderTemplate>
+            <!--<NavigationView.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
                         <TextBlock
                             FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                             Style="{ThemeResource TitleTextBlockStyle}"
                             Text="{Binding}" />
+                        <FontIcon
+                            Grid.Column="1"
+                            Margin="12"
+                            FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                            Foreground="Red"
+                            Glyph="&#xEB52;" />
                     </Grid>
                 </DataTemplate>
-            </NavigationView.HeaderTemplate>
+            </NavigationView.HeaderTemplate>-->
             <i:Interaction.Behaviors>
                 <behaviors:NavigationViewHeaderBehavior DefaultHeader="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
                     <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                         <DataTemplate>
                             <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
                                 <TextBlock
                                     FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
                                     Style="{ThemeResource TitleTextBlockStyle}"
                                     Text="{Binding}" />
+                                <Button
+                                    x:Name="Shell_SponsorBtn"
+                                    Grid.Column="1"
+                                    Margin="4"
+                                    HorizontalAlignment="Right">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <FontIcon
+                                                Margin="4"
+                                                HorizontalAlignment="Right"
+                                                FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                                Foreground="Red"
+                                                Glyph="&#xEB52;" />
+                                            <TextBlock
+                                                x:Uid="Shell_SponsorTB"
+                                                VerticalAlignment="Center"
+                                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                                FontSize="20" />
+                                        </StackPanel>
+                                    </Button.Content>
+                                    <Button.Flyout>
+                                        <Flyout Placement="BottomEdgeAlignedLeft">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock
+                                                    x:Uid="Shell_SponsorTB"
+                                                    Grid.Row="0"
+                                                    Margin="12"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                                    FontSize="24" />
+                                                <HyperlinkButton
+                                                    Grid.Row="1"
+                                                    Margin="4"
+                                                    HorizontalAlignment="Center"
+                                                    NavigateUri="https://github.com/maker-community/ElectronBot.DotNet">
+                                                    <HyperlinkButton.Content>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <FontIcon
+                                                                Margin="4"
+                                                                HorizontalAlignment="Right"
+                                                                FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
+                                                                Foreground="Red"
+                                                                Glyph="&#xEB52;" />
+                                                            <TextBlock
+                                                                x:Uid="Shell_Sponsor_CodeTB"
+                                                                VerticalAlignment="Center"
+                                                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                                                FontSize="20" />
+                                                        </StackPanel>
+                                                    </HyperlinkButton.Content>
+                                                </HyperlinkButton>
+                                                <Line
+                                                    Grid.Row="2"
+                                                    Margin="8"
+                                                    Stroke="{ThemeResource SystemAccentColor}"
+                                                    StrokeThickness="2"
+                                                    X1="0"
+                                                    X2="400"
+                                                    Y1="0"
+                                                    Y2="0" />
+                                                <StackPanel Grid.Row="3">
+                                                    <TextBlock
+                                                        x:Uid="Shell_Sponsor_QrCodeTB"
+                                                        Margin="8"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                                                        FontSize="20" />
+                                                    <StackPanel Margin="4" Orientation="Horizontal">
+                                                        <StackPanel>
+                                                            <TextBlock
+                                                                x:Uid="alipay"
+                                                                Margin="4"
+                                                                HorizontalAlignment="Center"
+                                                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                                            <Image
+                                                                Width="200"
+                                                                Height="200"
+                                                                Source="ms-appx:///Assets/alipay.JPG" />
+                                                        </StackPanel>
+                                                        <StackPanel>
+                                                            <TextBlock
+                                                                x:Uid="wechat"
+                                                                Margin="4"
+                                                                HorizontalAlignment="Center"
+                                                                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑" />
+                                                            <Image
+                                                                Width="200"
+                                                                Height="200"
+                                                                Source="ms-appx:///Assets/wechat.JPG" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
                             </Grid>
                         </DataTemplate>
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>

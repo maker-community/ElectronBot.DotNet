@@ -972,4 +972,22 @@
   <data name="Tongyi" xml:space="preserve">
     <value>Tongyi</value>
   </data>
+  <data name="LlmVoiceCB.Header" xml:space="preserve">
+    <value>Default Voice</value>
+  </data>
+  <data name="LlmVoiceCB.PlaceholderText" xml:space="preserve">
+    <value>Default Voice</value>
+  </data>
+  <data name="LlmVoiceRegion.Text" xml:space="preserve">
+    <value>Voice Region</value>
+  </data>
+  <data name="LlmVoiceLanguage.Text" xml:space="preserve">
+    <value>Voice Language</value>
+  </data>
+  <data name="LlmVoiceVoiceName.Text" xml:space="preserve">
+    <value>Voice Name</value>
+  </data>
+  <data name="LlmVoiceKey.Text" xml:space="preserve">
+    <value>Voice Api Key</value>
+  </data>
 </root>

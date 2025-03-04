@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Verdure.Braincase.WinUI.Common.Helpers;
 using Verdure.Braincase.HelloWordKeyboard.Helpers;
 using BotSharp.Core.Infrastructures;
+using Microsoft.Graph.Models.Security;
 
 namespace Verdure.Braincase;
 
@@ -100,6 +101,7 @@ public partial class App : Application
         //Ioc.Default.GetRequiredService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
         await Ioc.Default.GetRequiredService<IActivationService>().ActivateAsync(args);
+        await Host.RunAsync();
     }
 
     private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
@@ -150,7 +152,7 @@ public partial class App : Application
             {
 
             }
-
+            await Host.StopAsync();
             MainWindow.Close();
             Hid.Exit();
         }

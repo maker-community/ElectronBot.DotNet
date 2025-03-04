@@ -357,8 +357,8 @@
   <data name="SadName" xml:space="preserve">
     <value>难过</value>
   </data>
-  <data name="Shell_Gamepad.Content" xml:space="preserve">
-    <value>手柄控制器</value>
+  <data name="Shell_EBDebug.Content" xml:space="preserve">
+    <value>电子调试</value>
   </data>
   <data name="Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>添加动作帧</value>
@@ -972,5 +972,23 @@
   </data>
   <data name="ChatLoading.Text" xml:space="preserve">
     <value>加载中</value>
+  </data>
+  <data name="Shell_SponsorTB.Text" xml:space="preserve">
+    <value>赞助电子脑壳</value>
+  </data>
+  <data name="Shell_Sponsor_CodeTB.Text" xml:space="preserve">
+    <value>成为电子脑壳的贡献者</value>
+  </data>
+  <data name="Shell_Sponsor_QrCodeTB.Text" xml:space="preserve">
+    <value>或扫二维码赞助</value>
+  </data>
+  <data name="NaturalModeRb.Content" xml:space="preserve">
+    <value>互动模式</value>
+  </data>
+  <data name="DefaultVoice" xml:space="preserve">
+    <value>默认语音</value>
+  </data>
+  <data name="AzureVoice" xml:space="preserve">
+    <value>Azure语音</value>
   </data>
 </root>

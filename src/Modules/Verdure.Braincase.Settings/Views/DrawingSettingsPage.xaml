@@ -11,6 +11,11 @@
     xmlns:local="using:Verdure.Braincase.Settings.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <converters:BoolToVisibilityConverter
@@ -55,7 +60,82 @@
                                 </Grid>
                             </DataTemplate>
                         </Expander.HeaderTemplate>
-                        <Grid />
+                        <StackPanel>
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPTVersion"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.TongyiLlmModelSetting.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        x:Uid="ChatGPT-SessionKey"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.TongyiLlmModelSetting.ApiKey, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Margin="8" Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Text="OpenAI BaseUrl:" />
+                                    <Grid Grid.Column="1">
+                                        <TextBox
+                                            Width="360"
+                                            HorizontalAlignment="Right"
+                                            Text="{x:Bind ViewModel.TongyiLlmModelSetting.Endpoint, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                            <i:Interaction.Behaviors>
+                                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveLlmModelSettingCommand}" />
+                                                </ic:EventTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
                     </Expander>
                 </StackPanel>
             </Grid>

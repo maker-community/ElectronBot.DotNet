@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Threading;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using SixLabors.ImageSharp.Processing;
@@ -16,6 +17,8 @@ public partial class ElectronBotPlayer : IElectronBotPlayer, IDisposable
     private double _frameRate = 30.0; // 假设视频的帧率为30帧每秒
 
     private List<ElectronBotAction>? _actions;
+
+    private readonly SemaphoreSlim _emojiSemaphore = new SemaphoreSlim(1, 1);
     public ElectronBotPlayer(IEmoticonActionFrameService actionFrameService, MediaPlayer player)
     {
         _actionFrameService = actionFrameService;

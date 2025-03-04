@@ -27,7 +27,7 @@ using Verdure.Braincase.Contracts.Services;
 using Verdure.Braincase.Copilot.Services.BotSharp;
 using Verdure.Braincase.Copilot.ViewModels;
 using Verdure.Braincase.Copilot.Views;
-using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Configuration;
 using Verdure.Braincase.Core.Contracts.Services.EmojisFile;
 using Verdure.Braincase.Core.EbotGrpcService;
 using Verdure.Braincase.DataStorage;
@@ -49,6 +49,8 @@ using Verdure.Braincase.WinUI.Common.ViewDataSource;
 using Verdure.Braincase.WinUI.Common.ViewModels;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.IoT.Net.Services;
+using Verdure.VoiceAssistant.Handlers;
+using Verdure.VoiceAssistant.HostedServices;
 using ViewModels;
 using Views;
 using Windows.Media.Playback;
@@ -74,6 +76,8 @@ public static class ConfigureServicesExtensions
 
         var canvasDevice = CanvasDevice.GetSharedDevice();
         services.Configure<LocalSettingsOptions>(config.GetSection(nameof(LocalSettingsOptions)));
+
+        services.Configure<AzureCognitiveServicesOptions>(config.GetSection("AzureCognitiveServices"));
         // Register 
         Ioc.Default.ConfigureServices(
             services.AddSingleton(canvasDevice)
@@ -90,7 +94,7 @@ public static class ConfigureServicesExtensions
             .AddSingleton<ICompositorProvider, CompositorProvider>()
             .AddSingleton<IAppNotificationService, AppNotificationService>()
             //.AddSingleton<ILocalSettingsService, LocalSettingsService>()
-            .AddSingleton<ILocalSettingsService,LiteDBLocalSettingsService>()
+            .AddSingleton<ILocalSettingsService, LiteDBLocalSettingsService>()
             .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
             .AddTransient<INavigationViewService, NavigationViewService>()
             .AddSingleton<ISpeechAndTTSService, SpeechAndTTSService>()
@@ -314,6 +318,14 @@ public static class ConfigureServicesExtensions
             .AddScoped<IDialogService, DialogService>()
             .AddBotSharpLogger(config)
             .AddTransient<ILlmProviderService, LocalSettingLlmProviderService>()
+
+            // Add wake phrase listener
+            .AddSingleton<IWakeWordListener, AzCognitiveServicesWakeWordListener>()
+            //.AddSingleton<IBotSpeech, DefaultBotSpeech>()
+            .AddSingleton<IBotSpeech, AzBotSpeech>() 
+            // Add the primary hosted service to start the loop.
+            .AddHostedService<HostedService>()
+            .AddMemoryCache()
             // Configuration
             .BuildServiceProvider());
     }

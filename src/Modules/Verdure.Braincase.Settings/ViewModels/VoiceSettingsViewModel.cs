@@ -1,23 +1,41 @@
-﻿using BotSharp.Abstraction.MLTasks.Settings;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml;
+﻿using Verdure.Braincase.Core.Configuration;
 
 namespace Verdure.Braincase.Settings.ViewModels;
 
 public partial class VoiceSettingsViewModel : ObservableRecipient
 {
-    private readonly IThemeSelectorService _themeSelectorService;
-    public VoiceSettingsViewModel(IThemeSelectorService themeSelectorService)
+    private readonly ILocalSettingsService _localSettingsService;
+    public VoiceSettingsViewModel(ILocalSettingsService localSettingsService)
     {
-        _themeSelectorService = themeSelectorService;
+        _localSettingsService = localSettingsService;
     }
 
     [ObservableProperty]
-    private LlmModelSetting _llmModelSetting;
+    private AzureCognitiveServicesOptions _azureLlmVoiceSetting = new()
+    {
+        Region = "eastus",
+        SpeechRecognitionLanguage = "zh-CN",
+        SpeechSynthesisVoiceName = "zh-CN-XiaoyiNeural",
+        EnableSpeechStyle = false,
+        Rate = "+15%",
+        WakePhraseModel = "keyword_cortana.table"
+    };
+
 
     [RelayCommand]
-    private Task OnSaveLlmModelSettingAsync()
+    public async Task OnLoadedAsync()
     {
-        return Task.CompletedTask;
+        var model = await _localSettingsService.ReadSettingAsync<AzureCognitiveServicesOptions>(Constants.AzureLlmVoiceConfigKey);
+
+        if (model != null)
+        {
+            AzureLlmVoiceSetting = model;
+        }
+    }
+
+    [RelayCommand]
+    private async Task OnSaveAzureLlmModelSettingAsync()
+    {
+        await _localSettingsService.SaveSettingAsync(Constants.AzureLlmVoiceConfigKey, AzureLlmVoiceSetting);
     }
 }

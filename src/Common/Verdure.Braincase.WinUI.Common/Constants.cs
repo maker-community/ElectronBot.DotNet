@@ -11,6 +11,8 @@ public class Constants
 
     public const string CurrentClockViewKey = "CurrentClockViewKey";
 
+    public const string CurrentModeKey = "CurrentModeKey";
+
     public const string CacheFileName = "braincase_msal_cache.txt";
 
     public const string AuthDataKey = "AuthDataKey";
@@ -29,6 +31,8 @@ public class Constants
 
     public const string EmojisTempFileFolder = "EmojisFileTemp";
 
+    public const string DefaultEmojisTempFileFolder = "DefaultEmojisFileTemp";
+
     public const string CustomClockTitleConfigKey = "CustomClockTitleConfigKey";
 
     public const string BotSettingKey = "BotSettingKeyKey";
@@ -40,6 +44,10 @@ public class Constants
     public const string DefaultHaSwitchNameKey = "DefaultHaSwitchNameKey";
 
     public const string DefaultChatBotNameKey = "DefaultChatBotNameKey";
+
+    public const string DefaultLlmVoiceNameKey = "DefaultLlmVoiceNameKey";
+
+    public const string AzureLlmVoiceConfigKey = "AzureLlmVoiceConfigKey";
 
     public const string DefaultChatGPTNameKey = "DefaultChatGPTNameKey";
 

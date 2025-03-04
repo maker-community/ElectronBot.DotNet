@@ -53,7 +53,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="top"
             Orientation="Vertical">
-            <Viewbox Width="300" Height="300">
+            <Viewbox Width="200" Height="200">
                 <Canvas Width="400" Height="400">
                     <Image
                         Width="400"

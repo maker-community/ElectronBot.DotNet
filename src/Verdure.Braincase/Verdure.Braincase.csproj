@@ -24,6 +24,13 @@
     <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Assets\MenuIcons\**" />
+    <Content Remove="Assets\MenuIcons\**" />
+    <EmbeddedResource Remove="Assets\MenuIcons\**" />
+    <None Remove="Assets\MenuIcons\**" />
+    <Page Remove="Assets\MenuIcons\**" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -40,6 +47,8 @@
     <Content Remove="Assets\Emoji\pic\eyes-closed.png" />
     <Content Remove="Assets\Emoji\sad.png" />
     <Content Remove="Assets\hand.png" />
+    <Content Remove="Assets\keyword\bing.mp3" />
+    <Content Remove="Assets\keyword\keyword_cortana.table" />
     <Content Remove="Assets\MLModel1.zip" />
     <Content Remove="Assets\model.onnx" />
     <Content Remove="Assets\Providers\azure-ai.svg" />
@@ -281,6 +290,7 @@
     <ProjectReference Include="..\Modules\Verdure.Braincase.HelloWordKeyboard\Verdure.Braincase.HelloWordKeyboard.csproj" />
     <ProjectReference Include="..\Modules\Verdure.Braincase.Settings\Verdure.Braincase.Settings.csproj" />
     <ProjectReference Include="..\Modules\Verdure.IoT.Net\Verdure.IoT.Net.csproj" />
+    <ProjectReference Include="..\Modules\Verdure.VoiceAssistant\Verdure.VoiceAssistant.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -290,16 +300,40 @@
     <Content Update="Assets\Emoji\anger.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\Emoji\anger.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Emoji\defaultaction.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Emoji\disdain.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\Emoji\disdain.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\excited.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\fear.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\goodbye.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Emoji\hello.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Emoji\goodbye.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\hello.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\left.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\normal.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Emoji\right.json">
@@ -317,7 +351,37 @@
     <Content Update="Assets\Emoji\normal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\Emoji\right.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\sad.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Images\CustomViewDefault.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\LottieFiles\activity.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\LottieFiles\ask.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\LottieFiles\buxie.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\LottieFiles\file-plus.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\LottieFiles\fish.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\LottieFiles\look.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\LottieFiles\sad.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\LottieFiles\speak.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\model-backgroud.jpg">
@@ -367,6 +431,12 @@
     <Content Update="Assets\Images\Hw75CustomViewDefault.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Update="Assets\keyword\bing.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\keyword\keyword_cortana.table">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\MLModel1.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -471,10 +541,6 @@
     <Page Update="Controls\AddEmojisContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Views\EmojisEditPage.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Update="Views\Hw75ShellPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -512,6 +578,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Assets\MenuIcons\" />
+    <PRIResource Remove="Assets\MenuIcons\**" />
   </ItemGroup>
 </Project>

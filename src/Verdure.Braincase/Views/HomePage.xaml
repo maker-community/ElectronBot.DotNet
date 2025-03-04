@@ -59,14 +59,19 @@
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
                 <RadioButtons
+                    x:Name="ModeRadioBtn"
                     x:Uid="ModeRadioBtn"
                     MaxColumns="2"
-                    SelectedIndex="0"
-                    SelectionChanged="{x:Bind ViewModel.RadioButtons_SelectionChanged}">
-                    <RadioButton x:Uid="DisableModeRb" />
-                    <RadioButton x:Uid="ControlMode" />
-                    <RadioButton x:Uid="ClockModeRb" />
-                    <RadioButton x:Uid="NeedleModeRb" />
+                    SelectedIndex="0">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="SelectionChanged">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.RadioButtonSelectionChangedCommand}" CommandParameter="{x:Bind ModeRadioBtn.SelectedItem, Mode=TwoWay}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                    <RadioButton x:Name="NaturalMode" x:Uid="NaturalModeRb" />
+                    <RadioButton x:Name="ClockMode" x:Uid="ClockModeRb" />
+                    <RadioButton x:Name="NeedleMode" x:Uid="NeedleModeRb" />
+                    <RadioButton x:Name="DisableMode" x:Uid="DisableModeRb" />
                 </RadioButtons>
             </StackPanel>
             <StackPanel>

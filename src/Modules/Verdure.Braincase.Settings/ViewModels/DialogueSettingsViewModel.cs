@@ -1,4 +1,5 @@
-﻿using Verdure.Braincase.Settings.Models;
+﻿using BotSharp.Abstraction.MLTasks.Settings;
+using Verdure.Braincase.Settings.Models;
 
 namespace Verdure.Braincase.Settings.ViewModels;
 
@@ -84,35 +85,56 @@ public partial class DialogueSettingsViewModel : ObservableRecipient
         AzureOpenAILlmModelSetting.Provider = "azure-openai";
         OpenAILlmModelSetting.Provider = "openai";
         TongyiILlmModelSetting.Provider = "tongyi";
-        DeepSeekILlmModelSetting.Provider = "deepseek-ai"; 
-        var modelList = new List<CustomLlmProviderSetting>()
+        DeepSeekILlmModelSetting.Provider = "deepseek-ai";
+
+        var modelList = await _localSettingsService.ReadSettingAsync<List<CustomLlmProviderSetting>>(Constants.LlmProviders) ?? new List<CustomLlmProviderSetting>();
+
+        var azureProvider = modelList.FirstOrDefault(x => x.Provider == "azure-openai");
+        if (azureProvider != null)
         {
-            new()
+            azureProvider.Models = new List<CustomLlmModelSetting> { AzureOpenAILlmModelSetting };
+        }
+        else
+        {
+            modelList.Add(new CustomLlmProviderSetting
             {
                 Provider = "azure-openai",
-                Models =
-                [
-                    AzureOpenAILlmModelSetting
-                ]
-            },
-            new()
+                Models = new List<CustomLlmModelSetting> { AzureOpenAILlmModelSetting }
+            });
+        }
+        var openaiProvider = modelList.FirstOrDefault(x => x.Provider == "openai");
+        if (openaiProvider != null)
+        {
+            var nonImageModels = openaiProvider.Models.Where(m => m.Type != LlmModelType.Image).ToList();
+            nonImageModels.Clear();
+            nonImageModels.Add(OpenAILlmModelSetting);
+            nonImageModels.Add(TongyiILlmModelSetting);
+            var imageModels = openaiProvider.Models.Where(m => m.Type == LlmModelType.Image).ToList();
+            openaiProvider.Models = nonImageModels.Concat(imageModels).ToList();
+        }
+        else
+        {
+            modelList.Add(new CustomLlmProviderSetting
             {
                 Provider = "openai",
-                Models =
-                [
-                    OpenAILlmModelSetting,
-                    TongyiILlmModelSetting
-                ]
-            },
-            new()
+                Models = new List<CustomLlmModelSetting> { OpenAILlmModelSetting, TongyiILlmModelSetting }
+            });
+        }
+
+        var deepseekProvider = modelList.FirstOrDefault(x => x.Provider == "deepseek-ai");
+        if (deepseekProvider != null)
+        {
+            deepseekProvider.Models = new List<CustomLlmModelSetting> { DeepSeekILlmModelSetting };
+        }
+        else
+        {
+            modelList.Add(new CustomLlmProviderSetting
             {
                 Provider = "deepseek-ai",
-                Models =
-                [
-                    DeepSeekILlmModelSetting
-                ]
-            },
-        };
+                Models = new List<CustomLlmModelSetting> { DeepSeekILlmModelSetting }
+            });
+        }
+
         await _localSettingsService.SaveSettingAsync(Constants.LlmProviders, modelList);
     }
 }

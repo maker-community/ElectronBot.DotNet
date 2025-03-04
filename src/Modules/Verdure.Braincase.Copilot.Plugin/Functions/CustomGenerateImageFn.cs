@@ -21,13 +21,15 @@ public class CustomGenerateImageFn : IFunctionCallback
 
     private readonly IServiceProvider _service;
     private readonly IBotToolService _botToolService;
+    private readonly IBotSpeech _botSpeech;
     private readonly JsonSerializerOptions _options;
     private readonly ILingxiSpaceService _lingxiSpaceService;
     private readonly IConversationService _conversationService;
     public CustomGenerateImageFn(IServiceProvider service,
         IBotToolService botToolService,
         ILingxiSpaceService lingxiSpaceService,
-        IConversationService conversationService)
+        IConversationService conversationService,
+        IBotSpeech botSpeech)
     {
         _service = service;
         _options = new JsonSerializerOptions
@@ -41,6 +43,7 @@ public class CustomGenerateImageFn : IFunctionCallback
         _botToolService = botToolService;
         _lingxiSpaceService = lingxiSpaceService;
         _conversationService = conversationService;
+        _botSpeech = botSpeech;
     }
 
     public async Task<bool> Execute(RoleDialogModel message)
@@ -52,7 +55,7 @@ public class CustomGenerateImageFn : IFunctionCallback
         var clientFactory = _service.GetRequiredService<IHttpClientFactory>();
         using var httpClient = clientFactory.CreateClient();
         var llmProviderService = _service.GetRequiredService<ILlmProviderService>();
-        var model = llmProviderService.GetSetting("tongyi", "wanx-v1");
+        var model = llmProviderService.GetSetting("openai", "wanx-v1");
         if (model == null)
         {
             return false;
@@ -88,6 +91,8 @@ public class CustomGenerateImageFn : IFunctionCallback
 
         var maxRetries = 5;
         var retryCount = 0;
+
+        await _botSpeech.SpeakAsync("正在生成图片，请稍等片刻");
 
         while (retryCount < maxRetries)
         {

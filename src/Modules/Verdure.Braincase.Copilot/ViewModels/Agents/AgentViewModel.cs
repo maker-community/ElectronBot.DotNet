@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BotSharp.Abstraction.Agents;
 using BotSharp.Abstraction.Agents.Models;
 using BotSharp.Abstraction.Conversations;
@@ -11,26 +12,37 @@ using BotSharp.Abstraction.Utilities;
 using BotSharp.Core.Plugins;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using ElectronBot.Copilot.Enums;
+using CommunityToolkit.Mvvm.Input;
+using Verdure.Braincase.Core.Contracts.Services;
+using Verdure.Braincase.Core.Models;
 
 namespace Verdure.Braincase.Copilot.ViewModels;
 
 public partial class AgentViewModel : ObservableRecipient, INavigationAware
 {
     private readonly IConversationService _conversationService;
+    private readonly IAgentService _agentService;
     private readonly IUserIdentity _userIdentity;
     private readonly IUserService _userService;
     private readonly IServiceProvider _services;
-    public AgentViewModel(IConversationService conversationService, IUserIdentity userIdentity, IUserService userService, IServiceProvider services)
+    private readonly ILocalSettingsService _localSettingsService;
+    public AgentViewModel(IConversationService conversationService,
+        IUserIdentity userIdentity,
+        IUserService userService,
+        IServiceProvider services,
+        IAgentService agentService,
+        ILocalSettingsService localSettingsService)
     {
         _conversationService = conversationService;
         _userIdentity = userIdentity;
         _userService = userService;
         _services = services;
+        _agentService = agentService;
+        _localSettingsService = localSettingsService;
     }
 
     [ObservableProperty]
-    List<Agent> _agents = new();
+    private List<Agent> _agents = new();
 
     public void OnNavigatedFrom()
     {
@@ -54,6 +66,21 @@ public partial class AgentViewModel : ObservableRecipient, INavigationAware
             });
         }
 
+        Agents = (await _agentService.GetAgents(new AgentFilter
+        {
+            Pager = new Pagination
+            {
+                Page = 1,
+                Size = 100
+            }
+        })).Items.ToList();
+    }
+
+    [RelayCommand]
+    public async Task ResetAgentAsync()
+    {
+        _ = await _agentService.RefreshAgents();
+
         var loader = Ioc.Default.GetRequiredService<PluginLoader>();
         var plugins = loader.GetPagedPlugins(_services, new BotSharp.Abstraction.Plugins.Models.PluginFilter
         {
@@ -64,23 +91,11 @@ public partial class AgentViewModel : ObservableRecipient, INavigationAware
             }
         }).Items.ToList();
 
-        var agentService = Ioc.Default.GetRequiredService<IAgentService>();
-
-        var resultData = await agentService.RefreshAgents();
-
-
         foreach (var plugin in plugins)
         {
             _ = loader.UpdatePluginStatus(_services, plugin.Id, true);
         }
-
-        var result = await _conversationService.NewConversation(new BotSharp.Abstraction.Conversations.Models.Conversation
-        {
-            AgentId = VerdureAgentId.VerdureId,
-            UserId = _userIdentity.Id
-        });
-
-        Agents = (await agentService.GetAgents(new AgentFilter
+        Agents = (await _agentService.GetAgents(new AgentFilter
         {
             Pager = new Pagination
             {
@@ -88,5 +103,12 @@ public partial class AgentViewModel : ObservableRecipient, INavigationAware
                 Size = 100
             }
         })).Items.ToList();
+        await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, new ComboxItemModel());
+        //var result = await _conversationService.NewConversation(new BotSharp.Abstraction.Conversations.Models.Conversation
+        //{
+        //    AgentId = VerdureAgentId.VerdureId,
+        //    UserId = _userIdentity.Id
+        //});
     }
+
 }

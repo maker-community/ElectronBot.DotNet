@@ -132,6 +132,7 @@
       <PackageReference Include="BotSharp.Core" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Logger" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Plugin.AzureOpenAI" Version="4.0.0-verdure1" />
+      <PackageReference Include="BotSharp.Plugin.DeepSeekAI" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Plugin.LiteDBStorage" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Plugin.MetaGLM" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Plugin.OpenAI" Version="4.0.0-verdure1" />
