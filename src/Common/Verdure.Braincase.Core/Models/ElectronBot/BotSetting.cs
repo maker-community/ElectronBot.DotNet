@@ -53,7 +53,7 @@ public class BotSetting
     public string AnswerText
     {
         get; set;
-    } = "你想做什么,你需要帮忙吗,我能帮你做些什么,你需要帮助吗";
+    } = "你想让我做些什么呀";
 
     public string CustomViewPicturePath
     {

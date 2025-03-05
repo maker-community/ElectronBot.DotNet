@@ -30,50 +30,56 @@ public class NotifyCrontabHook : ICrontabHook
         //    var image = wallpaper.images[0];
         //    imageUrl = "https://www.bing.com" + image.url;
         //}
-        if (item.Tasks.Length > 0)
-        {
-            var task = item.Tasks[0];
-            if(task.Script == "call_user()")
-            {
-                //var builder = new AppNotificationBuilder()
-                //    .SetScenario(AppNotificationScenario.IncomingCall)
-                //    .AddText("Andrew Bares", new AppNotificationTextProperties()
-                //        .SetIncomingCallAlignment())
-                //      .AddText("Incoming Call - Mobile", new AppNotificationTextProperties()
-                //        .SetIncomingCallAlignment())
-                //      .SetInlineImage(new Uri("ms-appx:///Images/Profile.png"),
-                //        AppNotificationImageCrop.Circle)
-                //    .AddButton(new AppNotificationButton()
-                //        .SetToolTip("Answer Video Call")
-                //        .SetButtonStyle(AppNotificationButtonStyle.Success)
-                //        .SetIcon(new Uri("ms-appx:///Images/Video.png"))
-                //        .AddArgument("videoId", "123"))
-                //    .AddButton(new AppNotificationButton()
-                //        .SetToolTip("Answer Phone Call")
-                //        .SetButtonStyle(AppNotificationButtonStyle.Success)
-                //        .SetIcon(new Uri("ms-appx:///Images/Call.png"))
-                //        .AddArgument("callId", "123"))
-                //    .AddButton(new AppNotificationButton()
-                //        .SetToolTip("Hang Up")
-                //        .SetButtonStyle(AppNotificationButtonStyle.Critical)
-                //        .SetIcon(new Uri("ms-appx:///Images/HangUp.png"))
-                //        .AddArgument("hangUpId", "123"));
-                //AppNotificationManager.Default.Show(builder.BuildNotification());
-            }
-        }
-        else
-        {
-            var builder = new AppNotificationBuilder()
-                .AddText(item.Title)
-                .AddText(item.Description)
-                .SetHeroImage(new Uri(imageUrl));
-            AppNotificationManager.Default.Show(builder.BuildNotification());
-        }
+        //if (item.Tasks.Length > 0)
+        //{
+        //    var task = item.Tasks[0];
+        //    if(task.Script == "call_user()")
+        //    {
+        //        //var builder = new AppNotificationBuilder()
+        //        //    .SetScenario(AppNotificationScenario.IncomingCall)
+        //        //    .AddText("Andrew Bares", new AppNotificationTextProperties()
+        //        //        .SetIncomingCallAlignment())
+        //        //      .AddText("Incoming Call - Mobile", new AppNotificationTextProperties()
+        //        //        .SetIncomingCallAlignment())
+        //        //      .SetInlineImage(new Uri("ms-appx:///Images/Profile.png"),
+        //        //        AppNotificationImageCrop.Circle)
+        //        //    .AddButton(new AppNotificationButton()
+        //        //        .SetToolTip("Answer Video Call")
+        //        //        .SetButtonStyle(AppNotificationButtonStyle.Success)
+        //        //        .SetIcon(new Uri("ms-appx:///Images/Video.png"))
+        //        //        .AddArgument("videoId", "123"))
+        //        //    .AddButton(new AppNotificationButton()
+        //        //        .SetToolTip("Answer Phone Call")
+        //        //        .SetButtonStyle(AppNotificationButtonStyle.Success)
+        //        //        .SetIcon(new Uri("ms-appx:///Images/Call.png"))
+        //        //        .AddArgument("callId", "123"))
+        //        //    .AddButton(new AppNotificationButton()
+        //        //        .SetToolTip("Hang Up")
+        //        //        .SetButtonStyle(AppNotificationButtonStyle.Critical)
+        //        //        .SetIcon(new Uri("ms-appx:///Images/HangUp.png"))
+        //        //        .AddArgument("hangUpId", "123"));
+        //        //AppNotificationManager.Default.Show(builder.BuildNotification());
+        //    }
+        //}
+        //else
+        //{
+        //    var builder = new AppNotificationBuilder()
+        //        .AddText(item.Title)
+        //        .AddText(item.Description)
+        //        .SetHeroImage(new Uri(imageUrl));
+        //    AppNotificationManager.Default.Show(builder.BuildNotification());
+        //}
+        var builder = new AppNotificationBuilder()
+         .AddText(item.Title)
+         .AddText(item.Description)
+         .SetHeroImage(new Uri(imageUrl));
+        AppNotificationManager.Default.Show(builder.BuildNotification());
     }
 
     public async Task OnTaskExecuted(CrontabItem item)
     {
         var speech = _services.GetRequiredService<IBotSpeech>();
+
         await speech.SpeakAsync(item.Title);
     }
 }

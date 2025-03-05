@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
+using Models;
 using NetCoreAudio;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Helpers;
@@ -42,6 +43,8 @@ public class HostedService : IHostedService, IDisposable
     // Notification sound support
     private readonly string _notificationSoundFilePath;
     private readonly Player _player;
+
+    private BotSetting? _botSetting;
 
     /// <summary>
     /// Constructor
@@ -85,6 +88,7 @@ public class HostedService : IHostedService, IDisposable
         {
             try
             {
+                _botSetting = await _localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
                 // Play a notification to let the user know we have started listening for the wake phrase.
                 await _player.Play(_notificationSoundFilePath);
 
@@ -99,8 +103,9 @@ public class HostedService : IHostedService, IDisposable
 
                 await _player.Play(_notificationSoundFilePath);
 
+                var helloString = _botSetting?.AnswerText;
                 // Say hello on startup
-                await botSpeech.SpeakAsync("Hello!", cancellationToken);
+                await botSpeech.SpeakAsync(helloString ?? "Hello!", cancellationToken);
                 // Start listening
                 while (!cancellationToken.IsCancellationRequested)
                 {
@@ -156,7 +161,7 @@ public class HostedService : IHostedService, IDisposable
                     await botSpeech.SpeakAsync(reply, cancellationToken);
 
                     // If the user said "Goodbye" - stop listening and wait for the wake work again.
-                    if (userSpoke.StartsWith("goodbye", StringComparison.InvariantCultureIgnoreCase))
+                    if (userSpoke.StartsWith("再见") || userSpoke.StartsWith("goodbye", StringComparison.InvariantCultureIgnoreCase))
                     {
                         break;
                     }
