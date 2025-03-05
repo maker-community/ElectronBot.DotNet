@@ -49,6 +49,7 @@
     <Content Remove="Assets\hand.png" />
     <Content Remove="Assets\keyword\bing.mp3" />
     <Content Remove="Assets\keyword\keyword_cortana.table" />
+    <Content Remove="Assets\keyword\keyword_xiaodian.table" />
     <Content Remove="Assets\MLModel1.zip" />
     <Content Remove="Assets\model.onnx" />
     <Content Remove="Assets\Providers\azure-ai.svg" />
@@ -360,6 +361,9 @@
     <Content Update="Assets\Images\CustomViewDefault.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\Images\HomeImage.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\LottieFiles\activity.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -435,6 +439,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\keyword\keyword_cortana.table">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\keyword\keyword_xiaodian.table">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\MLModel1.zip">

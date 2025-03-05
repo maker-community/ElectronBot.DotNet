@@ -15,9 +15,6 @@ public class GpsGetWeather
 {
     private const string host = "https://ali-weather.showapi.com";
     private const string path = "/gps-to-weather";
-    private const string areapath = "/area-to-weather";
-    private const string method = "GET";
-
 
     /// <summary>
     /// 通过经纬度获取天气情况
@@ -103,10 +100,10 @@ public class GpsGetWeather
         unit.Wind = "风力  " + data.showapi_res_body.now.wind_direction + data.showapi_res_body.now.wind_power;
         unit.Pressure = "气压 " + data.showapi_res_body.f1.air_press;
         unit.Icon = string.Format("ms-appx:///Assets/{0}", data.showapi_res_body.now.weather_pic.Substring(32));
-        string[] week = new string[7] { "周一", "周二", "周三", "周四", "周五", "周六", "周日" };
+        var week = new string[7] { "周一", "周二", "周三", "周四", "周五", "周六", "周日" };
         weatherDisplayed.HourlyForecates_24 = new List<Hour24>();
         var hourly24 = weatherDisplayed.HourlyForecates_24;
-        for (int i = 0; i < 24; i++)
+        for (var i = 0; i < 24; i++)
         {
             hourly24.Add(new Hour24()
             {
@@ -195,13 +192,6 @@ public class GpsGetWeather
             Skycon = data.showapi_res_body.f7.day_weather
 
         });
-
-
-
-
-
-
-
         //建议
         weatherDisplayed.Suggestions = new List<Suggestion>();
         var suggestions = weatherDisplayed.Suggestions;
@@ -213,8 +203,6 @@ public class GpsGetWeather
             Brf = data.showapi_res_body.f1.index.aqi.title,
             Txt = data.showapi_res_body.f1.index.aqi.desc,
         });
-
-
         suggestions.Add(new Suggestion
         {
             Name = "舒服指数",
@@ -238,12 +226,7 @@ public class GpsGetWeather
             DarkIcon = "ms-appx:///Assets/SuggestionIcon/Dark/Drsg.png",
             Brf = data.showapi_res_body.f1.index.clothes.title,
             Txt = data.showapi_res_body.f1.index.clothes.desc,
-
-
-
         });
-
-
         suggestions.Add(new Suggestion
         {
             Name = "感冒指数",
@@ -253,8 +236,6 @@ public class GpsGetWeather
             Brf = data.showapi_res_body.f1.index.cold.title,
             Txt = data.showapi_res_body.f1.index.cold.desc,
         });
-
-
         suggestions.Add(new Suggestion
         {
             Name = "运动指数",
@@ -280,14 +261,6 @@ public class GpsGetWeather
             Brf = data.showapi_res_body.f1.index.uv.title,
             Txt = data.showapi_res_body.f1.index.uv.desc,
         });
-
-
-
-
-
-
-
-
     }
 
     #endregion

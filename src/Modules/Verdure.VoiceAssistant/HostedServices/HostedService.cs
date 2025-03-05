@@ -88,7 +88,7 @@ public class HostedService : IHostedService, IDisposable
             await _player.Play(_notificationSoundFilePath);
 
             var botSpeech = await BotSpeechProvider.GetBotSpeechAsync(_serviceProvider);
-
+            await botSpeech.InitAsync();
             // Wait for wake word or phrase
             if (!await _wakeWordListener.WaitForWakeWordAsync(cancellationToken))
             {
@@ -97,7 +97,7 @@ public class HostedService : IHostedService, IDisposable
 
             //var botSpeech = await BotSpeechProvider.GetBotSpeechAsync(_serviceProvider);
 
-            await botSpeech.InitAsync();
+            
 
             await _player.Play(_notificationSoundFilePath);
 

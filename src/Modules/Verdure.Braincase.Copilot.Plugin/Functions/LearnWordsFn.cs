@@ -48,7 +48,10 @@ public class LearnWordsFn : IFunctionCallback
             Word = args.Word,
             WordDescription = args.WordDescription,
         };
-        await _botToolService.SendWordsToBotAsync(wordContent);
+        _ = Task.Run(async() =>
+        {
+            await _botToolService.SendWordsToBotAsync(wordContent);
+        });
 
         var strBuilder = new StringBuilder();
         strBuilder.AppendLine($"µ¥´ÊÃû×Ö£º{args.Word}");

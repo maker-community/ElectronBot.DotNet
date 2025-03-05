@@ -10,7 +10,7 @@
       },
       "word_description": {
         "type": "string",
-        "description": "单词介绍."
+        "description": "单词介绍，用中文做最简单的介绍。"
       }
     },
     "required": [ "word", "word_description" ]

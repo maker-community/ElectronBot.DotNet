@@ -88,7 +88,9 @@ public class BotToolService : IBotToolService
 
             var margin = (int)(240 - width) / 2;
 
-            using var weatherIcon = await LoadImageAsync(gpsResult.Now.Icon);
+            var iconPath = gpsResult.Now.Icon;
+            iconPath = iconPath.Replace("Assets", "Assets/Copilot");
+            using var weatherIcon = await LoadImageAsync(iconPath);
 
             weatherIcon.Mutate(x =>
             {
@@ -197,6 +199,14 @@ public class BotToolService : IBotToolService
 
             var smallFont = await GetFontAsync(20, "SmileySans-Oblique.ttf");
 
+            var iconPath = "ms-appx:///Assets/StoreLogo.backup.png";
+
+            using var botIcon = await LoadImageAsync(iconPath);
+
+            botIcon.Mutate(x =>
+            {
+                x.Resize(new Size(40, 40));
+            });
 
             var bigTextOptions = new TextOptions(bigFont)
             {
@@ -223,6 +233,9 @@ public class BotToolService : IBotToolService
 
             image.Mutate(ctx =>
             {
+                ctx.DrawImage(botIcon, new Point((image.Width - 40) / 2, (int)yOffset), opacity: 1);
+
+                yOffset += 40 + 8;
                 foreach (var wordLine in wordLines)
                 {
                     var size = TextMeasurer.MeasureSize(wordLine, bigTextOptions);

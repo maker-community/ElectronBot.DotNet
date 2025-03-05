@@ -11,54 +11,36 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="0"
-            Margin="12"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top">
-            <controlLocal:EBActionEdit
-                x:Name="ActionEdit"
-                MinWidth="340"
-                J1="{x:Bind ViewModel.J1, Mode=TwoWay}"
-                J2="{x:Bind ViewModel.J2, Mode=TwoWay}"
-                J3="{x:Bind ViewModel.J3, Mode=TwoWay}"
-                J4="{x:Bind ViewModel.J4, Mode=TwoWay}"
-                J5="{x:Bind ViewModel.J5, Mode=TwoWay}"
-                J6="{x:Bind ViewModel.J6, Mode=TwoWay}"
-                ValueChanged="{x:Bind ViewModel.Head_ValueChanged}" />
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <controlLocal:EBActionEdit
+                    x:Name="ActionEdit"
+                    MinWidth="340"
+                    MaxHeight="300"
+                    Margin="8"
+                    J1="{x:Bind ViewModel.J1, Mode=TwoWay}"
+                    J2="{x:Bind ViewModel.J2, Mode=TwoWay}"
+                    J3="{x:Bind ViewModel.J3, Mode=TwoWay}"
+                    J4="{x:Bind ViewModel.J4, Mode=TwoWay}"
+                    J5="{x:Bind ViewModel.J5, Mode=TwoWay}"
+                    J6="{x:Bind ViewModel.J6, Mode=TwoWay}"
+                    ValueChanged="{x:Bind ViewModel.Head_ValueChanged}" />
+                <controlAction:GamepadAction
+                    x:Name="GamepadAction"
+                    MinWidth="340"
+                    MaxHeight="300"
+                    Margin="8"
+                    ViewModel="{x:Bind GamepadActionViewModel}" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                <controlLocal:EBActionTimeline
+                    x:Name="EBActionTimeline"
+                    MinWidth="340"
+                    Margin="8"
+                    ViewModel="{x:Bind ViewModel}" />
+            </StackPanel>
         </StackPanel>
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="12"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top">
-            <controlAction:GamepadAction
-                x:Name="GamepadAction"
-                MinWidth="340"
-                ViewModel="{x:Bind GamepadActionViewModel}" />
-        </StackPanel>
-        <StackPanel
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Margin="12"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top">
-            <controlLocal:EBActionTimeline
-                x:Name="EBActionTimeline"
-                MinWidth="340"
-                ViewModel="{x:Bind ViewModel}" />
-        </StackPanel>
+
         <!--<StackPanel
             Grid.Row="2"
             Grid.ColumnSpan="2"
