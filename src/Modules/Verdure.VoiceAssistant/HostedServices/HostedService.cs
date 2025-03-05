@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using NetCoreAudio;
 using Verdure.Braincase.Core.Contracts.Services;
-using Verdure.Braincase.Core.Models.Lingxi;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.WinUI.Common;
 using Verdure.VoiceAssistant.Services;
@@ -84,39 +83,37 @@ public class HostedService : IHostedService, IDisposable
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            // Play a notification to let the user know we have started listening for the wake phrase.
-            await _player.Play(_notificationSoundFilePath);
-
-            var botSpeech = await BotSpeechProvider.GetBotSpeechAsync(_serviceProvider);
-            await botSpeech.InitAsync();
-            // Wait for wake word or phrase
-            if (!await _wakeWordListener.WaitForWakeWordAsync(cancellationToken))
+            try
             {
-                continue;
-            }
+                // Play a notification to let the user know we have started listening for the wake phrase.
+                await _player.Play(_notificationSoundFilePath);
 
-            //var botSpeech = await BotSpeechProvider.GetBotSpeechAsync(_serviceProvider);
+                var botSpeech = await BotSpeechProvider.GetBotSpeechAsync(_serviceProvider);
 
-            
-
-            await _player.Play(_notificationSoundFilePath);
-
-            // Say hello on startup
-            await botSpeech.SpeakAsync("Hello!");
-            // Start listening
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                // Listen to the user
-                var userSpoke = await botSpeech.ListenAsync();
-
-                _dispatcherQueue.TryEnqueue(() =>
+                await botSpeech.InitAsync(cancellationToken);
+                // Wait for wake word or phrase
+                if (!await _wakeWordListener.WaitForWakeWordAsync(cancellationToken))
                 {
-                    ToastHelper.SendToast($"用户的问题:{userSpoke}", TimeSpan.FromSeconds(3));
-                });
-                // Get a reply from the AI and add it to the chat history.
-                var reply = string.Empty;
-                try
+                    continue;
+                }
+
+                await _player.Play(_notificationSoundFilePath);
+
+                // Say hello on startup
+                await botSpeech.SpeakAsync("Hello!", cancellationToken);
+                // Start listening
+                while (!cancellationToken.IsCancellationRequested)
                 {
+                    // Listen to the user
+                    var userSpoke = await botSpeech.ListenAsync(cancellationToken);
+
+                    _dispatcherQueue.TryEnqueue(() =>
+                    {
+                        ToastHelper.SendToast($"用户的问题:{userSpoke}", TimeSpan.FromSeconds(3));
+                    });
+                    // Get a reply from the AI and add it to the chat history.
+                    var reply = string.Empty;
+
 
                     var saveConv = await _localSettingsService
                         .ReadSettingAsync<Conversation>(Constants.CurrentConversationKey);
@@ -124,7 +121,7 @@ public class HostedService : IHostedService, IDisposable
                     if (saveConv == null)
                     {
                         _logger.LogError("No conversation ID found.");
-                        return;
+                        continue;
                     }
 
                     var inputMsg = new RoleDialogModel(AgentRole.User, userSpoke)
@@ -153,23 +150,22 @@ public class HostedService : IHostedService, IDisposable
                                 });
                             });
                     });
-                   
 
-                }
-                catch (Exception aiex)
-                {
-                    _logger.LogError($"OpenAI returned an error.{aiex.Message}");
-                    reply = "OpenAI returned an error. Please try again.";
-                }
 
-                // Speak the AI's reply
-                await botSpeech.SpeakAsync(reply);
+                    // Speak the AI's reply
+                    await botSpeech.SpeakAsync(reply, cancellationToken);
 
-                // If the user said "Goodbye" - stop listening and wait for the wake work again.
-                if (userSpoke.StartsWith("goodbye", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    break;
+                    // If the user said "Goodbye" - stop listening and wait for the wake work again.
+                    if (userSpoke.StartsWith("goodbye", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        break;
+                    }
                 }
+            }
+            catch (Exception aiex)
+            {
+                _logger.LogError($"OpenAI returned an error.{aiex.Message}");
+                ToastHelper.SendToast("LLM API KEY OR VOICE API KEY MAY NOT OK", TimeSpan.FromSeconds(3));
             }
         }
     }

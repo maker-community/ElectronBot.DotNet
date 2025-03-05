@@ -534,11 +534,6 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
     public RelayCommand LogOutCommand => _logOutCommand ??= new RelayCommand(OnLogOut, () => !IsBusy);
 
-    [RelayCommand]
-    public async Task OnLoadedAsync()
-    {
-        await InitAsync();
-    }
 
     //public bool IsBusy
     //{

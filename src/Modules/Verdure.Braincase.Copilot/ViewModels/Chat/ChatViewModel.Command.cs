@@ -11,6 +11,7 @@ using BotSharp.Abstraction.Utilities;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ElectronBot.Copilot.Enums;
+using Verdure.Braincase.Helpers;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Verdure.Braincase.Copilot.ViewModels;
@@ -69,18 +70,25 @@ public partial class ChatViewModel
 
         await Task.Run(async () =>
         {
-            await _conversationService.SendMessage(SelectedConv.AgentId, inputMsg,
-                replyMessage: null,
-                async msg =>
-                {
-                    _dispatcherQueue.TryEnqueue(() =>
-                    {
-                        var msgItem = new ChatMessageItemViewModel(msg, null, null);
-                        MessageList.Add(msgItem);
-                        IsResponding = false;
-                        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
-                    });
-                });
+            try
+            {
+                await _conversationService.SendMessage(SelectedConv.AgentId, inputMsg,
+                 replyMessage: null,
+                 async msg =>
+                 {
+                     _dispatcherQueue.TryEnqueue(() =>
+                     {
+                         var msgItem = new ChatMessageItemViewModel(msg, null, null);
+                         MessageList.Add(msgItem);
+                         IsResponding = false;
+                         RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+                     });
+             });
+            }
+            catch
+            {
+                ToastHelper.SendToast("LLM API KEY MAY NOT OK", TimeSpan.FromSeconds(3));
+            }
         });
 
     }

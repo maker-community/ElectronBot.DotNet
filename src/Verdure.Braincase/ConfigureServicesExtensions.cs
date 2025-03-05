@@ -255,17 +255,6 @@ public static class ConfigureServicesExtensions
 
             .AddSingleton<PoseRecognitionService>()
 
-
-            .AddTransient<IChatbotClient, ChatGPTChatbotCustomClient>()
-
-            .AddTransient<IChatbotClient, ChatGPTChatbotClient>()
-
-            .AddTransient<IChatbotClient, TuringChatbotClient>()
-
-            .AddTransient<IChatbotClient, SparkDeskChatbotClient>()
-
-            .AddTransient<IChatbotClientFactory, ChatbotClientFactory>()
-
             .AddTransient<IHw75DynamicViewProvider, Hw75DynamicTodoViewProvider>()
 
 
