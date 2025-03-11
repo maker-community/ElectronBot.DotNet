@@ -20,6 +20,12 @@
 
 电子脑壳是一个为稚晖君开源的桌面机器人[ElectronBot](https://github.com/peng-zhihui/ElectronBot)和瀚文键盘（[HelloWord-Keyboard](https://github.com/peng-zhihui/HelloWord-Keyboard)）提供一些软件功能的桌面程序项目。它是由绿荫阿广开发的，使用了微软的WASDK框架和C#语言。
 
+新版本页面
+
+![电子脑壳AI交互版本](/Images/new_version.png)
+
+旧版本页面
+
 ![电子脑壳截图](/Images/home1.png)
 
 电子的控制界面
