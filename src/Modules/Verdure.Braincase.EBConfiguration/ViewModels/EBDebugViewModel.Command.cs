@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.Json;
+using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.EBConfiguration.Views;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.WinUI.Common.Contracts.Services;
@@ -10,20 +12,11 @@ public partial class EBDebugViewModel : ObservableRecipient
 {
     public void Head_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
     {
-        //if (ElectronBotHelper.Instance.EbConnected && modeNo == 1)
-        //{
-        //    Task.Run(() =>
-        //    {
-        //        if (ElectronBotHelper.Instance.EbConnected)
-        //        {
-        //            var data = new byte[240 * 240 * 3];
+        var data = new byte[240 * 240 * 3];
 
-        //            var frame = new EmoticonActionFrame(data, true, j1, j2, j3, j4, j5, j6);
+        var frame = new EmoticonActionFrame(data, true, j1, j2, j3, j4, j5, j6);
 
-        //            ElectronBotHelper.Instance.PlayEmoticonActionFrame(frame);
-        //        }
-        //    });
-        //}
+        _actionFrameService.SendToUsbDeviceAsync(frame);
     }
     /// <summary>
     /// 导入动作列表
@@ -31,33 +24,25 @@ public partial class EBDebugViewModel : ObservableRecipient
     [RelayCommand]
     public async Task ImportAsync()
     {
-        //var list = await EbHelper.ImportActionListAsync(_hwnd);
+        var list = await EbHelper.ImportActionListAsync(_hwnd);
 
-        //Actions = new ObservableCollection<ElectronBotAction>(list);
+        Actions = new ObservableCollection<ElectronBotAction>(list);
     }
 
     [RelayCommand]
     public async Task PlayAsync()
     {
-        //if (modeNo == 1)
-        //{
-        //    if (actions.Count > 0)
-        //    {
-        //        await ResetActionAsync();
+        if (actions.Count > 0)
+        {
+            await ResetActionAsync();
 
-        //        await EbHelper.PlayActionListAsync(Actions.ToList(), Interval);
+            await EbHelper.PlayActionListAsync(Actions.ToList(), Interval);
 
-        //    }
-        //    else
-        //    {
-        //        ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-        //    }
-
-        //}
-        //else
-        //{
-        //    ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-        //}
+        }
+        else
+        {
+            ToastHelper.SendToast("PlayEmptyToastText".GetLocalized(), TimeSpan.FromSeconds(3));
+        }
     }
 
     [RelayCommand]
@@ -69,54 +54,21 @@ public partial class EBDebugViewModel : ObservableRecipient
     [RelayCommand]
     public void Clear()
     {
-        //actions.Clear();
+        actions.Clear();
 
-        //count = 0;
+        count = 0;
 
-        //actionCount = 0;
+        actionCount = 0;
 
-        //ToastHelper.SendToast("PlayClearToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-    }
-
-    [RelayCommand]
-    public void Reconnect()
-    {
-        //try
-        //{
-        //    _dispatcherTimer.Stop();
-        //    //ElectronBotHelper.Instance?.ElectronBot?.Disconnect();
-        //    ElectronBotHelper.Instance?.ElectronBot?.ResetDevice();
-        //}
-        //catch (Exception)
-        //{
-
-        //}
-
-
-        //ToastHelper.SendToast("ReconnectText".GetLocalized(), TimeSpan.FromSeconds(3));
+        ToastHelper.SendToast("PlayClearToastText".GetLocalized(), TimeSpan.FromSeconds(3));
     }
 
     [RelayCommand]
     public async Task ResetAsync()
     {
-        //if (modeNo == 1)
-        //{
-        //    if (ElectronBotHelper.Instance.EbConnected)
-        //    {
-        //        await ResetActionAsync();
+        await ResetActionAsync();
 
-        //        ToastHelper.SendToast("PlayResetToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-        //    }
-        //    else
-        //    {
-        //        ToastHelper.SendToast("PleaseConnectToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-        //    }
-
-        //}
-        //else
-        //{
-        //    ToastHelper.SendToast("PlayErrorToastText".GetLocalized(), TimeSpan.FromSeconds(3));
-        //}
+        ToastHelper.SendToast("PlayResetToastText".GetLocalized(), TimeSpan.FromSeconds(3));
     }
 
     [RelayCommand]
@@ -212,52 +164,50 @@ public partial class EBDebugViewModel : ObservableRecipient
     [RelayCommand]
     public async Task AddPictureAsync()
     {
-        //var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+        var picker = new Windows.Storage.Pickers.FileOpenPicker
+        {
+            ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
 
-        //var picker = new Windows.Storage.Pickers.FileOpenPicker
-        //{
-        //    ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
+        };
 
-        //    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
-        //};
+        picker.FileTypeFilter.Add(".png");
+        picker.FileTypeFilter.Add(".jpg");
+        picker.FileTypeFilter.Add(".jpeg");
 
-        //picker.FileTypeFilter.Add(".png");
-        //picker.FileTypeFilter.Add(".jpg");
-        //picker.FileTypeFilter.Add(".jpeg");
+        WinRT.Interop.InitializeWithWindow.Initialize(picker, _hwnd);
 
-        //WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+        var file = await picker.PickSingleFileAsync();
 
-        //var file = await picker.PickSingleFileAsync();
+        if (file != null)
+        {
+            var config = new ImageCropperConfig
+            {
+                ImageFile = file,
+                AspectRatio = 1
+            };
 
-        //if (file != null)
-        //{
-        //    var config = new ImageCropperConfig
-        //    {
-        //        ImageFile = file,
-        //        AspectRatio = 1
-        //    };
+            var croppedImage = await ImageHelper.CropImage(config);
 
-        //    var croppedImage = await ImageHelper.CropImage(config);
+            if (croppedImage != null)
+            {
+                SelectdAction.BitmapImageData = croppedImage;
 
-        //    if (croppedImage != null)
-        //    {
-        //        SelectdAction.BitmapImageData = croppedImage;
+                var act = Actions.Where(i => i.Id == selectdAction.Id).FirstOrDefault();
 
-        //        var act = Actions.Where(i => i.Id == selectdAction.Id).FirstOrDefault();
+                if (act != null)
+                {
+                    var bytes = croppedImage.PixelBuffer.ToArray();
 
-        //        if (act != null)
-        //        {
-        //            var bytes = croppedImage.PixelBuffer.ToArray();
+                    var imageData = await EbHelper.ToBase64Async(
+                        bytes, (uint)croppedImage.PixelWidth, (uint)croppedImage.PixelWidth);
 
-        //            var imageData = await EbHelper.ToBase64Async(
-        //                bytes, (uint)croppedImage.PixelWidth, (uint)croppedImage.PixelWidth);
+                    act.ImageData = $"data:image/png;base64,{imageData}";
 
-        //            act.ImageData = $"data:image/png;base64,{imageData}";
-
-        //            act.BitmapImageData = croppedImage;
-        //        }
-        //    }
-        //}
+                    act.BitmapImageData = croppedImage;
+                }
+            }
+        }
     }
 
     [RelayCommand]
@@ -276,5 +226,27 @@ public partial class EBDebugViewModel : ObservableRecipient
         {
 
         }
+    }
+
+    private async Task ResetActionAsync()
+    {
+        J1 = 0;
+        J2 = 0;
+        J3 = 0;
+        J4 = 0;
+        J5 = 0;
+        J6 = 0;
+
+        await Task.Run(async () =>
+        {
+            var data = new byte[240 * 240 * 3];
+
+            var frame = new EmoticonActionFrame(data, true);
+
+            var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
+
+            service.ClearQueue();
+            await service.SendToUsbDeviceAsync(frame);
+        });
     }
 }

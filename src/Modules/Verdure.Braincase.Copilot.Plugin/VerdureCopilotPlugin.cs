@@ -1,4 +1,5 @@
 using BotSharp.Abstraction.Agents;
+using BotSharp.Core.Crontab.Abstraction;
 using Verdure.Braincase.Copilot.Plugin.Enums;
 using Verdure.Braincase.Copilot.Plugin.Hooks;
 

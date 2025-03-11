@@ -36,7 +36,7 @@ public class ComboxDataService
         return new ObservableCollection<ComboxItemModel>
             {
 
-                new ComboxItemModel { DataKey = "DefaultVoice", DataValue = "DefaultVoice".GetLocalized() },
+                //new ComboxItemModel { DataKey = "DefaultVoice", DataValue = "DefaultVoice".GetLocalized() },
                 new ComboxItemModel { DataKey = "AzureVoice", DataValue ="AzureVoice".GetLocalized() }
             };
     }

@@ -20,6 +20,12 @@
 
 Electronic Braincase is a desktop program project that provides some software functions for the open-source desktop robot [ElectronBot](https://github.com/peng-zhihui/ElectronBot) and Hanwen Keyboard ([HelloWord-Keyboard](https://github.com/peng-zhihui/HelloWord-Keyboard)) by Zhihuijun. It was developed by Green Shade Aguang using Microsoft's WASDK framework and C# language.
 
+new version Page
+
+![Electronic Braincase AI Interaction Version](/Images/new_version.png)
+
+old version Page
+
 ![Electronic Braincase Screenshot](/Images/home1.png)
 
 Electronic control interface

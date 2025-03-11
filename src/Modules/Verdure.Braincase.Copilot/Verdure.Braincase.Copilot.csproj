@@ -35,9 +35,8 @@
     <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.sequential.liquid" />
     <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\response_with_function.liquid" />
     <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\translation_prompt.liquid" />
-    <None Remove="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\agent.json" />
-    <None Remove="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\instructions\instruction.liquid" />
-    <None Remove="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\templates\select_file_prompt.liquid" />
+    <None Remove="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\functions\util-crontab-schedule_task.json" />
+    <None Remove="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\templates\util-crontab-schedule_task.fn.liquid" />
     <None Remove="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\agent.json" />
     <None Remove="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\instructions\instruction.liquid" />
     <None Remove="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.executor.liquid" />
@@ -101,10 +100,16 @@
     <Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\agent.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\functions\util-crontab-schedule_task.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\instructions\instruction.liquid">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\templates\select_file_prompt.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\templates\util-crontab-schedule_task.fn.liquid">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\agent.json">
@@ -130,6 +135,7 @@
   <ItemGroup>
       <PackageReference Include="BotSharp.Abstraction" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Core" Version="4.0.0-verdure1" />
+      <PackageReference Include="BotSharp.Core.Crontab" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Logger" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Plugin.AzureOpenAI" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Plugin.DeepSeekAI" Version="4.0.0-verdure1" />

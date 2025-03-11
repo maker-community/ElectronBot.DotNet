@@ -4,6 +4,7 @@ using BotSharp.Abstraction.MLTasks;
 using BotSharp.Abstraction.Repositories;
 using BotSharp.Abstraction.Users;
 using BotSharp.Core;
+using BotSharp.Core.Crontab.Abstraction;
 using BotSharp.Core.Infrastructures;
 using BotSharp.Logger;
 using Contracts.Services;
@@ -24,6 +25,7 @@ using Services;
 using Verdure.Braincase.Activation;
 using Verdure.Braincase.ClockViews;
 using Verdure.Braincase.Contracts.Services;
+using Verdure.Braincase.Copilot.Hooks;
 using Verdure.Braincase.Copilot.Services.BotSharp;
 using Verdure.Braincase.Copilot.ViewModels;
 using Verdure.Braincase.Copilot.Views;
@@ -253,17 +255,6 @@ public static class ConfigureServicesExtensions
 
             .AddSingleton<PoseRecognitionService>()
 
-
-            .AddTransient<IChatbotClient, ChatGPTChatbotCustomClient>()
-
-            .AddTransient<IChatbotClient, ChatGPTChatbotClient>()
-
-            .AddTransient<IChatbotClient, TuringChatbotClient>()
-
-            .AddTransient<IChatbotClient, SparkDeskChatbotClient>()
-
-            .AddTransient<IChatbotClientFactory, ChatbotClientFactory>()
-
             .AddTransient<IHw75DynamicViewProvider, Hw75DynamicTodoViewProvider>()
 
 
@@ -326,6 +317,8 @@ public static class ConfigureServicesExtensions
             // Add the primary hosted service to start the loop.
             .AddHostedService<HostedService>()
             .AddMemoryCache()
+            .AddScoped<ICrontabHook, NotifyCrontabHook>()
+            .AddScoped<IWallpaperService, WallpaperService>()
             // Configuration
             .BuildServiceProvider());
     }

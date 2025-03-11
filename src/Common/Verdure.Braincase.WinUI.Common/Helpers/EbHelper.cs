@@ -13,6 +13,7 @@ using Windows.Graphics.Imaging;
 using Windows.Media.Devices;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using System.Linq;
 
 namespace Verdure.Braincase.Helpers;
 
@@ -205,7 +206,7 @@ public class EbHelper
     /// <returns></returns>
     public static async Task PlayActionListAsync(List<ElectronBotAction> actions, int interval = 500)
     {
-        var service = Ioc.Default.GetRequiredService<EmoticonActionFrameService>();
+        var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
 
         service.ClearQueue();
 
@@ -328,20 +329,20 @@ public class EbHelper
             var frame = new EmoticonActionFrame(rgbData, frameData.Enable,
                 frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6);
 
-            var service = Ioc.Default.GetRequiredService<EmoticonActionFrameService>();
+            var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
 
-            ElectronBotHelper.Instance.ModelActionInvoke(
-                new ModelActionFrame(stream.AsStream(),
-                    false, frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6));
+            //ElectronBotHelper.Instance.ModelActionInvoke(
+            //    new ModelActionFrame(stream.AsStream(),
+            //        false, frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6));
 
             await service.SendToUsbDeviceAsync(frame);
         }
         else
         {
-            ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(new MemoryStream(), false,
-                frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6));
+            //ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(new MemoryStream(), false,
+                //frameData.J1, frameData.J2, frameData.J3, frameData.J4, frameData.J5, frameData.J6));
 
-            ElectronBotHelper.Instance.PlayEmoticonActionFrame(frameData);
+            //ElectronBotHelper.Instance.PlayEmoticonActionFrame(frameData);
         }
 
     }
@@ -402,9 +403,9 @@ public class EbHelper
 
             var frame = new EmoticonActionFrame(rgbData);
 
-            var service = Ioc.Default.GetRequiredService<EmoticonActionFrameService>();
+            var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
 
-            ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(stream.AsStream()));
+            //ElectronBotHelper.Instance.ModelActionInvoke(new ModelActionFrame(stream.AsStream()));
 
             await service.SendToUsbDeviceAsync(frame);
         }
@@ -419,7 +420,7 @@ public class EbHelper
     public static async Task ShowClockCanvasToDeviceAsync(UIElement element)
     {
         var data = await SetClockUiToFrameAsync(element);
-        var service = Ioc.Default.GetRequiredService<EmoticonActionFrameService>();
+        var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
         _ = await service.SendToUsbDeviceAsync(data);
     }
 
@@ -485,7 +486,7 @@ public class EbHelper
         //});
         //return Task.CompletedTask;
 
-        var service = Ioc.Default.GetRequiredService<EmoticonActionFrameService>();
+        var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
         _ = await service.SendToUsbDeviceAsync(data);
     }
 

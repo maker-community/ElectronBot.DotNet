@@ -14,7 +14,7 @@ using Windows.System;
 
 namespace Verdure.Braincase.Settings.ViewModels;
 
-public partial class SettingsViewModel : ObservableRecipient, INavigationAware
+public partial class SettingsViewModel : ObservableRecipient
 {
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly ILocalSettingsService _localSettingsService;
@@ -534,11 +534,6 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
 
     public RelayCommand LogOutCommand => _logOutCommand ??= new RelayCommand(OnLogOut, () => !IsBusy);
 
-    [RelayCommand]
-    public async Task OnLoadedAsync()
-    {
-        await InitAsync();
-    }
 
     //public bool IsBusy
     //{
@@ -770,11 +765,14 @@ public partial class SettingsViewModel : ObservableRecipient, INavigationAware
         return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
 
-    public async void OnNavigatedTo(object parameter)
+    [RelayCommand]
+    public async Task OnLoadedAsync()
     {
         await InitAsync();
     }
-    public void OnNavigatedFrom()
+
+    [RelayCommand]
+    public async Task OnUnloadedAsync()
     {
         UnregisterEvents();
     }

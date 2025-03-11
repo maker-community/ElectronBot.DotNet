@@ -10,5 +10,21 @@
     "provider": "openai",
     "model": "qwen2-72b-instruct"
   },
-  "profiles": [ "verdure" ]
+  "profiles": [ "verdure" ],
+  "utilities": [
+    {
+      "Name": "crontab.schedule-task",
+      "Disabled": false,
+      "Functions": [
+        {
+          "Name": "util-crontab-schedule_task"
+        }
+      ],
+      "Templates": [
+        {
+          "Name": "util-crontab-schedule_task.fn"
+        }
+      ]
+    }
+  ]
 }

@@ -85,6 +85,7 @@
 
   <ItemGroup>
     <PackageReference Include="BotSharp.Core" Version="4.0.0-verdure1" />
+    <PackageReference Include="BotSharp.Core.Crontab" Version="4.0.0-verdure1" />
   </ItemGroup>
 
   <ItemGroup>
