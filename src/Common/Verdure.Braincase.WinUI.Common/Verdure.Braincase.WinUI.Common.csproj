@@ -29,7 +29,7 @@
 	  <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.1.240916" />
 	  <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.1.240916" />
 	  <PackageReference Include="SixLabors.Fonts" Version="2.1.2" />
-	  <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
+	  <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
 	  <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.5" />
 	  <PackageReference Include="NAudio.Wasapi" Version="2.2.1" />
 	  <PackageReference Include="SkiaSharp" Version="3.116.1" />
