@@ -988,4 +988,13 @@
   <data name="ResetAgentBtn.Label" xml:space="preserve">
     <value>重置智能体</value>
   </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="ResetAgentTip.Text" xml:space="preserve">
+    <value>重置完智能体务必去设置重新设置默认对话模型提供商</value>
+  </data>
 </root>

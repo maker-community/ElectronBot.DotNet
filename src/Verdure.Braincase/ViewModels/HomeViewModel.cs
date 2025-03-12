@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO.Ports;
 using System.Text.Json;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -16,8 +15,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Services;
 using Verdure.Braincase.Contracts.Services;
-using Verdure.Braincase.Core.Models;
-using Verdure.Braincase.Core.Models.Lingxi;
 using Verdure.Braincase.EbScreen.Views;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.Models;
@@ -31,7 +28,7 @@ using Windows.Media.SpeechRecognition;
 
 namespace Verdure.Braincase.ViewModels;
 
-public partial class HomeViewModel : ObservableRecipient, INavigationAware,IRecipient<ChangeClockView>
+public partial class HomeViewModel : ObservableRecipient, INavigationAware, IRecipient<ChangeClockView>, IRecipient<ChangeAppMode>
 {
     private readonly DispatcherTimer _dispatcherTimer;
 
@@ -44,6 +41,8 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
     private readonly ISpeechAndTTSService _speechAndTTSService;
 
     private readonly ILocalSettingsService _localSettingsService;
+
+    private readonly IServiceProvider _services;
 
     private static HandsCpuSolution calculator = new();
 
@@ -82,7 +81,8 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
         IActionExpressionProviderFactory actionExpressionProviderFactory,
         ISpeechAndTTSService speechAndTTSService,
         IThemeSelectorService elementTheme,
-        IMemoryCache memoryCache)
+        IMemoryCache memoryCache,
+        IServiceProvider services)
     {
         _localSettingsService = localSettingsService;
 
@@ -117,7 +117,9 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
         _elementTheme = elementTheme.Theme;
 
         WeakReferenceMessenger.Default.Register<ChangeClockView>(this);
+        WeakReferenceMessenger.Default.Register<ChangeAppMode>(this);
         _memoryCache = memoryCache;
+        _services = services;
     }
 
     private void Instance_ClockCanvasStart(object? sender, EventArgs e)
@@ -816,7 +818,12 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
 
         Element = viewProvider.CreateClockView(clockView);
 
-        if (modeNo == 3)
+        var modeName = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+        if (!string.IsNullOrWhiteSpace(modeName))
+        {
+            ModeIndex = ModeNameToIndex(modeName);
+        }
+        if (ModeIndex == 2)
         {
             if (ElectronBotHelper.Instance.EbConnected)
             {
@@ -830,9 +837,9 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
         _dispatcherTimer.Stop();
     }
 
-    public  void Receive(ChangeClockView view)
+    public void Receive(ChangeClockView view)
     {
-        App.MainWindow.DispatcherQueue.TryEnqueue(async() =>
+        App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
         {
             var clockName = view.ClockViewName;
             if (!string.IsNullOrWhiteSpace(clockName))
@@ -856,6 +863,22 @@ public partial class HomeViewModel : ObservableRecipient, INavigationAware,IReci
 
                 await _localSettingsService
                     .SaveSettingAsync(Constants.CurrentClockViewKey, clockName);
+            }
+        });
+    }
+
+    public void Receive(ChangeAppMode mode)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
+        {
+            var modeName = mode.ModeName;
+            if (!string.IsNullOrWhiteSpace(modeName))
+            {
+                var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
+
+                service.ClearQueue();
+
+                await ChangeAppModeAsync(modeName);
             }
         });
     }

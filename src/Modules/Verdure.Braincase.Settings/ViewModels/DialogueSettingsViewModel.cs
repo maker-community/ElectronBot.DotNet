@@ -1,4 +1,8 @@
-﻿using BotSharp.Abstraction.MLTasks.Settings;
+﻿using BotSharp.Abstraction.Agents.Enums;
+using BotSharp.Abstraction.Agents;
+using BotSharp.Abstraction.MLTasks.Settings;
+using BotSharp.Abstraction.Repositories.Filters;
+using BotSharp.Abstraction.Utilities;
 using Verdure.Braincase.Settings.Models;
 
 namespace Verdure.Braincase.Settings.ViewModels;
@@ -9,6 +13,8 @@ public partial class DialogueSettingsViewModel : ObservableRecipient
     public DialogueSettingsViewModel(ILocalSettingsService localSettingsService)
     {
         _localSettingsService = localSettingsService;
+
+        _chatBotComboxModels = GetChatBotClientComboxList();
     }
 
     [ObservableProperty]
@@ -41,6 +47,18 @@ public partial class DialogueSettingsViewModel : ObservableRecipient
         Endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
         Name = "qwen2.5-72b-instruct"
     };
+
+    /// <summary>
+    /// 聊天机器人选中数据
+    /// </summary>
+    [ObservableProperty]
+    ComboxItemModel chatBotSelect;
+
+    /// <summary>
+    /// 聊天机器人列表
+    /// </summary>
+    [ObservableProperty]
+    public ObservableCollection<ComboxItemModel> _chatBotComboxModels;
 
     [RelayCommand]
     public async Task OnLoadedAsync()
@@ -76,6 +94,14 @@ public partial class DialogueSettingsViewModel : ObservableRecipient
             {
                 TongyiILlmModelSetting = tongyiILlmModelSetting;
             }
+        }
+
+        var chatBotModel = await _localSettingsService
+             .ReadSettingAsync<ComboxItemModel>(Constants.DefaultChatBotNameKey);
+
+        if (chatBotModel != null)
+        {
+            ChatBotSelect = ChatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
         }
     }
 
@@ -136,5 +162,76 @@ public partial class DialogueSettingsViewModel : ObservableRecipient
         }
 
         await _localSettingsService.SaveSettingAsync(Constants.LlmProviders, modelList);
+    }
+
+    [RelayCommand]
+    public async Task ChatBotChangedAsync()
+    {
+        var chatBotName = ChatBotSelect?.DataKey;
+
+        if (!string.IsNullOrWhiteSpace(chatBotName))
+        {
+            var modelList = await _localSettingsService.ReadSettingAsync<List<CustomLlmProviderSetting>>(Constants.LlmProviders);
+
+            if (modelList != null)
+            {
+                CustomLlmModelSetting model = null;
+                var models = modelList.FirstOrDefault(m => m.Provider == chatBotName);
+                if (models != null)
+                {
+                    model = models.Models.FirstOrDefault();
+                }
+                else
+                {
+                    models = modelList.Where(m => m.Provider == "openai").FirstOrDefault();
+                    if (models != null)
+                    {
+                        model = models.Models.FirstOrDefault(m => m.Provider == chatBotName);
+                    }
+                }
+                if (model != null && !string.IsNullOrEmpty(model.ApiKey))
+                {
+                    var agentService = Ioc.Default.GetRequiredService<IAgentService>();
+
+                    var agents = (await agentService.GetAgents(new AgentFilter
+                    {
+                        Pager = new Pagination
+                        {
+                            Page = 1,
+                            Size = 100
+                        }
+                    })).Items.ToList();
+
+                    foreach (var agent in agents)
+                    {
+                        agent.LlmConfig.Provider = model.Provider
+                            .Replace("tongyi", "openai");
+
+                        agent.LlmConfig.Model = model.Name;
+
+                        await agentService.UpdateAgent(agent, AgentField.LlmConfig);
+                    }
+                    await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, ChatBotSelect);
+                    ToastHelper.SendToast("Save Ok", TimeSpan.FromSeconds(3));
+                }
+                else
+                {
+                    ChatBotSelect = null;
+                    ToastHelper.SendToast("ApiKey is null", TimeSpan.FromSeconds(3));
+                }
+            }
+        }
+    }
+
+    private ObservableCollection<ComboxItemModel> GetChatBotClientComboxList()
+    {
+        return new ObservableCollection<ComboxItemModel>
+            {
+
+                new() { DataKey = "azure-openai", DataValue = "AzureOpenai" },
+                new() { DataKey = "openai", DataValue = "Openai" },
+                new() { DataKey = "deepseek-ai", DataValue ="DeepseekAi" },
+                new() { DataKey = "tongyi", DataValue ="Tongyi" }
+            };
     }
 }

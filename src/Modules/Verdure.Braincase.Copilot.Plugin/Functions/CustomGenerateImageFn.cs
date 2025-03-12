@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Net.Mime;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Threading;
 using BotSharp.Abstraction.Conversations;
 using BotSharp.Abstraction.Conversations.Models;
 using BotSharp.Abstraction.MLTasks;
@@ -91,7 +92,7 @@ public class CustomGenerateImageFn : IFunctionCallback
 
         var maxRetries = 5;
         var retryCount = 0;
-
+        await _botSpeech.InitAsync();
         await _botSpeech.SpeakAsync("正在生成图片，请稍等片刻");
 
         while (retryCount < maxRetries)
@@ -134,6 +135,10 @@ public class CustomGenerateImageFn : IFunctionCallback
                 });
 
                 WeakReferenceMessenger.Default.Send(lingxiSpace);
+                _ = Task.Run(async () =>
+                {
+                    await _botToolService.SendImageDataToBotSettingAsync($"data:{MediaTypeNames.Image.Png};base64,{base64Image}");
+                });
                 break;
             }
             await Task.Delay(10000); // 等待5秒后再次轮询

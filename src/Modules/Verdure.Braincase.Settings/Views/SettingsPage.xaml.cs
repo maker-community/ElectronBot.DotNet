@@ -20,9 +20,4 @@ public sealed partial class SettingsPage : Page
         ViewModel = Ioc.Default.GetRequiredService<SettingsViewModel>();
         InitializeComponent();
     }
-
-    private async void OpenPrivacySettings_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-    {
-        await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-speech"));
-    }
 }

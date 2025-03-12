@@ -37,13 +37,10 @@ public partial class SettingsViewModel : ObservableRecipient
     {
         _themeSelectorService = themeSelectorService;
         _elementTheme = _themeSelectorService.Theme;
-        _localSettingsService = localSettingsService;
-        VersionDescription = GetVersionDescription();
+        _localSettingsService = localSettingsService;       
         _identityService = identityService;
         _userDataService = userDataService;
-        _chatBotComboxModels = GetChatBotClientComboxList();
         _chatGPTVersionomboxModels = comboxDataService.GetChatGPTVersionComboxList();
-        _llmVoiceComboxModels = comboxDataService.GetLlmVoiceComboxList();
         _windowEx = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow();
     }
 
@@ -188,31 +185,6 @@ public partial class SettingsViewModel : ObservableRecipient
         await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
     }
 
-
-    /// <summary>
-    /// 聊天机器人选中数据
-    /// </summary>
-    [ObservableProperty]
-    ComboxItemModel chatBotSelect;
-
-    /// <summary>
-    /// 聊天机器人列表
-    /// </summary>
-    [ObservableProperty]
-    public ObservableCollection<ComboxItemModel> _chatBotComboxModels;
-
-    /// <summary>
-    /// 语音服务列表
-    /// </summary>
-    [ObservableProperty]
-    public ObservableCollection<ComboxItemModel> _llmVoiceComboxModels;
-
-    /// <summary>
-    /// 聊天机器人选中数据
-    /// </summary>
-    [ObservableProperty]
-    ComboxItemModel _llmVoiceSelect;
-
     /// <summary>
     /// CHatGPTVersion选中数据
     /// </summary>
@@ -224,10 +196,6 @@ public partial class SettingsViewModel : ObservableRecipient
     /// </summary>
     [ObservableProperty]
     private ObservableCollection<ComboxItemModel> _chatGPTVersionomboxModels;
-
-
-    [ObservableProperty]
-    private string _versionDescription;
 
 
     [RelayCommand]
@@ -302,108 +270,6 @@ public partial class SettingsViewModel : ObservableRecipient
         BotSetting.CustomViewPicturePath = "";
         await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
         EmojisAvatar = "";
-    }
-
-    [RelayCommand]
-    public async Task ChatBotChangedAsync()
-    {
-        var chatBotName = ChatBotSelect?.DataKey;
-
-        if (!string.IsNullOrWhiteSpace(chatBotName))
-        {
-            var modelList = await _localSettingsService.ReadSettingAsync<List<CustomLlmProviderSetting>>(Constants.LlmProviders);
-
-            if (modelList != null)
-            {
-                CustomLlmModelSetting model = null;
-                var models = modelList.FirstOrDefault(m => m.Provider == chatBotName);
-                if (models != null)
-                {
-                    model = models.Models.FirstOrDefault();
-                }
-                else
-                {
-                    models = modelList.Where(m => m.Provider == "openai").FirstOrDefault();
-                    if (models != null)
-                    {
-                        model = models.Models.FirstOrDefault(m => m.Provider == chatBotName);
-                    }
-                }
-                if (model != null && !string.IsNullOrEmpty(model.ApiKey))
-                {
-                    var agentService = Ioc.Default.GetRequiredService<IAgentService>();
-
-                    var agents = (await agentService.GetAgents(new AgentFilter
-                    {
-                        Pager = new Pagination
-                        {
-                            Page = 1,
-                            Size = 100
-                        }
-                    })).Items.ToList();
-
-                    foreach (var agent in agents)
-                    {
-                        agent.LlmConfig.Provider = model.Provider
-                            .Replace("tongyi", "openai");
-
-                        agent.LlmConfig.Model = model.Name;
-
-                        await agentService.UpdateAgent(agent, AgentField.LlmConfig);
-                    }
-                    await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, ChatBotSelect);
-                    ToastHelper.SendToast("Save Ok", TimeSpan.FromSeconds(3));
-                }
-                else
-                {
-                    ChatBotSelect = null;
-                    ToastHelper.SendToast("ApiKey is null", TimeSpan.FromSeconds(3));
-                }
-            }
-        }
-    }
-
-    [RelayCommand]
-    public async Task ChatGPTVersionChangedAsync()
-    {
-        var chatGPTName = ChatGPTVersionSelect?.DataKey;
-
-        if (!string.IsNullOrWhiteSpace(chatGPTName))
-        {
-            var modelList = await _localSettingsService.ReadSettingAsync<List<CustomLlmProviderSetting>>(Constants.LlmProviders);
-
-            BotSetting.ChatGPTVersion = chatGPTName;
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultChatGPTNameKey, chatGPTName);
-
-            await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
-        }
-    }
-
-    [RelayCommand]
-    public async Task LlmVoiceChangedAsync()
-    {
-        var llmVoiceName = LlmVoiceSelect?.DataKey;
-
-        if (!string.IsNullOrWhiteSpace(llmVoiceName))
-        {
-            await _localSettingsService.SaveSettingAsync(Constants.DefaultLlmVoiceNameKey, LlmVoiceSelect);
-        }
-    }
-
-    [RelayCommand]
-    public async Task FeedbackBtnAsync()
-    {
-        await FeedbackAsync("gil.zhang.dev@outlook.com", "反馈", "这是一些反馈");
-    }
-
-    public async Task FeedbackAsync(string address, string subject, string body)
-    {
-        if (address == null)
-        {
-            return;
-        }
-        var mailto = new Uri($"mailto:{address}?subject={subject}&body={body}");
-        await Launcher.LaunchUriAsync(mailto);
     }
 
 
@@ -630,33 +496,8 @@ public partial class SettingsViewModel : ObservableRecipient
                 AudioSelect = AudioDevs.FirstOrDefault(c => c.DataValue == audioModel.DataValue);
             }
 
-            var chatBotModel = await _localSettingsService
-                .ReadSettingAsync<ComboxItemModel>(Constants.DefaultChatBotNameKey);
-
-            if (chatBotModel != null)
-            {
-                ChatBotSelect = ChatBotComboxModels.FirstOrDefault(c => c.DataValue == chatBotModel.DataValue);
-            }
-
-            var llmVoiceModel = await _localSettingsService
-                .ReadSettingAsync<ComboxItemModel>(Constants.DefaultLlmVoiceNameKey);
-
-            if (llmVoiceModel != null)
-            {
-                LlmVoiceSelect = LlmVoiceComboxModels.FirstOrDefault(c => c.DataValue == llmVoiceModel.DataValue);
-            }
-
             var chatGPTModel = await _localSettingsService
                 .ReadSettingAsync<string>(Constants.DefaultChatGPTNameKey);
-
-            if (!string.IsNullOrWhiteSpace(chatGPTModel))
-            {
-                ChatGPTVersionSelect = ChatGPTVersionomboxModels?.FirstOrDefault(c => c.DataKey == chatGPTModel);
-            }
-            else
-            {
-                ChatGPTVersionSelect = ChatGPTVersionomboxModels?.FirstOrDefault(c => c.DataKey == ClockTitleConfig.ChatGPTVersion);
-            }
 
             _identityService.LoggedIn += OnLoggedIn;
             _identityService.LoggedOut += OnLoggedOut;
@@ -756,15 +597,6 @@ public partial class SettingsViewModel : ObservableRecipient
 
     #endregion
 
-    private static string GetVersionDescription()
-    {
-        var appName = "AppDisplayName".GetLocalized();
-
-        var version = Package.Current.Id.Version;
-
-        return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-    }
-
     [RelayCommand]
     public async Task OnLoadedAsync()
     {
@@ -775,16 +607,5 @@ public partial class SettingsViewModel : ObservableRecipient
     public async Task OnUnloadedAsync()
     {
         UnregisterEvents();
-    }
-    private ObservableCollection<ComboxItemModel> GetChatBotClientComboxList()
-    {
-        return new ObservableCollection<ComboxItemModel>
-            {
-
-                new() { DataKey = "azure-openai", DataValue = "AzureOpenai" },
-                new() { DataKey = "openai", DataValue = "Openai" },
-                new() { DataKey = "deepseek-ai", DataValue ="DeepseekAi" },
-                new() { DataKey = "tongyi", DataValue ="Tongyi" }
-            };
     }
 }

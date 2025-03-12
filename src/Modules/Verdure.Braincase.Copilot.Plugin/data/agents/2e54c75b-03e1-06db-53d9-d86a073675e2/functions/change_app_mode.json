@@ -1,0 +1,14 @@
+﻿{
+  "name": "change_app_mode",
+  "description": "切换应用模式的函数",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "mode_name": {
+        "type": "string",
+        "description": "应用模式的标识名称"
+      }
+    },
+    "required": [ "mode_name" ]
+  }
+}

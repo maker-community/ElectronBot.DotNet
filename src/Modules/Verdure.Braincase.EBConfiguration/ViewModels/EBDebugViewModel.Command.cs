@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
-using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.EBConfiguration.Views;
 using Verdure.Braincase.Helpers;
 using Verdure.Braincase.WinUI.Common.Contracts.Services;
@@ -12,11 +11,14 @@ public partial class EBDebugViewModel : ObservableRecipient
 {
     public void Head_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
     {
-        var data = new byte[240 * 240 * 3];
+        Task.Run(() =>
+        {
+            var data = new byte[240 * 240 * 3];
 
-        var frame = new EmoticonActionFrame(data, true, j1, j2, j3, j4, j5, j6);
+            var frame = new EmoticonActionFrame(data, true, j1, j2, j3, j4, j5, j6);
 
-        _actionFrameService.SendToUsbDeviceAsync(frame);
+            _actionFrameService.SendToUsbDeviceAsync(frame);
+        });
     }
     /// <summary>
     /// 导入动作列表

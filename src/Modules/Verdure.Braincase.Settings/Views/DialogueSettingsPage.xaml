@@ -417,6 +417,20 @@
                             </StackPanel>
                         </StackPanel>
                     </Expander>
+
+                    <ComboBox
+                        x:Uid="LlmTextCB"
+                        Width="240"
+                        Margin="4"
+                        DisplayMemberPath="DataValue"
+                        ItemsSource="{x:Bind ViewModel.ChatBotComboxModels}"
+                        SelectedItem="{x:Bind ViewModel.ChatBotSelect, Mode=TwoWay}">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="SelectionChanged">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ChatBotChangedCommand}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </ComboBox>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

@@ -18,6 +18,13 @@ public interface IBotToolService
     Task SendWordsToBotAsync(LearnWordsContent content, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// 发送生成的图片数据到本地配置
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task SendImageDataToBotSettingAsync(string imageData, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// 发送B站粉丝到Bot
     /// </summary>
     /// <param name="cancellationToken"></param>

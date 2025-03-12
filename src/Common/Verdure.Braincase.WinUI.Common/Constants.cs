@@ -35,9 +35,9 @@ public class Constants
 
     public const string CustomClockTitleConfigKey = "CustomClockTitleConfigKey";
 
-    public const string BotSettingKey = "BotSettingKeyKey";
+    public const string BotSettingKey = "BotSettingKey";
 
-    public const string HaSettingKey = "HaSettingKeyKey";
+    public const string HaSettingKey = "HaSettingKey";
 
     public const string DefaultCameraNameKey = "DefaultCameraNameKey";
 

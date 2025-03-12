@@ -7,6 +7,7 @@
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\AboutAppPage.xaml" />
     <None Remove="Views\AppSettingsPage.xaml" />
     <None Remove="Views\DialogueSettingsPage.xaml" />
     <None Remove="Views\DrawingSettingsPage.xaml" />
@@ -19,6 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Verdure.Braincase.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\AboutAppPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\DrawingSettingsPage.xaml">

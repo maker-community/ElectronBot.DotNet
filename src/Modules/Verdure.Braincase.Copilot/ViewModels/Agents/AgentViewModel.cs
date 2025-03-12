@@ -15,6 +15,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.Helpers;
 
 namespace Verdure.Braincase.Copilot.ViewModels;
 
@@ -104,11 +105,7 @@ public partial class AgentViewModel : ObservableRecipient, INavigationAware
             }
         })).Items.ToList();
         await _localSettingsService.SaveSettingAsync(Constants.DefaultChatBotNameKey, new ComboxItemModel());
-        //var result = await _conversationService.NewConversation(new BotSharp.Abstraction.Conversations.Models.Conversation
-        //{
-        //    AgentId = VerdureAgentId.VerdureId,
-        //    UserId = _userIdentity.Id
-        //});
+        ToastHelper.SendToast("Reset Agent OK", TimeSpan.FromSeconds(3));
     }
 
 }

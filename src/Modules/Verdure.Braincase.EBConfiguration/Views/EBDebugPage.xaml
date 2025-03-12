@@ -16,7 +16,7 @@
                 <controlLocal:EBActionEdit
                     x:Name="ActionEdit"
                     MinWidth="340"
-                    MaxHeight="300"
+                    MaxHeight="360"
                     Margin="8"
                     J1="{x:Bind ViewModel.J1, Mode=TwoWay}"
                     J2="{x:Bind ViewModel.J2, Mode=TwoWay}"

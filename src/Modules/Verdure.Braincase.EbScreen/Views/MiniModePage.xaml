@@ -28,9 +28,46 @@
         </Grid.ColumnDefinitions>
         <StackPanel
             Grid.Row="1"
+            Margin="12"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <Button
+            <StackPanel
+                Margin="4"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <RadioButtons
+                    x:Name="ModeRadioBtn"
+                    x:Uid="ModeRadioBtn"
+                    MaxColumns="2"
+                    SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=OneWay}">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="SelectionChanged">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.RadioButtonSelectionChangedCommand}" CommandParameter="{x:Bind ModeRadioBtn.SelectedItem, Mode=TwoWay}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                    <RadioButton x:Name="NaturalMode" x:Uid="NaturalModeRb" />
+                    <RadioButton x:Name="ClockMode" x:Uid="ClockModeRb" />
+                    <RadioButton x:Name="NeedleMode" x:Uid="NeedleModeRb" />
+                    <RadioButton x:Name="DisableMode" x:Uid="DisableModeRb" />
+                </RadioButtons>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox
+                    x:Uid="ChangeClockViewCB"
+                    Width="100"
+                    Margin="4"
+                    VerticalAlignment="Center"
+                    DisplayMemberPath="DataValue"
+                    ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
+                    SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="SelectionChanged">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClockChangedCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ComboBox>
+            </StackPanel>
+            <!--<Button
                 Width="80"
                 Height="80"
                 Margin="24"
@@ -42,7 +79,7 @@
                     FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
                     FontSize="40"
                     Glyph="&#xE720;" />
-            </Button>
+            </Button>-->
         </StackPanel>
         <Border
             x:Name="BorderGrid"

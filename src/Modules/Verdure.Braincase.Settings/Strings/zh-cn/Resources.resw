@@ -1045,4 +1045,7 @@
   <data name="LlmVoiceKey.Text" xml:space="preserve">
     <value>语音ApiKey</value>
   </data>
+  <data name="AboutApp.Text" xml:space="preserve">
+    <value>关于此应用</value>
+  </data>
 </root>

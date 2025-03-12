@@ -9,4 +9,7 @@ public class CustomGenerateImageFunctionArgs
 
     [JsonPropertyName("image_description")]
     public string ImageDescription { get; set; } = string.Empty;
+    
+    [JsonPropertyName("show_to_screen")]
+    public bool ShowToScreen { get; set; }
 }

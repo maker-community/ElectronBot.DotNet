@@ -97,6 +97,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <TextBlock
+                x:Uid="ResetAgentTip"
+                Margin="8"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                FontFamily="/Assets/Font/SmileySans-Oblique.ttf#得意黑"
+                FontSize="16"
+                Foreground="Red"
+                TextWrapping="WrapWholeWords" />
             <AppBarButton
                 x:Uid="ResetAgentBtn"
                 Margin="8"

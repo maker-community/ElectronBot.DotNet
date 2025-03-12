@@ -132,12 +132,6 @@
   <data name="ReloadButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Reload</value>
   </data>
-  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open in browser</value>
-  </data>
-  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Open in browser</value>
-  </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>Personalise</value>
   </data>
@@ -450,6 +444,9 @@
   <data name="EmojisListEmpty" xml:space="preserve">
     <value>Action list cannot be empty</value>
   </data>
+  <data name="SetEmojisNameId" xml:space="preserve">
+    <value>请设置表情id</value>
+  </data>
   <data name="EmojisActionAddTB.Text" xml:space="preserve">
     <value>Import action buttons:</value>
   </data>
@@ -741,6 +738,9 @@
   <data name="Shell_Movie.Content" xml:space="preserve">
     <value>Viewing Mode</value>
   </data>
+  <data name="Shell_GestureAppConfig.Content" xml:space="preserve">
+    <value>Gesture App Config</value>
+  </data>
   <data name="GestureAppConfigTree_AppPath.Text" xml:space="preserve">
     <value>App Path</value>
   </data>
@@ -758,9 +758,6 @@
   </data>
   <data name="GestureAppConfig_Save.Content" xml:space="preserve">
     <value>Save</value>
-  </data>
-  <data name="Shell_GestureAppConfig.Content" xml:space="preserve">
-    <value>Gesture App Config</value>
   </data>
   <data name="AddAppStartConfigBtn.Label" xml:space="preserve">
     <value>添加应用启动配置</value>
@@ -956,5 +953,14 @@
   </data>
   <data name="ResetAgentBtn.Label" xml:space="preserve">
     <value>Reset Agent</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="ResetAgentTip.Text" xml:space="preserve">
+    <value>After resetting the agent, be sure to reset the default dialogue model provider</value>
   </data>
 </root>
