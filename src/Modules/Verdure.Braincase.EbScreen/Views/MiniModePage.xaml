@@ -66,20 +66,16 @@
                         </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </ComboBox>
+                <Button
+                    Margin="4"
+                    BorderBrush="{ThemeResource SystemAccentColor}"
+                    BorderThickness="2"
+                    Command="{x:Bind ViewModel.PlayEmojisCommand}"
+                    CornerRadius="40"
+                    Foreground="{ThemeResource SystemAccentColor}">
+                    <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE720;" />
+                </Button>
             </StackPanel>
-            <!--<Button
-                Width="80"
-                Height="80"
-                Margin="24"
-                BorderBrush="{ThemeResource SystemAccentColor}"
-                BorderThickness="2"
-                CornerRadius="40"
-                Foreground="{ThemeResource SystemAccentColor}">
-                <FontIcon
-                    FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons"
-                    FontSize="40"
-                    Glyph="&#xE720;" />
-            </Button>-->
         </StackPanel>
         <Border
             x:Name="BorderGrid"

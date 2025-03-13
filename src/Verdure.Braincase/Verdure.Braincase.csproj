@@ -83,6 +83,7 @@
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\Images\CustomViewDefault.jpg" />
     <None Remove="Assets\Images\Hw75CustomViewDefault.png" />
+    <None Remove="Assets\LottieFiles\LottieLogo.json" />
     <None Remove="Assets\model.onnx" />
     <None Remove="Assets\pig.ico" />
     <None Remove="Controls\ActionTimeline.xaml" />
@@ -387,6 +388,9 @@
     <Content Update="Assets\LottieFiles\speak.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\LottieFiles\think.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\model-backgroud.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -443,6 +447,9 @@
     <None Update="Assets\keyword\keyword_xiaodian.table">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Update="Assets\LottieFiles\LottieLogo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Update="Assets\MLModel1.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

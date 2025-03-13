@@ -18,7 +18,9 @@ public partial class ElectronBotPlayer : IElectronBotPlayer, IDisposable
 
     private List<ElectronBotAction>? _actions;
 
-    private readonly SemaphoreSlim _emojiSemaphore = new SemaphoreSlim(1, 1);
+    private readonly SemaphoreSlim _emojiSemaphore = new (1, 1);
+
+    private readonly LottiePlayer _lottiePlayer;
     public ElectronBotPlayer(IEmoticonActionFrameService actionFrameService, MediaPlayer player)
     {
         _actionFrameService = actionFrameService;
@@ -28,6 +30,12 @@ public partial class ElectronBotPlayer : IElectronBotPlayer, IDisposable
         _player.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
 
         _player.IsVideoFrameServerEnabled = true;
+
+        _lottiePlayer = new LottiePlayer(ProcessFrame);
+
+        // 订阅事件
+        _lottiePlayer.PlayCompleted += (s, e) => Console.WriteLine($"动画播放完成: {e.FilePath}");
+        _lottiePlayer.PlayStopped += (s, e) => Console.WriteLine($"动画播放被停止: {e.FilePath}");
     }
 
     private async void MediaPlayer_VideoFrameAvailable(MediaPlayer sender, object args)

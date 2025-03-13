@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using Microsoft.UI.Xaml;
-using Verdure.Braincase.Core.Contracts.Services;
+﻿using Microsoft.UI.Xaml;
 using Verdure.Braincase.Services;
 using Verdure.Braincase.ViewModels;
 
@@ -15,10 +13,12 @@ public partial class MiniModeViewModel : ObservableRecipient
         Interval = TimeSpan.FromMilliseconds(200)
     };
 
+    private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow());
+
     [ObservableProperty] private string _voiceResult = string.Empty;
 
-    public MiniModeViewModel(IElectronBotPlayer electronBotPlayer, 
-        ILocalSettingsService localSettingsService, 
+    public MiniModeViewModel(IElectronBotPlayer electronBotPlayer,
+        ILocalSettingsService localSettingsService,
         IClockViewProviderFactory viewProviderFactory,
         ComboxDataService comboxDataService)
     {
@@ -53,13 +53,33 @@ public partial class MiniModeViewModel : ObservableRecipient
 
     private async void Timer_Tick(object sender, object e)
     {
-        await _electronBotPlayer.PlayImageAsync(Element);
+        var clockName = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+
+        if (clockName == "ClockMode")
+        {
+            await _electronBotPlayer.PlayImageAsync(Element);
+        }
+        else if (clockName == "NeedleMode")
+        {
+            var (x, y) = EbHelper.GetScreenCursorPos();
+
+            var screenSize = EbHelper.GetScreenSize(_hwnd);
+
+            if (screenSize.height > screenSize.width)
+            {
+                await EbHelper.ShowClockCanvasAndPosToDeviceAsync(Element, screenSize.width, screenSize.height, x, y);
+            }
+            else
+            {
+                await EbHelper.ShowClockCanvasAndPosToDeviceAsync(Element, screenSize.height, screenSize.width, x, y);
+            }
+        }
     }
 
     [RelayCommand]
-    public void PlayAction()
+    public void PlayEmojis()
     {
-
+        _ = _electronBotPlayer.PlayLottieByNameIdAsync("think", -1);
     }
 
 
@@ -86,7 +106,9 @@ public partial class MiniModeViewModel : ObservableRecipient
     {
         _timer.Tick -= Timer_Tick;
         _timer.Stop();
-
+        // 根据选中的RadioButton执行相应的逻辑
+        var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
+        service.ClearQueue();
         if (Element is UserControl userControl)
         {
             var viewModel = userControl.DataContext as ClockViewModel;
@@ -119,18 +141,18 @@ public partial class MiniModeViewModel : ObservableRecipient
 
         if (modeName == "NaturalMode")
         {
-        
+
         }
         else if (modeName == "ClockMode")
         {
-         
+
         }
         else if (modeName == "NeedleMode")
         {
-       
+
         }
         else
-        {          
+        {
         }
     }
 
