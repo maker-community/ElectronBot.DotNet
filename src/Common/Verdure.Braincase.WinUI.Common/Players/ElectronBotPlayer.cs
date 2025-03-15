@@ -36,8 +36,8 @@ public partial class ElectronBotPlayer : IElectronBotPlayer, IDisposable
         // 订阅事件
         _lottiePlayer.PlayCompleted += (s, e) => Console.WriteLine($"动画播放完成: {e.FilePath}");
         _lottiePlayer.PlayStopped += (s, e) => Console.WriteLine($"动画播放被停止: {e.FilePath}");
+        _lottiePlayer.FrameRendered += FrameRendered;
     }
-
     private async void MediaPlayer_VideoFrameAvailable(MediaPlayer sender, object args)
     {
         var canvasDevice = CanvasDevice.GetSharedDevice();

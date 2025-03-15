@@ -1,9 +1,14 @@
-﻿using Microsoft.UI.Xaml;
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using SixLabors.ImageSharp;
 using Verdure.Braincase.Services;
 using Verdure.Braincase.ViewModels;
+using Verdure.Braincase.WinUI.Common.Players;
 
 namespace ViewModels;
-public partial class MiniModeViewModel : ObservableRecipient
+public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieFrameRenderedEventArgs>
 {
     private readonly IElectronBotPlayer _electronBotPlayer;
     private readonly ILocalSettingsService _localSettingsService;
@@ -13,9 +18,13 @@ public partial class MiniModeViewModel : ObservableRecipient
         Interval = TimeSpan.FromMilliseconds(200)
     };
 
+    private readonly DispatcherQueue _dispatcherQueue;
+
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow());
 
     [ObservableProperty] private string _voiceResult = string.Empty;
+
+    public int FrameDelay { get; set; } = 32; // 约60fps
 
     public MiniModeViewModel(IElectronBotPlayer electronBotPlayer,
         ILocalSettingsService localSettingsService,
@@ -28,6 +37,8 @@ public partial class MiniModeViewModel : ObservableRecipient
         _localSettingsService = localSettingsService;
         _viewProviderFactory = viewProviderFactory;
         ClockComboxModels = comboxDataService.GetClockViewComboxList();
+        WeakReferenceMessenger.Default.Register<LottieFrameRenderedEventArgs>(this);
+        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
     }
 
     [ObservableProperty]
@@ -80,6 +91,48 @@ public partial class MiniModeViewModel : ObservableRecipient
     public void PlayEmojis()
     {
         _ = _electronBotPlayer.PlayLottieByNameIdAsync("think", -1);
+    }
+
+    public  void Receive(LottieFrameRenderedEventArgs message)
+    {
+        _dispatcherQueue.TryEnqueue(async() =>
+        {
+            if (message.Image != null)
+            {
+                var image = await ConvertToWinUIImageAsync(message.Image);
+                Element = image;
+            }
+            // 控制帧率
+            await Task.Delay(FrameDelay);
+        });
+      
+    }
+
+    public async Task<Microsoft.UI.Xaml.Controls.Image> ConvertToWinUIImageAsync(SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> imageSharpImage)
+    {
+        // Create a new WinUI Image control
+        var winUIImage = new Microsoft.UI.Xaml.Controls.Image();
+
+        // Convert the ImageSharp image to a memory stream
+        using (var memoryStream = new MemoryStream())
+        {
+            // Save the image to the memory stream as PNG
+            await imageSharpImage.SaveAsPngAsync(memoryStream);
+
+            // Reset stream position
+            memoryStream.Position = 0;
+
+            // Create a BitmapImage
+            var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
+
+            // Set the stream as the source
+            await bitmapImage.SetSourceAsync(memoryStream.AsRandomAccessStream());
+
+            // Set the BitmapImage as the source of the WinUI Image
+            winUIImage.Source = bitmapImage;
+        }
+
+        return winUIImage;
     }
 
 

@@ -1,10 +1,13 @@
-﻿using Verdure.Braincase.Core.Models;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.WinUI.Common.Models;
 using Windows.ApplicationModel;
 
 namespace Verdure.Braincase.WinUI.Common.Players;
 
 public partial class ElectronBotPlayer
 {
+    #region 旧实现
     //public async Task PlayLottieByNameIdAsync(string nameId, int times)
     //{
     //    await _emojiSemaphore.WaitAsync();
@@ -76,10 +79,16 @@ public partial class ElectronBotPlayer
     //    using var memStream = new MemoryStream(bytes);
     //    return Image.Load<Bgra32>(memStream);
     //}
-    private async Task ProcessFrame(byte[] frameData, int width, int height)
+    #endregion
+    private async Task ProcessFrame(LottieFrameEventArgs frameData)
     {
-        var frame = new EmoticonActionFrame(frameData, false);
+        var frame = new EmoticonActionFrame(frameData.FrameData, false);
         await _actionFrameService.SendToUsbDeviceAsync(frame);
+    }
+
+    private void FrameRendered(object? sender, LottieFrameRenderedEventArgs e)
+    {
+        WeakReferenceMessenger.Default.Send(e);
     }
 
     public async Task PlayLottieByNameIdAsync(string nameId, int times)

@@ -52,7 +52,7 @@ public class AzCognitiveServicesWakeWordListener : IWakeWordListener
             var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
             if (name != "ClockMode")
             {
-                _ = _electronBotPlayer.PlayLottieByNameIdAsync("look");
+                _ = _electronBotPlayer.PlayLottieByNameIdAsync("look", -1);
             }
             _logger.LogInformation($"Waiting for wake phrase...");
             result = await _keywordRecognizer.RecognizeOnceAsync(_keywordModel);

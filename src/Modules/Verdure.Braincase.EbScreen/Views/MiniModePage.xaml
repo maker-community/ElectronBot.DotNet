@@ -17,76 +17,69 @@
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.UnLoadedCommand}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="12" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <StackPanel
-            Grid.Row="1"
-            Margin="12"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <StackPanel
-                Margin="4"
-                VerticalAlignment="Top"
-                Orientation="Horizontal">
-                <RadioButtons
-                    x:Name="ModeRadioBtn"
-                    x:Uid="ModeRadioBtn"
-                    MaxColumns="2"
-                    SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=OneWay}">
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="SelectionChanged">
-                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.RadioButtonSelectionChangedCommand}" CommandParameter="{x:Bind ModeRadioBtn.SelectedItem, Mode=TwoWay}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                    <RadioButton x:Name="NaturalMode" x:Uid="NaturalModeRb" />
-                    <RadioButton x:Name="ClockMode" x:Uid="ClockModeRb" />
-                    <RadioButton x:Name="NeedleMode" x:Uid="NeedleModeRb" />
-                    <RadioButton x:Name="DisableMode" x:Uid="DisableModeRb" />
-                </RadioButtons>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <ComboBox
-                    x:Uid="ChangeClockViewCB"
-                    Width="100"
-                    Margin="4"
+    <Viewbox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="12" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <StackPanel
+                    Margin="12"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
+                    <RadioButtons
+                        x:Name="ModeRadioBtn"
+                        x:Uid="ModeRadioBtn"
+                        MaxColumns="2"
+                        SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=OneWay}">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="SelectionChanged">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.RadioButtonSelectionChangedCommand}" CommandParameter="{x:Bind ModeRadioBtn.SelectedItem, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                        <RadioButton x:Name="NaturalMode" x:Uid="NaturalModeRb" />
+                        <RadioButton x:Name="ClockMode" x:Uid="ClockModeRb" />
+                        <RadioButton x:Name="NeedleMode" x:Uid="NeedleModeRb" />
+                        <RadioButton x:Name="DisableMode" x:Uid="DisableModeRb" />
+                    </RadioButtons>
+                    <ComboBox
+                        x:Uid="ChangeClockViewCB"
+                        Width="100"
+                        Margin="4"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="DataValue"
+                        ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
+                        SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="SelectionChanged">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClockChangedCommand}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </ComboBox>
+                    <!--<StackPanel Orientation="Horizontal">
+
+                        <Button
+                            Margin="4"
+                            BorderBrush="{ThemeResource SystemAccentColor}"
+                            BorderThickness="2"
+                            Command="{x:Bind ViewModel.PlayEmojisCommand}"
+                            CornerRadius="40"
+                            Foreground="{ThemeResource SystemAccentColor}">
+                            <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE720;" />
+                        </Button>
+                    </StackPanel>-->
+                </StackPanel>
+                <Border
+                    x:Name="BorderGrid"
+                    Margin="0,0,12,0"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    DisplayMemberPath="DataValue"
-                    ItemsSource="{x:Bind ViewModel.ClockComboxModels}"
-                    SelectedItem="{x:Bind ViewModel.ClockComBoxSelect, Mode=TwoWay}">
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="SelectionChanged">
-                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClockChangedCommand}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </ComboBox>
-                <Button
-                    Margin="4"
                     BorderBrush="{ThemeResource SystemAccentColor}"
                     BorderThickness="2"
-                    Command="{x:Bind ViewModel.PlayEmojisCommand}"
-                    CornerRadius="40"
-                    Foreground="{ThemeResource SystemAccentColor}">
-                    <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE720;" />
-                </Button>
+                    Child="{x:Bind ViewModel.Element, Mode=OneWay}"
+                    CornerRadius="12" />
             </StackPanel>
-        </StackPanel>
-        <Border
-            x:Name="BorderGrid"
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="24"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            BorderBrush="{ThemeResource SystemAccentColor}"
-            BorderThickness="2"
-            Child="{x:Bind ViewModel.Element, Mode=OneWay}"
-            CornerRadius="24" />
-    </Grid>
+        </Grid>
+    </Viewbox>
 </Page>

@@ -3,6 +3,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SkiaSharp;
 using SkiaSharp.Skottie;
+using Verdure.Braincase.WinUI.Common.Models;
 
 namespace Verdure.Braincase.WinUI.Common.Players;
 
@@ -21,7 +22,7 @@ public class LottiePlayer : IDisposable
     public event EventHandler<LottieFrameRenderedEventArgs>? FrameRendered;
 
     // 帧处理委托
-    public delegate Task FrameProcessorDelegate(byte[] frameData, int width, int height);
+    public delegate Task FrameProcessorDelegate(LottieFrameEventArgs frameData);
     public FrameProcessorDelegate? FrameProcessor
     {
         get; set;
@@ -102,7 +103,13 @@ public class LottiePlayer : IDisposable
                             // 调用帧处理委托
                             if (FrameProcessor != null)
                             {
-                                await FrameProcessor(rgbData, Width, Height);
+                                var frameData = new LottieFrameEventArgs
+                                {
+                                    FrameData = rgbData,
+                                    Height = Height,
+                                    Width = Width,
+                                };
+                                await FrameProcessor(frameData);
                             }
 
                             // 触发帧渲染事件
@@ -113,7 +120,8 @@ public class LottiePlayer : IDisposable
                                 TotalFrames = (int)frameCount,
                                 Progress = progress,
                                 LoopIndex = currentLoop,
-                                FrameData = rgbData
+                                FrameData = rgbData,
+                                Image = frameImage
                             });
 
                             // 控制帧率 由于针对设备写入已经有延时这里延时取消
@@ -259,6 +267,10 @@ public class LottieEventArgs : EventArgs
 
 public class LottieFrameRenderedEventArgs : LottieEventArgs
 {
+    public Image<Bgra32>? Image
+    {
+        get; set;
+    }
     public int FrameIndex
     {
         get; set;
