@@ -60,8 +60,8 @@ public class AzBotSpeech : IBotSpeech
         var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
         if (name != "ClockMode")
         {
-            _ = _electronBotPlayer.StopLottiePlaybackAsync();
-            _ = _electronBotPlayer.PlayLottieByNameIdAsync("look", -1);
+            //_ = _electronBotPlayer.StopLottiePlaybackAsync();
+            //_ = _electronBotPlayer.PlayLottieByNameIdAsync("look", -1);
         }
     }
 
@@ -70,7 +70,7 @@ public class AzBotSpeech : IBotSpeech
         var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
         if (name != "ClockMode")
         {
-            _ = _electronBotPlayer.PlayLottieByNameIdAsync("think", -1);
+            //_ = _electronBotPlayer.PlayLottieByNameIdAsync("think", -1);
         }
     }
 
@@ -79,7 +79,7 @@ public class AzBotSpeech : IBotSpeech
         var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
         if (name != "ClockMode")
         {
-            _ = _electronBotPlayer.PlayLottieByNameIdAsync("speak", 2);
+            //_ = _electronBotPlayer.PlayLottieByNameIdAsync("speak", 2);
         }
     }
 
@@ -87,13 +87,34 @@ public class AzBotSpeech : IBotSpeech
     {
         while (!cancellationToken.IsCancellationRequested)
         {
+            try
+            {
+                // 启动动画但不阻塞当前执行流程
+                var animationTask = _electronBotPlayer.PlayLottieByNameIdAsync("look", -1);
+
+                // 可以选择添加异常处理
+                animationTask?.ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        _logger.LogError($"Animation playback failed: {t.Exception}");
+                    }
+                }, TaskContinuationOptions.OnlyOnFaulted);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to start animation: {ex.Message}");
+                // 根据需要处理异常
+            }
             _logger.LogInformation("Listening...");
 
-            SpeechRecognitionResult result = await _speechRecognizer.RecognizeOnceAsync();
+            var result = await _speechRecognizer.RecognizeOnceAsync();
             switch (result.Reason)
             {
                 case ResultReason.RecognizedSpeech:
                     _logger.LogInformation($"Recognized: {result.Text}");
+                    // 停止动画
+                    await _electronBotPlayer.StopLottiePlaybackAsync();
                     return result.Text;
                 case ResultReason.Canceled:
                     _logger.LogWarning($"Speech recognizer session canceled.");
@@ -110,6 +131,25 @@ public class AzBotSpeech : IBotSpeech
     {
         if (!string.IsNullOrWhiteSpace(text))
         {
+            try
+            {
+                // 启动动画但不阻塞当前执行流程
+                var animationTask = _electronBotPlayer.PlayLottieByNameIdAsync("speak", -1);
+
+                // 可以选择添加异常处理
+                animationTask?.ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        _logger.LogError($"Animation playback failed: {t.Exception}");
+                    }
+                }, TaskContinuationOptions.OnlyOnFaulted);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to start animation: {ex.Message}");
+                // 根据需要处理异常
+            }
             // Parse speaking style, if any
             text = ExtractStyle(text, out var style);
             if (string.IsNullOrWhiteSpace(style))
@@ -128,6 +168,9 @@ public class AzBotSpeech : IBotSpeech
             _logger.LogDebug(ssml);
 
             await _speechSynthesizer.SpeakSsmlAsync(ssml);
+
+            // 停止动画
+            await _electronBotPlayer.StopLottiePlaybackAsync();
         }
     }
     /// <summary>

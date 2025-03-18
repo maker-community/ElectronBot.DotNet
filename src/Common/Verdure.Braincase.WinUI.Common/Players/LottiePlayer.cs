@@ -31,7 +31,7 @@ public class LottiePlayer : IDisposable
     // 播放配置
     public int Width { get; set; } = 240;
     public int Height { get; set; } = 240;
-    public int FrameDelay { get; set; } = 16; // 约60fps
+    public int FrameDelay { get; set; } = 32; // 约60fps
     public bool UseHardwareAcceleration { get; set; } = true;
 
     public LottiePlayer()
@@ -125,7 +125,7 @@ public class LottiePlayer : IDisposable
                             });
 
                             // 控制帧率 由于针对设备写入已经有延时这里延时取消
-                            //await Task.Delay(FrameDelay, _cancellationTokenSource.Token);
+                            //await Task.Delay(FrameDelay);
                         }
 
                         currentLoop++;
