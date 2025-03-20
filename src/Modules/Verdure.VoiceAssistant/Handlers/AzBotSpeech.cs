@@ -84,7 +84,7 @@ public class AzBotSpeech : IBotSpeech
     }
 
     public async Task<string> ListenAsync(CancellationToken cancellationToken)
-    {
+    { 
         while (!cancellationToken.IsCancellationRequested)
         {
             try

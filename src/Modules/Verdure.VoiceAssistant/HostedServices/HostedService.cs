@@ -158,6 +158,7 @@ public class HostedService : IHostedService, IDisposable
                     catch (Exception ex)
                     {
                         _logger.LogError($"Failed to start animation: {ex.Message}");
+                        await _electronBotPlayer.StopLottiePlaybackAsync();
                         // 根据需要处理异常
                     }
 

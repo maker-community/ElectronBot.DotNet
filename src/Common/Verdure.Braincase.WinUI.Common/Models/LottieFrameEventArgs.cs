@@ -1,9 +1,12 @@
-﻿using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+﻿using Verdure.Braincase.Core.Models;
 
 namespace Verdure.Braincase.WinUI.Common.Models;
 public class LottieFrameEventArgs
 {
+    public EmoticonActionFrame ActionFrameData
+    {
+        get; set;
+    } = new();
     public byte[] FrameData
     {
         get; set;

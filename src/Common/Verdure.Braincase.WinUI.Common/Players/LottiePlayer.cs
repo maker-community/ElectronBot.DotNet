@@ -1,9 +1,12 @@
-﻿using System.Threading;
+﻿using System.Text.Json;
+using System.Threading;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SkiaSharp;
 using SkiaSharp.Skottie;
+using Verdure.Braincase.Core.Models;
 using Verdure.Braincase.WinUI.Common.Models;
+using Windows.ApplicationModel;
 
 namespace Verdure.Braincase.WinUI.Common.Players;
 
@@ -47,10 +50,11 @@ public class LottiePlayer : IDisposable
     /// <summary>
     /// 播放Lottie动画
     /// </summary>
+    /// <param name="nameId">表情ID</param>
     /// <param name="filePath">Lottie JSON文件路径</param>
     /// <param name="loopCount">循环次数，-1表示无限循环</param>
     /// <returns></returns>
-    public async Task PlayAsync(string filePath, int loopCount = 1)
+    public async Task PlayAsync(string nameId, string filePath, int loopCount = 1)
     {
         await _semaphore.WaitAsync();
         try
@@ -65,10 +69,17 @@ public class LottiePlayer : IDisposable
 
             // 加载动画
             _currentAnimation = Animation.Create(filePath);
+
             if (_currentAnimation == null)
             {
                 throw new InvalidOperationException($"Failed to load Lottie animation from: {filePath}");
             }
+
+            var actionPath = Package.Current.InstalledLocation.Path + $"\\Assets\\Emoji\\{nameId}.json";
+
+            var actionString = await File.ReadAllTextAsync(actionPath);
+
+            var actions = JsonSerializer.Deserialize<List<ElectronBotAction>>(actionString) ?? [];
 
             // 通知动画开始
             var eventArgs = new LottieEventArgs { FilePath = filePath };
@@ -100,11 +111,29 @@ public class LottiePlayer : IDisposable
                             // 处理帧数据
                             var rgbData = ConvertImageToRgbData(frameImage);
 
+
+                            var action = new ElectronBotAction();
+
+                            if (actions.Count > 0)
+                            {
+                                var index = (int)(i / frameCount * actions.Count);
+                                action = actions[index];
+                            }
+
+                            var actionFrameData = new EmoticonActionFrame(rgbData, true,
+                                action.J1,
+                                action.J2,
+                                action.J3,
+                                action.J4,
+                                action.J5,
+                                action.J6);
+
                             // 调用帧处理委托
                             if (FrameProcessor != null)
                             {
                                 var frameData = new LottieFrameEventArgs
                                 {
+                                    ActionFrameData = actionFrameData,
                                     FrameData = rgbData,
                                     Height = Height,
                                     Width = Width,
@@ -125,7 +154,11 @@ public class LottiePlayer : IDisposable
                             });
 
                             // 控制帧率 由于针对设备写入已经有延时这里延时取消
-                            //await Task.Delay(FrameDelay);
+                            var emojisService = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
+                            if (!emojisService.IsConnected)
+                            {
+                                await Task.Delay(FrameDelay);
+                            }
                         }
 
                         currentLoop++;

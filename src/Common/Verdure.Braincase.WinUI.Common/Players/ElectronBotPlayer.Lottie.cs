@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using Verdure.Braincase.Core.Models;
 using Verdure.Braincase.WinUI.Common.Models;
 using Windows.ApplicationModel;
 
@@ -82,8 +81,8 @@ public partial class ElectronBotPlayer
     #endregion
     private async Task ProcessFrame(LottieFrameEventArgs frameData)
     {
-        var frame = new EmoticonActionFrame(frameData.FrameData, false);
-        await _actionFrameService.SendToUsbDeviceAsync(frame);
+        //var frame = new EmoticonActionFrame(frameData.FrameData, false);
+        await _actionFrameService.SendToUsbDeviceAsync(frameData.ActionFrameData);
     }
 
     private void FrameRendered(object? sender, LottieFrameRenderedEventArgs e)
@@ -94,7 +93,7 @@ public partial class ElectronBotPlayer
     public async Task PlayLottieByNameIdAsync(string nameId, int times)
     {
         var path = Package.Current.InstalledLocation.Path + $"\\Assets\\LottieFiles\\{nameId}.json";
-        await _lottiePlayer.PlayAsync(path, times);
+        await _lottiePlayer.PlayAsync(nameId, path, times);
     }
 
     // 提供停止播放的方法

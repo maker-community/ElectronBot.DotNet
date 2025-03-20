@@ -68,6 +68,7 @@ public class AzCognitiveServicesWakeWordListener : IWakeWordListener
                 }
                 catch (Exception ex)
                 {
+                    await _electronBotPlayer.StopLottiePlaybackAsync();
                     _logger.LogError($"Failed to start animation: {ex.Message}");
                     // 根据需要处理异常
                 }
