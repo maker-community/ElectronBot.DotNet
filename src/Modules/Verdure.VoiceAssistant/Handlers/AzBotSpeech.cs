@@ -49,37 +49,6 @@ public class AzBotSpeech : IBotSpeech
 
             _speechRecognizer = new SpeechRecognizer(speechConfig, _audioConfig);
             _speechSynthesizer = new SpeechSynthesizer(speechConfig);
-            _speechSynthesizer.SynthesisStarted += _speechSynthesizer_SynthesisStarted;
-            _speechRecognizer.SpeechEndDetected += _speechRecognizer_SpeechEndDetected;
-            _speechSynthesizer.SynthesisCompleted += _speechSynthesizer_SynthesisCompleted;
-        }
-    }
-
-    private async void _speechSynthesizer_SynthesisCompleted(object? sender, SpeechSynthesisEventArgs e)
-    {
-        var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
-        if (name != "ClockMode")
-        {
-            //_ = _electronBotPlayer.StopLottiePlaybackAsync();
-            //_ = _electronBotPlayer.PlayLottieByNameIdAsync("look", -1);
-        }
-    }
-
-    private async void _speechRecognizer_SpeechEndDetected(object? sender, RecognitionEventArgs e)
-    {
-        var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
-        if (name != "ClockMode")
-        {
-            //_ = _electronBotPlayer.PlayLottieByNameIdAsync("think", -1);
-        }
-    }
-
-    private async void _speechSynthesizer_SynthesisStarted(object? sender, SpeechSynthesisEventArgs e)
-    {
-        var name = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
-        if (name != "ClockMode")
-        {
-            //_ = _electronBotPlayer.PlayLottieByNameIdAsync("speak", 2);
         }
     }
 
@@ -89,6 +58,7 @@ public class AzBotSpeech : IBotSpeech
         {
             try
             {
+                await _electronBotPlayer.StopLottiePlaybackAsync();
                 // 启动动画但不阻塞当前执行流程
                 var animationTask = _electronBotPlayer.PlayLottieByNameIdAsync("look", -1);
 

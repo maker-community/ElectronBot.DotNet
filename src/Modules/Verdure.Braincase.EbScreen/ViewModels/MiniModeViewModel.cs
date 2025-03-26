@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using SixLabors.ImageSharp;
@@ -22,10 +21,6 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow());
 
-    [ObservableProperty] private string _voiceResult = string.Empty;
-
-    public int FrameDelay { get; set; } = 32; // 约60fps
-
     public MiniModeViewModel(IElectronBotPlayer electronBotPlayer,
         ILocalSettingsService localSettingsService,
         IClockViewProviderFactory viewProviderFactory,
@@ -40,6 +35,9 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
         WeakReferenceMessenger.Default.Register<LottieFrameRenderedEventArgs>(this);
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
     }
+
+    [ObservableProperty]
+    string _voiceResult = string.Empty;
 
     [ObservableProperty]
     int modeIndex;
@@ -93,19 +91,31 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
         _ = _electronBotPlayer.PlayLottieByNameIdAsync("think", -1);
     }
 
-    public  void Receive(LottieFrameRenderedEventArgs message)
+    public void Receive(LottieFrameRenderedEventArgs message)
     {
-        _dispatcherQueue.TryEnqueue(async() =>
+        _dispatcherQueue.TryEnqueue(async () =>
         {
             if (message.Image != null)
             {
-                var image = await ConvertToWinUIImageAsync(message.Image);
-                Element = image;
+                var clockName = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+
+                if (clockName == "NaturalMode")
+                {
+                    var image = await ConvertToWinUIImageAsync(message.Image);
+
+                    // 创建一个 ViewBox 来包裹图像，保持纵横比
+                    var viewBox = new Viewbox
+                    {
+                        Width = 200,  // 设置固定宽度
+                        Height = 200, // 设置固定高度
+                        Stretch = Microsoft.UI.Xaml.Media.Stretch.Uniform,
+                        Child = image
+                    };
+
+                    Element = viewBox;
+                }         
             }
-            // 控制帧率
-            await Task.Delay(FrameDelay);
         });
-      
     }
 
     public async Task<Microsoft.UI.Xaml.Controls.Image> ConvertToWinUIImageAsync(SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> imageSharpImage)
@@ -123,7 +133,7 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
             memoryStream.Position = 0;
 
             // Create a BitmapImage
-            var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
+            var bitmapImage = new BitmapImage();
 
             // Set the stream as the source
             await bitmapImage.SetSourceAsync(memoryStream.AsRandomAccessStream());
@@ -139,6 +149,8 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
     [RelayCommand]
     public async Task OnLoadedAsync()
     {
+        _timer.Start();
+
         var saveClockView = await _localSettingsService
             .ReadSettingAsync<string>(Constants.CurrentClockViewKey);
 
@@ -147,12 +159,11 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
 
         Element = viewProvider.CreateClockView(clockView);
 
-        _timer.Start();
-        if (Element is UserControl userControl)
+        var modeName = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+        if (!string.IsNullOrWhiteSpace(modeName))
         {
-            var viewModel = userControl.DataContext as ClockViewModel;
-            viewModel?.LoadedCommand.Execute(null);
-        }
+            ModeIndex = ModeNameToIndex(modeName);
+        }     
     }
     [RelayCommand]
     public void OnUnLoaded()
@@ -167,7 +178,6 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
             var viewModel = userControl.DataContext as ClockViewModel;
             viewModel?.UnLoadedCommand.Execute(null);
         }
-
     }
 
     [RelayCommand]
@@ -196,16 +206,27 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
         {
 
         }
-        else if (modeName == "ClockMode")
+        else if (modeName == "ClockMode" || modeName == "NeedleMode")
         {
+            _timer.Start();
 
-        }
-        else if (modeName == "NeedleMode")
-        {
+            var saveClockView = await _localSettingsService
+                .ReadSettingAsync<string>(Constants.CurrentClockViewKey);
 
+            var clockView = string.IsNullOrEmpty(saveClockView) ? "DefautView" : saveClockView;
+            var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockView);
+
+            Element = viewProvider.CreateClockView(clockView);
+ 
+            if (Element is UserControl userControl)
+            {
+                var viewModel = userControl.DataContext as ClockViewModel;
+                viewModel?.LoadedCommand.Execute(null);
+            }
         }
         else
         {
+            _timer.Stop();
         }
     }
 
