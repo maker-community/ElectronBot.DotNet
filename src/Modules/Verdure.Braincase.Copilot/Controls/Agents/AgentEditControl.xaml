@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Verdure.Braincase.Copilot.Controls.Agents.AgentEditControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Verdure.Braincase.Copilot.Controls.Agents"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel Padding="20" Spacing="12">
+            <!--  名称  -->
+            <TextBlock Text="名称" />
+            <TextBox PlaceholderText="智能体名称" Text="{x:Bind Agent.Name, Mode=TwoWay}" />
+
+            <!--  描述  -->
+            <TextBlock Text="描述" />
+            <TextBox
+                Height="60"
+                AcceptsReturn="True"
+                PlaceholderText="智能体描述"
+                Text="{x:Bind Agent.Description, Mode=TwoWay}"
+                TextWrapping="Wrap" />
+
+            <!--  指令  -->
+            <TextBlock Text="指令" />
+            <TextBox
+                Height="200"
+                VerticalAlignment="Stretch"
+                AcceptsReturn="True"
+                PlaceholderText="智能体指令"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Text="{x:Bind Agent.Instruction, Mode=TwoWay}"
+                TextWrapping="Wrap" />
+
+            <!--  可选：是否启用  -->
+        </StackPanel>
+    </Grid>
+</UserControl>

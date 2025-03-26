@@ -130,17 +130,50 @@
             ItemTemplate="{StaticResource AgentTemplate}"
             ItemsSource="{x:Bind ViewModel.Agents, Mode=OneWay}"
             SelectionMode="Single">
-            <!--<GridView.ContextFlyout>
-          <MenuFlyout>
-              <MenuFlyoutItem x:Name="ViewInfo" x:Uid="ViewEmojisInfo">
-                  <i:Interaction.Behaviors>
-                      <ic:EventTriggerBehavior EventName="Click">
-                          <ic:InvokeCommandAction Command="{x:Bind ViewModel.EmojisInfoCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
-                      </ic:EventTriggerBehavior>
-                  </i:Interaction.Behaviors>
-              </MenuFlyoutItem>
-          </MenuFlyout>
-      </GridView.ContextFlyout>-->
+            <GridView.ContextFlyout>
+                <MenuFlyout>
+                    <!--<MenuFlyoutItem x:Name="ViewInfo" x:Uid="ViewAgentInfo" Text="查看详情">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE946;" />
+                        </MenuFlyoutItem.Icon>
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Click">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ViewAgentInfoCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </MenuFlyoutItem>-->
+                    <MenuFlyoutItem
+                        x:Name="EditAgent"
+                        x:Uid="EditAgent"
+                        Text="编辑智能体">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE70F;" />
+                        </MenuFlyoutItem.Icon>
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Click">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.EditAgentCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </MenuFlyoutItem>
+                    <!--<MenuFlyoutSeparator />
+                    <MenuFlyoutItem x:Name="DeleteAgent" x:Uid="DeleteAgent" Text="删除" Foreground="Red">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="/Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" Glyph="&#xE74D;" Foreground="Red" />
+                        </MenuFlyoutItem.Icon>
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="Click">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.DeleteAgentCommand}" CommandParameter="{x:Bind AdaptiveGridViewControl.SelectedItem, Mode=TwoWay}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </MenuFlyoutItem>-->
+                </MenuFlyout>
+            </GridView.ContextFlyout>
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                </Style>
+            </GridView.ItemContainerStyle>
         </GridView>
     </Grid>
 </Page>

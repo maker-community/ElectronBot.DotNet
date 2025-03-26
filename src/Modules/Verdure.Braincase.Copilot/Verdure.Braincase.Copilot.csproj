@@ -9,6 +9,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Controls\Agents\AgentEditControl.xaml" />
     <None Remove="Controls\Chat\ChatModuleHeader.xaml" />
     <None Remove="Controls\Chat\ChatModuleInput.xaml" />
     <None Remove="Controls\Chat\ChatModuleMsgItemControl.xaml" />
@@ -209,6 +210,12 @@
 
   <ItemGroup>
     <Page Update="Styles\Overwrites.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Agent\AgentEditControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
