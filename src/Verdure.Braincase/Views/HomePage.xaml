@@ -62,7 +62,7 @@
                     x:Name="ModeRadioBtn"
                     x:Uid="ModeRadioBtn"
                     MaxColumns="2"
-                    SelectedIndex="0">
+                    SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=OneWay}">
                     <i:Interaction.Behaviors>
                         <ic:EventTriggerBehavior EventName="SelectionChanged">
                             <ic:InvokeCommandAction Command="{x:Bind ViewModel.RadioButtonSelectionChangedCommand}" CommandParameter="{x:Bind ModeRadioBtn.SelectedItem, Mode=TwoWay}" />
@@ -107,7 +107,6 @@
                     Width="100"
                     Margin="8"
                     Command="{x:Bind ViewModel.RebootElectronCommand}" />
-
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button
@@ -130,6 +129,14 @@
                         </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="ClearTask"
+                    x:Uid="ClearTaskBtn"
+                    Width="100"
+                    Margin="8"
+                    Command="{x:Bind ViewModel.ClearTaskCommand}" />
             </StackPanel>
         </StackPanel>
 

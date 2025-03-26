@@ -11,8 +11,12 @@
       "image_description": {
         "type": "string",
         "description": "用户进行的图片描述。"
+      },
+      "show_to_screen": {
+        "type": "boolean",
+        "description": "是否展示到屏幕,用户不明确要求不显示。"
       }
     },
-    "required": [ "image_description" ]
+    "required": [ "image_name", "image_description", "show_to_screen" ]
   }
 }

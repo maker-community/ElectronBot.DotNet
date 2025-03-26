@@ -1,12 +1,15 @@
 ﻿using System.Linq;
 using System.Text;
 using System.Threading;
+using CommunityToolkit.Mvvm.Messaging;
+using Models;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Verdure.Braincase.Core.Models;
+using Verdure.Braincase.WinUI.Common.Helpers;
 using Verdure.ElectronBot.Core.Contracts.Services;
 using Verdure.ElectronBot.Core.Models;
 using Windows.Storage;
@@ -282,6 +285,36 @@ public class BotToolService : IBotToolService
         }
         catch (Exception ex)
         {
+        }
+    }
+
+    public async Task SendImageDataToBotSettingAsync(string imageData, CancellationToken cancellationToken = default)
+    {
+        var folder = ApplicationData.Current.LocalFolder;
+
+        var storageFolder = await folder.CreateFolderAsync(Constants.EmojisFolder, CreationCollisionOption.OpenIfExists);
+
+        var storageFile = await storageFolder
+            .CreateFileAsync($"CustomViewPicture-{DateTime.Now.Second}.png", CreationCollisionOption.ReplaceExisting);
+
+        var localSettingsService = Ioc.Default.GetRequiredService<ILocalSettingsService>();
+
+        var botSetting = await localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
+        if (botSetting != null && !string.IsNullOrEmpty(imageData))
+        {
+            var writeableBitmapImage = await ImageHelper.WriteableBitmapFromBase64StringAsync(imageData);
+
+            if (await ImageHelper.SaveWriteableBitmapImageFileAsync(writeableBitmapImage, storageFile))
+            {
+                botSetting.CustomViewPicturePath = storageFile.Path;
+                await localSettingsService.SaveSettingAsync(Constants.BotSettingKey, botSetting);
+
+                var clockView = new ChangeClockView
+                {
+                    ClockViewName = "CustomView"
+                };
+                WeakReferenceMessenger.Default.Send(clockView);
+            }
         }
     }
 

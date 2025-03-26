@@ -990,4 +990,7 @@
   <data name="LlmVoiceKey.Text" xml:space="preserve">
     <value>Voice Api Key</value>
   </data>
+  <data name="AboutApp.Text" xml:space="preserve">
+    <value>About App</value>
+  </data>
 </root>

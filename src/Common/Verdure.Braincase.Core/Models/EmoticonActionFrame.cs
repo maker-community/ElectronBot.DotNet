@@ -33,14 +33,18 @@ public class EmoticonActionFrame
     {
         get; set;
     }
+    public EmoticonActionFrame()
+    {
+        FrameBuffer = new byte[240 * 240 * 3];
+    }
     public EmoticonActionFrame(
-        byte[] imgData, 
-        bool enable = false, 
-        float j1 = 0, 
-        float j2 = 0, 
-        float j3 = 0, 
-        float j4 = 0, 
-        float j5 = 0, 
+        byte[] imgData,
+        bool enable = false,
+        float j1 = 0,
+        float j2 = 0,
+        float j3 = 0,
+        float j4 = 0,
+        float j5 = 0,
         float j6 = 0)
     {
         FrameBuffer = imgData;

@@ -738,6 +738,27 @@
   <data name="Shell_Movie.Content" xml:space="preserve">
     <value>보기 모드</value>
   </data>
+  <data name="Shell_GestureAppConfig.Content" xml:space="preserve">
+    <value>Gesture App Config</value>
+  </data>
+  <data name="GestureAppConfigTree_AppPath.Text" xml:space="preserve">
+    <value>App Path</value>
+  </data>
+  <data name="GestureAppConfigTree_DeleteButton.Content" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="GestureAppConfigTree_GestureLabel.Text" xml:space="preserve">
+    <value>Start Gesture</value>
+  </data>
+  <data name="GestureAppConfigTree_Text.Text" xml:space="preserve">
+    <value>Speech Text</value>
+  </data>
+  <data name="GestureAppConfig_Add.Content" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="GestureAppConfig_Save.Content" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="AddAppStartConfigBtn.Label" xml:space="preserve">
     <value>添加应用启动配置</value>
   </data>
@@ -932,5 +953,14 @@
   </data>
   <data name="ResetAgentBtn.Label" xml:space="preserve">
     <value>Reset Agent</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="ResetAgentTip.Text" xml:space="preserve">
+    <value>After resetting the agent, be sure to reset the default dialogue model provider</value>
   </data>
 </root>

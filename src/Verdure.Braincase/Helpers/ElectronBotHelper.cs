@@ -528,7 +528,7 @@ public class ElectronBotHelper
             {
                 //InvokeClockCanvasStop();
 
-                var service = Ioc.Default.GetRequiredService<EmoticonActionFrameService>();
+                var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
 
                 service.ClearQueue();
 
@@ -928,7 +928,7 @@ public class ElectronBotHelper
             currentAction = _actions[actionCount];
         }
 
-        var service = Ioc.Default.GetRequiredService<EmoticonActionFrameService>();
+        var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
 
         var frameData = new EmoticonActionFrame(rgbData, true,
             currentAction.J1,

@@ -7,6 +7,7 @@
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\AboutAppPage.xaml" />
     <None Remove="Views\AppSettingsPage.xaml" />
     <None Remove="Views\DialogueSettingsPage.xaml" />
     <None Remove="Views\DrawingSettingsPage.xaml" />
@@ -14,11 +15,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
 	<PackageReference Include="BotSharp.Core" Version="4.0.0-verdure1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Verdure.Braincase.WinUI.Common\Verdure.Braincase.WinUI.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\AboutAppPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\DrawingSettingsPage.xaml">

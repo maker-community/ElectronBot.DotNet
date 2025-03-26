@@ -8,6 +8,8 @@ public class EmoticonActionFrameService : IEmoticonActionFrameService
 
     private int _isSending;
 
+    public bool IsConnected => ElectronBotHelper.Instance.EbConnected;
+
     public async Task<bool> SendToUsbDeviceAsync(EmoticonActionFrame data, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

@@ -12,14 +12,18 @@ public partial class ElectronBotPlayer : IElectronBotPlayer, IDisposable
 {
     private readonly IEmoticonActionFrameService _actionFrameService;
 
+    private readonly ILocalSettingsService _localSettingsService;
+
     private readonly MediaPlayer _player;
 
     private double _frameRate = 30.0; // 假设视频的帧率为30帧每秒
 
     private List<ElectronBotAction>? _actions;
 
-    private readonly SemaphoreSlim _emojiSemaphore = new SemaphoreSlim(1, 1);
-    public ElectronBotPlayer(IEmoticonActionFrameService actionFrameService, MediaPlayer player)
+    private readonly SemaphoreSlim _emojiSemaphore = new (1, 1);
+
+    private readonly LottiePlayer _lottiePlayer;
+    public ElectronBotPlayer(IEmoticonActionFrameService actionFrameService, MediaPlayer player, ILocalSettingsService localSettingsService)
     {
         _actionFrameService = actionFrameService;
         _player = player;
@@ -28,8 +32,15 @@ public partial class ElectronBotPlayer : IElectronBotPlayer, IDisposable
         _player.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
 
         _player.IsVideoFrameServerEnabled = true;
-    }
 
+        _lottiePlayer = new LottiePlayer(ProcessFrame);
+
+        // 订阅事件
+        _lottiePlayer.PlayCompleted += (s, e) => Console.WriteLine($"动画播放完成: {e.FilePath}");
+        _lottiePlayer.PlayStopped += (s, e) => Console.WriteLine($"动画播放被停止: {e.FilePath}");
+        _lottiePlayer.FrameRendered += FrameRendered;
+        _localSettingsService = localSettingsService;
+    }
     private async void MediaPlayer_VideoFrameAvailable(MediaPlayer sender, object args)
     {
         var canvasDevice = CanvasDevice.GetSharedDevice();

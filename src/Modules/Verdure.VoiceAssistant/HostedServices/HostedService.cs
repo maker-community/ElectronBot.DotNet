@@ -141,6 +141,27 @@ public class HostedService : IHostedService, IDisposable
 
                     _conversationService.SetConversationId(saveConv.Id, new());
 
+                    try
+                    {
+                        // 启动动画但不阻塞当前执行流程
+                        var animationTask = _electronBotPlayer.PlayLottieByNameIdAsync("think", -1);
+
+                        // 可以选择添加异常处理
+                        animationTask?.ContinueWith(t =>
+                        {
+                            if (t.IsFaulted)
+                            {
+                                _logger.LogError($"Animation playback failed: {t.Exception}");
+                            }
+                        }, TaskContinuationOptions.OnlyOnFaulted);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError($"Failed to start animation: {ex.Message}");
+                        await _electronBotPlayer.StopLottiePlaybackAsync();
+                        // 根据需要处理异常
+                    }
+
                     await Task.Run(async () =>
                     {
                         await _conversationService.SendMessage(saveConv.AgentId, inputMsg,
@@ -156,10 +177,10 @@ public class HostedService : IHostedService, IDisposable
                             });
                     });
 
-
+                    await _electronBotPlayer.StopLottiePlaybackAsync();
                     // Speak the AI's reply
                     await botSpeech.SpeakAsync(reply, cancellationToken);
-
+                   
                     // If the user said "Goodbye" - stop listening and wait for the wake work again.
                     if (userSpoke.StartsWith("再见") || userSpoke.StartsWith("goodbye", StringComparison.InvariantCultureIgnoreCase))
                     {

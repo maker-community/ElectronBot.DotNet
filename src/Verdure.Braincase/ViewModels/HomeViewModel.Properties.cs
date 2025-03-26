@@ -17,6 +17,9 @@ public partial class HomeViewModel
     int selectIndex;
 
     [ObservableProperty]
+    int modeIndex;
+
+    [ObservableProperty]
     int interval;
 
     /// <summary>

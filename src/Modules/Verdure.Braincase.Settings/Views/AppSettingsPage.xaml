@@ -30,7 +30,7 @@
                 <SelectorBarItem x:Name="DialogueSettings" x:Uid="DialogueSettings" />
                 <SelectorBarItem x:Name="VoiceSettings" x:Uid="VoiceSettings" />
                 <SelectorBarItem x:Name="DrawingSettings" x:Uid="DrawingSettings" />
-
+                <SelectorBarItem x:Name="AboutApp" x:Uid="AboutApp" />
             </SelectorBar>
         </Grid>
         <Frame x:Name="SectionFrame" Grid.Row="1" />

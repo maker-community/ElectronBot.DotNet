@@ -132,12 +132,6 @@
   <data name="ReloadButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Reload</value>
   </data>
-  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open in browser</value>
-  </data>
-  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Open in browser</value>
-  </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>Personalise</value>
   </data>
@@ -741,6 +735,9 @@
   <data name="Shell_Movie.Content" xml:space="preserve">
     <value>Viewing Mode</value>
   </data>
+  <data name="Shell_GestureAppConfig.Content" xml:space="preserve">
+    <value>Gesture App Config</value>
+  </data>
   <data name="GestureAppConfigTree_AppPath.Text" xml:space="preserve">
     <value>App Path</value>
   </data>
@@ -758,9 +755,6 @@
   </data>
   <data name="GestureAppConfig_Save.Content" xml:space="preserve">
     <value>Save</value>
-  </data>
-  <data name="Shell_GestureAppConfig.Content" xml:space="preserve">
-    <value>Gesture App Config</value>
   </data>
   <data name="AddAppStartConfigBtn.Label" xml:space="preserve">
     <value>添加应用启动配置</value>
@@ -1013,5 +1007,14 @@
   </data>
   <data name="LlmVoiceKey.Text" xml:space="preserve">
     <value>Voice Api Key</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="AboutApp.Text" xml:space="preserve">
+    <value>About App</value>
   </data>
 </root>

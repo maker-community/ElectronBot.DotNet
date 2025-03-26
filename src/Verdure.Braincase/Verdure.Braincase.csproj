@@ -83,6 +83,7 @@
     <None Remove="Assets\Font\SmileySans-Oblique.ttf" />
     <None Remove="Assets\Images\CustomViewDefault.jpg" />
     <None Remove="Assets\Images\Hw75CustomViewDefault.png" />
+    <None Remove="Assets\LottieFiles\LottieLogo.json" />
     <None Remove="Assets\model.onnx" />
     <None Remove="Assets\pig.ico" />
     <None Remove="Controls\ActionTimeline.xaml" />
@@ -102,6 +103,10 @@
     <None Remove="Controls\MarketplacePage.xaml" />
     <None Remove="Controls\RandomContentPage.xaml" />
     <None Remove="Controls\UploadEmojisPage.xaml" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\conversation.summary.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.hf.liquid" />
+    <None Remove="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.one-step-forward.liquid" />
+    <None Remove="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.metrics.liquid" />
     <None Remove="Styles\Toast.xaml" />
     <None Remove="Themes\DefaultThemeDictionary.xaml" />
     <None Remove="Themes\LightThemeDictionary.xaml" />
@@ -153,6 +158,18 @@
     <None Remove="Views\VisionPage.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\conversation.summary.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.hf.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.one-step-forward.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.metrics.liquid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="VFS\SystemX64\mediapipe\modules\hand_landmark\handedness.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -263,10 +280,10 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.20.1" />
+    <PackageReference Include="Microsoft.AI.MachineLearning" Version="1.21.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.3" />
     <PackageReference Include="HelixToolkit" Version="2.26.0" />
     <PackageReference Include="HelixToolkit.SharpDX.Assimp" Version="2.26.0" />
     <PackageReference Include="HelixToolkit.SharpDX.Core" Version="2.26.0" />
@@ -333,7 +350,16 @@
     <Content Update="Assets\Emoji\left.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\Emoji\speak.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\look.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Emoji\normal.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Emoji\think.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Emoji\right.json">
@@ -385,6 +411,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\LottieFiles\speak.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\LottieFiles\think.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\model-backgroud.jpg">
@@ -443,6 +472,9 @@
     <None Update="Assets\keyword\keyword_xiaodian.table">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Update="Assets\LottieFiles\LottieLogo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Update="Assets\MLModel1.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -586,4 +618,91 @@
   <ItemGroup>
     <PRIResource Remove="Assets\MenuIcons\**" />
   </ItemGroup>
+
+
+	<ItemGroup>
+		<Content Include="data\agents\01fcc3e5-0af7-49e6-ad7a-a760bd12dc4d\agent.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="data\agents\01dcc3e5-0af7-49e6-ad7a-a760bd12dc4b\agent.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01dcc3e5-0af7-49e6-ad7a-a760bd12dc4b\functions\human_intervention_needed.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01dcc3e5-0af7-49e6-ad7a-a760bd12dc4b\instructions\instruction.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01e2fc5c-2c89-4ec7-8470-7688608b496c\agent.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01e2fc5c-2c89-4ec7-8470-7688608b496c\instructions\instruction.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-0af7-49e6-ad7a-a760bd12dc4d\instructions\instruction.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\agent.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\instructions\instruction.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\.welcome.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\database_knowledge.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.naive.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.sequential.get_remaining_task.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\reasoner.sequential.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\response_with_function.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\01fcc3e5-9af7-49e6-ad7a-a760bd12dc4a\templates\translation_prompt.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\agent.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\functions\util-crontab-schedule_task.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\instructions\instruction.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\templates\select_file_prompt.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\6745151e-6d46-4a02-8de4-1c4f21c7da95\templates\util-crontab-schedule_task.fn.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\agent.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\instructions\instruction.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.executor.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.reviewer.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\agents\dfd9b46d-d00c-40af-8a75-3fbdc2b89869\templates\instruction.simulator.liquid">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="data\plugins\config.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 </Project>

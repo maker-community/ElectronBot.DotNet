@@ -39,6 +39,9 @@ public sealed partial class AppSettingsPage : Page
             case 3:
                 pageType = typeof(DrawingSettingsPage);
                 break;
+            case 4:
+                pageType = typeof(AboutAppPage);
+                break;
             default:
                 pageType = typeof(SettingsPage);
                 break;

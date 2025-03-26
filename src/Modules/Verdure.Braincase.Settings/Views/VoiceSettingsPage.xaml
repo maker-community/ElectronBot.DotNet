@@ -162,6 +162,20 @@
                             </StackPanel>
                         </StackPanel>
                     </Expander>
+
+                    <ComboBox
+                        x:Uid="LlmVoiceCB"
+                        Width="240"
+                        Margin="4"
+                        DisplayMemberPath="DataValue"
+                        ItemsSource="{x:Bind ViewModel.LlmVoiceComboxModels}"
+                        SelectedItem="{x:Bind ViewModel.LlmVoiceSelect, Mode=TwoWay}">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="SelectionChanged">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.LlmVoiceChangedCommand}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </ComboBox>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

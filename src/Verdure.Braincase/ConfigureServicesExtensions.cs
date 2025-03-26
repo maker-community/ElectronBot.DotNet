@@ -296,6 +296,8 @@ public static class ConfigureServicesExtensions
             .AddTransient<DrawingSettingsViewModel>()
             .AddTransient<VoiceSettingsPage>()
             .AddTransient<VoiceSettingsViewModel>()
+            .AddTransient<AboutAppPage>()
+            .AddTransient<AboutAppViewModel>()
             .AddBotSharpCore(config, options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new RichContentJsonConverter());

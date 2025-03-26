@@ -14,6 +14,8 @@ using Windows.Media.Devices;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using System.Linq;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
 
 namespace Verdure.Braincase.Helpers;
 
@@ -430,61 +432,79 @@ public class EbHelper
     /// <param name="element">画面</param>
     /// <param name="height">屏幕高度</param>
     /// <param name="width">屏幕宽度</param>
-    /// <param name="x">指针x轴</param>
-    /// <param name="y">指针y轴</param>
+    /// <param name="pX">指针x轴</param>
+    /// <param name="pY">指针y轴</param>
     /// <returns></returns>
-    public static async Task ShowClockCanvasAndPosToDeviceAsync(UIElement? element, int height, int width, int x, int y)
+    public static async Task ShowClockCanvasAndPosToDeviceAsync(UIElement? element, int height, int width, int pX, int pY)
     {
-        //var data = await SetClockUiToFrameAsync(element);
-        //var data1 = new byte[240 * 240 * 3];
-        var data = new EmoticonActionFrame(FaceData);
+        var bitmap = new RenderTargetBitmap();
+
+        await bitmap.RenderAsync(element);
+
+        var pixels = await bitmap.GetPixelsAsync();
+
+        var pixelBytes = pixels.ToArray();
+
+        //使用ImageSharp处理帧数据
+        using var image = Image
+            .LoadPixelData<Rgba32>(pixelBytes, bitmap.PixelWidth, bitmap.PixelHeight);
+
+        image.Mutate(x =>
+        {
+            x.Resize(240, 240);
+        });
+
+        // 获取转换后的数据
+        var rgbData = new byte[image.Width * image.Height * 3];
+
+        // 遍历每个像素，将Rgba32转换为Bgr24
+        for (var y = 0; y < image.Height; y++)
+        {
+            for (var x = 0; x < image.Width; x++)
+            {
+                var rgbaPixel = image[x, y];
+                var rgbIndex = (y * image.Width + x) * 3;
+                rgbData[rgbIndex] = rgbaPixel.B;
+                rgbData[rgbIndex + 1] = rgbaPixel.G;
+                rgbData[rgbIndex + 2] = rgbaPixel.R;
+            }
+        }
+        var data = new EmoticonActionFrame(rgbData);
 
         var centerX = width / 2;
         var centerY = height / 2;
-        if (y == 0)
+        if (pY == 0)
         {
             data.J1 = 15;
         }
 
-        if (x == 0)
+        if (pX == 0)
         {
             data.J6 = -90;
         }
-        if (x < centerX && x > 0)
+        if (pX < centerX && pX > 0)
         {
-            var j6 = -(float)((centerX - x) / (centerX * 1.0) * 90);
+            var j6 = -(float)((centerX - pX) / (centerX * 1.0) * 90);
             data.J6 = j6;
         }
-        else if (x >= centerX)
+        else if (pX >= centerX)
         {
-            var j6 = (float)((x - centerX) / (centerX * 1.0) * 90);
+            var j6 = (float)((pX - centerX) / (centerX * 1.0) * 90);
             data.J6 = j6;
         }
 
-        if (y < centerY && y > 0)
+        if (pY < centerY && pY > 0)
         {
-            var j1 = (float)((centerY - y) / (centerY * 1.0) * 15);
+            var j1 = (float)((centerY - pY) / (centerY * 1.0) * 15);
             data.J1 = j1;
         }
-        else if (y >= centerY)
+        else if (pY >= centerY)
         {
-            var j1 = -(float)((y - centerY) / (centerY * 1.0) * 15);
+            var j1 = -(float)((pY - centerY) / (centerY * 1.0) * 15);
             data.J1 = j1;
         }
 
         data.Enable = true;
-
-        var str = $"j1:{data.J1} j6:{data.J6} centerX:{centerX}centerY:{centerY}";
-        Debug.WriteLine(str);
-
-        //Task.Run(() =>
-        //{
-        //    if (ElectronBotHelper.Instance.EbConnected)
-        //    {
-        //        ElectronBotHelper.Instance.PlayEmoticonActionFrame(data);
-        //    }
-        //});
-        //return Task.CompletedTask;
 
         var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
         _ = await service.SendToUsbDeviceAsync(data);
