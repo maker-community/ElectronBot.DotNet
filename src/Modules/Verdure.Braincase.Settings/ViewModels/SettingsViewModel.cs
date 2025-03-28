@@ -123,7 +123,7 @@ public partial class SettingsViewModel : ObservableRecipient
             var isVisual = toggleSwitch.IsOn;
             BotSetting.CustomViewContentIsVisibility = isVisual;
         }
-        await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
+        //await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
     }
 
     public async void IsHelloToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -133,7 +133,7 @@ public partial class SettingsViewModel : ObservableRecipient
             var isVisual = toggleSwitch.IsOn;
             BotSetting.IsHelloEnabled = isVisual;
         }
-        await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
+        //await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
     }
 
     public async void IsSessionSwitchToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -302,6 +302,7 @@ public partial class SettingsViewModel : ObservableRecipient
     private async Task SaveBotSetting()
     {
         await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
+        ToastHelper.SendToast("Save Ok", TimeSpan.FromSeconds(3));
     }
 
     /// <summary>
