@@ -7,7 +7,7 @@ using Verdure.Braincase.ViewModels;
 using Verdure.Braincase.WinUI.Common.Players;
 
 namespace ViewModels;
-public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieFrameRenderedEventArgs>
+public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieFrameRenderedEventArgs>, IDisposable
 {
     private readonly IElectronBotPlayer _electronBotPlayer;
     private readonly ILocalSettingsService _localSettingsService;
@@ -18,6 +18,7 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
     };
 
     private readonly DispatcherQueue _dispatcherQueue;
+    private bool _isDisposed;
 
     private readonly IntPtr _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow());
 
@@ -26,7 +27,6 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
         IClockViewProviderFactory viewProviderFactory,
         ComboxDataService comboxDataService)
     {
-
         _timer.Tick += Timer_Tick;
         _electronBotPlayer = electronBotPlayer;
         _localSettingsService = localSettingsService;
@@ -36,90 +36,145 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
     }
 
-    [ObservableProperty]
-    string _voiceResult = string.Empty;
+    // 使用部分属性实现替代 ObservableProperty 装饰的字段
+    private string _voiceResult = string.Empty;
+    public string VoiceResult
+    {
+        get => _voiceResult;
+        set => SetProperty(ref _voiceResult, value);
+    }
 
-    [ObservableProperty]
-    int modeIndex;
+    private int _modeIndex;
+    public int ModeIndex
+    {
+        get => _modeIndex;
+        set => SetProperty(ref _modeIndex, value);
+    }
 
     /// <summary>
     /// 表盘内容
     /// </summary>
-    [ObservableProperty]
-    UIElement _element;
+    private UIElement? _element;
+    public UIElement? Element
+    {
+        get => _element;
+        set => SetProperty(ref _element, value);
+    }
 
     /// <summary>
     /// 时钟选中数据
     /// </summary>
-    [ObservableProperty]
-    ComboxItemModel? _clockComBoxSelect;
+    private ComboxItemModel? _clockComBoxSelect;
+    public ComboxItemModel? ClockComBoxSelect
+    {
+        get => _clockComBoxSelect;
+        set => SetProperty(ref _clockComBoxSelect, value);
+    }
 
     /// <summary>
     /// 表盘列表
     /// </summary>
-    [ObservableProperty]
-    public ObservableCollection<ComboxItemModel> clockComboxModels;
-
-    private async void Timer_Tick(object sender, object e)
+    private ObservableCollection<ComboxItemModel> _clockComboxModels = new();
+    public ObservableCollection<ComboxItemModel> ClockComboxModels
     {
-        var clockName = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+        get => _clockComboxModels;
+        set => SetProperty(ref _clockComboxModels, value);
+    }
 
-        if (clockName == "ClockMode")
+    private async void Timer_Tick(object? sender, object? e)
+    {
+        if (_isDisposed || Element == null)
+            return;
+
+        try
         {
-            await _electronBotPlayer.PlayImageAsync(Element);
+            var clockName = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
+
+            if (clockName == "ClockMode")
+            {
+                await _electronBotPlayer.PlayImageAsync(Element);
+            }
+            else if (clockName == "NeedleMode")
+            {
+                var (x, y) = EbHelper.GetScreenCursorPos();
+
+                var screenSize = EbHelper.GetScreenSize(_hwnd);
+
+                if (screenSize.height > screenSize.width)
+                {
+                    await EbHelper.ShowClockCanvasAndPosToDeviceAsync(Element, screenSize.width, screenSize.height, x, y);
+                }
+                else
+                {
+                    await EbHelper.ShowClockCanvasAndPosToDeviceAsync(Element, screenSize.height, screenSize.width, x, y);
+                }
+            }
         }
-        else if (clockName == "NeedleMode")
+        catch (ObjectDisposedException)
         {
-            var (x, y) = EbHelper.GetScreenCursorPos();
-
-            var screenSize = EbHelper.GetScreenSize(_hwnd);
-
-            if (screenSize.height > screenSize.width)
-            {
-                await EbHelper.ShowClockCanvasAndPosToDeviceAsync(Element, screenSize.width, screenSize.height, x, y);
-            }
-            else
-            {
-                await EbHelper.ShowClockCanvasAndPosToDeviceAsync(Element, screenSize.height, screenSize.width, x, y);
-            }
+            // 处理对象已释放异常
+            _timer.Stop();
+        }
+        catch (Exception)
+        {
+            // 处理其他异常
         }
     }
 
     [RelayCommand]
     public void PlayEmojis()
     {
+        if (_isDisposed) return;
         _ = _electronBotPlayer.PlayLottieByNameIdAsync("think", -1);
     }
 
     public void Receive(LottieFrameRenderedEventArgs message)
     {
+        if (_isDisposed) return;
+
         _dispatcherQueue.TryEnqueue(async () =>
         {
-            if (message.Image != null)
+            if (_isDisposed) return;
+
+            try
             {
-                var clockName = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
-
-                if (clockName == "NaturalMode")
+                if (message.Image != null)
                 {
-                    var image = await ConvertToWinUIImageAsync(message.Image);
+                    var clockName = await _localSettingsService.ReadSettingAsync<string>(Constants.CurrentModeKey);
 
-                    // 创建一个 ViewBox 来包裹图像，保持纵横比
-                    var viewBox = new Viewbox
+                    if (clockName == "NaturalMode")
                     {
-                        Width = 200,  // 设置固定宽度
-                        Height = 200, // 设置固定高度
-                        Stretch = Microsoft.UI.Xaml.Media.Stretch.Uniform,
-                        Child = image
-                    };
+                        var image = await ConvertToWinUIImageAsync(message.Image);
 
-                    Element = viewBox;
-                }         
+                        // 创建一个 ViewBox 来包裹图像，保持纵横比
+                        var viewBox = new Viewbox
+                        {
+                            Width = 200,  // 设置固定宽度
+                            Height = 200, // 设置固定高度
+                            Stretch = Microsoft.UI.Xaml.Media.Stretch.Uniform,
+                            Child = image
+                        };
+
+                        Element = viewBox;
+                    }
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // 处理对象已释放异常
+            }
+            catch (Exception)
+            {
+                // 处理其他异常
             }
         });
     }
 
     public async Task<Microsoft.UI.Xaml.Controls.Image> ConvertToWinUIImageAsync(SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> imageSharpImage)
     {
+        if (_isDisposed)
+            throw new ObjectDisposedException(nameof(MiniModeViewModel));
+
         // Create a new WinUI Image control
         var winUIImage = new Microsoft.UI.Xaml.Controls.Image();
 
@@ -133,7 +188,7 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
             memoryStream.Position = 0;
 
             // Create a BitmapImage
-            var bitmapImage = new BitmapImage();
+            var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
 
             // Set the stream as the source
             await bitmapImage.SetSourceAsync(memoryStream.AsRandomAccessStream());
@@ -145,10 +200,11 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
         return winUIImage;
     }
 
-
     [RelayCommand]
     public async Task OnLoadedAsync()
     {
+        if (_isDisposed) return;
+
         _timer.Start();
 
         var saveClockView = await _localSettingsService
@@ -163,11 +219,14 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
         if (!string.IsNullOrWhiteSpace(modeName))
         {
             ModeIndex = ModeNameToIndex(modeName);
-        }     
+        }
     }
+
     [RelayCommand]
     public void OnUnLoaded()
     {
+        if (_isDisposed) return;
+
         _timer.Tick -= Timer_Tick;
         _timer.Stop();
         // 根据选中的RadioButton执行相应的逻辑
@@ -183,6 +242,8 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
     [RelayCommand]
     public async Task OnRadioButtonSelectionChangedAsync(object parameter)
     {
+        if (_isDisposed) return;
+
         // 处理切换事件的逻辑
         var selectedRadioButton = parameter as RadioButton;
         if (selectedRadioButton != null)
@@ -193,6 +254,8 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
 
     private async Task ChangeAppModeAsync(string modeName)
     {
+        if (_isDisposed) return;
+
         // 根据选中的RadioButton执行相应的逻辑
         var service = Ioc.Default.GetRequiredService<IEmoticonActionFrameService>();
 
@@ -204,7 +267,7 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
 
         if (modeName == "NaturalMode")
         {
-
+            // 什么也不做
         }
         else if (modeName == "ClockMode" || modeName == "NeedleMode")
         {
@@ -217,7 +280,7 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
             var viewProvider = _viewProviderFactory.CreateClockViewProvider(clockView);
 
             Element = viewProvider.CreateClockView(clockView);
- 
+
             if (Element is UserControl userControl)
             {
                 var viewModel = userControl.DataContext as ClockViewModel;
@@ -233,6 +296,8 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
     [RelayCommand]
     public void CompactOverlay()
     {
+        if (_isDisposed) return;
+
         var provider = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow();
         provider.Show();
     }
@@ -243,6 +308,8 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
     [RelayCommand]
     private async Task ClockChanged()
     {
+        if (_isDisposed) return;
+
         var clockName = ClockComBoxSelect?.DataKey;
 
         if (!string.IsNullOrWhiteSpace(clockName))
@@ -286,6 +353,24 @@ public partial class MiniModeViewModel : ObservableRecipient, IRecipient<LottieF
         else
         {
             return 3;
+        }
+    }
+
+    public void Dispose()
+    {
+        if (!_isDisposed)
+        {
+            _isDisposed = true;
+
+            _timer.Stop();
+            _timer.Tick -= Timer_Tick;
+
+            WeakReferenceMessenger.Default.Unregister<LottieFrameRenderedEventArgs>(this);
+
+            // 释放元素资源
+            _element = null;
+
+            GC.SuppressFinalize(this);
         }
     }
 }

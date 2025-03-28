@@ -121,7 +121,7 @@ public sealed partial class GooeyFooter : UserControl
 
     private void UserControl_Unloaded(object sender, RoutedEventArgs e)
     {
-        _brush.Dispose();
-        _blurEffect.Dispose();
+        _brush?.Dispose();
+        _blurEffect?.Dispose();
     }
 }
