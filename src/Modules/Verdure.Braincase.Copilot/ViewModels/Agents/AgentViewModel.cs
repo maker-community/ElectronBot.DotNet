@@ -56,21 +56,21 @@ public partial class AgentViewModel : ObservableRecipient, INavigationAware
     }
     public async void OnNavigatedTo(object parameter)
     {
-        var user = await _userService.GetUser(_userIdentity.Id);
+        //var user = await _userService.GetUser(_userIdentity.Id);
 
-        if (user == null)
-        {
-            await _userService.CreateUser(new User
-            {
-                Id = _userIdentity.Id,
-                Email = _userIdentity.Email,
-                UserName = _userIdentity.UserName,
-                FirstName = _userIdentity.FirstName,
-                LastName = _userIdentity.LastName,
-                Role = UserRole.Admin,
-                Type = UserType.Client,
-            });
-        }
+        //if (user == null)
+        //{
+        //    await _userService.CreateUser(new User
+        //    {
+        //        Id = _userIdentity.Id,
+        //        Email = _userIdentity.Email,
+        //        UserName = _userIdentity.UserName,
+        //        FirstName = _userIdentity.FirstName,
+        //        LastName = _userIdentity.LastName,
+        //        Role = UserRole.Admin,
+        //        Type = UserType.Client,
+        //    });
+        //}
 
         Agents = (await _agentService.GetAgents(new AgentFilter
         {
