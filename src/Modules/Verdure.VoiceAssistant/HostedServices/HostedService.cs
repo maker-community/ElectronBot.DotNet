@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Models;
+using NAudio.Wave;
 using NetCoreAudio;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.Helpers;
@@ -42,7 +43,8 @@ public class HostedService : IHostedService, IDisposable
 
     // Notification sound support
     private readonly string _notificationSoundFilePath;
-    private readonly Player _player;
+    private IWavePlayer? _waveOutDevice;
+    private AudioFileReader? _audioFileReader;
 
     private BotSetting? _botSetting;
 
@@ -61,13 +63,66 @@ public class HostedService : IHostedService, IDisposable
         _logger = logger;
         _wakeWordListener = wakeWordListener;
         _notificationSoundFilePath = Package.Current.InstalledLocation.Path + $"\\Assets\\Keyword\\bing.mp3";
-        _player = new Player();
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         _localSettingsService = localSettingsService;
         _conversationService = conversationService;
         _routing = routing;
         _serviceProvider = serviceProvider;
         _electronBotPlayer = electronBotPlayer;
+    }
+
+    /// <summary>
+    /// 使用NAudio播放通知音频
+    /// </summary>
+    /// <returns>播放完成的任务</returns>
+    private async Task PlayNotificationSoundAsync()
+    {
+        try
+        {
+            // 停止和释放之前的播放器实例
+            StopAndDisposeAudio();
+
+            // 创建新的播放器实例
+            _waveOutDevice = new WaveOutEvent();
+            _audioFileReader = new AudioFileReader(_notificationSoundFilePath);
+
+            // 设置播放完成事件
+            var playbackFinishedTcs = new TaskCompletionSource<bool>();
+            _waveOutDevice.PlaybackStopped += (sender, args) =>
+            {
+                playbackFinishedTcs.TrySetResult(true);
+            };
+
+            // 初始化并播放
+            _waveOutDevice.Init(_audioFileReader);
+            _waveOutDevice.Play();
+
+            // 等待播放完成
+            await playbackFinishedTcs.Task;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error playing notification sound: {ex.Message}");
+        }
+    }
+
+    private void StopAndDisposeAudio()
+    {
+        if (_waveOutDevice != null)
+        {
+            if (_waveOutDevice.PlaybackState == PlaybackState.Playing)
+            {
+                _waveOutDevice.Stop();
+            }
+            _waveOutDevice.Dispose();
+            _waveOutDevice = null;
+        }
+
+        if (_audioFileReader != null)
+        {
+            _audioFileReader.Dispose();
+            _audioFileReader = null;
+        }
     }
 
     /// <summary>
@@ -90,7 +145,7 @@ public class HostedService : IHostedService, IDisposable
             {
                 _botSetting = await _localSettingsService.ReadSettingAsync<BotSetting>(Constants.BotSettingKey);
                 // Play a notification to let the user know we have started listening for the wake phrase.
-                await _player.Play(_notificationSoundFilePath);
+                await PlayNotificationSoundAsync();
 
                 var botSpeech = await BotSpeechProvider.GetBotSpeechAsync(_serviceProvider);
 
@@ -101,7 +156,7 @@ public class HostedService : IHostedService, IDisposable
                     continue;
                 }
 
-                await _player.Play(_notificationSoundFilePath);
+                await PlayNotificationSoundAsync();
 
                 var helloString = _botSetting?.AnswerText;
                 // Say hello on startup
@@ -223,5 +278,6 @@ public class HostedService : IHostedService, IDisposable
     {
         _cancelToken.Dispose();
         _wakeWordListener.Dispose();
+        StopAndDisposeAudio();
     }
 }

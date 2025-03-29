@@ -52,20 +52,29 @@ public partial class Toast : Control
 
     public async void Show()
     {
+        var window = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow();
+        var xamlRoot = window?.Content?.XamlRoot;
+
+        if (xamlRoot == null)
+        {
+            // 记录错误并安全退出，而不是崩溃
+            System.Diagnostics.Debug.WriteLine("无法显示Toast：XamlRoot为空");
+            return;
+        }
+
         var popup = new Popup
         {
-            IsOpen = true,
-            XamlRoot = Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().Content.XamlRoot
+            XamlRoot = xamlRoot
         };
 
+        // 先设置Child再打开Popup
         popup.Child = this;
-
-        //popup.XamlRoot = ;
+        popup.IsOpen = true;
 
         await Task.Delay(Duration);
 
         popup.Child = null;
         popup.IsOpen = false;
-        Ioc.Default.GetRequiredService<ICompositorProvider>().GetWindow().SizeChanged -= Current_SizeChanged;
+        window.SizeChanged -= Current_SizeChanged;
     }
 }
