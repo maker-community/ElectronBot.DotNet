@@ -16,4 +16,17 @@ public class LocalSettingsOptions
     {
         get; set;
     }
+    public string? AzureCognitiveServicesKey
+    {
+        get; set;
+    }
+
+    public string? AzureOpenAIEndpoint
+    {
+        get; set;
+    }
+    public string? AzureOpenAIKey
+    {
+        get; set;
+    }
 }

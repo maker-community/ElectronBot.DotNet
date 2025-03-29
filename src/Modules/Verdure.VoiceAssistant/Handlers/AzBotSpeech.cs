@@ -1,11 +1,14 @@
 ﻿using System.Text.RegularExpressions;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Verdure.Braincase.Core.Configuration;
 using Verdure.Braincase.Core.Contracts.Services;
 using Verdure.Braincase.WinUI.Common;
+using Verdure.Braincase.WinUI.Common.Models;
 
 namespace Verdure.VoiceAssistant.Handlers;
 public class AzBotSpeech : IBotSpeech
@@ -23,7 +26,7 @@ public class AzBotSpeech : IBotSpeech
     /// Regex for extracting style cues from OpenAI responses.
     /// (not currently supported after the migrations to ChatGPT models)
     /// </summary>
-    private static readonly Regex _styleRegex = new (@"(~~(.+)~~)");
+    private static readonly Regex _styleRegex = new(@"(~~(.+)~~)");
 
     public string Provider => "AzureVoice";
 
@@ -60,8 +63,11 @@ public class AzBotSpeech : IBotSpeech
 
             try
             {
+                var subscriptionKey = string.IsNullOrEmpty(options.Key) ? Ioc.Default.GetRequiredService<IOptions<LocalSettingsOptions>>().Value.AzureCognitiveServicesKey : options.Key;
+
                 _audioConfig = AudioConfig.FromDefaultMicrophoneInput();
-                SpeechConfig speechConfig = SpeechConfig.FromSubscription(options.Key, options.Region);
+
+                SpeechConfig speechConfig = SpeechConfig.FromSubscription(subscriptionKey, options.Region);
                 speechConfig.SpeechRecognitionLanguage = options.SpeechRecognitionLanguage;
                 speechConfig.SetProperty(PropertyId.SpeechServiceResponse_PostProcessingOption, "TrueText");
                 speechConfig.SpeechSynthesisVoiceName = options.SpeechSynthesisVoiceName;

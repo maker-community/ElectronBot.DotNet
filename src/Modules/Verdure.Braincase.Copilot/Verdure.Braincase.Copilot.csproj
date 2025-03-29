@@ -35,7 +35,6 @@
       <PackageReference Include="BotSharp.Plugin.LiteDBStorage" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Plugin.MetaGLM" Version="4.0.0-verdure1" />
       <PackageReference Include="BotSharp.Plugin.OpenAI" Version="4.0.0-verdure1" />
-      <PackageReference Include="Microsoft.SemanticKernel" Version="1.44.0" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
   </ItemGroup>

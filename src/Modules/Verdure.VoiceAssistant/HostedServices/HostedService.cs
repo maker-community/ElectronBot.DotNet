@@ -116,7 +116,7 @@ public class HostedService : IHostedService, IDisposable
                     {
                         _logger.LogWarning("语音识别结果为空，请重启软件或者检查订阅。");
                         ToastHelper.SendToast("语音识别结果为空，请重启软件或者检查订阅。", TimeSpan.FromSeconds(3));
-                        continue;
+                        break;
                     }
 
                     _dispatcherQueue.TryEnqueue(() =>
