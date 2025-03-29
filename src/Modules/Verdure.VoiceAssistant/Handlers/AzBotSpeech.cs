@@ -86,12 +86,14 @@ public class AzBotSpeech : IBotSpeech
             _logger.LogError(ex, "Exception during Azure Cognitive Services initialization");
         }
     }
-    public async Task<string> ListenAsync(CancellationToken cancellationToken)
+    public async Task<(string, int)> ListenAsync(CancellationToken cancellationToken)
     {
         if (!EnsureInitialized())
         {
-            return string.Empty;
+            return (string.Empty, 1);
         }
+
+        var status = 0;
 
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -118,7 +120,7 @@ public class AzBotSpeech : IBotSpeech
                 {
                     case ResultReason.RecognizedSpeech:
                         _logger.LogInformation($"Recognized: {result.Text}");
-                        return result.Text;
+                        return (result.Text, 3);
                     case ResultReason.Canceled:
                         var cancelDetails = CancellationDetails.FromResult(result);
                         _logger.LogWarning($"Speech recognition canceled: {cancelDetails.Reason}, Error code: {cancelDetails.ErrorCode}, Error details: {cancelDetails.ErrorDetails}");
@@ -127,12 +129,12 @@ public class AzBotSpeech : IBotSpeech
                         if (cancelDetails.Reason == CancellationReason.Error)
                         {
                             _logger.LogError($"Speech service error. This could be due to subscription issues or network problems.");
-                            // 添加重试逻辑或返回错误信息
-                            return string.Empty;
                         }
+                        status = 1;
                         break;
                     case ResultReason.NoMatch:
                         _logger.LogInformation("No speech could be recognized.");
+                        status = 0;
                         break;
                 }
             }
@@ -143,7 +145,7 @@ public class AzBotSpeech : IBotSpeech
                 await Task.Delay(1000, cancellationToken);
             }
         }
-        return string.Empty;
+        return (string.Empty, status);
     }
     public async Task SpeakAsync(string text, CancellationToken cancellationToken)
     {

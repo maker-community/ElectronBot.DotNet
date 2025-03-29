@@ -112,11 +112,18 @@ public class HostedService : IHostedService, IDisposable
                     // Listen to the user
                     var userSpoke = await botSpeech.ListenAsync(cancellationToken);
 
-                    if (string.IsNullOrWhiteSpace(userSpoke))
+                    if (string.IsNullOrWhiteSpace(userSpoke.Item1))
                     {
-                        _logger.LogWarning("语音识别结果为空，请重启软件或者检查订阅。");
-                        ToastHelper.SendToast("语音识别结果为空，请重启软件或者检查订阅。", TimeSpan.FromSeconds(3));
-                        break;
+                        if (userSpoke.Item2 == 0)
+                        {
+                            continue;
+                        }
+                        else if (userSpoke.Item2 == 1)
+                        {
+                            _logger.LogWarning("语音识别结果为空，请重启软件或者检查订阅。");
+                            ToastHelper.SendToast("语音识别结果为空，请重启软件或者检查订阅。", TimeSpan.FromSeconds(3));
+                            break;
+                        }
                     }
 
                     _dispatcherQueue.TryEnqueue(() =>
@@ -135,7 +142,7 @@ public class HostedService : IHostedService, IDisposable
                         continue;
                     }
 
-                    var inputMsg = new RoleDialogModel(AgentRole.User, userSpoke)
+                    var inputMsg = new RoleDialogModel(AgentRole.User, userSpoke.Item1)
                     {
                         MessageId = Guid.NewGuid().ToString(),
                         CreatedAt = DateTime.UtcNow
@@ -188,7 +195,7 @@ public class HostedService : IHostedService, IDisposable
                     await botSpeech.SpeakAsync(reply, cancellationToken);
 
                     // If the user said "Goodbye" - stop listening and wait for the wake work again.
-                    if (userSpoke.StartsWith("再见") || userSpoke.StartsWith("goodbye", StringComparison.InvariantCultureIgnoreCase))
+                    if (userSpoke.Item1.StartsWith("再见") || userSpoke.Item1.StartsWith("goodbye", StringComparison.InvariantCultureIgnoreCase))
                     {
                         break;
                     }

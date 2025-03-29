@@ -23,7 +23,7 @@ public class DefaultBotSpeech : IBotSpeech
     {
         await Task.Run(() => _speechRecognizer.SetInputToDefaultAudioDevice(), cancellationToken);
     }
-    public async Task<string> ListenAsync(CancellationToken cancellationToken = default)
+    public async Task<(string, int)> ListenAsync(CancellationToken cancellationToken = default)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -32,14 +32,14 @@ public class DefaultBotSpeech : IBotSpeech
             if (result != null)
             {
                 _logger.LogInformation($"Recognized: {result.Text}");
-                return result.Text;
+                return (result.Text, 2);
             }
             else
             {
                 _logger.LogWarning("Speech recognizer session canceled.");
             }
         }
-        return string.Empty;
+        return (string.Empty, 0);
     }
     public async Task SpeakAsync(string text, CancellationToken cancellationToken = default)
     {
