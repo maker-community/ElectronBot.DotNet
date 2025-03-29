@@ -214,7 +214,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
 
                     ZipFileCreatorHelper.ExtractZipFile(file.Path, storageFolder.Path);
 
-                    var fileFolder = await storageFolder.GetFolderAsync(file.Name.Replace(".zip",""));
+                    var fileFolder = await storageFolder.GetFolderAsync(file.Name.Replace(".zip", ""));
 
                     var fileNames = await fileFolder.GetFilesAsync();
 
@@ -290,6 +290,7 @@ public partial class EmojisEditViewModel : ObservableRecipient
                                 data.Avatar = bitmapImage;
                             }
 
+                            Emojis.Remove(Emojis.Where(e => e.NameId == data.NameId).FirstOrDefault());
                             Emojis.Add(data);
                         }
 

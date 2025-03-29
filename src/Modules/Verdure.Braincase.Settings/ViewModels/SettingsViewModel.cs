@@ -123,7 +123,7 @@ public partial class SettingsViewModel : ObservableRecipient
             var isVisual = toggleSwitch.IsOn;
             BotSetting.CustomViewContentIsVisibility = isVisual;
         }
-        await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
+        //await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
     }
 
     public async void IsHelloToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -133,7 +133,7 @@ public partial class SettingsViewModel : ObservableRecipient
             var isVisual = toggleSwitch.IsOn;
             BotSetting.IsHelloEnabled = isVisual;
         }
-        await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
+        //await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
     }
 
     public async void IsSessionSwitchToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -154,7 +154,7 @@ public partial class SettingsViewModel : ObservableRecipient
             ClockTitleConfig.Hw75CustomContentIsVisibility = isVisual;
         }
 
-        await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
+        //await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
     }
 
     public async void Hw75TimeToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -165,7 +165,7 @@ public partial class SettingsViewModel : ObservableRecipient
             ClockTitleConfig.Hw75TimeIsVisibility = isVisual;
         }
 
-        await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
+        //await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
     }
 
     public async void Hw75ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -176,7 +176,7 @@ public partial class SettingsViewModel : ObservableRecipient
             ClockTitleConfig.Hw75IsOpen = isVisual;
         }
 
-        await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
+        //await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
     }
 
     public async void RangeBase_OnValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -293,6 +293,7 @@ public partial class SettingsViewModel : ObservableRecipient
     private async Task TextChanged()
     {
         await _localSettingsService.SaveSettingAsync(Constants.CustomClockTitleConfigKey, ClockTitleConfig);
+        ToastHelper.SendToast("Save Ok", TimeSpan.FromSeconds(3));
     }
 
     /// <summary>
@@ -302,6 +303,7 @@ public partial class SettingsViewModel : ObservableRecipient
     private async Task SaveBotSetting()
     {
         await _localSettingsService.SaveSettingAsync(Constants.BotSettingKey, BotSetting);
+        ToastHelper.SendToast("Save Ok", TimeSpan.FromSeconds(3));
     }
 
     /// <summary>

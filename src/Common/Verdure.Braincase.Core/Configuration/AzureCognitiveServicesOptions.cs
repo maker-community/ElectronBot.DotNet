@@ -73,8 +73,8 @@ public class AzureCognitiveServicesOptions
         if (string.IsNullOrWhiteSpace(Region))
             throw new ArgumentException("Argument is invalid.", nameof(Region));
 
-        if (string.IsNullOrWhiteSpace(Key))
-            throw new ArgumentException("Argument is invalid.", nameof(Key));
+        //if (string.IsNullOrWhiteSpace(Key))
+        //    throw new ArgumentException("Argument is invalid.", nameof(Key));
 
         if (string.IsNullOrWhiteSpace(SpeechRecognitionLanguage))
             throw new ArgumentException("Argument is invalid.", nameof(SpeechRecognitionLanguage));

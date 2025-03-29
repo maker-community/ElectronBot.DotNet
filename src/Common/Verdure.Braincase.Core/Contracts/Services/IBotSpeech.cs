@@ -7,7 +7,7 @@ public interface IBotSpeech : IDisposable
     }
 
     Task InitAsync(CancellationToken cancellationToken = default);
-    Task<string> ListenAsync(CancellationToken cancellationToken = default);
+    Task<(string, int)> ListenAsync(CancellationToken cancellationToken = default);
 
     Task SpeakAsync(string text, CancellationToken cancellationToken = default);
 }

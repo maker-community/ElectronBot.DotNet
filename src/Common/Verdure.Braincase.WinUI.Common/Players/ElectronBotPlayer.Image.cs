@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using SixLabors.ImageSharp;
@@ -50,12 +51,27 @@ public partial class ElectronBotPlayer
     {
         try
         {
-            var bitmap = new RenderTargetBitmap();
+            if (element == null)
+            {
+                Debug.WriteLine("元素为空");
+                return;
+            }
 
-            await bitmap.RenderAsync(element);
+            // 获取元素的实际尺寸
+            var actualWidth = Math.Max(1, element.ActualSize.X);
+            var actualHeight = Math.Max(1, element.ActualSize.Y);
+
+            if (actualWidth <= 0 || actualHeight <= 0)
+            {
+                Debug.WriteLine($"元素尺寸无效: {actualWidth}x{actualHeight}");
+                return;
+            }
+
+            var bitmap = new RenderTargetBitmap();
+            // 首先初始化bitmap的大小
+            await bitmap.RenderAsync(element, (int)actualWidth, (int)actualHeight);
 
             var pixels = await bitmap.GetPixelsAsync();
-
             var pixelBytes = pixels.ToArray();
 
             //使用ImageSharp处理帧数据
@@ -86,8 +102,9 @@ public partial class ElectronBotPlayer
             var frameData = new EmoticonActionFrame(rgbData);
             _ = await _actionFrameService.SendToUsbDeviceAsync(frameData);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Debug.WriteLine($"渲染元素时出错: {ex.Message}\n{ex.StackTrace}");
         }
     }
 

@@ -131,11 +131,10 @@ public partial class EmojisEditViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    public Task OnLoadedAsync()
-    {
+    public async Task OnLoadedAsync()
+    {  
         Emojis.Clear();
         // IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
         Emojis = new IncrementalLoadingCollection<EmojisSource, EmoticonActionUIModel>(Ioc.Default.GetRequiredService<EmojisSource>());
-        return Task.CompletedTask;
     }
 }

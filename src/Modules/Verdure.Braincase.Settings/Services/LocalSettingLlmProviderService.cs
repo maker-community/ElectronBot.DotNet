@@ -2,6 +2,7 @@ using BotSharp.Abstraction.MLTasks;
 using BotSharp.Abstraction.MLTasks.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace BotSharp.Core.Infrastructures;
 
@@ -103,6 +104,14 @@ public class LocalSettingLlmProviderService : ILlmProviderService
             var random = new Random();
             var index = random.Next(0, models.Count());
             modelSetting = models.ElementAt(index);
+        }
+
+        if (provider.Equals("azure-openai"))
+        {
+            var apiKey = string.IsNullOrEmpty(modelSetting.ApiKey) ? Ioc.Default.GetRequiredService<IOptions<LocalSettingsOptions>>().Value.AzureOpenAIKey : modelSetting.ApiKey;
+            var endpoint = string.IsNullOrEmpty(modelSetting.Endpoint) ? Ioc.Default.GetRequiredService<IOptions<LocalSettingsOptions>>().Value.AzureOpenAIEndpoint : modelSetting.Endpoint;
+            modelSetting.ApiKey = apiKey;
+            modelSetting.Endpoint = endpoint;
         }
 
         return modelSetting;

@@ -1,9 +1,7 @@
-﻿using Verdure.Braincase.Activation;
-using Verdure.Braincase.Contracts.Services;
-using Verdure.Braincase.Models;
-using Verdure.Braincase.Views;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Verdure.Braincase.Activation;
+using Verdure.Braincase.Views;
 
 namespace Verdure.Braincase.Services;
 
@@ -19,14 +17,15 @@ public class ActivationService : IActivationService
     private readonly IdentityService _identityService;
 
     private readonly ILocalSettingsService _localSettingsService;
-
+    private readonly IEnumerable<IDataInitService> _dataInitServices;
 
     public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler,
         IEnumerable<IActivationHandler> activationHandlers,
         IThemeSelectorService themeSelectorService,
         UserDataService userDataService,
         IdentityService identityService,
-        ILocalSettingsService localSettingsService)
+        ILocalSettingsService localSettingsService,
+        IEnumerable<IDataInitService> dataInitServices)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
@@ -34,6 +33,7 @@ public class ActivationService : IActivationService
         _userDataService = userDataService;
         _identityService = identityService;
         _localSettingsService = localSettingsService;
+        _dataInitServices = dataInitServices;
     }
 
     public async Task ActivateAsync(object activationArgs)
@@ -45,6 +45,11 @@ public class ActivationService : IActivationService
         _identityService.InitializeWithAadAndPersonalMsAccounts();
         await _identityService.AttachTokenCacheAsync();
         await _identityService.AcquireTokenSilentAsync();
+
+        foreach (var dataInitService in _dataInitServices)
+        {
+            await dataInitService.InitializeDataAsync();
+        }
 
         // Set the MainWindow Content.
         if (App.MainWindow.Content == null)

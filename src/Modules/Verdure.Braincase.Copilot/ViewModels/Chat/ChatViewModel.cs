@@ -60,7 +60,14 @@ public partial class ChatViewModel : ObservableRecipient, IRecipient<RoleDialogM
 
     private void CheckLastMessageTime()
     {
-        var lastMsg = MessageList.LastOrDefault();
-        LastMessageTime = lastMsg is not null ? lastMsg.TimeStr ?? string.Empty : string.Empty;
+        try
+        {
+            var lastMsg = MessageList.LastOrDefault();
+            LastMessageTime = lastMsg is not null ? lastMsg.TimeStr ?? string.Empty : string.Empty;
+        }
+        catch (ObjectDisposedException)
+        {
+            // 对象已释放，不再尝试更新属性
+        }
     }
 }

@@ -499,6 +499,9 @@
     <None Update="Assets\xbox-one-controller.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="VFS\Windows\system32\temp\TextFile1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Page Update="Controls\ElectronBot3D.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

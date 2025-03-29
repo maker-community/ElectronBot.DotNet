@@ -7,7 +7,6 @@ using BotSharp.Core;
 using BotSharp.Core.Crontab.Abstraction;
 using BotSharp.Core.Infrastructures;
 using BotSharp.Logger;
-using Contracts.Services;
 using Controls;
 using Controls.CompactOverlay;
 using ElectronBot.DotNet;
@@ -26,6 +25,7 @@ using Verdure.Braincase.Activation;
 using Verdure.Braincase.ClockViews;
 using Verdure.Braincase.Contracts.Services;
 using Verdure.Braincase.Copilot.Hooks;
+using Verdure.Braincase.Copilot.Services;
 using Verdure.Braincase.Copilot.Services.BotSharp;
 using Verdure.Braincase.Copilot.ViewModels;
 using Verdure.Braincase.Copilot.Views;
@@ -38,9 +38,11 @@ using Verdure.Braincase.EBConfiguration.ViewModels;
 using Verdure.Braincase.EBConfiguration.Views;
 using Verdure.Braincase.EbScreen.Views;
 using Verdure.Braincase.Emojis.eShop;
+using Verdure.Braincase.Emojis.Services;
 using Verdure.Braincase.Emojis.ViewModels;
 using Verdure.Braincase.Notifications;
 using Verdure.Braincase.Services;
+using Verdure.Braincase.Settings.Services;
 using Verdure.Braincase.Settings.ViewModels;
 using Verdure.Braincase.Settings.Views;
 using Verdure.Braincase.ViewModels;
@@ -315,12 +317,15 @@ public static class ConfigureServicesExtensions
             // Add wake phrase listener
             .AddSingleton<IWakeWordListener, AzCognitiveServicesWakeWordListener>()
             //.AddSingleton<IBotSpeech, DefaultBotSpeech>()
-            .AddSingleton<IBotSpeech, AzBotSpeech>() 
+            .AddSingleton<IBotSpeech, AzBotSpeech>()
             // Add the primary hosted service to start the loop.
             .AddHostedService<HostedService>()
             .AddMemoryCache()
             .AddScoped<ICrontabHook, NotifyCrontabHook>()
             .AddScoped<IWallpaperService, WallpaperService>()
+            .AddScoped<IDataInitService, CopilotDataInitService>()
+            .AddScoped<IDataInitService, SettingDataInitService>()
+            .AddScoped<IDataInitService, EmojisDataInitService>()
             // Configuration
             .BuildServiceProvider());
     }
