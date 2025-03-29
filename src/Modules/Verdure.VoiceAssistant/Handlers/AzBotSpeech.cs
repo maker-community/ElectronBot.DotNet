@@ -18,11 +18,12 @@ public class AzBotSpeech : IBotSpeech
     private readonly ILocalSettingsService _localSettingsService;
     private readonly IElectronBotPlayer _electronBotPlayer;
     private readonly IMemoryCache _memoryCache;
+    private bool _isInitialized = false;
     /// <summary>
     /// Regex for extracting style cues from OpenAI responses.
     /// (not currently supported after the migrations to ChatGPT models)
     /// </summary>
-    private static readonly Regex _styleRegex = new Regex(@"(~~(.+)~~)");
+    private static readonly Regex _styleRegex = new (@"(~~(.+)~~)");
 
     public string Provider => "AzureVoice";
 
@@ -36,33 +37,66 @@ public class AzBotSpeech : IBotSpeech
 
     public async Task InitAsync(CancellationToken cancellationToken = default)
     {
-        var options = await _localSettingsService.ReadSettingAsync<AzureCognitiveServicesOptions>(Constants.AzureLlmVoiceConfigKey);
-        if (options != null)
+        try
         {
-            _options = options;
-            options.Validate();
-            _audioConfig = AudioConfig.FromDefaultMicrophoneInput();
-            SpeechConfig speechConfig = SpeechConfig.FromSubscription(options.Key, options.Region);
-            speechConfig.SpeechRecognitionLanguage = options.SpeechRecognitionLanguage;
-            speechConfig.SetProperty(PropertyId.SpeechServiceResponse_PostProcessingOption, "TrueText");
-            speechConfig.SpeechSynthesisVoiceName = options.SpeechSynthesisVoiceName;
+            var options = await _localSettingsService.ReadSettingAsync<AzureCognitiveServicesOptions>(Constants.AzureLlmVoiceConfigKey);
+            if (options == null)
+            {
+                _logger.LogError("Azure Cognitive Services options not found in settings");
+                return;
+            }
 
-            _speechRecognizer = new SpeechRecognizer(speechConfig, _audioConfig);
-            _speechSynthesizer = new SpeechSynthesizer(speechConfig);
+            _options = options;
+
+            try
+            {
+                options.Validate();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Azure Cognitive Services options validation failed");
+                return;
+            }
+
+            try
+            {
+                _audioConfig = AudioConfig.FromDefaultMicrophoneInput();
+                SpeechConfig speechConfig = SpeechConfig.FromSubscription(options.Key, options.Region);
+                speechConfig.SpeechRecognitionLanguage = options.SpeechRecognitionLanguage;
+                speechConfig.SetProperty(PropertyId.SpeechServiceResponse_PostProcessingOption, "TrueText");
+                speechConfig.SpeechSynthesisVoiceName = options.SpeechSynthesisVoiceName;
+
+                _speechRecognizer = new SpeechRecognizer(speechConfig, _audioConfig);
+                _speechSynthesizer = new SpeechSynthesizer(speechConfig);
+
+                _isInitialized = true;
+                _logger.LogInformation("Azure Cognitive Services successfully initialized");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to initialize Azure Cognitive Services");
+                CleanupResources();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception during Azure Cognitive Services initialization");
         }
     }
-
     public async Task<string> ListenAsync(CancellationToken cancellationToken)
-    { 
+    {
+        if (!EnsureInitialized())
+        {
+            return string.Empty;
+        }
+
         while (!cancellationToken.IsCancellationRequested)
         {
             try
             {
                 await _electronBotPlayer.StopLottiePlaybackAsync();
-                // 启动动画但不阻塞当前执行流程
                 var animationTask = _electronBotPlayer.PlayLottieByNameIdAsync("look", -1);
 
-                // 可以选择添加异常处理
                 animationTask?.ContinueWith(t =>
                 {
                     if (t.IsFaulted)
@@ -70,77 +104,96 @@ public class AzBotSpeech : IBotSpeech
                         _logger.LogError($"Animation playback failed: {t.Exception}");
                     }
                 }, TaskContinuationOptions.OnlyOnFaulted);
+
+                _logger.LogInformation("Listening...");
+
+                var result = await _speechRecognizer.RecognizeOnceAsync();
+
+                await _electronBotPlayer.StopLottiePlaybackAsync();
+
+                switch (result.Reason)
+                {
+                    case ResultReason.RecognizedSpeech:
+                        _logger.LogInformation($"Recognized: {result.Text}");
+                        return result.Text;
+                    case ResultReason.Canceled:
+                        var cancelDetails = CancellationDetails.FromResult(result);
+                        _logger.LogWarning($"Speech recognition canceled: {cancelDetails.Reason}, Error code: {cancelDetails.ErrorCode}, Error details: {cancelDetails.ErrorDetails}");
+
+                        // 如果是服务错误，可能是订阅问题
+                        if (cancelDetails.Reason == CancellationReason.Error)
+                        {
+                            _logger.LogError($"Speech service error. This could be due to subscription issues or network problems.");
+                            // 添加重试逻辑或返回错误信息
+                            return string.Empty;
+                        }
+                        break;
+                    case ResultReason.NoMatch:
+                        _logger.LogInformation("No speech could be recognized.");
+                        break;
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to start animation: {ex.Message}");
-                // 根据需要处理异常
-            }
-            _logger.LogInformation("Listening...");
-
-            var result = await _speechRecognizer.RecognizeOnceAsync();
-            switch (result.Reason)
-            {
-                case ResultReason.RecognizedSpeech:
-                    _logger.LogInformation($"Recognized: {result.Text}");
-                    // 停止动画
-                    await _electronBotPlayer.StopLottiePlaybackAsync();
-                    return result.Text;
-                case ResultReason.Canceled:
-                    _logger.LogWarning($"Speech recognizer session canceled.");
-
-                    CancellationDetails cancelDetails = CancellationDetails.FromResult(result);
-                    _logger.LogWarning($"{cancelDetails.Reason}: {cancelDetails.ErrorCode}");
-                    _logger.LogDebug(cancelDetails.ToString());
-                    break;
+                _logger.LogError(ex, "Error during speech recognition");
+                // 考虑添加短暂延迟避免在错误条件下快速循环
+                await Task.Delay(1000, cancellationToken);
             }
         }
         return string.Empty;
     }
     public async Task SpeakAsync(string text, CancellationToken cancellationToken)
     {
-        if (!string.IsNullOrWhiteSpace(text))
+        if (!EnsureInitialized() || string.IsNullOrWhiteSpace(text))
+        {
+            return;
+        }
+
+        try
+        {
+            var animationTask = _electronBotPlayer.PlayLottieByNameIdAsync("speak", -1);
+            animationTask?.ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                {
+                    _logger.LogError($"Animation playback failed: {t.Exception}");
+                }
+            }, TaskContinuationOptions.OnlyOnFaulted);
+
+            text = ExtractStyle(text, out var style);
+            _logger.LogInformation($"Speaking ({(string.IsNullOrEmpty(style) ? "none" : style)}): {text}");
+
+            var ssml = GenerateCoquettishSsml(text, _options.SpeechSynthesisVoiceName);
+            _logger.LogDebug(ssml);
+
+            var result = await _speechSynthesizer.SpeakSsmlAsync(ssml);
+
+            // 检查语音合成结果
+            if (result.Reason == ResultReason.Canceled)
+            {
+                var cancelDetails = SpeechSynthesisCancellationDetails.FromResult(result);
+                _logger.LogError($"Speech synthesis canceled: {cancelDetails.Reason}, Error code: {cancelDetails.ErrorCode}, Error details: {cancelDetails.ErrorDetails}");
+
+                if (cancelDetails.Reason == CancellationReason.Error)
+                {
+                    _logger.LogError("Speech synthesis failed. This could be due to subscription issues.");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error during speech synthesis");
+        }
+        finally
         {
             try
             {
-                // 启动动画但不阻塞当前执行流程
-                var animationTask = _electronBotPlayer.PlayLottieByNameIdAsync("speak", -1);
-
-                // 可以选择添加异常处理
-                animationTask?.ContinueWith(t =>
-                {
-                    if (t.IsFaulted)
-                    {
-                        _logger.LogError($"Animation playback failed: {t.Exception}");
-                    }
-                }, TaskContinuationOptions.OnlyOnFaulted);
+                await _electronBotPlayer.StopLottiePlaybackAsync();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to start animation: {ex.Message}");
-                // 根据需要处理异常
+                _logger.LogError(ex, "Error stopping animation");
             }
-            // Parse speaking style, if any
-            text = ExtractStyle(text, out var style);
-            if (string.IsNullOrWhiteSpace(style))
-            {
-                _logger.LogInformation($"Speaking (none): {text}");
-            }
-            else
-            {
-                _logger.LogInformation($"Speaking ({style}): {text}");
-            }
-
-            var ssml = GenerateCoquettishSsml(
-                text,
-                _options.SpeechSynthesisVoiceName);
-
-            _logger.LogDebug(ssml);
-
-            await _speechSynthesizer.SpeakSsmlAsync(ssml);
-
-            // 停止动画
-            await _electronBotPlayer.StopLottiePlaybackAsync();
         }
     }
     /// <summary>
@@ -172,9 +225,32 @@ public class AzBotSpeech : IBotSpeech
             "</voice>" +
         "</speak>";
 
-    public void Dispose()
+    private bool EnsureInitialized()
+    {
+        if (!_isInitialized || _options == null || _speechRecognizer == null || _speechSynthesizer == null)
+        {
+            _logger.LogWarning("Azure Cognitive Services not properly initialized. Call InitAsync first.");
+            return false;
+        }
+        return true;
+    }
+
+    private void CleanupResources()
     {
         _speechRecognizer?.Dispose();
+        _speechRecognizer = null;
+
+        _speechSynthesizer?.Dispose();
+        _speechSynthesizer = null;
+
         _audioConfig?.Dispose();
+        _audioConfig = null;
+
+        _isInitialized = false;
+    }
+
+    public void Dispose()
+    {
+        CleanupResources();
     }
 }
