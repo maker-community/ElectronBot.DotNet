@@ -7,8 +7,8 @@
   "disabled": false,
   "isPublic": true,
   "llmConfig": {
-    "provider": "openai",
-    "model": "qwen2-72b-instruct"
+    "provider": "azure-openai",
+    "model": "gpt-4o-mini"
   },
   "profiles": [ "verdure" ],
   "utilities": [

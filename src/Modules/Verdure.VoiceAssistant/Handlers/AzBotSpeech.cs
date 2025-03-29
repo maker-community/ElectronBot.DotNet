@@ -43,11 +43,8 @@ public class AzBotSpeech : IBotSpeech
         try
         {
             var options = await _localSettingsService.ReadSettingAsync<AzureCognitiveServicesOptions>(Constants.AzureLlmVoiceConfigKey);
-            if (options == null)
-            {
-                _logger.LogError("Azure Cognitive Services options not found in settings");
-                return;
-            }
+
+            options ??= Ioc.Default.GetRequiredService<IOptions<AzureCognitiveServicesOptions>>().Value;
 
             _options = options;
 

@@ -8,7 +8,7 @@
   "isPublic": true,
   "profiles": [ "verdure" ],
   "llmConfig": {
-    "provider": "openai",
-    "model": "qwen2-72b-instruct"
+    "provider": "azure-openai",
+    "model": "gpt-4o-mini"
   }
 }
