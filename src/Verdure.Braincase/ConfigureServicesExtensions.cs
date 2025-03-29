@@ -38,6 +38,7 @@ using Verdure.Braincase.EBConfiguration.ViewModels;
 using Verdure.Braincase.EBConfiguration.Views;
 using Verdure.Braincase.EbScreen.Views;
 using Verdure.Braincase.Emojis.eShop;
+using Verdure.Braincase.Emojis.Services;
 using Verdure.Braincase.Emojis.ViewModels;
 using Verdure.Braincase.Notifications;
 using Verdure.Braincase.Services;
@@ -324,6 +325,7 @@ public static class ConfigureServicesExtensions
             .AddScoped<IWallpaperService, WallpaperService>()
             .AddScoped<IDataInitService, CopilotDataInitService>()
             .AddScoped<IDataInitService, SettingDataInitService>()
+            .AddScoped<IDataInitService, EmojisDataInitService>()
             // Configuration
             .BuildServiceProvider());
     }
