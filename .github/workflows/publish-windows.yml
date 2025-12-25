@@ -1,0 +1,35 @@
+name: Publish Windows Executable
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore solution
+        run: dotnet restore ElectronBot.Braincase.sln
+
+      - name: Publish Verdure.Braincase (win-x64)
+        run: |
+          dotnet publish src/Verdure.Braincase/Verdure.Braincase.csproj \
+            -c Release -r win-x64 --self-contained true \
+            -p:PublishSingleFile=true -p:Platform=x64 \
+            -o ${{github.workspace}}/artifacts/publish/win-x64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Verdure.Braincase-win-x64
+          path: artifacts/publish/win-x64
